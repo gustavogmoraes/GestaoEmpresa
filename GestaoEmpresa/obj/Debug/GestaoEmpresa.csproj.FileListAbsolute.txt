@@ -1,0 +1,29 @@
+/Users/gustavomoraes/OneDrive/Share Programming/GestaoEmpresa/GestaoEmpresa/bin/Debug/GestaoEmpresa.exe.config
+/Users/gustavomoraes/OneDrive/Share Programming/GestaoEmpresa/GestaoEmpresa/bin/Debug/GestaoEmpresa.exe
+/Users/gustavomoraes/OneDrive/Share Programming/GestaoEmpresa/GestaoEmpresa/bin/Debug/GestaoEmpresa.pdb
+/Users/gustavomoraes/OneDrive/Share Programming/GestaoEmpresa/GestaoEmpresa/obj/Debug/GestaoEmpresa.GS.GestaoEmpresa.GS.GestaoEmpresa.UI.Principal.frmPrincipal.resources
+/Users/gustavomoraes/OneDrive/Share Programming/GestaoEmpresa/GestaoEmpresa/obj/Debug/GestaoEmpresa.Properties.Resources.resources
+/Users/gustavomoraes/OneDrive/Share Programming/GestaoEmpresa/GestaoEmpresa/obj/Debug/GestaoEmpresa.GS.GestaoEmpresa.GS.GestaoEmpresa.UI.Modulos.Configuracoes.frmConfiguracoes.resources
+/Users/gustavomoraes/OneDrive/Share Programming/GestaoEmpresa/GestaoEmpresa/obj/Debug/GestaoEmpresa.csproj.GenerateResource.Cache
+/Users/gustavomoraes/OneDrive/Share Programming/GestaoEmpresa/GestaoEmpresa/obj/Debug/GestaoEmpresa.csproj.CoreCompileInputs.cache
+/Users/gustavomoraes/OneDrive/Share Programming/GestaoEmpresa/GestaoEmpresa/obj/Debug/GestaoEmpresa.exe
+/Users/gustavomoraes/OneDrive/Share Programming/GestaoEmpresa/GestaoEmpresa/obj/Debug/GestaoEmpresa.pdb
+E:\1 - PC - ORGANIZAR\Gustavo\OneDrive\Share Programming\GestaoEmpresa\GestaoEmpresa\obj\Debug\GestaoEmpresa.GS.GestaoEmpresa.GS.GestaoEmpresa.UI.Principal.frmPrincipal.resources
+E:\1 - PC - ORGANIZAR\Gustavo\OneDrive\Share Programming\GestaoEmpresa\GestaoEmpresa\obj\Debug\GestaoEmpresa.Properties.Resources.resources
+E:\1 - PC - ORGANIZAR\Gustavo\OneDrive\Share Programming\GestaoEmpresa\GestaoEmpresa\obj\Debug\GestaoEmpresa.GS.GestaoEmpresa.GS.GestaoEmpresa.UI.Modulos.Configuracoes.frmConfiguracoes.resources
+E:\1 - PC - ORGANIZAR\Gustavo\OneDrive\Share Programming\GestaoEmpresa\GestaoEmpresa\obj\Debug\GestaoEmpresa.csproj.GenerateResource.Cache
+E:\1 - PC - ORGANIZAR\Gustavo\OneDrive\Share Programming\GestaoEmpresa\GestaoEmpresa\obj\Debug\GestaoEmpresa.exe
+E:\1 - PC - ORGANIZAR\Gustavo\OneDrive\Share Programming\GestaoEmpresa\GestaoEmpresa\obj\Debug\GestaoEmpresa.pdb
+E:\1 - PC - ORGANIZAR\Gustavo\OneDrive\Share Programming\GestaoEmpresa\GestaoEmpresa\bin\Debug\GestaoEmpresa.exe.config
+E:\1 - PC - ORGANIZAR\Gustavo\OneDrive\Share Programming\GestaoEmpresa\GestaoEmpresa\bin\Debug\GestaoEmpresa.exe
+E:\1 - PC - ORGANIZAR\Gustavo\OneDrive\Share Programming\GestaoEmpresa\GestaoEmpresa\bin\Debug\GestaoEmpresa.pdb
+E:\Documentos\Visual Studio 2017\Projects\GestaoEmpresa\GestaoEmpresa\obj\Debug\GestaoEmpresa.csprojResolveAssemblyReference.cache
+E:\Documentos\Visual Studio 2017\Projects\GestaoEmpresa\GestaoEmpresa\obj\Debug\GestaoEmpresa.GS.GestaoEmpresa.GS.GestaoEmpresa.UI.Principal.frmPrincipal.resources
+E:\Documentos\Visual Studio 2017\Projects\GestaoEmpresa\GestaoEmpresa\obj\Debug\GestaoEmpresa.Properties.Resources.resources
+E:\Documentos\Visual Studio 2017\Projects\GestaoEmpresa\GestaoEmpresa\obj\Debug\GestaoEmpresa.GS.GestaoEmpresa.GS.GestaoEmpresa.UI.Modulos.Configuracoes.frmConfiguracoes.resources
+E:\Documentos\Visual Studio 2017\Projects\GestaoEmpresa\GestaoEmpresa\obj\Debug\GestaoEmpresa.csproj.GenerateResource.Cache
+E:\Documentos\Visual Studio 2017\Projects\GestaoEmpresa\GestaoEmpresa\obj\Debug\GestaoEmpresa.exe
+E:\Documentos\Visual Studio 2017\Projects\GestaoEmpresa\GestaoEmpresa\obj\Debug\GestaoEmpresa.pdb
+E:\Documentos\Visual Studio 2017\Projects\GestaoEmpresa\GestaoEmpresa\bin\Debug\GestaoEmpresa.exe.config
+E:\Documentos\Visual Studio 2017\Projects\GestaoEmpresa\GestaoEmpresa\bin\Debug\GestaoEmpresa.exe
+E:\Documentos\Visual Studio 2017\Projects\GestaoEmpresa\GestaoEmpresa\bin\Debug\GestaoEmpresa.pdb

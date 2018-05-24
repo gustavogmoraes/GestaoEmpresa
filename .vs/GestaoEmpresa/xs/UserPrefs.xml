@@ -1,0 +1,19 @@
+﻿<Properties StartupConfiguration="{AC47190D-2572-40A6-87D6-B373308F3414}|Default">
+  <MonoDevelop.Ide.Workbench ActiveDocument="GestaoEmpresa/GS.GestaoEmpresa/GS.GestaoEmpresa.Mapeador/ServicosMapeadores/ServicosMapeadoresAbstratos/MapeadorPadrao.cs">
+    <Files>
+      <File FileName="GestaoEmpresa/GS.GestaoEmpresa/GS.GestaoEmpresa.Mapeador/ServicosMapeadores/ServicosMapeadoresAbstratos/MapeadorPadrao.cs" Line="192" Column="44" />
+      <File FileName="GestaoEmpresa/GS.GestaoEmpresa/GS.GestaoEmpresa.Utilitarios/GSUtilitarios.cs" Line="15" Column="54" />
+      <File FileName="GestaoEmpresa/GS.GestaoEmpresa/GS.GestaoEmpresa.Mapeador/ServicosMapeadores/ServicosMapeadoresAbstratos/MapeadorPadraoVigencia.cs" Line="191" Column="29" />
+      <File FileName="GestaoEmpresa/GS.GestaoEmpresa/GS.GestaoEmpresa.Mapeador/BancoDeDados/GSBancoDeDados.cs" Line="62" Column="9" />
+      <File FileName="GestaoEmpresa/GS.GestaoEmpresa/GS.GestaoEmpresa.Mapeador/ServicosMapeadores/ServicosMapeadoresConcretos/MapeadorUsuario.cs" Line="57" Column="42" />
+      <File FileName="GestaoEmpresa/GS.GestaoEmpresa/GS.GestaoEmpresa.Mapeador/ServicosMapeadores/ServicosMapeadoresAbstratos/MapeadorPadraoEntidadeComPortador.cs" Line="57" Column="81" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.ItemProperties.GestaoEmpresa PreferredExecutionTarget="MonoDevelop.Default" />
+  <MultiItemStartupConfigurations />
+</Properties>

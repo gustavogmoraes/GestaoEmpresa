@@ -1,0 +1,22 @@
+﻿<Properties StartupConfiguration="{AC47190D-2572-40A6-87D6-B373308F3414}|Default">
+  <MonoDevelop.Ide.Workbench ActiveDocument="GestaoEmpresa/Solucao/UI/Modulos/Estoque/frmProduto.cs">
+    <Files>
+      <File FileName="GestaoEmpresa/Solucao/Mapeador/Mapeadores/MapeadoresConcretos/MapeadorDeProduto.cs" Line="119" Column="45" />
+      <File FileName="GestaoEmpresa/Solucao/Negocio/Objetos/ObjetosConcretos/Produto.cs" Line="30" Column="1" />
+      <File FileName="GestaoEmpresa/Solucao/UI/Modulos/Estoque/frmEstoque.cs" Line="31" Column="41" />
+      <File FileName="GestaoEmpresa/Solucao/Utilitarios/GSUtilitarios.cs" Line="121" Column="69" />
+      <File FileName="GestaoEmpresa/Solucao/Mapeador/Mapeadores/MapeadoresAbstratos/MapeadorPadrao.cs" Line="215" Column="50" />
+      <File FileName="GestaoEmpresa/Solucao/Mapeador/Mapeadores/MapeadoresAbstratos/MapeadorPadraoVigencia.cs" Line="111" Column="29" />
+      <File FileName="GestaoEmpresa/Solucao/Negocio/Servicos/ServicoDeProduto.cs" Line="33" Column="64" />
+      <File FileName="GestaoEmpresa/Solucao/Negocio/Enumeradores/EnumTipoDeAcaoProduto.cs" Line="15" Column="15" />
+      <File FileName="GestaoEmpresa/Solucao/UI/Modulos/Estoque/frmProduto.cs" Line="89" Column="82" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.ItemProperties.GS.GestaoEmpresa PreferredExecutionTarget="MonoDevelop.Default" />
+</Properties>
