@@ -34,6 +34,28 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Validador
             return _listaDeInconsistencias;
         }
 
+        public List<Inconsistencia> ValideCadastroInicial(Produto produto)
+        {
+            var listaDeInconsistencias = new List<Inconsistencia>();
+
+            Produto produtoConsultado;
+            using (var mapeadorDeProduto = new MapeadorDeProduto())
+            {
+                produtoConsultado = mapeadorDeProduto.Consulte(produto.Codigo);
+            }
+
+            if (produtoConsultado != null && (produtoConsultado.Codigo == produto.Codigo || produto.Nome == produto.Nome))
+            {
+                listaDeInconsistencias.Add(
+                    new Inconsistencia()
+                    {
+                        Mensagem = Mensagens.PRODUTO_JA_EXISTE
+                    });
+            }
+
+            return listaDeInconsistencias;   
+        }
+
         private void ValideRegraObrigatoriedades()
         {
             //Nada ainda

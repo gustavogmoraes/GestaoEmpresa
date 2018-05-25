@@ -57,9 +57,23 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
             return codigo;
         }
 
-        public List<Inconsistencia> Salve(Produto produto)
+        public List<Inconsistencia> Salve(Produto produto, EnumTipoDeForm tipoDoForm)
         {
             var listaDeInconsistencias = new List<Inconsistencia>();
+
+            if (tipoDoForm == EnumTipoDeForm.Cadastro)
+            {
+                using (var validadorDeProduto = new ValidadorDeProduto())
+                {
+                    listaDeInconsistencias = validadorDeProduto.ValideCadastroInicial(produto);
+                }
+
+                if (listaDeInconsistencias.Count > 0)
+                {
+                    return listaDeInconsistencias;
+                }
+            }
+
             using (var validadorDeProduto = new ValidadorDeProduto())
             {
                 listaDeInconsistencias = validadorDeProduto.ValideSalvar(produto);

@@ -27,6 +27,8 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         private EnumBotoesForm _switchBotaoCancelarExcluir;
 
+        private EnumTipoDeForm _tipoDoForm;
+
         public List<Control> ListaDeControles { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         public CultureInfo Cultura = new CultureInfo("pt-BR");
@@ -36,6 +38,9 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             InitializeComponent();
 
             InicializeBotoes(EnumTipoDeForm.Cadastro);
+            _tipoDoForm = EnumTipoDeForm.Cadastro;
+            cbVigencia.Enabled = false;
+            txtLineVigencia.Enabled = false;
         }
 
         public frmProduto(Produto produto)
@@ -43,6 +48,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             InitializeComponent();
 
             InicializeBotoes(EnumTipoDeForm.Detalhamento);
+            _tipoDoForm = EnumTipoDeForm.Detalhamento;
 
             CarregueControlesComObjeto(produto);
             CarregueComboDeVigencias(produto.Codigo);
@@ -134,7 +140,6 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         }
 
         #endregion
-
 
         #region Métodos de Formulário
 
@@ -367,70 +372,6 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             Excluir
         }
 
-        private enum EnumTipoDeForm
-        {
-            Cadastro,
-            Detalhamento,
-            Edicao
-        }
-
-
-        #region TextBox Monetaria
-
-        //private bool IsNumeric(int Val)
-        //{
-        //    return ((Val >= 48 && Val <= 57) || (Val == 8) || (Val == 46));
-        //}
-
-        //string str = "";
-
-        //private void txtPrecoDeCompra_KeyDown_1(object sender, KeyEventArgs e)
-        //{
-        //    int KeyCode = e.KeyValue;
-
-        //    if (!IsNumeric(KeyCode))
-        //    {
-        //        e.Handled = true;
-        //        return;
-        //    }
-        //    else
-        //    {
-        //        e.Handled = true;
-        //    }
-        //    if (((KeyCode == 8) || (KeyCode == 46)) && (str.Length > 0))
-        //    {
-        //        str = str.Substring(0, str.Length - 1);
-        //    }
-        //    else if (!((KeyCode == 8) || (KeyCode == 46)))
-        //    {
-        //        str = str + Convert.ToChar(KeyCode);
-        //    }
-        //    if (str.Length == 0)
-        //    {
-        //        txtPrecoDeCompra.Text = "";
-        //    }
-        //    if (str.Length == 1)
-        //    {
-        //        txtPrecoDeCompra.Text = "0.0" + str;
-        //    }
-        //    else if (str.Length == 2)
-        //    {
-        //        txtPrecoDeCompra.Text = "0." + str;
-        //    }
-        //    else if (str.Length > 2)
-        //    {
-        //        txtPrecoDeCompra.Text = str.Substring(0, str.Length - 2) + "." +
-        //                        str.Substring(str.Length - 2);
-        //    }
-        //}
-
-        //private void txtPrecoDeCompra_KeyPress(object sender, KeyPressEventArgs e)
-        //{
-        //    e.Handled = true;
-        //}
-
-        #endregion
-
         private void btnEditarSalvar_Click_1(object sender, EventArgs e)
         {
             switch (_switchBotaoEditarSalvar)
@@ -444,6 +385,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                     txtCodigo.Enabled = false;
                     txtLineCodigo.Enabled = false;
                     InicializeBotoes(EnumTipoDeForm.Edicao);
+                    _tipoDoForm = EnumTipoDeForm.Edicao;
                     break;
 
                 case EnumBotoesForm.Salvar:
@@ -457,12 +399,13 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                     var listaDeInconsistencias = new List<Inconsistencia>();
 
                     using (var servicoDeProduto = new ServicoDeProduto())
-                        listaDeInconsistencias = servicoDeProduto.Salve(produto);
+                        listaDeInconsistencias = servicoDeProduto.Salve(produto, _tipoDoForm);
 
                     if (listaDeInconsistencias.Count == 0)
                     {
                         MessageBox.Show(Mensagens.PRODUTO_CADASTRADO_COM_SUCESSO);
                         InicializeBotoes(EnumTipoDeForm.Detalhamento);
+                        _tipoDoForm = EnumTipoDeForm.Edicao;
                         DesabiliteControles();
                         CarregueComboDeVigencias(produto.Codigo);
                         SelecioneUltimaVigencia();
@@ -486,6 +429,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             {
                 case EnumBotoesForm.Cancelar:
                     InicializeBotoes(EnumTipoDeForm.Detalhamento);
+                    _tipoDoForm = EnumTipoDeForm.Detalhamento;
 
                     Produto produto;
                     using (var servicoDeProduto = new ServicoDeProduto())

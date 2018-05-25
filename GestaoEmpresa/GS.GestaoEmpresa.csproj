@@ -62,6 +62,7 @@
     <Compile Include="Solucao\Negocio\Enumeradores\EnumStatusDoUsuario.cs" />
     <Compile Include="Solucao\Negocio\Enumeradores\EnumTipoDeAcaoProduto.cs" />
     <Compile Include="Solucao\Negocio\Enumeradores\EnumStatusDoProduto.cs" />
+    <Compile Include="Solucao\Negocio\Enumeradores\EnumTipoDeForm.cs" />
     <Compile Include="Solucao\Negocio\Objetos\Atributos\BancoDeDados.cs" />
     <Compile Include="Solucao\Negocio\Objetos\Atributos\Multivalor.cs" />
     <Compile Include="Solucao\Negocio\Objetos\ObjetosAbstratos\Grupo.cs" />
@@ -176,6 +177,18 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\delete.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\detail.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\detalhar.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\refresh.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\add.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

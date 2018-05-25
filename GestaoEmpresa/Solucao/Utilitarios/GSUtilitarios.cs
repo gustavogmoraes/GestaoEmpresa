@@ -371,61 +371,117 @@ namespace GS.GestaoEmpresa.Solucao.Utilitarios
 			return listaMultivalor;
 		}
 
-		//public static string ConvertaDadoMultivalorLista(string dado, bool semLista)
-		//{
-		//	const string NAMESPACE_OBJETOS_CONCRETOS = "GestaoEmpresa.GS.GestaoEmpresa.GS.GestaoEmpresa.Negocio.Objetos.ObjetosConcretos";
+        //public static string ConvertaDadoMultivalorLista(string dado, bool semLista)
+        //{
+        //	const string NAMESPACE_OBJETOS_CONCRETOS = "GestaoEmpresa.GS.GestaoEmpresa.GS.GestaoEmpresa.Negocio.Objetos.ObjetosConcretos";
 
-		//	var nomeTipoMultivalor = ObtenhaValorEntreStrings(dado, "MultivalorSemLista(", ")");
-		//	Object tipoMultivalor = Activator.CreateInstance(null,
-		//													 NAMESPACE_OBJETOS_CONCRETOS + nomeTipoMultivalor).Unwrap();
-		//	var construtor = tipoMultivalor.GetType().GetConstructor(new Type[] { typeof(string) });
+        //	var nomeTipoMultivalor = ObtenhaValorEntreStrings(dado, "MultivalorSemLista(", ")");
+        //	Object tipoMultivalor = Activator.CreateInstance(null,
+        //													 NAMESPACE_OBJETOS_CONCRETOS + nomeTipoMultivalor).Unwrap();
+        //	var construtor = tipoMultivalor.GetType().GetConstructor(new Type[] { typeof(string) });
 
-		//	var listaMultivalor = new List<dynamic>();
-		//	var valores = ObtenhaValorEntreStrings(dado, "){", "}").Split('|');
+        //	var listaMultivalor = new List<dynamic>();
+        //	var valores = ObtenhaValorEntreStrings(dado, "){", "}").Split('|');
 
-		//	string[] propriedades;
-		//	foreach (var valor in valores)
-		//	{
-		//		propriedades = valor.Split('#');
-		//	}
+        //	string[] propriedades;
+        //	foreach (var valor in valores)
+        //	{
+        //		propriedades = valor.Split('#');
+        //	}
 
-		//	valor = tipoChave.GetMethod("Parse", new Type[] { typeof(string) })
-		//								 .Invoke(null, new object[] { dado.ToString() });
+        //	valor = tipoChave.GetMethod("Parse", new Type[] { typeof(string) })
+        //								 .Invoke(null, new object[] { dado.ToString() });
 
-		//	Object servicoMapeadorPropriedadeComplexa = Activator.CreateInstance(null, "GestaoEmpresa.GS.GestaoEmpresa.GS.GestaoEmpresa.ServicoMapeador.ServicosMapeadores.ServicosMapeadoresConcretos.Mapeador" + propriedade.Name).Unwrap();
+        //	Object servicoMapeadorPropriedadeComplexa = Activator.CreateInstance(null, "GestaoEmpresa.GS.GestaoEmpresa.GS.GestaoEmpresa.ServicoMapeador.ServicosMapeadores.ServicosMapeadoresConcretos.Mapeador" + propriedade.Name).Unwrap();
 
-		//	valor = servicoMapeadorPropriedadeComplexa.GetType()
-		//											  .GetMethod("Consulte", new Type[] { tipoChave })
-		//											  .Invoke(servicoMapeadorPropriedadeComplexa, propriedades);
-		//}
-		
-		/// <summary>
-		/// Converte lista Multivalor para uma string Multivalor.
-		/// </summary>
-		/// <param name="listaMultivalor">Lista a ser convertida.</param>
-		/// <returns>Retorna uma string da lista lista Multivalor</returns>
-		//public static string ConvertaDadoMultivalorLista(List<Object> listaMultivalor)
-		//{
-		//	var tipoMultivalor = listaMultivalor.FirstOrDefault().GetType();
-		//	string valoresInsercaoMultivalor = string.Empty;
+        //	valor = servicoMapeadorPropriedadeComplexa.GetType()
+        //											  .GetMethod("Consulte", new Type[] { tipoChave })
+        //											  .Invoke(servicoMapeadorPropriedadeComplexa, propriedades);
+        //}
 
-		//	foreach (var valor in listaMultivalor)
-		//	{
-		//		foreach (var propriedade in valor.GetType().GetProperties())
-		//		{
-		//			valoresInsercaoMultivalor += propriedade.GetValue(valor, null).ToString() + "#";
-		//		}
+        /// <summary>
+        /// Converte lista Multivalor para uma string Multivalor.
+        /// </summary>
+        /// <param name="listaMultivalor">Lista a ser convertida.</param>
+        /// <returns>Retorna uma string da lista lista Multivalor</returns>
+        //public static string ConvertaDadoMultivalorLista(List<Object> listaMultivalor)
+        //{
+        //	var tipoMultivalor = listaMultivalor.FirstOrDefault().GetType();
+        //	string valoresInsercaoMultivalor = string.Empty;
 
-		//		valoresInsercaoMultivalor += "|";
-		//	}
+        //	foreach (var valor in listaMultivalor)
+        //	{
+        //		foreach (var propriedade in valor.GetType().GetProperties())
+        //		{
+        //			valoresInsercaoMultivalor += propriedade.GetValue(valor, null).ToString() + "#";
+        //		}
 
-		//	string retorno = string.Format("Multivalor({0}{{1}}",
-		//								   tipoMultivalor.Name.ToString(),
-		//								   valoresInsercaoMultivalor);
+        //		valoresInsercaoMultivalor += "|";
+        //	}
 
-		//	return retorno;
-		//}
-		
-		#endregion
-	}
+        //	string retorno = string.Format("Multivalor({0}{{1}}",
+        //								   tipoMultivalor.Name.ToString(),
+        //								   valoresInsercaoMultivalor);
+
+        //	return retorno;
+        //}
+
+        #endregion
+
+        #region TextBox Monetaria
+
+        //private bool IsNumeric(int Val)
+        //{
+        //    return ((Val >= 48 && Val <= 57) || (Val == 8) || (Val == 46));
+        //}
+
+        //string str = "";
+
+        //private void txtPrecoDeCompra_KeyDown_1(object sender, KeyEventArgs e)
+        //{
+        //    int KeyCode = e.KeyValue;
+
+        //    if (!IsNumeric(KeyCode))
+        //    {
+        //        e.Handled = true;
+        //        return;
+        //    }
+        //    else
+        //    {
+        //        e.Handled = true;
+        //    }
+        //    if (((KeyCode == 8) || (KeyCode == 46)) && (str.Length > 0))
+        //    {
+        //        str = str.Substring(0, str.Length - 1);
+        //    }
+        //    else if (!((KeyCode == 8) || (KeyCode == 46)))
+        //    {
+        //        str = str + Convert.ToChar(KeyCode);
+        //    }
+        //    if (str.Length == 0)
+        //    {
+        //        txtPrecoDeCompra.Text = "";
+        //    }
+        //    if (str.Length == 1)
+        //    {
+        //        txtPrecoDeCompra.Text = "0.0" + str;
+        //    }
+        //    else if (str.Length == 2)
+        //    {
+        //        txtPrecoDeCompra.Text = "0." + str;
+        //    }
+        //    else if (str.Length > 2)
+        //    {
+        //        txtPrecoDeCompra.Text = str.Substring(0, str.Length - 2) + "." +
+        //                        str.Substring(str.Length - 2);
+        //    }
+        //}
+
+        //private void txtPrecoDeCompra_KeyPress(object sender, KeyPressEventArgs e)
+        //{
+        //    e.Handled = true;
+        //}
+
+        #endregion
+    }
 }

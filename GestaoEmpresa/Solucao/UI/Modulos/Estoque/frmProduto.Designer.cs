@@ -56,6 +56,8 @@
             this.txtPorcentagemDeLucro = new System.Windows.Forms.TextBox();
             this.lblSimboloPorcentagemLucro = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.btnEditarSalvar = new System.Windows.Forms.PictureBox();
+            this.btnCancelarExcluir = new System.Windows.Forms.PictureBox();
             this.txtLineCodigo = new System.Windows.Forms.Label();
             this.lblVigencia = new System.Windows.Forms.Label();
             this.cbVigencia = new System.Windows.Forms.ComboBox();
@@ -74,8 +76,6 @@
             this.txtLineQuantidadeMinima = new System.Windows.Forms.Label();
             this.txtLineQuantidadeEstoque = new System.Windows.Forms.Label();
             this.txtLineObservacoes = new System.Windows.Forms.Label();
-            this.btnEditarSalvar = new System.Windows.Forms.PictureBox();
-            this.btnCancelarExcluir = new System.Windows.Forms.PictureBox();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.btnEditarSalvar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnCancelarExcluir)).BeginInit();
@@ -393,6 +393,29 @@
             this.panel1.Size = new System.Drawing.Size(592, 40);
             this.panel1.TabIndex = 38;
             // 
+            // btnEditarSalvar
+            // 
+            this.btnEditarSalvar.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnEditarSalvar.InitialImage = null;
+            this.btnEditarSalvar.Location = new System.Drawing.Point(506, 4);
+            this.btnEditarSalvar.Name = "btnEditarSalvar";
+            this.btnEditarSalvar.Size = new System.Drawing.Size(32, 30);
+            this.btnEditarSalvar.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.btnEditarSalvar.TabIndex = 36;
+            this.btnEditarSalvar.TabStop = false;
+            this.btnEditarSalvar.Click += new System.EventHandler(this.btnEditarSalvar_Click_1);
+            // 
+            // btnCancelarExcluir
+            // 
+            this.btnCancelarExcluir.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnCancelarExcluir.Location = new System.Drawing.Point(548, 6);
+            this.btnCancelarExcluir.Name = "btnCancelarExcluir";
+            this.btnCancelarExcluir.Size = new System.Drawing.Size(33, 26);
+            this.btnCancelarExcluir.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.btnCancelarExcluir.TabIndex = 37;
+            this.btnCancelarExcluir.TabStop = false;
+            this.btnCancelarExcluir.Click += new System.EventHandler(this.btnCancelarExcluir_Click_1);
+            // 
             // txtLineCodigo
             // 
             this.txtLineCodigo.AutoSize = true;
@@ -591,34 +614,11 @@
             this.txtLineObservacoes.TabIndex = 55;
             this.txtLineObservacoes.Text = "__________________________";
             // 
-            // btnEditarSalvar
-            // 
-            this.btnEditarSalvar.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnEditarSalvar.InitialImage = null;
-            this.btnEditarSalvar.Location = new System.Drawing.Point(506, 4);
-            this.btnEditarSalvar.Name = "btnEditarSalvar";
-            this.btnEditarSalvar.Size = new System.Drawing.Size(32, 30);
-            this.btnEditarSalvar.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.btnEditarSalvar.TabIndex = 36;
-            this.btnEditarSalvar.TabStop = false;
-            this.btnEditarSalvar.Click += new System.EventHandler(this.btnEditarSalvar_Click_1);
-            // 
-            // btnCancelarExcluir
-            // 
-            this.btnCancelarExcluir.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnCancelarExcluir.Location = new System.Drawing.Point(548, 6);
-            this.btnCancelarExcluir.Name = "btnCancelarExcluir";
-            this.btnCancelarExcluir.Size = new System.Drawing.Size(33, 26);
-            this.btnCancelarExcluir.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.btnCancelarExcluir.TabIndex = 37;
-            this.btnCancelarExcluir.TabStop = false;
-            this.btnCancelarExcluir.Click += new System.EventHandler(this.btnCancelarExcluir_Click_1);
-            // 
             // frmProduto
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.Gainsboro;
+            this.BackColor = System.Drawing.Color.Silver;
             this.ClientSize = new System.Drawing.Size(593, 735);
             this.Controls.Add(this.lblCifraoPrecoVenda);
             this.Controls.Add(this.lblCifraoPrecoCompra);

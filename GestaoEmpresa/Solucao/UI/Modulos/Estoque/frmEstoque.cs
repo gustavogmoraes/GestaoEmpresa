@@ -42,11 +42,15 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         private void btnCatalogo_Click(object sender, EventArgs e)
         {
             tabControl1.SelectedTab = tabProdutos;
+            ScrollSelecao.Height = btnCatalogo.Height;
+            ScrollSelecao.Top = 11;
         }
 
         private void btnHistorico_Click(object sender, EventArgs e)
         {
             tabControl1.SelectedTab = tabHistorico;
+            ScrollSelecao.Height = btnHistorico.Height;
+            ScrollSelecao.Top = 103;
         }
 
         private void CarregueDataGridProdutos()
@@ -109,6 +113,30 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         }
 
         private void pictureBox1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dgvProdutos_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
+        {
+            if (e.RowIndex < 0)
+                return;
+
+            if (e.ColumnIndex == 7)
+            {
+                e.Paint(e.CellBounds, DataGridViewPaintParts.All);
+                
+                var w = Properties.Resources.detalhar.Width;
+                var h = Properties.Resources.detalhar.Height;
+                var x = e.CellBounds.Left + (e.CellBounds.Width - w) / 2;
+                var y = e.CellBounds.Top + (e.CellBounds.Height - h) / 2;
+
+                e.Graphics.DrawImage(Properties.Resources.detalhar, new Rectangle(x, y, w, h));
+                e.Handled = true;
+            }
+        }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
         {
 
         }
