@@ -32,375 +32,649 @@
             this.lblCodigo = new System.Windows.Forms.Label();
             this.txtCodigo = new System.Windows.Forms.TextBox();
             this.txtMarca = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
+            this.lblMarca = new System.Windows.Forms.Label();
             this.txtNome = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
+            this.lblNome = new System.Windows.Forms.Label();
             this.txtDescricao = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
+            this.lblDescricao = new System.Windows.Forms.Label();
+            this.lblPrecoCompra = new System.Windows.Forms.Label();
+            this.lblPrecoVenda = new System.Windows.Forms.Label();
+            this.lblPorcentagemLucro = new System.Windows.Forms.Label();
             this.txtQuantidadeEmEstoque = new System.Windows.Forms.TextBox();
-            this.label7 = new System.Windows.Forms.Label();
+            this.lblQuantidadeEstoque = new System.Windows.Forms.Label();
             this.txtQuantidadeMinima = new System.Windows.Forms.TextBox();
-            this.label8 = new System.Windows.Forms.Label();
+            this.lblQuantidadeMinima = new System.Windows.Forms.Label();
             this.chkAvisar = new System.Windows.Forms.CheckBox();
             this.txtObservacoes = new System.Windows.Forms.TextBox();
-            this.label9 = new System.Windows.Forms.Label();
+            this.lblObservacoes = new System.Windows.Forms.Label();
             this.txtCodigoFabricante = new System.Windows.Forms.TextBox();
-            this.label10 = new System.Windows.Forms.Label();
+            this.lblCodigoFabricante = new System.Windows.Forms.Label();
             this.lblStatus = new System.Windows.Forms.Label();
             this.cbStatus = new System.Windows.Forms.ComboBox();
-            this.cbVigencia = new System.Windows.Forms.ComboBox();
-            this.lblVigencia = new System.Windows.Forms.Label();
-            this.btnEditarSalvar = new System.Windows.Forms.Button();
             this.txtPrecoDeCompra = new System.Windows.Forms.TextBox();
             this.txtPrecoDeVenda = new System.Windows.Forms.TextBox();
             this.txtPorcentagemDeLucro = new System.Windows.Forms.TextBox();
-            this.label11 = new System.Windows.Forms.Label();
-            this.btnCancelarExcluir = new System.Windows.Forms.Button();
+            this.lblSimboloPorcentagemLucro = new System.Windows.Forms.Label();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.txtLineCodigo = new System.Windows.Forms.Label();
+            this.lblVigencia = new System.Windows.Forms.Label();
+            this.cbVigencia = new System.Windows.Forms.ComboBox();
+            this.txtLineVigencia = new System.Windows.Forms.Label();
+            this.txtLineStatus = new System.Windows.Forms.Label();
+            this.txtLineMarca = new System.Windows.Forms.Label();
+            this.txtLineCodigoFabricante = new System.Windows.Forms.Label();
+            this.label17 = new System.Windows.Forms.Label();
+            this.txtLineNome = new System.Windows.Forms.Label();
+            this.txtLineDescricao = new System.Windows.Forms.Label();
+            this.txtLinePrecoCompra = new System.Windows.Forms.Label();
+            this.lblCifraoPrecoCompra = new System.Windows.Forms.Label();
+            this.txtLinePrecoVenda = new System.Windows.Forms.Label();
+            this.lblCifraoPrecoVenda = new System.Windows.Forms.Label();
+            this.txtLinePorcentagemLucro = new System.Windows.Forms.Label();
+            this.txtLineQuantidadeMinima = new System.Windows.Forms.Label();
+            this.txtLineQuantidadeEstoque = new System.Windows.Forms.Label();
+            this.txtLineObservacoes = new System.Windows.Forms.Label();
+            this.btnEditarSalvar = new System.Windows.Forms.PictureBox();
+            this.btnCancelarExcluir = new System.Windows.Forms.PictureBox();
+            this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.btnEditarSalvar)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btnCancelarExcluir)).BeginInit();
             this.SuspendLayout();
             // 
             // lblCadastroProdutos
             // 
             this.lblCadastroProdutos.AutoSize = true;
-            this.lblCadastroProdutos.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCadastroProdutos.Location = new System.Drawing.Point(7, 9);
+            this.lblCadastroProdutos.BackColor = System.Drawing.Color.SteelBlue;
+            this.lblCadastroProdutos.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.lblCadastroProdutos.Font = new System.Drawing.Font("Century Gothic", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblCadastroProdutos.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.lblCadastroProdutos.Location = new System.Drawing.Point(-1, -1);
             this.lblCadastroProdutos.Name = "lblCadastroProdutos";
-            this.lblCadastroProdutos.Size = new System.Drawing.Size(415, 31);
+            this.lblCadastroProdutos.Size = new System.Drawing.Size(487, 36);
             this.lblCadastroProdutos.TabIndex = 0;
             this.lblCadastroProdutos.Text = "Consulta e Cadastro de Produtos";
             // 
             // lblCodigo
             // 
             this.lblCodigo.AutoSize = true;
-            this.lblCodigo.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCodigo.Location = new System.Drawing.Point(21, 72);
+            this.lblCodigo.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblCodigo.ForeColor = System.Drawing.Color.SteelBlue;
+            this.lblCodigo.Location = new System.Drawing.Point(12, 52);
             this.lblCodigo.Name = "lblCodigo";
-            this.lblCodigo.Size = new System.Drawing.Size(81, 24);
+            this.lblCodigo.Size = new System.Drawing.Size(78, 22);
             this.lblCodigo.TabIndex = 1;
-            this.lblCodigo.Text = "Código: ";
+            this.lblCodigo.Text = "Código";
             // 
             // txtCodigo
             // 
-            this.txtCodigo.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtCodigo.Location = new System.Drawing.Point(110, 67);
+            this.txtCodigo.BackColor = System.Drawing.Color.Gainsboro;
+            this.txtCodigo.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtCodigo.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtCodigo.ForeColor = System.Drawing.Color.Black;
+            this.txtCodigo.Location = new System.Drawing.Point(24, 77);
             this.txtCodigo.Name = "txtCodigo";
-            this.txtCodigo.Size = new System.Drawing.Size(64, 29);
+            this.txtCodigo.Size = new System.Drawing.Size(84, 24);
             this.txtCodigo.TabIndex = 2;
             // 
             // txtMarca
             // 
-            this.txtMarca.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtMarca.Location = new System.Drawing.Point(110, 116);
+            this.txtMarca.BackColor = System.Drawing.Color.Gainsboro;
+            this.txtMarca.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtMarca.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtMarca.Location = new System.Drawing.Point(22, 150);
             this.txtMarca.Name = "txtMarca";
-            this.txtMarca.Size = new System.Drawing.Size(102, 29);
+            this.txtMarca.Size = new System.Drawing.Size(157, 24);
             this.txtMarca.TabIndex = 4;
             // 
-            // label1
+            // lblMarca
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(21, 121);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(72, 24);
-            this.label1.TabIndex = 3;
-            this.label1.Text = "Marca: ";
+            this.lblMarca.AutoSize = true;
+            this.lblMarca.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblMarca.ForeColor = System.Drawing.Color.SteelBlue;
+            this.lblMarca.Location = new System.Drawing.Point(12, 125);
+            this.lblMarca.Name = "lblMarca";
+            this.lblMarca.Size = new System.Drawing.Size(76, 22);
+            this.lblMarca.TabIndex = 3;
+            this.lblMarca.Text = "Marca ";
             // 
             // txtNome
             // 
-            this.txtNome.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtNome.Location = new System.Drawing.Point(110, 166);
+            this.txtNome.BackColor = System.Drawing.Color.Gainsboro;
+            this.txtNome.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtNome.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtNome.Location = new System.Drawing.Point(24, 223);
             this.txtNome.Name = "txtNome";
-            this.txtNome.Size = new System.Drawing.Size(483, 29);
+            this.txtNome.Size = new System.Drawing.Size(483, 24);
             this.txtNome.TabIndex = 6;
             // 
-            // label2
+            // lblNome
             // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(21, 171);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(72, 24);
-            this.label2.TabIndex = 5;
-            this.label2.Text = "Nome: ";
+            this.lblNome.AutoSize = true;
+            this.lblNome.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblNome.ForeColor = System.Drawing.Color.SteelBlue;
+            this.lblNome.Location = new System.Drawing.Point(12, 198);
+            this.lblNome.Name = "lblNome";
+            this.lblNome.Size = new System.Drawing.Size(65, 22);
+            this.lblNome.TabIndex = 5;
+            this.lblNome.Text = "Nome";
             // 
             // txtDescricao
             // 
-            this.txtDescricao.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtDescricao.Location = new System.Drawing.Point(110, 220);
+            this.txtDescricao.BackColor = System.Drawing.Color.Gainsboro;
+            this.txtDescricao.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtDescricao.Location = new System.Drawing.Point(24, 291);
             this.txtDescricao.Multiline = true;
             this.txtDescricao.Name = "txtDescricao";
-            this.txtDescricao.Size = new System.Drawing.Size(483, 97);
+            this.txtDescricao.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txtDescricao.Size = new System.Drawing.Size(483, 73);
             this.txtDescricao.TabIndex = 8;
             // 
-            // label3
+            // lblDescricao
             // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(12, 220);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(104, 24);
-            this.label3.TabIndex = 7;
-            this.label3.Text = "Descrição: ";
+            this.lblDescricao.AutoSize = true;
+            this.lblDescricao.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblDescricao.ForeColor = System.Drawing.Color.SteelBlue;
+            this.lblDescricao.Location = new System.Drawing.Point(12, 266);
+            this.lblDescricao.Name = "lblDescricao";
+            this.lblDescricao.Size = new System.Drawing.Size(101, 22);
+            this.lblDescricao.TabIndex = 7;
+            this.lblDescricao.Text = "Descrição";
             // 
-            // label4
+            // lblPrecoCompra
             // 
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(12, 334);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(169, 24);
-            this.label4.TabIndex = 9;
-            this.label4.Text = "Preço de Compra: ";
+            this.lblPrecoCompra.AutoSize = true;
+            this.lblPrecoCompra.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblPrecoCompra.ForeColor = System.Drawing.Color.SteelBlue;
+            this.lblPrecoCompra.Location = new System.Drawing.Point(12, 385);
+            this.lblPrecoCompra.Name = "lblPrecoCompra";
+            this.lblPrecoCompra.Size = new System.Drawing.Size(174, 22);
+            this.lblPrecoCompra.TabIndex = 9;
+            this.lblPrecoCompra.Text = "Preço de Compra";
             // 
-            // label5
+            // lblPrecoVenda
             // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(333, 334);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(158, 24);
-            this.label5.TabIndex = 11;
-            this.label5.Text = "Preço de Venda: ";
+            this.lblPrecoVenda.AutoSize = true;
+            this.lblPrecoVenda.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblPrecoVenda.ForeColor = System.Drawing.Color.SteelBlue;
+            this.lblPrecoVenda.Location = new System.Drawing.Point(334, 385);
+            this.lblPrecoVenda.Name = "lblPrecoVenda";
+            this.lblPrecoVenda.Size = new System.Drawing.Size(173, 22);
+            this.lblPrecoVenda.TabIndex = 11;
+            this.lblPrecoVenda.Text = "Preço de Venda: ";
             // 
-            // label6
+            // lblPorcentagemLucro
             // 
-            this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(162, 374);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(207, 24);
-            this.label6.TabIndex = 13;
-            this.label6.Text = "Porcentagem de lucro: ";
+            this.lblPorcentagemLucro.AutoSize = true;
+            this.lblPorcentagemLucro.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblPorcentagemLucro.ForeColor = System.Drawing.Color.SteelBlue;
+            this.lblPorcentagemLucro.Location = new System.Drawing.Point(166, 448);
+            this.lblPorcentagemLucro.Name = "lblPorcentagemLucro";
+            this.lblPorcentagemLucro.Size = new System.Drawing.Size(217, 22);
+            this.lblPorcentagemLucro.TabIndex = 13;
+            this.lblPorcentagemLucro.Text = "Porcentagem de lucro";
             // 
             // txtQuantidadeEmEstoque
             // 
-            this.txtQuantidadeEmEstoque.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtQuantidadeEmEstoque.Location = new System.Drawing.Point(529, 424);
+            this.txtQuantidadeEmEstoque.BackColor = System.Drawing.Color.Gainsboro;
+            this.txtQuantidadeEmEstoque.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtQuantidadeEmEstoque.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtQuantidadeEmEstoque.Location = new System.Drawing.Point(312, 530);
             this.txtQuantidadeEmEstoque.Name = "txtQuantidadeEmEstoque";
-            this.txtQuantidadeEmEstoque.Size = new System.Drawing.Size(64, 29);
+            this.txtQuantidadeEmEstoque.Size = new System.Drawing.Size(64, 24);
             this.txtQuantidadeEmEstoque.TabIndex = 16;
             // 
-            // label7
+            // lblQuantidadeEstoque
             // 
-            this.label7.AutoSize = true;
-            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(311, 429);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(223, 24);
-            this.label7.TabIndex = 15;
-            this.label7.Text = "Quantidade em estoque: ";
+            this.lblQuantidadeEstoque.AutoSize = true;
+            this.lblQuantidadeEstoque.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblQuantidadeEstoque.ForeColor = System.Drawing.Color.SteelBlue;
+            this.lblQuantidadeEstoque.Location = new System.Drawing.Point(291, 508);
+            this.lblQuantidadeEstoque.Name = "lblQuantidadeEstoque";
+            this.lblQuantidadeEstoque.Size = new System.Drawing.Size(249, 22);
+            this.lblQuantidadeEstoque.TabIndex = 15;
+            this.lblQuantidadeEstoque.Text = "Quantidade em estoque: ";
             // 
             // txtQuantidadeMinima
             // 
-            this.txtQuantidadeMinima.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtQuantidadeMinima.Location = new System.Drawing.Point(191, 422);
+            this.txtQuantidadeMinima.BackColor = System.Drawing.Color.Gainsboro;
+            this.txtQuantidadeMinima.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtQuantidadeMinima.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtQuantidadeMinima.Location = new System.Drawing.Point(30, 530);
             this.txtQuantidadeMinima.Name = "txtQuantidadeMinima";
-            this.txtQuantidadeMinima.Size = new System.Drawing.Size(64, 29);
+            this.txtQuantidadeMinima.Size = new System.Drawing.Size(64, 24);
             this.txtQuantidadeMinima.TabIndex = 18;
             // 
-            // label8
+            // lblQuantidadeMinima
             // 
-            this.label8.AutoSize = true;
-            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.Location = new System.Drawing.Point(12, 427);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(184, 24);
-            this.label8.TabIndex = 17;
-            this.label8.Text = "Quantidade mínima: ";
+            this.lblQuantidadeMinima.AutoSize = true;
+            this.lblQuantidadeMinima.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblQuantidadeMinima.ForeColor = System.Drawing.Color.SteelBlue;
+            this.lblQuantidadeMinima.Location = new System.Drawing.Point(12, 508);
+            this.lblQuantidadeMinima.Name = "lblQuantidadeMinima";
+            this.lblQuantidadeMinima.Size = new System.Drawing.Size(200, 22);
+            this.lblQuantidadeMinima.TabIndex = 17;
+            this.lblQuantidadeMinima.Text = "Quantidade mínima ";
             // 
             // chkAvisar
             // 
             this.chkAvisar.AutoSize = true;
-            this.chkAvisar.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkAvisar.Location = new System.Drawing.Point(16, 457);
+            this.chkAvisar.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chkAvisar.ForeColor = System.Drawing.Color.SteelBlue;
+            this.chkAvisar.Location = new System.Drawing.Point(16, 567);
             this.chkAvisar.Name = "chkAvisar";
-            this.chkAvisar.Size = new System.Drawing.Size(475, 28);
+            this.chkAvisar.Size = new System.Drawing.Size(535, 26);
             this.chkAvisar.TabIndex = 19;
             this.chkAvisar.Text = "Avisar quando produto chegar na quantidade mínima";
             this.chkAvisar.UseVisualStyleBackColor = true;
             // 
             // txtObservacoes
             // 
-            this.txtObservacoes.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtObservacoes.Location = new System.Drawing.Point(136, 502);
+            this.txtObservacoes.BackColor = System.Drawing.Color.Gainsboro;
+            this.txtObservacoes.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtObservacoes.Location = new System.Drawing.Point(24, 622);
             this.txtObservacoes.Multiline = true;
             this.txtObservacoes.Name = "txtObservacoes";
-            this.txtObservacoes.Size = new System.Drawing.Size(483, 118);
+            this.txtObservacoes.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txtObservacoes.Size = new System.Drawing.Size(483, 94);
             this.txtObservacoes.TabIndex = 21;
             // 
-            // label9
+            // lblObservacoes
             // 
-            this.label9.AutoSize = true;
-            this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.Location = new System.Drawing.Point(12, 502);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(132, 24);
-            this.label9.TabIndex = 20;
-            this.label9.Text = "Observações: ";
+            this.lblObservacoes.AutoSize = true;
+            this.lblObservacoes.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblObservacoes.ForeColor = System.Drawing.Color.SteelBlue;
+            this.lblObservacoes.Location = new System.Drawing.Point(15, 597);
+            this.lblObservacoes.Name = "lblObservacoes";
+            this.lblObservacoes.Size = new System.Drawing.Size(139, 22);
+            this.lblObservacoes.TabIndex = 20;
+            this.lblObservacoes.Text = "Observações ";
             // 
             // txtCodigoFabricante
             // 
-            this.txtCodigoFabricante.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtCodigoFabricante.Location = new System.Drawing.Point(401, 116);
+            this.txtCodigoFabricante.BackColor = System.Drawing.Color.Gainsboro;
+            this.txtCodigoFabricante.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtCodigoFabricante.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtCodigoFabricante.Location = new System.Drawing.Point(166, 150);
             this.txtCodigoFabricante.Name = "txtCodigoFabricante";
-            this.txtCodigoFabricante.Size = new System.Drawing.Size(192, 29);
+            this.txtCodigoFabricante.Size = new System.Drawing.Size(190, 24);
             this.txtCodigoFabricante.TabIndex = 25;
             // 
-            // label10
+            // lblCodigoFabricante
             // 
-            this.label10.AutoSize = true;
-            this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label10.Location = new System.Drawing.Point(233, 121);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(167, 24);
-            this.label10.TabIndex = 24;
-            this.label10.Text = "Código fabricante: ";
+            this.lblCodigoFabricante.AutoSize = true;
+            this.lblCodigoFabricante.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblCodigoFabricante.ForeColor = System.Drawing.Color.SteelBlue;
+            this.lblCodigoFabricante.Location = new System.Drawing.Point(148, 125);
+            this.lblCodigoFabricante.Name = "lblCodigoFabricante";
+            this.lblCodigoFabricante.Size = new System.Drawing.Size(183, 22);
+            this.lblCodigoFabricante.TabIndex = 24;
+            this.lblCodigoFabricante.Text = "Código Fabricante";
             // 
             // lblStatus
             // 
             this.lblStatus.AutoSize = true;
-            this.lblStatus.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblStatus.Location = new System.Drawing.Point(180, 72);
+            this.lblStatus.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblStatus.ForeColor = System.Drawing.Color.SteelBlue;
+            this.lblStatus.Location = new System.Drawing.Point(152, 44);
             this.lblStatus.Name = "lblStatus";
-            this.lblStatus.Size = new System.Drawing.Size(70, 24);
+            this.lblStatus.Size = new System.Drawing.Size(65, 22);
             this.lblStatus.TabIndex = 26;
-            this.lblStatus.Text = "Status: ";
+            this.lblStatus.Text = "Status";
             // 
             // cbStatus
             // 
-            this.cbStatus.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbStatus.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.cbStatus.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbStatus.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cbStatus.FormattingEnabled = true;
             this.cbStatus.Items.AddRange(new object[] {
             "Ativo",
             "Inativo"});
-            this.cbStatus.Location = new System.Drawing.Point(246, 67);
+            this.cbStatus.Location = new System.Drawing.Point(169, 66);
             this.cbStatus.Name = "cbStatus";
-            this.cbStatus.Size = new System.Drawing.Size(105, 32);
+            this.cbStatus.Size = new System.Drawing.Size(105, 30);
             this.cbStatus.TabIndex = 27;
-            // 
-            // cbVigencia
-            // 
-            this.cbVigencia.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cbVigencia.FormattingEnabled = true;
-            this.cbVigencia.Location = new System.Drawing.Point(449, 69);
-            this.cbVigencia.Name = "cbVigencia";
-            this.cbVigencia.Size = new System.Drawing.Size(170, 28);
-            this.cbVigencia.TabIndex = 29;
-            this.cbVigencia.SelectedValueChanged += new System.EventHandler(this.cbVigencia_SelectedValueChanged);
-            // 
-            // lblVigencia
-            // 
-            this.lblVigencia.AutoSize = true;
-            this.lblVigencia.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblVigencia.Location = new System.Drawing.Point(359, 72);
-            this.lblVigencia.Name = "lblVigencia";
-            this.lblVigencia.Size = new System.Drawing.Size(89, 24);
-            this.lblVigencia.TabIndex = 28;
-            this.lblVigencia.Text = "Vigência:";
-            // 
-            // btnEditarSalvar
-            // 
-            this.btnEditarSalvar.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnEditarSalvar.Location = new System.Drawing.Point(544, 7);
-            this.btnEditarSalvar.Name = "btnEditarSalvar";
-            this.btnEditarSalvar.Size = new System.Drawing.Size(37, 33);
-            this.btnEditarSalvar.TabIndex = 30;
-            this.btnEditarSalvar.Text = "E/S";
-            this.btnEditarSalvar.UseVisualStyleBackColor = true;
-            this.btnEditarSalvar.Click += new System.EventHandler(this.btnEditarSalvar_Click);
             // 
             // txtPrecoDeCompra
             // 
-            this.txtPrecoDeCompra.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtPrecoDeCompra.Location = new System.Drawing.Point(175, 329);
+            this.txtPrecoDeCompra.BackColor = System.Drawing.Color.Gainsboro;
+            this.txtPrecoDeCompra.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtPrecoDeCompra.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtPrecoDeCompra.Location = new System.Drawing.Point(57, 409);
             this.txtPrecoDeCompra.Name = "txtPrecoDeCompra";
-            this.txtPrecoDeCompra.Size = new System.Drawing.Size(100, 29);
+            this.txtPrecoDeCompra.Size = new System.Drawing.Size(126, 24);
             this.txtPrecoDeCompra.TabIndex = 31;
+            this.txtPrecoDeCompra.TextChanged += new System.EventHandler(this.txtPrecoDeCompra_TextChanged);
             this.txtPrecoDeCompra.Leave += new System.EventHandler(this.txtPrecoDeCompra_Leave);
             // 
             // txtPrecoDeVenda
             // 
-            this.txtPrecoDeVenda.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtPrecoDeVenda.Location = new System.Drawing.Point(483, 329);
+            this.txtPrecoDeVenda.BackColor = System.Drawing.Color.Gainsboro;
+            this.txtPrecoDeVenda.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtPrecoDeVenda.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtPrecoDeVenda.Location = new System.Drawing.Point(382, 408);
             this.txtPrecoDeVenda.Name = "txtPrecoDeVenda";
-            this.txtPrecoDeVenda.Size = new System.Drawing.Size(110, 29);
+            this.txtPrecoDeVenda.Size = new System.Drawing.Size(127, 24);
             this.txtPrecoDeVenda.TabIndex = 32;
             this.txtPrecoDeVenda.Leave += new System.EventHandler(this.txtPrecoDeVenda_Leave);
             // 
             // txtPorcentagemDeLucro
             // 
-            this.txtPorcentagemDeLucro.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtPorcentagemDeLucro.Location = new System.Drawing.Point(363, 369);
+            this.txtPorcentagemDeLucro.BackColor = System.Drawing.Color.Gainsboro;
+            this.txtPorcentagemDeLucro.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtPorcentagemDeLucro.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtPorcentagemDeLucro.Location = new System.Drawing.Point(182, 472);
             this.txtPorcentagemDeLucro.MaxLength = 5;
             this.txtPorcentagemDeLucro.Name = "txtPorcentagemDeLucro";
-            this.txtPorcentagemDeLucro.Size = new System.Drawing.Size(59, 29);
+            this.txtPorcentagemDeLucro.Size = new System.Drawing.Size(46, 24);
             this.txtPorcentagemDeLucro.TabIndex = 33;
             this.txtPorcentagemDeLucro.Leave += new System.EventHandler(this.txtPorcentagemDeLucro_Leave);
             // 
-            // label11
+            // lblSimboloPorcentagemLucro
             // 
-            this.label11.AutoSize = true;
-            this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label11.Location = new System.Drawing.Point(423, 373);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(25, 24);
-            this.label11.TabIndex = 34;
-            this.label11.Text = "%";
+            this.lblSimboloPorcentagemLucro.AutoSize = true;
+            this.lblSimboloPorcentagemLucro.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblSimboloPorcentagemLucro.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.lblSimboloPorcentagemLucro.Location = new System.Drawing.Point(227, 471);
+            this.lblSimboloPorcentagemLucro.Name = "lblSimboloPorcentagemLucro";
+            this.lblSimboloPorcentagemLucro.Size = new System.Drawing.Size(25, 22);
+            this.lblSimboloPorcentagemLucro.TabIndex = 34;
+            this.lblSimboloPorcentagemLucro.Text = "%";
+            // 
+            // panel1
+            // 
+            this.panel1.BackColor = System.Drawing.Color.SteelBlue;
+            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Controls.Add(this.btnEditarSalvar);
+            this.panel1.Controls.Add(this.btnCancelarExcluir);
+            this.panel1.Controls.Add(this.lblCadastroProdutos);
+            this.panel1.Location = new System.Drawing.Point(-1, -2);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(592, 40);
+            this.panel1.TabIndex = 38;
+            // 
+            // txtLineCodigo
+            // 
+            this.txtLineCodigo.AutoSize = true;
+            this.txtLineCodigo.Font = new System.Drawing.Font("Century Gothic", 27.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtLineCodigo.ForeColor = System.Drawing.Color.SteelBlue;
+            this.txtLineCodigo.Location = new System.Drawing.Point(8, 63);
+            this.txtLineCodigo.Name = "txtLineCodigo";
+            this.txtLineCodigo.Size = new System.Drawing.Size(96, 44);
+            this.txtLineCodigo.TabIndex = 40;
+            this.txtLineCodigo.Text = "____";
+            // 
+            // lblVigencia
+            // 
+            this.lblVigencia.AutoSize = true;
+            this.lblVigencia.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblVigencia.ForeColor = System.Drawing.Color.SteelBlue;
+            this.lblVigencia.Location = new System.Drawing.Point(388, 44);
+            this.lblVigencia.Name = "lblVigencia";
+            this.lblVigencia.Size = new System.Drawing.Size(98, 22);
+            this.lblVigencia.TabIndex = 28;
+            this.lblVigencia.Text = "Vigência:";
+            // 
+            // cbVigencia
+            // 
+            this.cbVigencia.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.cbVigencia.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbVigencia.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbVigencia.FormattingEnabled = true;
+            this.cbVigencia.Location = new System.Drawing.Point(404, 67);
+            this.cbVigencia.Name = "cbVigencia";
+            this.cbVigencia.Size = new System.Drawing.Size(187, 29);
+            this.cbVigencia.TabIndex = 29;
+            this.cbVigencia.SelectedValueChanged += new System.EventHandler(this.cbVigencia_SelectedValueChanged);
+            // 
+            // txtLineVigencia
+            // 
+            this.txtLineVigencia.AutoSize = true;
+            this.txtLineVigencia.Font = new System.Drawing.Font("Century Gothic", 27.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtLineVigencia.ForeColor = System.Drawing.Color.SteelBlue;
+            this.txtLineVigencia.Location = new System.Drawing.Point(385, 64);
+            this.txtLineVigencia.Name = "txtLineVigencia";
+            this.txtLineVigencia.Size = new System.Drawing.Size(229, 44);
+            this.txtLineVigencia.TabIndex = 41;
+            this.txtLineVigencia.Text = "___________";
+            // 
+            // txtLineStatus
+            // 
+            this.txtLineStatus.AutoSize = true;
+            this.txtLineStatus.Font = new System.Drawing.Font("Century Gothic", 27.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtLineStatus.ForeColor = System.Drawing.Color.SteelBlue;
+            this.txtLineStatus.Location = new System.Drawing.Point(148, 64);
+            this.txtLineStatus.Name = "txtLineStatus";
+            this.txtLineStatus.Size = new System.Drawing.Size(153, 44);
+            this.txtLineStatus.TabIndex = 42;
+            this.txtLineStatus.Text = "_______";
+            // 
+            // txtLineMarca
+            // 
+            this.txtLineMarca.AutoSize = true;
+            this.txtLineMarca.Font = new System.Drawing.Font("Century Gothic", 27.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtLineMarca.ForeColor = System.Drawing.Color.SteelBlue;
+            this.txtLineMarca.Location = new System.Drawing.Point(8, 136);
+            this.txtLineMarca.Name = "txtLineMarca";
+            this.txtLineMarca.Size = new System.Drawing.Size(134, 44);
+            this.txtLineMarca.TabIndex = 43;
+            this.txtLineMarca.Text = "______";
+            // 
+            // txtLineCodigoFabricante
+            // 
+            this.txtLineCodigoFabricante.AutoSize = true;
+            this.txtLineCodigoFabricante.Font = new System.Drawing.Font("Century Gothic", 27.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtLineCodigoFabricante.ForeColor = System.Drawing.Color.SteelBlue;
+            this.txtLineCodigoFabricante.Location = new System.Drawing.Point(146, 136);
+            this.txtLineCodigoFabricante.Name = "txtLineCodigoFabricante";
+            this.txtLineCodigoFabricante.Size = new System.Drawing.Size(210, 44);
+            this.txtLineCodigoFabricante.TabIndex = 44;
+            this.txtLineCodigoFabricante.Text = "__________";
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Font = new System.Drawing.Font("Century Gothic", 27.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label17.ForeColor = System.Drawing.Color.SteelBlue;
+            this.label17.Location = new System.Drawing.Point(10, 209);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(0, 44);
+            this.label17.TabIndex = 45;
+            // 
+            // txtLineNome
+            // 
+            this.txtLineNome.AutoSize = true;
+            this.txtLineNome.Font = new System.Drawing.Font("Century Gothic", 27.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtLineNome.ForeColor = System.Drawing.Color.SteelBlue;
+            this.txtLineNome.Location = new System.Drawing.Point(11, 209);
+            this.txtLineNome.Name = "txtLineNome";
+            this.txtLineNome.Size = new System.Drawing.Size(514, 44);
+            this.txtLineNome.TabIndex = 46;
+            this.txtLineNome.Text = "__________________________";
+            // 
+            // txtLineDescricao
+            // 
+            this.txtLineDescricao.AutoSize = true;
+            this.txtLineDescricao.Font = new System.Drawing.Font("Century Gothic", 27.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtLineDescricao.ForeColor = System.Drawing.Color.SteelBlue;
+            this.txtLineDescricao.Location = new System.Drawing.Point(14, 332);
+            this.txtLineDescricao.Name = "txtLineDescricao";
+            this.txtLineDescricao.Size = new System.Drawing.Size(514, 44);
+            this.txtLineDescricao.TabIndex = 47;
+            this.txtLineDescricao.Text = "__________________________";
+            // 
+            // txtLinePrecoCompra
+            // 
+            this.txtLinePrecoCompra.AutoSize = true;
+            this.txtLinePrecoCompra.Font = new System.Drawing.Font("Century Gothic", 27.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtLinePrecoCompra.ForeColor = System.Drawing.Color.SteelBlue;
+            this.txtLinePrecoCompra.Location = new System.Drawing.Point(9, 395);
+            this.txtLinePrecoCompra.Name = "txtLinePrecoCompra";
+            this.txtLinePrecoCompra.Size = new System.Drawing.Size(191, 44);
+            this.txtLinePrecoCompra.TabIndex = 48;
+            this.txtLinePrecoCompra.Text = "_________";
+            // 
+            // lblCifraoPrecoCompra
+            // 
+            this.lblCifraoPrecoCompra.AutoSize = true;
+            this.lblCifraoPrecoCompra.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblCifraoPrecoCompra.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.lblCifraoPrecoCompra.Location = new System.Drawing.Point(23, 409);
+            this.lblCifraoPrecoCompra.Name = "lblCifraoPrecoCompra";
+            this.lblCifraoPrecoCompra.Size = new System.Drawing.Size(33, 22);
+            this.lblCifraoPrecoCompra.TabIndex = 49;
+            this.lblCifraoPrecoCompra.Text = "R$";
+            // 
+            // txtLinePrecoVenda
+            // 
+            this.txtLinePrecoVenda.AutoSize = true;
+            this.txtLinePrecoVenda.Font = new System.Drawing.Font("Century Gothic", 27.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtLinePrecoVenda.ForeColor = System.Drawing.Color.SteelBlue;
+            this.txtLinePrecoVenda.Location = new System.Drawing.Point(330, 394);
+            this.txtLinePrecoVenda.Name = "txtLinePrecoVenda";
+            this.txtLinePrecoVenda.Size = new System.Drawing.Size(191, 44);
+            this.txtLinePrecoVenda.TabIndex = 50;
+            this.txtLinePrecoVenda.Text = "_________";
+            // 
+            // lblCifraoPrecoVenda
+            // 
+            this.lblCifraoPrecoVenda.AutoSize = true;
+            this.lblCifraoPrecoVenda.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblCifraoPrecoVenda.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.lblCifraoPrecoVenda.Location = new System.Drawing.Point(348, 408);
+            this.lblCifraoPrecoVenda.Name = "lblCifraoPrecoVenda";
+            this.lblCifraoPrecoVenda.Size = new System.Drawing.Size(33, 22);
+            this.lblCifraoPrecoVenda.TabIndex = 51;
+            this.lblCifraoPrecoVenda.Text = "R$";
+            // 
+            // txtLinePorcentagemLucro
+            // 
+            this.txtLinePorcentagemLucro.AutoSize = true;
+            this.txtLinePorcentagemLucro.Font = new System.Drawing.Font("Century Gothic", 27.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtLinePorcentagemLucro.ForeColor = System.Drawing.Color.SteelBlue;
+            this.txtLinePorcentagemLucro.Location = new System.Drawing.Point(162, 458);
+            this.txtLinePorcentagemLucro.Name = "txtLinePorcentagemLucro";
+            this.txtLinePorcentagemLucro.Size = new System.Drawing.Size(115, 44);
+            this.txtLinePorcentagemLucro.TabIndex = 52;
+            this.txtLinePorcentagemLucro.Text = "_____";
+            // 
+            // txtLineQuantidadeMinima
+            // 
+            this.txtLineQuantidadeMinima.AutoSize = true;
+            this.txtLineQuantidadeMinima.Font = new System.Drawing.Font("Century Gothic", 27.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtLineQuantidadeMinima.ForeColor = System.Drawing.Color.SteelBlue;
+            this.txtLineQuantidadeMinima.Location = new System.Drawing.Point(10, 516);
+            this.txtLineQuantidadeMinima.Name = "txtLineQuantidadeMinima";
+            this.txtLineQuantidadeMinima.Size = new System.Drawing.Size(115, 44);
+            this.txtLineQuantidadeMinima.TabIndex = 53;
+            this.txtLineQuantidadeMinima.Text = "_____";
+            // 
+            // txtLineQuantidadeEstoque
+            // 
+            this.txtLineQuantidadeEstoque.AutoSize = true;
+            this.txtLineQuantidadeEstoque.Font = new System.Drawing.Font("Century Gothic", 27.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtLineQuantidadeEstoque.ForeColor = System.Drawing.Color.SteelBlue;
+            this.txtLineQuantidadeEstoque.Location = new System.Drawing.Point(297, 516);
+            this.txtLineQuantidadeEstoque.Name = "txtLineQuantidadeEstoque";
+            this.txtLineQuantidadeEstoque.Size = new System.Drawing.Size(115, 44);
+            this.txtLineQuantidadeEstoque.TabIndex = 54;
+            this.txtLineQuantidadeEstoque.Text = "_____";
+            // 
+            // txtLineObservacoes
+            // 
+            this.txtLineObservacoes.AutoSize = true;
+            this.txtLineObservacoes.Font = new System.Drawing.Font("Century Gothic", 27.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtLineObservacoes.ForeColor = System.Drawing.Color.SteelBlue;
+            this.txtLineObservacoes.Location = new System.Drawing.Point(12, 685);
+            this.txtLineObservacoes.Name = "txtLineObservacoes";
+            this.txtLineObservacoes.Size = new System.Drawing.Size(514, 44);
+            this.txtLineObservacoes.TabIndex = 55;
+            this.txtLineObservacoes.Text = "__________________________";
+            // 
+            // btnEditarSalvar
+            // 
+            this.btnEditarSalvar.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnEditarSalvar.InitialImage = null;
+            this.btnEditarSalvar.Location = new System.Drawing.Point(506, 4);
+            this.btnEditarSalvar.Name = "btnEditarSalvar";
+            this.btnEditarSalvar.Size = new System.Drawing.Size(32, 30);
+            this.btnEditarSalvar.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.btnEditarSalvar.TabIndex = 36;
+            this.btnEditarSalvar.TabStop = false;
+            this.btnEditarSalvar.Click += new System.EventHandler(this.btnEditarSalvar_Click_1);
             // 
             // btnCancelarExcluir
             // 
-            this.btnCancelarExcluir.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnCancelarExcluir.Location = new System.Drawing.Point(591, 7);
+            this.btnCancelarExcluir.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnCancelarExcluir.Location = new System.Drawing.Point(548, 6);
             this.btnCancelarExcluir.Name = "btnCancelarExcluir";
-            this.btnCancelarExcluir.Size = new System.Drawing.Size(37, 33);
-            this.btnCancelarExcluir.TabIndex = 35;
-            this.btnCancelarExcluir.Text = "V/E";
-            this.btnCancelarExcluir.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnCancelarExcluir.UseVisualStyleBackColor = true;
-            this.btnCancelarExcluir.Click += new System.EventHandler(this.btnCancelarExcluir_Click);
+            this.btnCancelarExcluir.Size = new System.Drawing.Size(33, 26);
+            this.btnCancelarExcluir.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.btnCancelarExcluir.TabIndex = 37;
+            this.btnCancelarExcluir.TabStop = false;
+            this.btnCancelarExcluir.Click += new System.EventHandler(this.btnCancelarExcluir_Click_1);
             // 
             // frmProduto
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.ClientSize = new System.Drawing.Size(635, 630);
-            this.Controls.Add(this.btnCancelarExcluir);
-            this.Controls.Add(this.label11);
+            this.BackColor = System.Drawing.Color.Gainsboro;
+            this.ClientSize = new System.Drawing.Size(593, 735);
+            this.Controls.Add(this.lblCifraoPrecoVenda);
+            this.Controls.Add(this.lblCifraoPrecoCompra);
+            this.Controls.Add(this.cbVigencia);
+            this.Controls.Add(this.txtCodigo);
+            this.Controls.Add(this.lblVigencia);
+            this.Controls.Add(this.panel1);
+            this.Controls.Add(this.lblSimboloPorcentagemLucro);
             this.Controls.Add(this.txtPorcentagemDeLucro);
             this.Controls.Add(this.txtPrecoDeVenda);
             this.Controls.Add(this.txtPrecoDeCompra);
-            this.Controls.Add(this.btnEditarSalvar);
-            this.Controls.Add(this.cbVigencia);
-            this.Controls.Add(this.lblVigencia);
             this.Controls.Add(this.cbStatus);
             this.Controls.Add(this.lblStatus);
             this.Controls.Add(this.txtCodigoFabricante);
-            this.Controls.Add(this.label10);
+            this.Controls.Add(this.lblCodigoFabricante);
             this.Controls.Add(this.txtObservacoes);
-            this.Controls.Add(this.label9);
+            this.Controls.Add(this.lblObservacoes);
             this.Controls.Add(this.chkAvisar);
             this.Controls.Add(this.txtQuantidadeMinima);
-            this.Controls.Add(this.label8);
+            this.Controls.Add(this.lblQuantidadeMinima);
             this.Controls.Add(this.txtQuantidadeEmEstoque);
-            this.Controls.Add(this.label7);
-            this.Controls.Add(this.label6);
-            this.Controls.Add(this.label5);
-            this.Controls.Add(this.label4);
+            this.Controls.Add(this.lblQuantidadeEstoque);
+            this.Controls.Add(this.lblPorcentagemLucro);
+            this.Controls.Add(this.lblPrecoVenda);
+            this.Controls.Add(this.lblPrecoCompra);
             this.Controls.Add(this.txtDescricao);
-            this.Controls.Add(this.label3);
+            this.Controls.Add(this.lblDescricao);
             this.Controls.Add(this.txtNome);
-            this.Controls.Add(this.label2);
+            this.Controls.Add(this.lblNome);
             this.Controls.Add(this.txtMarca);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.txtCodigo);
+            this.Controls.Add(this.lblMarca);
             this.Controls.Add(this.lblCodigo);
-            this.Controls.Add(this.lblCadastroProdutos);
+            this.Controls.Add(this.txtLineCodigo);
+            this.Controls.Add(this.txtLineVigencia);
+            this.Controls.Add(this.txtLineStatus);
+            this.Controls.Add(this.txtLineMarca);
+            this.Controls.Add(this.txtLineCodigoFabricante);
+            this.Controls.Add(this.label17);
+            this.Controls.Add(this.txtLineNome);
+            this.Controls.Add(this.txtLineDescricao);
+            this.Controls.Add(this.txtLinePrecoCompra);
+            this.Controls.Add(this.txtLinePrecoVenda);
+            this.Controls.Add(this.txtLinePorcentagemLucro);
+            this.Controls.Add(this.txtLineQuantidadeMinima);
+            this.Controls.Add(this.txtLineQuantidadeEstoque);
+            this.Controls.Add(this.txtLineObservacoes);
+            this.ForeColor = System.Drawing.Color.SteelBlue;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.MaximizeBox = false;
             this.Name = "frmProduto";
-            this.Text = "Consulta e Cadastro de Produtos";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Load += new System.EventHandler(this.frmProduto_Load);
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.btnEditarSalvar)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btnCancelarExcluir)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -412,32 +686,49 @@
         private System.Windows.Forms.Label lblCodigo;
         private System.Windows.Forms.TextBox txtCodigo;
         private System.Windows.Forms.TextBox txtMarca;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lblMarca;
         private System.Windows.Forms.TextBox txtNome;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label lblNome;
         private System.Windows.Forms.TextBox txtDescricao;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label lblDescricao;
+        private System.Windows.Forms.Label lblPrecoCompra;
+        private System.Windows.Forms.Label lblPrecoVenda;
+        private System.Windows.Forms.Label lblPorcentagemLucro;
         private System.Windows.Forms.TextBox txtQuantidadeEmEstoque;
-        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label lblQuantidadeEstoque;
         private System.Windows.Forms.TextBox txtQuantidadeMinima;
-        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label lblQuantidadeMinima;
         private System.Windows.Forms.CheckBox chkAvisar;
         private System.Windows.Forms.TextBox txtObservacoes;
-        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label lblObservacoes;
         private System.Windows.Forms.TextBox txtCodigoFabricante;
-        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label lblCodigoFabricante;
         private System.Windows.Forms.Label lblStatus;
         private System.Windows.Forms.ComboBox cbStatus;
-        private System.Windows.Forms.ComboBox cbVigencia;
-        private System.Windows.Forms.Label lblVigencia;
-        private System.Windows.Forms.Button btnEditarSalvar;
         private System.Windows.Forms.TextBox txtPrecoDeCompra;
         private System.Windows.Forms.TextBox txtPrecoDeVenda;
         private System.Windows.Forms.TextBox txtPorcentagemDeLucro;
-        private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.Button btnCancelarExcluir;
+        private System.Windows.Forms.Label lblSimboloPorcentagemLucro;
+        private System.Windows.Forms.PictureBox btnEditarSalvar;
+        private System.Windows.Forms.PictureBox btnCancelarExcluir;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Label txtLineCodigo;
+        private System.Windows.Forms.Label lblVigencia;
+        private System.Windows.Forms.ComboBox cbVigencia;
+        private System.Windows.Forms.Label txtLineVigencia;
+        private System.Windows.Forms.Label txtLineStatus;
+        private System.Windows.Forms.Label txtLineMarca;
+        private System.Windows.Forms.Label txtLineCodigoFabricante;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.Label txtLineNome;
+        private System.Windows.Forms.Label txtLineDescricao;
+        private System.Windows.Forms.Label txtLinePrecoCompra;
+        private System.Windows.Forms.Label lblCifraoPrecoCompra;
+        private System.Windows.Forms.Label txtLinePrecoVenda;
+        private System.Windows.Forms.Label lblCifraoPrecoVenda;
+        private System.Windows.Forms.Label txtLinePorcentagemLucro;
+        private System.Windows.Forms.Label txtLineQuantidadeMinima;
+        private System.Windows.Forms.Label txtLineQuantidadeEstoque;
+        private System.Windows.Forms.Label txtLineObservacoes;
     }
 }

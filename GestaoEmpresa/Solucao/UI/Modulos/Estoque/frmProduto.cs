@@ -173,6 +173,8 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         protected void CarregueComboDeVigencias(int codigo)
         {
+            cbVigencia.Items.Clear();
+
             var listaDeVigencias = new List<DateTime>();
             using (var servicoDeProduto = new ServicoDeProduto())
             {
@@ -208,9 +210,9 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             produto.Codigo = int.Parse(txtCodigo.Text.Trim());
             produto.CodigoDoFabricante = txtCodigoFabricante.Text.Trim();
             produto.Descricao = txtDescricao.Text.Trim();
-            produto.Fabricante = txtDescricao.Text.Trim();
+            produto.Fabricante = txtMarca.Text.Trim();
             produto.Nome = txtNome.Text.Trim();
-            produto.Observacao = txtNome.Text.Trim();
+            produto.Observacao = txtObservacoes.Text.Trim();
             produto.PrecoDeCompra = !string.IsNullOrEmpty(txtPrecoDeCompra.Text.Trim())
                                   ? decimal.Parse(txtPrecoDeCompra.Text.Trim())
                                   : 0;
@@ -236,33 +238,85 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         protected void HabiliteControles()
         {
             txtCodigo.Enabled = true;
+            txtLineCodigo.Enabled = true;
+
             txtCodigoFabricante.Enabled = true;
+            txtLineCodigoFabricante.Enabled = true;
+
             txtDescricao.Enabled = true;
+            txtLineDescricao.Enabled = true;
+
             txtMarca.Enabled = true;
+            txtLineMarca.Enabled = true;
+
             txtNome.Enabled = true;
+            txtLineNome.Enabled = true;
+
             txtObservacoes.Enabled = true;
+            txtLineObservacoes.Enabled = true;
+
             txtQuantidadeEmEstoque.Enabled = true;
+            txtLineQuantidadeEstoque.Enabled = true;
+
             txtQuantidadeMinima.Enabled = true;
+            txtLineQuantidadeMinima.Enabled = true;
+
             cbStatus.Enabled = true;
+            txtLineStatus.Enabled = true;
+
             txtPorcentagemDeLucro.Enabled = true;
+            txtLinePorcentagemLucro.Enabled = true;
+            lblSimboloPorcentagemLucro.Enabled = true;
+
             txtPrecoDeCompra.Enabled = true;
+            txtLinePrecoCompra.Enabled = true;
+            lblCifraoPrecoCompra.Enabled = true;
+
             txtPrecoDeVenda.Enabled = true;
+            txtLinePrecoVenda.Enabled = true;
+            lblCifraoPrecoVenda.Enabled = true;
         }
 
         protected void DesabiliteControles()
         {
             txtCodigo.Enabled = false;
+            txtLineCodigo.Enabled = false;
+
             txtCodigoFabricante.Enabled = false;
+            txtLineCodigoFabricante.Enabled = false;
+
             txtDescricao.Enabled = false;
+            txtLineDescricao.Enabled = false;
+
             txtMarca.Enabled = false;
+            txtLineMarca.Enabled = false;
+
             txtNome.Enabled = false;
+            txtLineNome.Enabled = false;
+
             txtObservacoes.Enabled = false;
+            txtLineObservacoes.Enabled = false;
+
             txtQuantidadeEmEstoque.Enabled = false;
+            txtLineQuantidadeEstoque.Enabled = false;
+
             txtQuantidadeMinima.Enabled = false;
+            txtLineQuantidadeMinima.Enabled = false;
+
             cbStatus.Enabled = false;
+            txtLineStatus.Enabled = false;
+
             txtPorcentagemDeLucro.Enabled = false;
+            txtLinePorcentagemLucro.Enabled = false;
+            lblSimboloPorcentagemLucro.Enabled = false;
+
             txtPrecoDeCompra.Enabled = false;
+            txtLinePrecoCompra.Enabled = false;
+            lblCifraoPrecoCompra.Enabled = false;
+
             txtPrecoDeVenda.Enabled = false;
+            txtLinePrecoVenda.Enabled = false;
+            lblCifraoPrecoVenda.Enabled = false;
         }
 
         private void InicializeBotoes(EnumTipoDeForm tipoDeForm)
@@ -273,30 +327,33 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                     btnCancelarExcluir.Enabled = false;
                     btnCancelarExcluir.Visible = false;
 
-                    btnEditarSalvar.Text = "Salvar";
+                    btnEditarSalvar.Image = Properties.Resources.floppy_icon;
                     _switchBotaoEditarSalvar = EnumBotoesForm.Salvar;
                     break;
 
                 case EnumTipoDeForm.Edicao:
                     btnCancelarExcluir.Enabled = true;
                     btnCancelarExcluir.Visible = true;
-                    btnCancelarExcluir.Text = "Cancelar";
+                    btnCancelarExcluir.Image = Properties.Resources.cancel_icon;
                     _switchBotaoCancelarExcluir = EnumBotoesForm.Cancelar;
 
-                    btnEditarSalvar.Text = "Salvar";
+                    btnEditarSalvar.Image = Properties.Resources.floppy_icon;
                     _switchBotaoEditarSalvar = EnumBotoesForm.Salvar;
                     break;
 
                 case EnumTipoDeForm.Detalhamento:
                     btnCancelarExcluir.Enabled = true;
                     btnCancelarExcluir.Visible = true;
-                    btnCancelarExcluir.Text = "Cancelar";
+                    btnCancelarExcluir.Image = Properties.Resources.delete;
                     _switchBotaoCancelarExcluir = EnumBotoesForm.Excluir;
-
-                    btnEditarSalvar.Text = "Editar";
+              
+                    btnEditarSalvar.Image = Properties.Resources.edit_512;
                     _switchBotaoEditarSalvar = EnumBotoesForm.Editar;
                     break;
             }
+
+            btnEditarSalvar.Refresh();
+            btnCancelarExcluir.Refresh();
         }
 
         #endregion
@@ -374,7 +431,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         #endregion
 
-        private void btnEditarSalvar_Click(object sender, EventArgs e)
+        private void btnEditarSalvar_Click_1(object sender, EventArgs e)
         {
             switch (_switchBotaoEditarSalvar)
             {
@@ -382,7 +439,10 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                     HabiliteControles();
                     cbVigencia.SelectedIndex = -1;
                     cbVigencia.Enabled = false;
+                    txtLineVigencia.Enabled = false;
+
                     txtCodigo.Enabled = false;
+                    txtLineCodigo.Enabled = false;
                     InicializeBotoes(EnumTipoDeForm.Edicao);
                     break;
 
@@ -407,6 +467,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                         CarregueComboDeVigencias(produto.Codigo);
                         SelecioneUltimaVigencia();
                         cbVigencia.Enabled = true;
+                        txtLineVigencia.Enabled = true;
                         return;
                     }
 
@@ -419,7 +480,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             }
         }
 
-        private void btnCancelarExcluir_Click(object sender, EventArgs e)
+        private void btnCancelarExcluir_Click_1(object sender, EventArgs e)
         {
             switch (_switchBotaoCancelarExcluir)
             {
@@ -435,6 +496,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                     CarregueControlesComObjeto(produto);
                     DesabiliteControles();
                     cbVigencia.Enabled = true;
+                    txtLineVigencia.Enabled = true;
                     CarregueComboDeVigencias(produto.Codigo);
                     SelecioneUltimaVigencia();
                     break;
@@ -450,6 +512,11 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                     }
                     break;
             }
+        }
+
+        private void txtPrecoDeCompra_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -30,14 +30,14 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Configuracoes
         {
             List<Usuario> listaUsuarios;
 
-            using(var servicoMapeadorUsuario = new MapeadorUsuario())
+            using(var servicoMapeadorUsuario = new MapeadorDeUsuario())
             {
                 listaUsuarios = servicoMapeadorUsuario.ConsulteTodos();
             }
 
             foreach(var usuario in listaUsuarios)
             {
-                dgvUsuarios.Rows.Add(usuario.NomeUsuario/*, usuario.Funcionario.Nome, usuario.Funcionario.Funcao*/);
+                dgvUsuarios.Rows.Add(usuario.Nome/*, usuario.Funcionario.Nome, usuario.Funcionario.Funcao*/);
             }
         }
 
@@ -56,7 +56,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Configuracoes
         private void ChameEditarUsuario(int rowIndex)
         {
             var usuario = new Usuario();
-            using (var servicoMapeadorUsuario = new MapeadorUsuario())
+            using (var servicoMapeadorUsuario = new MapeadorDeUsuario())
             {
                usuario = servicoMapeadorUsuario.Consulte(dgvUsuarios.Rows[rowIndex]
                                                                     .Cells["NomeDeUsuario"]

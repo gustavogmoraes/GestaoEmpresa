@@ -59,6 +59,7 @@
     <Compile Include="Solucao\Mapeador\Mapeadores\MapeadoresAbstratos\MapeadorPadraoEntidadeRelacionalUmParaMuitosVigencia.cs" />
     <Compile Include="Solucao\Mapeador\Mapeadores\MapeadoresConcretos\MapeadorEmail.cs" />
     <Compile Include="Solucao\Mapeador\Mapeadores\MapeadoresConcretos\MapeadorTelefone.cs" />
+    <Compile Include="Solucao\Negocio\Enumeradores\EnumStatusDoUsuario.cs" />
     <Compile Include="Solucao\Negocio\Enumeradores\EnumTipoDeAcaoProduto.cs" />
     <Compile Include="Solucao\Negocio\Enumeradores\EnumStatusDoProduto.cs" />
     <Compile Include="Solucao\Negocio\Objetos\Atributos\BancoDeDados.cs" />
@@ -72,10 +73,10 @@
     <Compile Include="Solucao\Mapeador\Mapeadores\MapeadoresAbstratos\MapeadorPadrao.cs" />
     <Compile Include="Solucao\Mapeador\Mapeadores\MapeadoresConcretos\MapeadorCliente.cs" />
     <Compile Include="Solucao\Mapeador\Mapeadores\MapeadoresConcretos\MapeadorGrupoUsuario.cs" />
-    <Compile Include="Solucao\Mapeador\Mapeadores\MapeadoresConcretos\MapeadorUsuario.cs" />
+    <Compile Include="Solucao\Mapeador\Mapeadores\MapeadoresConcretos\MapeadorDeUsuario.cs" />
     <Compile Include="Solucao\Negocio\Servicos\ServicoDeProduto.cs" />
+    <Compile Include="Solucao\Negocio\Servicos\ServicoDeUsuario.cs" />
     <Compile Include="Solucao\Negocio\Validador\ValidadorDeProduto.cs" />
-    <Compile Include="Solucao\UI\FormPadrao.cs" />
     <Compile Include="Solucao\UI\Modulos\Estoque\frmEstoque.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -163,6 +164,18 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Solucao\Negocio\Interfaces\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\edit-512.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\floppy-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\cancel-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\delete.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

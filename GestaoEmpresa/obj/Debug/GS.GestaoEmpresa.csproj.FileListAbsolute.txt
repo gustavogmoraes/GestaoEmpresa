@@ -31,3 +31,4 @@ E:\Documentos\Visual Studio 2017\Projects\GestaoEmpresa\GestaoEmpresa\obj\Debug\
 E:\Documentos\Visual Studio 2017\Projects\GestaoEmpresa\GestaoEmpresa\bin\Debug\GS.GestaoEmpresa.exe.config
 E:\Documentos\Visual Studio 2017\Projects\GestaoEmpresa\GestaoEmpresa\bin\Debug\GS.GestaoEmpresa.exe
 E:\Documentos\Visual Studio 2017\Projects\GestaoEmpresa\GestaoEmpresa\bin\Debug\GS.GestaoEmpresa.pdb
+E:\Documentos\Visual Studio 2017\Projects\GestaoEmpresa\GestaoEmpresa\obj\Debug\GS.GestaoEmpresa.csprojResolveAssemblyReference.cache

@@ -2,7 +2,9 @@
 using GS.GestaoEmpresa.Solucao.Mapeador.Mapeadores.MapeadoresConcretos;
 using GS.GestaoEmpresa.Solucao.Negocio.Catalogos;
 using GS.GestaoEmpresa.Solucao.Negocio.Objetos.ObjetosConcretos;
+using GS.GestaoEmpresa.Solucao.Negocio.Servicos;
 using GS.GestaoEmpresa.Solucao.UI.Modulos.Configuracoes;
+using GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque;
 using System;
 using System.Drawing;
 using System.Windows.Forms;
@@ -71,11 +73,11 @@ namespace GestaoEmpresa.GS.GestaoEmpresa.GS.GestaoEmpresa.UI.Principal
         {
             tabControl1.SelectTab("tabChamador");
 
-            using (var servicoMapeadorUsuario = new MapeadorUsuario())
+            using (var servicoMapeadorUsuario = new MapeadorDeUsuario())
             {
                 var usuario = servicoMapeadorUsuario.Consulte(SessaoSistema.CodigoUsuario);
 
-                txtPermissaoUsuario.Text = usuario.NomeUsuario;
+                txtPermissaoUsuario.Text = usuario.Nome;
                 //txtPermissaoFuncao.Text = usuario.Funcionario.Funcao ?? "---";
                 //txtPermissaoGrupo.Text = usuario.Grupo.Nome ?? "---";
             }
@@ -189,15 +191,13 @@ namespace GestaoEmpresa.GS.GestaoEmpresa.GS.GestaoEmpresa.UI.Principal
 
         private void btnEntrar_Click_1(object sender, EventArgs e)
         {
-            using (var servicoMapeadorUsuario = new MapeadorUsuario())
+            using (var servicoDeUsuario = new ServicoDeUsuario())
             {
-                //var usuario = servicoMapeadorUsuario.Consulte((txtUsuario.Text.Trim()));
-
-                var usuario = servicoMapeadorUsuario.Consulte(1);
+                var usuario = servicoDeUsuario.Consulte((txtUsuario.Text.Trim()));
 
                 if (usuario != null)
                 {
-                    if (usuario.Senha.Equals(txtSenha.Text.Trim().GetHashCode().ToString()))
+                    if (usuario.Senha == txtSenha.Text.Trim().GetHashCode())
                     {
                         tabControl1.SelectTab("tabChamador");
                         //GerenciadorAbas.ChamadorAtivo = true;
@@ -206,9 +206,9 @@ namespace GestaoEmpresa.GS.GestaoEmpresa.GS.GestaoEmpresa.UI.Principal
                         //Dados da sessão do sistema
                         SessaoSistema.Iniciada = true;
                         SessaoSistema.CodigoUsuario = usuario.Codigo;
-                        SessaoSistema.NomeUsuario = usuario.NomeUsuario;
+                        SessaoSistema.NomeUsuario = usuario.Nome;
 
-                        txtPermissaoUsuario.Text = usuario.NomeUsuario;
+                        txtPermissaoUsuario.Text = usuario.Nome;
                         //txtPermissaoFuncao.Text = usuario.Funcionario.Funcao ?? "---";
                         //txtPermissaoGrupo.Text = usuario.GrupoUsuario == null ? "---" : usuario.GrupoUsuario.Nome;
                         return;
@@ -229,5 +229,15 @@ namespace GestaoEmpresa.GS.GestaoEmpresa.GS.GestaoEmpresa.UI.Principal
         }
 
         #endregion
+
+        private void tabLogin_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnEstoque_Click_1(object sender, EventArgs e)
+        {
+            new frmEstoque().Show();
+        }
     }
 }
