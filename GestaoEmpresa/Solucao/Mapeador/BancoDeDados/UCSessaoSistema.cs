@@ -19,12 +19,13 @@ namespace GS.GestaoEmpresa.Solucao.Mapeador.BancoDeDados
 
         private void UCSessaoSistema_Load(object sender, EventArgs e)
         {
-            lblNome.Text = SessaoSistema.NomeUsuario;
+            lblUsuario.Text = SessaoSistema.NomeUsuario;
         }
 
-        public void DefinaLabelNome(string texto)
+        public void DefinaModulo(string modulo, Image logo)
         {
-            this.lblNome.Text = texto;
+            lblModulo.Text = modulo;
+            pbModulo.BackgroundImage = logo;
         }
     }
 }

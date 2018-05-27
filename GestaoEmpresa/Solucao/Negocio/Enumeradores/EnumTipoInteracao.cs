@@ -3,7 +3,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Enumeradores
 {
     public enum EnumTipoInteracao
     {
-        Entrada,
+        Entrada = 1,
         Saida
     }
 }

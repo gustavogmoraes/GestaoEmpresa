@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using GS.GestaoEmpresa.Solucao.Negocio.Objetos.Atributos;
 using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores;
+using System.Windows.Forms;
 
 namespace GS.GestaoEmpresa.Solucao.Negocio.Objetos.ObjetosConcretos
 {
@@ -30,7 +31,9 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Objetos.ObjetosConcretos
 
 		public string CodigoDoFabricante { get; set; }
 
-		public int HashCode
+        public bool AvisarQuantidade { get; set; }
+
+        public int HashCode
 		{
 			get
 			{
@@ -38,7 +41,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Objetos.ObjetosConcretos
 			}
 		}
 
-		private string ObtenhaStringParaCalculoDoHash()
+        private string ObtenhaStringParaCalculoDoHash()
 		{
 			var stringParaHash = string.Empty;
 

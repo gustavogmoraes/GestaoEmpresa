@@ -368,9 +368,9 @@
             this.tabChamador.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.tabChamador.Controls.Add(this.label5);
             this.tabChamador.Controls.Add(this.groupBox1);
-            this.tabChamador.Controls.Add(this.pictureBox4);
             this.tabChamador.Controls.Add(this.label9);
             this.tabChamador.Controls.Add(this.groupBox2);
+            this.tabChamador.Controls.Add(this.pictureBox4);
             this.tabChamador.Location = new System.Drawing.Point(4, 23);
             this.tabChamador.Name = "tabChamador";
             this.tabChamador.Padding = new System.Windows.Forms.Padding(3);
@@ -464,10 +464,12 @@
             // 
             // pictureBox4
             // 
-            this.pictureBox4.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox4.Image")));
-            this.pictureBox4.Location = new System.Drawing.Point(550, 9);
+            this.pictureBox4.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBox4.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pictureBox4.BackgroundImage")));
+            this.pictureBox4.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.pictureBox4.Location = new System.Drawing.Point(539, -23);
             this.pictureBox4.Name = "pictureBox4";
-            this.pictureBox4.Size = new System.Drawing.Size(208, 91);
+            this.pictureBox4.Size = new System.Drawing.Size(252, 176);
             this.pictureBox4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox4.TabIndex = 23;
             this.pictureBox4.TabStop = false;
@@ -485,16 +487,16 @@
             // groupBox2
             // 
             this.groupBox2.BackColor = System.Drawing.Color.Transparent;
+            this.groupBox2.Controls.Add(this.btnAtendimento);
+            this.groupBox2.Controls.Add(this.btnTecnico);
             this.groupBox2.Controls.Add(this.btnAuditoria);
             this.groupBox2.Controls.Add(this.btnCorporativo);
-            this.groupBox2.Controls.Add(this.btnTecnico);
             this.groupBox2.Controls.Add(this.btnConfiguracoes);
             this.groupBox2.Controls.Add(this.btnEstoque);
-            this.groupBox2.Controls.Add(this.btnAtendimento);
             this.groupBox2.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox2.Location = new System.Drawing.Point(41, 122);
+            this.groupBox2.Location = new System.Drawing.Point(41, 130);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(717, 342);
+            this.groupBox2.Size = new System.Drawing.Size(717, 334);
             this.groupBox2.TabIndex = 21;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Módulos";

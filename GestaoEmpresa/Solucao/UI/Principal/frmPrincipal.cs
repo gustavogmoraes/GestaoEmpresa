@@ -15,7 +15,7 @@ namespace GestaoEmpresa.GS.GestaoEmpresa.GS.GestaoEmpresa.UI.Principal
     {
         #region Constantes
 
-        public const string @DIRETORIO_LOCAL  = @".\";
+        public const string DIRETORIO_LOCAL  = @".\";
 
         public const string NOME_ARQUIVO_CONFIGURACOES_BANCO = "ConexaoBanco.txt";
 
@@ -45,23 +45,21 @@ namespace GestaoEmpresa.GS.GestaoEmpresa.GS.GestaoEmpresa.UI.Principal
 
         private void CarregueConfiguracoesConexaoBanco()
         {
-            InformacoesConexaoBanco configuracoesConexaoBanco = null;
-
             using (var GSBancoDeDados = new GSBancoDeDados())
             {
-                configuracoesConexaoBanco = GSBancoDeDados.BusqueConfiguracoesConexaoDoArquivo(DIRETORIO_LOCAL, NOME_ARQUIVO_CONFIGURACOES_BANCO);
+                SessaoSistema.InformacoesConexao = GSBancoDeDados.BusqueConfiguracoesConexaoDoArquivo(DIRETORIO_LOCAL, NOME_ARQUIVO_CONFIGURACOES_BANCO);
             }
 
-            if (configuracoesConexaoBanco == null)
+            if (SessaoSistema.InformacoesConexao == null)
             {
                 MessageBox.Show(Mensagens.NAO_HA_CONFIGURACOES_BANCO);
             }
             else
             {
-                txtServidorConfiguracao.Text = configuracoesConexaoBanco.Servidor;
-                txtNomeBancoConfiguracoes.Text = configuracoesConexaoBanco.NomeBanco;
-                txtUsuarioConfiguracao.Text = configuracoesConexaoBanco.Usuario;
-                txtSenhaConfiguracao.Text = configuracoesConexaoBanco.Senha;
+                txtServidorConfiguracao.Text = SessaoSistema.InformacoesConexao.Servidor;
+                txtNomeBancoConfiguracoes.Text = SessaoSistema.InformacoesConexao.NomeBanco;
+                txtUsuarioConfiguracao.Text = SessaoSistema.InformacoesConexao.Usuario;
+                txtSenhaConfiguracao.Text = SessaoSistema.InformacoesConexao.Senha;
             }
 
             //Chamada temporária, é pra desenvolvimento

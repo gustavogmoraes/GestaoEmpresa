@@ -13,7 +13,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Objetos.ObjetosConcretos
         public EnumTipoInteracao TipoInteracao { get; set; }
 
         //Compra, Venda, Empréstimo, etc...
-        public string Motivo { get; set; }
+        //public string Motivo { get; set; }
 
         public string Descricao { get; set; }
 
@@ -23,12 +23,14 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Objetos.ObjetosConcretos
 
         public decimal ValorInteracao { get; set; }
 
-        public string OrigemDestino { get; set; }
+        public string Origem { get; set; }
+
+        public string Destino { get; set; }
 
         public string Observacao { get; set; }
 
-        public Funcionario FuncionarioResponsavel { get; set; }
+        //public Funcionario FuncionarioResponsavel { get; set; }
 
-        public OrdemServico OrdemDeServico { get; set; }
+        //public OrdemServico OrdemDeServico { get; set; }
     }
 }

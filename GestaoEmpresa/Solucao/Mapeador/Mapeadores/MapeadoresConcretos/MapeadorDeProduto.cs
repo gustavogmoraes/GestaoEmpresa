@@ -29,6 +29,7 @@ namespace GS.GestaoEmpresa.Solucao.Mapeador.Mapeadores.MapeadoresConcretos
             {"PRECOVENDA", typeof(decimal)},
             {"PORCENTAGEMLUCRO", typeof(float)},
             {"QUANTIDADEESTOQUE", typeof(int)},
+            {"AVISARQUANTIDADE", typeof(bool) },
             {"QUANTIDADEMINIMAAVISO", typeof(int)},
             {"OBSERVACAO", typeof(string)},
         };
@@ -37,7 +38,7 @@ namespace GS.GestaoEmpresa.Solucao.Mapeador.Mapeadores.MapeadoresConcretos
         =>
         "CREATE TABLE PRODUTOS (" +
         "CODIGO INT NOT NULL, " +
-        "VIGENCIA DATETIME NOT NULL, " +
+        "VIGENCIA DATETIME2 NOT NULL, " +
         "STATUS INT NOT NULL, " +
         "NOME NVARCHAR(50) NOT NULL, " +
         "DESCRICAO NVARCHAR(500), " +
@@ -78,13 +79,14 @@ namespace GS.GestaoEmpresa.Solucao.Mapeador.Mapeadores.MapeadoresConcretos
                 retorno.Observacao = tabela.Rows[linha]["OBSERVACAO"] != DBNull.Value
                                    ? tabela.Rows[linha]["OBSERVACAO"].ToString()
                                    : null;
+                retorno.AvisarQuantidade = GSUtilitarios.ConvertaValorBooleano(tabela.Rows[linha]["AVISARQUANTIDADE"].ToString());
 
                 return retorno;
         }
 
         private string ObtenhaValoresInsercao(Produto produto)
         {
-            return string.Format("{0}, {1}, '{2}', '{3}', '{4}', '{5}', {6}, {7}, {8}, {9}, {10}, '{11}'",
+            return string.Format("{0}, {1}, '{2}', '{3}', '{4}', '{5}', {6}, {7}, {8}, {9}, '{10}', {11}, '{12}'",
                                  produto.Codigo,
                                  (int)produto.Status,
                                  produto.Nome,
@@ -95,6 +97,7 @@ namespace GS.GestaoEmpresa.Solucao.Mapeador.Mapeadores.MapeadoresConcretos
                                  produto.PrecoDeVenda,
                                  produto.PorcentagemDeLucro,
                                  produto.QuantidadeEmEstoque,
+                                 GSUtilitarios.ConvertaValorBooleano(produto.AvisarQuantidade),
                                  produto.QuantidadeMinimaParaAviso,
                                  produto.Observacao ?? "NULL");
         }
@@ -115,7 +118,7 @@ namespace GS.GestaoEmpresa.Solucao.Mapeador.Mapeadores.MapeadoresConcretos
         {
             var vigencia = DateTime.Now;
 
-            string ComandoSQL = String.Format("INSERT INTO {0} (VIGENCIA, {1}) VALUES (CAST ('{2}' AS DATETIME), {3})",
+            string ComandoSQL = String.Format("INSERT INTO {0} (VIGENCIA, {1}) VALUES (CAST ('{2}' AS DATETIME2), {3})",
                                               Tabela,
                                               Colunas.Replace("VIGENCIA, ", string.Empty),
                                               GSUtilitarios.FormateDateTimePtBrParaBD(vigencia),
@@ -167,7 +170,7 @@ namespace GS.GestaoEmpresa.Solucao.Mapeador.Mapeadores.MapeadoresConcretos
         {
             string ComandoSQL = String.Format("SELECT {0} FROM {1} " +
                                               "WHERE CODIGO = {2} " +
-                                              "AND VIGENCIA = (SELECT MAX(VIGENCIA) FROM PRODUTOS WHERE VIGENCIA <= CAST ('{3}' AS DATETIME))",
+                                              "AND VIGENCIA = (SELECT MAX(VIGENCIA) FROM PRODUTOS WHERE VIGENCIA <= CAST ('{3}' AS DATETIME2))",
                                               Colunas,
                                               Tabela,
                                               Codigo,
@@ -230,7 +233,7 @@ namespace GS.GestaoEmpresa.Solucao.Mapeador.Mapeadores.MapeadoresConcretos
         public List<Produto> ConsulteTodos(DateTime vigencia)
 		{
 			string ComandoSQL = String.Format("SELECT T1.{0}, {1} FROM {2} AS T1 " +
-											  "INNER JOIN(SELECT MAX(VIGENCIA) VIGENCIA, {0} FROM {2} WHERE VIGENCIA <= CAST ('{4}' AS DATETIME) GROUP BY {0}) AS T2 " +
+											  "INNER JOIN(SELECT MAX(VIGENCIA) VIGENCIA, {0} FROM {2} WHERE VIGENCIA <= CAST ('{4}' AS DATETIME2) GROUP BY {0}) AS T2 " +
 											  "ON T1.{0} = T2.{0} AND T1.VIGENCIA = T2.VIGENCIA ORDER BY {0}",
 											  "CODIGO",
 											  Colunas.Replace(", ", ", T1.")

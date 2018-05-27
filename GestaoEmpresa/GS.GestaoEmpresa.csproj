@@ -57,6 +57,7 @@
       <DependentUpon>UCSessaoSistema.cs</DependentUpon>
     </Compile>
     <Compile Include="Solucao\Mapeador\Mapeadores\MapeadoresAbstratos\MapeadorPadraoEntidadeRelacionalUmParaMuitosVigencia.cs" />
+    <Compile Include="Solucao\Mapeador\Mapeadores\MapeadoresConcretos\MapeadorDeInteracao.cs" />
     <Compile Include="Solucao\Mapeador\Mapeadores\MapeadoresConcretos\MapeadorEmail.cs" />
     <Compile Include="Solucao\Mapeador\Mapeadores\MapeadoresConcretos\MapeadorTelefone.cs" />
     <Compile Include="Solucao\Negocio\Enumeradores\EnumStatusDoUsuario.cs" />
@@ -75,6 +76,7 @@
     <Compile Include="Solucao\Mapeador\Mapeadores\MapeadoresConcretos\MapeadorCliente.cs" />
     <Compile Include="Solucao\Mapeador\Mapeadores\MapeadoresConcretos\MapeadorGrupoUsuario.cs" />
     <Compile Include="Solucao\Mapeador\Mapeadores\MapeadoresConcretos\MapeadorDeUsuario.cs" />
+    <Compile Include="Solucao\Negocio\Servicos\ServicoDeInteracao.cs" />
     <Compile Include="Solucao\Negocio\Servicos\ServicoDeProduto.cs" />
     <Compile Include="Solucao\Negocio\Servicos\ServicoDeUsuario.cs" />
     <Compile Include="Solucao\Negocio\Validador\ValidadorDeProduto.cs" />
@@ -83,6 +85,12 @@
     </Compile>
     <Compile Include="Solucao\UI\Modulos\Estoque\frmEstoque.Designer.cs">
       <DependentUpon>frmEstoque.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Solucao\UI\Modulos\Estoque\frmInteracao.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Solucao\UI\Modulos\Estoque\frmInteracao.Designer.cs">
+      <DependentUpon>frmInteracao.cs</DependentUpon>
     </Compile>
     <Compile Include="Solucao\UI\Modulos\Estoque\frmProduto.cs">
       <SubType>Form</SubType>
@@ -105,6 +113,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Solucao\UI\Modulos\Estoque\frmEstoque.resx">
       <DependentUpon>frmEstoque.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Solucao\UI\Modulos\Estoque\frmInteracao.resx">
+      <DependentUpon>frmInteracao.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Solucao\UI\Modulos\Estoque\frmProduto.resx">
       <DependentUpon>frmProduto.cs</DependentUpon>
@@ -189,6 +200,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\add.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BoxBlueShort.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\WhiteBox.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

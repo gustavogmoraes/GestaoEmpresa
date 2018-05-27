@@ -73,6 +73,16 @@ namespace GS.GestaoEmpresa.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap BoxBlueShort {
+            get {
+                object obj = ResourceManager.GetObject("BoxBlueShort", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap cancel_icon {
             get {
                 object obj = ResourceManager.GetObject("cancel-icon", resourceCulture);
@@ -136,6 +146,16 @@ namespace GS.GestaoEmpresa.Properties {
         internal static System.Drawing.Bitmap refresh {
             get {
                 object obj = ResourceManager.GetObject("refresh", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap WhiteBox {
+            get {
+                object obj = ResourceManager.GetObject("WhiteBox", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

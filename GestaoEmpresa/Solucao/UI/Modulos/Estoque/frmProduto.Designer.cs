@@ -56,8 +56,6 @@
             this.txtPorcentagemDeLucro = new System.Windows.Forms.TextBox();
             this.lblSimboloPorcentagemLucro = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.btnEditarSalvar = new System.Windows.Forms.PictureBox();
-            this.btnCancelarExcluir = new System.Windows.Forms.PictureBox();
             this.txtLineCodigo = new System.Windows.Forms.Label();
             this.lblVigencia = new System.Windows.Forms.Label();
             this.cbVigencia = new System.Windows.Forms.ComboBox();
@@ -76,6 +74,8 @@
             this.txtLineQuantidadeMinima = new System.Windows.Forms.Label();
             this.txtLineQuantidadeEstoque = new System.Windows.Forms.Label();
             this.txtLineObservacoes = new System.Windows.Forms.Label();
+            this.btnEditarSalvar = new System.Windows.Forms.PictureBox();
+            this.btnCancelarExcluir = new System.Windows.Forms.PictureBox();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.btnEditarSalvar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnCancelarExcluir)).BeginInit();
@@ -107,23 +107,24 @@
             // 
             // txtCodigo
             // 
-            this.txtCodigo.BackColor = System.Drawing.Color.Gainsboro;
+            this.txtCodigo.BackColor = System.Drawing.Color.Silver;
             this.txtCodigo.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtCodigo.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtCodigo.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtCodigo.ForeColor = System.Drawing.Color.Black;
             this.txtCodigo.Location = new System.Drawing.Point(24, 77);
             this.txtCodigo.Name = "txtCodigo";
             this.txtCodigo.Size = new System.Drawing.Size(84, 24);
-            this.txtCodigo.TabIndex = 2;
+            this.txtCodigo.TabIndex = 40;
             // 
             // txtMarca
             // 
-            this.txtMarca.BackColor = System.Drawing.Color.Gainsboro;
+            this.txtMarca.BackColor = System.Drawing.Color.Silver;
             this.txtMarca.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtMarca.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtMarca.Location = new System.Drawing.Point(22, 150);
+            this.txtMarca.MaxLength = 50;
             this.txtMarca.Name = "txtMarca";
-            this.txtMarca.Size = new System.Drawing.Size(157, 24);
+            this.txtMarca.Size = new System.Drawing.Size(132, 24);
             this.txtMarca.TabIndex = 4;
             // 
             // lblMarca
@@ -139,10 +140,11 @@
             // 
             // txtNome
             // 
-            this.txtNome.BackColor = System.Drawing.Color.Gainsboro;
+            this.txtNome.BackColor = System.Drawing.Color.Silver;
             this.txtNome.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtNome.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtNome.Location = new System.Drawing.Point(24, 223);
+            this.txtNome.MaxLength = 50;
             this.txtNome.Name = "txtNome";
             this.txtNome.Size = new System.Drawing.Size(483, 24);
             this.txtNome.TabIndex = 6;
@@ -160,14 +162,15 @@
             // 
             // txtDescricao
             // 
-            this.txtDescricao.BackColor = System.Drawing.Color.Gainsboro;
+            this.txtDescricao.BackColor = System.Drawing.Color.Silver;
             this.txtDescricao.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtDescricao.Location = new System.Drawing.Point(24, 291);
+            this.txtDescricao.MaxLength = 500;
             this.txtDescricao.Multiline = true;
             this.txtDescricao.Name = "txtDescricao";
             this.txtDescricao.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.txtDescricao.Size = new System.Drawing.Size(483, 73);
-            this.txtDescricao.TabIndex = 8;
+            this.txtDescricao.TabIndex = 7;
             // 
             // lblDescricao
             // 
@@ -215,13 +218,14 @@
             // 
             // txtQuantidadeEmEstoque
             // 
-            this.txtQuantidadeEmEstoque.BackColor = System.Drawing.Color.Gainsboro;
+            this.txtQuantidadeEmEstoque.BackColor = System.Drawing.Color.Silver;
             this.txtQuantidadeEmEstoque.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtQuantidadeEmEstoque.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtQuantidadeEmEstoque.Location = new System.Drawing.Point(312, 530);
             this.txtQuantidadeEmEstoque.Name = "txtQuantidadeEmEstoque";
             this.txtQuantidadeEmEstoque.Size = new System.Drawing.Size(64, 24);
-            this.txtQuantidadeEmEstoque.TabIndex = 16;
+            this.txtQuantidadeEmEstoque.TabIndex = 12;
+            this.txtQuantidadeEmEstoque.TextChanged += new System.EventHandler(this.txtQuantidadeEmEstoque_TextChanged);
             // 
             // lblQuantidadeEstoque
             // 
@@ -236,13 +240,14 @@
             // 
             // txtQuantidadeMinima
             // 
-            this.txtQuantidadeMinima.BackColor = System.Drawing.Color.Gainsboro;
+            this.txtQuantidadeMinima.BackColor = System.Drawing.Color.Silver;
             this.txtQuantidadeMinima.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtQuantidadeMinima.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtQuantidadeMinima.Location = new System.Drawing.Point(30, 530);
             this.txtQuantidadeMinima.Name = "txtQuantidadeMinima";
             this.txtQuantidadeMinima.Size = new System.Drawing.Size(64, 24);
-            this.txtQuantidadeMinima.TabIndex = 18;
+            this.txtQuantidadeMinima.TabIndex = 11;
+            this.txtQuantidadeMinima.TextChanged += new System.EventHandler(this.txtQuantidadeMinima_TextChanged);
             // 
             // lblQuantidadeMinima
             // 
@@ -263,20 +268,21 @@
             this.chkAvisar.Location = new System.Drawing.Point(16, 567);
             this.chkAvisar.Name = "chkAvisar";
             this.chkAvisar.Size = new System.Drawing.Size(535, 26);
-            this.chkAvisar.TabIndex = 19;
+            this.chkAvisar.TabIndex = 13;
             this.chkAvisar.Text = "Avisar quando produto chegar na quantidade mínima";
             this.chkAvisar.UseVisualStyleBackColor = true;
             // 
             // txtObservacoes
             // 
-            this.txtObservacoes.BackColor = System.Drawing.Color.Gainsboro;
+            this.txtObservacoes.BackColor = System.Drawing.Color.Silver;
             this.txtObservacoes.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtObservacoes.Location = new System.Drawing.Point(24, 622);
+            this.txtObservacoes.MaxLength = 3000;
             this.txtObservacoes.Multiline = true;
             this.txtObservacoes.Name = "txtObservacoes";
             this.txtObservacoes.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.txtObservacoes.Size = new System.Drawing.Size(483, 94);
-            this.txtObservacoes.TabIndex = 21;
+            this.txtObservacoes.TabIndex = 14;
             // 
             // lblObservacoes
             // 
@@ -291,13 +297,14 @@
             // 
             // txtCodigoFabricante
             // 
-            this.txtCodigoFabricante.BackColor = System.Drawing.Color.Gainsboro;
+            this.txtCodigoFabricante.BackColor = System.Drawing.Color.Silver;
             this.txtCodigoFabricante.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtCodigoFabricante.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtCodigoFabricante.Location = new System.Drawing.Point(166, 150);
+            this.txtCodigoFabricante.MaxLength = 50;
             this.txtCodigoFabricante.Name = "txtCodigoFabricante";
             this.txtCodigoFabricante.Size = new System.Drawing.Size(190, 24);
-            this.txtCodigoFabricante.TabIndex = 25;
+            this.txtCodigoFabricante.TabIndex = 5;
             // 
             // lblCodigoFabricante
             // 
@@ -323,7 +330,7 @@
             // 
             // cbStatus
             // 
-            this.cbStatus.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.cbStatus.BackColor = System.Drawing.Color.Silver;
             this.cbStatus.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbStatus.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cbStatus.FormattingEnabled = true;
@@ -333,41 +340,43 @@
             this.cbStatus.Location = new System.Drawing.Point(169, 66);
             this.cbStatus.Name = "cbStatus";
             this.cbStatus.Size = new System.Drawing.Size(105, 30);
-            this.cbStatus.TabIndex = 27;
+            this.cbStatus.TabIndex = 30;
             // 
             // txtPrecoDeCompra
             // 
-            this.txtPrecoDeCompra.BackColor = System.Drawing.Color.Gainsboro;
+            this.txtPrecoDeCompra.BackColor = System.Drawing.Color.Silver;
             this.txtPrecoDeCompra.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtPrecoDeCompra.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtPrecoDeCompra.Location = new System.Drawing.Point(57, 409);
             this.txtPrecoDeCompra.Name = "txtPrecoDeCompra";
             this.txtPrecoDeCompra.Size = new System.Drawing.Size(126, 24);
-            this.txtPrecoDeCompra.TabIndex = 31;
+            this.txtPrecoDeCompra.TabIndex = 8;
             this.txtPrecoDeCompra.TextChanged += new System.EventHandler(this.txtPrecoDeCompra_TextChanged);
             this.txtPrecoDeCompra.Leave += new System.EventHandler(this.txtPrecoDeCompra_Leave);
             // 
             // txtPrecoDeVenda
             // 
-            this.txtPrecoDeVenda.BackColor = System.Drawing.Color.Gainsboro;
+            this.txtPrecoDeVenda.BackColor = System.Drawing.Color.Silver;
             this.txtPrecoDeVenda.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtPrecoDeVenda.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtPrecoDeVenda.Location = new System.Drawing.Point(382, 408);
             this.txtPrecoDeVenda.Name = "txtPrecoDeVenda";
             this.txtPrecoDeVenda.Size = new System.Drawing.Size(127, 24);
-            this.txtPrecoDeVenda.TabIndex = 32;
+            this.txtPrecoDeVenda.TabIndex = 10;
+            this.txtPrecoDeVenda.TextChanged += new System.EventHandler(this.txtPrecoDeVenda_TextChanged);
             this.txtPrecoDeVenda.Leave += new System.EventHandler(this.txtPrecoDeVenda_Leave);
             // 
             // txtPorcentagemDeLucro
             // 
-            this.txtPorcentagemDeLucro.BackColor = System.Drawing.Color.Gainsboro;
+            this.txtPorcentagemDeLucro.BackColor = System.Drawing.Color.Silver;
             this.txtPorcentagemDeLucro.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtPorcentagemDeLucro.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtPorcentagemDeLucro.Location = new System.Drawing.Point(182, 472);
             this.txtPorcentagemDeLucro.MaxLength = 5;
             this.txtPorcentagemDeLucro.Name = "txtPorcentagemDeLucro";
             this.txtPorcentagemDeLucro.Size = new System.Drawing.Size(46, 24);
-            this.txtPorcentagemDeLucro.TabIndex = 33;
+            this.txtPorcentagemDeLucro.TabIndex = 9;
+            this.txtPorcentagemDeLucro.TextChanged += new System.EventHandler(this.txtPorcentagemDeLucro_TextChanged);
             this.txtPorcentagemDeLucro.Leave += new System.EventHandler(this.txtPorcentagemDeLucro_Leave);
             // 
             // lblSimboloPorcentagemLucro
@@ -393,29 +402,6 @@
             this.panel1.Size = new System.Drawing.Size(592, 40);
             this.panel1.TabIndex = 38;
             // 
-            // btnEditarSalvar
-            // 
-            this.btnEditarSalvar.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnEditarSalvar.InitialImage = null;
-            this.btnEditarSalvar.Location = new System.Drawing.Point(506, 4);
-            this.btnEditarSalvar.Name = "btnEditarSalvar";
-            this.btnEditarSalvar.Size = new System.Drawing.Size(32, 30);
-            this.btnEditarSalvar.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.btnEditarSalvar.TabIndex = 36;
-            this.btnEditarSalvar.TabStop = false;
-            this.btnEditarSalvar.Click += new System.EventHandler(this.btnEditarSalvar_Click_1);
-            // 
-            // btnCancelarExcluir
-            // 
-            this.btnCancelarExcluir.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnCancelarExcluir.Location = new System.Drawing.Point(548, 6);
-            this.btnCancelarExcluir.Name = "btnCancelarExcluir";
-            this.btnCancelarExcluir.Size = new System.Drawing.Size(33, 26);
-            this.btnCancelarExcluir.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.btnCancelarExcluir.TabIndex = 37;
-            this.btnCancelarExcluir.TabStop = false;
-            this.btnCancelarExcluir.Click += new System.EventHandler(this.btnCancelarExcluir_Click_1);
-            // 
             // txtLineCodigo
             // 
             this.txtLineCodigo.AutoSize = true;
@@ -434,13 +420,13 @@
             this.lblVigencia.ForeColor = System.Drawing.Color.SteelBlue;
             this.lblVigencia.Location = new System.Drawing.Point(388, 44);
             this.lblVigencia.Name = "lblVigencia";
-            this.lblVigencia.Size = new System.Drawing.Size(98, 22);
+            this.lblVigencia.Size = new System.Drawing.Size(93, 22);
             this.lblVigencia.TabIndex = 28;
-            this.lblVigencia.Text = "Vigência:";
+            this.lblVigencia.Text = "Vigência";
             // 
             // cbVigencia
             // 
-            this.cbVigencia.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.cbVigencia.BackColor = System.Drawing.Color.Silver;
             this.cbVigencia.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbVigencia.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cbVigencia.FormattingEnabled = true;
@@ -613,6 +599,29 @@
             this.txtLineObservacoes.Size = new System.Drawing.Size(514, 44);
             this.txtLineObservacoes.TabIndex = 55;
             this.txtLineObservacoes.Text = "__________________________";
+            // 
+            // btnEditarSalvar
+            // 
+            this.btnEditarSalvar.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnEditarSalvar.InitialImage = null;
+            this.btnEditarSalvar.Location = new System.Drawing.Point(506, 4);
+            this.btnEditarSalvar.Name = "btnEditarSalvar";
+            this.btnEditarSalvar.Size = new System.Drawing.Size(32, 30);
+            this.btnEditarSalvar.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.btnEditarSalvar.TabIndex = 36;
+            this.btnEditarSalvar.TabStop = false;
+            this.btnEditarSalvar.Click += new System.EventHandler(this.btnEditarSalvar_Click_1);
+            // 
+            // btnCancelarExcluir
+            // 
+            this.btnCancelarExcluir.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnCancelarExcluir.Location = new System.Drawing.Point(548, 6);
+            this.btnCancelarExcluir.Name = "btnCancelarExcluir";
+            this.btnCancelarExcluir.Size = new System.Drawing.Size(33, 26);
+            this.btnCancelarExcluir.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.btnCancelarExcluir.TabIndex = 37;
+            this.btnCancelarExcluir.TabStop = false;
+            this.btnCancelarExcluir.Click += new System.EventHandler(this.btnCancelarExcluir_Click_1);
             // 
             // frmProduto
             // 

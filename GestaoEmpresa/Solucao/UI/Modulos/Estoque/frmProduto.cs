@@ -39,6 +39,8 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
             InicializeBotoes(EnumTipoDeForm.Cadastro);
             _tipoDoForm = EnumTipoDeForm.Cadastro;
+            cbStatus.Text = "Ativo";
+            txtCodigo.Text = "Novo";
             cbVigencia.Enabled = false;
             txtLineVigencia.Enabled = false;
         }
@@ -76,6 +78,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             }
 
             _precoDeCompra = decimal.Parse(txtPrecoDeCompra.Text.Replace(',', '.'));
+            txtPrecoDeCompra.Text = txtPrecoDeCompra.Text.Replace(',', '.');
         }
 
         private void txtPrecoDeVenda_Leave(object sender, EventArgs e)
@@ -86,9 +89,10 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                 return;
             }
 
-            _precoDeVenda = decimal.Parse(txtPrecoDeVenda.Text);
+            _precoDeVenda = decimal.Parse(txtPrecoDeVenda.Text.Replace(',', '.'));
+            txtPrecoDeVenda.Text = txtPrecoDeVenda.Text.Replace(',', '.');
 
-            if (decimal.Parse(txtPrecoDeVenda.Text.Trim()) > 0)
+            if (decimal.Parse(txtPrecoDeVenda.Text.Trim().Replace(',', '.')) > 0)
                 AjustePrecosNaTela(sender as Control);
         }
 
@@ -100,16 +104,20 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                 return;
             }
 
-            if (decimal.Parse(txtPorcentagemDeLucro.Text.Trim()) > 0)
+            if (decimal.Parse(txtPorcentagemDeLucro.Text.Trim().Replace(',', '.')) > 0)
                 AjustePrecosNaTela(sender as Control);
+
+            txtPorcentagemDeLucro.Text = txtPorcentagemDeLucro.Text.Trim().Replace(',', '.');
         }
 
         private void AjustePrecosNaTela(Control controleGatilho)
         {
+            return;
+
             if (controleGatilho == txtPrecoDeVenda)
             {
-                var precoDeCompra = decimal.Parse(txtPrecoDeCompra.Text.Trim());
-                var precoDeVenda = decimal.Parse(txtPrecoDeVenda.Text.Trim());
+                var precoDeCompra = decimal.Parse(txtPrecoDeCompra.Text.Trim().Replace(',', '.'));
+                var precoDeVenda = decimal.Parse(txtPrecoDeVenda.Text.Trim().Replace(',', '.'));
 
                 var porcentagemDeLucro = (precoDeVenda / precoDeCompra) - 1;
 
@@ -124,8 +132,8 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
             if (controleGatilho == txtPorcentagemDeLucro)
             {
-                var precoDeCompra = decimal.Parse(txtPrecoDeCompra.Text.Trim());
-                var porcentagemDeLucro = decimal.Parse(txtPorcentagemDeLucro.Text.Trim()) / 100;
+                var precoDeCompra = decimal.Parse(txtPrecoDeCompra.Text.Trim().Replace(',', '.'));
+                var porcentagemDeLucro = decimal.Parse(txtPorcentagemDeLucro.Text.Trim().Replace(',', '.')) / 100;
 
                 var precoDeVenda = precoDeCompra * (1 + porcentagemDeLucro);
 
@@ -135,7 +143,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                     return;
                 }
 
-                txtPrecoDeVenda.Text = GSUtilitarios.FormateDecimalParaMoeda(precoDeVenda);
+                txtPrecoDeVenda.Text = precoDeVenda.ToString();
             }
         }
 
@@ -206,6 +214,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             txtPrecoDeCompra.Text = objeto.PrecoDeCompra.ToString();
             txtPrecoDeVenda.Text = objeto.PrecoDeVenda.ToString();
             cbStatus.SelectedItem = objeto.Status.ToString();
+            chkAvisar.Checked = objeto.AvisarQuantidade;
         }
 
         protected Produto CarregueObjetoComControles()
@@ -236,6 +245,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             produto.QuantidadeMinimaParaAviso = !string.IsNullOrEmpty(txtQuantidadeMinima.Text.Trim())
                                               ? int.Parse(txtQuantidadeMinima.Text.Trim())
                                               : 0;
+            produto.AvisarQuantidade = chkAvisar.Checked;
 
             return produto;
         }
@@ -389,7 +399,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                     break;
 
                 case EnumBotoesForm.Salvar:
-                    if (string.IsNullOrEmpty(txtCodigo.Text))
+                    if (string.IsNullOrEmpty(txtCodigo.Text) || txtCodigo.Text == "Novo")
                     {
                         PreenchaCodigoComProximoDisponivel();
                     }
@@ -460,7 +470,62 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         private void txtPrecoDeCompra_TextChanged(object sender, EventArgs e)
         {
+            if(txtPrecoDeCompra.Text.All(x => GSUtilitarios.EhDigitoOuPonto(x)))
+            {
+                return;
+            }
+            else
+            {
+                txtPrecoDeCompra.Text = txtPrecoDeCompra.Text.Trim().Remove(txtPrecoDeCompra.Text.Length - 1);
+            }
+        }
 
+        private void txtPrecoDeVenda_TextChanged(object sender, EventArgs e)
+        {
+            if (txtPrecoDeVenda.Text.All(x => GSUtilitarios.EhDigitoOuPonto(x)))
+            {
+                return;
+            }
+            else
+            {
+                txtPrecoDeVenda.Text = txtPrecoDeVenda.Text.Trim().Remove(txtPrecoDeVenda.Text.Length - 1);
+            }
+        }
+
+        private void txtPorcentagemDeLucro_TextChanged(object sender, EventArgs e)
+        {
+            if (txtPorcentagemDeLucro.Text.All(x => GSUtilitarios.EhDigitoOuPonto(x)))
+            {
+                return;
+            }
+            else
+            {
+                txtPorcentagemDeLucro.Text = txtPorcentagemDeLucro.Text.Trim().Remove(txtPorcentagemDeLucro.Text.Length - 1);
+            }
+        }
+
+        private void txtQuantidadeMinima_TextChanged(object sender, EventArgs e)
+        {
+            if (txtQuantidadeMinima.Text.All(char.IsDigit))
+            {
+                return;
+            }
+            else
+            {
+                txtQuantidadeMinima.Text = txtQuantidadeMinima.Text.Trim().Remove(txtQuantidadeMinima.Text.Length - 1);
+            }
+        }
+
+        private void txtQuantidadeEmEstoque_TextChanged(object sender, EventArgs e)
+        {
+            if (txtQuantidadeEmEstoque.Text.All(char.IsDigit))
+            {
+                return;
+            }
+            else
+            {
+                txtQuantidadeEmEstoque.Text = txtQuantidadeEmEstoque.Text.Trim().Remove(txtQuantidadeEmEstoque.Text.Length - 1);
+            }
         }
     }
 }

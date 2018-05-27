@@ -22,12 +22,14 @@ namespace GS.GestaoEmpresa.Solucao.Mapeador.BancoDeDados
 
 		public GSBancoDeDados()
 		{
-			_informacoesConexao = BusqueConfiguracoesConexaoDoArquivo(@".\", "ConexaoBanco.txt");
-            //DefinaStringDeConexao(_informacoesConexao.Servidor, _informacoesConexao.NomeBanco, _informacoesConexao.Usuario, _informacoesConexao.Senha);
-            DefinaStringDeConexao();
+            _informacoesConexao = SessaoSistema.InformacoesConexao;
 
-            _conexao = new SqlConnection(_stringDeConexao);
-			_conexao.Open();
+            if (_informacoesConexao != null)
+            {
+                DefinaStringDeConexao(_informacoesConexao.Servidor, _informacoesConexao.NomeBanco, _informacoesConexao.Usuario, _informacoesConexao.Senha);
+                _conexao = new SqlConnection(_stringDeConexao);
+                _conexao.Open();
+            }
 		} 
 
 		#endregion
@@ -38,7 +40,7 @@ namespace GS.GestaoEmpresa.Solucao.Mapeador.BancoDeDados
 		/// Busca as informações de conexão com o banco de dados do arquivo no diretório especificado.
 		/// </summary>
 		/// <returns>As informações de conexão com o banco</returns>
-		public InformacoesConexaoBanco BusqueConfiguracoesConexaoDoArquivo(string diretorio, string nomeArquivo)
+		public static InformacoesConexaoBanco BusqueConfiguracoesConexaoDoArquivo(string diretorio, string nomeArquivo)
 		{
 			if (File.Exists(diretorio + nomeArquivo))
 			{
@@ -66,7 +68,7 @@ namespace GS.GestaoEmpresa.Solucao.Mapeador.BancoDeDados
 		/// </summary>
 		public void SalveConfiguracoesConexaoNoArquivo(InformacoesConexaoBanco informacoesConexaoBanco, string diretorio, string nomeArquivo)
 		{
-			diretorio = diretorio.Remove(diretorio.Length - 1);
+			//diretorio = diretorio.Remove(diretorio.Length - 1);
 
 			if (File.Exists(diretorio + nomeArquivo))
 				File.Delete(diretorio + nomeArquivo);
@@ -95,7 +97,7 @@ namespace GS.GestaoEmpresa.Solucao.Mapeador.BancoDeDados
 		private void DefinaStringDeConexao(string urlDoServidor, string nomeDoBanco, string login, string senha)
 		{
 			_stringDeConexao = String.Format("Server = {0}; Database = {1}; Uid = {2}; Pwd = {3};",
-											urlDoServidor, nomeDoBanco, login, senha);
+											 urlDoServidor, nomeDoBanco, login, senha);
 		}
 
 		/// <summary>

@@ -27,7 +27,7 @@ namespace GS.GestaoEmpresa.Solucao.Utilitarios
             {
                 {typeof(string), "NVARCHAR"},
                 {typeof(int), "INT"},
-                {typeof(DateTime), "DATETIME"},
+                {typeof(DateTime), "DATETIME2"},
                 {typeof(decimal), "DECIMAL"},
                 {typeof(Guid), "NVARCHAR" }
             };
@@ -64,6 +64,11 @@ namespace GS.GestaoEmpresa.Solucao.Utilitarios
         public static bool ConvertaValorBooleano(string valorNoBanco)
         {
             return valorNoBanco == "S" ? true : false;
+        }
+
+        public static string ConvertaValorBooleano(bool booleano)
+        {
+            return booleano ? "S" : "N";
         }
 
         #endregion
@@ -370,6 +375,18 @@ namespace GS.GestaoEmpresa.Solucao.Utilitarios
 
 			return listaMultivalor;
 		}
+
+        public static bool EhDigitoOuPonto(char caracter)
+        {
+            if (char.IsDigit(caracter) || char.IsPunctuation(caracter))
+            {
+                return true;
+            }    
+            else
+            {
+                return false;
+            }    
+        }
 
         //public static string ConvertaDadoMultivalorLista(string dado, bool semLista)
         //{
