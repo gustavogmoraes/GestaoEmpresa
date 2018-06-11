@@ -1,9 +1,11 @@
 ﻿using GS.GestaoEmpresa.Solucao.Negocio.Catalogos;
 using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores;
+using GS.GestaoEmpresa.Solucao.Negocio.Interfaces;
 using GS.GestaoEmpresa.Solucao.Negocio.Objetos.ObjetosConcretos;
 using GS.GestaoEmpresa.Solucao.Negocio.Servicos;
 using GS.GestaoEmpresa.Solucao.Utilitarios;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -16,27 +18,31 @@ using System.Windows.Forms;
 
 namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 {
-    public partial class frmInteracao : Form
+    public partial class frmInteracao : FormPadrao, IFormPadrao<Interacao>
     {
         private int _codigoInteracao { get; set; }
 
         private decimal _valor { get; set; }
 
-        private EnumBotoesForm _switchBotaoEditarSalvar;
-
-        private EnumBotoesForm _switchBotaoCancelarExcluir;
-
-        private EnumTipoDeForm _tipoDoForm;
-
-        public List<Control> ListaDeControles { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-
-        public CultureInfo Cultura = new CultureInfo("pt-BR");
+        public List<CampoDeTela> ListaDeCampos
+        {
+            get
+            {
+                return new List<CampoDeTela>()
+                {
+                    new CampoDeTela("QuantidadeInterada", txtQuantidade, txtLineQuantidadeEstoque),
+                    new CampoDeTela("Origem", txtOrigem, txtLineOrigem),
+                    new CampoDeTela("Destino", txtDestino, txtLineDestino)
+                };
+                
+            }
+        }
 
         public frmInteracao()
         {
             InitializeComponent();
 
-            InicializeBotoes(EnumTipoDeForm.Cadastro);
+            InicializeBotoes(EnumTipoDeForm.Cadastro, ref btnEditarSalvar, ref btnCancelarExcluir, ref _switchBotaoEditarSalvar, ref _switchBotaoCancelarExcluir);
             _tipoDoForm = EnumTipoDeForm.Cadastro;
             cbTipo.Text = "Ativo";
             txtHorario.Enabled = false;
@@ -47,7 +53,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         {
             InitializeComponent();
 
-            InicializeBotoes(EnumTipoDeForm.Detalhamento);
+            InicializeBotoes(EnumTipoDeForm.Detalhamento, ref btnEditarSalvar, ref btnCancelarExcluir, ref _switchBotaoEditarSalvar, ref _switchBotaoCancelarExcluir);
             _tipoDoForm = EnumTipoDeForm.Detalhamento;
 
             CarregueControlesComObjeto(interacao);
@@ -57,42 +63,49 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         private void frmInteracao_Load(object sender, EventArgs e)
         {
-
+            InicializeInconsistencias();
         }
 
-        #region Métodos Específicos
+        public void RealizeValidacoesDeTela()
+        {
+            if (cbTipo.SelectedIndex == -1)
+            {
+                MessageBox.Show("Um tipo deve ser selecionado");
+                return;
+            }
 
-        #endregion
+            if (cbProduto.SelectedIndex == -1)
+            {
+                MessageBox.Show("Um produto deve ser selecionado");
+                return;
+            }
+        }
 
-        #region Métodos de Formulário
-
-        protected void CarregueControlesComObjeto(Interacao objeto)
+        public void CarregueControlesComObjeto(Interacao objeto)
         {
             txtDescricao.Text = objeto.Descricao ?? string.Empty;
             txtObservacoes.Text = objeto.Observacao ?? string.Empty;
             txtQuantidade.Text = objeto.QuantidadeInterada.ToString();
-            txtValor.Text = objeto.ValorInteracao.ToString();
+            GStxtValor.Valor = objeto.ValorInteracao;
             cbTipo.SelectedItem = objeto.TipoInteracao.ToString();
             txtOrigem.Text = objeto.Origem ?? string.Empty;
             txtDestino.Text = objeto.Destino ?? string.Empty;
             cbProduto.Text = objeto.Produto.Nome.Trim();
         }
 
-        protected Interacao CarregueObjetoComControles()
+        public Interacao CarregueObjetoComControles()
         {
             var interacao = new Interacao();
 
             interacao.Descricao = txtDescricao.Text.Trim();
             interacao.Observacao = txtObservacoes.Text.Trim();
-            interacao.ValorInteracao = !string.IsNullOrEmpty(txtValor.Text.Trim())
-                                     ? decimal.Parse(txtValor.Text.Trim())
-                                     : 0;
+            interacao.ValorInteracao = GStxtValor.Valor;
             interacao.TipoInteracao = (EnumTipoInteracao)cbTipo.SelectedIndex + 1;
             interacao.QuantidadeInterada = !string.IsNullOrEmpty(txtQuantidade.Text.Trim())
-                                          ? int.Parse(txtQuantidade.Text.Trim())
-                                          : 0;
-            interacao.Origem = txtDescricao.Text.Trim();
-            interacao.Destino = txtDescricao.Text.Trim();
+                                         ? int.Parse(txtQuantidade.Text.Trim())
+                                         : 0;
+            interacao.Origem = txtOrigem.Text.Trim();
+            interacao.Destino = txtDestino.Text.Trim();
 
             var listaDeProdutos = new List<Produto>();
             using (var servicoDeProduto = new ServicoDeProduto())
@@ -105,132 +118,43 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             return interacao;
         }
 
-        protected void HabiliteControles()
+        protected void InicializeInconsistencias()
         {
-            txtDescricao.Enabled = true;
-            txtLineDescricao.Enabled = true;
+            //Despintar os controles
+            //foreach (Control controle in (this as Form).Controls)
+            //{
+            //    controle.ForeColor = Color.Silver;
+            //}
 
-            txtObservacoes.Enabled = true;
-            txtLineObservacoes.Enabled = true;
-
-            txtQuantidade.Enabled = true;
-            txtLineQuantidadeEstoque.Enabled = true;
-
-            cbTipo.Enabled = true;
-            txtLineTipo.Enabled = true;
-
-            txtValor.Enabled = true;
-            txtLinePrecoCompra.Enabled = true;
-            lblCifraoPrecoCompra.Enabled = true;
-
-            txtOrigem.Enabled = true;
-            txtDestino.Enabled = true;
-
-            txtDestino.Enabled = true;
-            txtLineDestino.Enabled = true;
-
-            txtHorario.Enabled = true;
-            txtLineHorario.Enabled = true;
-        }
-
-        protected void DesabiliteControles()
-        {
-            txtDescricao.Enabled = false;
-            txtLineDescricao.Enabled = false;
-
-            txtObservacoes.Enabled = false;
-            txtLineObservacoes.Enabled = false;
-
-            txtQuantidade.Enabled = false;
-            txtLineQuantidadeEstoque.Enabled = false;
-
-            cbTipo.Enabled = false;
-            txtLineTipo.Enabled = false;
-
-            txtValor.Enabled = false;
-            txtLinePrecoCompra.Enabled = false;
-            lblCifraoPrecoCompra.Enabled = false;
-
-            txtOrigem.Enabled = false;
-            txtDestino.Enabled = false;
-
-            txtDestino.Enabled = false;
-            txtLineDestino.Enabled = false;
-
-            txtHorario.Enabled = false;
-            txtLineHorario.Enabled = false;
-        }
-
-        private void InicializeBotoes(EnumTipoDeForm tipoDeForm)
-        {
-            switch (tipoDeForm)
+            if (_listaDeInconsistencias == null)
             {
-                case EnumTipoDeForm.Cadastro:
-                    btnCancelarExcluir.Enabled = false;
-                    btnCancelarExcluir.Visible = false;
-
-                    btnEditarSalvar.Image = Properties.Resources.floppy_icon;
-                    _switchBotaoEditarSalvar = EnumBotoesForm.Salvar;
-                    break;
-
-                case EnumTipoDeForm.Edicao:
-                    btnCancelarExcluir.Enabled = true;
-                    btnCancelarExcluir.Visible = true;
-                    btnCancelarExcluir.Image = Properties.Resources.cancel_icon;
-                    _switchBotaoCancelarExcluir = EnumBotoesForm.Cancelar;
-
-                    btnEditarSalvar.Image = Properties.Resources.floppy_icon;
-                    _switchBotaoEditarSalvar = EnumBotoesForm.Salvar;
-                    break;
-
-                case EnumTipoDeForm.Detalhamento:
-                    btnCancelarExcluir.Enabled = true;
-                    btnCancelarExcluir.Visible = true;
-                    btnCancelarExcluir.Image = Properties.Resources.delete;
-                    _switchBotaoCancelarExcluir = EnumBotoesForm.Excluir;
-
-                    btnEditarSalvar.Image = Properties.Resources.edit_512;
-                    _switchBotaoEditarSalvar = EnumBotoesForm.Editar;
-                    break;
+                _listaDeInconsistencias = new List<Inconsistencia>();
             }
 
-            btnEditarSalvar.Refresh();
-            btnCancelarExcluir.Refresh();
-        }
-
-        #endregion
-
-        private enum EnumBotoesForm
-        {
-            Editar,
-            Salvar,
-
-            Cancelar,
-            Excluir
-        }
-
-        private void txtValor_Leave(object sender, EventArgs e)
-        {
-            if (string.IsNullOrEmpty(txtValor.Text))
-            {
-                txtValor.Text = 0.ToString();
-            }
-
-            _valor = decimal.Parse(txtValor.Text.Replace(',', '.'));
-            txtValor.Text = txtValor.Text.Replace(',', '.');
-        }
-
-        private void txtValor_TextChanged(object sender, EventArgs e)
-        {
-            if (txtValor.Text.All(x => GSUtilitarios.EhDigitoOuPonto(x)))
+            if (_listaDeInconsistencias.Count == 0)
             {
                 return;
             }
-            else
+
+            if (_listaDeInconsistencias.Count > 0)
             {
-                txtValor.Text = txtValor.Text.Trim().Remove(txtValor.Text.Length - 1);
-            }
+                foreach (var inconsistencia in _listaDeInconsistencias)
+                {
+                    //FlowLayoutPanel.Add(
+                    //    new Label()
+                    //    {
+                    //        Text = string.Format("{0}, ", inconsistencia.Mensagem)
+                    //    });
+
+                    if (inconsistencia.NomeDaPropriedadeValidada == "ValorInteracao")
+                    {
+                        GStxtValor.ListaDeInconsistencias = new List<Inconsistencia> { inconsistencia };
+                    }
+                }
+}
         }
+
+        // --------------------------------------------------------------------------------------------------------------------------------
 
         private void txtQuantidade_TextChanged(object sender, EventArgs e)
         {
@@ -285,41 +209,33 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             {
                 case EnumBotoesForm.Editar:
                     HabiliteControles();
-                    InicializeBotoes(EnumTipoDeForm.Edicao);
+                    InicializeBotoes(EnumTipoDeForm.Edicao, ref btnEditarSalvar, ref btnCancelarExcluir, ref _switchBotaoEditarSalvar, ref _switchBotaoCancelarExcluir);
                     _tipoDoForm = EnumTipoDeForm.Edicao;
                     break;
 
                 case EnumBotoesForm.Salvar:
                     var interacao = CarregueObjetoComControles();
 
-                    if (cbTipo.SelectedIndex == -1)
-                    {
-                        MessageBox.Show("Um tipo deve ser selecionado");
-                        return;
-                    }
+                    RealizeValidacoesDeTela();
 
                     var horario = DateTime.Now;
                     txtHorario.Text = horario.ToString(Cultura);
 
-                    var listaDeInconsistencias = new List<Inconsistencia>();
-
                     using (var servicoDeInteracao = new ServicoDeInteracao())
-                        listaDeInconsistencias = servicoDeInteracao.Salve(interacao, _tipoDoForm, horario);
-
-                    if (listaDeInconsistencias.Count == 0)
                     {
-                        MessageBox.Show(Mensagens.INTERACAO_CADASTRADA_COM_SUCESSO);
-                        InicializeBotoes(EnumTipoDeForm.Detalhamento);
+                        _listaDeInconsistencias = servicoDeInteracao.Salve(interacao, _tipoDoForm, horario);
+                    }
+
+                    if (_listaDeInconsistencias.Count == 0)
+                    {
+                        MessageBox.Show(Mensagens.X_FOI_CADASTRADO_COM_SUCESSO("Entrada/Saída"));
+                        InicializeBotoes(EnumTipoDeForm.Detalhamento, ref btnEditarSalvar, ref btnCancelarExcluir, ref _switchBotaoEditarSalvar, ref _switchBotaoCancelarExcluir);
                         _tipoDoForm = EnumTipoDeForm.Edicao;
                         DesabiliteControles();
                         return;
                     }
 
-                    foreach (var inconsistencia in listaDeInconsistencias)
-                    {
-                        MessageBox.Show(inconsistencia.Mensagem);
-                        //Invoke metodo para destacar o form, ou então fazer um destaque automático
-                    }
+                    InicializeInconsistencias();
                     break;
             }
         }
@@ -329,7 +245,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             switch (_switchBotaoCancelarExcluir)
             {
                 case EnumBotoesForm.Cancelar:
-                    InicializeBotoes(EnumTipoDeForm.Detalhamento);
+                    InicializeBotoes(EnumTipoDeForm.Detalhamento, ref btnEditarSalvar, ref btnCancelarExcluir, ref _switchBotaoEditarSalvar, ref _switchBotaoCancelarExcluir);
                     _tipoDoForm = EnumTipoDeForm.Detalhamento;
 
                     Interacao interacao;

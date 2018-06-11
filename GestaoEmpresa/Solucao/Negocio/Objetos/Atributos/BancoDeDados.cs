@@ -1,13 +1,7 @@
-﻿using System;
+﻿using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores;
+using System;
 namespace GS.GestaoEmpresa.Solucao.Negocio.Objetos.Atributos
 {
-    public enum TipoDeEntidadeRelacional
-    {
-        UmParaUm,
-
-        UmParaMuitos
-    }
-
     public class BancoDeDados : Attribute
     {
         public string Coluna { get; set; }
@@ -18,12 +12,6 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Objetos.Atributos
 
         public int QuantidadeCaracteres { get; set; }
 
-        public TipoDeEntidadeRelacional TipoDeRelacionamento { get; set; }
-
-        public BancoDeDados()
-        {
-            
-        }
-
+        public EnumTipoDeEntidadeRelacional TipoDeRelacionamento { get; set; }
     }
 }

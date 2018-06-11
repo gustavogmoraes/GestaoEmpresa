@@ -1,4 +1,9 @@
-﻿namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
+﻿using System;
+using System.Collections.Generic;
+using System.Windows.Forms;
+using GS.GestaoEmpresa.Solucao.Negocio.Objetos.ObjetosConcretos;
+
+namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 {
     partial class frmInteracao
     {
@@ -28,13 +33,11 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.lblCifraoPrecoCompra = new System.Windows.Forms.Label();
             this.lblVigencia = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.btnEditarSalvar = new System.Windows.Forms.PictureBox();
             this.btnCancelarExcluir = new System.Windows.Forms.PictureBox();
             this.lblInteracoes = new System.Windows.Forms.Label();
-            this.txtValor = new System.Windows.Forms.TextBox();
             this.cbTipo = new System.Windows.Forms.ComboBox();
             this.lblStatus = new System.Windows.Forms.Label();
             this.txtObservacoes = new System.Windows.Forms.TextBox();
@@ -47,7 +50,6 @@
             this.txtLineHorario = new System.Windows.Forms.Label();
             this.txtLineTipo = new System.Windows.Forms.Label();
             this.txtLineDescricao = new System.Windows.Forms.Label();
-            this.txtLinePrecoCompra = new System.Windows.Forms.Label();
             this.txtLineQuantidadeEstoque = new System.Windows.Forms.Label();
             this.txtLineObservacoes = new System.Windows.Forms.Label();
             this.txtHorario = new System.Windows.Forms.TextBox();
@@ -60,21 +62,11 @@
             this.lblProduto = new System.Windows.Forms.Label();
             this.txtLineProduto = new System.Windows.Forms.Label();
             this.cbProduto = new System.Windows.Forms.ComboBox();
+            this.GStxtValor = new GS.GestaoEmpresa.Solucao.UI.GSTextBoxMonetaria();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.btnEditarSalvar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnCancelarExcluir)).BeginInit();
             this.SuspendLayout();
-            // 
-            // lblCifraoPrecoCompra
-            // 
-            this.lblCifraoPrecoCompra.AutoSize = true;
-            this.lblCifraoPrecoCompra.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCifraoPrecoCompra.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.lblCifraoPrecoCompra.Location = new System.Drawing.Point(248, 370);
-            this.lblCifraoPrecoCompra.Name = "lblCifraoPrecoCompra";
-            this.lblCifraoPrecoCompra.Size = new System.Drawing.Size(33, 22);
-            this.lblCifraoPrecoCompra.TabIndex = 94;
-            this.lblCifraoPrecoCompra.Text = "R$";
             // 
             // lblVigencia
             // 
@@ -134,18 +126,6 @@
             this.lblInteracoes.Size = new System.Drawing.Size(511, 30);
             this.lblInteracoes.TabIndex = 0;
             this.lblInteracoes.Text = "Consulta e Cadastro de Entradas e Saídas";
-            // 
-            // txtValor
-            // 
-            this.txtValor.BackColor = System.Drawing.Color.Silver;
-            this.txtValor.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtValor.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtValor.Location = new System.Drawing.Point(282, 370);
-            this.txtValor.Name = "txtValor";
-            this.txtValor.Size = new System.Drawing.Size(126, 24);
-            this.txtValor.TabIndex = 64;
-            this.txtValor.TextChanged += new System.EventHandler(this.txtValor_TextChanged);
-            this.txtValor.Leave += new System.EventHandler(this.txtValor_Leave);
             // 
             // cbTipo
             // 
@@ -284,17 +264,6 @@
             this.txtLineDescricao.Size = new System.Drawing.Size(514, 44);
             this.txtLineDescricao.TabIndex = 92;
             this.txtLineDescricao.Text = "__________________________";
-            // 
-            // txtLinePrecoCompra
-            // 
-            this.txtLinePrecoCompra.AutoSize = true;
-            this.txtLinePrecoCompra.Font = new System.Drawing.Font("Century Gothic", 27.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtLinePrecoCompra.ForeColor = System.Drawing.Color.SteelBlue;
-            this.txtLinePrecoCompra.Location = new System.Drawing.Point(234, 356);
-            this.txtLinePrecoCompra.Name = "txtLinePrecoCompra";
-            this.txtLinePrecoCompra.Size = new System.Drawing.Size(191, 44);
-            this.txtLinePrecoCompra.TabIndex = 93;
-            this.txtLinePrecoCompra.Text = "_________";
             // 
             // txtLineQuantidadeEstoque
             // 
@@ -435,12 +404,22 @@
             this.cbProduto.TabIndex = 111;
             this.cbProduto.DropDown += new System.EventHandler(this.cbProduto_DropDown);
             // 
+            // GStxtValor
+            // 
+            this.GStxtValor.BackColor = System.Drawing.Color.Silver;
+            this.GStxtValor.Location = new System.Drawing.Point(241, 362);
+            this.GStxtValor.Name = "GStxtValor";
+            this.GStxtValor.Size = new System.Drawing.Size(220, 36);
+            this.GStxtValor.TabIndex = 112;
+            // 
             // frmInteracao
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Silver;
             this.ClientSize = new System.Drawing.Size(593, 735);
+            this.Controls.Add(this.lblPrecoCompra);
+            this.Controls.Add(this.GStxtValor);
             this.Controls.Add(this.cbProduto);
             this.Controls.Add(this.lblProduto);
             this.Controls.Add(this.txtLineProduto);
@@ -451,23 +430,19 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.txtLineOrigem);
             this.Controls.Add(this.txtHorario);
-            this.Controls.Add(this.lblCifraoPrecoCompra);
             this.Controls.Add(this.lblVigencia);
             this.Controls.Add(this.panel1);
-            this.Controls.Add(this.txtValor);
             this.Controls.Add(this.cbTipo);
             this.Controls.Add(this.lblStatus);
             this.Controls.Add(this.txtObservacoes);
             this.Controls.Add(this.lblObservacoes);
             this.Controls.Add(this.txtQuantidade);
             this.Controls.Add(this.lblQuantidadeEstoque);
-            this.Controls.Add(this.lblPrecoCompra);
             this.Controls.Add(this.txtDescricao);
             this.Controls.Add(this.lblDescricao);
             this.Controls.Add(this.txtLineHorario);
             this.Controls.Add(this.txtLineTipo);
             this.Controls.Add(this.txtLineDescricao);
-            this.Controls.Add(this.txtLinePrecoCompra);
             this.Controls.Add(this.txtLineQuantidadeEstoque);
             this.Controls.Add(this.txtLineObservacoes);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -486,13 +461,11 @@
         }
 
         #endregion
-        private System.Windows.Forms.Label lblCifraoPrecoCompra;
         private System.Windows.Forms.Label lblVigencia;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.PictureBox btnEditarSalvar;
         private System.Windows.Forms.PictureBox btnCancelarExcluir;
         private System.Windows.Forms.Label lblInteracoes;
-        private System.Windows.Forms.TextBox txtValor;
         private System.Windows.Forms.ComboBox cbTipo;
         private System.Windows.Forms.Label lblStatus;
         private System.Windows.Forms.TextBox txtObservacoes;
@@ -505,7 +478,6 @@
         private System.Windows.Forms.Label txtLineHorario;
         private System.Windows.Forms.Label txtLineTipo;
         private System.Windows.Forms.Label txtLineDescricao;
-        private System.Windows.Forms.Label txtLinePrecoCompra;
         private System.Windows.Forms.Label txtLineQuantidadeEstoque;
         private System.Windows.Forms.Label txtLineObservacoes;
         private System.Windows.Forms.TextBox txtHorario;
@@ -518,5 +490,6 @@
         private System.Windows.Forms.Label lblProduto;
         private System.Windows.Forms.Label txtLineProduto;
         private System.Windows.Forms.ComboBox cbProduto;
+        private GSTextBoxMonetaria GStxtValor;
     }
 }

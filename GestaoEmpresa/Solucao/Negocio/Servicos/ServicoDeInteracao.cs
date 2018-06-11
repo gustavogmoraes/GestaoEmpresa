@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using GS.GestaoEmpresa.Solucao.Negocio.Objetos.ObjetosConcretos;
 using GS.GestaoEmpresa.Solucao.Mapeador.Mapeadores.MapeadoresConcretos;
 using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores;
+using GS.GestaoEmpresa.Solucao.Negocio.Validador;
 
 namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
 {
@@ -47,23 +48,32 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
         public List<Inconsistencia> Salve(Interacao interacao, EnumTipoDeForm tipoDoForm, DateTime horario)
         {
             var listaDeInconsistencias = new List<Inconsistencia>();
-            using (var mapeadorDeInteracao = new MapeadorDeInteracao())
+
+            using (var validadorDeInteracao = new ValidadorDeInteracao())
             {
-                interacao.Horario = horario;
-                interacao.Codigo = mapeadorDeInteracao.ObtenhaProximoCodigoDisponivel();
-                mapeadorDeInteracao.Insira(interacao);
+                listaDeInconsistencias = validadorDeInteracao.Valide(interacao);
             }
 
-            var quantidadeInterada = interacao.TipoInteracao == EnumTipoInteracao.Entrada
-                                   ? interacao.QuantidadeInterada
-                                   : interacao.QuantidadeInterada * (-1);
-
-            var produto = interacao.Produto;
-            produto.QuantidadeEmEstoque = produto.QuantidadeEmEstoque + quantidadeInterada;
-
-            using (var servicoDeProduto = new ServicoDeProduto())
+            if (listaDeInconsistencias.Count == 0)
             {
-                servicoDeProduto.Salve(produto, EnumTipoDeForm.Edicao);
+                using (var mapeadorDeInteracao = new MapeadorDeInteracao())
+                {
+                    interacao.Horario = horario;
+                    interacao.Codigo = mapeadorDeInteracao.ObtenhaProximoCodigoDisponivel();
+                    mapeadorDeInteracao.Insira(interacao);
+                }
+
+                var quantidadeInterada = interacao.TipoInteracao == EnumTipoInteracao.Entrada
+                                       ? interacao.QuantidadeInterada
+                                       : interacao.QuantidadeInterada * (-1);
+
+                var produto = interacao.Produto;
+                produto.QuantidadeEmEstoque = produto.QuantidadeEmEstoque + quantidadeInterada;
+
+                using (var servicoDeProduto = new ServicoDeProduto())
+                {
+                    servicoDeProduto.Salve(produto, EnumTipoDeForm.Edicao);
+                }
             }
 
             return listaDeInconsistencias;

@@ -1,11 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
+using System.Reflection;
 using GS.GestaoEmpresa.Solucao.Negocio.Catalogos;
 using GS.GestaoEmpresa.Solucao.Mapeador.BancoDeDados;
 using GS.GestaoEmpresa.Solucao.Utilitarios;
-using System.Data;
-using System.Reflection;
+using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores;
 
 namespace GS.GestaoEmpresa.Solucao.Mapeador.Mapeadores.MapeadoresAbstratos
 {
@@ -20,7 +21,8 @@ namespace GS.GestaoEmpresa.Solucao.Mapeador.Mapeadores.MapeadoresAbstratos
             {
                 Dictionary<string, PropertyInfo> campos = new Dictionary<string, PropertyInfo>();
 
-                foreach (var propriedade in typeof(TEntidade).GetProperties().Where(x => !GSUtilitarios.VerifiqueSePropriedadeEhEntidadeRelacionalUmParaMuitos(x)))
+                foreach (var propriedade in typeof(TEntidade).GetProperties()
+															 .Where(x => GSUtilitarios.ObtenhaTipoDeEntidadeRelacional(x) != EnumTipoDeEntidadeRelacional.UmParaMuitos ))
                 {
                     campos.Add(propriedade.Name.ToUpper(), propriedade);
                 }

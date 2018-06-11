@@ -7,6 +7,8 @@ using System.Text;
 using System.Reflection;
 using System.Collections;
 using GS.GestaoEmpresa.Solucao.Negocio.Objetos.Atributos;
+using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores;
+using System.Windows.Forms;
 
 namespace GS.GestaoEmpresa.Solucao.Utilitarios
 {
@@ -19,7 +21,7 @@ namespace GS.GestaoEmpresa.Solucao.Utilitarios
         #endregion
 
 
-        #region Construtor
+        #region BancoDeDados
 
         static GSUtilitarios()
         {
@@ -150,7 +152,6 @@ namespace GS.GestaoEmpresa.Solucao.Utilitarios
         {
             return string.Format(CultureInfo.GetCultureInfo("pt-BR"), "{0:C}", valor);
         }
-
         #endregion
 
 
@@ -274,6 +275,22 @@ namespace GS.GestaoEmpresa.Solucao.Utilitarios
         {
             return typeof(T);
         }
+		
+		/// <summary>
+        /// Verifica se o tipo de dado passado está marcado com o atributo "EntidadeComPortador".
+        /// </summary>
+        /// <returns>Retorna um booleano da validação feita.</returns>
+        public static EnumTipoDeEntidadeRelacional ObtenhaTipoDeEntidadeRelacional(PropertyInfo propriedade)
+        {
+            if(Attribute.IsDefined(propriedade, typeof(BancoDeDados)))
+            {
+                var atributo = (BancoDeDados)Attribute.GetCustomAttribute(propriedade, typeof(BancoDeDados));
+
+                return atributo.TipoDeRelacionamento;
+            }
+
+            return EnumTipoDeEntidadeRelacional.UmParaUm;
+        }
 
         #endregion
 
@@ -313,12 +330,67 @@ namespace GS.GestaoEmpresa.Solucao.Utilitarios
             {
                 var atributo = (BancoDeDados)Attribute.GetCustomAttribute(propriedade, typeof(BancoDeDados));
 
-                return (atributo.TipoDeRelacionamento == TipoDeEntidadeRelacional.UmParaMuitos);
+                return (atributo.TipoDeRelacionamento == EnumTipoDeEntidadeRelacional.UmParaMuitos);
             }
 
             return false;
         }
 
+        public static bool EhDigitoOuPonto(char caracter)
+        {
+            if (char.IsDigit(caracter) || char.IsPunctuation(caracter))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+
+        #endregion
+
+
+        #region TextBox Monetaria
+
+        public static void AjusteTextBoxMonetaria(ref TextBox textBox)
+        {
+            if (!textBox.Text.All(x => EhDigitoOuPonto(x)))
+            {
+                textBox.Text = string.Empty;
+                return;
+            }
+
+            string numero = string.Empty;
+            double valor = 0;
+
+            try
+            {
+                numero = textBox.Text.Replace(",", string.Empty)
+                                     .Replace(".", string.Empty);
+
+                if (numero == string.Empty)
+                {
+                    return;
+                }
+
+                numero.PadLeft(3, '0');
+
+                if (numero.Length > 3 && numero.Substring(0, 1) == "0")
+                {
+                    numero = numero.Substring(1, numero.Length - 1);
+                }
+
+                valor = Convert.ToDouble(numero) / 100;
+                textBox.Text = string.Format(CultureInfo.GetCultureInfo("pt-BR"), "{0:N}", valor);
+                textBox.SelectionStart = textBox.Text.Length;
+            }
+            catch (Exception)
+            {
+                throw new Exception("Ocorreu um erro na formatação monetária.");
+            }
+        }
 
         #endregion
 
@@ -332,60 +404,48 @@ namespace GS.GestaoEmpresa.Solucao.Utilitarios
         /// <param name="dado">Dado(em string) a ser avaliado.</param>
         /// <returns>Retorna um booleano validando a informação.</returns>
         public static bool VerifiqueSeDadoEhMultivalor(string dado)
-		{
-			if(dado.Trim().StartsWith("Multivalor("))
-				return true;
-			else
-				return false;
-		}
-		
-		/// <summary>
-		/// Verifica se a propriedade é Multivalor(marcada com o atributo [Multivalor]).
-		/// A nível de banco de dados, ser Multivalor significa que salva multiplos dados na mesma tupla num formato personalizado)
-		/// </summary>
-		/// <param name="propriedade">Propriedade a ser avaliada.</param>
-		/// <returns>Retorna um booleano validando a informação.</returns>
-		public static bool VerifiqueSePropriedadeEhMultivalor(PropertyInfo propriedade)
-		{
-			return Attribute.IsDefined(propriedade, typeof(Multivalor));
-		}
-		
-		/// <summary>
-		/// Converte dado (em string) Multivalor numa lista de dados específica para aquele valor.
-		/// </summary>
-		/// <param name="dado">Dado(em string) a ser convertido.</param>
-		/// <returns>Retorna uma lista dos dados da string Multivalor</returns>
-		public static List<dynamic> ConvertaDadoMultivalorLista(string dado)
-		{
-			const string NAMESPACE_OBJETOS_CONCRETOS = "GestaoEmpresa.GS.GestaoEmpresa.GS.GestaoEmpresa.Negocio.Objetos.ObjetosConcretos";
-
-			var nomeTipoMultivalor = ObtenhaValorEntreStrings(dado, "Multivalor(", ")");
-			Object tipoMultivalor = Activator.CreateInstance(null,
-															 NAMESPACE_OBJETOS_CONCRETOS + nomeTipoMultivalor).Unwrap();
-			var construtor = tipoMultivalor.GetType().GetConstructor(new Type[] { typeof(string) });
-
-			var listaMultivalor = new List<dynamic>();
-			var valores = ObtenhaValorEntreStrings(dado, "){", "}").Split('|');
-
-			foreach (var valor in valores)
-			{
-				var parametros = valor.Split('#');
-				listaMultivalor.Add(construtor.Invoke(tipoMultivalor, parametros));
-			}
-
-			return listaMultivalor;
-		}
-
-        public static bool EhDigitoOuPonto(char caracter)
         {
-            if (char.IsDigit(caracter) || char.IsPunctuation(caracter))
-            {
+            if (dado.Trim().StartsWith("Multivalor("))
                 return true;
-            }    
             else
-            {
                 return false;
-            }    
+        }
+
+        /// <summary>
+        /// Verifica se a propriedade é Multivalor(marcada com o atributo [Multivalor]).
+        /// A nível de banco de dados, ser Multivalor significa que salva multiplos dados na mesma tupla num formato personalizado)
+        /// </summary>
+        /// <param name="propriedade">Propriedade a ser avaliada.</param>
+        /// <returns>Retorna um booleano validando a informação.</returns>
+        public static bool VerifiqueSePropriedadeEhMultivalor(PropertyInfo propriedade)
+        {
+            return Attribute.IsDefined(propriedade, typeof(Multivalor));
+        }
+
+        /// <summary>
+        /// Converte dado (em string) Multivalor numa lista de dados específica para aquele valor.
+        /// </summary>
+        /// <param name="dado">Dado(em string) a ser convertido.</param>
+        /// <returns>Retorna uma lista dos dados da string Multivalor</returns>
+        public static List<dynamic> ConvertaDadoMultivalorLista(string dado)
+        {
+            const string NAMESPACE_OBJETOS_CONCRETOS = "GestaoEmpresa.GS.GestaoEmpresa.GS.GestaoEmpresa.Negocio.Objetos.ObjetosConcretos";
+
+            var nomeTipoMultivalor = ObtenhaValorEntreStrings(dado, "Multivalor(", ")");
+            Object tipoMultivalor = Activator.CreateInstance(null,
+                                                             NAMESPACE_OBJETOS_CONCRETOS + nomeTipoMultivalor).Unwrap();
+            var construtor = tipoMultivalor.GetType().GetConstructor(new Type[] { typeof(string) });
+
+            var listaMultivalor = new List<dynamic>();
+            var valores = ObtenhaValorEntreStrings(dado, "){", "}").Split('|');
+
+            foreach (var valor in valores)
+            {
+                var parametros = valor.Split('#');
+                listaMultivalor.Add(construtor.Invoke(tipoMultivalor, parametros));
+            }
+
+            return listaMultivalor;
         }
 
         //public static string ConvertaDadoMultivalorLista(string dado, bool semLista)
@@ -445,60 +505,5 @@ namespace GS.GestaoEmpresa.Solucao.Utilitarios
 
         #endregion
 
-        #region TextBox Monetaria
-
-        //private bool IsNumeric(int Val)
-        //{
-        //    return ((Val >= 48 && Val <= 57) || (Val == 8) || (Val == 46));
-        //}
-
-        //string str = "";
-
-        //private void txtPrecoDeCompra_KeyDown_1(object sender, KeyEventArgs e)
-        //{
-        //    int KeyCode = e.KeyValue;
-
-        //    if (!IsNumeric(KeyCode))
-        //    {
-        //        e.Handled = true;
-        //        return;
-        //    }
-        //    else
-        //    {
-        //        e.Handled = true;
-        //    }
-        //    if (((KeyCode == 8) || (KeyCode == 46)) && (str.Length > 0))
-        //    {
-        //        str = str.Substring(0, str.Length - 1);
-        //    }
-        //    else if (!((KeyCode == 8) || (KeyCode == 46)))
-        //    {
-        //        str = str + Convert.ToChar(KeyCode);
-        //    }
-        //    if (str.Length == 0)
-        //    {
-        //        txtPrecoDeCompra.Text = "";
-        //    }
-        //    if (str.Length == 1)
-        //    {
-        //        txtPrecoDeCompra.Text = "0.0" + str;
-        //    }
-        //    else if (str.Length == 2)
-        //    {
-        //        txtPrecoDeCompra.Text = "0." + str;
-        //    }
-        //    else if (str.Length > 2)
-        //    {
-        //        txtPrecoDeCompra.Text = str.Substring(0, str.Length - 2) + "." +
-        //                        str.Substring(str.Length - 2);
-        //    }
-        //}
-
-        //private void txtPrecoDeCompra_KeyPress(object sender, KeyPressEventArgs e)
-        //{
-        //    e.Handled = true;
-        //}
-
-        #endregion
     }
 }

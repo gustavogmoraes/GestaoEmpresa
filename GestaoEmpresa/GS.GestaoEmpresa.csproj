@@ -20,6 +20,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -60,13 +61,17 @@
     <Compile Include="Solucao\Mapeador\Mapeadores\MapeadoresConcretos\MapeadorDeInteracao.cs" />
     <Compile Include="Solucao\Mapeador\Mapeadores\MapeadoresConcretos\MapeadorEmail.cs" />
     <Compile Include="Solucao\Mapeador\Mapeadores\MapeadoresConcretos\MapeadorTelefone.cs" />
+    <Compile Include="Solucao\Negocio\Enumeradores\EnumBotoesForm.cs" />
     <Compile Include="Solucao\Negocio\Enumeradores\EnumStatusDoUsuario.cs" />
     <Compile Include="Solucao\Negocio\Enumeradores\EnumTipoDeAcaoProduto.cs" />
     <Compile Include="Solucao\Negocio\Enumeradores\EnumStatusDoProduto.cs" />
+    <Compile Include="Solucao\Negocio\Enumeradores\EnumTipoDeEntidadeRelacional.cs" />
     <Compile Include="Solucao\Negocio\Enumeradores\EnumTipoDeForm.cs" />
+    <Compile Include="Solucao\Negocio\Interfaces\IFormPadrao.cs" />
     <Compile Include="Solucao\Negocio\Objetos\Atributos\BancoDeDados.cs" />
     <Compile Include="Solucao\Negocio\Objetos\Atributos\Multivalor.cs" />
     <Compile Include="Solucao\Negocio\Objetos\ObjetosAbstratos\Grupo.cs" />
+    <Compile Include="Solucao\Negocio\Objetos\ObjetosConcretos\CampoDeTela.cs" />
     <Compile Include="Solucao\Negocio\Objetos\ObjetosConcretos\Cliente.cs" />
     <Compile Include="Solucao\Negocio\Objetos\ObjetosConcretos\Email.cs" />
     <Compile Include="Solucao\Negocio\Objetos\ObjetosConcretos\Inconsistencia.cs" />
@@ -79,7 +84,20 @@
     <Compile Include="Solucao\Negocio\Servicos\ServicoDeInteracao.cs" />
     <Compile Include="Solucao\Negocio\Servicos\ServicoDeProduto.cs" />
     <Compile Include="Solucao\Negocio\Servicos\ServicoDeUsuario.cs" />
+    <Compile Include="Solucao\Negocio\Validador\ValidadorDeInteracao.cs" />
     <Compile Include="Solucao\Negocio\Validador\ValidadorDeProduto.cs" />
+    <Compile Include="Solucao\UI\ControlesGenericos\FormPadrao.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Solucao\UI\ControlesGenericos\FormPadrao.Designer.cs">
+      <DependentUpon>FormPadrao.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Solucao\UI\ControlesGenericos\GSTextBoxMonetaria.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Solucao\UI\ControlesGenericos\GSTextBoxMonetaria.Designer.cs">
+      <DependentUpon>GSTextBoxMonetaria.cs</DependentUpon>
+    </Compile>
     <Compile Include="Solucao\UI\Modulos\Estoque\frmEstoque.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -110,6 +128,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Solucao\Mapeador\BancoDeDados\UCSessaoSistema.resx">
       <DependentUpon>UCSessaoSistema.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Solucao\UI\ControlesGenericos\FormPadrao.resx">
+      <DependentUpon>FormPadrao.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Solucao\UI\ControlesGenericos\GSTextBoxMonetaria.resx">
+      <DependentUpon>GSTextBoxMonetaria.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Solucao\UI\Modulos\Estoque\frmEstoque.resx">
       <DependentUpon>frmEstoque.cs</DependentUpon>
@@ -174,9 +198,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Solucao\Negocio\Interfaces\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="Resources\edit-512.png" />
   </ItemGroup>

@@ -29,7 +29,14 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         private EnumTipoDeForm _tipoDoForm;
 
-        public List<Control> ListaDeControles { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        private enum EnumBotoesForm
+        {
+            Editar,
+            Salvar,
+
+            Cancelar,
+            Excluir
+        }
 
         public CultureInfo Cultura = new CultureInfo("pt-BR");
 
@@ -159,7 +166,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
             if (proximoCodigo == 0)
             {
-                MessageBox.Show(Mensagens.ERRO);
+                MessageBox.Show(Mensagens.ERRO());
                 return;
             }
 
@@ -373,15 +380,6 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         #endregion
 
-        private enum EnumBotoesForm
-        {
-            Editar,
-            Salvar,
-
-            Cancelar,
-            Excluir
-        }
-
         private void btnEditarSalvar_Click_1(object sender, EventArgs e)
         {
             switch (_switchBotaoEditarSalvar)
@@ -413,7 +411,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
                     if (listaDeInconsistencias.Count == 0)
                     {
-                        MessageBox.Show(Mensagens.PRODUTO_CADASTRADO_COM_SUCESSO);
+                        MessageBox.Show(Mensagens.X_FOI_CADASTRADO_COM_SUCESSO("Produto"));
                         InicializeBotoes(EnumTipoDeForm.Detalhamento);
                         _tipoDoForm = EnumTipoDeForm.Edicao;
                         DesabiliteControles();

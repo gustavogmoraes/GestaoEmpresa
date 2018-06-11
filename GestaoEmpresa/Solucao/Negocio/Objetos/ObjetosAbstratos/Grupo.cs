@@ -1,4 +1,5 @@
-﻿using GS.GestaoEmpresa.Solucao.Negocio.Objetos.Atributos;
+﻿using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores;
+using GS.GestaoEmpresa.Solucao.Negocio.Objetos.Atributos;
 using System;
 using System.Collections.Generic;
 
@@ -15,7 +16,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Objetos.ObjetosAbstratos
         [BancoDeDados(QuantidadeCaracteres = 1000)]
         public string Descricao;
 
-        [BancoDeDados(TipoDeRelacionamento = TipoDeEntidadeRelacional.UmParaMuitos)]
+        [BancoDeDados(TipoDeRelacionamento = EnumTipoDeEntidadeRelacional.UmParaMuitos)]
         public List<TEntidade> lista;
     }
 }

@@ -18,5 +18,9 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Objetos.ObjetosConcretos
         public PropertyInfo PropriedadeValidada { get; set; }
 
         public string Mensagem { get; set; }
+
+        public string NomeDaPropriedadeValidada { get; set; }
+
+        public string DescricaoDaPropriedadeValidada { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using GS.GestaoEmpresa.Solucao.Negocio.Objetos.Atributos;
+﻿using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores;
+using GS.GestaoEmpresa.Solucao.Negocio.Objetos.Atributos;
 using System.Collections.Generic;
 
 namespace GS.GestaoEmpresa.Solucao.Negocio.Objetos.ObjetosConcretos
@@ -43,13 +44,13 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Objetos.ObjetosConcretos
         [BancoDeDados(QuantidadeCaracteres = 5000)]
         public string Observacao {get; set;}
 		
-        [BancoDeDados(TipoDeRelacionamento = TipoDeEntidadeRelacional.UmParaMuitos)]
+        [BancoDeDados(TipoDeRelacionamento = EnumTipoDeEntidadeRelacional.UmParaMuitos)]
 		public List<Endereco> Enderecos {get; set;}
 
-        [BancoDeDados(TipoDeRelacionamento = TipoDeEntidadeRelacional.UmParaMuitos)]
+        [BancoDeDados(TipoDeRelacionamento = EnumTipoDeEntidadeRelacional.UmParaMuitos)]
         public List<Telefone> Telefones {get; set;}
 
-        [BancoDeDados(TipoDeRelacionamento = TipoDeEntidadeRelacional.UmParaMuitos)]
+        [BancoDeDados(TipoDeRelacionamento = EnumTipoDeEntidadeRelacional.UmParaMuitos)]
         public List<Email> Emails { get; set; }
     }
 }

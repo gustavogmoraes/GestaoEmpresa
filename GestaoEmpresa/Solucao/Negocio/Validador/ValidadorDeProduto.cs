@@ -49,7 +49,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Validador
                 listaDeInconsistencias.Add(
                     new Inconsistencia()
                     {
-                        Mensagem = Mensagens.PRODUTO_JA_EXISTE
+                        Mensagem = Mensagens.JA_EXISTE_UM_X_COM_ESSE_Y("Produto", "código ou nome")
                     });
             }
 
@@ -71,7 +71,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Validador
                         Modulo = "Controle de Estoque",
                         Tela = "Cadastro de Produtos",
                         ConceitoValidado = "Produto",
-                        Mensagem = Mensagens.NADA_FOI_ALTERADO
+                        Mensagem = Mensagens.NADA_FOI_ALTERADO()
                     });
             }
         }

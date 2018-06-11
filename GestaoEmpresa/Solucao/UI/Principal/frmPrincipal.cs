@@ -52,7 +52,7 @@ namespace GestaoEmpresa.GS.GestaoEmpresa.GS.GestaoEmpresa.UI.Principal
 
             if (SessaoSistema.InformacoesConexao == null)
             {
-                MessageBox.Show(Mensagens.NAO_HA_CONFIGURACOES_BANCO);
+                MessageBox.Show(Mensagens.NAO_HA_CONFIGURACOES_BANCO());
             }
             else
             {
