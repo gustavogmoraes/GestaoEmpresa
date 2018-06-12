@@ -300,6 +300,19 @@ namespace GS.GestaoEmpresa.Solucao.Mapeador.Mapeadores.MapeadoresConcretos
             }
 		}
 
+        public void Exclua(int codigoDoProduto)
+        {
+            string comandoSQL = String.Format("DELETE FROM {0} WHERE {1} = {2}",
+                                              Tabela,
+                                              "CODIGO",
+                                              codigoDoProduto);
+
+            using (var GSBancoDeDados = new GSBancoDeDados())
+            {
+                GSBancoDeDados.ExecuteComando(comandoSQL);
+            }
+        }
+
         #region IDisposable Support
         private bool disposedValue = false; // To detect redundant calls
 

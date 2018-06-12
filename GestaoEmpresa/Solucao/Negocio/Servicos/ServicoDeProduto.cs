@@ -57,6 +57,25 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
             return codigo;
         }
 
+        public List<Inconsistencia> Exclua(int codigoDoProduto)
+        {
+            var listaDeInconsistenciasExclusao = new List<Inconsistencia>();
+            using (var validadorDeProduto = new ValidadorDeProduto())
+            {
+                listaDeInconsistenciasExclusao = validadorDeProduto.ValideExcluir(codigoDoProduto);
+            }
+
+            if (listaDeInconsistenciasExclusao.Count == 0)
+            {
+                using (var mapeadorDeProduto = new MapeadorDeProduto())
+                {
+                    mapeadorDeProduto.Exclua(codigoDoProduto);
+                }
+            }
+
+            return listaDeInconsistenciasExclusao;
+        }
+
         public List<Inconsistencia> Salve(Produto produto, EnumTipoDeForm tipoDoForm)
         {
             var listaDeInconsistencias = new List<Inconsistencia>();
@@ -89,12 +108,6 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
 
             return listaDeInconsistencias;
         }
-
-        internal void Exclua()
-        {
-            //
-        }
-
 
         #region IDisposable Support
         private bool disposedValue = false; // To detect redundant calls

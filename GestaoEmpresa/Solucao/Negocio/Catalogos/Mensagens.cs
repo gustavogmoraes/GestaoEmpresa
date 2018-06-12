@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows.Forms;
 
 namespace GS.GestaoEmpresa.Solucao.Negocio.Catalogos
 {
@@ -42,6 +43,21 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Catalogos
         public static string X_DEVE_SER_INFORMADO(string valor)
         {
             return string.Format("{0} deve ser informado(a).", valor);
-        } 
+        }
+
+        public static string TEM_CERTEZA_QUE_DESEJA_EXCLUIR_ESSE_X(string valor)
+        {
+            return string.Format("Tem certeza que deseja excluir esse {0}?", valor);
+        }
+
+        public static string X_NAO_PODE_SER_EXCLUIDO(string valor)
+        {
+            return string.Format("Esse {0} não pode ser excluído.", valor);
+        }
+
+        public static string O_X_FOI_EXCLUIDO_COM_SUCESSO(string valor)
+        {
+            return string.Format("O {0} foi excluído com sucesso.", valor);
+        }
     }
 }

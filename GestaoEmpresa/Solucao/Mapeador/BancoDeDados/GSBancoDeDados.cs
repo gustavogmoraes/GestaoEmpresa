@@ -26,8 +26,8 @@ namespace GS.GestaoEmpresa.Solucao.Mapeador.BancoDeDados
 
             if (_informacoesConexao != null)
             {
-                //DefinaStringDeConexao(_informacoesConexao.Servidor, _informacoesConexao.NomeBanco, _informacoesConexao.Usuario, _informacoesConexao.Senha);
-                DefinaStringDeConexao();
+                DefinaStringDeConexao(_informacoesConexao.Servidor, _informacoesConexao.NomeBanco, _informacoesConexao.Usuario, _informacoesConexao.Senha);
+                //DefinaStringDeConexao();
                 _conexao = new SqlConnection(_stringDeConexao);
                 _conexao.Open();
             }

@@ -454,13 +454,33 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                     break;
 
                 case EnumBotoesForm.Excluir:
-                    //Prompt de certeza
-                    using (var servicoDeProduto = new ServicoDeProduto())
+                    var resultado = MessageBox.Show(Mensagens.TEM_CERTEZA_QUE_DESEJA_EXCLUIR_ESSE_X("produto"), "Confirmação", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    if (resultado == DialogResult.Yes)
                     {
-                        servicoDeProduto.Exclua();
-                        //Retorno dessa funçã deve validar se pode excluir
-                        //Se tudo der certo, mensagem de sucesso e fecha
-                        this.Close();
+                        var codigoDoProduto = int.Parse(txtCodigo.Text);
+
+                        var listaDeInconsistenciasExclusao = new List<Inconsistencia>();
+                        using (var servicoDeProduto = new ServicoDeProduto())
+                        {
+                            listaDeInconsistenciasExclusao = servicoDeProduto.Exclua(codigoDoProduto);
+                        }
+
+                        if (listaDeInconsistenciasExclusao.Count == 0)
+                        {
+                            MessageBox.Show(Mensagens.O_X_FOI_EXCLUIDO_COM_SUCESSO("produto"));
+                            this.Close();
+                        }
+                        else
+                        {
+                            foreach(var inconsistencia in listaDeInconsistenciasExclusao)
+                            {
+                                MessageBox.Show(inconsistencia.Mensagem);
+                            }
+                        }
+                    }
+                    else if (resultado == DialogResult.No)
+                    {
+                       // Não faz nada
                     }
                     break;
             }

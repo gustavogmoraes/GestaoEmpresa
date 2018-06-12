@@ -6,11 +6,17 @@ using GS.GestaoEmpresa.Solucao.Negocio.Objetos.ObjetosConcretos;
 using GS.GestaoEmpresa.Solucao.Utilitarios;
 using GS.GestaoEmpresa.Solucao.Mapeador.Mapeadores.MapeadoresConcretos;
 using GS.GestaoEmpresa.Solucao.Negocio.Catalogos;
+using GS.GestaoEmpresa.Solucao.Negocio.Servicos;
 
 namespace GS.GestaoEmpresa.Solucao.Negocio.Validador
 {
     public class ValidadorDeProduto : IDisposable
     {
+        public ValidadorDeProduto()
+        {
+            _listaDeInconsistencias = new List<Inconsistencia>();
+        }
+
         private Produto _produto { get; set; }
 
         private Produto _produtoAnterior { get; set; }
@@ -32,6 +38,33 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Validador
             }
 
             return _listaDeInconsistencias;
+        }
+
+        public List<Inconsistencia> ValideExcluir(int codigoDoProduto)
+        {
+            ValideRegraProdutoPodeSerExcluido(codigoDoProduto);
+
+            return _listaDeInconsistencias;
+        }
+
+        private void ValideRegraProdutoPodeSerExcluido(int codigoDoProduto)
+        {
+            List<Interacao> listaDeInteracoesPorProduto = new List<Interacao>();
+            using (var servicoDeInteracao = new ServicoDeInteracao())
+            {
+                servicoDeInteracao.ConsulteTodasAsInteracoesPorProduto(codigoDoProduto);
+            }
+
+            if (listaDeInteracoesPorProduto.Count > 0)
+            {
+                _listaDeInconsistencias.Add(
+                    new Inconsistencia()
+                    {
+                        Tela = "Consulta de produtos",
+                        ConceitoValidado = "Exclusão de produto",
+                        Mensagem = Mensagens.X_NAO_PODE_SER_EXCLUIDO("O produto")
+                    });
+            }
         }
 
         public List<Inconsistencia> ValideCadastroInicial(Produto produto)
