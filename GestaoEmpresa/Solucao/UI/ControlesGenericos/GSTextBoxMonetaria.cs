@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using System.Globalization;
 using GS.GestaoEmpresa.Solucao.Negocio.Objetos.ObjetosConcretos;
 using GS.GestaoEmpresa.Solucao.Utilitarios;
+using GS.GestaoEmpresa.Solucao.Negocio.Catalogos;
 
 namespace GS.GestaoEmpresa.Solucao.UI
 {
@@ -23,8 +24,6 @@ namespace GS.GestaoEmpresa.Solucao.UI
         #region Propriedades
 
         private CultureInfo _cultura = new CultureInfo("pt-BR");
-
-        private Color _corInconsistencia = Color.Red;
 
         private List<Inconsistencia> _listaDeInconsistencias;
 
@@ -57,7 +56,7 @@ namespace GS.GestaoEmpresa.Solucao.UI
                 return;
             }
 
-            this.txtLine.ForeColor = _corInconsistencia;
+            this.txtLine.ForeColor = Cores.Erro;
             this.pbErro.Enabled = true;
             this.pbErro.Visible = true;
 

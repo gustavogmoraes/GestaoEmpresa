@@ -119,39 +119,39 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         private void AjustePrecosNaTela(Control controleGatilho)
         {
-            return;
+            
 
-            if (controleGatilho == txtPrecoDeVenda)
-            {
-                var precoDeCompra = decimal.Parse(txtPrecoDeCompra.Text.Trim().Replace(',', '.'));
-                var precoDeVenda = decimal.Parse(txtPrecoDeVenda.Text.Trim().Replace(',', '.'));
+            //if (controleGatilho == txtPrecoDeVenda)
+            //{
+            //    var precoDeCompra = decimal.Parse(txtPrecoDeCompra.Text.Trim().Replace(',', '.'));
+            //    var precoDeVenda = decimal.Parse(txtPrecoDeVenda.Text.Trim().Replace(',', '.'));
 
-                var porcentagemDeLucro = (precoDeVenda / precoDeCompra) - 1;
+            //    var porcentagemDeLucro = (precoDeVenda / precoDeCompra) - 1;
 
-                if (porcentagemDeLucro <= 0)
-                {
-                    txtPorcentagemDeLucro.Text = 0.ToString();
-                    return;
-                }
+            //    if (porcentagemDeLucro <= 0)
+            //    {
+            //        txtPorcentagemDeLucro.Text = 0.ToString();
+            //        return;
+            //    }
 
-                txtPorcentagemDeLucro.Text = Math.Round(porcentagemDeLucro * 100, 2).ToString();
-            }
+            //    txtPorcentagemDeLucro.Text = Math.Round(porcentagemDeLucro * 100, 2).ToString();
+            //}
 
-            if (controleGatilho == txtPorcentagemDeLucro)
-            {
-                var precoDeCompra = decimal.Parse(txtPrecoDeCompra.Text.Trim().Replace(',', '.'));
-                var porcentagemDeLucro = decimal.Parse(txtPorcentagemDeLucro.Text.Trim().Replace(',', '.')) / 100;
+            //if (controleGatilho == txtPorcentagemDeLucro)
+            //{
+            //    var precoDeCompra = decimal.Parse(txtPrecoDeCompra.Text.Trim().Replace(',', '.'));
+            //    var porcentagemDeLucro = decimal.Parse(txtPorcentagemDeLucro.Text.Trim().Replace(',', '.')) / 100;
 
-                var precoDeVenda = precoDeCompra * (1 + porcentagemDeLucro);
+            //    var precoDeVenda = precoDeCompra * (1 + porcentagemDeLucro);
 
-                if (precoDeVenda <= 0)
-                {
-                    txtPrecoDeVenda.Text = 0.ToString();
-                    return;
-                }
+            //    if (precoDeVenda <= 0)
+            //    {
+            //        txtPrecoDeVenda.Text = 0.ToString();
+            //        return;
+            //    }
 
-                txtPrecoDeVenda.Text = precoDeVenda.ToString();
-            }
+            //    txtPrecoDeVenda.Text = precoDeVenda.ToString();
+            //}
         }
 
         #endregion

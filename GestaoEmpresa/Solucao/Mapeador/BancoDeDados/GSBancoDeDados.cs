@@ -14,7 +14,7 @@ namespace GS.GestaoEmpresa.Solucao.Mapeador.BancoDeDados
 
 		private InformacoesConexaoBanco _informacoesConexao;
 
-		private string _stringDeConexao;
+		private static string _stringDeConexao;
 
 		#endregion
 
@@ -22,14 +22,20 @@ namespace GS.GestaoEmpresa.Solucao.Mapeador.BancoDeDados
 
 		public GSBancoDeDados()
 		{
-            _informacoesConexao = SessaoSistema.InformacoesConexao;
-
-            if (_informacoesConexao != null)
+            if (_stringDeConexao !=null)
             {
-                DefinaStringDeConexao(_informacoesConexao.Servidor, _informacoesConexao.NomeBanco, _informacoesConexao.Usuario, _informacoesConexao.Senha);
-                //DefinaStringDeConexao();
                 _conexao = new SqlConnection(_stringDeConexao);
                 _conexao.Open();
+            }
+            else
+            {
+                if (SessaoSistema.InformacoesConexao != null)
+                {
+                    _informacoesConexao = SessaoSistema.InformacoesConexao;
+
+                    DefinaStringDeConexao(_informacoesConexao.Servidor, _informacoesConexao.NomeBanco, _informacoesConexao.Usuario, _informacoesConexao.Senha);
+                    //DefinaStringDeConexao();
+                }
             }
 		} 
 

@@ -194,6 +194,7 @@
     <Compile Include="Solucao\Negocio\Objetos\ObjetosConcretos\LancamentoOS.cs" />
     <Compile Include="Solucao\Negocio\Objetos\Atributos\Validacao.cs" />
     <Compile Include="Solucao\Mapeador\Mapeadores\MapeadoresConcretos\MapeadorDeProduto.cs" />
+    <Compile Include="Solucao\Negocio\Catalogos\Cores.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
