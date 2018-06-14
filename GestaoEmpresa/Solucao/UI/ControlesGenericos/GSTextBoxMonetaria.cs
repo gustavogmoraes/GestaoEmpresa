@@ -56,9 +56,9 @@ namespace GS.GestaoEmpresa.Solucao.UI
                 return;
             }
 
-            this.txtLine.ForeColor = Cores.Erro;
-            this.pbErro.Enabled = true;
-            this.pbErro.Visible = true;
+            txtLine.ForeColor = Cores.Erro;
+            pbErro.Enabled = true;
+            pbErro.Visible = true;
 
             var listaDeMensagens = new List<string>();
             foreach (var inconsistencia in _listaDeInconsistencias)

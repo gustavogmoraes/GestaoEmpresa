@@ -13,14 +13,14 @@ namespace GestaoEmpresa.GS.GestaoEmpresa.GS.GestaoEmpresa.UI.Principal
 {
     public partial class frmPrincipal : Form
     {
+
         #region Constantes
 
-        public const string DIRETORIO_LOCAL  = @".\";
+        public const string DIRETORIO_LOCAL = @".\";
 
         public const string NOME_ARQUIVO_CONFIGURACOES_BANCO = "ConexaoBanco.txt";
 
         #endregion
-
 
         #region Métodos
 
@@ -45,26 +45,18 @@ namespace GestaoEmpresa.GS.GestaoEmpresa.GS.GestaoEmpresa.UI.Principal
 
         private void CarregueConfiguracoesConexaoBanco()
         {
-            using (var GSBancoDeDados = new GSBancoDeDados())
-            {
-                SessaoSistema.InformacoesConexao = GSBancoDeDados.BusqueConfiguracoesConexaoDoArquivo(DIRETORIO_LOCAL, NOME_ARQUIVO_CONFIGURACOES_BANCO);
-            }
+           SessaoSistema.InformacoesConexao = SessaoSistema.BusqueConfiguracoesConexaoDoArquivo(DIRETORIO_LOCAL, NOME_ARQUIVO_CONFIGURACOES_BANCO);
 
             if (SessaoSistema.InformacoesConexao == null)
             {
                 MessageBox.Show(Mensagens.NAO_HA_CONFIGURACOES_BANCO());
-            }
-            else
-            {
-                txtServidorConfiguracao.Text = SessaoSistema.InformacoesConexao.Servidor;
-                txtNomeBancoConfiguracoes.Text = SessaoSistema.InformacoesConexao.NomeBanco;
-                txtUsuarioConfiguracao.Text = SessaoSistema.InformacoesConexao.Usuario;
-                txtSenhaConfiguracao.Text = SessaoSistema.InformacoesConexao.Senha;
+                return;
             }
 
-            //Chamada temporária, é pra desenvolvimento
-            using (var GSBancoDeDados = new GSBancoDeDados())
-                GSBancoDeDados.DefinaStringDeConexao();
+            txtServidorConfiguracao.Text = SessaoSistema.InformacoesConexao.Servidor;
+            txtNomeBancoConfiguracoes.Text = SessaoSistema.InformacoesConexao.NomeBanco;
+            txtUsuarioConfiguracao.Text = SessaoSistema.InformacoesConexao.Usuario;
+            txtSenhaConfiguracao.Text = SessaoSistema.InformacoesConexao.Senha;
         }
 
         private void CarregueChamador()
@@ -139,12 +131,10 @@ namespace GestaoEmpresa.GS.GestaoEmpresa.GS.GestaoEmpresa.UI.Principal
                 Senha = txtSenhaConfiguracao.Text.Trim()
             };
 
-            using(var GSBancoDeDados = new GSBancoDeDados())
-            {
-                GSBancoDeDados.SalveConfiguracoesConexaoNoArquivo(informacoesConexaoBanco,
+
+            SessaoSistema.SalveConfiguracoesConexaoNoArquivo(informacoesConexaoBanco,
                                                                   DIRETORIO_LOCAL,
                                                                   NOME_ARQUIVO_CONFIGURACOES_BANCO);
-            }
 
             this.CarregueConfiguracoesConexaoBanco();
         }

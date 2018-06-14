@@ -259,6 +259,8 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         protected void HabiliteControles()
         {
+            chkAvisar.Enabled = true;
+
             txtCodigo.Enabled = true;
             txtLineCodigo.Enabled = true;
 
@@ -301,6 +303,8 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         protected void DesabiliteControles()
         {
+            chkAvisar.Enabled = false;
+
             txtCodigo.Enabled = false;
             txtLineCodigo.Enabled = false;
 

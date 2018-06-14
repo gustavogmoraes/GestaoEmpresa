@@ -96,7 +96,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Validador
 
         private void ValideRegraNaoHouveAlteracao()
         {
-            if (_produtoAnterior.HashCode == _produto.HashCode)
+            if (_produtoAnterior.Equals(_produto))
             {
                 _listaDeInconsistencias.Add(
                     new Inconsistencia()

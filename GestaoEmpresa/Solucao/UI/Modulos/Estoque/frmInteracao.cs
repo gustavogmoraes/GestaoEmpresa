@@ -270,5 +270,10 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                     break;
             }
         }
+
+        private void cbTipo_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

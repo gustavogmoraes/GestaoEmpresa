@@ -33,32 +33,36 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Objetos.ObjetosConcretos
 
         public bool AvisarQuantidade { get; set; }
 
-        public int HashCode
-		{
-			get
-			{
-				return ObtenhaStringParaCalculoDoHash().GetHashCode();
-			}
-		}
+        #region Protótipo de HashCode
 
-        private string ObtenhaStringParaCalculoDoHash()
-		{
-			var stringParaHash = string.Empty;
+        //      public int HashCode
+        //{
+        //	get
+        //	{
+        //		return ObtenhaStringParaCalculoDoHash().GetHashCode();
+        //	}
+        //}
 
-			stringParaHash += this.Codigo.ToString();
-			stringParaHash += this.Status.ToString();
-			stringParaHash += this.Nome;
-			stringParaHash += this.Descricao;
-			stringParaHash += this.PrecoDeCompra.ToString();
-			stringParaHash += this.PrecoDeVenda.ToString();
-			stringParaHash += this.PorcentagemDeLucro.ToString();
-			stringParaHash += this.QuantidadeEmEstoque.ToString();
-			stringParaHash += this.QuantidadeMinimaParaAviso.ToString();
-			stringParaHash += this.Observacao;
-			stringParaHash += this.Fabricante;
-			stringParaHash += this.CodigoDoFabricante;
+        //      private string ObtenhaStringParaCalculoDoHash()
+        //{
+        //	var stringParaHash = string.Empty;
 
-			return stringParaHash;
-		}
-	}
+        //	stringParaHash += this.Codigo.ToString();
+        //	stringParaHash += this.Status.ToString();
+        //	stringParaHash += this.Nome;
+        //	stringParaHash += this.Descricao;
+        //	stringParaHash += this.PrecoDeCompra.ToString();
+        //	stringParaHash += this.PrecoDeVenda.ToString();
+        //	stringParaHash += this.PorcentagemDeLucro.ToString();
+        //	stringParaHash += this.QuantidadeEmEstoque.ToString();
+        //	stringParaHash += this.QuantidadeMinimaParaAviso.ToString();
+        //	stringParaHash += this.Observacao;
+        //	stringParaHash += this.Fabricante;
+        //	stringParaHash += this.CodigoDoFabricante;
+
+        //	return stringParaHash;
+        //}
+
+        #endregion
+    }
 }

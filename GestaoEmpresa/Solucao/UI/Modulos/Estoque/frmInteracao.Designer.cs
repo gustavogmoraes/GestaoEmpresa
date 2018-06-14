@@ -63,6 +63,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.txtLineProduto = new System.Windows.Forms.Label();
             this.cbProduto = new System.Windows.Forms.ComboBox();
             this.GStxtValor = new GS.GestaoEmpresa.Solucao.UI.GSTextBoxMonetaria();
+            this.chkAtualizar = new System.Windows.Forms.CheckBox();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.btnEditarSalvar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnCancelarExcluir)).BeginInit();
@@ -140,6 +141,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.cbTipo.Name = "cbTipo";
             this.cbTipo.Size = new System.Drawing.Size(105, 30);
             this.cbTipo.TabIndex = 81;
+            this.cbTipo.SelectedIndexChanged += new System.EventHandler(this.cbTipo_SelectedIndexChanged);
             // 
             // lblStatus
             // 
@@ -407,10 +409,30 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             // GStxtValor
             // 
             this.GStxtValor.BackColor = System.Drawing.Color.Silver;
+            this.GStxtValor.ListaDeInconsistencias = null;
             this.GStxtValor.Location = new System.Drawing.Point(241, 362);
             this.GStxtValor.Name = "GStxtValor";
             this.GStxtValor.Size = new System.Drawing.Size(220, 36);
             this.GStxtValor.TabIndex = 112;
+            this.GStxtValor.Valor = new decimal(new int[] {
+            0,
+            0,
+            0,
+            0});
+            // 
+            // chkAtualizar
+            // 
+            this.chkAtualizar.AutoSize = true;
+            this.chkAtualizar.Checked = true;
+            this.chkAtualizar.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkAtualizar.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chkAtualizar.ForeColor = System.Drawing.Color.SteelBlue;
+            this.chkAtualizar.Location = new System.Drawing.Point(123, 398);
+            this.chkAtualizar.Name = "chkAtualizar";
+            this.chkAtualizar.Size = new System.Drawing.Size(476, 26);
+            this.chkAtualizar.TabIndex = 113;
+            this.chkAtualizar.Text = "Atualizar catálogo de produtos com novo preço";
+            this.chkAtualizar.UseVisualStyleBackColor = true;
             // 
             // frmInteracao
             // 
@@ -418,6 +440,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Silver;
             this.ClientSize = new System.Drawing.Size(593, 735);
+            this.Controls.Add(this.chkAtualizar);
             this.Controls.Add(this.lblPrecoCompra);
             this.Controls.Add(this.GStxtValor);
             this.Controls.Add(this.cbProduto);
@@ -491,5 +514,6 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         private System.Windows.Forms.Label txtLineProduto;
         private System.Windows.Forms.ComboBox cbProduto;
         private GSTextBoxMonetaria GStxtValor;
+        private CheckBox chkAtualizar;
     }
 }
