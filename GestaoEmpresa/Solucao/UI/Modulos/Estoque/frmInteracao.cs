@@ -91,15 +91,17 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             txtOrigem.Text = objeto.Origem ?? string.Empty;
             txtDestino.Text = objeto.Destino ?? string.Empty;
             cbProduto.Text = objeto.Produto.Nome.Trim();
+            chkAtualizar.Checked = objeto.AtualizarValorDoProdutoNoCatalogo;
         }
 
         public Interacao CarregueObjetoComControles()
         {
             var interacao = new Interacao();
-
+            
             interacao.Descricao = txtDescricao.Text.Trim();
             interacao.Observacao = txtObservacoes.Text.Trim();
             interacao.ValorInteracao = GStxtValor.Valor;
+            interacao.AtualizarValorDoProdutoNoCatalogo = chkAtualizar.Checked;
             interacao.TipoInteracao = (EnumTipoInteracao)cbTipo.SelectedIndex + 1;
             interacao.QuantidadeInterada = !string.IsNullOrEmpty(txtQuantidade.Text.Trim())
                                          ? int.Parse(txtQuantidade.Text.Trim())
@@ -273,7 +275,14 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         private void cbTipo_SelectedIndexChanged(object sender, EventArgs e)
         {
-
+            if (cbTipo.SelectedText == "Saída")
+            {
+                GStxtValor.Enabled = false;
+            }
+            else
+            {
+                GStxtValor.Enabled = true;
+            }
         }
     }
 }
