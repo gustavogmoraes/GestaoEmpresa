@@ -35,8 +35,6 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         {
             this.lblVigencia = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.btnEditarSalvar = new System.Windows.Forms.PictureBox();
-            this.btnCancelarExcluir = new System.Windows.Forms.PictureBox();
             this.lblInteracoes = new System.Windows.Forms.Label();
             this.cbTipo = new System.Windows.Forms.ComboBox();
             this.lblStatus = new System.Windows.Forms.Label();
@@ -44,7 +42,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.lblObservacoes = new System.Windows.Forms.Label();
             this.txtQuantidade = new System.Windows.Forms.TextBox();
             this.lblQuantidadeEstoque = new System.Windows.Forms.Label();
-            this.lblPrecoCompra = new System.Windows.Forms.Label();
+            this.lblValor = new System.Windows.Forms.Label();
             this.txtDescricao = new System.Windows.Forms.TextBox();
             this.lblDescricao = new System.Windows.Forms.Label();
             this.txtLineHorario = new System.Windows.Forms.Label();
@@ -54,16 +52,18 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.txtLineObservacoes = new System.Windows.Forms.Label();
             this.txtHorario = new System.Windows.Forms.TextBox();
             this.txtOrigem = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
+            this.lblOrigem = new System.Windows.Forms.Label();
             this.txtLineOrigem = new System.Windows.Forms.Label();
             this.txtDestino = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
+            this.lblDestino = new System.Windows.Forms.Label();
             this.txtLineDestino = new System.Windows.Forms.Label();
             this.lblProduto = new System.Windows.Forms.Label();
             this.txtLineProduto = new System.Windows.Forms.Label();
             this.cbProduto = new System.Windows.Forms.ComboBox();
-            this.GStxtValor = new GS.GestaoEmpresa.Solucao.UI.GSTextBoxMonetaria();
             this.chkAtualizar = new System.Windows.Forms.CheckBox();
+            this.btnEditarSalvar = new System.Windows.Forms.PictureBox();
+            this.btnCancelarExcluir = new System.Windows.Forms.PictureBox();
+            this.GStxtValor = new GS.GestaoEmpresa.Solucao.UI.GSTextBoxMonetaria();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.btnEditarSalvar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnCancelarExcluir)).BeginInit();
@@ -91,29 +91,6 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(592, 40);
             this.panel1.TabIndex = 83;
-            // 
-            // btnEditarSalvar
-            // 
-            this.btnEditarSalvar.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnEditarSalvar.InitialImage = null;
-            this.btnEditarSalvar.Location = new System.Drawing.Point(506, 4);
-            this.btnEditarSalvar.Name = "btnEditarSalvar";
-            this.btnEditarSalvar.Size = new System.Drawing.Size(32, 30);
-            this.btnEditarSalvar.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.btnEditarSalvar.TabIndex = 36;
-            this.btnEditarSalvar.TabStop = false;
-            this.btnEditarSalvar.Click += new System.EventHandler(this.btnEditarSalvar_Click);
-            // 
-            // btnCancelarExcluir
-            // 
-            this.btnCancelarExcluir.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnCancelarExcluir.Location = new System.Drawing.Point(548, 6);
-            this.btnCancelarExcluir.Name = "btnCancelarExcluir";
-            this.btnCancelarExcluir.Size = new System.Drawing.Size(33, 26);
-            this.btnCancelarExcluir.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.btnCancelarExcluir.TabIndex = 37;
-            this.btnCancelarExcluir.TabStop = false;
-            this.btnCancelarExcluir.Click += new System.EventHandler(this.btnCancelarExcluir_Click);
             // 
             // lblInteracoes
             // 
@@ -158,7 +135,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             // 
             this.txtObservacoes.BackColor = System.Drawing.Color.Silver;
             this.txtObservacoes.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtObservacoes.Location = new System.Drawing.Point(21, 579);
+            this.txtObservacoes.Location = new System.Drawing.Point(21, 593);
             this.txtObservacoes.MaxLength = 3000;
             this.txtObservacoes.Multiline = true;
             this.txtObservacoes.Name = "txtObservacoes";
@@ -171,7 +148,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.lblObservacoes.AutoSize = true;
             this.lblObservacoes.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblObservacoes.ForeColor = System.Drawing.Color.SteelBlue;
-            this.lblObservacoes.Location = new System.Drawing.Point(12, 554);
+            this.lblObservacoes.Location = new System.Drawing.Point(12, 568);
             this.lblObservacoes.Name = "lblObservacoes";
             this.lblObservacoes.Size = new System.Drawing.Size(139, 22);
             this.lblObservacoes.TabIndex = 76;
@@ -199,16 +176,16 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.lblQuantidadeEstoque.TabIndex = 74;
             this.lblQuantidadeEstoque.Text = "Quantidade";
             // 
-            // lblPrecoCompra
+            // lblValor
             // 
-            this.lblPrecoCompra.AutoSize = true;
-            this.lblPrecoCompra.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblPrecoCompra.ForeColor = System.Drawing.Color.SteelBlue;
-            this.lblPrecoCompra.Location = new System.Drawing.Point(237, 346);
-            this.lblPrecoCompra.Name = "lblPrecoCompra";
-            this.lblPrecoCompra.Size = new System.Drawing.Size(59, 22);
-            this.lblPrecoCompra.TabIndex = 66;
-            this.lblPrecoCompra.Text = "Valor";
+            this.lblValor.AutoSize = true;
+            this.lblValor.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblValor.ForeColor = System.Drawing.Color.SteelBlue;
+            this.lblValor.Location = new System.Drawing.Point(150, 347);
+            this.lblValor.Name = "lblValor";
+            this.lblValor.Size = new System.Drawing.Size(59, 22);
+            this.lblValor.TabIndex = 66;
+            this.lblValor.Text = "Valor";
             // 
             // txtDescricao
             // 
@@ -283,7 +260,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.txtLineObservacoes.AutoSize = true;
             this.txtLineObservacoes.Font = new System.Drawing.Font("Century Gothic", 27.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtLineObservacoes.ForeColor = System.Drawing.Color.SteelBlue;
-            this.txtLineObservacoes.Location = new System.Drawing.Point(11, 686);
+            this.txtLineObservacoes.Location = new System.Drawing.Point(11, 700);
             this.txtLineObservacoes.Name = "txtLineObservacoes";
             this.txtLineObservacoes.Size = new System.Drawing.Size(514, 44);
             this.txtLineObservacoes.TabIndex = 100;
@@ -305,31 +282,31 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             // 
             this.txtOrigem.BackColor = System.Drawing.Color.Silver;
             this.txtOrigem.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtOrigem.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtOrigem.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtOrigem.ForeColor = System.Drawing.Color.Black;
-            this.txtOrigem.Location = new System.Drawing.Point(25, 440);
+            this.txtOrigem.Location = new System.Drawing.Point(25, 454);
             this.txtOrigem.MaxLength = 100;
             this.txtOrigem.Name = "txtOrigem";
             this.txtOrigem.Size = new System.Drawing.Size(462, 24);
             this.txtOrigem.TabIndex = 104;
             // 
-            // label1
+            // lblOrigem
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.ForeColor = System.Drawing.Color.SteelBlue;
-            this.label1.Location = new System.Drawing.Point(20, 407);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(78, 22);
-            this.label1.TabIndex = 102;
-            this.label1.Text = "Origem";
+            this.lblOrigem.AutoSize = true;
+            this.lblOrigem.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblOrigem.ForeColor = System.Drawing.Color.SteelBlue;
+            this.lblOrigem.Location = new System.Drawing.Point(20, 421);
+            this.lblOrigem.Name = "lblOrigem";
+            this.lblOrigem.Size = new System.Drawing.Size(78, 22);
+            this.lblOrigem.TabIndex = 102;
+            this.lblOrigem.Text = "Origem";
             // 
             // txtLineOrigem
             // 
             this.txtLineOrigem.AutoSize = true;
             this.txtLineOrigem.Font = new System.Drawing.Font("Century Gothic", 27.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtLineOrigem.ForeColor = System.Drawing.Color.SteelBlue;
-            this.txtLineOrigem.Location = new System.Drawing.Point(17, 427);
+            this.txtLineOrigem.Location = new System.Drawing.Point(17, 441);
             this.txtLineOrigem.Name = "txtLineOrigem";
             this.txtLineOrigem.Size = new System.Drawing.Size(495, 44);
             this.txtLineOrigem.TabIndex = 103;
@@ -339,31 +316,31 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             // 
             this.txtDestino.BackColor = System.Drawing.Color.Silver;
             this.txtDestino.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtDestino.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtDestino.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtDestino.ForeColor = System.Drawing.Color.Black;
-            this.txtDestino.Location = new System.Drawing.Point(26, 518);
+            this.txtDestino.Location = new System.Drawing.Point(26, 532);
             this.txtDestino.MaxLength = 100;
             this.txtDestino.Name = "txtDestino";
             this.txtDestino.Size = new System.Drawing.Size(461, 24);
             this.txtDestino.TabIndex = 107;
             // 
-            // label3
+            // lblDestino
             // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.ForeColor = System.Drawing.Color.SteelBlue;
-            this.label3.Location = new System.Drawing.Point(21, 485);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(77, 22);
-            this.label3.TabIndex = 105;
-            this.label3.Text = "Destino";
+            this.lblDestino.AutoSize = true;
+            this.lblDestino.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblDestino.ForeColor = System.Drawing.Color.SteelBlue;
+            this.lblDestino.Location = new System.Drawing.Point(21, 499);
+            this.lblDestino.Name = "lblDestino";
+            this.lblDestino.Size = new System.Drawing.Size(77, 22);
+            this.lblDestino.TabIndex = 105;
+            this.lblDestino.Text = "Destino";
             // 
             // txtLineDestino
             // 
             this.txtLineDestino.AutoSize = true;
             this.txtLineDestino.Font = new System.Drawing.Font("Century Gothic", 27.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtLineDestino.ForeColor = System.Drawing.Color.SteelBlue;
-            this.txtLineDestino.Location = new System.Drawing.Point(18, 505);
+            this.txtLineDestino.Location = new System.Drawing.Point(18, 519);
             this.txtLineDestino.Name = "txtLineDestino";
             this.txtLineDestino.Size = new System.Drawing.Size(495, 44);
             this.txtLineDestino.TabIndex = 106;
@@ -393,32 +370,15 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             // 
             // cbProduto
             // 
+            this.cbProduto.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.cbProduto.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.cbProduto.BackColor = System.Drawing.Color.Silver;
-            this.cbProduto.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbProduto.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cbProduto.FormattingEnabled = true;
-            this.cbProduto.Items.AddRange(new object[] {
-            "Entrada",
-            "Saída"});
             this.cbProduto.Location = new System.Drawing.Point(37, 300);
             this.cbProduto.Name = "cbProduto";
             this.cbProduto.Size = new System.Drawing.Size(467, 30);
             this.cbProduto.TabIndex = 111;
-            this.cbProduto.DropDown += new System.EventHandler(this.cbProduto_DropDown);
-            // 
-            // GStxtValor
-            // 
-            this.GStxtValor.BackColor = System.Drawing.Color.Silver;
-            this.GStxtValor.ListaDeInconsistencias = null;
-            this.GStxtValor.Location = new System.Drawing.Point(241, 362);
-            this.GStxtValor.Name = "GStxtValor";
-            this.GStxtValor.Size = new System.Drawing.Size(220, 36);
-            this.GStxtValor.TabIndex = 112;
-            this.GStxtValor.Valor = new decimal(new int[] {
-            0,
-            0,
-            0,
-            0});
             // 
             // chkAtualizar
             // 
@@ -427,30 +387,67 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.chkAtualizar.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkAtualizar.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.chkAtualizar.ForeColor = System.Drawing.Color.SteelBlue;
-            this.chkAtualizar.Location = new System.Drawing.Point(123, 398);
+            this.chkAtualizar.Location = new System.Drawing.Point(330, 346);
             this.chkAtualizar.Name = "chkAtualizar";
-            this.chkAtualizar.Size = new System.Drawing.Size(476, 26);
+            this.chkAtualizar.Size = new System.Drawing.Size(271, 48);
             this.chkAtualizar.TabIndex = 113;
-            this.chkAtualizar.Text = "Atualizar catálogo de produtos com novo preço";
+            this.chkAtualizar.Text = "Atualizar catálogo de\r\nprodutos com novo preço";
             this.chkAtualizar.UseVisualStyleBackColor = true;
+            // 
+            // btnEditarSalvar
+            // 
+            this.btnEditarSalvar.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnEditarSalvar.InitialImage = null;
+            this.btnEditarSalvar.Location = new System.Drawing.Point(506, 4);
+            this.btnEditarSalvar.Name = "btnEditarSalvar";
+            this.btnEditarSalvar.Size = new System.Drawing.Size(32, 30);
+            this.btnEditarSalvar.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.btnEditarSalvar.TabIndex = 36;
+            this.btnEditarSalvar.TabStop = false;
+            this.btnEditarSalvar.Click += new System.EventHandler(this.btnEditarSalvar_Click);
+            // 
+            // btnCancelarExcluir
+            // 
+            this.btnCancelarExcluir.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnCancelarExcluir.Location = new System.Drawing.Point(548, 6);
+            this.btnCancelarExcluir.Name = "btnCancelarExcluir";
+            this.btnCancelarExcluir.Size = new System.Drawing.Size(33, 26);
+            this.btnCancelarExcluir.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.btnCancelarExcluir.TabIndex = 37;
+            this.btnCancelarExcluir.TabStop = false;
+            this.btnCancelarExcluir.Click += new System.EventHandler(this.btnCancelarExcluir_Click);
+            // 
+            // GStxtValor
+            // 
+            this.GStxtValor.BackColor = System.Drawing.Color.Silver;
+            this.GStxtValor.ListaDeInconsistencias = null;
+            this.GStxtValor.Location = new System.Drawing.Point(153, 364);
+            this.GStxtValor.Name = "GStxtValor";
+            this.GStxtValor.Size = new System.Drawing.Size(220, 36);
+            this.GStxtValor.TabIndex = 114;
+            this.GStxtValor.Valor = new decimal(new int[] {
+            0,
+            0,
+            0,
+            0});
             // 
             // frmInteracao
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Silver;
-            this.ClientSize = new System.Drawing.Size(593, 735);
+            this.ClientSize = new System.Drawing.Size(593, 746);
             this.Controls.Add(this.chkAtualizar);
-            this.Controls.Add(this.lblPrecoCompra);
+            this.Controls.Add(this.lblValor);
             this.Controls.Add(this.GStxtValor);
             this.Controls.Add(this.cbProduto);
             this.Controls.Add(this.lblProduto);
             this.Controls.Add(this.txtLineProduto);
             this.Controls.Add(this.txtDestino);
-            this.Controls.Add(this.label3);
+            this.Controls.Add(this.lblDestino);
             this.Controls.Add(this.txtLineDestino);
             this.Controls.Add(this.txtOrigem);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.lblOrigem);
             this.Controls.Add(this.txtLineOrigem);
             this.Controls.Add(this.txtHorario);
             this.Controls.Add(this.lblVigencia);
@@ -495,7 +492,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         private System.Windows.Forms.Label lblObservacoes;
         private System.Windows.Forms.TextBox txtQuantidade;
         private System.Windows.Forms.Label lblQuantidadeEstoque;
-        private System.Windows.Forms.Label lblPrecoCompra;
+        private System.Windows.Forms.Label lblValor;
         private System.Windows.Forms.TextBox txtDescricao;
         private System.Windows.Forms.Label lblDescricao;
         private System.Windows.Forms.Label txtLineHorario;
@@ -505,15 +502,15 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         private System.Windows.Forms.Label txtLineObservacoes;
         private System.Windows.Forms.TextBox txtHorario;
         private System.Windows.Forms.TextBox txtOrigem;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lblOrigem;
         private System.Windows.Forms.Label txtLineOrigem;
         private System.Windows.Forms.TextBox txtDestino;
-        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label lblDestino;
         private System.Windows.Forms.Label txtLineDestino;
         private System.Windows.Forms.Label lblProduto;
         private System.Windows.Forms.Label txtLineProduto;
         private System.Windows.Forms.ComboBox cbProduto;
-        private GSTextBoxMonetaria GStxtValor;
         private CheckBox chkAtualizar;
+        private GSTextBoxMonetaria GStxtValor;
     }
 }

@@ -118,6 +118,11 @@ namespace GS.GestaoEmpresa.Solucao.UI
             btnCancelarExcluir.Refresh();
         }
 
+        private void FormPadrao_Load(object sender, EventArgs e)
+        {
+
+        }
+
         //protected void InicializeInconsistencias()
         //{
         //    //Despintar os controles

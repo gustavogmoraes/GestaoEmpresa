@@ -51,6 +51,11 @@ namespace GS.GestaoEmpresa.Solucao.UI
 
         private void InicializeInconsistencias()
         {
+            if (_listaDeInconsistencias == null)
+            {
+                _listaDeInconsistencias = new List<Inconsistencia>();
+            }
+
             if (_listaDeInconsistencias.Count == 0)
             {
                 return;

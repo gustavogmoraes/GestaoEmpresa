@@ -70,6 +70,11 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
                 var produto = interacao.Produto;
                 produto.QuantidadeEmEstoque = produto.QuantidadeEmEstoque + quantidadeInterada;
 
+                if(interacao.AtualizarValorDoProdutoNoCatalogo)
+                {
+                    produto.PrecoDeCompra = interacao.ValorInteracao;
+                }
+
                 using (var servicoDeProduto = new ServicoDeProduto())
                 {
                     servicoDeProduto.Salve(produto, EnumTipoDeForm.Edicao);

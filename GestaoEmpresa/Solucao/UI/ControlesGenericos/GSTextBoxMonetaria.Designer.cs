@@ -54,6 +54,7 @@
             this.txtValor.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtValor.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtValor.Location = new System.Drawing.Point(43, 4);
+            this.txtValor.MaxLength = 8;
             this.txtValor.Name = "txtValor";
             this.txtValor.Size = new System.Drawing.Size(126, 24);
             this.txtValor.TabIndex = 95;
