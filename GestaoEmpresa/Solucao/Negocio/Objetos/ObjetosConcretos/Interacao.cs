@@ -12,9 +12,6 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Objetos.ObjetosConcretos
 
         public EnumTipoInteracao TipoInteracao { get; set; }
 
-        //Compra, Venda, Empréstimo, etc...
-        //public string Motivo { get; set; }
-
         public string Descricao { get; set; }
 
         public Produto Produto { get; set; }
@@ -22,6 +19,8 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Objetos.ObjetosConcretos
         public int QuantidadeInterada { get; set; }
 
         public decimal ValorInteracao { get; set; }
+        
+        public bool AtualizarValorDoProdutoNoCatalogo { get; set; }
 
         public string Origem { get; set; }
 
