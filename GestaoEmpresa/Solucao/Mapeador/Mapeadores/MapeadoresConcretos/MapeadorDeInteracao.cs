@@ -29,6 +29,7 @@ namespace GS.GestaoEmpresa.Solucao.Mapeador.Mapeadores.MapeadoresConcretos
             {"CODIGO_PRODUTO", typeof(int) },
             {"QUANTIDADE", typeof(int) },
             {"VALOR", typeof(decimal) },
+            {"ATUALIZARVALORNOCATALOGO", typeof(bool)},
             {"ORIGEM", typeof(string) },
             {"DESTINO", typeof(string) }
         };
@@ -45,6 +46,7 @@ namespace GS.GestaoEmpresa.Solucao.Mapeador.Mapeadores.MapeadoresConcretos
             retorno.Produto = new ServicoDeProduto().Consulte(int.Parse(tabela.Rows[linha]["CODIGO_PRODUTO"].ToString()));
             retorno.QuantidadeInterada = int.Parse(tabela.Rows[linha]["QUANTIDADE"].ToString());
             retorno.ValorInteracao = decimal.Parse(tabela.Rows[linha]["VALOR"].ToString());
+            retorno.AtualizarValorDoProdutoNoCatalogo = GSUtilitarios.ConvertaValorBooleano(tabela.Rows[linha]["ATUALIZARVALORNOCATALOGO"].ToString());
             retorno.Origem = tabela.Rows[linha]["ORIGEM"] != DBNull.Value
                            ? tabela.Rows[linha]["ORIGEM"].ToString()
                            : null;
@@ -58,7 +60,7 @@ namespace GS.GestaoEmpresa.Solucao.Mapeador.Mapeadores.MapeadoresConcretos
 
         private string ObtenhaValoresInsercao(Interacao interacao)
         {
-            return string.Format("{0}, CAST ('{1}' AS DATETIME2), {2}, '{3}', {4}, {5}, {6}, '{7}', '{8}'",
+            return string.Format("{0}, CAST ('{1}' AS DATETIME2), {2}, '{3}', {4}, {5}, {6}, '{7}', '{8}', '{9}'",
                                  interacao.Codigo,
                                  GSUtilitarios.FormateDateTimePtBrParaBD(interacao.Horario),
                                  (int)interacao.TipoInteracao,
@@ -66,6 +68,7 @@ namespace GS.GestaoEmpresa.Solucao.Mapeador.Mapeadores.MapeadoresConcretos
                                  interacao.Produto.Codigo,
                                  interacao.QuantidadeInterada,
                                  interacao.ValorInteracao,
+                                 GSUtilitarios.ConvertaValorBooleano(interacao.AtualizarValorDoProdutoNoCatalogo),
                                  interacao.Origem ?? "NULL",
                                  interacao.Destino ?? "NULL");
         }

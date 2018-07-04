@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using System.Globalization;
 using GS.GestaoEmpresa.Solucao.Negocio.Objetos.ObjetosConcretos;
 using GS.GestaoEmpresa.Solucao.Utilitarios;
+using GS.GestaoEmpresa.Solucao.Negocio.Catalogos;
 
 namespace GS.GestaoEmpresa.Solucao.UI
 {
@@ -23,8 +24,6 @@ namespace GS.GestaoEmpresa.Solucao.UI
         #region Propriedades
 
         private CultureInfo _cultura = new CultureInfo("pt-BR");
-
-        private Color _corInconsistencia = Color.Red;
 
         private List<Inconsistencia> _listaDeInconsistencias;
 
@@ -52,14 +51,19 @@ namespace GS.GestaoEmpresa.Solucao.UI
 
         private void InicializeInconsistencias()
         {
+            if (_listaDeInconsistencias == null)
+            {
+                _listaDeInconsistencias = new List<Inconsistencia>();
+            }
+
             if (_listaDeInconsistencias.Count == 0)
             {
                 return;
             }
 
-            this.txtLine.ForeColor = _corInconsistencia;
-            this.pbErro.Enabled = true;
-            this.pbErro.Visible = true;
+            txtLine.ForeColor = Cores.Erro;
+            pbErro.Enabled = true;
+            pbErro.Visible = true;
 
             var listaDeMensagens = new List<string>();
             foreach (var inconsistencia in _listaDeInconsistencias)

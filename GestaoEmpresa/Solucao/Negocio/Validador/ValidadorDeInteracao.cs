@@ -23,17 +23,6 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Validador
             //Chame validações aqui
             ValideRegraObrigatoriedades();
 
-            _listaDeInconsistencias.Add(
-                    new Inconsistencia()
-                    {
-                        Modulo = "Controle de Estoque",
-                        Tela = "Cadastro de Interações",
-                        ConceitoValidado = "Interação",
-                        NomeDaPropriedadeValidada = "ValorInteracao",
-                        DescricaoDaPropriedadeValidada = "Valor da interação",
-                        Mensagem = "Teste"
-                    });
-
             return _listaDeInconsistencias;
         }
 

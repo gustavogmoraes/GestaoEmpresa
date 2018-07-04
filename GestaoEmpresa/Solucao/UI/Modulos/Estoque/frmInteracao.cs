@@ -18,7 +18,7 @@ using System.Windows.Forms;
 
 namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 {
-    public partial class frmInteracao : FormPadrao, IFormPadrao<Interacao>
+    public partial class frmInteracao : Form, IFormPadrao<Interacao>
     {
         private int _codigoInteracao { get; set; }
 
@@ -61,8 +61,87 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             _codigoInteracao = interacao.Codigo;
         }
 
+        #region FormPadrao
+
+        protected CultureInfo Cultura = new CultureInfo("pt-BR");
+
+        protected EnumBotoesForm _switchBotaoEditarSalvar;
+
+        protected EnumBotoesForm _switchBotaoCancelarExcluir;
+
+        protected EnumTipoDeForm _tipoDoForm;
+
+        protected List<Inconsistencia> _listaDeInconsistencias { get; set; }
+
+        protected virtual void HabiliteControles()
+        {
+            foreach (Control controle in (this as Form).Controls)
+            {
+                controle.Enabled = true;
+            }
+        }
+
+        protected virtual void DesabiliteControles()
+        {
+            foreach (Control controle in (this as Form).Controls)
+            {
+                controle.Enabled = false;
+            }
+        }
+
+        protected void InicializeBotoes(EnumTipoDeForm tipoDeForm,
+                                        ref PictureBox btnEditarSalvar,
+                                        ref PictureBox btnCancelarExcluir,
+                                        ref EnumBotoesForm switchBotaoEditarSalvar,
+                                        ref EnumBotoesForm switchBotaoCancelarExcluir)
+        {
+            switch (tipoDeForm)
+            {
+                case EnumTipoDeForm.Cadastro:
+                    btnCancelarExcluir.Enabled = false;
+                    btnCancelarExcluir.Visible = false;
+
+                    btnEditarSalvar.Image = Properties.Resources.floppy_icon;
+                    switchBotaoEditarSalvar = EnumBotoesForm.Salvar;
+                    break;
+
+                case EnumTipoDeForm.Edicao:
+                    btnCancelarExcluir.Enabled = true;
+                    btnCancelarExcluir.Visible = true;
+                    btnCancelarExcluir.Image = Properties.Resources.cancel_icon;
+                    switchBotaoCancelarExcluir = EnumBotoesForm.Cancelar;
+
+                    btnEditarSalvar.Image = Properties.Resources.floppy_icon;
+                    switchBotaoEditarSalvar = EnumBotoesForm.Salvar;
+                    break;
+
+                case EnumTipoDeForm.Detalhamento:
+                    btnCancelarExcluir.Enabled = true;
+                    btnCancelarExcluir.Visible = true;
+                    btnCancelarExcluir.Image = Properties.Resources.delete;
+                    switchBotaoCancelarExcluir = EnumBotoesForm.Excluir;
+
+                    btnEditarSalvar.Image = Properties.Resources.edit_512;
+                    switchBotaoEditarSalvar = EnumBotoesForm.Editar;
+                    break;
+            }
+
+            btnEditarSalvar.Refresh();
+            btnCancelarExcluir.Refresh();
+        }
+
+        #endregion
+
         private void frmInteracao_Load(object sender, EventArgs e)
         {
+            var listaDeProdutos = new List<Produto>();
+            using (var servicoDeProduto = new ServicoDeProduto())
+            {
+                listaDeProdutos = servicoDeProduto.ConsulteTodosOsProdutos();
+            }
+
+            PreenchaComboBoxPesquisaComProdutos(listaDeProdutos);
+
             InicializeInconsistencias();
         }
 
@@ -91,15 +170,17 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             txtOrigem.Text = objeto.Origem ?? string.Empty;
             txtDestino.Text = objeto.Destino ?? string.Empty;
             cbProduto.Text = objeto.Produto.Nome.Trim();
+            chkAtualizar.Checked = objeto.AtualizarValorDoProdutoNoCatalogo;
         }
 
         public Interacao CarregueObjetoComControles()
         {
             var interacao = new Interacao();
-
+            
             interacao.Descricao = txtDescricao.Text.Trim();
             interacao.Observacao = txtObservacoes.Text.Trim();
             interacao.ValorInteracao = GStxtValor.Valor;
+            interacao.AtualizarValorDoProdutoNoCatalogo = chkAtualizar.Checked;
             interacao.TipoInteracao = (EnumTipoInteracao)cbTipo.SelectedIndex + 1;
             interacao.QuantidadeInterada = !string.IsNullOrEmpty(txtQuantidade.Text.Trim())
                                          ? int.Parse(txtQuantidade.Text.Trim())
@@ -170,27 +251,27 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         private void cbProduto_DropDown(object sender, EventArgs e)
         {
-            var listaDeProdutos = new List<Produto>();
+            //var listaDeProdutos = new List<Produto>();
 
-            using (var servicoDeProduto = new ServicoDeProduto())
-            {
-                listaDeProdutos = servicoDeProduto.ConsulteTodosOsProdutos();
-            }
+            //using (var servicoDeProduto = new ServicoDeProduto())
+            //{
+            //    listaDeProdutos = servicoDeProduto.ConsulteTodosOsProdutos();
+            //}
 
-            var pesquisa = cbProduto.Text.Trim();
+            //var pesquisa = cbProduto.Text.Trim();
 
-            if (pesquisa == string.Empty)
-            {
-                PreenchaComboBoxPesquisaComProdutos(listaDeProdutos);
-            }
-            else
-            {
-                var listaFiltrada = new List<Produto>();
-                listaFiltrada = listaDeProdutos.FindAll(x => x.Nome.ToUpper()
-                                                                   .Contains(pesquisa.ToUpper()));
+            //if (pesquisa == string.Empty)
+            //{
+            //    PreenchaComboBoxPesquisaComProdutos(listaDeProdutos);
+            //}
+            //else
+            //{
+            //    var listaFiltrada = new List<Produto>();
+            //    listaFiltrada = listaDeProdutos.FindAll(x => x.Nome.ToUpper()
+            //                                                       .Contains(pesquisa.ToUpper()));
 
-                PreenchaComboBoxPesquisaComProdutos(listaFiltrada);
-            }
+            //    PreenchaComboBoxPesquisaComProdutos(listaFiltrada);
+            //}
         }
 
         private void PreenchaComboBoxPesquisaComProdutos(List<Produto> produtos)
@@ -268,6 +349,22 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                         this.Close();
                     }
                     break;
+            }
+        }
+
+        private void cbTipo_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cbTipo.Text == "Saída")
+            {
+                lblValor.Enabled = false;
+                GStxtValor.Enabled = false;
+                chkAtualizar.Enabled = false;
+            }
+            else
+            {
+                lblValor.Enabled = true;
+                GStxtValor.Enabled = true;
+                chkAtualizar.Enabled = true;
             }
         }
     }

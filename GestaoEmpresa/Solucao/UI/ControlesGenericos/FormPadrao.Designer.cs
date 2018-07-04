@@ -37,6 +37,7 @@
             this.ClientSize = new System.Drawing.Size(284, 261);
             this.Name = "FormPadrao";
             this.Text = "FormPadrao";
+            this.Load += new System.EventHandler(this.FormPadrao_Load);
             this.ResumeLayout(false);
 
         }

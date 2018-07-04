@@ -113,7 +113,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                                      produto.CodigoDoFabricante,
                                      produto.Status,
                                      produto.Nome,
-                                     produto.Descricao,
+                                     produto.Observacao,
                                      GSUtilitarios.FormateDecimalParaStringMoedaReal(produto.PrecoDeCompra),
                                      GSUtilitarios.FormateDecimalParaStringMoedaReal(produto.PrecoDeVenda),
                                      produto.QuantidadeEmEstoque);
