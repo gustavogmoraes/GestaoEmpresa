@@ -103,6 +103,33 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
 
             return listaDeInconsistencias;
         }
+        
+        private List<Interacao> ConsultePorNumeroDeSerie(numeroDeSerie)
+        {
+            var listaDeRetorno = new List<Interacao>();
+            List<int> codigosDasInteracoes;
+            using (var mapeadorDeNumeroDeSerie = new MapeadorDeNumeroDeSerie())
+            {
+                codigosDasInteracoes = mapeadorDeNumeroDeSerie.ConsulteTodasInteracoesDeUmNumero(numeroDeSerie);
+            }
+            
+            foreach (codigo in codigosDasInteracoes)
+            {
+                listaDeRetorno.Add(Consulte(codigo));
+            }
+            
+            return listaDeRetorno;
+        }
+        
+        private bool VerifiqueSeNumeroDeSerieEstahEmEstoque(string numeroDeSerie)
+        {
+            var listaDeInteracoes = ConsultePorNumeroDeSerie(numeroDeSerie);
+            
+            var numeroDeEntradas = listaDeInteracoes.Where(x => x.TipoDeInteracao == EnumTiposDeInteracao.ENTRADA).Count;
+            var numeroDeSaidas = listaDeInteracoes.Where(x => x.TipoDeInteracao == EnumTiposDeInteracao.SAIDA).Count;
+
+            return (numeroDeEntradas > numeroDeSaidas);
+        }
 
         #region IDisposable Support
         private bool disposedValue = false; // To detect redundant calls
