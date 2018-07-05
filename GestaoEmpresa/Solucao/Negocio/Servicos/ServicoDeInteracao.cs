@@ -16,8 +16,14 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
         {
             var listaDeInteracoes = new List<Interacao>();
             using (var mapeadorDeInteracao = new MapeadorDeInteracao())
+            using (var mapeadorDeNumeroDeSerie = new MapeadorDeNumeroDeSerie())
             {
                 listaDeInteracoes = mapeadorDeInteracao.ConsulteTodasAsInteracoes();
+                
+                foreach (interacao in listaDeInteracoes)
+                {
+                    interacao.NumerosDeSerie = mapeadorDeNumeroDeSerie.ConsulteTodosPorInteracao(interacao.Codigo);
+                }
             }
 
             return listaDeInteracoes;
@@ -27,8 +33,14 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
         {
             var listaDeInteracoes = new List<Interacao>();
             using (var mapeadorDeInteracao = new MapeadorDeInteracao())
+            using (var mapeadorDeNumeroDeSerie = new MapeadorDeNumeroDeSerie())
             {
                 listaDeInteracoes = mapeadorDeInteracao.ConsulteTodasInteracoesPorProduto(codigoProduto);
+                
+                foreach (interacao in listaDeInteracoes)
+                {
+                    interacao.NumerosDeSerie = mapeadorDeNumeroDeSerie.ConsulteTodosPorInteracao(interacao.Codigo);
+                }
             }
 
             return listaDeInteracoes;
@@ -38,8 +50,10 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
         {
             var interacao = new Interacao();
             using (var mapeadorDeInteracao = new MapeadorDeInteracao())
+            using (var mapeadorDeNumeroDeSerie = new MapeadorDeNumeroDeSerie())
             {
                 interacao = mapeadorDeInteracao.Consulte(codigoInteracao);
+                interacao.NumerosDeSerie = mapeadorDeNumeroDeSerie.ConsulteTodosPorInteracao(codigoDaInteracao);
             }
 
             return interacao;
@@ -57,10 +71,16 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
             if (listaDeInconsistencias.Count == 0)
             {
                 using (var mapeadorDeInteracao = new MapeadorDeInteracao())
+                using (var mapeadorDeNumeroDeSerie = new MapeadorDeNumeroDeSerie())
                 {
                     interacao.Horario = horario;
                     interacao.Codigo = mapeadorDeInteracao.ObtenhaProximoCodigoDisponivel();
                     mapeadorDeInteracao.Insira(interacao);
+                    
+                    foreach(numeroDeSerie in interacao.NumerosDeSerie)
+                    {
+                        mapeadorDeNumeroDeSerie.Insira(numeroDeSerie);
+                    }
                 }
 
                 var quantidadeInterada = interacao.TipoInteracao == EnumTipoInteracao.Entrada
