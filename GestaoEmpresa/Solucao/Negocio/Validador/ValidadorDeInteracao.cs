@@ -20,8 +20,10 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Validador
             _interacao = interacao;
             _listaDeInconsistencias = new List<Inconsistencia>();
 
-            //Chame validaÁıes aqui
+            //Chame valida√ß√µes aqui
+            
             ValideRegraObrigatoriedades();
+            ValideRegrasDeNumeroDeSerie();
 
             return _listaDeInconsistencias;
         }
@@ -34,10 +36,10 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Validador
                     new Inconsistencia()
                     {
                         Modulo = "Controle de Estoque",
-                        Tela = "Cadastro de InteraÁıes",
-                        ConceitoValidado = "InteraÁ„o",
+                        Tela = "Cadastro de Intera√ß√µes",
+                        ConceitoValidado = "Intera√ß√£o",
                         NomeDaPropriedadeValidada = "Produto",
-                        DescricaoDaPropriedadeValidada = "Produto da entrada/saÌda",
+                        DescricaoDaPropriedadeValidada = "Produto da entrada/sa√≠da",
                         Mensagem = Mensagens.X_DEVE_SER_SELECIONADO("Um produto")
                     });
             }
@@ -48,11 +50,11 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Validador
                     new Inconsistencia()
                     {
                         Modulo = "Controle de Estoque",
-                        Tela = "Cadastro de InteraÁıes",
-                        ConceitoValidado = "InteraÁ„o",
+                        Tela = "Cadastro de Intera√ß√µes",
+                        ConceitoValidado = "Intera√ß√£o",
                         NomeDaPropriedadeValidada = "QuantidadeInterada",
                         DescricaoDaPropriedadeValidada = "Quantidade movimentada do produto",
-                        Mensagem = Mensagens.X_DEVE_SER_INFORMADO("Uma quantidade de produto para movimentaÁ„o")
+                        Mensagem = Mensagens.X_DEVE_SER_INFORMADO("Uma quantidade de produto para movimenta√ß√£o")
                     });
             }
 
@@ -62,8 +64,8 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Validador
                     new Inconsistencia()
                     {
                         Modulo = "Controle de Estoque",
-                        Tela = "Cadastro de InteraÁıes",
-                        ConceitoValidado = "InteraÁ„o",
+                        Tela = "Cadastro de Intera√ß√µes",
+                        ConceitoValidado = "Intera√ß√£o",
                         NomeDaPropriedadeValidada = "Origem",
                         DescricaoDaPropriedadeValidada = "Origem",
                         Mensagem = Mensagens.X_DEVE_SER_INFORMADO("Uma origem")
@@ -76,15 +78,61 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Validador
                     new Inconsistencia()
                     {
                         Modulo = "Controle de Estoque",
-                        Tela = "Cadastro de InteraÁıes",
-                        ConceitoValidado = "InteraÁ„o",
+                        Tela = "Cadastro de Intera√ß√µes",
+                        ConceitoValidado = "Intera√ß√£o",
                         NomeDaPropriedadeValidada = "Destino",
                         DescricaoDaPropriedadeValidada = "Destino",
                         Mensagem = Mensagens.X_DEVE_SER_INFORMADO("Um destino")
                     });
             }
         }
-
+        
+        private void ValideRegrasDeNumeroDeSerie()
+		{
+			// Primeiro validamos se existe algum n√∫mero de s√©rie na lista para evitar gastar processamento
+			if _interacao.NumerosDeSerie.Count == 0
+				return;
+				
+			using(var servicoDeInteracao = new ServicoDeInteracao())
+			{
+				foreach(numeroDeSerie in _interacao.NumerosDeSerie)
+				{
+					// Consultamos se o n√∫mero de s√©rie existe para evitar gastar processamento
+					if (MapeadorDeNumeroDeSerie().Consulte(numeroDeSerie) == null)
+						continue;
+					
+					var estahEmEstoque = servicoDeInteracao.VerifiqueSeNumeroDeSerieEstahEmEstoque(numeroDeSerie);
+					
+					if (_interacao.TipoInteracao == EnumTiposDeInteracao.ENTRADA && estahEmEstoque)
+					{
+						_listaDeInconsistencias.Add(
+							new Inconsistencia()
+							{
+								Modulo = "Controle de Estoque",
+								Tela = "Cadastro de Intera√ß√µes",
+								ConceitoValidado = "Intera√ß√£o",
+								NomeDaPropriedadeValidada = "NumerosDeSerie",
+								DescricaoDaPropriedadeValidada = "Lista de n√∫meros de s√©rie",
+								Mensagem = Mensagens.UM_PRODUTO_COM_O_NUMERO_DE_SERIE_X_JA_ESTA_EM_ESTOQUE(numeroDeSerie)
+							});
+					}
+					
+					if (_interacao.TipoInteracao == EnumTiposDeInteracao.SAIDA && !estahEmEstoque)
+					{
+						_listaDeInconsistencias.Add(
+							new Inconsistencia()
+							{
+								Modulo = "Controle de Estoque",
+								Tela = "Cadastro de Intera√ß√µes",
+								ConceitoValidado = "Intera√ß√£o",
+								NomeDaPropriedadeValidada = "NumerosDeSerie",
+								DescricaoDaPropriedadeValidada = "Lista de n√∫meros de s√©rie",
+								Mensagem = Mensagens.NAO_E_POSSIVEL_DAR_SAIDA_DO_NUMERO_DE_SERIE_X(numeroDeSerie)
+							});
+					}
+				}
+			}
+		}
 
         #region IDisposable Support
         private bool disposedValue = false; // To detect redundant calls
