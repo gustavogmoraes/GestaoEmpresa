@@ -20,7 +20,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
             {
                 listaDeInteracoes = mapeadorDeInteracao.ConsulteTodasAsInteracoes();
                 
-                foreach (interacao in listaDeInteracoes)
+                foreach (var interacao in listaDeInteracoes)
                 {
                     interacao.NumerosDeSerie = mapeadorDeNumeroDeSerie.ConsulteTodosPorInteracao(interacao.Codigo);
                 }
@@ -37,7 +37,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
             {
                 listaDeInteracoes = mapeadorDeInteracao.ConsulteTodasInteracoesPorProduto(codigoProduto);
                 
-                foreach (interacao in listaDeInteracoes)
+                foreach (var interacao in listaDeInteracoes)
                 {
                     interacao.NumerosDeSerie = mapeadorDeNumeroDeSerie.ConsulteTodosPorInteracao(interacao.Codigo);
                 }
@@ -46,13 +46,13 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
             return listaDeInteracoes;
         }
 
-        public Interacao Consulte(int codigoInteracao)
+        public Interacao Consulte(int codigoDaInteracao)
         {
             var interacao = new Interacao();
             using (var mapeadorDeInteracao = new MapeadorDeInteracao())
             using (var mapeadorDeNumeroDeSerie = new MapeadorDeNumeroDeSerie())
             {
-                interacao = mapeadorDeInteracao.Consulte(codigoInteracao);
+                interacao = mapeadorDeInteracao.Consulte(codigoDaInteracao);
                 interacao.NumerosDeSerie = mapeadorDeNumeroDeSerie.ConsulteTodosPorInteracao(codigoDaInteracao);
             }
 
@@ -77,13 +77,13 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
                     interacao.Codigo = mapeadorDeInteracao.ObtenhaProximoCodigoDisponivel();
                     mapeadorDeInteracao.Insira(interacao);
                     
-                    foreach(numeroDeSerie in interacao.NumerosDeSerie)
+                    foreach(var numeroDeSerie in interacao.NumerosDeSerie)
                     {
                         mapeadorDeNumeroDeSerie.Insira(numeroDeSerie);
                     }
                 }
 
-                var quantidadeInterada = interacao.TipoInteracao == EnumTipoInteracao.Entrada
+                var quantidadeInterada = interacao.TipoDeInteracao == EnumTipoDeInteracao.ENTRADA
                                        ? interacao.QuantidadeInterada
                                        : interacao.QuantidadeInterada * (-1);
 
@@ -104,7 +104,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
             return listaDeInconsistencias;
         }
         
-        private List<Interacao> ConsultePorNumeroDeSerie(numeroDeSerie)
+        private List<Interacao> ConsultePorNumeroDeSerie(string numeroDeSerie)
         {
             var listaDeRetorno = new List<Interacao>();
             List<int> codigosDasInteracoes;
@@ -113,7 +113,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
                 codigosDasInteracoes = mapeadorDeNumeroDeSerie.ConsulteTodasInteracoesDeUmNumero(numeroDeSerie);
             }
             
-            foreach (codigo in codigosDasInteracoes)
+            foreach (var codigo in codigosDasInteracoes)
             {
                 listaDeRetorno.Add(Consulte(codigo));
             }
@@ -121,12 +121,12 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
             return listaDeRetorno;
         }
         
-        private bool VerifiqueSeNumeroDeSerieEstahEmEstoque(string numeroDeSerie)
+        public bool VerifiqueSeNumeroDeSerieEstahEmEstoque(string numeroDeSerie)
         {
             var listaDeInteracoes = ConsultePorNumeroDeSerie(numeroDeSerie);
-            
-            var numeroDeEntradas = listaDeInteracoes.Where(x => x.TipoDeInteracao == EnumTiposDeInteracao.ENTRADA).Count;
-            var numeroDeSaidas = listaDeInteracoes.Where(x => x.TipoDeInteracao == EnumTiposDeInteracao.SAIDA).Count;
+
+            var numeroDeEntradas = listaDeInteracoes.Where(x => x.TipoDeInteracao == EnumTipoDeInteracao.ENTRADA).Count();
+            var numeroDeSaidas = listaDeInteracoes.Where(x => x.TipoDeInteracao == EnumTipoDeInteracao.SAIDA).Count();
 
             return (numeroDeEntradas > numeroDeSaidas);
         }

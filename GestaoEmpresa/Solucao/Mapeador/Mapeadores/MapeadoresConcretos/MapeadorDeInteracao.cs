@@ -39,7 +39,7 @@ namespace GS.GestaoEmpresa.Solucao.Mapeador.Mapeadores.MapeadoresConcretos
             var retorno = new Interacao();
 
             retorno.Codigo = int.Parse(tabela.Rows[linha]["CODIGO"].ToString());
-            retorno.TipoInteracao = (EnumTipoInteracao)int.Parse(tabela.Rows[linha]["TIPO"].ToString());
+            retorno.TipoDeInteracao = (EnumTipoDeInteracao)int.Parse(tabela.Rows[linha]["TIPO"].ToString());
             retorno.Descricao = tabela.Rows[linha]["DESCRICAO"] != DBNull.Value
                               ? tabela.Rows[linha]["DESCRICAO"].ToString()
                               : null;
@@ -63,7 +63,7 @@ namespace GS.GestaoEmpresa.Solucao.Mapeador.Mapeadores.MapeadoresConcretos
             return string.Format("{0}, CAST ('{1}' AS DATETIME2), {2}, '{3}', {4}, {5}, {6}, '{7}', '{8}', '{9}'",
                                  interacao.Codigo,
                                  GSUtilitarios.FormateDateTimePtBrParaBD(interacao.Horario),
-                                 (int)interacao.TipoInteracao,
+                                 (int)interacao.TipoDeInteracao,
                                  interacao.Descricao ?? "NULL",
                                  interacao.Produto.Codigo,
                                  interacao.QuantidadeInterada,

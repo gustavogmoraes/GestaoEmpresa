@@ -1,9 +1,9 @@
 ﻿using System;
 namespace GS.GestaoEmpresa.Solucao.Negocio.Enumeradores
 {
-    public enum EnumTipoInteracao
+    public enum EnumTipoDeInteracao
     {
-        Entrada = 1,
-        Saida
+        ENTRADA = 1,
+        SAIDA
     }
 }

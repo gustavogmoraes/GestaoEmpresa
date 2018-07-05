@@ -61,7 +61,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             foreach (var interacao in listaDeInteracoes)
             {
                 dgvHistorico.Rows.Add(interacao.Horario.ToString(Cultura),
-                                      interacao.TipoInteracao,
+                                      interacao.TipoDeInteracao,
                                       interacao.Descricao,
                                       interacao.Produto.Nome,
                                       interacao.QuantidadeInterada,
@@ -69,12 +69,12 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                                       interacao.Origem,
                                       interacao.Destino);
 
-                if (interacao.TipoInteracao == EnumTipoInteracao.Entrada)
+                if (interacao.TipoDeInteracao == EnumTipoDeInteracao.ENTRADA)
                 {
                     dgvHistorico.Rows[dgvHistorico.Rows.Count - 1].DefaultCellStyle.BackColor = Color.LightBlue;
                 }
 
-                if (interacao.TipoInteracao == EnumTipoInteracao.Saida)
+                if (interacao.TipoDeInteracao == EnumTipoDeInteracao.SAIDA)
                 {
                     dgvHistorico.Rows[dgvHistorico.Rows.Count - 1].DefaultCellStyle.BackColor = Color.LightPink;
                 }

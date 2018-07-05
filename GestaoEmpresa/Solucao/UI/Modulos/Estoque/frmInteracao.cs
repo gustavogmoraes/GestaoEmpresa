@@ -166,7 +166,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             txtObservacoes.Text = objeto.Observacao ?? string.Empty;
             txtQuantidade.Text = objeto.QuantidadeInterada.ToString();
             GStxtValor.Valor = objeto.ValorInteracao;
-            cbTipo.SelectedItem = objeto.TipoInteracao.ToString();
+            cbTipo.SelectedItem = objeto.TipoDeInteracao.ToString();
             txtOrigem.Text = objeto.Origem ?? string.Empty;
             txtDestino.Text = objeto.Destino ?? string.Empty;
             cbProduto.Text = objeto.Produto.Nome.Trim();
@@ -181,7 +181,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             interacao.Observacao = txtObservacoes.Text.Trim();
             interacao.ValorInteracao = GStxtValor.Valor;
             interacao.AtualizarValorDoProdutoNoCatalogo = chkAtualizar.Checked;
-            interacao.TipoInteracao = (EnumTipoInteracao)cbTipo.SelectedIndex + 1;
+            interacao.TipoDeInteracao = (EnumTipoDeInteracao)cbTipo.SelectedIndex + 1;
             interacao.QuantidadeInterada = !string.IsNullOrEmpty(txtQuantidade.Text.Trim())
                                          ? int.Parse(txtQuantidade.Text.Trim())
                                          : 0;

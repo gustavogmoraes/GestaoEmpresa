@@ -59,5 +59,15 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Catalogos
         {
             return string.Format("O {0} foi excluído com sucesso.", valor);
         }
+
+        public static string UM_PRODUTO_COM_O_NUMERO_DE_SERIE_X_JA_ESTA_EM_ESTOQUE(string numeroDeSerie)
+        {
+            return string.Format("Um produto com o número de série {0} já está em estoque!", numeroDeSerie);
+        }
+
+        public static string NAO_E_POSSIVEL_DAR_SAIDA_DO_NUMERO_DE_SERIE_X(string numeroDeSerie)
+        {
+            return string.Format("Um produto com o número de série {0} já está em estoque!", numeroDeSerie);
+        }
     }
 }

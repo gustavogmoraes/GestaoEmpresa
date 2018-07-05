@@ -1,32 +1,41 @@
 using System;
 using System.Collections.Generic;
-using System.Data;
-using GS.GestaoEmpresa.Solucao.Mapeador.BancoDeDados;
 using GS.GestaoEmpresa.Solucao.Negocio.Objetos.ObjetosConcretos;
-using GS.GestaoEmpresa.Solucao.Utilitarios;
 using GS.GestaoEmpresa.Solucao.Mapeador.Mapeadores.MapeadoresConcretos;
 using GS.GestaoEmpresa.Solucao.Negocio.Catalogos;
+using GS.GestaoEmpresa.Solucao.Negocio.Servicos;
+using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores;
 
 namespace GS.GestaoEmpresa.Solucao.Negocio.Validador
 {
     public class ValidadorDeInteracao : IDisposable
     {
-        private Interacao _interacao { get; set; }
-
-        private List<Inconsistencia> _listaDeInconsistencias { get; set; }
-
         public List<Inconsistencia> Valide(Interacao interacao)
         {
             _interacao = interacao;
             _listaDeInconsistencias = new List<Inconsistencia>();
 
             //Chame validações aqui
-            
+
             ValideRegraObrigatoriedades();
             ValideRegrasDeNumeroDeSerie();
 
             return _listaDeInconsistencias;
         }
+
+        private Interacao _interacao { get; set; }
+
+        private List<Inconsistencia> _listaDeInconsistencias { get; set; }
+
+        private MapeadorDeNumeroDeSerie _mapeadorDeNumeroDeSerie;
+        
+        private MapeadorDeNumeroDeSerie MapeadorDeNumeroDeSerie()
+        {
+            return _mapeadorDeNumeroDeSerie ?? (_mapeadorDeNumeroDeSerie = new MapeadorDeNumeroDeSerie());
+        }
+
+
+        #region Regras de validação
 
         private void ValideRegraObrigatoriedades()
         {
@@ -86,55 +95,59 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Validador
                     });
             }
         }
-        
-        private void ValideRegrasDeNumeroDeSerie()
-		{
-			// Primeiro validamos se existe algum número de série na lista para evitar gastar processamento
-			if _interacao.NumerosDeSerie.Count == 0
-				return;
-				
-			using(var servicoDeInteracao = new ServicoDeInteracao())
-			{
-				foreach(numeroDeSerie in _interacao.NumerosDeSerie)
-				{
-					// Consultamos se o número de série existe para evitar gastar processamento
-					if (MapeadorDeNumeroDeSerie().Consulte(numeroDeSerie) == null)
-						continue;
-					
-					var estahEmEstoque = servicoDeInteracao.VerifiqueSeNumeroDeSerieEstahEmEstoque(numeroDeSerie);
-					
-					if (_interacao.TipoInteracao == EnumTiposDeInteracao.ENTRADA && estahEmEstoque)
-					{
-						_listaDeInconsistencias.Add(
-							new Inconsistencia()
-							{
-								Modulo = "Controle de Estoque",
-								Tela = "Cadastro de Interações",
-								ConceitoValidado = "Interação",
-								NomeDaPropriedadeValidada = "NumerosDeSerie",
-								DescricaoDaPropriedadeValidada = "Lista de números de série",
-								Mensagem = Mensagens.UM_PRODUTO_COM_O_NUMERO_DE_SERIE_X_JA_ESTA_EM_ESTOQUE(numeroDeSerie)
-							});
-					}
-					
-					if (_interacao.TipoInteracao == EnumTiposDeInteracao.SAIDA && !estahEmEstoque)
-					{
-						_listaDeInconsistencias.Add(
-							new Inconsistencia()
-							{
-								Modulo = "Controle de Estoque",
-								Tela = "Cadastro de Interações",
-								ConceitoValidado = "Interação",
-								NomeDaPropriedadeValidada = "NumerosDeSerie",
-								DescricaoDaPropriedadeValidada = "Lista de números de série",
-								Mensagem = Mensagens.NAO_E_POSSIVEL_DAR_SAIDA_DO_NUMERO_DE_SERIE_X(numeroDeSerie)
-							});
-					}
-				}
-			}
-		}
 
-        #region IDisposable Support
+        private void ValideRegrasDeNumeroDeSerie()
+        {
+            // Primeiro validamos se existe algum número de série na lista para evitar gastar processamento
+            if (_interacao.NumerosDeSerie.Count == 0)
+            {
+                return;
+            }
+
+            using (var servicoDeInteracao = new ServicoDeInteracao())
+            {
+                foreach (var numeroDeSerie in _interacao.NumerosDeSerie)
+                {
+                    // Consultamos se o número de série existe para evitar gastar processamento
+                    if (MapeadorDeNumeroDeSerie().Consulte(numeroDeSerie) == null)
+                        continue;
+
+                    var estahEmEstoque = servicoDeInteracao.VerifiqueSeNumeroDeSerieEstahEmEstoque(numeroDeSerie);
+
+                    if (_interacao.TipoDeInteracao == EnumTipoDeInteracao.ENTRADA && estahEmEstoque)
+                    {
+                        _listaDeInconsistencias.Add(
+                            new Inconsistencia()
+                            {
+                                Modulo = "Controle de Estoque",
+                                Tela = "Cadastro de Interações",
+                                ConceitoValidado = "Interação",
+                                NomeDaPropriedadeValidada = "NumerosDeSerie",
+                                DescricaoDaPropriedadeValidada = "Lista de números de série",
+                                Mensagem = Mensagens.UM_PRODUTO_COM_O_NUMERO_DE_SERIE_X_JA_ESTA_EM_ESTOQUE(numeroDeSerie)
+                            });
+                    }
+
+                    if (_interacao.TipoDeInteracao == EnumTipoDeInteracao.SAIDA && !estahEmEstoque)
+                    {
+                        _listaDeInconsistencias.Add(
+                            new Inconsistencia()
+                            {
+                                Modulo = "Controle de Estoque",
+                                Tela = "Cadastro de Interações",
+                                ConceitoValidado = "Interação",
+                                NomeDaPropriedadeValidada = "NumerosDeSerie",
+                                DescricaoDaPropriedadeValidada = "Lista de números de série",
+                                Mensagem = Mensagens.NAO_E_POSSIVEL_DAR_SAIDA_DO_NUMERO_DE_SERIE_X(numeroDeSerie)
+                            });
+                    }
+                }
+            }
+        }
+
+        #endregion
+
+        #region Suporte à IDisposable
         private bool disposedValue = false; // To detect redundant calls
 
         protected virtual void Dispose(bool disposing)

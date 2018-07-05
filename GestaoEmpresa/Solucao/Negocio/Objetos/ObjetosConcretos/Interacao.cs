@@ -1,6 +1,7 @@
 ﻿using System;
 using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores;
 using GS.GestaoEmpresa.Solucao.Negocio.Objetos.Atributos;
+using System.Collections.Generic;
 
 namespace GS.GestaoEmpresa.Solucao.Negocio.Objetos.ObjetosConcretos
 {
@@ -10,7 +11,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Objetos.ObjetosConcretos
 
         public DateTime Horario { get; set; }
 
-        public EnumTipoInteracao TipoInteracao { get; set; }
+        public EnumTipoDeInteracao TipoDeInteracao { get; set; }
 
         public string Descricao { get; set; }
 
