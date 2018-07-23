@@ -13,7 +13,7 @@ namespace GS.GestaoEmpresa.Solucao.Mapeador.Mapeadores.MapeadoresAbstratos
 	public abstract class MapeadorPadrao<TEntidade> : IDisposable
 		where TEntidade : class, new()
 	{
-		#region Atributos
+		#region Propriedades
 
 		public Dictionary<string, PropertyInfo> Colunas
 		{
@@ -22,7 +22,8 @@ namespace GS.GestaoEmpresa.Solucao.Mapeador.Mapeadores.MapeadoresAbstratos
                 Dictionary<string, PropertyInfo> campos = new Dictionary<string, PropertyInfo>();
 
                 foreach (var propriedade in typeof(TEntidade).GetProperties()
-															 .Where(x => GSUtilitarios.ObtenhaTipoDeEntidadeRelacional(x) != EnumTipoDeEntidadeRelacional.UmParaMuitos ))
+															 .Where(x => GSUtilitarios.EncontrePropriedadeMarcadaComAtributo(typeof(TEntidade), typeof(BancoDeDados)) &&
+															 			 GSUtilitarios.ObtenhaTipoDeEntidadeRelacional(x) != EnumTipoDeEntidadeRelacional.UmParaMuitos))
                 {
                     campos.Add(propriedade.Name.ToUpper(), propriedade);
                 }
@@ -99,8 +100,6 @@ namespace GS.GestaoEmpresa.Solucao.Mapeador.Mapeadores.MapeadoresAbstratos
 			}
 		}
 
-        
-
 		protected string ObtenhaValoresInsercao(TEntidade entidade)
 		{
 			string valores = string.Empty;
@@ -139,6 +138,7 @@ namespace GS.GestaoEmpresa.Solucao.Mapeador.Mapeadores.MapeadoresAbstratos
 					Type tipoElementos = GSUtilitarios.ObtenhaTipoLista(propriedade.GetValue(entidade, null) as List<dynamic>);
 					Type tipoChaveElementos = GSUtilitarios.EncontrePropriedadeChaveDoTipo(tipoElementos).PropertyType;
 
+					//Melhorar isso aqui, colocar um Attribute no objetos, que vai dizer quem é o mapeador dele
 					var servicoMapeadorElementosLista = Activator.CreateInstance(null, Namespaces.MAPEADORES_CONCRETOS + ".Mapeador" + tipoElementos.Name).Unwrap() as IDisposable;
 
 					foreach (var elemento in propriedade.GetValue(entidade, null) as List<dynamic>)
