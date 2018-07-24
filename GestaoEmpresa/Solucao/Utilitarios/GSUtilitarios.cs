@@ -232,11 +232,10 @@ namespace GS.GestaoEmpresa.Solucao.Utilitarios
             return string.Format(cultura, "{0:C}", precoDeVenda).Remove(0, 2);
         }
 
-        public static PropertyInfo EncontrePropriedadeMarcadaComAtributo(Type tipo, Attribute atributo)
+        public static List<PropertyInfo> EncontrePropriedadeMarcadaComAtributo(Type tipo, Type tipoDoAtributo)
         {
             return tipo.GetProperties()
-                       .Where(x => Attribute.IsDefined(x, atributo.GetType()))
-                       .FirstOrDefault();
+                       .Where(x => Attribute.IsDefined(x, tipoDoAtributo)).ToList();
         }
 
         #endregion

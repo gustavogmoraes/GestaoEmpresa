@@ -3,6 +3,7 @@ using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores;
 using GS.GestaoEmpresa.Solucao.Negocio.Interfaces;
 using GS.GestaoEmpresa.Solucao.Negocio.Objetos.ObjetosConcretos;
 using GS.GestaoEmpresa.Solucao.Negocio.Servicos;
+using GS.GestaoEmpresa.Solucao.UI.ControlesGenericos;
 using GS.GestaoEmpresa.Solucao.Utilitarios;
 using System;
 using System.Collections;
@@ -162,24 +163,37 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         public void CarregueControlesComObjeto(Interacao objeto)
         {
-            txtDescricao.Text = objeto.Descricao ?? string.Empty;
             txtObservacoes.Text = objeto.Observacao ?? string.Empty;
             txtQuantidade.Text = objeto.QuantidadeInterada.ToString();
-            GStxtValor.Valor = objeto.ValorInteracao;
+            //GStxtValor.Valor = objeto.ValorInteracao;
             cbTipo.SelectedItem = objeto.TipoDeInteracao.ToString();
             txtOrigem.Text = objeto.Origem ?? string.Empty;
             txtDestino.Text = objeto.Destino ?? string.Empty;
             cbProduto.Text = objeto.Produto.Nome.Trim();
             chkAtualizar.Checked = objeto.AtualizarValorDoProdutoNoCatalogo;
+
+            foreach(var numero in objeto.NumerosDeSerie)
+            {
+                if (numero == objeto.NumerosDeSerie.FirstOrDefault())
+                {
+                    gsMultiTextBox1.Texto = numero;
+                }
+                else
+                {
+                    flpNumerosDeSerie.Controls.Add(
+                        new GSMultiTextBox()
+                        {
+                            Texto = numero
+                        });
+                }
+            }
         }
 
         public Interacao CarregueObjetoComControles()
         {
             var interacao = new Interacao();
-            
-            interacao.Descricao = txtDescricao.Text.Trim();
             interacao.Observacao = txtObservacoes.Text.Trim();
-            interacao.ValorInteracao = GStxtValor.Valor;
+            //interacao.ValorInteracao = GStxtValor.Valor;
             interacao.AtualizarValorDoProdutoNoCatalogo = chkAtualizar.Checked;
             interacao.TipoDeInteracao = (EnumTipoDeInteracao)cbTipo.SelectedIndex + 1;
             interacao.QuantidadeInterada = !string.IsNullOrEmpty(txtQuantidade.Text.Trim())
@@ -195,6 +209,17 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             }
 
             interacao.Produto = listaDeProdutos.Find(x => x.Nome.Trim() == cbProduto.Text.Trim());
+            
+            //Carregando números de série
+            foreach(var multiTextBox in flpNumerosDeSerie.Controls)
+            {
+                var valor = (multiTextBox as GSMultiTextBox).Texto;
+
+                if (!string.IsNullOrEmpty(valor))
+                {
+                    interacao.NumerosDeSerie.Add(valor);
+                }
+            }
 
             return interacao;
         }
@@ -229,7 +254,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
                     if (inconsistencia.NomeDaPropriedadeValidada == "ValorInteracao")
                     {
-                        GStxtValor.ListaDeInconsistencias = new List<Inconsistencia> { inconsistencia };
+                        //GStxtValor.ListaDeInconsistencias = new List<Inconsistencia> { inconsistencia };
                     }
                 }
 }
@@ -357,15 +382,41 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             if (cbTipo.Text == "Saída")
             {
                 lblValor.Enabled = false;
-                GStxtValor.Enabled = false;
+                //GStxtValor.Enabled = false;
                 chkAtualizar.Enabled = false;
             }
             else
             {
                 lblValor.Enabled = true;
-                GStxtValor.Enabled = true;
+                //GStxtValor.Enabled = true;
                 chkAtualizar.Enabled = true;
             }
+        }
+
+        private void btnAdicionarNumeroDeSerie_Click(object sender, EventArgs e)
+        {
+            flpNumerosDeSerie.Controls.Add(
+                new TextBox()
+                {
+                    AccessibleRole = AccessibleRole.Default,
+                    BorderStyle = BorderStyle.None,
+                    BackColor = Color.Silver,
+                    ForeColor = Color.Black,
+                    Visible = true,
+                    Enabled = true,
+                    Font = new Font("Century Gothic", 14.25f),
+                    Size = new Size(462, 24),
+                });
+        }
+
+        private void txtOrigem_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtLineOrigem_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

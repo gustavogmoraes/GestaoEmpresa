@@ -25,13 +25,14 @@ namespace GS.GestaoEmpresa.Solucao.Mapeador.Mapeadores.MapeadoresConcretos
             {"CODIGO", typeof(int)},
             {"HORARIO", typeof(DateTime)},
             {"TIPO", typeof(bool)},
-            {"DESCRICAO", typeof(string)},
+            {"OBSERVACOES", typeof(string)},
             {"CODIGO_PRODUTO", typeof(int) },
             {"QUANTIDADE", typeof(int) },
             {"VALOR", typeof(decimal) },
             {"ATUALIZARVALORNOCATALOGO", typeof(bool)},
             {"ORIGEM", typeof(string) },
-            {"DESTINO", typeof(string) }
+            {"DESTINO", typeof(string) },
+            {"NUMERODANOTAFISCAL", typeof(string) },
         };
 
         private Interacao MonteRetorno(DataTable tabela, int linha)
@@ -40,9 +41,9 @@ namespace GS.GestaoEmpresa.Solucao.Mapeador.Mapeadores.MapeadoresConcretos
 
             retorno.Codigo = int.Parse(tabela.Rows[linha]["CODIGO"].ToString());
             retorno.TipoDeInteracao = (EnumTipoDeInteracao)int.Parse(tabela.Rows[linha]["TIPO"].ToString());
-            retorno.Descricao = tabela.Rows[linha]["DESCRICAO"] != DBNull.Value
-                              ? tabela.Rows[linha]["DESCRICAO"].ToString()
-                              : null;
+            retorno.Observacao = tabela.Rows[linha]["OBSERVACOES"] != DBNull.Value
+                               ? tabela.Rows[linha]["OBSERVACOES"].ToString()
+                               : null;
             retorno.Produto = new ServicoDeProduto().Consulte(int.Parse(tabela.Rows[linha]["CODIGO_PRODUTO"].ToString()));
             retorno.QuantidadeInterada = int.Parse(tabela.Rows[linha]["QUANTIDADE"].ToString());
             retorno.ValorInteracao = decimal.Parse(tabela.Rows[linha]["VALOR"].ToString());
@@ -54,23 +55,25 @@ namespace GS.GestaoEmpresa.Solucao.Mapeador.Mapeadores.MapeadoresConcretos
                             ? tabela.Rows[linha]["DESTINO"].ToString()
                             : null;
             retorno.Horario = (DateTime)tabela.Rows[linha]["HORARIO"];
+            retorno.NumeroDaNota = tabela.Rows[linha]["NUMERODANOTAFISCAL"].ToString();
 
             return retorno;
         }
 
         private string ObtenhaValoresInsercao(Interacao interacao)
         {
-            return string.Format("{0}, CAST ('{1}' AS DATETIME2), {2}, '{3}', {4}, {5}, {6}, '{7}', '{8}', '{9}'",
+            return string.Format("{0}, CAST ('{1}' AS DATETIME2), {2}, '{3}', {4}, {5}, {6}, '{7}', '{8}', '{9}', '{10}'",
                                  interacao.Codigo,
                                  GSUtilitarios.FormateDateTimePtBrParaBD(interacao.Horario),
                                  (int)interacao.TipoDeInteracao,
-                                 interacao.Descricao ?? "NULL",
+                                 interacao.Observacao ?? "NULL",
                                  interacao.Produto.Codigo,
                                  interacao.QuantidadeInterada,
                                  interacao.ValorInteracao,
                                  GSUtilitarios.ConvertaValorBooleano(interacao.AtualizarValorDoProdutoNoCatalogo),
                                  interacao.Origem ?? "NULL",
-                                 interacao.Destino ?? "NULL");
+                                 interacao.Destino ?? "NULL",
+                                 interacao.NumeroDaNota ?? "NULL");
         }
 
         public void Insira(Interacao interacao)

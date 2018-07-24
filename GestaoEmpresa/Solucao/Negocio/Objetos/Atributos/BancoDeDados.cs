@@ -1,5 +1,6 @@
 ﻿using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores;
 using System;
+
 namespace GS.GestaoEmpresa.Solucao.Negocio.Objetos.Atributos
 {
     public class BancoDeDados : Attribute

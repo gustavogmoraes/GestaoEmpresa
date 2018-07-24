@@ -43,31 +43,6 @@
             this.txtPesquisa = new System.Windows.Forms.TextBox();
             this.btnNovoProduto = new System.Windows.Forms.Button();
             this.dgvProdutos = new System.Windows.Forms.DataGridView();
-            this.tabHistorico = new System.Windows.Forms.TabPage();
-            this.cbPesquisaPorProduto = new System.Windows.Forms.ComboBox();
-            this.btnRefreshHist = new System.Windows.Forms.Button();
-            this.label3 = new System.Windows.Forms.Label();
-            this.cbPesquisaHistorico = new System.Windows.Forms.ComboBox();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.txtPesquisaHistorico = new System.Windows.Forms.TextBox();
-            this.btnNovaInteracao = new System.Windows.Forms.Button();
-            this.dgvHistorico = new System.Windows.Forms.DataGridView();
-            this.colunaHorario = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colunaTipo = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colunaDescricaoInteracao = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colunaProduto = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colunaQuantidadeInt = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colunaValor = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colunaOrigem = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colunaDestino = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colunaDetalharHist = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.btnCatalogo = new System.Windows.Forms.Button();
-            this.btnHistorico = new System.Windows.Forms.Button();
-            this.ucSessaoSistema1 = new GS.GestaoEmpresa.Solucao.Mapeador.BancoDeDados.UCSessaoSistema();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.ScrollSelecao = new System.Windows.Forms.Panel();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
             this.colunaCodigo = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colunaCodigoFabricante = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colunaStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -77,6 +52,30 @@
             this.colunaPrecoVenda = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colunaQuantidade = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colunaDetalhar = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.tabHistorico = new System.Windows.Forms.TabPage();
+            this.cbPesquisaPorProduto = new System.Windows.Forms.ComboBox();
+            this.btnRefreshHist = new System.Windows.Forms.Button();
+            this.label3 = new System.Windows.Forms.Label();
+            this.cbPesquisaHistorico = new System.Windows.Forms.ComboBox();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.txtPesquisaHistorico = new System.Windows.Forms.TextBox();
+            this.btnNovaInteracao = new System.Windows.Forms.Button();
+            this.dgvHistorico = new System.Windows.Forms.DataGridView();
+            this.btnCatalogo = new System.Windows.Forms.Button();
+            this.btnHistorico = new System.Windows.Forms.Button();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.ScrollSelecao = new System.Windows.Forms.Panel();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.colunaHorario = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colunaTipo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colunaObservacaoInteracao = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colunaProduto = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colunaQuantidadeInt = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colunaValor = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colunaOrigem = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colunaDestino = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colunaDetalharHist = new System.Windows.Forms.DataGridViewButtonColumn();
             this.tabControl1.SuspendLayout();
             this.tabProdutos.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
@@ -237,6 +236,76 @@
             this.dgvProdutos.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvProdutos_CellDoubleClick);
             this.dgvProdutos.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.dgvProdutos_CellPainting);
             // 
+            // colunaCodigo
+            // 
+            this.colunaCodigo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.colunaCodigo.HeaderText = "Código";
+            this.colunaCodigo.Name = "colunaCodigo";
+            this.colunaCodigo.ReadOnly = true;
+            this.colunaCodigo.Width = 75;
+            // 
+            // colunaCodigoFabricante
+            // 
+            this.colunaCodigoFabricante.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.colunaCodigoFabricante.HeaderText = "Código do fabricante";
+            this.colunaCodigoFabricante.Name = "colunaCodigoFabricante";
+            this.colunaCodigoFabricante.ReadOnly = true;
+            this.colunaCodigoFabricante.Width = 186;
+            // 
+            // colunaStatus
+            // 
+            this.colunaStatus.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
+            this.colunaStatus.HeaderText = "Status";
+            this.colunaStatus.Name = "colunaStatus";
+            this.colunaStatus.ReadOnly = true;
+            this.colunaStatus.Width = 84;
+            // 
+            // colunaNome
+            // 
+            this.colunaNome.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.colunaNome.HeaderText = "Nome";
+            this.colunaNome.Name = "colunaNome";
+            this.colunaNome.ReadOnly = true;
+            // 
+            // colunaDescricao
+            // 
+            this.colunaDescricao.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.colunaDescricao.HeaderText = "Descrição";
+            this.colunaDescricao.Name = "colunaDescricao";
+            this.colunaDescricao.ReadOnly = true;
+            // 
+            // colunaPrecoCompra
+            // 
+            this.colunaPrecoCompra.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.colunaPrecoCompra.HeaderText = "Preço de Compra";
+            this.colunaPrecoCompra.Name = "colunaPrecoCompra";
+            this.colunaPrecoCompra.ReadOnly = true;
+            this.colunaPrecoCompra.Width = 120;
+            // 
+            // colunaPrecoVenda
+            // 
+            this.colunaPrecoVenda.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.colunaPrecoVenda.HeaderText = "Preço de Venda";
+            this.colunaPrecoVenda.Name = "colunaPrecoVenda";
+            this.colunaPrecoVenda.ReadOnly = true;
+            this.colunaPrecoVenda.Width = 115;
+            // 
+            // colunaQuantidade
+            // 
+            this.colunaQuantidade.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.colunaQuantidade.HeaderText = "Quantidade em estoque";
+            this.colunaQuantidade.Name = "colunaQuantidade";
+            this.colunaQuantidade.ReadOnly = true;
+            this.colunaQuantidade.Width = 125;
+            // 
+            // colunaDetalhar
+            // 
+            this.colunaDetalhar.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.colunaDetalhar.HeaderText = "";
+            this.colunaDetalhar.Name = "colunaDetalhar";
+            this.colunaDetalhar.ReadOnly = true;
+            this.colunaDetalhar.Width = 30;
+            // 
             // tabHistorico
             // 
             this.tabHistorico.BackColor = System.Drawing.Color.Silver;
@@ -369,7 +438,7 @@
             this.dgvHistorico.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colunaHorario,
             this.colunaTipo,
-            this.colunaDescricaoInteracao,
+            this.colunaObservacaoInteracao,
             this.colunaProduto,
             this.colunaQuantidadeInt,
             this.colunaValor,
@@ -400,65 +469,6 @@
             this.dgvHistorico.TabIndex = 0;
             this.dgvHistorico.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvHistorico_CellContentClick);
             this.dgvHistorico.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.dgvHistorico_CellPainting);
-            // 
-            // colunaHorario
-            // 
-            this.colunaHorario.HeaderText = "Horário";
-            this.colunaHorario.Name = "colunaHorario";
-            this.colunaHorario.ReadOnly = true;
-            this.colunaHorario.Width = 150;
-            // 
-            // colunaTipo
-            // 
-            this.colunaTipo.HeaderText = "Tipo";
-            this.colunaTipo.Name = "colunaTipo";
-            this.colunaTipo.ReadOnly = true;
-            // 
-            // colunaDescricaoInteracao
-            // 
-            this.colunaDescricaoInteracao.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.colunaDescricaoInteracao.HeaderText = "Descrição";
-            this.colunaDescricaoInteracao.Name = "colunaDescricaoInteracao";
-            this.colunaDescricaoInteracao.ReadOnly = true;
-            // 
-            // colunaProduto
-            // 
-            this.colunaProduto.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.colunaProduto.HeaderText = "Produto";
-            this.colunaProduto.Name = "colunaProduto";
-            this.colunaProduto.ReadOnly = true;
-            // 
-            // colunaQuantidadeInt
-            // 
-            this.colunaQuantidadeInt.HeaderText = "Quantidade";
-            this.colunaQuantidadeInt.Name = "colunaQuantidadeInt";
-            this.colunaQuantidadeInt.ReadOnly = true;
-            this.colunaQuantidadeInt.Width = 150;
-            // 
-            // colunaValor
-            // 
-            this.colunaValor.HeaderText = "Valor";
-            this.colunaValor.Name = "colunaValor";
-            this.colunaValor.ReadOnly = true;
-            // 
-            // colunaOrigem
-            // 
-            this.colunaOrigem.HeaderText = "Origem";
-            this.colunaOrigem.Name = "colunaOrigem";
-            this.colunaOrigem.ReadOnly = true;
-            // 
-            // colunaDestino
-            // 
-            this.colunaDestino.HeaderText = "Destino";
-            this.colunaDestino.Name = "colunaDestino";
-            this.colunaDestino.ReadOnly = true;
-            // 
-            // colunaDetalharHist
-            // 
-            this.colunaDetalharHist.HeaderText = "";
-            this.colunaDetalharHist.Name = "colunaDetalharHist";
-            this.colunaDetalharHist.ReadOnly = true;
-            this.colunaDetalharHist.Width = 30;
             // 
             // btnCatalogo
             // 
@@ -494,17 +504,6 @@
             this.btnHistorico.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.btnHistorico.UseVisualStyleBackColor = false;
             this.btnHistorico.Click += new System.EventHandler(this.btnHistorico_Click);
-            // 
-            // ucSessaoSistema1
-            // 
-            this.ucSessaoSistema1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.ucSessaoSistema1.BackColor = System.Drawing.Color.SteelBlue;
-            this.ucSessaoSistema1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.ucSessaoSistema1.Location = new System.Drawing.Point(0, -3);
-            this.ucSessaoSistema1.Name = "ucSessaoSistema1";
-            this.ucSessaoSistema1.Size = new System.Drawing.Size(1285, 66);
-            this.ucSessaoSistema1.TabIndex = 2;
             // 
             // panel1
             // 
@@ -557,75 +556,64 @@
             this.label1.TabIndex = 2;
             this.label1.Text = "_________________";
             // 
-            // colunaCodigo
+            // colunaHorario
             // 
-            this.colunaCodigo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.colunaCodigo.HeaderText = "Código";
-            this.colunaCodigo.Name = "colunaCodigo";
-            this.colunaCodigo.ReadOnly = true;
-            this.colunaCodigo.Width = 75;
+            this.colunaHorario.HeaderText = "Horário";
+            this.colunaHorario.Name = "colunaHorario";
+            this.colunaHorario.ReadOnly = true;
+            this.colunaHorario.Width = 150;
             // 
-            // colunaCodigoFabricante
+            // colunaTipo
             // 
-            this.colunaCodigoFabricante.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.colunaCodigoFabricante.HeaderText = "Código do fabricante";
-            this.colunaCodigoFabricante.Name = "colunaCodigoFabricante";
-            this.colunaCodigoFabricante.ReadOnly = true;
-            this.colunaCodigoFabricante.Width = 186;
+            this.colunaTipo.HeaderText = "Tipo";
+            this.colunaTipo.Name = "colunaTipo";
+            this.colunaTipo.ReadOnly = true;
             // 
-            // colunaStatus
+            // colunaObservacaoInteracao
             // 
-            this.colunaStatus.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
-            this.colunaStatus.HeaderText = "Status";
-            this.colunaStatus.Name = "colunaStatus";
-            this.colunaStatus.ReadOnly = true;
-            this.colunaStatus.Width = 84;
+            this.colunaObservacaoInteracao.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.colunaObservacaoInteracao.HeaderText = "Observação";
+            this.colunaObservacaoInteracao.Name = "colunaObservacaoInteracao";
+            this.colunaObservacaoInteracao.ReadOnly = true;
             // 
-            // colunaNome
+            // colunaProduto
             // 
-            this.colunaNome.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.colunaNome.HeaderText = "Nome";
-            this.colunaNome.Name = "colunaNome";
-            this.colunaNome.ReadOnly = true;
+            this.colunaProduto.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.colunaProduto.HeaderText = "Produto";
+            this.colunaProduto.Name = "colunaProduto";
+            this.colunaProduto.ReadOnly = true;
             // 
-            // colunaDescricao
+            // colunaQuantidadeInt
             // 
-            this.colunaDescricao.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.colunaDescricao.HeaderText = "Descrição";
-            this.colunaDescricao.Name = "colunaDescricao";
-            this.colunaDescricao.ReadOnly = true;
+            this.colunaQuantidadeInt.HeaderText = "Quantidade";
+            this.colunaQuantidadeInt.Name = "colunaQuantidadeInt";
+            this.colunaQuantidadeInt.ReadOnly = true;
+            this.colunaQuantidadeInt.Width = 150;
             // 
-            // colunaPrecoCompra
+            // colunaValor
             // 
-            this.colunaPrecoCompra.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.colunaPrecoCompra.HeaderText = "Preço de Compra";
-            this.colunaPrecoCompra.Name = "colunaPrecoCompra";
-            this.colunaPrecoCompra.ReadOnly = true;
-            this.colunaPrecoCompra.Width = 120;
+            this.colunaValor.HeaderText = "Valor";
+            this.colunaValor.Name = "colunaValor";
+            this.colunaValor.ReadOnly = true;
             // 
-            // colunaPrecoVenda
+            // colunaOrigem
             // 
-            this.colunaPrecoVenda.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.colunaPrecoVenda.HeaderText = "Preço de Venda";
-            this.colunaPrecoVenda.Name = "colunaPrecoVenda";
-            this.colunaPrecoVenda.ReadOnly = true;
-            this.colunaPrecoVenda.Width = 115;
+            this.colunaOrigem.HeaderText = "Origem";
+            this.colunaOrigem.Name = "colunaOrigem";
+            this.colunaOrigem.ReadOnly = true;
             // 
-            // colunaQuantidade
+            // colunaDestino
             // 
-            this.colunaQuantidade.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.colunaQuantidade.HeaderText = "Quantidade em estoque";
-            this.colunaQuantidade.Name = "colunaQuantidade";
-            this.colunaQuantidade.ReadOnly = true;
-            this.colunaQuantidade.Width = 125;
+            this.colunaDestino.HeaderText = "Destino";
+            this.colunaDestino.Name = "colunaDestino";
+            this.colunaDestino.ReadOnly = true;
             // 
-            // colunaDetalhar
+            // colunaDetalharHist
             // 
-            this.colunaDetalhar.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.colunaDetalhar.HeaderText = "";
-            this.colunaDetalhar.Name = "colunaDetalhar";
-            this.colunaDetalhar.ReadOnly = true;
-            this.colunaDetalhar.Width = 30;
+            this.colunaDetalharHist.HeaderText = "";
+            this.colunaDetalharHist.Name = "colunaDetalharHist";
+            this.colunaDetalharHist.ReadOnly = true;
+            this.colunaDetalharHist.Width = 30;
             // 
             // frmEstoque
             // 
@@ -633,7 +621,6 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Gray;
             this.ClientSize = new System.Drawing.Size(1284, 681);
-            this.Controls.Add(this.ucSessaoSistema1);
             this.Controls.Add(this.btnCatalogo);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.tabControl1);
@@ -684,15 +671,6 @@
         private System.Windows.Forms.TextBox txtPesquisaHistorico;
         private System.Windows.Forms.Button btnNovaInteracao;
         private System.Windows.Forms.ComboBox cbPesquisaPorProduto;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colunaHorario;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colunaTipo;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colunaDescricaoInteracao;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colunaProduto;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colunaQuantidadeInt;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colunaValor;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colunaOrigem;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colunaDestino;
-        private System.Windows.Forms.DataGridViewButtonColumn colunaDetalharHist;
         private System.Windows.Forms.DataGridViewTextBoxColumn colunaCodigo;
         private System.Windows.Forms.DataGridViewTextBoxColumn colunaCodigoFabricante;
         private System.Windows.Forms.DataGridViewTextBoxColumn colunaStatus;
@@ -702,5 +680,14 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colunaPrecoVenda;
         private System.Windows.Forms.DataGridViewTextBoxColumn colunaQuantidade;
         private System.Windows.Forms.DataGridViewButtonColumn colunaDetalhar;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colunaHorario;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colunaTipo;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colunaObservacaoInteracao;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colunaProduto;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colunaQuantidadeInt;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colunaValor;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colunaOrigem;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colunaDestino;
+        private System.Windows.Forms.DataGridViewButtonColumn colunaDetalharHist;
     }
 }

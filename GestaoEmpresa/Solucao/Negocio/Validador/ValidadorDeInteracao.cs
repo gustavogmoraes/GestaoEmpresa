@@ -99,7 +99,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Validador
         private void ValideRegrasDeNumeroDeSerie()
         {
             // Primeiro validamos se existe algum número de série na lista para evitar gastar processamento
-            if (_interacao.NumerosDeSerie.Count == 0)
+            if (_interacao.NumerosDeSerie == null || _interacao.NumerosDeSerie.Count == 0)
             {
                 return;
             }
@@ -109,7 +109,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Validador
                 foreach (var numeroDeSerie in _interacao.NumerosDeSerie)
                 {
                     // Consultamos se o número de série existe para evitar gastar processamento
-                    if (MapeadorDeNumeroDeSerie().Consulte(numeroDeSerie) == null)
+                    if (!MapeadorDeNumeroDeSerie().VerifiqueSeExisteEmBanco(numeroDeSerie))
                         continue;
 
                     var estahEmEstoque = servicoDeInteracao.VerifiqueSeNumeroDeSerieEstahEmEstoque(numeroDeSerie);

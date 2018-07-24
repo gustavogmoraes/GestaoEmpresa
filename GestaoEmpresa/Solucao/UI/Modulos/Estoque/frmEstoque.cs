@@ -32,7 +32,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         private void frmEstoque_Load(object sender, EventArgs e)
         {
             //Módulo - Estoque
-            ucSessaoSistema1.DefinaModulo("Estoque", Properties.Resources.WhiteBox);
+            //ucSessaoSistema1.DefinaModulo("Estoque", Properties.Resources.WhiteBox);
             this.EscondaHeadersTabControl(tabControl1);
 
             //Catálogo de Produtos
@@ -62,7 +62,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             {
                 dgvHistorico.Rows.Add(interacao.Horario.ToString(Cultura),
                                       interacao.TipoDeInteracao,
-                                      interacao.Descricao,
+                                      interacao.Observacao,
                                       interacao.Produto.Nome,
                                       interacao.QuantidadeInterada,
                                       GSUtilitarios.FormateDecimalParaStringMoedaReal(interacao.ValorInteracao),

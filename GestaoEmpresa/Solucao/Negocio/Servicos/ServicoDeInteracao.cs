@@ -79,7 +79,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
                     
                     foreach(var numeroDeSerie in interacao.NumerosDeSerie)
                     {
-                        mapeadorDeNumeroDeSerie.Insira(numeroDeSerie);
+                        mapeadorDeNumeroDeSerie.Insira(numeroDeSerie, interacao.Codigo);
                     }
                 }
 
@@ -110,7 +110,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
             List<int> codigosDasInteracoes;
             using (var mapeadorDeNumeroDeSerie = new MapeadorDeNumeroDeSerie())
             {
-                codigosDasInteracoes = mapeadorDeNumeroDeSerie.ConsulteTodasInteracoesDeUmNumero(numeroDeSerie);
+                codigosDasInteracoes = mapeadorDeNumeroDeSerie.ConsulteTodosOsCodigosDeInteracoesDeUmNumero(numeroDeSerie);
             }
             
             foreach (var codigo in codigosDasInteracoes)

@@ -7,6 +7,11 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Objetos.ObjetosConcretos
 {
     public class Interacao
     {
+        public Interacao()
+        {
+            NumerosDeSerie = new List<string>();
+        }
+
         public int Codigo { get; set; }
 
         public DateTime Horario { get; set; }
@@ -30,6 +35,8 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Objetos.ObjetosConcretos
         public string Destino { get; set; }
 
         public string Observacao { get; set; }
+
+        public string NumeroDaNota { get; set; }
 
         //public Funcionario FuncionarioResponsavel { get; set; }
 

@@ -59,6 +59,7 @@
     </Compile>
     <Compile Include="Solucao\Mapeador\Mapeadores\MapeadoresAbstratos\MapeadorPadraoEntidadeRelacionalUmParaMuitosVigencia.cs" />
     <Compile Include="Solucao\Mapeador\Mapeadores\MapeadoresConcretos\MapeadorDeInteracao.cs" />
+    <Compile Include="Solucao\Mapeador\Mapeadores\MapeadoresConcretos\MapeadorDeNumeroDeSerie.cs" />
     <Compile Include="Solucao\Mapeador\Mapeadores\MapeadoresConcretos\MapeadorEmail.cs" />
     <Compile Include="Solucao\Mapeador\Mapeadores\MapeadoresConcretos\MapeadorTelefone.cs" />
     <Compile Include="Solucao\Negocio\Enumeradores\EnumBotoesForm.cs" />
@@ -86,17 +87,11 @@
     <Compile Include="Solucao\Negocio\Servicos\ServicoDeUsuario.cs" />
     <Compile Include="Solucao\Negocio\Validador\ValidadorDeInteracao.cs" />
     <Compile Include="Solucao\Negocio\Validador\ValidadorDeProduto.cs" />
-    <Compile Include="Solucao\UI\ControlesGenericos\FormPadrao.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Solucao\UI\ControlesGenericos\FormPadrao.Designer.cs">
-      <DependentUpon>FormPadrao.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Solucao\UI\ControlesGenericos\GSTextBoxMonetaria.cs">
+    <Compile Include="Solucao\UI\ControlesGenericos\GSMultiTextBox.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Solucao\UI\ControlesGenericos\GSTextBoxMonetaria.Designer.cs">
-      <DependentUpon>GSTextBoxMonetaria.cs</DependentUpon>
+    <Compile Include="Solucao\UI\ControlesGenericos\GSMultiTextBox.Designer.cs">
+      <DependentUpon>GSMultiTextBox.cs</DependentUpon>
     </Compile>
     <Compile Include="Solucao\UI\Modulos\Estoque\frmEstoque.cs">
       <SubType>Form</SubType>
@@ -129,11 +124,8 @@
     <EmbeddedResource Include="Solucao\Mapeador\BancoDeDados\UCSessaoSistema.resx">
       <DependentUpon>UCSessaoSistema.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Solucao\UI\ControlesGenericos\FormPadrao.resx">
-      <DependentUpon>FormPadrao.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Solucao\UI\ControlesGenericos\GSTextBoxMonetaria.resx">
-      <DependentUpon>GSTextBoxMonetaria.cs</DependentUpon>
+    <EmbeddedResource Include="Solucao\UI\ControlesGenericos\GSMultiTextBox.resx">
+      <DependentUpon>GSMultiTextBox.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Solucao\UI\Modulos\Estoque\frmEstoque.resx">
       <DependentUpon>frmEstoque.cs</DependentUpon>
