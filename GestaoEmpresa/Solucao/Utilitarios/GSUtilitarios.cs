@@ -150,7 +150,7 @@ namespace GS.GestaoEmpresa.Solucao.Utilitarios
 
         public static string FormateDecimalParaStringMoedaReal(decimal valor)
         {
-            return string.Format(CultureInfo.GetCultureInfo("pt-BR"), "{0:C}", valor);
+            return string.Format(CultureInfo.GetCultureInfo("pt-BR"), "{0:C}", valor).Replace("R$ ", String.Empty);
         }
         #endregion
 

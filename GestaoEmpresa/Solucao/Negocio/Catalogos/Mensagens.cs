@@ -5,6 +5,15 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Catalogos
 {
     public static class Mensagens
     {
+        public static string DEVE_SER_INFORMADOS_NS_PARA_TODOS_OS_PRODUTOS(int quantidadeNS, int quantidadeProdutos)
+        {
+            return string.Format(
+                "Devem ser informados números de série para todos os produtos.\n" +
+                "Foram informados {0} números de séries, mas estão sendo operados {1} produtos.",
+                quantidadeNS,
+                quantidadeProdutos);
+        }
+
         public static string NAO_HA_CONFIGURACOES_BANCO() 
         {
             return "Não há configurações de banco."; 

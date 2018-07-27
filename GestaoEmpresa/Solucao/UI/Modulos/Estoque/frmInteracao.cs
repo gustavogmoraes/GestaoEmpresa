@@ -143,6 +143,8 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
             PreenchaComboBoxPesquisaComProdutos(listaDeProdutos);
 
+            cbTipo.SelectedIndex = 0;
+
             InicializeInconsistencias();
         }
 
@@ -154,38 +156,46 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                 return;
             }
 
-            if (cbProduto.SelectedIndex == -1)
-            {
-                MessageBox.Show("Um produto deve ser selecionado");
-                return;
-            }
+            //if (cbProduto.SelectedIndex == -1)
+            //{
+            //    MessageBox.Show("Um produto deve ser selecionado");
+            //    return;
+            //}
         }
 
         public void CarregueControlesComObjeto(Interacao objeto)
         {
             txtObservacoes.Text = objeto.Observacao ?? string.Empty;
             txtQuantidade.Text = objeto.QuantidadeInterada.ToString();
-            //GStxtValor.Valor = objeto.ValorInteracao;
+            GStxtValor.Valor = objeto.ValorInteracao;
             cbTipo.SelectedItem = objeto.TipoDeInteracao.ToString();
             txtOrigem.Text = objeto.Origem ?? string.Empty;
             txtDestino.Text = objeto.Destino ?? string.Empty;
             cbProduto.Text = objeto.Produto.Nome.Trim();
             chkAtualizar.Checked = objeto.AtualizarValorDoProdutoNoCatalogo;
 
-            foreach(var numero in objeto.NumerosDeSerie)
+            if (objeto.InformaNumeroDeSerie)
             {
-                if (numero == objeto.NumerosDeSerie.FirstOrDefault())
+                chkInformarNumeroDeSerie.Checked = true;
+                foreach (var numero in objeto.NumerosDeSerie)
                 {
-                    gsMultiTextBox1.Texto = numero;
+                    if (numero == objeto.NumerosDeSerie.FirstOrDefault())
+                    {
+                        GSMultiTextBox.Texto = numero;
+                    }
+                    else
+                    {
+                        flpNumerosDeSerie.Controls.Add(
+                            new GSMultiTextBox()
+                            {
+                                Texto = numero
+                            });
+                    }
                 }
-                else
-                {
-                    flpNumerosDeSerie.Controls.Add(
-                        new GSMultiTextBox()
-                        {
-                            Texto = numero
-                        });
-                }
+            }
+            else
+            {
+                chkInformarNumeroDeSerie.Checked = false;
             }
         }
 
@@ -193,7 +203,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         {
             var interacao = new Interacao();
             interacao.Observacao = txtObservacoes.Text.Trim();
-            //interacao.ValorInteracao = GStxtValor.Valor;
+            interacao.ValorInteracao = GStxtValor.Valor;
             interacao.AtualizarValorDoProdutoNoCatalogo = chkAtualizar.Checked;
             interacao.TipoDeInteracao = (EnumTipoDeInteracao)cbTipo.SelectedIndex + 1;
             interacao.QuantidadeInterada = !string.IsNullOrEmpty(txtQuantidade.Text.Trim())
@@ -210,15 +220,24 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
             interacao.Produto = listaDeProdutos.Find(x => x.Nome.Trim() == cbProduto.Text.Trim());
             
-            //Carregando números de série
-            foreach(var multiTextBox in flpNumerosDeSerie.Controls)
+            if (chkInformarNumeroDeSerie.Checked)
             {
-                var valor = (multiTextBox as GSMultiTextBox).Texto;
+                interacao.InformaNumeroDeSerie = true;
 
-                if (!string.IsNullOrEmpty(valor))
+                //Carregando números de série
+                foreach (var multiTextBox in flpNumerosDeSerie.Controls)
                 {
-                    interacao.NumerosDeSerie.Add(valor);
+                    var valor = (multiTextBox as GSMultiTextBox).Texto;
+
+                    if (!string.IsNullOrEmpty(valor))
+                    {
+                        interacao.NumerosDeSerie.Add(valor);
+                    }
                 }
+            }
+            else
+            {
+                interacao.InformaNumeroDeSerie = false;
             }
 
             return interacao;
@@ -251,6 +270,8 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                     //    {
                     //        Text = string.Format("{0}, ", inconsistencia.Mensagem)
                     //    });
+
+                    MessageBox.Show(inconsistencia.Mensagem);
 
                     if (inconsistencia.NomeDaPropriedadeValidada == "ValorInteracao")
                     {
@@ -382,13 +403,13 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             if (cbTipo.Text == "Saída")
             {
                 lblValor.Enabled = false;
-                //GStxtValor.Enabled = false;
+                GStxtValor.Enabled = false;
                 chkAtualizar.Enabled = false;
             }
             else
             {
                 lblValor.Enabled = true;
-                //GStxtValor.Enabled = true;
+                GStxtValor.Enabled = true;
                 chkAtualizar.Enabled = true;
             }
         }
@@ -417,6 +438,34 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         private void txtLineOrigem_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void cbProduto_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var listaDeProdutos = new List<Produto>();
+            using (var servicoDeProduto = new ServicoDeProduto())
+            {
+                listaDeProdutos = servicoDeProduto.ConsulteTodosOsProdutos();
+            }
+
+            var produto = listaDeProdutos.Find(x => x.Nome.Trim() == cbProduto.Text);
+
+            GStxtValor.Valor = produto.PrecoDeVenda;
+
+        }
+
+        private void chkInformarNumeroDeSerie_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chkInformarNumeroDeSerie.Checked)
+            {
+                label1.Enabled = true;
+                flpNumerosDeSerie.Enabled = true;
+            }
+            else
+            {
+                label1.Enabled = false;
+                flpNumerosDeSerie.Enabled = false;
+            }
         }
     }
 }

@@ -51,8 +51,6 @@
             this.lblCodigoFabricante = new System.Windows.Forms.Label();
             this.lblStatus = new System.Windows.Forms.Label();
             this.cbStatus = new System.Windows.Forms.ComboBox();
-            this.txtPrecoDeCompra = new System.Windows.Forms.TextBox();
-            this.txtPrecoDeVenda = new System.Windows.Forms.TextBox();
             this.txtPorcentagemDeLucro = new System.Windows.Forms.TextBox();
             this.lblSimboloPorcentagemLucro = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
@@ -68,14 +66,14 @@
             this.label17 = new System.Windows.Forms.Label();
             this.txtLineNome = new System.Windows.Forms.Label();
             this.txtLineDescricao = new System.Windows.Forms.Label();
-            this.txtLinePrecoCompra = new System.Windows.Forms.Label();
             this.lblCifraoPrecoCompra = new System.Windows.Forms.Label();
-            this.txtLinePrecoVenda = new System.Windows.Forms.Label();
             this.lblCifraoPrecoVenda = new System.Windows.Forms.Label();
             this.txtLinePorcentagemLucro = new System.Windows.Forms.Label();
             this.txtLineQuantidadeMinima = new System.Windows.Forms.Label();
             this.txtLineQuantidadeEstoque = new System.Windows.Forms.Label();
             this.txtLineObservacoes = new System.Windows.Forms.Label();
+            this.txtPrecoDeCompra = new GS.GestaoEmpresa.Solucao.UI.ControlesGenericos.GSTextBoxMonetaria();
+            this.txtPrecoDeVenda = new GS.GestaoEmpresa.Solucao.UI.ControlesGenericos.GSTextBoxMonetaria();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.btnEditarSalvar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnCancelarExcluir)).BeginInit();
@@ -201,9 +199,9 @@
             this.lblPrecoVenda.ForeColor = System.Drawing.Color.SteelBlue;
             this.lblPrecoVenda.Location = new System.Drawing.Point(334, 385);
             this.lblPrecoVenda.Name = "lblPrecoVenda";
-            this.lblPrecoVenda.Size = new System.Drawing.Size(173, 22);
+            this.lblPrecoVenda.Size = new System.Drawing.Size(163, 22);
             this.lblPrecoVenda.TabIndex = 11;
-            this.lblPrecoVenda.Text = "Preço de Venda: ";
+            this.lblPrecoVenda.Text = "Preço de Venda";
             // 
             // lblPorcentagemLucro
             // 
@@ -234,9 +232,9 @@
             this.lblQuantidadeEstoque.ForeColor = System.Drawing.Color.SteelBlue;
             this.lblQuantidadeEstoque.Location = new System.Drawing.Point(291, 508);
             this.lblQuantidadeEstoque.Name = "lblQuantidadeEstoque";
-            this.lblQuantidadeEstoque.Size = new System.Drawing.Size(249, 22);
+            this.lblQuantidadeEstoque.Size = new System.Drawing.Size(244, 22);
             this.lblQuantidadeEstoque.TabIndex = 15;
-            this.lblQuantidadeEstoque.Text = "Quantidade em estoque: ";
+            this.lblQuantidadeEstoque.Text = "Quantidade em estoque ";
             // 
             // txtQuantidadeMinima
             // 
@@ -343,30 +341,6 @@
             this.cbStatus.Name = "cbStatus";
             this.cbStatus.Size = new System.Drawing.Size(105, 30);
             this.cbStatus.TabIndex = 30;
-            // 
-            // txtPrecoDeCompra
-            // 
-            this.txtPrecoDeCompra.BackColor = System.Drawing.Color.Silver;
-            this.txtPrecoDeCompra.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtPrecoDeCompra.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtPrecoDeCompra.Location = new System.Drawing.Point(57, 409);
-            this.txtPrecoDeCompra.Name = "txtPrecoDeCompra";
-            this.txtPrecoDeCompra.Size = new System.Drawing.Size(126, 24);
-            this.txtPrecoDeCompra.TabIndex = 8;
-            this.txtPrecoDeCompra.TextChanged += new System.EventHandler(this.txtPrecoDeCompra_TextChanged);
-            this.txtPrecoDeCompra.Leave += new System.EventHandler(this.txtPrecoDeCompra_Leave);
-            // 
-            // txtPrecoDeVenda
-            // 
-            this.txtPrecoDeVenda.BackColor = System.Drawing.Color.Silver;
-            this.txtPrecoDeVenda.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtPrecoDeVenda.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtPrecoDeVenda.Location = new System.Drawing.Point(382, 408);
-            this.txtPrecoDeVenda.Name = "txtPrecoDeVenda";
-            this.txtPrecoDeVenda.Size = new System.Drawing.Size(127, 24);
-            this.txtPrecoDeVenda.TabIndex = 10;
-            this.txtPrecoDeVenda.TextChanged += new System.EventHandler(this.txtPrecoDeVenda_TextChanged);
-            this.txtPrecoDeVenda.Leave += new System.EventHandler(this.txtPrecoDeVenda_Leave);
             // 
             // txtPorcentagemDeLucro
             // 
@@ -537,17 +511,6 @@
             this.txtLineDescricao.TabIndex = 47;
             this.txtLineDescricao.Text = "__________________________";
             // 
-            // txtLinePrecoCompra
-            // 
-            this.txtLinePrecoCompra.AutoSize = true;
-            this.txtLinePrecoCompra.Font = new System.Drawing.Font("Century Gothic", 27.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtLinePrecoCompra.ForeColor = System.Drawing.Color.SteelBlue;
-            this.txtLinePrecoCompra.Location = new System.Drawing.Point(9, 395);
-            this.txtLinePrecoCompra.Name = "txtLinePrecoCompra";
-            this.txtLinePrecoCompra.Size = new System.Drawing.Size(191, 44);
-            this.txtLinePrecoCompra.TabIndex = 48;
-            this.txtLinePrecoCompra.Text = "_________";
-            // 
             // lblCifraoPrecoCompra
             // 
             this.lblCifraoPrecoCompra.AutoSize = true;
@@ -558,17 +521,6 @@
             this.lblCifraoPrecoCompra.Size = new System.Drawing.Size(33, 22);
             this.lblCifraoPrecoCompra.TabIndex = 49;
             this.lblCifraoPrecoCompra.Text = "R$";
-            // 
-            // txtLinePrecoVenda
-            // 
-            this.txtLinePrecoVenda.AutoSize = true;
-            this.txtLinePrecoVenda.Font = new System.Drawing.Font("Century Gothic", 27.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtLinePrecoVenda.ForeColor = System.Drawing.Color.SteelBlue;
-            this.txtLinePrecoVenda.Location = new System.Drawing.Point(330, 394);
-            this.txtLinePrecoVenda.Name = "txtLinePrecoVenda";
-            this.txtLinePrecoVenda.Size = new System.Drawing.Size(191, 44);
-            this.txtLinePrecoVenda.TabIndex = 50;
-            this.txtLinePrecoVenda.Text = "_________";
             // 
             // lblCifraoPrecoVenda
             // 
@@ -625,12 +577,44 @@
             this.txtLineObservacoes.TabIndex = 55;
             this.txtLineObservacoes.Text = "__________________________";
             // 
+            // txtPrecoDeCompra
+            // 
+            this.txtPrecoDeCompra.BackColor = System.Drawing.Color.Silver;
+            this.txtPrecoDeCompra.Location = new System.Drawing.Point(23, 405);
+            this.txtPrecoDeCompra.Name = "txtPrecoDeCompra";
+            this.txtPrecoDeCompra.Size = new System.Drawing.Size(153, 36);
+            this.txtPrecoDeCompra.TabIndex = 56;
+            this.txtPrecoDeCompra.Valor = new decimal(new int[] {
+            0,
+            0,
+            0,
+            131072});
+            // 
+            // txtPrecoDeVenda
+            // 
+            this.txtPrecoDeVenda.BackColor = System.Drawing.Color.Silver;
+            this.txtPrecoDeVenda.Location = new System.Drawing.Point(345, 404);
+            this.txtPrecoDeVenda.Name = "txtPrecoDeVenda";
+            this.txtPrecoDeVenda.Size = new System.Drawing.Size(153, 36);
+            this.txtPrecoDeVenda.TabIndex = 57;
+            this.txtPrecoDeVenda.Valor = new decimal(new int[] {
+            0,
+            0,
+            0,
+            131072});
+            // 
             // frmProduto
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Silver;
             this.ClientSize = new System.Drawing.Size(593, 735);
+            this.Controls.Add(this.lblQuantidadeMinima);
+            this.Controls.Add(this.lblQuantidadeEstoque);
+            this.Controls.Add(this.lblPrecoVenda);
+            this.Controls.Add(this.lblPrecoCompra);
+            this.Controls.Add(this.txtPrecoDeCompra);
+            this.Controls.Add(this.txtPrecoDeVenda);
             this.Controls.Add(this.lblCifraoPrecoVenda);
             this.Controls.Add(this.lblCifraoPrecoCompra);
             this.Controls.Add(this.cbVigencia);
@@ -639,8 +623,6 @@
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.lblSimboloPorcentagemLucro);
             this.Controls.Add(this.txtPorcentagemDeLucro);
-            this.Controls.Add(this.txtPrecoDeVenda);
-            this.Controls.Add(this.txtPrecoDeCompra);
             this.Controls.Add(this.cbStatus);
             this.Controls.Add(this.lblStatus);
             this.Controls.Add(this.txtCodigoFabricante);
@@ -649,12 +631,8 @@
             this.Controls.Add(this.lblObservacoes);
             this.Controls.Add(this.chkAvisar);
             this.Controls.Add(this.txtQuantidadeMinima);
-            this.Controls.Add(this.lblQuantidadeMinima);
             this.Controls.Add(this.txtQuantidadeEmEstoque);
-            this.Controls.Add(this.lblQuantidadeEstoque);
             this.Controls.Add(this.lblPorcentagemLucro);
-            this.Controls.Add(this.lblPrecoVenda);
-            this.Controls.Add(this.lblPrecoCompra);
             this.Controls.Add(this.txtDescricao);
             this.Controls.Add(this.lblDescricao);
             this.Controls.Add(this.txtNome);
@@ -670,8 +648,6 @@
             this.Controls.Add(this.label17);
             this.Controls.Add(this.txtLineNome);
             this.Controls.Add(this.txtLineDescricao);
-            this.Controls.Add(this.txtLinePrecoCompra);
-            this.Controls.Add(this.txtLinePrecoVenda);
             this.Controls.Add(this.txtLinePorcentagemLucro);
             this.Controls.Add(this.txtLineQuantidadeMinima);
             this.Controls.Add(this.txtLineQuantidadeEstoque);
@@ -716,8 +692,6 @@
         private System.Windows.Forms.Label lblCodigoFabricante;
         private System.Windows.Forms.Label lblStatus;
         private System.Windows.Forms.ComboBox cbStatus;
-        private System.Windows.Forms.TextBox txtPrecoDeCompra;
-        private System.Windows.Forms.TextBox txtPrecoDeVenda;
         private System.Windows.Forms.TextBox txtPorcentagemDeLucro;
         private System.Windows.Forms.Label lblSimboloPorcentagemLucro;
         private System.Windows.Forms.PictureBox btnEditarSalvar;
@@ -733,13 +707,13 @@
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.Label txtLineNome;
         private System.Windows.Forms.Label txtLineDescricao;
-        private System.Windows.Forms.Label txtLinePrecoCompra;
         private System.Windows.Forms.Label lblCifraoPrecoCompra;
-        private System.Windows.Forms.Label txtLinePrecoVenda;
         private System.Windows.Forms.Label lblCifraoPrecoVenda;
         private System.Windows.Forms.Label txtLinePorcentagemLucro;
         private System.Windows.Forms.Label txtLineQuantidadeMinima;
         private System.Windows.Forms.Label txtLineQuantidadeEstoque;
         private System.Windows.Forms.Label txtLineObservacoes;
+        private ControlesGenericos.GSTextBoxMonetaria txtPrecoDeCompra;
+        private ControlesGenericos.GSTextBoxMonetaria txtPrecoDeVenda;
     }
 }

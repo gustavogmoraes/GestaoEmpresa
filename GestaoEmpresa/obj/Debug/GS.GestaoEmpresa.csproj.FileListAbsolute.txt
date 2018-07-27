@@ -49,5 +49,6 @@ E:\Documentos\Visual Studio 2017\Projects\GestaoEmpresa\GestaoEmpresa\obj\Debug\
 E:\Documentos\Visual Studio 2017\Projects\GestaoEmpresa\GestaoEmpresa\obj\Debug\GS.GestaoEmpresa.csproj.GenerateResource.Cache
 E:\Documentos\Visual Studio 2017\Projects\GestaoEmpresa\GestaoEmpresa\obj\Debug\GS.GestaoEmpresa.exe
 E:\Documentos\Visual Studio 2017\Projects\GestaoEmpresa\GestaoEmpresa\obj\Debug\GS.GestaoEmpresa.pdb
-E:\Documentos\Visual Studio 2017\Projects\GestaoEmpresa\GestaoEmpresa\obj\Debug\GS.GestaoEmpresa.csprojResolveAssemblyReference.cache
 E:\Documentos\Visual Studio 2017\Projects\GestaoEmpresa\GestaoEmpresa\obj\Debug\GS.GestaoEmpresa.Solucao.UI.ControlesGenericos.GSMultiTextBox.resources
+E:\Documentos\Visual Studio 2017\Projects\GestaoEmpresa\GestaoEmpresa\obj\Debug\GS.GestaoEmpresa.Solucao.UI.ControlesGenericos.GSTextBoxMonetaria.resources
+E:\Documentos\Visual Studio 2017\Projects\GestaoEmpresa\GestaoEmpresa\obj\Debug\GS.GestaoEmpresa.csprojResolveAssemblyReference.cache

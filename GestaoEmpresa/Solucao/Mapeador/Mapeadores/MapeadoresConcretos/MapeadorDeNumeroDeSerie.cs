@@ -47,7 +47,7 @@ namespace GS.GestaoEmpresa.Solucao.Mapeador.Mapeadores.MapeadoresConcretos
                 tabela = GSBancoDeDados.ExecuteConsulta(ComandoSQL);
             }
 
-            return tabela != null;
+            return tabela.Rows.Count != 0;
         }
 
         public List<string> ConsulteTodos()

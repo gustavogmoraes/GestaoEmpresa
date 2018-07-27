@@ -98,6 +98,21 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Validador
 
         private void ValideRegrasDeNumeroDeSerie()
         {
+            // Números incompativeis com a quantidade
+            if (_interacao.InformaNumeroDeSerie && _interacao.NumerosDeSerie.Count != _interacao.QuantidadeInterada)
+            {
+                _listaDeInconsistencias.Add(
+                    new Inconsistencia()
+                    {
+                        Modulo = "Controle de Estoque",
+                        Tela = "Cadastro de Interações",
+                        ConceitoValidado = "Interação",
+                        NomeDaPropriedadeValidada = "NumerosDeSerie",
+                        DescricaoDaPropriedadeValidada = "Lista de números de série",
+                        Mensagem = Mensagens.DEVE_SER_INFORMADOS_NS_PARA_TODOS_OS_PRODUTOS(_interacao.NumerosDeSerie.Count, _interacao.QuantidadeInterada)
+                    });
+            }
+
             // Primeiro validamos se existe algum número de série na lista para evitar gastar processamento
             if (_interacao.NumerosDeSerie == null || _interacao.NumerosDeSerie.Count == 0)
             {

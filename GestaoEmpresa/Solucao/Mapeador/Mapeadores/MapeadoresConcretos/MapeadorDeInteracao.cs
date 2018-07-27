@@ -33,6 +33,7 @@ namespace GS.GestaoEmpresa.Solucao.Mapeador.Mapeadores.MapeadoresConcretos
             {"ORIGEM", typeof(string) },
             {"DESTINO", typeof(string) },
             {"NUMERODANOTAFISCAL", typeof(string) },
+            {"INFORMA_NUMERO_DE_SERIE", typeof(bool) }
         };
 
         private Interacao MonteRetorno(DataTable tabela, int linha)
@@ -56,13 +57,14 @@ namespace GS.GestaoEmpresa.Solucao.Mapeador.Mapeadores.MapeadoresConcretos
                             : null;
             retorno.Horario = (DateTime)tabela.Rows[linha]["HORARIO"];
             retorno.NumeroDaNota = tabela.Rows[linha]["NUMERODANOTAFISCAL"].ToString();
+            retorno.AtualizarValorDoProdutoNoCatalogo = GSUtilitarios.ConvertaValorBooleano(tabela.Rows[linha]["INFORMA_NUMERO_DE_SERIE"].ToString());
 
             return retorno;
         }
 
         private string ObtenhaValoresInsercao(Interacao interacao)
         {
-            return string.Format("{0}, CAST ('{1}' AS DATETIME2), {2}, '{3}', {4}, {5}, {6}, '{7}', '{8}', '{9}', '{10}'",
+            return string.Format("{0}, CAST ('{1}' AS DATETIME2), {2}, '{3}', {4}, {5}, {6}, '{7}', '{8}', '{9}', '{10}', '{11}'",
                                  interacao.Codigo,
                                  GSUtilitarios.FormateDateTimePtBrParaBD(interacao.Horario),
                                  (int)interacao.TipoDeInteracao,
@@ -73,7 +75,8 @@ namespace GS.GestaoEmpresa.Solucao.Mapeador.Mapeadores.MapeadoresConcretos
                                  GSUtilitarios.ConvertaValorBooleano(interacao.AtualizarValorDoProdutoNoCatalogo),
                                  interacao.Origem ?? "NULL",
                                  interacao.Destino ?? "NULL",
-                                 interacao.NumeroDaNota ?? "NULL");
+                                 interacao.NumeroDaNota ?? "NULL",
+                                 GSUtilitarios.ConvertaValorBooleano(interacao.InformaNumeroDeSerie));
         }
 
         public void Insira(Interacao interacao)
@@ -93,7 +96,7 @@ namespace GS.GestaoEmpresa.Solucao.Mapeador.Mapeadores.MapeadoresConcretos
         {
             int codigo;
             using (var GSBancoDeDados = new GSBancoDeDados())
-                codigo = GSBancoDeDados.ObtenhaProximoCodigoDisponivel(Tabela, "INTERACOES");
+                codigo = GSBancoDeDados.ObtenhaProximoCodigoDisponivel(Tabela, "CODIGO");
 
             return codigo;
         }

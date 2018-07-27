@@ -38,7 +38,7 @@
             // 
             this.btnAdicionar.BackgroundImage = global::GS.GestaoEmpresa.Properties.Resources.add;
             this.btnAdicionar.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btnAdicionar.Location = new System.Drawing.Point(386, 1);
+            this.btnAdicionar.Location = new System.Drawing.Point(418, 1);
             this.btnAdicionar.Name = "btnAdicionar";
             this.btnAdicionar.Size = new System.Drawing.Size(32, 30);
             this.btnAdicionar.TabIndex = 0;
@@ -49,7 +49,7 @@
             // 
             this.btnRemover.BackgroundImage = global::GS.GestaoEmpresa.Properties.Resources.delete;
             this.btnRemover.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.btnRemover.Location = new System.Drawing.Point(419, 1);
+            this.btnRemover.Location = new System.Drawing.Point(386, 1);
             this.btnRemover.Name = "btnRemover";
             this.btnRemover.Size = new System.Drawing.Size(32, 30);
             this.btnRemover.TabIndex = 1;

@@ -62,15 +62,15 @@
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
-            this.pictureBox4 = new System.Windows.Forms.PictureBox();
             this.label9 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.btnAtendimento = new System.Windows.Forms.Button();
+            this.btnTecnico = new System.Windows.Forms.Button();
             this.btnAuditoria = new System.Windows.Forms.Button();
             this.btnCorporativo = new System.Windows.Forms.Button();
-            this.btnTecnico = new System.Windows.Forms.Button();
             this.btnConfiguracoes = new System.Windows.Forms.Button();
             this.btnEstoque = new System.Windows.Forms.Button();
-            this.btnAtendimento = new System.Windows.Forms.Button();
+            this.pictureBox4 = new System.Windows.Forms.PictureBox();
             this.tabControl1.SuspendLayout();
             this.tabLogin.SuspendLayout();
             this.gbConfiguracoesBasicas.SuspendLayout();
@@ -79,8 +79,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.tabChamador.SuspendLayout();
             this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
             this.groupBox2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -258,6 +258,7 @@
             this.txtSenha.PasswordChar = '*';
             this.txtSenha.Size = new System.Drawing.Size(152, 26);
             this.txtSenha.TabIndex = 44;
+            this.txtSenha.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtSenha_KeyPress);
             // 
             // txtUsuario
             // 
@@ -356,7 +357,7 @@
             this.btnEntrar.Location = new System.Drawing.Point(327, 352);
             this.btnEntrar.Name = "btnEntrar";
             this.btnEntrar.Size = new System.Drawing.Size(119, 35);
-            this.btnEntrar.TabIndex = 35;
+            this.btnEntrar.TabIndex = 45;
             this.btnEntrar.Text = "Entrar";
             this.btnEntrar.UseVisualStyleBackColor = false;
             this.btnEntrar.Click += new System.EventHandler(this.btnEntrar_Click_1);
@@ -462,18 +463,6 @@
             this.label8.TabIndex = 19;
             this.label8.Text = "Usuário:";
             // 
-            // pictureBox4
-            // 
-            this.pictureBox4.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox4.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pictureBox4.BackgroundImage")));
-            this.pictureBox4.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.pictureBox4.Location = new System.Drawing.Point(539, -23);
-            this.pictureBox4.Name = "pictureBox4";
-            this.pictureBox4.Size = new System.Drawing.Size(252, 176);
-            this.pictureBox4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox4.TabIndex = 23;
-            this.pictureBox4.TabStop = false;
-            // 
             // label9
             // 
             this.label9.AutoSize = true;
@@ -500,6 +489,36 @@
             this.groupBox2.TabIndex = 21;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Módulos";
+            // 
+            // btnAtendimento
+            // 
+            this.btnAtendimento.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnAtendimento.BackgroundImage")));
+            this.btnAtendimento.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.btnAtendimento.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnAtendimento.Enabled = false;
+            this.btnAtendimento.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnAtendimento.Location = new System.Drawing.Point(361, 21);
+            this.btnAtendimento.Name = "btnAtendimento";
+            this.btnAtendimento.Size = new System.Drawing.Size(170, 150);
+            this.btnAtendimento.TabIndex = 7;
+            this.btnAtendimento.Text = "Atendimento";
+            this.btnAtendimento.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnAtendimento.UseVisualStyleBackColor = true;
+            // 
+            // btnTecnico
+            // 
+            this.btnTecnico.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnTecnico.BackgroundImage")));
+            this.btnTecnico.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.btnTecnico.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnTecnico.Enabled = false;
+            this.btnTecnico.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnTecnico.Location = new System.Drawing.Point(537, 21);
+            this.btnTecnico.Name = "btnTecnico";
+            this.btnTecnico.Size = new System.Drawing.Size(170, 150);
+            this.btnTecnico.TabIndex = 13;
+            this.btnTecnico.Text = "Técnico";
+            this.btnTecnico.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnTecnico.UseVisualStyleBackColor = true;
             // 
             // btnAuditoria
             // 
@@ -530,21 +549,6 @@
             this.btnCorporativo.Text = "Corporativo";
             this.btnCorporativo.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.btnCorporativo.UseVisualStyleBackColor = true;
-            // 
-            // btnTecnico
-            // 
-            this.btnTecnico.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnTecnico.BackgroundImage")));
-            this.btnTecnico.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.btnTecnico.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnTecnico.Enabled = false;
-            this.btnTecnico.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnTecnico.Location = new System.Drawing.Point(537, 21);
-            this.btnTecnico.Name = "btnTecnico";
-            this.btnTecnico.Size = new System.Drawing.Size(170, 150);
-            this.btnTecnico.TabIndex = 13;
-            this.btnTecnico.Text = "Técnico";
-            this.btnTecnico.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.btnTecnico.UseVisualStyleBackColor = true;
             // 
             // btnConfiguracoes
             // 
@@ -578,20 +582,17 @@
             this.btnEstoque.UseVisualStyleBackColor = true;
             this.btnEstoque.Click += new System.EventHandler(this.btnEstoque_Click_1);
             // 
-            // btnAtendimento
+            // pictureBox4
             // 
-            this.btnAtendimento.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnAtendimento.BackgroundImage")));
-            this.btnAtendimento.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.btnAtendimento.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnAtendimento.Enabled = false;
-            this.btnAtendimento.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAtendimento.Location = new System.Drawing.Point(361, 21);
-            this.btnAtendimento.Name = "btnAtendimento";
-            this.btnAtendimento.Size = new System.Drawing.Size(170, 150);
-            this.btnAtendimento.TabIndex = 7;
-            this.btnAtendimento.Text = "Atendimento";
-            this.btnAtendimento.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.btnAtendimento.UseVisualStyleBackColor = true;
+            this.pictureBox4.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBox4.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pictureBox4.BackgroundImage")));
+            this.pictureBox4.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.pictureBox4.Location = new System.Drawing.Point(539, -23);
+            this.pictureBox4.Name = "pictureBox4";
+            this.pictureBox4.Size = new System.Drawing.Size(252, 176);
+            this.pictureBox4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox4.TabIndex = 23;
+            this.pictureBox4.TabStop = false;
             // 
             // frmPrincipal
             // 
@@ -618,8 +619,8 @@
             this.tabChamador.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
             this.groupBox2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
             this.ResumeLayout(false);
 
         }

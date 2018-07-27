@@ -108,6 +108,8 @@ namespace GestaoEmpresa.GS.GestaoEmpresa.GS.GestaoEmpresa.UI.Principal
 
             CarregueConfiguracoesConexaoBanco();
 
+            txtUsuario.Select();
+
             //if (!BancoDeDados.VerifiqueStatusDaConexao())
             //    MessageBox.Show("Erro de ConexaoSQL");
         }
@@ -226,6 +228,14 @@ namespace GestaoEmpresa.GS.GestaoEmpresa.GS.GestaoEmpresa.UI.Principal
         private void btnEstoque_Click_1(object sender, EventArgs e)
         {
             new frmEstoque().Show();
+        }
+
+        private void txtSenha_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar.Equals('\r') || e.KeyChar.Equals(Keys.Return) || e.KeyChar.Equals(Keys.Return))
+            {
+                btnEntrar_Click_1(sender, e);
+            }
         }
     }
 }

@@ -19,10 +19,6 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 {
     public partial class frmProduto : Form
     {
-        private decimal _precoDeCompra;
-
-        private decimal _precoDeVenda;
-
         private EnumBotoesForm _switchBotaoEditarSalvar;
 
         private EnumBotoesForm _switchBotaoCancelarExcluir;
@@ -76,32 +72,6 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         }
 
         #region Métodos Específicos
-       
-        private void txtPrecoDeCompra_Leave(object sender, EventArgs e)
-        {
-            if (string.IsNullOrEmpty(txtPrecoDeCompra.Text))
-            {
-                txtPrecoDeCompra.Text = 0.ToString();
-            }
-
-            _precoDeCompra = decimal.Parse(txtPrecoDeCompra.Text.Replace(',', '.'));
-            txtPrecoDeCompra.Text = txtPrecoDeCompra.Text.Replace(',', '.');
-        }
-
-        private void txtPrecoDeVenda_Leave(object sender, EventArgs e)
-        {
-            if (string.IsNullOrEmpty(txtPrecoDeVenda.Text))
-            {
-                txtPrecoDeVenda.Text = 0.ToString();
-                return;
-            }
-
-            _precoDeVenda = decimal.Parse(txtPrecoDeVenda.Text.Replace(',', '.'));
-            txtPrecoDeVenda.Text = txtPrecoDeVenda.Text.Replace(',', '.');
-
-            if (decimal.Parse(txtPrecoDeVenda.Text.Trim().Replace(',', '.')) > 0)
-                AjustePrecosNaTela(sender as Control);
-        }
 
         private void txtPorcentagemDeLucro_Leave(object sender, EventArgs e)
         {
@@ -218,8 +188,8 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             txtQuantidadeEmEstoque.Text = objeto.QuantidadeEmEstoque.ToString();
             txtQuantidadeMinima.Text = objeto.QuantidadeMinimaParaAviso.ToString();
             txtPorcentagemDeLucro.Text = Math.Round(objeto.PorcentagemDeLucro * 100, 2).ToString();
-            txtPrecoDeCompra.Text = objeto.PrecoDeCompra.ToString();
-            txtPrecoDeVenda.Text = objeto.PrecoDeVenda.ToString();
+            txtPrecoDeCompra.Valor = objeto.PrecoDeCompra;
+            txtPrecoDeVenda.Valor = objeto.PrecoDeVenda;
             cbStatus.SelectedItem = objeto.Status.ToString();
             chkAvisar.Checked = objeto.AvisarQuantidade;
         }
@@ -234,12 +204,8 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             produto.Fabricante = txtMarca.Text.Trim();
             produto.Nome = txtNome.Text.Trim();
             produto.Observacao = txtObservacoes.Text.Trim();
-            produto.PrecoDeCompra = !string.IsNullOrEmpty(txtPrecoDeCompra.Text.Trim())
-                                  ? decimal.Parse(txtPrecoDeCompra.Text.Trim())
-                                  : 0;
-            produto.PrecoDeVenda = !string.IsNullOrEmpty(txtPrecoDeVenda.Text.Trim())
-                                 ? decimal.Parse(txtPrecoDeVenda.Text.Trim())
-                                 : 0;
+            produto.PrecoDeCompra = txtPrecoDeCompra.Valor;
+            produto.PrecoDeVenda = txtPrecoDeVenda.Valor;
             produto.PorcentagemDeLucro = !string.IsNullOrEmpty(txtPorcentagemDeLucro.Text.Trim())
                                        ? decimal.Parse(txtPorcentagemDeLucro.Text.Trim()) / 100
                                        : 0;
@@ -293,11 +259,9 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             lblSimboloPorcentagemLucro.Enabled = true;
 
             txtPrecoDeCompra.Enabled = true;
-            txtLinePrecoCompra.Enabled = true;
             lblCifraoPrecoCompra.Enabled = true;
 
             txtPrecoDeVenda.Enabled = true;
-            txtLinePrecoVenda.Enabled = true;
             lblCifraoPrecoVenda.Enabled = true;
         }
 
@@ -337,11 +301,9 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             lblSimboloPorcentagemLucro.Enabled = false;
 
             txtPrecoDeCompra.Enabled = false;
-            txtLinePrecoCompra.Enabled = false;
             lblCifraoPrecoCompra.Enabled = false;
 
             txtPrecoDeVenda.Enabled = false;
-            txtLinePrecoVenda.Enabled = false;
             lblCifraoPrecoVenda.Enabled = false;
         }
 
@@ -487,30 +449,6 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                        // Não faz nada
                     }
                     break;
-            }
-        }
-
-        private void txtPrecoDeCompra_TextChanged(object sender, EventArgs e)
-        {
-            if(txtPrecoDeCompra.Text.All(x => GSUtilitarios.EhDigitoOuPonto(x)))
-            {
-                return;
-            }
-            else
-            {
-                txtPrecoDeCompra.Text = txtPrecoDeCompra.Text.Trim().Remove(txtPrecoDeCompra.Text.Length - 1);
-            }
-        }
-
-        private void txtPrecoDeVenda_TextChanged(object sender, EventArgs e)
-        {
-            if (txtPrecoDeVenda.Text.All(x => GSUtilitarios.EhDigitoOuPonto(x)))
-            {
-                return;
-            }
-            else
-            {
-                txtPrecoDeVenda.Text = txtPrecoDeVenda.Text.Trim().Remove(txtPrecoDeVenda.Text.Length - 1);
             }
         }
 

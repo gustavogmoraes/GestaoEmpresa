@@ -78,7 +78,7 @@ namespace GS.GestaoEmpresa.Solucao.Mapeador.Mapeadores.MapeadoresConcretos
 
         private string ObtenhaValoresInsercao(Produto produto)
         {
-            return string.Format("{0}, {1}, '{2}', '{3}', '{4}', '{5}', {6}, {7}, {8}, {9}, '{10}', {11}, '{12}'",
+            return string.Format("{0}, {1}, '{2}', '{3}', '{4}', '{5}', {6}, {7}, {8}, {9}, '{10}', {11}",
                                  produto.Codigo,
                                  (int)produto.Status,
                                  produto.Nome,

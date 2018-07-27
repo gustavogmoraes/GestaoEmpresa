@@ -21,6 +21,8 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Objetos.ObjetosConcretos
         public string Descricao { get; set; }
 
         public Produto Produto { get; set; }
+
+        public bool InformaNumeroDeSerie { get; set; }
         
         public List<string> NumerosDeSerie { get; set; }
 

@@ -265,7 +265,26 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         private void dgvHistorico_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
+            var senderGrid = (DataGridView)sender;
 
+            if (senderGrid.Columns[e.ColumnIndex] is DataGridViewButtonColumn && e.RowIndex >= 0)
+            {
+                if (senderGrid.Columns[e.ColumnIndex] == colunaDetalhar)
+                {
+                    var codigoInteracao = (int)senderGrid["colunaCodigo", e.RowIndex].Value;
+                    Interacao interacao;
+
+                    using (var servicoDeInteracao = new ServicoDeInteracao())
+                    {
+                        interacao = servicoDeInteracao.Consulte(codigoInteracao);
+                    }
+
+                    if (interacao != null)
+                    {
+                        new frmInteracao(interacao).Show();
+                    }
+                }
+            }
         }
 
         private void cbPesquisaHistorico_SelectedIndexChanged(object sender, EventArgs e)
