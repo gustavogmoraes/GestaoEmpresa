@@ -19,23 +19,6 @@ E:/1 - PC - ORGANIZAR/Gustavo/OneDrive/Share Programming/GestaoEmpresa/GestaoEmp
 /Users/gustavomoraes/OneDrive/Share Programming/GestaoEmpresa/GestaoEmpresa/obj/Debug/GS.GestaoEmpresa.pdb
 /Users/gustavomoraes/OneDrive/Share Programming/GestaoEmpresa/GestaoEmpresa/obj/Debug/GS.GestaoEmpresa.Solucao.Mapeador.BancoDeDados.UCSessaoSistema.resources
 /Users/gustavomoraes/OneDrive/Share Programming/GestaoEmpresa/GestaoEmpresa/obj/Debug/GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque.frmProduto.resources
-/Users/gustavomoraes/Documents/GitHub/GestaoEmpresa/GestaoEmpresa/bin/Debug/GS.GestaoEmpresa.exe.config
-/Users/gustavomoraes/Documents/GitHub/GestaoEmpresa/GestaoEmpresa/bin/Debug/GS.GestaoEmpresa.exe
-/Users/gustavomoraes/Documents/GitHub/GestaoEmpresa/GestaoEmpresa/bin/Debug/GS.GestaoEmpresa.pdb
-/Users/gustavomoraes/Documents/GitHub/GestaoEmpresa/GestaoEmpresa/obj/Debug/GS.GestaoEmpresa.csprojResolveAssemblyReference.cache
-/Users/gustavomoraes/Documents/GitHub/GestaoEmpresa/GestaoEmpresa/obj/Debug/GS.GestaoEmpresa.Solucao.Mapeador.BancoDeDados.UCSessaoSistema.resources
-/Users/gustavomoraes/Documents/GitHub/GestaoEmpresa/GestaoEmpresa/obj/Debug/GS.GestaoEmpresa.Solucao.UI.FormPadrao.resources
-/Users/gustavomoraes/Documents/GitHub/GestaoEmpresa/GestaoEmpresa/obj/Debug/GS.GestaoEmpresa.Solucao.UI.GSTextBoxMonetaria.resources
-/Users/gustavomoraes/Documents/GitHub/GestaoEmpresa/GestaoEmpresa/obj/Debug/GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque.frmEstoque.resources
-/Users/gustavomoraes/Documents/GitHub/GestaoEmpresa/GestaoEmpresa/obj/Debug/GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque.frmInteracao.resources
-/Users/gustavomoraes/Documents/GitHub/GestaoEmpresa/GestaoEmpresa/obj/Debug/GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque.frmProduto.resources
-/Users/gustavomoraes/Documents/GitHub/GestaoEmpresa/GestaoEmpresa/obj/Debug/GestaoEmpresa.GS.GestaoEmpresa.GS.GestaoEmpresa.UI.Principal.frmPrincipal.resources
-/Users/gustavomoraes/Documents/GitHub/GestaoEmpresa/GestaoEmpresa/obj/Debug/GS.GestaoEmpresa.Properties.Resources.resources
-/Users/gustavomoraes/Documents/GitHub/GestaoEmpresa/GestaoEmpresa/obj/Debug/GS.GestaoEmpresa.Solucao.UI.Modulos.Configuracoes.frmConfiguracoes.resources
-/Users/gustavomoraes/Documents/GitHub/GestaoEmpresa/GestaoEmpresa/obj/Debug/GS.GestaoEmpresa.csproj.GenerateResource.cache
-/Users/gustavomoraes/Documents/GitHub/GestaoEmpresa/GestaoEmpresa/obj/Debug/GS.GestaoEmpresa.csproj.CoreCompileInputs.cache
-/Users/gustavomoraes/Documents/GitHub/GestaoEmpresa/GestaoEmpresa/obj/Debug/GS.GestaoEmpresa.exe
-/Users/gustavomoraes/Documents/GitHub/GestaoEmpresa/GestaoEmpresa/obj/Debug/GS.GestaoEmpresa.pdb
 E:\Documentos\Visual Studio 2017\Projects\GestaoEmpresa\GestaoEmpresa\bin\Debug\GS.GestaoEmpresa.exe.config
 E:\Documentos\Visual Studio 2017\Projects\GestaoEmpresa\GestaoEmpresa\bin\Debug\GS.GestaoEmpresa.exe
 E:\Documentos\Visual Studio 2017\Projects\GestaoEmpresa\GestaoEmpresa\bin\Debug\GS.GestaoEmpresa.pdb
@@ -51,3 +34,20 @@ E:\Documentos\Visual Studio 2017\Projects\GestaoEmpresa\GestaoEmpresa\obj\Debug\
 E:\Documentos\Visual Studio 2017\Projects\GestaoEmpresa\GestaoEmpresa\obj\Debug\GS.GestaoEmpresa.csproj.GenerateResource.Cache
 E:\Documentos\Visual Studio 2017\Projects\GestaoEmpresa\GestaoEmpresa\obj\Debug\GS.GestaoEmpresa.exe
 E:\Documentos\Visual Studio 2017\Projects\GestaoEmpresa\GestaoEmpresa\obj\Debug\GS.GestaoEmpresa.pdb
+Z:\Users\gustavomoraes\Documents\GitHub\GestaoEmpresa\GestaoEmpresa\bin\Debug\GS.GestaoEmpresa.exe.config
+Z:\Users\gustavomoraes\Documents\GitHub\GestaoEmpresa\GestaoEmpresa\bin\Debug\GS.GestaoEmpresa.exe
+Z:\Users\gustavomoraes\Documents\GitHub\GestaoEmpresa\GestaoEmpresa\bin\Debug\GS.GestaoEmpresa.pdb
+Z:\Users\gustavomoraes\Documents\GitHub\GestaoEmpresa\GestaoEmpresa\obj\Debug\GS.GestaoEmpresa.csprojAssemblyReference.cache
+Z:\Users\gustavomoraes\Documents\GitHub\GestaoEmpresa\GestaoEmpresa\obj\Debug\GS.GestaoEmpresa.Solucao.Mapeador.BancoDeDados.UCSessaoSistema.resources
+Z:\Users\gustavomoraes\Documents\GitHub\GestaoEmpresa\GestaoEmpresa\obj\Debug\GS.GestaoEmpresa.Solucao.UI.ControlesGenericos.GSMultiTextBox.resources
+Z:\Users\gustavomoraes\Documents\GitHub\GestaoEmpresa\GestaoEmpresa\obj\Debug\GS.GestaoEmpresa.Solucao.UI.ControlesGenericos.GSTextBoxMonetaria.resources
+Z:\Users\gustavomoraes\Documents\GitHub\GestaoEmpresa\GestaoEmpresa\obj\Debug\GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque.frmEstoque.resources
+Z:\Users\gustavomoraes\Documents\GitHub\GestaoEmpresa\GestaoEmpresa\obj\Debug\GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque.frmInteracao.resources
+Z:\Users\gustavomoraes\Documents\GitHub\GestaoEmpresa\GestaoEmpresa\obj\Debug\GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque.frmProduto.resources
+Z:\Users\gustavomoraes\Documents\GitHub\GestaoEmpresa\GestaoEmpresa\obj\Debug\GestaoEmpresa.GS.GestaoEmpresa.GS.GestaoEmpresa.UI.Principal.frmPrincipal.resources
+Z:\Users\gustavomoraes\Documents\GitHub\GestaoEmpresa\GestaoEmpresa\obj\Debug\GS.GestaoEmpresa.Properties.Resources.resources
+Z:\Users\gustavomoraes\Documents\GitHub\GestaoEmpresa\GestaoEmpresa\obj\Debug\GS.GestaoEmpresa.Solucao.UI.Modulos.Configuracoes.frmConfiguracoes.resources
+Z:\Users\gustavomoraes\Documents\GitHub\GestaoEmpresa\GestaoEmpresa\obj\Debug\GS.GestaoEmpresa.csproj.GenerateResource.cache
+Z:\Users\gustavomoraes\Documents\GitHub\GestaoEmpresa\GestaoEmpresa\obj\Debug\GS.GestaoEmpresa.csproj.CoreCompileInputs.cache
+Z:\Users\gustavomoraes\Documents\GitHub\GestaoEmpresa\GestaoEmpresa\obj\Debug\GS.GestaoEmpresa.exe
+Z:\Users\gustavomoraes\Documents\GitHub\GestaoEmpresa\GestaoEmpresa\obj\Debug\GS.GestaoEmpresa.pdb

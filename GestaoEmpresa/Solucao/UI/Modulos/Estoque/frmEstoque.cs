@@ -61,7 +61,8 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             foreach (var interacao in listaDeInteracoes)
             {
                 dgvHistorico.Rows.Add(interacao.Codigo,
-                                      interacao.Horario.ToString(Cultura),
+                                      interacao.Horario.ToString(Cultura)
+                                                       .Remove(interacao.Horario.ToString().Length - 2, 3),
                                       interacao.TipoDeInteracao,
                                       interacao.Observacao,
                                       interacao.Produto.Nome,
@@ -78,6 +79,11 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                 if (interacao.TipoDeInteracao == EnumTipoDeInteracao.SAIDA)
                 {
                     dgvHistorico.Rows[dgvHistorico.Rows.Count - 1].DefaultCellStyle.BackColor = Color.LightPink;
+                }
+
+                if (interacao.TipoDeInteracao == EnumTipoDeInteracao.BASE_DE_TROCA)
+                {
+                    dgvHistorico.Rows[dgvHistorico.Rows.Count - 1].DefaultCellStyle.BackColor = Color.Purple;
                 }
             }
             dgvHistorico.Refresh();
@@ -353,7 +359,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
                 case "Número de Série":
                     listaFiltrada = _listaDeInteracoes.FindAll(x => string.Join(" ", x.NumerosDeSerie.ToArray())
-                                                                          .Contains(pesquisa));
+                                                                          .Contains(pesquisa.ToUpper()));
                     break;
             }
 

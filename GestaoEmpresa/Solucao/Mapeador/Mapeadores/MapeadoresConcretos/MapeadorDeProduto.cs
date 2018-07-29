@@ -18,10 +18,8 @@ namespace GS.GestaoEmpresa.Solucao.Mapeador.Mapeadores.MapeadoresConcretos
 		new Dictionary<string, Type>()
 		{
 		    {"CODIGO", typeof(int)},
-		    {"VIGENCIA", typeof(DateTime)},
 		    {"STATUS", typeof(bool)},
 		    {"NOME", typeof(string)},
-		    {"OBSERVACAO", typeof(string)},
 		    {"FABRICANTE", typeof(string)},
 		    {"CODIGOFABRICANTE", typeof(string)},
 		    {"PRECOCOMPRA", typeof(decimal)},
@@ -29,8 +27,9 @@ namespace GS.GestaoEmpresa.Solucao.Mapeador.Mapeadores.MapeadoresConcretos
 		    {"PORCENTAGEMLUCRO", typeof(float)},
 		    {"QUANTIDADEESTOQUE", typeof(int)},
 		    {"AVISARQUANTIDADE", typeof(bool) },
-		    {"QUANTIDADEMINIMAAVISO", typeof(int)}
-		};
+		    {"QUANTIDADEMINIMAAVISO", typeof(int)},
+            {"OBSERVACAO", typeof(string)}
+        };
 
         private string _scriptCreate =>
 		"CREATE TABLE PRODUTOS (" +
@@ -57,32 +56,31 @@ namespace GS.GestaoEmpresa.Solucao.Mapeador.Mapeadores.MapeadoresConcretos
                 retorno.Codigo = int.Parse(tabela.Rows[linha]["CODIGO"].ToString());
                 retorno.Status = (EnumStatusDoProduto) int.Parse(tabela.Rows[linha]["STATUS"].ToString());
                 retorno.Nome = tabela.Rows[linha]["NOME"].ToString();
-                retorno.Observacao = tabela.Rows[linha]["OBSERVACAO"] != DBNull.Value
-                                   ? tabela.Rows[linha]["OBSERVACAO"].ToString()
-                                   : null;
                 retorno.Fabricante = tabela.Rows[linha]["FABRICANTE"] != DBNull.Value
                                    ? tabela.Rows[linha]["FABRICANTE"].ToString()
                                    : null;
                 retorno.CodigoDoFabricante = tabela.Rows[linha]["CODIGOFABRICANTE"] != DBNull.Value
-					   ? tabela.Rows[linha]["CODIGOFABRICANTE"].ToString()
-					   : null;
+					                       ? tabela.Rows[linha]["CODIGOFABRICANTE"].ToString()
+					                       : null;
                 retorno.PrecoDeCompra = decimal.Parse(tabela.Rows[linha]["PRECOCOMPRA"].ToString());
                 retorno.PrecoDeVenda = decimal.Parse(tabela.Rows[linha]["PRECOVENDA"].ToString());
                 retorno.PorcentagemDeLucro = decimal.Parse(tabela.Rows[linha]["PORCENTAGEMLUCRO"].ToString());
                 retorno.QuantidadeEmEstoque = int.Parse(tabela.Rows[linha]["QUANTIDADEESTOQUE"].ToString());
-                retorno.QuantidadeMinimaParaAviso = int.Parse(tabela.Rows[linha]["QUANTIDADEMINIMAAVISO"].ToString());
                 retorno.AvisarQuantidade = GSUtilitarios.ConvertaValorBooleano(tabela.Rows[linha]["AVISARQUANTIDADE"].ToString());
+                retorno.QuantidadeMinimaParaAviso = int.Parse(tabela.Rows[linha]["QUANTIDADEMINIMAAVISO"].ToString());
+                retorno.Observacao = tabela.Rows[linha]["OBSERVACAO"] != DBNull.Value
+                                   ? tabela.Rows[linha]["OBSERVACAO"].ToString()
+                                   : null;
 
-                return retorno;
+            return retorno;
         }
 
         private string ObtenhaValoresInsercao(Produto produto)
         {
-            return string.Format("{0}, {1}, '{2}', '{3}', '{4}', '{5}', {6}, {7}, {8}, {9}, '{10}', {11}",
+            return string.Format("{0}, {1}, '{2}', '{3}', '{4}', {5}, {6}, {7}, {8}, '{9}', {10}, '{11}'",
                                  produto.Codigo,
                                  (int)produto.Status,
                                  produto.Nome,
-                                 produto.Observacao ?? "NULL",
                                  produto.Fabricante ?? "NULL",
                                  produto.CodigoDoFabricante ?? "NULL",
                                  produto.PrecoDeCompra,
@@ -90,7 +88,8 @@ namespace GS.GestaoEmpresa.Solucao.Mapeador.Mapeadores.MapeadoresConcretos
                                  produto.PorcentagemDeLucro,
                                  produto.QuantidadeEmEstoque,
                                  GSUtilitarios.ConvertaValorBooleano(produto.AvisarQuantidade),
-                                 produto.QuantidadeMinimaParaAviso);
+                                 produto.QuantidadeMinimaParaAviso,
+                                 produto.Observacao ?? "NULL");
         }
 
         public void CrieTabela()
