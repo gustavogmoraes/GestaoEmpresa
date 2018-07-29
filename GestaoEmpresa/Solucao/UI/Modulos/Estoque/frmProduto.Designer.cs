@@ -35,8 +35,6 @@
             this.lblMarca = new System.Windows.Forms.Label();
             this.txtNome = new System.Windows.Forms.TextBox();
             this.lblNome = new System.Windows.Forms.Label();
-            this.txtDescricao = new System.Windows.Forms.TextBox();
-            this.lblDescricao = new System.Windows.Forms.Label();
             this.lblPrecoCompra = new System.Windows.Forms.Label();
             this.lblPrecoVenda = new System.Windows.Forms.Label();
             this.lblPorcentagemLucro = new System.Windows.Forms.Label();
@@ -65,7 +63,6 @@
             this.txtLineCodigoFabricante = new System.Windows.Forms.Label();
             this.label17 = new System.Windows.Forms.Label();
             this.txtLineNome = new System.Windows.Forms.Label();
-            this.txtLineDescricao = new System.Windows.Forms.Label();
             this.lblCifraoPrecoCompra = new System.Windows.Forms.Label();
             this.lblCifraoPrecoVenda = new System.Windows.Forms.Label();
             this.txtLinePorcentagemLucro = new System.Windows.Forms.Label();
@@ -158,35 +155,12 @@
             this.lblNome.TabIndex = 5;
             this.lblNome.Text = "Nome";
             // 
-            // txtDescricao
-            // 
-            this.txtDescricao.BackColor = System.Drawing.Color.Silver;
-            this.txtDescricao.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtDescricao.Location = new System.Drawing.Point(24, 291);
-            this.txtDescricao.MaxLength = 500;
-            this.txtDescricao.Multiline = true;
-            this.txtDescricao.Name = "txtDescricao";
-            this.txtDescricao.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtDescricao.Size = new System.Drawing.Size(483, 73);
-            this.txtDescricao.TabIndex = 7;
-            // 
-            // lblDescricao
-            // 
-            this.lblDescricao.AutoSize = true;
-            this.lblDescricao.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblDescricao.ForeColor = System.Drawing.Color.SteelBlue;
-            this.lblDescricao.Location = new System.Drawing.Point(12, 266);
-            this.lblDescricao.Name = "lblDescricao";
-            this.lblDescricao.Size = new System.Drawing.Size(101, 22);
-            this.lblDescricao.TabIndex = 7;
-            this.lblDescricao.Text = "Descrição";
-            // 
             // lblPrecoCompra
             // 
             this.lblPrecoCompra.AutoSize = true;
             this.lblPrecoCompra.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblPrecoCompra.ForeColor = System.Drawing.Color.SteelBlue;
-            this.lblPrecoCompra.Location = new System.Drawing.Point(12, 385);
+            this.lblPrecoCompra.Location = new System.Drawing.Point(12, 454);
             this.lblPrecoCompra.Name = "lblPrecoCompra";
             this.lblPrecoCompra.Size = new System.Drawing.Size(174, 22);
             this.lblPrecoCompra.TabIndex = 9;
@@ -197,7 +171,7 @@
             this.lblPrecoVenda.AutoSize = true;
             this.lblPrecoVenda.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblPrecoVenda.ForeColor = System.Drawing.Color.SteelBlue;
-            this.lblPrecoVenda.Location = new System.Drawing.Point(334, 385);
+            this.lblPrecoVenda.Location = new System.Drawing.Point(334, 454);
             this.lblPrecoVenda.Name = "lblPrecoVenda";
             this.lblPrecoVenda.Size = new System.Drawing.Size(163, 22);
             this.lblPrecoVenda.TabIndex = 11;
@@ -208,7 +182,7 @@
             this.lblPorcentagemLucro.AutoSize = true;
             this.lblPorcentagemLucro.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblPorcentagemLucro.ForeColor = System.Drawing.Color.SteelBlue;
-            this.lblPorcentagemLucro.Location = new System.Drawing.Point(166, 448);
+            this.lblPorcentagemLucro.Location = new System.Drawing.Point(166, 517);
             this.lblPorcentagemLucro.Name = "lblPorcentagemLucro";
             this.lblPorcentagemLucro.Size = new System.Drawing.Size(217, 22);
             this.lblPorcentagemLucro.TabIndex = 13;
@@ -219,7 +193,7 @@
             this.txtQuantidadeEmEstoque.BackColor = System.Drawing.Color.Silver;
             this.txtQuantidadeEmEstoque.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtQuantidadeEmEstoque.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtQuantidadeEmEstoque.Location = new System.Drawing.Point(312, 530);
+            this.txtQuantidadeEmEstoque.Location = new System.Drawing.Point(312, 599);
             this.txtQuantidadeEmEstoque.Name = "txtQuantidadeEmEstoque";
             this.txtQuantidadeEmEstoque.Size = new System.Drawing.Size(64, 24);
             this.txtQuantidadeEmEstoque.TabIndex = 12;
@@ -230,7 +204,7 @@
             this.lblQuantidadeEstoque.AutoSize = true;
             this.lblQuantidadeEstoque.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblQuantidadeEstoque.ForeColor = System.Drawing.Color.SteelBlue;
-            this.lblQuantidadeEstoque.Location = new System.Drawing.Point(291, 508);
+            this.lblQuantidadeEstoque.Location = new System.Drawing.Point(291, 577);
             this.lblQuantidadeEstoque.Name = "lblQuantidadeEstoque";
             this.lblQuantidadeEstoque.Size = new System.Drawing.Size(244, 22);
             this.lblQuantidadeEstoque.TabIndex = 15;
@@ -241,7 +215,7 @@
             this.txtQuantidadeMinima.BackColor = System.Drawing.Color.Silver;
             this.txtQuantidadeMinima.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtQuantidadeMinima.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtQuantidadeMinima.Location = new System.Drawing.Point(30, 530);
+            this.txtQuantidadeMinima.Location = new System.Drawing.Point(30, 599);
             this.txtQuantidadeMinima.Name = "txtQuantidadeMinima";
             this.txtQuantidadeMinima.Size = new System.Drawing.Size(64, 24);
             this.txtQuantidadeMinima.TabIndex = 11;
@@ -252,7 +226,7 @@
             this.lblQuantidadeMinima.AutoSize = true;
             this.lblQuantidadeMinima.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblQuantidadeMinima.ForeColor = System.Drawing.Color.SteelBlue;
-            this.lblQuantidadeMinima.Location = new System.Drawing.Point(12, 508);
+            this.lblQuantidadeMinima.Location = new System.Drawing.Point(12, 577);
             this.lblQuantidadeMinima.Name = "lblQuantidadeMinima";
             this.lblQuantidadeMinima.Size = new System.Drawing.Size(200, 22);
             this.lblQuantidadeMinima.TabIndex = 17;
@@ -265,7 +239,7 @@
             this.chkAvisar.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkAvisar.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.chkAvisar.ForeColor = System.Drawing.Color.SteelBlue;
-            this.chkAvisar.Location = new System.Drawing.Point(16, 567);
+            this.chkAvisar.Location = new System.Drawing.Point(16, 636);
             this.chkAvisar.Name = "chkAvisar";
             this.chkAvisar.Size = new System.Drawing.Size(535, 26);
             this.chkAvisar.TabIndex = 13;
@@ -276,12 +250,12 @@
             // 
             this.txtObservacoes.BackColor = System.Drawing.Color.Silver;
             this.txtObservacoes.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtObservacoes.Location = new System.Drawing.Point(24, 622);
+            this.txtObservacoes.Location = new System.Drawing.Point(24, 288);
             this.txtObservacoes.MaxLength = 3000;
             this.txtObservacoes.Multiline = true;
             this.txtObservacoes.Name = "txtObservacoes";
             this.txtObservacoes.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtObservacoes.Size = new System.Drawing.Size(483, 94);
+            this.txtObservacoes.Size = new System.Drawing.Size(483, 136);
             this.txtObservacoes.TabIndex = 14;
             // 
             // lblObservacoes
@@ -289,7 +263,7 @@
             this.lblObservacoes.AutoSize = true;
             this.lblObservacoes.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblObservacoes.ForeColor = System.Drawing.Color.SteelBlue;
-            this.lblObservacoes.Location = new System.Drawing.Point(15, 597);
+            this.lblObservacoes.Location = new System.Drawing.Point(15, 263);
             this.lblObservacoes.Name = "lblObservacoes";
             this.lblObservacoes.Size = new System.Drawing.Size(139, 22);
             this.lblObservacoes.TabIndex = 20;
@@ -347,7 +321,7 @@
             this.txtPorcentagemDeLucro.BackColor = System.Drawing.Color.Silver;
             this.txtPorcentagemDeLucro.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtPorcentagemDeLucro.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtPorcentagemDeLucro.Location = new System.Drawing.Point(182, 472);
+            this.txtPorcentagemDeLucro.Location = new System.Drawing.Point(182, 541);
             this.txtPorcentagemDeLucro.MaxLength = 5;
             this.txtPorcentagemDeLucro.Name = "txtPorcentagemDeLucro";
             this.txtPorcentagemDeLucro.Size = new System.Drawing.Size(46, 24);
@@ -360,7 +334,7 @@
             this.lblSimboloPorcentagemLucro.AutoSize = true;
             this.lblSimboloPorcentagemLucro.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblSimboloPorcentagemLucro.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.lblSimboloPorcentagemLucro.Location = new System.Drawing.Point(227, 471);
+            this.lblSimboloPorcentagemLucro.Location = new System.Drawing.Point(227, 540);
             this.lblSimboloPorcentagemLucro.Name = "lblSimboloPorcentagemLucro";
             this.lblSimboloPorcentagemLucro.Size = new System.Drawing.Size(25, 22);
             this.lblSimboloPorcentagemLucro.TabIndex = 34;
@@ -500,23 +474,12 @@
             this.txtLineNome.TabIndex = 46;
             this.txtLineNome.Text = "__________________________";
             // 
-            // txtLineDescricao
-            // 
-            this.txtLineDescricao.AutoSize = true;
-            this.txtLineDescricao.Font = new System.Drawing.Font("Century Gothic", 27.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtLineDescricao.ForeColor = System.Drawing.Color.SteelBlue;
-            this.txtLineDescricao.Location = new System.Drawing.Point(14, 332);
-            this.txtLineDescricao.Name = "txtLineDescricao";
-            this.txtLineDescricao.Size = new System.Drawing.Size(514, 44);
-            this.txtLineDescricao.TabIndex = 47;
-            this.txtLineDescricao.Text = "__________________________";
-            // 
             // lblCifraoPrecoCompra
             // 
             this.lblCifraoPrecoCompra.AutoSize = true;
             this.lblCifraoPrecoCompra.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblCifraoPrecoCompra.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.lblCifraoPrecoCompra.Location = new System.Drawing.Point(23, 409);
+            this.lblCifraoPrecoCompra.Location = new System.Drawing.Point(23, 478);
             this.lblCifraoPrecoCompra.Name = "lblCifraoPrecoCompra";
             this.lblCifraoPrecoCompra.Size = new System.Drawing.Size(33, 22);
             this.lblCifraoPrecoCompra.TabIndex = 49;
@@ -527,7 +490,7 @@
             this.lblCifraoPrecoVenda.AutoSize = true;
             this.lblCifraoPrecoVenda.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblCifraoPrecoVenda.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.lblCifraoPrecoVenda.Location = new System.Drawing.Point(348, 408);
+            this.lblCifraoPrecoVenda.Location = new System.Drawing.Point(348, 477);
             this.lblCifraoPrecoVenda.Name = "lblCifraoPrecoVenda";
             this.lblCifraoPrecoVenda.Size = new System.Drawing.Size(33, 22);
             this.lblCifraoPrecoVenda.TabIndex = 51;
@@ -538,7 +501,7 @@
             this.txtLinePorcentagemLucro.AutoSize = true;
             this.txtLinePorcentagemLucro.Font = new System.Drawing.Font("Century Gothic", 27.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtLinePorcentagemLucro.ForeColor = System.Drawing.Color.SteelBlue;
-            this.txtLinePorcentagemLucro.Location = new System.Drawing.Point(162, 458);
+            this.txtLinePorcentagemLucro.Location = new System.Drawing.Point(162, 527);
             this.txtLinePorcentagemLucro.Name = "txtLinePorcentagemLucro";
             this.txtLinePorcentagemLucro.Size = new System.Drawing.Size(115, 44);
             this.txtLinePorcentagemLucro.TabIndex = 52;
@@ -549,7 +512,7 @@
             this.txtLineQuantidadeMinima.AutoSize = true;
             this.txtLineQuantidadeMinima.Font = new System.Drawing.Font("Century Gothic", 27.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtLineQuantidadeMinima.ForeColor = System.Drawing.Color.SteelBlue;
-            this.txtLineQuantidadeMinima.Location = new System.Drawing.Point(10, 516);
+            this.txtLineQuantidadeMinima.Location = new System.Drawing.Point(10, 585);
             this.txtLineQuantidadeMinima.Name = "txtLineQuantidadeMinima";
             this.txtLineQuantidadeMinima.Size = new System.Drawing.Size(115, 44);
             this.txtLineQuantidadeMinima.TabIndex = 53;
@@ -560,7 +523,7 @@
             this.txtLineQuantidadeEstoque.AutoSize = true;
             this.txtLineQuantidadeEstoque.Font = new System.Drawing.Font("Century Gothic", 27.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtLineQuantidadeEstoque.ForeColor = System.Drawing.Color.SteelBlue;
-            this.txtLineQuantidadeEstoque.Location = new System.Drawing.Point(297, 516);
+            this.txtLineQuantidadeEstoque.Location = new System.Drawing.Point(297, 585);
             this.txtLineQuantidadeEstoque.Name = "txtLineQuantidadeEstoque";
             this.txtLineQuantidadeEstoque.Size = new System.Drawing.Size(115, 44);
             this.txtLineQuantidadeEstoque.TabIndex = 54;
@@ -571,7 +534,7 @@
             this.txtLineObservacoes.AutoSize = true;
             this.txtLineObservacoes.Font = new System.Drawing.Font("Century Gothic", 27.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtLineObservacoes.ForeColor = System.Drawing.Color.SteelBlue;
-            this.txtLineObservacoes.Location = new System.Drawing.Point(12, 685);
+            this.txtLineObservacoes.Location = new System.Drawing.Point(12, 393);
             this.txtLineObservacoes.Name = "txtLineObservacoes";
             this.txtLineObservacoes.Size = new System.Drawing.Size(514, 44);
             this.txtLineObservacoes.TabIndex = 55;
@@ -580,7 +543,7 @@
             // txtPrecoDeCompra
             // 
             this.txtPrecoDeCompra.BackColor = System.Drawing.Color.Silver;
-            this.txtPrecoDeCompra.Location = new System.Drawing.Point(23, 405);
+            this.txtPrecoDeCompra.Location = new System.Drawing.Point(23, 474);
             this.txtPrecoDeCompra.Name = "txtPrecoDeCompra";
             this.txtPrecoDeCompra.Size = new System.Drawing.Size(153, 36);
             this.txtPrecoDeCompra.TabIndex = 56;
@@ -593,7 +556,7 @@
             // txtPrecoDeVenda
             // 
             this.txtPrecoDeVenda.BackColor = System.Drawing.Color.Silver;
-            this.txtPrecoDeVenda.Location = new System.Drawing.Point(345, 404);
+            this.txtPrecoDeVenda.Location = new System.Drawing.Point(345, 473);
             this.txtPrecoDeVenda.Name = "txtPrecoDeVenda";
             this.txtPrecoDeVenda.Size = new System.Drawing.Size(153, 36);
             this.txtPrecoDeVenda.TabIndex = 57;
@@ -608,7 +571,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Silver;
-            this.ClientSize = new System.Drawing.Size(593, 735);
+            this.ClientSize = new System.Drawing.Size(593, 685);
             this.Controls.Add(this.lblQuantidadeMinima);
             this.Controls.Add(this.lblQuantidadeEstoque);
             this.Controls.Add(this.lblPrecoVenda);
@@ -633,8 +596,6 @@
             this.Controls.Add(this.txtQuantidadeMinima);
             this.Controls.Add(this.txtQuantidadeEmEstoque);
             this.Controls.Add(this.lblPorcentagemLucro);
-            this.Controls.Add(this.txtDescricao);
-            this.Controls.Add(this.lblDescricao);
             this.Controls.Add(this.txtNome);
             this.Controls.Add(this.lblNome);
             this.Controls.Add(this.txtMarca);
@@ -647,7 +608,6 @@
             this.Controls.Add(this.txtLineCodigoFabricante);
             this.Controls.Add(this.label17);
             this.Controls.Add(this.txtLineNome);
-            this.Controls.Add(this.txtLineDescricao);
             this.Controls.Add(this.txtLinePorcentagemLucro);
             this.Controls.Add(this.txtLineQuantidadeMinima);
             this.Controls.Add(this.txtLineQuantidadeEstoque);
@@ -676,8 +636,6 @@
         private System.Windows.Forms.Label lblMarca;
         private System.Windows.Forms.TextBox txtNome;
         private System.Windows.Forms.Label lblNome;
-        private System.Windows.Forms.TextBox txtDescricao;
-        private System.Windows.Forms.Label lblDescricao;
         private System.Windows.Forms.Label lblPrecoCompra;
         private System.Windows.Forms.Label lblPrecoVenda;
         private System.Windows.Forms.Label lblPorcentagemLucro;
@@ -706,7 +664,6 @@
         private System.Windows.Forms.Label txtLineCodigoFabricante;
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.Label txtLineNome;
-        private System.Windows.Forms.Label txtLineDescricao;
         private System.Windows.Forms.Label lblCifraoPrecoCompra;
         private System.Windows.Forms.Label lblCifraoPrecoVenda;
         private System.Windows.Forms.Label txtLinePorcentagemLucro;

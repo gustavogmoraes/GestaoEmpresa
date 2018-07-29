@@ -18,8 +18,6 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Objetos.ObjetosConcretos
 
         public EnumTipoDeInteracao TipoDeInteracao { get; set; }
 
-        public string Descricao { get; set; }
-
         public Produto Produto { get; set; }
 
         public bool InformaNumeroDeSerie { get; set; }

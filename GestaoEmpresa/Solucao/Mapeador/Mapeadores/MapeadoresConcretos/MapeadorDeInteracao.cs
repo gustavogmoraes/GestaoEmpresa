@@ -57,7 +57,7 @@ namespace GS.GestaoEmpresa.Solucao.Mapeador.Mapeadores.MapeadoresConcretos
                             : null;
             retorno.Horario = (DateTime)tabela.Rows[linha]["HORARIO"];
             retorno.NumeroDaNota = tabela.Rows[linha]["NUMERODANOTAFISCAL"].ToString();
-            retorno.AtualizarValorDoProdutoNoCatalogo = GSUtilitarios.ConvertaValorBooleano(tabela.Rows[linha]["INFORMA_NUMERO_DE_SERIE"].ToString());
+            retorno.InformaNumeroDeSerie = GSUtilitarios.ConvertaValorBooleano(tabela.Rows[linha]["INFORMA_NUMERO_DE_SERIE"].ToString());
 
             return retorno;
         }

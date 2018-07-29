@@ -181,7 +181,6 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         {
             txtCodigo.Text = objeto.Codigo.ToString();
             txtCodigoFabricante.Text = objeto.CodigoDoFabricante ?? string.Empty;
-            txtDescricao.Text = objeto.Descricao ?? string.Empty;
             txtMarca.Text = objeto.Fabricante ?? string.Empty;
             txtNome.Text = objeto.Nome ?? string.Empty;
             txtObservacoes.Text = objeto.Observacao ?? string.Empty;
@@ -200,7 +199,6 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
             produto.Codigo = int.Parse(txtCodigo.Text.Trim());
             produto.CodigoDoFabricante = txtCodigoFabricante.Text.Trim();
-            produto.Descricao = txtDescricao.Text.Trim();
             produto.Fabricante = txtMarca.Text.Trim();
             produto.Nome = txtNome.Text.Trim();
             produto.Observacao = txtObservacoes.Text.Trim();
@@ -232,9 +230,6 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
             txtCodigoFabricante.Enabled = true;
             txtLineCodigoFabricante.Enabled = true;
-
-            txtDescricao.Enabled = true;
-            txtLineDescricao.Enabled = true;
 
             txtMarca.Enabled = true;
             txtLineMarca.Enabled = true;
@@ -274,9 +269,6 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
             txtCodigoFabricante.Enabled = false;
             txtLineCodigoFabricante.Enabled = false;
-
-            txtDescricao.Enabled = false;
-            txtLineDescricao.Enabled = false;
 
             txtMarca.Enabled = false;
             txtLineMarca.Enabled = false;

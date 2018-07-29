@@ -31,7 +31,7 @@
             this.btnAdicionar = new System.Windows.Forms.Button();
             this.btnRemover = new System.Windows.Forms.Button();
             this.txtTexto = new System.Windows.Forms.TextBox();
-            this.txtLineMultiTextBox = new System.Windows.Forms.Label();
+            this.txtLineTexto = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // btnAdicionar
@@ -69,16 +69,16 @@
             this.txtTexto.Size = new System.Drawing.Size(382, 24);
             this.txtTexto.TabIndex = 105;
             // 
-            // txtLineMultiTextBox
+            // txtLineTexto
             // 
-            this.txtLineMultiTextBox.AutoSize = true;
-            this.txtLineMultiTextBox.Font = new System.Drawing.Font("Century Gothic", 27.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtLineMultiTextBox.ForeColor = System.Drawing.Color.SteelBlue;
-            this.txtLineMultiTextBox.Location = new System.Drawing.Point(-6, -10);
-            this.txtLineMultiTextBox.Name = "txtLineMultiTextBox";
-            this.txtLineMultiTextBox.Size = new System.Drawing.Size(400, 44);
-            this.txtLineMultiTextBox.TabIndex = 106;
-            this.txtLineMultiTextBox.Text = "____________________";
+            this.txtLineTexto.AutoSize = true;
+            this.txtLineTexto.Font = new System.Drawing.Font("Century Gothic", 27.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtLineTexto.ForeColor = System.Drawing.Color.SteelBlue;
+            this.txtLineTexto.Location = new System.Drawing.Point(-6, -10);
+            this.txtLineTexto.Name = "txtLineTexto";
+            this.txtLineTexto.Size = new System.Drawing.Size(400, 44);
+            this.txtLineTexto.TabIndex = 106;
+            this.txtLineTexto.Text = "____________________";
             // 
             // GSMultiTextBox
             // 
@@ -88,7 +88,7 @@
             this.Controls.Add(this.txtTexto);
             this.Controls.Add(this.btnRemover);
             this.Controls.Add(this.btnAdicionar);
-            this.Controls.Add(this.txtLineMultiTextBox);
+            this.Controls.Add(this.txtLineTexto);
             this.Name = "GSMultiTextBox";
             this.Size = new System.Drawing.Size(451, 32);
             this.ResumeLayout(false);
@@ -101,6 +101,6 @@
         private System.Windows.Forms.Button btnAdicionar;
         private System.Windows.Forms.Button btnRemover;
         private System.Windows.Forms.TextBox txtTexto;
-        private System.Windows.Forms.Label txtLineMultiTextBox;
+        private System.Windows.Forms.Label txtLineTexto;
     }
 }

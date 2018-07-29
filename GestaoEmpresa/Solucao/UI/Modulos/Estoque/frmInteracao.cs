@@ -54,7 +54,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         {
             InitializeComponent();
 
-            InicializeBotoes(EnumTipoDeForm.Detalhamento, ref btnEditarSalvar, ref btnCancelarExcluir, ref _switchBotaoEditarSalvar, ref _switchBotaoCancelarExcluir);
+            //InicializeBotoes(EnumTipoDeForm.Detalhamento, ref btnEditarSalvar, ref btnCancelarExcluir, ref _switchBotaoEditarSalvar, ref _switchBotaoCancelarExcluir);
             _tipoDoForm = EnumTipoDeForm.Detalhamento;
 
             CarregueControlesComObjeto(interacao);
@@ -88,6 +88,15 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             {
                 controle.Enabled = false;
             }
+
+            foreach(Control controle in flpNumerosDeSerie.Controls)
+            {
+                controle.Controls.Find("btnAdicionar", false)[0].Visible = false;
+                controle.Controls.Find("txtTexto", false)[0].Enabled = false;
+                controle.Controls.Find("txtLineTexto", false)[0].Enabled = false;
+            }
+
+            flpNumerosDeSerie.Enabled = true;
         }
 
         protected void InicializeBotoes(EnumTipoDeForm tipoDeForm,
@@ -165,6 +174,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         public void CarregueControlesComObjeto(Interacao objeto)
         {
+            txtHorario.Text = objeto.Horario.ToString(Cultura);
             txtObservacoes.Text = objeto.Observacao ?? string.Empty;
             txtQuantidade.Text = objeto.QuantidadeInterada.ToString();
             GStxtValor.Valor = objeto.ValorInteracao;
@@ -400,17 +410,20 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         private void cbTipo_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (cbTipo.Text == "Saída")
+            if (_tipoDoForm != EnumTipoDeForm.Detalhamento)
             {
-                lblValor.Enabled = false;
-                GStxtValor.Enabled = false;
-                chkAtualizar.Enabled = false;
-            }
-            else
-            {
-                lblValor.Enabled = true;
-                GStxtValor.Enabled = true;
-                chkAtualizar.Enabled = true;
+                if (cbTipo.Text == "Saída")
+                {
+                    lblValor.Enabled = false;
+                    GStxtValor.Enabled = false;
+                    chkAtualizar.Enabled = false;
+                }
+                else
+                {
+                    lblValor.Enabled = true;
+                    GStxtValor.Enabled = true;
+                    chkAtualizar.Enabled = true;
+                }
             }
         }
 
