@@ -613,12 +613,14 @@
             // 
             // colunaOrigem
             // 
+            this.colunaOrigem.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.colunaOrigem.HeaderText = "Origem";
             this.colunaOrigem.Name = "colunaOrigem";
             this.colunaOrigem.ReadOnly = true;
             // 
             // colunaDestino
             // 
+            this.colunaDestino.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.colunaDestino.HeaderText = "Destino";
             this.colunaDestino.Name = "colunaDestino";
             this.colunaDestino.ReadOnly = true;

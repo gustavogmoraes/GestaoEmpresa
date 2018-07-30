@@ -51,3 +51,4 @@ Z:\Users\gustavomoraes\Documents\GitHub\GestaoEmpresa\GestaoEmpresa\obj\Debug\GS
 Z:\Users\gustavomoraes\Documents\GitHub\GestaoEmpresa\GestaoEmpresa\obj\Debug\GS.GestaoEmpresa.csproj.CoreCompileInputs.cache
 Z:\Users\gustavomoraes\Documents\GitHub\GestaoEmpresa\GestaoEmpresa\obj\Debug\GS.GestaoEmpresa.exe
 Z:\Users\gustavomoraes\Documents\GitHub\GestaoEmpresa\GestaoEmpresa\obj\Debug\GS.GestaoEmpresa.pdb
+E:\Documentos\Visual Studio 2017\Projects\GestaoEmpresa\GestaoEmpresa\obj\Debug\GS.GestaoEmpresa.csprojResolveAssemblyReference.cache

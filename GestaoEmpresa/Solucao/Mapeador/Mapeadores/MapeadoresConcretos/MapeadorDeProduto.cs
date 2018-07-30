@@ -110,7 +110,7 @@ namespace GS.GestaoEmpresa.Solucao.Mapeador.Mapeadores.MapeadoresConcretos
 
             string ComandoSQL = String.Format("INSERT INTO {0} (VIGENCIA, {1}) VALUES (CAST ('{2}' AS DATETIME2), {3})",
                                               Tabela,
-                                              Colunas.Replace("VIGENCIA, ", string.Empty),
+                                              Colunas,
                                               GSUtilitarios.FormateDateTimePtBrParaBD(vigencia),
                                               ObtenhaValoresInsercao(produto));
 

@@ -60,9 +60,11 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
             foreach (var interacao in listaDeInteracoes)
             {
+                var indice = interacao.Horario.ToString(Cultura).Length - 3;
+
                 dgvHistorico.Rows.Add(interacao.Codigo,
                                       interacao.Horario.ToString(Cultura)
-                                                       .Remove(interacao.Horario.ToString().Length - 2, 3),
+                                                       .Remove(indice, 3),
                                       interacao.TipoDeInteracao,
                                       interacao.Observacao,
                                       interacao.Produto.Nome,
