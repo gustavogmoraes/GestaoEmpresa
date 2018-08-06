@@ -36,10 +36,10 @@ namespace GS.GestaoEmpresa.Solucao.Mapeador.BancoDeDados
                 _informacoesConexao = SessaoSistema.InformacoesConexao;
 
                 // Configuração
-                //DefinaStringDeConexao(_informacoesConexao.Servidor, _informacoesConexao.NomeBanco, _informacoesConexao.Usuario, _informacoesConexao.Senha);
+                DefinaStringDeConexao(_informacoesConexao.Servidor, _informacoesConexao.NomeBanco, _informacoesConexao.Usuario, _informacoesConexao.Senha);
 
                 // Developer
-                DefinaStringDeConexao();
+                // DefinaStringDeConexao();
             }
 
             _conexao = new SqlConnection(_stringDeConexao);

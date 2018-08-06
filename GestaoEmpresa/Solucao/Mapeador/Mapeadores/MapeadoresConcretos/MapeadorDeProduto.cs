@@ -5,6 +5,7 @@ using GS.GestaoEmpresa.Solucao.Mapeador.BancoDeDados;
 using GS.GestaoEmpresa.Solucao.Negocio.Objetos.ObjetosConcretos;
 using GS.GestaoEmpresa.Solucao.Utilitarios;
 using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores;
+using System.Globalization;
 
 namespace GS.GestaoEmpresa.Solucao.Mapeador.Mapeadores.MapeadoresConcretos
 {
@@ -83,9 +84,9 @@ namespace GS.GestaoEmpresa.Solucao.Mapeador.Mapeadores.MapeadoresConcretos
                                  produto.Nome,
                                  produto.Fabricante ?? "NULL",
                                  produto.CodigoDoFabricante ?? "NULL",
-                                 produto.PrecoDeCompra,
-                                 produto.PrecoDeVenda,
-                                 produto.PorcentagemDeLucro,
+                                 produto.PrecoDeCompra.ToString(CultureInfo.InvariantCulture),
+                                 produto.PrecoDeVenda.ToString(CultureInfo.InvariantCulture),
+                                 produto.PorcentagemDeLucro.ToString(CultureInfo.InvariantCulture),
                                  produto.QuantidadeEmEstoque,
                                  GSUtilitarios.ConvertaValorBooleano(produto.AvisarQuantidade),
                                  produto.QuantidadeMinimaParaAviso,

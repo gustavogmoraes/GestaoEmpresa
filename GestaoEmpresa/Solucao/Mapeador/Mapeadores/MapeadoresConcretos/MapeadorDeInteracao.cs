@@ -9,6 +9,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Globalization;
 
 namespace GS.GestaoEmpresa.Solucao.Mapeador.Mapeadores.MapeadoresConcretos
 {
@@ -71,7 +72,7 @@ namespace GS.GestaoEmpresa.Solucao.Mapeador.Mapeadores.MapeadoresConcretos
                                  interacao.Observacao ?? "NULL",
                                  interacao.Produto.Codigo,
                                  interacao.QuantidadeInterada,
-                                 interacao.ValorInteracao,
+                                 interacao.ValorInteracao.ToString(CultureInfo.InvariantCulture),
                                  GSUtilitarios.ConvertaValorBooleano(interacao.AtualizarValorDoProdutoNoCatalogo),
                                  interacao.Origem ?? "NULL",
                                  interacao.Destino ?? "NULL",

@@ -109,7 +109,6 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.btnEditarSalvar.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.btnEditarSalvar.TabIndex = 36;
             this.btnEditarSalvar.TabStop = false;
-            this.btnEditarSalvar.Visible = false;
             this.btnEditarSalvar.Click += new System.EventHandler(this.btnEditarSalvar_Click);
             // 
             // btnCancelarExcluir
@@ -121,7 +120,6 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.btnCancelarExcluir.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.btnCancelarExcluir.TabIndex = 37;
             this.btnCancelarExcluir.TabStop = false;
-            this.btnCancelarExcluir.Visible = false;
             this.btnCancelarExcluir.Click += new System.EventHandler(this.btnCancelarExcluir_Click);
             // 
             // lblInteracoes
