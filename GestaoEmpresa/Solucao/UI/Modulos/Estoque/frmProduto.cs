@@ -73,55 +73,39 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         #region Métodos Específicos
 
-        private void txtPorcentagemDeLucro_Leave(object sender, EventArgs e)
-        {
-            if (string.IsNullOrEmpty(txtPorcentagemDeLucro.Text))
-            {
-                txtPorcentagemDeLucro.Text = 0.ToString();
-                return;
-            }
-
-            if (decimal.Parse(txtPorcentagemDeLucro.Text.Trim().Replace(',', '.')) > 0)
-                AjustePrecosNaTela(sender as Control);
-
-            txtPorcentagemDeLucro.Text = txtPorcentagemDeLucro.Text.Trim().Replace(',', '.');
-        }
-
         private void AjustePrecosNaTela(Control controleGatilho)
         {
-            
+            if (controleGatilho == txtPrecoDeVenda)
+            {
+                var precoDeCompra = txtPrecoDeCompra.Valor;
+                var precoDeVenda = txtPrecoDeVenda.Valor;
 
-            //if (controleGatilho == txtPrecoDeVenda)
-            //{
-            //    var precoDeCompra = decimal.Parse(txtPrecoDeCompra.Text.Trim().Replace(',', '.'));
-            //    var precoDeVenda = decimal.Parse(txtPrecoDeVenda.Text.Trim().Replace(',', '.'));
+                var porcentagemDeLucro = (precoDeVenda / precoDeCompra) - 1;
 
-            //    var porcentagemDeLucro = (precoDeVenda / precoDeCompra) - 1;
+                if (porcentagemDeLucro <= 0)
+                {
+                    txtPorcentagemDeLucro.Valor = 0;
+                    return;
+                }
 
-            //    if (porcentagemDeLucro <= 0)
-            //    {
-            //        txtPorcentagemDeLucro.Text = 0.ToString();
-            //        return;
-            //    }
+                txtPorcentagemDeLucro.Valor = Math.Round(porcentagemDeLucro * 100, 2);
+            }
 
-            //    txtPorcentagemDeLucro.Text = Math.Round(porcentagemDeLucro * 100, 2).ToString();
-            //}
+            if (controleGatilho == txtPorcentagemDeLucro)
+            {
+                var precoDeCompra = txtPrecoDeCompra.Valor;
+                var porcentagemDeLucro = txtPorcentagemDeLucro.Valor / 100;
 
-            //if (controleGatilho == txtPorcentagemDeLucro)
-            //{
-            //    var precoDeCompra = decimal.Parse(txtPrecoDeCompra.Text.Trim().Replace(',', '.'));
-            //    var porcentagemDeLucro = decimal.Parse(txtPorcentagemDeLucro.Text.Trim().Replace(',', '.')) / 100;
+                var precoDeVenda = precoDeCompra * (1 + porcentagemDeLucro);
 
-            //    var precoDeVenda = precoDeCompra * (1 + porcentagemDeLucro);
+                if (precoDeVenda <= 0)
+                {
+                    txtPrecoDeVenda.Valor = 0;
+                    return;
+                }
 
-            //    if (precoDeVenda <= 0)
-            //    {
-            //        txtPrecoDeVenda.Text = 0.ToString();
-            //        return;
-            //    }
-
-            //    txtPrecoDeVenda.Text = precoDeVenda.ToString();
-            //}
+                txtPrecoDeVenda.Valor = precoDeVenda;
+            }
         }
 
         #endregion
@@ -250,7 +234,6 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             txtLineStatus.Enabled = true;
 
             txtPorcentagemDeLucro.Enabled = true;
-            txtLinePorcentagemLucro.Enabled = true;
             lblSimboloPorcentagemLucro.Enabled = true;
 
             txtPrecoDeCompra.Enabled = true;
@@ -289,7 +272,6 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             txtLineStatus.Enabled = false;
 
             txtPorcentagemDeLucro.Enabled = false;
-            txtLinePorcentagemLucro.Enabled = false;
             lblSimboloPorcentagemLucro.Enabled = false;
 
             txtPrecoDeCompra.Enabled = false;
@@ -478,6 +460,18 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             {
                 txtQuantidadeEmEstoque.Text = txtQuantidadeEmEstoque.Text.Trim().Remove(txtQuantidadeEmEstoque.Text.Length - 1);
             }
+        }
+
+        private void txtPrecoDeVenda_Leave(object sender, EventArgs e)
+        {
+            if (txtPrecoDeVenda.Valor > 0)
+                AjustePrecosNaTela(sender as Control);
+        }
+
+        private void txtPorcentagemDeLucro_Leave(object sender, EventArgs e)
+        {
+            if (txtPorcentagemDeLucro.Valor > 0)
+                AjustePrecosNaTela(sender as Control);
         }
     }
 }

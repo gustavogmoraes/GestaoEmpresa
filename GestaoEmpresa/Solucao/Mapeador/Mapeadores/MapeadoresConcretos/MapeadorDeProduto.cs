@@ -93,6 +93,18 @@ namespace GS.GestaoEmpresa.Solucao.Mapeador.Mapeadores.MapeadoresConcretos
                                  produto.Observacao ?? "NULL");
         }
 
+        public void AltereQuantidadeDeProduto(int codigoDoProduto, int novaQuantidade)
+        {
+            var comandoSQL = $"UPDATE {Tabela} " +
+                             $"SET QUANTIDADEESTOQUE = {novaQuantidade}" +
+                             $"WHERE CODIGO = {codigoDoProduto}";
+
+            using (var BancoDeDados = new GSBancoDeDados())
+            {
+                BancoDeDados.ExecuteComando(comandoSQL);
+            }
+        }
+
         public void CrieTabela()
         {
             using (var GSBancoDeDados = new GSBancoDeDados())

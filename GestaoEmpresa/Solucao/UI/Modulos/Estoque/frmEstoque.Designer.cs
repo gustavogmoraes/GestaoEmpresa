@@ -70,8 +70,8 @@
             this.colunaCodigoInteracao = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colunaHorario = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colunaTipo = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colunaObservacaoInteracao = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colunaProduto = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colunaObservacaoInteracao = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colunaQuantidadeInt = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colunaValor = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colunaOrigem = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -444,8 +444,8 @@
             this.colunaCodigoInteracao,
             this.colunaHorario,
             this.colunaTipo,
-            this.colunaObservacaoInteracao,
             this.colunaProduto,
+            this.colunaObservacaoInteracao,
             this.colunaQuantidadeInt,
             this.colunaValor,
             this.colunaOrigem,
@@ -474,6 +474,7 @@
             this.dgvHistorico.Size = new System.Drawing.Size(1185, 567);
             this.dgvHistorico.TabIndex = 0;
             this.dgvHistorico.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvHistorico_CellContentClick);
+            this.dgvHistorico.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvHistorico_CellDoubleClick);
             this.dgvHistorico.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.dgvHistorico_CellPainting);
             // 
             // btnCatalogo
@@ -585,13 +586,6 @@
             this.colunaTipo.ReadOnly = true;
             this.colunaTipo.Width = 85;
             // 
-            // colunaObservacaoInteracao
-            // 
-            this.colunaObservacaoInteracao.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.colunaObservacaoInteracao.HeaderText = "Observação";
-            this.colunaObservacaoInteracao.Name = "colunaObservacaoInteracao";
-            this.colunaObservacaoInteracao.ReadOnly = true;
-            // 
             // colunaProduto
             // 
             this.colunaProduto.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
@@ -599,31 +593,40 @@
             this.colunaProduto.Name = "colunaProduto";
             this.colunaProduto.ReadOnly = true;
             // 
+            // colunaObservacaoInteracao
+            // 
+            this.colunaObservacaoInteracao.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.colunaObservacaoInteracao.HeaderText = "Observação";
+            this.colunaObservacaoInteracao.Name = "colunaObservacaoInteracao";
+            this.colunaObservacaoInteracao.ReadOnly = true;
+            // 
             // colunaQuantidadeInt
             // 
-            this.colunaQuantidadeInt.HeaderText = "Quantidade";
+            this.colunaQuantidadeInt.HeaderText = "Qtd.";
             this.colunaQuantidadeInt.Name = "colunaQuantidadeInt";
             this.colunaQuantidadeInt.ReadOnly = true;
+            this.colunaQuantidadeInt.Width = 50;
             // 
             // colunaValor
             // 
             this.colunaValor.HeaderText = "Valor";
             this.colunaValor.Name = "colunaValor";
             this.colunaValor.ReadOnly = true;
+            this.colunaValor.Width = 90;
             // 
             // colunaOrigem
             // 
-            this.colunaOrigem.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.colunaOrigem.HeaderText = "Origem";
             this.colunaOrigem.Name = "colunaOrigem";
             this.colunaOrigem.ReadOnly = true;
+            this.colunaOrigem.Width = 120;
             // 
             // colunaDestino
             // 
-            this.colunaDestino.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.colunaDestino.HeaderText = "Destino";
             this.colunaDestino.Name = "colunaDestino";
             this.colunaDestino.ReadOnly = true;
+            this.colunaDestino.Width = 120;
             // 
             // colunaDetalharHist
             // 
@@ -700,8 +703,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colunaCodigoInteracao;
         private System.Windows.Forms.DataGridViewTextBoxColumn colunaHorario;
         private System.Windows.Forms.DataGridViewTextBoxColumn colunaTipo;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colunaObservacaoInteracao;
         private System.Windows.Forms.DataGridViewTextBoxColumn colunaProduto;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colunaObservacaoInteracao;
         private System.Windows.Forms.DataGridViewTextBoxColumn colunaQuantidadeInt;
         private System.Windows.Forms.DataGridViewTextBoxColumn colunaValor;
         private System.Windows.Forms.DataGridViewTextBoxColumn colunaOrigem;

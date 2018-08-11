@@ -109,6 +109,14 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
             return listaDeInconsistencias;
         }
 
+        public void AltereQuantidadeDeProduto(int codigoDoProduto, int novaQuantidade)
+        {
+            using (var mapeadorDeProduto = new MapeadorDeProduto())
+            {
+                mapeadorDeProduto.AltereQuantidadeDeProduto(codigoDoProduto, novaQuantidade);
+            }
+        }
+
         #region IDisposable Support
         private bool disposedValue = false; // To detect redundant calls
 

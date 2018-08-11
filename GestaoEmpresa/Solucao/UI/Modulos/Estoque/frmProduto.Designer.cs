@@ -49,7 +49,6 @@
             this.lblCodigoFabricante = new System.Windows.Forms.Label();
             this.lblStatus = new System.Windows.Forms.Label();
             this.cbStatus = new System.Windows.Forms.ComboBox();
-            this.txtPorcentagemDeLucro = new System.Windows.Forms.TextBox();
             this.lblSimboloPorcentagemLucro = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.btnEditarSalvar = new System.Windows.Forms.PictureBox();
@@ -65,10 +64,12 @@
             this.txtLineNome = new System.Windows.Forms.Label();
             this.lblCifraoPrecoCompra = new System.Windows.Forms.Label();
             this.lblCifraoPrecoVenda = new System.Windows.Forms.Label();
-            this.txtLinePorcentagemLucro = new System.Windows.Forms.Label();
             this.txtLineQuantidadeMinima = new System.Windows.Forms.Label();
             this.txtLineQuantidadeEstoque = new System.Windows.Forms.Label();
             this.txtLineObservacoes = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.txtPorcentagemDeLucro = new GS.GestaoEmpresa.Solucao.UI.ControlesGenericos.GSTextBoxMonetaria();
             this.txtPrecoDeCompra = new GS.GestaoEmpresa.Solucao.UI.ControlesGenericos.GSTextBoxMonetaria();
             this.txtPrecoDeVenda = new GS.GestaoEmpresa.Solucao.UI.ControlesGenericos.GSTextBoxMonetaria();
             this.panel1.SuspendLayout();
@@ -316,25 +317,12 @@
             this.cbStatus.Size = new System.Drawing.Size(105, 30);
             this.cbStatus.TabIndex = 30;
             // 
-            // txtPorcentagemDeLucro
-            // 
-            this.txtPorcentagemDeLucro.BackColor = System.Drawing.Color.Silver;
-            this.txtPorcentagemDeLucro.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtPorcentagemDeLucro.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtPorcentagemDeLucro.Location = new System.Drawing.Point(182, 541);
-            this.txtPorcentagemDeLucro.MaxLength = 5;
-            this.txtPorcentagemDeLucro.Name = "txtPorcentagemDeLucro";
-            this.txtPorcentagemDeLucro.Size = new System.Drawing.Size(46, 24);
-            this.txtPorcentagemDeLucro.TabIndex = 9;
-            this.txtPorcentagemDeLucro.TextChanged += new System.EventHandler(this.txtPorcentagemDeLucro_TextChanged);
-            this.txtPorcentagemDeLucro.Leave += new System.EventHandler(this.txtPorcentagemDeLucro_Leave);
-            // 
             // lblSimboloPorcentagemLucro
             // 
             this.lblSimboloPorcentagemLucro.AutoSize = true;
             this.lblSimboloPorcentagemLucro.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblSimboloPorcentagemLucro.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.lblSimboloPorcentagemLucro.Location = new System.Drawing.Point(227, 540);
+            this.lblSimboloPorcentagemLucro.Location = new System.Drawing.Point(273, 545);
             this.lblSimboloPorcentagemLucro.Name = "lblSimboloPorcentagemLucro";
             this.lblSimboloPorcentagemLucro.Size = new System.Drawing.Size(25, 22);
             this.lblSimboloPorcentagemLucro.TabIndex = 34;
@@ -496,17 +484,6 @@
             this.lblCifraoPrecoVenda.TabIndex = 51;
             this.lblCifraoPrecoVenda.Text = "R$";
             // 
-            // txtLinePorcentagemLucro
-            // 
-            this.txtLinePorcentagemLucro.AutoSize = true;
-            this.txtLinePorcentagemLucro.Font = new System.Drawing.Font("Century Gothic", 27.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtLinePorcentagemLucro.ForeColor = System.Drawing.Color.SteelBlue;
-            this.txtLinePorcentagemLucro.Location = new System.Drawing.Point(162, 527);
-            this.txtLinePorcentagemLucro.Name = "txtLinePorcentagemLucro";
-            this.txtLinePorcentagemLucro.Size = new System.Drawing.Size(115, 44);
-            this.txtLinePorcentagemLucro.TabIndex = 52;
-            this.txtLinePorcentagemLucro.Text = "_____";
-            // 
             // txtLineQuantidadeMinima
             // 
             this.txtLineQuantidadeMinima.AutoSize = true;
@@ -540,6 +517,37 @@
             this.txtLineObservacoes.TabIndex = 55;
             this.txtLineObservacoes.Text = "__________________________";
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.label1.Location = new System.Drawing.Point(185, 543);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(0, 22);
+            this.label1.TabIndex = 59;
+            // 
+            // panel2
+            // 
+            this.panel2.Location = new System.Drawing.Point(170, 539);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(42, 28);
+            this.panel2.TabIndex = 60;
+            // 
+            // txtPorcentagemDeLucro
+            // 
+            this.txtPorcentagemDeLucro.BackColor = System.Drawing.Color.Silver;
+            this.txtPorcentagemDeLucro.Location = new System.Drawing.Point(183, 539);
+            this.txtPorcentagemDeLucro.Name = "txtPorcentagemDeLucro";
+            this.txtPorcentagemDeLucro.Size = new System.Drawing.Size(153, 36);
+            this.txtPorcentagemDeLucro.TabIndex = 58;
+            this.txtPorcentagemDeLucro.Valor = new decimal(new int[] {
+            0,
+            0,
+            0,
+            131072});
+            this.txtPorcentagemDeLucro.Leave += new System.EventHandler(this.txtPorcentagemDeLucro_Leave);
+            // 
             // txtPrecoDeCompra
             // 
             this.txtPrecoDeCompra.BackColor = System.Drawing.Color.Silver;
@@ -556,7 +564,7 @@
             // txtPrecoDeVenda
             // 
             this.txtPrecoDeVenda.BackColor = System.Drawing.Color.Silver;
-            this.txtPrecoDeVenda.Location = new System.Drawing.Point(345, 473);
+            this.txtPrecoDeVenda.Location = new System.Drawing.Point(344, 473);
             this.txtPrecoDeVenda.Name = "txtPrecoDeVenda";
             this.txtPrecoDeVenda.Size = new System.Drawing.Size(153, 36);
             this.txtPrecoDeVenda.TabIndex = 57;
@@ -565,6 +573,7 @@
             0,
             0,
             131072});
+            this.txtPrecoDeVenda.Leave += new System.EventHandler(this.txtPrecoDeVenda_Leave);
             // 
             // frmProduto
             // 
@@ -572,6 +581,11 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Silver;
             this.ClientSize = new System.Drawing.Size(593, 685);
+            this.Controls.Add(this.panel2);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.lblSimboloPorcentagemLucro);
+            this.Controls.Add(this.lblPorcentagemLucro);
+            this.Controls.Add(this.txtPorcentagemDeLucro);
             this.Controls.Add(this.lblQuantidadeMinima);
             this.Controls.Add(this.lblQuantidadeEstoque);
             this.Controls.Add(this.lblPrecoVenda);
@@ -584,8 +598,6 @@
             this.Controls.Add(this.txtCodigo);
             this.Controls.Add(this.lblVigencia);
             this.Controls.Add(this.panel1);
-            this.Controls.Add(this.lblSimboloPorcentagemLucro);
-            this.Controls.Add(this.txtPorcentagemDeLucro);
             this.Controls.Add(this.cbStatus);
             this.Controls.Add(this.lblStatus);
             this.Controls.Add(this.txtCodigoFabricante);
@@ -595,7 +607,6 @@
             this.Controls.Add(this.chkAvisar);
             this.Controls.Add(this.txtQuantidadeMinima);
             this.Controls.Add(this.txtQuantidadeEmEstoque);
-            this.Controls.Add(this.lblPorcentagemLucro);
             this.Controls.Add(this.txtNome);
             this.Controls.Add(this.lblNome);
             this.Controls.Add(this.txtMarca);
@@ -608,7 +619,6 @@
             this.Controls.Add(this.txtLineCodigoFabricante);
             this.Controls.Add(this.label17);
             this.Controls.Add(this.txtLineNome);
-            this.Controls.Add(this.txtLinePorcentagemLucro);
             this.Controls.Add(this.txtLineQuantidadeMinima);
             this.Controls.Add(this.txtLineQuantidadeEstoque);
             this.Controls.Add(this.txtLineObservacoes);
@@ -650,7 +660,6 @@
         private System.Windows.Forms.Label lblCodigoFabricante;
         private System.Windows.Forms.Label lblStatus;
         private System.Windows.Forms.ComboBox cbStatus;
-        private System.Windows.Forms.TextBox txtPorcentagemDeLucro;
         private System.Windows.Forms.Label lblSimboloPorcentagemLucro;
         private System.Windows.Forms.PictureBox btnEditarSalvar;
         private System.Windows.Forms.PictureBox btnCancelarExcluir;
@@ -666,11 +675,13 @@
         private System.Windows.Forms.Label txtLineNome;
         private System.Windows.Forms.Label lblCifraoPrecoCompra;
         private System.Windows.Forms.Label lblCifraoPrecoVenda;
-        private System.Windows.Forms.Label txtLinePorcentagemLucro;
         private System.Windows.Forms.Label txtLineQuantidadeMinima;
         private System.Windows.Forms.Label txtLineQuantidadeEstoque;
         private System.Windows.Forms.Label txtLineObservacoes;
         private ControlesGenericos.GSTextBoxMonetaria txtPrecoDeCompra;
         private ControlesGenericos.GSTextBoxMonetaria txtPrecoDeVenda;
+        private ControlesGenericos.GSTextBoxMonetaria txtPorcentagemDeLucro;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Panel panel2;
     }
 }

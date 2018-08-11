@@ -66,8 +66,8 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                                       interacao.Horario.ToString(Cultura)
                                                        .Remove(indice, 3),
                                       interacao.TipoDeInteracao,
-                                      interacao.Observacao,
                                       interacao.Produto.Nome,
+                                      interacao.Observacao,
                                       interacao.QuantidadeInterada,
                                       GSUtilitarios.FormateDecimalParaStringMoedaReal(interacao.ValorInteracao),
                                       interacao.Origem,
@@ -257,6 +257,9 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         private void dgvProdutos_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             var senderGrid = (DataGridView)sender;
+
+            if (e.RowIndex < 0)
+                return;
 
             var codigoProduto = (int)senderGrid["colunaCodigo", e.RowIndex].Value;
             Produto produto;
@@ -488,6 +491,27 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
                 e.Graphics.DrawImage(Properties.Resources.detalhar, new Rectangle(x, y, w, h));
                 e.Handled = true;
+            }
+        }
+
+        private void dgvHistorico_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0)
+                return;
+
+            var senderGrid = (DataGridView)sender;
+
+            var codigoInteracao = (int)senderGrid["colunaCodigoInteracao", e.RowIndex].Value;
+            Interacao interacao;
+
+            using (var servicoDeInteracao = new ServicoDeInteracao())
+            {
+                interacao = servicoDeInteracao.Consulte(codigoInteracao);
+            }
+
+            if (interacao != null)
+            {
+                new frmInteracao(interacao).Show();
             }
         }
     }

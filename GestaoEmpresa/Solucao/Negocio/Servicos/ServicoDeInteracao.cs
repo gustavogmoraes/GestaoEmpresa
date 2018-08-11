@@ -83,22 +83,37 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
                     }
                 }
 
-                var quantidadeInterada = interacao.TipoDeInteracao == EnumTipoDeInteracao.ENTRADA
-                                       ? interacao.QuantidadeInterada
-                                       : interacao.QuantidadeInterada * (-1);
-
-                var produto = interacao.Produto;
-                produto.QuantidadeEmEstoque = produto.QuantidadeEmEstoque + quantidadeInterada;
-
-                if(interacao.AtualizarValorDoProdutoNoCatalogo)
+                int quantidadeInterada = 0;
+                switch (interacao.TipoDeInteracao)
                 {
-                    produto.PrecoDeCompra = interacao.ValorInteracao;
+                    case EnumTipoDeInteracao.ENTRADA:
+                        quantidadeInterada = interacao.QuantidadeInterada;
+                        break;
+
+                    case EnumTipoDeInteracao.SAIDA:
+                        quantidadeInterada = interacao.QuantidadeInterada * (-1);
+                        break;
+
+                    case EnumTipoDeInteracao.BASE_DE_TROCA:
+                        quantidadeInterada = interacao.QuantidadeInterada;
+                        break;
                 }
 
-                using (var servicoDeProduto = new ServicoDeProduto())
+                //produto.QuantidadeEmEstoque = produto.QuantidadeEmEstoque + quantidadeInterada;
+                // Nesse  caso atualizamos o produto com o novo valor
+                if (interacao.AtualizarValorDoProdutoNoCatalogo)
                 {
-                    servicoDeProduto.Salve(produto, EnumTipoDeForm.Edicao);
+                    using (var servicoDeProduto = new ServicoDeProduto())
+                    {
+                        var produto = servicoDeProduto.Consulte(interacao.Produto.Codigo);
+
+                        produto.PrecoDeCompra = interacao.ValorInteracao;
+
+                        servicoDeProduto.Salve(produto, EnumTipoDeForm.Edicao);
+                    }
                 }
+
+                
             }
 
             return listaDeInconsistencias;
