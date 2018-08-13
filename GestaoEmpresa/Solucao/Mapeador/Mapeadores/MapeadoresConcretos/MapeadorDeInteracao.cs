@@ -34,8 +34,8 @@ namespace GS.GestaoEmpresa.Solucao.Mapeador.Mapeadores.MapeadoresConcretos
             { "ORIGEM", typeof(string) },
             { "DESTINO", typeof(string) },
             { "NUMERODANOTAFISCAL", typeof(string) },
-            { "INFORMA_NUMERO_DE_SERIE", typeof(bool) },
-            { "QUANTIDADE_AUX", typeof(int) }
+            { "INFORMA_NUMERO_DE_SERIE", typeof(bool) }
+            //{ "QUANTIDADE_AUX", typeof(int) }
         };
 
         private Interacao MonteRetorno(DataTable tabela, int linha)
@@ -49,9 +49,9 @@ namespace GS.GestaoEmpresa.Solucao.Mapeador.Mapeadores.MapeadoresConcretos
                                : null;
             retorno.Produto = new ServicoDeProduto().Consulte(int.Parse(tabela.Rows[linha]["CODIGO_PRODUTO"].ToString()));
             retorno.QuantidadeInterada = int.Parse(tabela.Rows[linha]["QUANTIDADE"].ToString());
-            retorno.QuantidadeAuxiliar = tabela.Rows[linha]["QUANTIDADE_AUX"] != DBNull.Value 
-                                       ? int.Parse(tabela.Rows[linha]["QUANTIDADE_AUX"].ToString())
-                                       : new int?();
+            //retorno.QuantidadeAuxiliar = tabela.Rows[linha]["QUANTIDADE_AUX"] != DBNull.Value 
+            //                           ? int.Parse(tabela.Rows[linha]["QUANTIDADE_AUX"].ToString())
+            //                          : new int?();
             retorno.ValorInteracao = decimal.Parse(tabela.Rows[linha]["VALOR"].ToString());
             retorno.AtualizarValorDoProdutoNoCatalogo = GSUtilitarios.ConvertaValorBooleano(tabela.Rows[linha]["ATUALIZARVALORNOCATALOGO"].ToString());
             retorno.Origem = tabela.Rows[linha]["ORIGEM"] != DBNull.Value
@@ -80,8 +80,8 @@ namespace GS.GestaoEmpresa.Solucao.Mapeador.Mapeadores.MapeadoresConcretos
                    $"'{interacao.Origem ?? "NULL"}', " +
                    $"'{interacao.Destino ?? "NULL"}', " +
                    $"'{interacao.NumeroDaNota ?? "NULL"}', " +
-                   $"'{GSUtilitarios.ConvertaValorBooleano(interacao.InformaNumeroDeSerie)}', " +
-                   $"{interacao.QuantidadeAuxiliar.Value.ToString() ?? "NULL" }";
+                   $"'{GSUtilitarios.ConvertaValorBooleano(interacao.InformaNumeroDeSerie)}';
+                   //$"{interacao.QuantidadeAuxiliar.Value.ToString() ?? "NULL" }";
         }
 
         public void Insira(Interacao interacao)
