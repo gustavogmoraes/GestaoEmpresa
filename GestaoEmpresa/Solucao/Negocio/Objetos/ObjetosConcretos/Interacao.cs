@@ -26,6 +26,8 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Objetos.ObjetosConcretos
 
         public int QuantidadeInterada { get; set; }
 
+        public int? QuantidadeAuxiliar { get; set; }
+
         public decimal ValorInteracao { get; set; }
         
         public bool AtualizarValorDoProdutoNoCatalogo { get; set; }

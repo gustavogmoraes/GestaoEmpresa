@@ -26,7 +26,6 @@ namespace GS.GestaoEmpresa.Solucao.Mapeador.Mapeadores.MapeadoresConcretos
 		    {"PRECOCOMPRA", typeof(decimal)},
 		    {"PRECOVENDA", typeof(decimal)},
 		    {"PORCENTAGEMLUCRO", typeof(float)},
-		    {"QUANTIDADEESTOQUE", typeof(int)},
 		    {"AVISARQUANTIDADE", typeof(bool) },
 		    {"QUANTIDADEMINIMAAVISO", typeof(int)},
             {"OBSERVACAO", typeof(string)}
@@ -66,7 +65,6 @@ namespace GS.GestaoEmpresa.Solucao.Mapeador.Mapeadores.MapeadoresConcretos
                 retorno.PrecoDeCompra = decimal.Parse(tabela.Rows[linha]["PRECOCOMPRA"].ToString());
                 retorno.PrecoDeVenda = decimal.Parse(tabela.Rows[linha]["PRECOVENDA"].ToString());
                 retorno.PorcentagemDeLucro = decimal.Parse(tabela.Rows[linha]["PORCENTAGEMLUCRO"].ToString());
-                retorno.QuantidadeEmEstoque = int.Parse(tabela.Rows[linha]["QUANTIDADEESTOQUE"].ToString());
                 retorno.AvisarQuantidade = GSUtilitarios.ConvertaValorBooleano(tabela.Rows[linha]["AVISARQUANTIDADE"].ToString());
                 retorno.QuantidadeMinimaParaAviso = int.Parse(tabela.Rows[linha]["QUANTIDADEMINIMAAVISO"].ToString());
                 retorno.Observacao = tabela.Rows[linha]["OBSERVACAO"] != DBNull.Value
@@ -78,26 +76,25 @@ namespace GS.GestaoEmpresa.Solucao.Mapeador.Mapeadores.MapeadoresConcretos
 
         private string ObtenhaValoresInsercao(Produto produto)
         {
-            return string.Format("{0}, {1}, '{2}', '{3}', '{4}', {5}, {6}, {7}, {8}, '{9}', {10}, '{11}'",
-                                 produto.Codigo,
-                                 (int)produto.Status,
-                                 produto.Nome,
-                                 produto.Fabricante ?? "NULL",
-                                 produto.CodigoDoFabricante ?? "NULL",
-                                 produto.PrecoDeCompra.ToString(CultureInfo.InvariantCulture),
-                                 produto.PrecoDeVenda.ToString(CultureInfo.InvariantCulture),
-                                 produto.PorcentagemDeLucro.ToString(CultureInfo.InvariantCulture),
-                                 produto.QuantidadeEmEstoque,
-                                 GSUtilitarios.ConvertaValorBooleano(produto.AvisarQuantidade),
-                                 produto.QuantidadeMinimaParaAviso,
-                                 produto.Observacao ?? "NULL");
+            return $"{produto.Codigo}, " +
+                   $"{(int)produto.Status}, " +
+                   $"'{produto.Nome}', " +
+                   $"'{produto.Fabricante ?? "NULL"}', " +
+                   $"'{produto.CodigoDoFabricante ?? "NULL"}', " +
+                   $"{produto.PrecoDeCompra.ToString(CultureInfo.InvariantCulture)}, " +
+                   $"{produto.PrecoDeVenda.ToString(CultureInfo.InvariantCulture)}, " +
+                   $"{produto.PorcentagemDeLucro.ToString(CultureInfo.InvariantCulture)}, " +
+                   $"'{GSUtilitarios.ConvertaValorBooleano(produto.AvisarQuantidade)}', " +
+                   $"{produto.QuantidadeMinimaParaAviso}, " +
+                   $"'{produto.Observacao ?? "NULL"}'";
         }
 
         public void AltereQuantidadeDeProduto(int codigoDoProduto, int novaQuantidade)
         {
             var comandoSQL = $"UPDATE {Tabela} " +
                              $"SET QUANTIDADEESTOQUE = {novaQuantidade}" +
-                             $"WHERE CODIGO = {codigoDoProduto}";
+                             $"WHERE CODIGO = {codigoDoProduto} " +
+                             $"AND VIGENCIA = (SELECT MAX(VIGENCIA) FROM PRODUTOS WHERE CODIGO = {codigoDoProduto};";
 
             using (var BancoDeDados = new GSBancoDeDados())
             {

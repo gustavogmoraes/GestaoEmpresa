@@ -23,18 +23,19 @@ namespace GS.GestaoEmpresa.Solucao.Mapeador.Mapeadores.MapeadoresConcretos
         =>
         new Dictionary<string, Type>()
         {
-            {"CODIGO", typeof(int)},
-            {"HORARIO", typeof(DateTime)},
-            {"TIPO", typeof(bool)},
-            {"OBSERVACOES", typeof(string)},
-            {"CODIGO_PRODUTO", typeof(int) },
-            {"QUANTIDADE", typeof(int) },
-            {"VALOR", typeof(decimal) },
-            {"ATUALIZARVALORNOCATALOGO", typeof(bool)},
-            {"ORIGEM", typeof(string) },
-            {"DESTINO", typeof(string) },
-            {"NUMERODANOTAFISCAL", typeof(string) },
-            {"INFORMA_NUMERO_DE_SERIE", typeof(bool) }
+            { "CODIGO", typeof(int)},
+            { "HORARIO", typeof(DateTime)},
+            { "TIPO", typeof(bool)},
+            { "OBSERVACOES", typeof(string)},
+            { "CODIGO_PRODUTO", typeof(int) },
+            { "QUANTIDADE", typeof(int) },
+            { "VALOR", typeof(decimal) },
+            { "ATUALIZARVALORNOCATALOGO", typeof(bool)},
+            { "ORIGEM", typeof(string) },
+            { "DESTINO", typeof(string) },
+            { "NUMERODANOTAFISCAL", typeof(string) },
+            { "INFORMA_NUMERO_DE_SERIE", typeof(bool) },
+            { "QUANTIDADE_AUX", typeof(int) }
         };
 
         private Interacao MonteRetorno(DataTable tabela, int linha)
@@ -48,6 +49,9 @@ namespace GS.GestaoEmpresa.Solucao.Mapeador.Mapeadores.MapeadoresConcretos
                                : null;
             retorno.Produto = new ServicoDeProduto().Consulte(int.Parse(tabela.Rows[linha]["CODIGO_PRODUTO"].ToString()));
             retorno.QuantidadeInterada = int.Parse(tabela.Rows[linha]["QUANTIDADE"].ToString());
+            retorno.QuantidadeAuxiliar = tabela.Rows[linha]["QUANTIDADE_AUX"] != DBNull.Value 
+                                       ? int.Parse(tabela.Rows[linha]["QUANTIDADE_AUX"].ToString())
+                                       : new int?();
             retorno.ValorInteracao = decimal.Parse(tabela.Rows[linha]["VALOR"].ToString());
             retorno.AtualizarValorDoProdutoNoCatalogo = GSUtilitarios.ConvertaValorBooleano(tabela.Rows[linha]["ATUALIZARVALORNOCATALOGO"].ToString());
             retorno.Origem = tabela.Rows[linha]["ORIGEM"] != DBNull.Value
@@ -59,25 +63,25 @@ namespace GS.GestaoEmpresa.Solucao.Mapeador.Mapeadores.MapeadoresConcretos
             retorno.Horario = (DateTime)tabela.Rows[linha]["HORARIO"];
             retorno.NumeroDaNota = tabela.Rows[linha]["NUMERODANOTAFISCAL"].ToString();
             retorno.InformaNumeroDeSerie = GSUtilitarios.ConvertaValorBooleano(tabela.Rows[linha]["INFORMA_NUMERO_DE_SERIE"].ToString());
-
+            
             return retorno;
         }
 
         private string ObtenhaValoresInsercao(Interacao interacao)
         {
-            return string.Format("{0}, CAST ('{1}' AS DATETIME2), {2}, '{3}', {4}, {5}, {6}, '{7}', '{8}', '{9}', '{10}', '{11}'",
-                                 interacao.Codigo,
-                                 GSUtilitarios.FormateDateTimePtBrParaBD(interacao.Horario),
-                                 (int)interacao.TipoDeInteracao,
-                                 interacao.Observacao ?? "NULL",
-                                 interacao.Produto.Codigo,
-                                 interacao.QuantidadeInterada,
-                                 interacao.ValorInteracao.ToString(CultureInfo.InvariantCulture),
-                                 GSUtilitarios.ConvertaValorBooleano(interacao.AtualizarValorDoProdutoNoCatalogo),
-                                 interacao.Origem ?? "NULL",
-                                 interacao.Destino ?? "NULL",
-                                 interacao.NumeroDaNota ?? "NULL",
-                                 GSUtilitarios.ConvertaValorBooleano(interacao.InformaNumeroDeSerie));
+            return $"{interacao.Codigo}, " +
+                   $" CAST ('{GSUtilitarios.FormateDateTimePtBrParaBD(interacao.Horario)}' AS DATETIME2), " +
+                   $"{(int)interacao.TipoDeInteracao}, " +
+                   $"'{interacao.Observacao ?? "NULL"}', " +
+                   $"{interacao.Produto.Codigo}, " +
+                   $"{interacao.QuantidadeInterada}, " +
+                   $"{interacao.ValorInteracao.ToString(CultureInfo.InvariantCulture)}, " +
+                   $"'{GSUtilitarios.ConvertaValorBooleano(interacao.AtualizarValorDoProdutoNoCatalogo)}', " +
+                   $"'{interacao.Origem ?? "NULL"}', " +
+                   $"'{interacao.Destino ?? "NULL"}', " +
+                   $"'{interacao.NumeroDaNota ?? "NULL"}', " +
+                   $"'{GSUtilitarios.ConvertaValorBooleano(interacao.InformaNumeroDeSerie)}', " +
+                   $"{interacao.QuantidadeAuxiliar.Value.ToString() ?? "NULL" }";
         }
 
         public void Insira(Interacao interacao)
