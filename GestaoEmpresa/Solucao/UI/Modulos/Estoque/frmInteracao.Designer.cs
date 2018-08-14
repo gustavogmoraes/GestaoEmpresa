@@ -58,6 +58,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.cbProduto = new System.Windows.Forms.ComboBox();
             this.chkAtualizar = new System.Windows.Forms.CheckBox();
             this.flpNumerosDeSerie = new System.Windows.Forms.FlowLayoutPanel();
+            this.GSMultiTextBox = new GS.GestaoEmpresa.Solucao.UI.ControlesGenericos.GSMultiTextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
@@ -69,7 +70,9 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.lblObservacoes = new System.Windows.Forms.Label();
             this.txtLineObservacoes = new System.Windows.Forms.Label();
             this.GStxtValor = new GS.GestaoEmpresa.Solucao.UI.ControlesGenericos.GSTextBoxMonetaria();
-            this.GSMultiTextBox = new GS.GestaoEmpresa.Solucao.UI.ControlesGenericos.GSMultiTextBox();
+            this.lblQuantidadeAux = new System.Windows.Forms.Label();
+            this.txtLineQuantidadeAux = new System.Windows.Forms.Label();
+            this.txtQuantidadeAux = new System.Windows.Forms.TextBox();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.btnEditarSalvar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnCancelarExcluir)).BeginInit();
@@ -96,14 +99,14 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.panel1.Controls.Add(this.lblInteracoes);
             this.panel1.Location = new System.Drawing.Point(-1, -2);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(592, 40);
+            this.panel1.Size = new System.Drawing.Size(609, 40);
             this.panel1.TabIndex = 83;
             // 
             // btnEditarSalvar
             // 
             this.btnEditarSalvar.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnEditarSalvar.InitialImage = null;
-            this.btnEditarSalvar.Location = new System.Drawing.Point(506, 4);
+            this.btnEditarSalvar.Location = new System.Drawing.Point(525, 4);
             this.btnEditarSalvar.Name = "btnEditarSalvar";
             this.btnEditarSalvar.Size = new System.Drawing.Size(32, 30);
             this.btnEditarSalvar.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -114,7 +117,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             // btnCancelarExcluir
             // 
             this.btnCancelarExcluir.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnCancelarExcluir.Location = new System.Drawing.Point(544, 8);
+            this.btnCancelarExcluir.Location = new System.Drawing.Point(563, 8);
             this.btnCancelarExcluir.Name = "btnCancelarExcluir";
             this.btnCancelarExcluir.Size = new System.Drawing.Size(33, 26);
             this.btnCancelarExcluir.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -189,7 +192,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.lblValor.AutoSize = true;
             this.lblValor.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblValor.ForeColor = System.Drawing.Color.SteelBlue;
-            this.lblValor.Location = new System.Drawing.Point(166, 454);
+            this.lblValor.Location = new System.Drawing.Point(283, 454);
             this.lblValor.Name = "lblValor";
             this.lblValor.Size = new System.Drawing.Size(54, 24);
             this.lblValor.TabIndex = 66;
@@ -353,7 +356,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.chkAtualizar.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkAtualizar.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.chkAtualizar.ForeColor = System.Drawing.Color.SteelBlue;
-            this.chkAtualizar.Location = new System.Drawing.Point(315, 455);
+            this.chkAtualizar.Location = new System.Drawing.Point(432, 455);
             this.chkAtualizar.Name = "chkAtualizar";
             this.chkAtualizar.Size = new System.Drawing.Size(181, 76);
             this.chkAtualizar.TabIndex = 113;
@@ -370,6 +373,15 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.flpNumerosDeSerie.Name = "flpNumerosDeSerie";
             this.flpNumerosDeSerie.Size = new System.Drawing.Size(484, 125);
             this.flpNumerosDeSerie.TabIndex = 115;
+            // 
+            // GSMultiTextBox
+            // 
+            this.GSMultiTextBox.BackColor = System.Drawing.Color.Silver;
+            this.GSMultiTextBox.Location = new System.Drawing.Point(3, 3);
+            this.GSMultiTextBox.Name = "GSMultiTextBox";
+            this.GSMultiTextBox.Size = new System.Drawing.Size(451, 32);
+            this.GSMultiTextBox.TabIndex = 0;
+            this.GSMultiTextBox.Texto = "";
             // 
             // label1
             // 
@@ -485,7 +497,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             // GStxtValor
             // 
             this.GStxtValor.BackColor = System.Drawing.Color.Silver;
-            this.GStxtValor.Location = new System.Drawing.Point(162, 473);
+            this.GStxtValor.Location = new System.Drawing.Point(279, 473);
             this.GStxtValor.Name = "GStxtValor";
             this.GStxtValor.Size = new System.Drawing.Size(153, 36);
             this.GStxtValor.TabIndex = 121;
@@ -495,21 +507,49 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             0,
             131072});
             // 
-            // GSMultiTextBox
+            // lblQuantidadeAux
             // 
-            this.GSMultiTextBox.BackColor = System.Drawing.Color.Silver;
-            this.GSMultiTextBox.Location = new System.Drawing.Point(3, 3);
-            this.GSMultiTextBox.Name = "GSMultiTextBox";
-            this.GSMultiTextBox.Size = new System.Drawing.Size(451, 32);
-            this.GSMultiTextBox.TabIndex = 0;
-            this.GSMultiTextBox.Texto = "";
+            this.lblQuantidadeAux.AutoSize = true;
+            this.lblQuantidadeAux.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblQuantidadeAux.ForeColor = System.Drawing.Color.SteelBlue;
+            this.lblQuantidadeAux.Location = new System.Drawing.Point(143, 455);
+            this.lblQuantidadeAux.Name = "lblQuantidadeAux";
+            this.lblQuantidadeAux.Size = new System.Drawing.Size(97, 24);
+            this.lblQuantidadeAux.TabIndex = 127;
+            this.lblQuantidadeAux.Text = "Qtd. Saída";
+            this.lblQuantidadeAux.Visible = false;
+            // 
+            // txtLineQuantidadeAux
+            // 
+            this.txtLineQuantidadeAux.AutoSize = true;
+            this.txtLineQuantidadeAux.Font = new System.Drawing.Font("Microsoft Sans Serif", 27.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtLineQuantidadeAux.ForeColor = System.Drawing.Color.SteelBlue;
+            this.txtLineQuantidadeAux.Location = new System.Drawing.Point(142, 463);
+            this.txtLineQuantidadeAux.Name = "txtLineQuantidadeAux";
+            this.txtLineQuantidadeAux.Size = new System.Drawing.Size(123, 42);
+            this.txtLineQuantidadeAux.TabIndex = 128;
+            this.txtLineQuantidadeAux.Text = "_____";
+            this.txtLineQuantidadeAux.Visible = false;
+            // 
+            // txtQuantidadeAux
+            // 
+            this.txtQuantidadeAux.BackColor = System.Drawing.Color.Silver;
+            this.txtQuantidadeAux.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtQuantidadeAux.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtQuantidadeAux.Location = new System.Drawing.Point(161, 477);
+            this.txtQuantidadeAux.Name = "txtQuantidadeAux";
+            this.txtQuantidadeAux.Size = new System.Drawing.Size(64, 22);
+            this.txtQuantidadeAux.TabIndex = 129;
             // 
             // frmInteracao
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Silver;
-            this.ClientSize = new System.Drawing.Size(584, 815);
+            this.ClientSize = new System.Drawing.Size(602, 815);
+            this.Controls.Add(this.lblQuantidadeAux);
+            this.Controls.Add(this.txtQuantidadeAux);
+            this.Controls.Add(this.txtLineQuantidadeAux);
             this.Controls.Add(this.txtObservacoes);
             this.Controls.Add(this.lblObservacoes);
             this.Controls.Add(this.txtLineObservacoes);
@@ -596,5 +636,8 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         public Label lblValor;
         public CheckBox chkAtualizar;
         public ControlesGenericos.GSTextBoxMonetaria GStxtValor;
+        private Label lblQuantidadeAux;
+        private Label txtLineQuantidadeAux;
+        private TextBox txtQuantidadeAux;
     }
 }

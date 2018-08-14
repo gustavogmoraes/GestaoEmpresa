@@ -18,17 +18,18 @@ namespace GS.GestaoEmpresa.Solucao.Mapeador.Mapeadores.MapeadoresConcretos
         private Dictionary<string, Type> ColunasETiposDeDados => 
 		new Dictionary<string, Type>()
 		{
-		    {"CODIGO", typeof(int)},
-		    {"STATUS", typeof(bool)},
-		    {"NOME", typeof(string)},
-		    {"FABRICANTE", typeof(string)},
-		    {"CODIGOFABRICANTE", typeof(string)},
-		    {"PRECOCOMPRA", typeof(decimal)},
-		    {"PRECOVENDA", typeof(decimal)},
-		    {"PORCENTAGEMLUCRO", typeof(float)},
-		    {"AVISARQUANTIDADE", typeof(bool) },
-		    {"QUANTIDADEMINIMAAVISO", typeof(int)},
-            {"OBSERVACAO", typeof(string)}
+		    { "CODIGO", typeof(int) },
+		    { "STATUS", typeof(bool) },
+		    { "NOME", typeof(string) },
+		    { "FABRICANTE", typeof(string) },
+		    { "CODIGOFABRICANTE", typeof(string) },
+		    { "PRECOCOMPRA", typeof(decimal) },
+		    { "PRECOVENDA", typeof(decimal) },
+		    { "PORCENTAGEMLUCRO", typeof(float) },
+            { "QUANTIDADEESTOQUE", typeof(int) },
+		    { "AVISARQUANTIDADE", typeof(bool) },
+		    { "QUANTIDADEMINIMAAVISO", typeof(int) },
+            { "OBSERVACAO", typeof(string) }
         };
 
         private string _scriptCreate =>
@@ -65,6 +66,9 @@ namespace GS.GestaoEmpresa.Solucao.Mapeador.Mapeadores.MapeadoresConcretos
                 retorno.PrecoDeCompra = decimal.Parse(tabela.Rows[linha]["PRECOCOMPRA"].ToString());
                 retorno.PrecoDeVenda = decimal.Parse(tabela.Rows[linha]["PRECOVENDA"].ToString());
                 retorno.PorcentagemDeLucro = decimal.Parse(tabela.Rows[linha]["PORCENTAGEMLUCRO"].ToString());
+                retorno.QuantidadeEmEstoque = tabela.Rows[linha]["QUANTIDADEESTOQUE"] != DBNull.Value
+                                            ? int.Parse(tabela.Rows[linha]["QUANTIDADEESTOQUE"].ToString())
+                                            : 0;
                 retorno.AvisarQuantidade = GSUtilitarios.ConvertaValorBooleano(tabela.Rows[linha]["AVISARQUANTIDADE"].ToString());
                 retorno.QuantidadeMinimaParaAviso = int.Parse(tabela.Rows[linha]["QUANTIDADEMINIMAAVISO"].ToString());
                 retorno.Observacao = tabela.Rows[linha]["OBSERVACAO"] != DBNull.Value
@@ -92,9 +96,9 @@ namespace GS.GestaoEmpresa.Solucao.Mapeador.Mapeadores.MapeadoresConcretos
         public void AltereQuantidadeDeProduto(int codigoDoProduto, int novaQuantidade)
         {
             var comandoSQL = $"UPDATE {Tabela} " +
-                             $"SET QUANTIDADEESTOQUE = {novaQuantidade}" +
+                             $"SET QUANTIDADEESTOQUE = {novaQuantidade} " +
                              $"WHERE CODIGO = {codigoDoProduto} " +
-                             $"AND VIGENCIA = (SELECT MAX(VIGENCIA) FROM PRODUTOS WHERE CODIGO = {codigoDoProduto};";
+                             $"AND VIGENCIA = (SELECT MAX(VIGENCIA) FROM PRODUTOS WHERE CODIGO = {codigoDoProduto});";
 
             using (var BancoDeDados = new GSBancoDeDados())
             {
@@ -120,7 +124,7 @@ namespace GS.GestaoEmpresa.Solucao.Mapeador.Mapeadores.MapeadoresConcretos
 
             string ComandoSQL = String.Format("INSERT INTO {0} (VIGENCIA, {1}) VALUES (CAST ('{2}' AS DATETIME2), {3})",
                                               Tabela,
-                                              Colunas,
+                                              Colunas.Replace("QUANTIDADEESTOQUE, ", string.Empty),
                                               GSUtilitarios.FormateDateTimePtBrParaBD(vigencia),
                                               ObtenhaValoresInsercao(produto));
 

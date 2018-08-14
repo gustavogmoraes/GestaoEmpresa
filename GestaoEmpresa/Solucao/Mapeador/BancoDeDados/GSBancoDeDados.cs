@@ -68,7 +68,7 @@ namespace GS.GestaoEmpresa.Solucao.Mapeador.BancoDeDados
 		/// </summary>
 		public void DefinaStringDeConexao()
 		{
-			_stringDeConexao = @"Server = RAGNOS\SQLEXPRESS; Database = GestaoEmpresa; Trusted_Connection = Yes";
+			_stringDeConexao = @"Server = RAGNOS\SQLEXPRESS; Database = CopiaProducao; Trusted_Connection = Yes";
 		}
 
 

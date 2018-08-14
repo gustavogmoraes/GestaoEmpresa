@@ -194,9 +194,6 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             produto.Status = cbStatus.SelectedIndex != -1
                            ? (EnumStatusDoProduto)cbStatus.SelectedIndex + 1
                            : EnumStatusDoProduto.Ativo;
-            produto.QuantidadeEmEstoque = !string.IsNullOrEmpty(txtQuantidadeEmEstoque.Text.Trim())
-                                        ? int.Parse(txtQuantidadeEmEstoque.Text.Trim())
-                                        : 0;
             produto.QuantidadeMinimaParaAviso = !string.IsNullOrEmpty(txtQuantidadeMinima.Text.Trim())
                                               ? int.Parse(txtQuantidadeMinima.Text.Trim())
                                               : 0;
@@ -289,6 +286,9 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                     btnCancelarExcluir.Enabled = false;
                     btnCancelarExcluir.Visible = false;
 
+                    txtLineQuantidadeEstoque.Enabled = false;
+                    txtQuantidadeEmEstoque.Enabled = false;
+
                     btnEditarSalvar.Image = Properties.Resources.floppy_icon;
                     _switchBotaoEditarSalvar = EnumBotoesForm.Salvar;
                     break;
@@ -301,6 +301,10 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
                     btnEditarSalvar.Image = Properties.Resources.floppy_icon;
                     _switchBotaoEditarSalvar = EnumBotoesForm.Salvar;
+
+                    txtLineQuantidadeEstoque.Enabled = false;
+                    txtQuantidadeEmEstoque.Enabled = false;
+
                     break;
 
                 case EnumTipoDeForm.Detalhamento:

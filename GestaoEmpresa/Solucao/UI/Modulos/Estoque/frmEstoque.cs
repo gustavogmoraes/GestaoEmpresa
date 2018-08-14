@@ -65,7 +65,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                 dgvHistorico.Rows.Add(interacao.Codigo,
                                       interacao.Horario.ToString(Cultura)
                                                        .Remove(indice, 3),
-                                      interacao.TipoDeInteracao,
+                                      GSUtilitarios.ConvertaEnumeradorParaString(interacao.TipoDeInteracao),
                                       interacao.Produto.Nome,
                                       interacao.Observacao,
                                       interacao.QuantidadeInterada,
@@ -85,7 +85,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
                 if (interacao.TipoDeInteracao == EnumTipoDeInteracao.BASE_DE_TROCA)
                 {
-                    dgvHistorico.Rows[dgvHistorico.Rows.Count - 1].DefaultCellStyle.BackColor = Color.Purple;
+                    dgvHistorico.Rows[dgvHistorico.Rows.Count - 1].DefaultCellStyle.BackColor = Color.LightGreen;
                 }
             }
             dgvHistorico.Refresh();

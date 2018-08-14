@@ -151,8 +151,22 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             }
 
             PreenchaComboBoxPesquisaComProdutos(listaDeProdutos);
+            
+            switch(_tipoDoForm)
+            {
+                case EnumTipoDeForm.Cadastro:
+                    cbTipo.SelectedIndex = 0;
+                    break;
 
-            cbTipo.SelectedIndex = 0;
+                case EnumTipoDeForm.Detalhamento:
+                    if (cbTipo.SelectedIndex == ((int)EnumTipoDeInteracao.BASE_DE_TROCA - 1))
+                    {
+                        txtLineQuantidadeAux.Visible = true;
+                        txtQuantidadeAux.Visible = true;
+                        lblQuantidadeAux.Visible = true;
+                    }
+                    break;
+            }
 
             InicializeInconsistencias();
         }
@@ -174,15 +188,17 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         public void CarregueControlesComObjeto(Interacao objeto)
         {
+            cbTipo.SelectedIndex = (int)objeto.TipoDeInteracao - 1;
             txtHorario.Text = objeto.Horario.ToString(Cultura);
             txtObservacoes.Text = objeto.Observacao ?? string.Empty;
             txtQuantidade.Text = objeto.QuantidadeInterada.ToString();
+            txtQuantidadeAux.Text = (objeto.QuantidadeAuxiliar ?? new int?()).ToString();
             GStxtValor.Valor = objeto.ValorInteracao;
-            cbTipo.SelectedItem = objeto.TipoDeInteracao.ToString();
             txtOrigem.Text = objeto.Origem ?? string.Empty;
             txtDestino.Text = objeto.Destino ?? string.Empty;
             cbProduto.Text = objeto.Produto.Nome.Trim();
             chkAtualizar.Checked = objeto.AtualizarValorDoProdutoNoCatalogo;
+            txtNumeroDaNotaFiscal.Text = objeto.NumeroDaNota;
 
             if (objeto.InformaNumeroDeSerie)
             {
@@ -219,8 +235,12 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             interacao.QuantidadeInterada = !string.IsNullOrEmpty(txtQuantidade.Text.Trim())
                                          ? int.Parse(txtQuantidade.Text.Trim())
                                          : 0;
+            interacao.QuantidadeAuxiliar = !string.IsNullOrEmpty(txtQuantidadeAux.Text.Trim())
+                                         ? new int?(int.Parse(txtQuantidadeAux.Text.Trim()))
+                                         : new int?();
             interacao.Origem = txtOrigem.Text.Trim();
             interacao.Destino = txtDestino.Text.Trim();
+            interacao.NumeroDaNota = txtNumeroDaNotaFiscal.Text.Trim();
 
             var listaDeProdutos = new List<Produto>();
             using (var servicoDeProduto = new ServicoDeProduto())
@@ -412,17 +432,43 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         {
             if (_tipoDoForm != EnumTipoDeForm.Detalhamento)
             {
-                if (cbTipo.Text == "Saída")
+                switch (cbTipo.Text)
                 {
-                    lblValor.Enabled = false;
-                    GStxtValor.Enabled = false;
-                    chkAtualizar.Enabled = false;
-                }
-                else
-                {
-                    lblValor.Enabled = true;
-                    GStxtValor.Enabled = true;
-                    chkAtualizar.Enabled = true;
+                    case "Saída":
+                        lblQuantidadeEstoque.Text = "Quantidade";
+
+                        lblValor.Enabled = false;
+                        GStxtValor.Enabled = false;
+                        chkAtualizar.Enabled = false;
+
+                        lblQuantidadeAux.Visible = false;
+                        txtLineQuantidadeAux.Visible = false;
+                        txtQuantidadeAux.Visible = false;
+                        break;
+
+                    case "Entrada":
+                        lblQuantidadeEstoque.Text = "Quantidade";
+
+                        lblValor.Enabled = true;
+                        GStxtValor.Enabled = true;
+                        chkAtualizar.Enabled = true;
+
+                        lblQuantidadeAux.Visible = false;
+                        txtLineQuantidadeAux.Visible = false;
+                        txtQuantidadeAux.Visible = false;
+                        break;
+
+                    case "Base de troca":
+                        lblValor.Enabled = false;
+                        GStxtValor.Enabled = false;
+                        chkAtualizar.Enabled = false;
+
+                        lblQuantidadeEstoque.Text = "Qtd. Entrada";
+
+                        lblQuantidadeAux.Visible = true;
+                        txtLineQuantidadeAux.Visible = true;
+                        txtQuantidadeAux.Visible = true;
+                        break;
                 }
             }
         }

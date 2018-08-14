@@ -81,7 +81,7 @@ namespace GS.GestaoEmpresa.Solucao.Mapeador.Mapeadores.MapeadoresConcretos
                    $"'{interacao.Destino ?? "NULL"}', " +
                    $"'{interacao.NumeroDaNota ?? "NULL"}', " +
                    $"'{GSUtilitarios.ConvertaValorBooleano(interacao.InformaNumeroDeSerie)}', " +
-                   $"{interacao.QuantidadeAuxiliar.Value.ToString() ?? "NULL" }";
+                   $"{(interacao.QuantidadeAuxiliar.HasValue ? interacao.QuantidadeAuxiliar.Value.ToString() : "NULL")}";
         }
 
         public void Insira(Interacao interacao)

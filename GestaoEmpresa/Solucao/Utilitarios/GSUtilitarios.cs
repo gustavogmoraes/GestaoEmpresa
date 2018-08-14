@@ -18,6 +18,8 @@ namespace GS.GestaoEmpresa.Solucao.Utilitarios
 
         public static readonly Dictionary<Type, string> DicionarioTipoDadosParaBancoDeDados;
 
+        public static readonly CultureInfo Cultura = new CultureInfo("pt-BR");
+
         #endregion
 
 
@@ -73,17 +75,24 @@ namespace GS.GestaoEmpresa.Solucao.Utilitarios
             return booleano ? "S" : "N";
         }
 
+        public static string ConvertaEnumeradorParaString(EnumTipoDeInteracao tipoDeInteracao)
+        {
+            return Cultura.TextInfo.ToTitleCase(tipoDeInteracao.ToString().ToLowerInvariant()
+                                                                          .Replace("_", " "))
+                                   .Replace(" De ", " de ");
+        }
+
         #endregion
 
 
         #region Utilitários p/ Criação de Objetos
 
         /// <summary>
-		/// Cria uma lista do tipo passado
-		/// </summary>
-		/// <param name="tipo">Tipo dos elementos da lista</param>
-		/// <returns>Retorna uma lista do tipo passado.</returns>
-		public static IList CrieLista(Type tipo)
+        /// Cria uma lista do tipo passado
+        /// </summary>
+        /// <param name="tipo">Tipo dos elementos da lista</param>
+        /// <returns>Retorna uma lista do tipo passado.</returns>
+        public static IList CrieLista(Type tipo)
         {
             Type tipoGenericoLista = typeof(List<>).MakeGenericType(tipo);
 
