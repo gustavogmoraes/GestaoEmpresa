@@ -2,6 +2,7 @@
 using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores;
 using GS.GestaoEmpresa.Solucao.Negocio.Objetos.Atributos;
 using System.Collections.Generic;
+using System.Data;
 
 namespace GS.GestaoEmpresa.Solucao.Negocio.Objetos.ObjetosConcretos
 {
@@ -12,6 +13,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Objetos.ObjetosConcretos
             NumerosDeSerie = new List<string>();
         }
 
+        [PropriedadeBD(Coluna = "CODIGO", EhChave = true, TipoDeDadoBanco = DbType.Int32)]
         public int Codigo { get; set; }
 
         public DateTime Horario { get; set; }

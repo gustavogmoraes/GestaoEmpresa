@@ -198,12 +198,12 @@ namespace GS.GestaoEmpresa.Solucao.Utilitarios
 		public static PropertyInfo EncontrePropriedadeChaveDoObjeto(Object objeto)
         {
             var propriedadeChave = objeto.GetType().GetProperties()
-                                         .Where(x => Attribute.IsDefined(x, typeof(BancoDeDados)))
+                                         .Where(x => Attribute.IsDefined(x, typeof(PropriedadeBD)))
                                          .FirstOrDefault();
             
             if(propriedadeChave != null)
             {
-                var atributo = (BancoDeDados)propriedadeChave.GetCustomAttribute(typeof(BancoDeDados));
+                var atributo = (PropriedadeBD)propriedadeChave.GetCustomAttribute(typeof(PropriedadeBD));
 
                 if (atributo.EhChave)
                     return propriedadeChave;
@@ -220,12 +220,12 @@ namespace GS.GestaoEmpresa.Solucao.Utilitarios
 		public static PropertyInfo EncontrePropriedadeChaveDoTipo(Type tipo)
         {
             var propriedadeChave = tipo.GetProperties()
-                                       .Where(x => Attribute.IsDefined(x, typeof(BancoDeDados)))
+                                       .Where(x => Attribute.IsDefined(x, typeof(PropriedadeBD)))
                                        .FirstOrDefault();
 
             if (propriedadeChave != null)
             {
-                var atributo = (BancoDeDados)propriedadeChave.GetCustomAttribute(typeof(BancoDeDados));
+                var atributo = (PropriedadeBD)propriedadeChave.GetCustomAttribute(typeof(PropriedadeBD));
 
                 if (atributo.EhChave)
                     return propriedadeChave;
@@ -290,9 +290,9 @@ namespace GS.GestaoEmpresa.Solucao.Utilitarios
         /// <returns>Retorna um booleano da validação feita.</returns>
         public static EnumTipoDeEntidadeRelacional ObtenhaTipoDeEntidadeRelacional(PropertyInfo propriedade)
         {
-            if(Attribute.IsDefined(propriedade, typeof(BancoDeDados)))
+            if(Attribute.IsDefined(propriedade, typeof(PropriedadeBD)))
             {
-                var atributo = (BancoDeDados)Attribute.GetCustomAttribute(propriedade, typeof(BancoDeDados));
+                var atributo = (PropriedadeBD)Attribute.GetCustomAttribute(propriedade, typeof(PropriedadeBD));
 
                 return atributo.TipoDeRelacionamento;
             }
@@ -334,9 +334,9 @@ namespace GS.GestaoEmpresa.Solucao.Utilitarios
         /// <returns>Retorna um booleano da validação feita.</returns>
         public static bool VerifiqueSePropriedadeEhEntidadeRelacionalUmParaMuitos(PropertyInfo propriedade)
         {
-            if(Attribute.IsDefined(propriedade, typeof(BancoDeDados)))
+            if(Attribute.IsDefined(propriedade, typeof(PropriedadeBD)))
             {
-                var atributo = (BancoDeDados)Attribute.GetCustomAttribute(propriedade, typeof(BancoDeDados));
+                var atributo = (PropriedadeBD)Attribute.GetCustomAttribute(propriedade, typeof(PropriedadeBD));
 
                 return (atributo.TipoDeRelacionamento == EnumTipoDeEntidadeRelacional.UmParaMuitos);
             }

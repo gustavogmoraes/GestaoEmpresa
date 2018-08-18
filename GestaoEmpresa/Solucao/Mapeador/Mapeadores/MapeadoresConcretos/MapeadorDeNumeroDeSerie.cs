@@ -14,19 +14,20 @@ namespace GS.GestaoEmpresa.Solucao.Mapeador.Mapeadores.MapeadoresConcretos
 
         public string Tabela => "NUMEROS_DE_SERIE";
 
-        public string Colunas => "NUMERO, CODIGO_INTERACAO";
+        public string Colunas => "NUMERO, CODIGO_INTERACAO, CODIGO_PRODUTO";
 
         #endregion
 
         #region Métodos Públicos
 
-        public void Insira(string numeroDeSerie, int codigoDaInteracao)
+        public void Insira(string numeroDeSerie, int codigoDaInteracao, int codigoDoProduto)
         {
-            string ComandoSQL = String.Format("INSERT INTO {0} ({1}) VALUES ('{2}', {3})",
+            string ComandoSQL = String.Format("INSERT INTO {0} ({1}) VALUES ('{2}', {3}, {4})",
                                               Tabela,
                                               Colunas,
                                               numeroDeSerie,
-                                              codigoDaInteracao);
+                                              codigoDaInteracao,
+                                              codigoDoProduto);
 
             using (var GSBancoDeDados = new GSBancoDeDados())
             {

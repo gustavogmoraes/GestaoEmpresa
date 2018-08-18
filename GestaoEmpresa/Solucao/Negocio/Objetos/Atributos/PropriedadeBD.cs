@@ -1,17 +1,18 @@
 ﻿using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores;
 using System;
+using System.Data;
 
 namespace GS.GestaoEmpresa.Solucao.Negocio.Objetos.Atributos
 {
-    public class BancoDeDados : Attribute
+    public class PropriedadeBD : Attribute
     {
         public string Coluna { get; set; }
 
         public bool EhChave { get; set; }
 
-        public bool EhNumerico { get; set; }
-
         public int QuantidadeCaracteres { get; set; }
+
+        public DbType TipoDeDadoBanco { get; set; }
 
         public EnumTipoDeEntidadeRelacional TipoDeRelacionamento { get; set; }
     }

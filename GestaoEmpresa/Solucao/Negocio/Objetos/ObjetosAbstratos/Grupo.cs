@@ -7,16 +7,16 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Objetos.ObjetosAbstratos
 {
     public class Grupo<TEntidade>
     {
-        [BancoDeDados(EhChave = true)]
+        [PropriedadeBD(EhChave = true)]
         public int Codigo;
 
-        [BancoDeDados(QuantidadeCaracteres = 100)]
+        [PropriedadeBD(QuantidadeCaracteres = 100)]
         public string Nome;
 
-        [BancoDeDados(QuantidadeCaracteres = 1000)]
+        [PropriedadeBD(QuantidadeCaracteres = 1000)]
         public string Descricao;
 
-        [BancoDeDados(TipoDeRelacionamento = EnumTipoDeEntidadeRelacional.UmParaMuitos)]
+        [PropriedadeBD(TipoDeRelacionamento = EnumTipoDeEntidadeRelacional.UmParaMuitos)]
         public List<TEntidade> lista;
     }
 }

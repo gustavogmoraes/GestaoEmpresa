@@ -21,7 +21,7 @@ namespace GS.GestaoEmpresa.Solucao.Mapeador.Mapeadores.MapeadoresAbstratos
             {
                 Dictionary<string, PropertyInfo> campos = new Dictionary<string, PropertyInfo>();
 
-                var listaDePropriedades = GSUtilitarios.EncontrePropriedadeMarcadaComAtributo(typeof(TEntidade), typeof(Negocio.Objetos.Atributos.BancoDeDados))
+                var listaDePropriedades = GSUtilitarios.EncontrePropriedadeMarcadaComAtributo(typeof(TEntidade), typeof(Negocio.Objetos.Atributos.PropriedadeBD))
                                                        .Where(x => GSUtilitarios.ObtenhaTipoDeEntidadeRelacional(x) != EnumTipoDeEntidadeRelacional.UmParaMuitos);
 
                 foreach (var propriedade in listaDePropriedades)	 			 

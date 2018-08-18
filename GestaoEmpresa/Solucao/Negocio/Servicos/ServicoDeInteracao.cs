@@ -80,7 +80,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
 
                     foreach (var numeroDeSerie in interacao.NumerosDeSerie)
                     {
-                        mapeadorDeNumeroDeSerie.Insira(numeroDeSerie, interacao.Codigo);
+                        mapeadorDeNumeroDeSerie.Insira(numeroDeSerie, interacao.Codigo, interacao.Produto.Codigo);
                     }
 
                     int quantidadeInterada = 0;

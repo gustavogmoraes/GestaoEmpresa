@@ -69,7 +69,7 @@
     <Compile Include="Solucao\Negocio\Enumeradores\EnumTipoDeEntidadeRelacional.cs" />
     <Compile Include="Solucao\Negocio\Enumeradores\EnumTipoDeForm.cs" />
     <Compile Include="Solucao\Negocio\Interfaces\IFormPadrao.cs" />
-    <Compile Include="Solucao\Negocio\Objetos\Atributos\BancoDeDados.cs" />
+    <Compile Include="Solucao\Negocio\Objetos\Atributos\PropriedadeBD.cs" />
     <Compile Include="Solucao\Negocio\Objetos\Atributos\Multivalor.cs" />
     <Compile Include="Solucao\Negocio\Objetos\ObjetosAbstratos\Grupo.cs" />
     <Compile Include="Solucao\Negocio\Objetos\ObjetosConcretos\CampoDeTela.cs" />

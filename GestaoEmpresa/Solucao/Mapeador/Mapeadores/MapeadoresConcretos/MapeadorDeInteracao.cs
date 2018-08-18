@@ -30,7 +30,7 @@ namespace GS.GestaoEmpresa.Solucao.Mapeador.Mapeadores.MapeadoresConcretos
             { "CODIGO_PRODUTO", typeof(int) },
             { "QUANTIDADE", typeof(int) },
             { "VALOR", typeof(decimal) },
-            { "ATUALIZARVALORNOCATALOGO", typeof(bool)},
+            { "ATUALIZARVALORNOCATALOGO", typeof(bool)},    
             { "ORIGEM", typeof(string) },
             { "DESTINO", typeof(string) },
             { "NUMERODANOTAFISCAL", typeof(string) },
