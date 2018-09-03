@@ -52,6 +52,9 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
             CarregueDataGridInteracoes(_listaDeInteracoes);
             cbPesquisaHistorico.Text = "Observação";
+
+            //Selecionar pesquisa por produto
+            cbPesquisaHistorico.SelectedIndex = 5;
         }
 
         private void CarregueDataGridInteracoes(List<Interacao> listaDeInteracoes)

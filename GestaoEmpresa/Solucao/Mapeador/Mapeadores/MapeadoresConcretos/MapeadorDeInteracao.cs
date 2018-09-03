@@ -49,9 +49,9 @@ namespace GS.GestaoEmpresa.Solucao.Mapeador.Mapeadores.MapeadoresConcretos
                                : null;
             retorno.Produto = new ServicoDeProduto().Consulte(int.Parse(tabela.Rows[linha]["CODIGO_PRODUTO"].ToString()));
             retorno.QuantidadeInterada = int.Parse(tabela.Rows[linha]["QUANTIDADE"].ToString());
-            //retorno.QuantidadeAuxiliar = tabela.Rows[linha]["QUANTIDADE_AUX"] != DBNull.Value 
-            //                           ? int.Parse(tabela.Rows[linha]["QUANTIDADE_AUX"].ToString())
-            //                          : new int?();
+            retorno.QuantidadeAuxiliar = tabela.Rows[linha]["QUANTIDADE_AUX"] != DBNull.Value
+                                       ? int.Parse(tabela.Rows[linha]["QUANTIDADE_AUX"].ToString())
+                                      : new int?();
             retorno.ValorInteracao = decimal.Parse(tabela.Rows[linha]["VALOR"].ToString());
             retorno.AtualizarValorDoProdutoNoCatalogo = GSUtilitarios.ConvertaValorBooleano(tabela.Rows[linha]["ATUALIZARVALORNOCATALOGO"].ToString());
             retorno.Origem = tabela.Rows[linha]["ORIGEM"] != DBNull.Value

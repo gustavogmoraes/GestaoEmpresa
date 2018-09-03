@@ -105,23 +105,32 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
                     }
 
                     var produtoConsultado = servicoDeProduto.Consulte(interacao.Produto.Codigo);
-                    servicoDeProduto.AltereQuantidadeDeProduto(produtoConsultado.Codigo,
-                                                               produtoConsultado.QuantidadeEmEstoque + quantidadeInterada + quantidadeInteradaAux);
 
-                    // Nesse  caso atualizamos o produto com o novo valor
+                    // Nesse caso atualizamos o produto com o novo valor
                     if (interacao.AtualizarValorDoProdutoNoCatalogo)
                     {
-                        if (interacao.TipoDeInteracao == EnumTipoDeInteracao.ENTRADA)
+                        var valorDoProduto = interacao.TipoDeInteracao == EnumTipoDeInteracao.ENTRADA
+                                           ? produtoConsultado.PrecoDeCompra
+                                           : produtoConsultado.PrecoDeVenda;
+                        
+                        // Só devemos criar uma nova vigência, caso o valor seja diferente, senão é desnecessário
+                        if (interacao.ValorInteracao != valorDoProduto)
                         {
-                            produtoConsultado.PrecoDeCompra = interacao.ValorInteracao;
-                        }
-                        else
-                        {
-                            produtoConsultado.PrecoDeVenda = interacao.ValorInteracao;
-                        }
+                            if (interacao.TipoDeInteracao == EnumTipoDeInteracao.ENTRADA)
+                            {
+                                produtoConsultado.PrecoDeCompra = interacao.ValorInteracao;
+                            }
+                            else
+                            {
+                                produtoConsultado.PrecoDeVenda = interacao.ValorInteracao;
+                            }
 
-                        servicoDeProduto.Salve(produtoConsultado, EnumTipoDeForm.Edicao);
+                            servicoDeProduto.Salve(produtoConsultado, EnumTipoDeForm.Edicao);
+                        }
                     }
+
+                    servicoDeProduto.AltereQuantidadeDeProduto(produtoConsultado.Codigo,
+                                                               produtoConsultado.QuantidadeEmEstoque + quantidadeInterada + quantidadeInteradaAux);
                 }
             }
 

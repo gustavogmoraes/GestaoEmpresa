@@ -444,6 +444,10 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                         lblQuantidadeAux.Visible = false;
                         txtLineQuantidadeAux.Visible = false;
                         txtQuantidadeAux.Visible = false;
+
+                        // Tem que ser feito pra evitar inconsistencias
+                        chkAtualizar.Checked = false;
+                        GStxtValor.Valor = 0;
                         break;
 
                     case "Entrada":
@@ -456,6 +460,9 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                         lblQuantidadeAux.Visible = false;
                         txtLineQuantidadeAux.Visible = false;
                         txtQuantidadeAux.Visible = false;
+
+                        chkAtualizar.Checked = true;
+                        AtualizeValorComODoProduto();
                         break;
 
                     case "Base de troca":
@@ -468,9 +475,42 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                         lblQuantidadeAux.Visible = true;
                         txtLineQuantidadeAux.Visible = true;
                         txtQuantidadeAux.Visible = true;
+
+                        // Tem que ser feito pra evitar inconsistencias
+                        chkAtualizar.Checked = false;
+                        GStxtValor.Valor = 0;
                         break;
                 }
             }
+        }
+
+        private void AtualizeValorComODoProduto()
+        {
+            var listaDeProdutos = new List<Produto>();
+            using (var servicoDeProduto = new ServicoDeProduto())
+            {
+                listaDeProdutos = servicoDeProduto.ConsulteTodosOsProdutos();
+            }
+
+            var produto = listaDeProdutos.Find(x => x.Nome.Trim() == cbProduto.Text);
+            if (produto == null)
+            {
+                return;
+            }
+                
+            decimal valorASerAtribuido = 0;
+            switch ((EnumTipoDeInteracao)cbTipo.SelectedIndex + 1)
+            {
+                case EnumTipoDeInteracao.ENTRADA:
+                    valorASerAtribuido = produto.PrecoDeCompra;
+                    break;
+
+                case EnumTipoDeInteracao.SAIDA:
+                    valorASerAtribuido = produto.PrecoDeVenda;
+                    break;
+            }
+
+            GStxtValor.Valor = valorASerAtribuido;
         }
 
         private void btnAdicionarNumeroDeSerie_Click(object sender, EventArgs e)
@@ -501,16 +541,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         private void cbProduto_SelectedIndexChanged(object sender, EventArgs e)
         {
-            var listaDeProdutos = new List<Produto>();
-            using (var servicoDeProduto = new ServicoDeProduto())
-            {
-                listaDeProdutos = servicoDeProduto.ConsulteTodosOsProdutos();
-            }
-
-            var produto = listaDeProdutos.Find(x => x.Nome.Trim() == cbProduto.Text);
-
-            GStxtValor.Valor = produto.PrecoDeVenda;
-
+            AtualizeValorComODoProduto();
         }
 
         private void chkInformarNumeroDeSerie_CheckedChanged(object sender, EventArgs e)
@@ -524,6 +555,18 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             {
                 label1.Enabled = false;
                 flpNumerosDeSerie.Enabled = false;
+            }
+        }
+
+        private void txtQuantidadeAux_TextChanged(object sender, EventArgs e)
+        {
+            if (txtQuantidadeAux.Text.All(char.IsDigit))
+            {
+                return;
+            }
+            else
+            {
+                txtQuantidadeAux.Text = txtQuantidadeAux.Text.Trim().Remove(txtQuantidadeAux.Text.Length - 1);
             }
         }
     }

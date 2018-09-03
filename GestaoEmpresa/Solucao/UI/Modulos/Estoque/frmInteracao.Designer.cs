@@ -540,6 +540,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.txtQuantidadeAux.Name = "txtQuantidadeAux";
             this.txtQuantidadeAux.Size = new System.Drawing.Size(64, 22);
             this.txtQuantidadeAux.TabIndex = 129;
+            this.txtQuantidadeAux.TextChanged += new System.EventHandler(this.txtQuantidadeAux_TextChanged);
             // 
             // frmInteracao
             // 

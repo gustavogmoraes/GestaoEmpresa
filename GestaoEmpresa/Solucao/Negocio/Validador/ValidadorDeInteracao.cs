@@ -53,7 +53,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Validador
                     });
             }
 
-            if (_interacao.QuantidadeInterada == 0)
+            if (_interacao.QuantidadeInterada == 0 && _interacao.TipoDeInteracao != EnumTipoDeInteracao.BASE_DE_TROCA)
             {
                 _listaDeInconsistencias.Add(
                     new Inconsistencia()
