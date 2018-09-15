@@ -19,8 +19,30 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Validador
 
             ValideRegraObrigatoriedades();
             ValideRegrasDeNumeroDeSerie();
+            ValideRegraQuantidades();
 
             return _listaDeInconsistencias;
+        }
+
+        private void ValideRegraQuantidades()
+        {
+            var quantidadeAtual = MapeadorDeProduto().Consulte(_interacao.Produto.Codigo).QuantidadeEmEstoque;
+            var quantidadeInterada = _interacao.TipoDeInteracao == EnumTipoDeInteracao.SAIDA ? _interacao.QuantidadeInterada * -1 : _interacao.QuantidadeInterada;
+            var quantidadeAuxiliar = (_interacao.QuantidadeAuxiliar ?? 0) * -1;
+
+            if ((quantidadeAtual + quantidadeInterada +  quantidadeAuxiliar) < 0)
+            {
+                _listaDeInconsistencias.Add(
+                    new Inconsistencia()
+                    {
+                        Modulo = "Controle de Estoque",
+                        Tela = "Cadastro de Interações",
+                        ConceitoValidado = "Interação",
+                        NomeDaPropriedadeValidada = "Produto",
+                        DescricaoDaPropriedadeValidada = "Produto da entrada/saída",
+                        Mensagem = "Essa interação deixaria o produto com quantidade abaixo de 0!"
+                    });
+            }
         }
 
         private Interacao _interacao { get; set; }
@@ -28,10 +50,17 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Validador
         private List<Inconsistencia> _listaDeInconsistencias { get; set; }
 
         private MapeadorDeNumeroDeSerie _mapeadorDeNumeroDeSerie;
+
+        private MapeadorDeProduto _mapeadorDeProduto;
         
         private MapeadorDeNumeroDeSerie MapeadorDeNumeroDeSerie()
         {
             return _mapeadorDeNumeroDeSerie ?? (_mapeadorDeNumeroDeSerie = new MapeadorDeNumeroDeSerie());
+        }
+
+        private MapeadorDeProduto MapeadorDeProduto()
+        {
+            return _mapeadorDeProduto ?? (_mapeadorDeProduto = new MapeadorDeProduto());
         }
 
 

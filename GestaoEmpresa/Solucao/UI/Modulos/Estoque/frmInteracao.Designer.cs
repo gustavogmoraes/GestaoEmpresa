@@ -424,6 +424,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.txtNumeroDaNotaFiscal.Name = "txtNumeroDaNotaFiscal";
             this.txtNumeroDaNotaFiscal.Size = new System.Drawing.Size(462, 22);
             this.txtNumeroDaNotaFiscal.TabIndex = 120;
+            this.txtNumeroDaNotaFiscal.TextChanged += new System.EventHandler(this.txtNumeroDaNotaFiscal_TextChanged);
             // 
             // lblNS
             // 

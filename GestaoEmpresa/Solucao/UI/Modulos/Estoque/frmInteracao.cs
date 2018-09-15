@@ -569,5 +569,17 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                 txtQuantidadeAux.Text = txtQuantidadeAux.Text.Trim().Remove(txtQuantidadeAux.Text.Length - 1);
             }
         }
+
+        private void txtNumeroDaNotaFiscal_TextChanged(object sender, EventArgs e)
+        {
+            if (txtNumeroDaNotaFiscal.Text.All(char.IsDigit))
+            {
+                return;
+            }
+            else
+            {
+                txtNumeroDaNotaFiscal.Text = txtNumeroDaNotaFiscal.Text.Trim().Remove(txtNumeroDaNotaFiscal.Text.Length - 1);
+            }
+        }
     }
 }

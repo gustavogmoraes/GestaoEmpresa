@@ -103,6 +103,11 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
                 using (var mapeadorDeProduto = new MapeadorDeProduto())
                 {
                     mapeadorDeProduto.Insira(produto);
+
+                    if(tipoDoForm == EnumTipoDeForm.Cadastro)
+                    {
+                        mapeadorDeProduto.InsiraNaTabelaQuantidade(produto.Codigo);
+                    }
                 }
             }
 

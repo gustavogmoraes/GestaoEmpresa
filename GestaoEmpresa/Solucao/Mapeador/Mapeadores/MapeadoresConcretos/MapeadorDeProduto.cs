@@ -26,7 +26,7 @@ namespace GS.GestaoEmpresa.Solucao.Mapeador.Mapeadores.MapeadoresConcretos
 		    { "PRECOCOMPRA", typeof(decimal) },
 		    { "PRECOVENDA", typeof(decimal) },
 		    { "PORCENTAGEMLUCRO", typeof(float) },
-            { "QUANTIDADEESTOQUE", typeof(int) },
+            //{ "QUANTIDADEESTOQUE", typeof(int) },
 		    { "AVISARQUANTIDADE", typeof(bool) },
 		    { "QUANTIDADEMINIMAAVISO", typeof(int) },
             { "OBSERVACAO", typeof(string) }
@@ -95,10 +95,9 @@ namespace GS.GestaoEmpresa.Solucao.Mapeador.Mapeadores.MapeadoresConcretos
 
         public void AltereQuantidadeDeProduto(int codigoDoProduto, int novaQuantidade)
         {
-            var comandoSQL = $"UPDATE {Tabela} " +
-                             $"SET QUANTIDADEESTOQUE = {novaQuantidade} " +
-                             $"WHERE CODIGO = {codigoDoProduto} " +
-                             $"AND VIGENCIA = (SELECT MAX(VIGENCIA) FROM PRODUTOS WHERE CODIGO = {codigoDoProduto});";
+            var comandoSQL = $"UPDATE PRODUTOS_QUANTIDADES " +
+                             $"SET QUANTIDADE = {novaQuantidade} " +
+                             $"WHERE CODIGO_PRODUTO = {codigoDoProduto};";
 
             using (var BancoDeDados = new GSBancoDeDados())
             {
@@ -116,6 +115,16 @@ namespace GS.GestaoEmpresa.Solucao.Mapeador.Mapeadores.MapeadoresConcretos
         {
             using (var GSBancoDeDados = new GSBancoDeDados())
                 GSBancoDeDados.ExecuteComando(_scriptDrop);
+        }
+
+        public void InsiraNaTabelaQuantidade(int codigoProduto)
+        {
+            var sql = $"INSERT INTO PRODUTOS_QUANTIDADES VALUES({codigoProduto}, 0);";
+
+            using (var GSBancoDeDados = new GSBancoDeDados())
+            {
+                GSBancoDeDados.ExecuteComando(sql);
+            }
         }
 
         public void Insira(Produto produto)
@@ -145,7 +154,8 @@ namespace GS.GestaoEmpresa.Solucao.Mapeador.Mapeadores.MapeadoresConcretos
 
         public Produto Consulte(int codigo)
         {
-            string ComandoSQL = String.Format("SELECT {0} FROM {1} " +
+            string ComandoSQL = String.Format("SELECT {0}, PRODUTOS_QUANTIDADES.QUANTIDADE AS QUANTIDADEESTOQUE FROM {1} " +
+                                              "INNER JOIN PRODUTOS_QUANTIDADES ON PRODUTOS.CODIGO = PRODUTOS_QUANTIDADES.CODIGO_PRODUTO " +
                                               "WHERE CODIGO = {2} " +
                                               "AND VIGENCIA = (SELECT MAX(VIGENCIA) FROM PRODUTOS WHERE CODIGO = {2})",
                                               Colunas,
@@ -172,7 +182,8 @@ namespace GS.GestaoEmpresa.Solucao.Mapeador.Mapeadores.MapeadoresConcretos
 
         public Produto Consulte(int Codigo, DateTime vigencia)
         {
-            string ComandoSQL = String.Format("SELECT {0} FROM {1} " +
+            string ComandoSQL = String.Format("SELECT {0}, PRODUTOS_QUANTIDADES.QUANTIDADE AS QUANTIDADEESTOQUE FROM {1} " +
+                                              "INNER JOIN PRODUTOS_QUANTIDADES ON PRODUTOS.CODIGO = PRODUTOS_QUANTIDADES.CODIGO_PRODUTO "+
                                               "WHERE CODIGO = {2} " +
                                               "AND VIGENCIA = (SELECT MAX(VIGENCIA) FROM PRODUTOS WHERE VIGENCIA <= CAST ('{3}' AS DATETIME2))",
                                               Colunas,
@@ -201,9 +212,17 @@ namespace GS.GestaoEmpresa.Solucao.Mapeador.Mapeadores.MapeadoresConcretos
         //Ultima vigência de todos os produtos
         public List<Produto> ConsulteTodos()
         {
-            string ComandoSQL = String.Format("SELECT T1.{0}, {1} FROM {2} AS T1 " +
+            //string ComandoSQL = String.Format("SELECT T1.{0}, {1} FROM {2} AS T1 " +
+            //                                  "INNER JOIN(SELECT MAX(VIGENCIA) VIGENCIA, {0} FROM {2} GROUP BY {0}) AS T2 " +
+            //                                  "ON T1.{0} = T2.{0} AND T1.VIGENCIA = T2.VIGENCIA ORDER BY {0}",
+            //                                  "CODIGO",
+            //                                  Colunas.Replace(", ", ", T1.")
+            //                                         .Replace("CODIGO, ", string.Empty),
+            //                                  Tabela);
+
+            string ComandoSQL = String.Format("SELECT T1.{0}, {1}, PRODUTOS_QUANTIDADES.QUANTIDADE AS QUANTIDADEESTOQUE FROM {2} AS T1 " +
 											  "INNER JOIN(SELECT MAX(VIGENCIA) VIGENCIA, {0} FROM {2} GROUP BY {0}) AS T2 " +
-											  "ON T1.{0} = T2.{0} AND T1.VIGENCIA = T2.VIGENCIA ORDER BY {0}",
+                                              "ON T1.{0} = T2.{0} AND T1.VIGENCIA = T2.VIGENCIA INNER JOIN PRODUTOS_QUANTIDADES ON T1.CODIGO = PRODUTOS_QUANTIDADES.CODIGO_PRODUTO ORDER BY {0}",
 											  "CODIGO",
                                               Colunas.Replace(", ", ", T1.")
                                                      .Replace("CODIGO, ", string.Empty),
@@ -298,6 +317,7 @@ namespace GS.GestaoEmpresa.Solucao.Mapeador.Mapeadores.MapeadoresConcretos
                 return listaRetorno;
             }
             catch (System.Exception)
+
             {
                 return null;
                 throw;
@@ -306,6 +326,13 @@ namespace GS.GestaoEmpresa.Solucao.Mapeador.Mapeadores.MapeadoresConcretos
 
         public void Exclua(int codigoDoProduto)
         {
+            var sql = $"DELETE FROM PRODUTOS_QUANTIDADES WHERE CODIGO_PRODUTO = {codigoDoProduto}";
+
+            using (var GSBancoDeDados = new GSBancoDeDados())
+            {
+                GSBancoDeDados.ExecuteComando(sql);
+            }
+
             string comandoSQL = String.Format("DELETE FROM {0} WHERE {1} = {2}",
                                               Tabela,
                                               "CODIGO",
