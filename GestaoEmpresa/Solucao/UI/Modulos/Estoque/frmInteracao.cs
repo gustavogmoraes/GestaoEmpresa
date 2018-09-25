@@ -178,6 +178,19 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                 MessageBox.Show("Um tipo deve ser selecionado");
                 return;
             }
+            
+            if (GStxtValor.Valor == 0)
+            {
+                var resultado = MessageBox.Show(Mensagens.TEM_CERTEZA_QUE_QUER_DAR_ENTRADA_SEM_VALOR(), "Confirmação", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    if (resultado == DialogResult.Yes)
+                    {
+                       return;
+                    }
+                    else if (resultado == DialogResult.No)
+                    {
+                       GStxtValor.Focus();
+                    }
+            }
 
             //if (cbProduto.SelectedIndex == -1)
             //{
