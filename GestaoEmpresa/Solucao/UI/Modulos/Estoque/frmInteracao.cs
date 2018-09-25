@@ -170,35 +170,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
             InicializeInconsistencias();
         }
-
-        public void RealizeValidacoesDeTela()
-        {
-            if (cbTipo.SelectedIndex == -1)
-            {
-                MessageBox.Show("Um tipo deve ser selecionado");
-                return;
-            }
-            
-            if (GStxtValor.Valor == 0)
-            {
-                var resultado = MessageBox.Show(Mensagens.TEM_CERTEZA_QUE_QUER_DAR_ENTRADA_SEM_VALOR(), "Confirmação", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                    if (resultado == DialogResult.Yes)
-                    {
-                       return;
-                    }
-                    else if (resultado == DialogResult.No)
-                    {
-                       GStxtValor.Focus();
-                    }
-            }
-
-            //if (cbProduto.SelectedIndex == -1)
-            //{
-            //    MessageBox.Show("Um produto deve ser selecionado");
-            //    return;
-            //}
-        }
-
+        
         public void CarregueControlesComObjeto(Interacao objeto)
         {
             cbTipo.SelectedIndex = (int)objeto.TipoDeInteracao - 1;
@@ -385,8 +357,23 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
                 case EnumBotoesForm.Salvar:
                     var interacao = CarregueObjetoComControles();
-
-                    RealizeValidacoesDeTela();
+                    
+                    // Valida entradas sem valores
+                    // Ver pra colocar no validador
+                    if (((EnumTipoDeInteracao)cbTipo.SelectedIndex + 1) == EnumTipoDeInteracao.Entrada &&
+                        cbTipo GStxtValor.Valor == 0)
+                    {
+                        var resultado = MessageBox.Show(Mensagens.TEM_CERTEZA_QUE_QUER_DAR_ENTRADA_SEM_VALOR(), "Confirmação", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                        if (resultado == DialogResult.Yes)
+                        {
+                           //Não faz nada
+                        }
+                        else if (resultado == DialogResult.No)
+                        {
+                           //GStxtValor.Focus();
+                           return;
+                        }
+                    }
 
                     var horario = DateTime.Now;
                     txtHorario.Text = horario.ToString(Cultura);
