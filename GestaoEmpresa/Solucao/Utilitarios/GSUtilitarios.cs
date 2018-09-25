@@ -9,6 +9,8 @@ using System.Collections;
 using GS.GestaoEmpresa.Solucao.Negocio.Objetos.Atributos;
 using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores;
 using System.Windows.Forms;
+using System.Net.Sockets;
+using System.Net;
 
 namespace GS.GestaoEmpresa.Solucao.Utilitarios
 {
@@ -356,6 +358,31 @@ namespace GS.GestaoEmpresa.Solucao.Utilitarios
             }
         }
 
+
+        #endregion
+
+
+        #region Utilitários p/ rede
+
+        public static string ObtenhaIPLocal()
+        {
+            using (Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, 0))
+            {
+                var ipLocal = string.Empty;
+                try
+                {
+                    socket.Connect("8.8.8.8", 65530);
+                    IPEndPoint endPoint = socket.LocalEndPoint as IPEndPoint;
+                    ipLocal = endPoint.Address.ToString();
+                }
+                catch
+                {
+                    ipLocal = "Erro ao obter...";
+                }
+
+                return ipLocal;
+            }
+        }
 
         #endregion
 

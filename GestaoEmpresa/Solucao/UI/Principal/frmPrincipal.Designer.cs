@@ -42,6 +42,10 @@
             this.label12 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.txtServidorConfiguracao = new System.Windows.Forms.TextBox();
+            this.panelConexao = new System.Windows.Forms.Panel();
+            this.pictureBox5 = new System.Windows.Forms.PictureBox();
+            this.lblIpApp = new System.Windows.Forms.Label();
+            this.lblIpBanco = new System.Windows.Forms.Label();
             this.lblConfiguracoesBasicas = new System.Windows.Forms.Label();
             this.txtSenha = new System.Windows.Forms.TextBox();
             this.txtUsuario = new System.Windows.Forms.TextBox();
@@ -74,6 +78,8 @@
             this.tabControl1.SuspendLayout();
             this.tabLogin.SuspendLayout();
             this.gbConfiguracoesBasicas.SuspendLayout();
+            this.panelConexao.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
@@ -102,6 +108,7 @@
             this.tabLogin.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("tabLogin.BackgroundImage")));
             this.tabLogin.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.tabLogin.Controls.Add(this.gbConfiguracoesBasicas);
+            this.tabLogin.Controls.Add(this.panelConexao);
             this.tabLogin.Controls.Add(this.lblConfiguracoesBasicas);
             this.tabLogin.Controls.Add(this.txtSenha);
             this.tabLogin.Controls.Add(this.txtUsuario);
@@ -134,7 +141,7 @@
             this.gbConfiguracoesBasicas.Controls.Add(this.label11);
             this.gbConfiguracoesBasicas.Controls.Add(this.txtServidorConfiguracao);
             this.gbConfiguracoesBasicas.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.gbConfiguracoesBasicas.Location = new System.Drawing.Point(557, 30);
+            this.gbConfiguracoesBasicas.Location = new System.Drawing.Point(557, 143);
             this.gbConfiguracoesBasicas.Name = "gbConfiguracoesBasicas";
             this.gbConfiguracoesBasicas.Size = new System.Drawing.Size(225, 273);
             this.gbConfiguracoesBasicas.TabIndex = 47;
@@ -235,6 +242,46 @@
             this.txtServidorConfiguracao.Name = "txtServidorConfiguracao";
             this.txtServidorConfiguracao.Size = new System.Drawing.Size(210, 27);
             this.txtServidorConfiguracao.TabIndex = 0;
+            // 
+            // panelConexao
+            // 
+            this.panelConexao.BackColor = System.Drawing.Color.Transparent;
+            this.panelConexao.Controls.Add(this.pictureBox5);
+            this.panelConexao.Controls.Add(this.lblIpApp);
+            this.panelConexao.Controls.Add(this.lblIpBanco);
+            this.panelConexao.Location = new System.Drawing.Point(557, 22);
+            this.panelConexao.Name = "panelConexao";
+            this.panelConexao.Size = new System.Drawing.Size(225, 100);
+            this.panelConexao.TabIndex = 56;
+            // 
+            // pictureBox5
+            // 
+            this.pictureBox5.BackgroundImage = global::GS.GestaoEmpresa.Properties.Resources.SemConexao;
+            this.pictureBox5.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.pictureBox5.Location = new System.Drawing.Point(13, 9);
+            this.pictureBox5.Name = "pictureBox5";
+            this.pictureBox5.Size = new System.Drawing.Size(210, 50);
+            this.pictureBox5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox5.TabIndex = 53;
+            this.pictureBox5.TabStop = false;
+            // 
+            // lblIpApp
+            // 
+            this.lblIpApp.AutoSize = true;
+            this.lblIpApp.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblIpApp.Location = new System.Drawing.Point(12, 61);
+            this.lblIpApp.Name = "lblIpApp";
+            this.lblIpApp.Size = new System.Drawing.Size(0, 17);
+            this.lblIpApp.TabIndex = 54;
+            // 
+            // lblIpBanco
+            // 
+            this.lblIpBanco.AutoSize = true;
+            this.lblIpBanco.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblIpBanco.Location = new System.Drawing.Point(144, 61);
+            this.lblIpBanco.Name = "lblIpBanco";
+            this.lblIpBanco.Size = new System.Drawing.Size(0, 17);
+            this.lblIpBanco.TabIndex = 55;
             // 
             // lblConfiguracoesBasicas
             // 
@@ -350,6 +397,7 @@
             // 
             this.btnEntrar.BackColor = System.Drawing.Color.Gainsboro;
             this.btnEntrar.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnEntrar.Enabled = false;
             this.btnEntrar.FlatAppearance.BorderColor = System.Drawing.Color.SteelBlue;
             this.btnEntrar.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnEntrar.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -612,6 +660,9 @@
             this.tabLogin.PerformLayout();
             this.gbConfiguracoesBasicas.ResumeLayout(false);
             this.gbConfiguracoesBasicas.PerformLayout();
+            this.panelConexao.ResumeLayout(false);
+            this.panelConexao.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
@@ -669,5 +720,9 @@
         private System.Windows.Forms.Button btnConfiguracoes;
         private System.Windows.Forms.Button btnEstoque;
         private System.Windows.Forms.Button btnAtendimento;
+        private System.Windows.Forms.Label lblIpBanco;
+        private System.Windows.Forms.Label lblIpApp;
+        private System.Windows.Forms.PictureBox pictureBox5;
+        private System.Windows.Forms.Panel panelConexao;
     }
 }

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace GS.GestaoEmpresa.Solucao.Mapeador.BancoDeDados
@@ -66,6 +67,32 @@ namespace GS.GestaoEmpresa.Solucao.Mapeador.BancoDeDados
                                                GSUtilitarios.ApliqueCriptografiaBasica(informacoesConexaoBanco.Senha,
                                                                                                  EnumCriptografiaBasica.Encriptar)));
             }
+        }
+
+        public static bool VerificarStatusDaConexao { get; set; }
+
+        public static bool ConexaoAtiva { get; set; }
+
+        public static void InicieVerificacaoDeConexao()
+        {
+            VerificarStatusDaConexao = true;
+
+            Action acao = () =>
+            {
+                while (VerificarStatusDaConexao)
+                {
+                    using (var persistencia = new GSBancoDeDados())
+                    {
+                        ConexaoAtiva = persistencia.VerifiqueStatusDaConexao();
+                    }
+
+                    Thread.Sleep(300);
+                }
+
+                return;
+            };
+
+            GSTarefasAssincronas.ExecuteTarefaAssincrona(acao);
         }
     }
 }

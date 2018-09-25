@@ -37,13 +37,16 @@ namespace GS.GestaoEmpresa.Solucao.Mapeador.BancoDeDados
 
                 // Configuração
                 DefinaStringDeConexao(_informacoesConexao.Servidor, _informacoesConexao.NomeBanco, _informacoesConexao.Usuario, _informacoesConexao.Senha);
-
-                // Developer
-                // DefinaStringDeConexao();
             }
+            try
+            {
+                _conexao = new SqlConnection(_stringDeConexao);
+                _conexao.Open();
+            }
+            catch
+            {
 
-            _conexao = new SqlConnection(_stringDeConexao);
-            _conexao.Open();
+            }
         } 
 
 		#endregion
@@ -181,41 +184,41 @@ namespace GS.GestaoEmpresa.Solucao.Mapeador.BancoDeDados
 		#region Métodos auxiliares
 
 		public bool VerifiqueStatusDaConexao()
-		{
-			try
-			{
-				//Cria e define a query
-				SqlCommand cmd = new SqlCommand();
+        {
+            try
+            {
+                //Cria e define a query
+                SqlCommand cmd = new SqlCommand();
 
-				cmd.CommandText = "SELECT 1";
-				cmd.CommandType = CommandType.Text;
-				cmd.Connection = _conexao;
+                cmd.CommandText = "SELECT 1";
+                cmd.CommandType = CommandType.Text;
+                cmd.Connection = _conexao;
 
-				//Executa a query
-				var retorno = cmd.ExecuteScalar();
+                //Executa a query
+                var retorno = cmd.ExecuteScalar();
 
-				if ((int)retorno == 1)
-					return true;
-				else
-					return false;
-			}
+                if ((int)retorno == 1)
+                    return true;
+                else
+                    return false;
+            }
 
-			catch (Exception ex)
-			{
-				Console.WriteLine(ex);
-				return false;
-			}
-		}
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                return false;
+            }
+        }
 
-		/// <summary>
-		/// Obtém o próximo código inteiro que estiver disponível na tabela desejada.
-		/// </summary>
-		/// <param name="tabela">A tabela desejada</param>
-		/// <param name="colunaChave">A coluna chave dessa tabela</param>
-		/// <returns>
-		/// Inteiro com o próximo código disponível
-		/// </returns>
-		public int ObtenhaProximoCodigoDisponivel(string tabela, string colunaChave)
+        /// <summary>
+        /// Obtém o próximo código inteiro que estiver disponível na tabela desejada.
+        /// </summary>
+        /// <param name="tabela">A tabela desejada</param>
+        /// <param name="colunaChave">A coluna chave dessa tabela</param>
+        /// <returns>
+        /// Inteiro com o próximo código disponível
+        /// </returns>
+        public int ObtenhaProximoCodigoDisponivel(string tabela, string colunaChave)
 		{
 			string comandoSQL = String.Format("SELECT TOP 1 {0} + 1 FROM {1} MO WHERE NOT EXISTS" +
 											  "(SELECT NULL FROM {1} MI WHERE MI.{0} = MO.{0} + 1) ORDER BY {0}",

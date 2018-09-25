@@ -51,6 +51,7 @@
     <Reference Include="System.Security" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Solucao\Mapeador\BancoDeDados\GSBancoDeDados.cs" />
     <Compile Include="Solucao\Mapeador\BancoDeDados\UCSessaoSistema.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -124,9 +125,11 @@
       <DependentUpon>frmPrincipal.cs</DependentUpon>
     </Compile>
     <Compile Include="Solucao\Utilitarios\EnumCriptografiaBasica.cs" />
+    <Compile Include="Solucao\Utilitarios\GSTarefasAssincronas.cs" />
     <Compile Include="Solucao\Utilitarios\GSUtilitarios.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Solucao\Utilitarios\GSAssistenteDeDigitacao.cs" />
     <EmbeddedResource Include="Solucao\Mapeador\BancoDeDados\UCSessaoSistema.resx">
       <DependentUpon>UCSessaoSistema.cs</DependentUpon>
     </EmbeddedResource>
@@ -185,7 +188,6 @@
     </EmbeddedResource>
     <Compile Include="Solucao\Mapeador\Mapeadores\MapeadoresAbstratos\MapeadorPadraoEntidadeRelacionalUmParaMuitos.cs" />
     <Compile Include="Solucao\Negocio\Catalogos\Mensagens.cs" />
-    <Compile Include="Solucao\Mapeador\BancoDeDados\GSBancoDeDados.cs" />
     <Compile Include="Solucao\Negocio\Objetos\ObjetosConcretos\IdentificadorExterno.cs" />
     <Compile Include="Solucao\Negocio\Objetos\ObjetosConcretos\Interacao.cs" />
     <Compile Include="Solucao\Negocio\Enumeradores\EnumTipoInteracao.cs" />
@@ -200,7 +202,9 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Resources\Conexao.png" />
+  </ItemGroup>
   <ItemGroup>
     <None Include="Resources\edit-512.png" />
   </ItemGroup>
@@ -230,6 +234,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\WhiteBox.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SemConexao.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -209,6 +209,32 @@ namespace GS.GestaoEmpresa.Solucao.Mapeador.Mapeadores.MapeadoresConcretos
             }
         }
 
+        public List<Produto> ConsultePorFiltroNome(string nome)
+        {
+            var consultaSQL = $"SELECT {Colunas}, QUANTIDADE AS QUANTIDADEESTOQUE FROM {Tabela} " +
+                              $"INNER JOIN PRODUTOS_QUANTIDADES ON PRODUTOS.CODIGO = PRODUTOS_QUANTIDADES.CODIGO_PRODUTO " +
+                              $"WHERE NOME LIKE '%{nome.ToUpper()}%';";
+
+            DataTable tabela;
+            using (var persistencia = new GSBancoDeDados())
+            {
+                tabela = persistencia.ExecuteConsulta(consultaSQL);
+            }
+
+            if(tabela == null)
+            {
+                return null;
+            }
+
+            var listaRetorno = new List<Produto>();
+            for (int linha = 0; linha < tabela.Rows.Count; linha++)
+            {
+                listaRetorno.Add(MonteRetorno(tabela, linha));
+            }
+
+            return listaRetorno;
+        }
+
         //Ultima vigência de todos os produtos
         public List<Produto> ConsulteTodos()
         {

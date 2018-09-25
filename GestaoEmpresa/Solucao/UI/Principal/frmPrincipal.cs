@@ -1,12 +1,15 @@
-﻿using GS.GestaoEmpresa.Solucao.Mapeador.BancoDeDados;
+﻿using GS.GestaoEmpresa.Properties;
+using GS.GestaoEmpresa.Solucao.Mapeador.BancoDeDados;
 using GS.GestaoEmpresa.Solucao.Mapeador.Mapeadores.MapeadoresConcretos;
 using GS.GestaoEmpresa.Solucao.Negocio.Catalogos;
 using GS.GestaoEmpresa.Solucao.Negocio.Objetos.ObjetosConcretos;
 using GS.GestaoEmpresa.Solucao.Negocio.Servicos;
 using GS.GestaoEmpresa.Solucao.UI.Modulos.Configuracoes;
 using GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque;
+using GS.GestaoEmpresa.Solucao.Utilitarios;
 using System;
 using System.Drawing;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace GestaoEmpresa.GS.GestaoEmpresa.GS.GestaoEmpresa.UI.Principal
@@ -91,6 +94,42 @@ namespace GestaoEmpresa.GS.GestaoEmpresa.GS.GestaoEmpresa.UI.Principal
             tabControl.SizeMode = TabSizeMode.Fixed;
         }
 
+        public void InicieVerificacaoParaAtualizarStatusDeConexao()
+        {
+            lblIpApp.Text = GSUtilitarios.ObtenhaIPLocal();
+            lblIpBanco.Text = SessaoSistema.InformacoesConexao.Servidor;
+
+            Action acao =
+                () =>
+                {
+                    while (SessaoSistema.VerificarStatusDaConexao)
+                    {
+                        if (SessaoSistema.ConexaoAtiva)
+                        {
+                            pictureBox5.Invoke((MethodInvoker)delegate
+                            {
+                                pictureBox5.BackgroundImage = Resources.Conexao;
+                                btnEntrar.Enabled = true;
+                            });
+                        }
+                        else
+                        {
+                            pictureBox5.Invoke((MethodInvoker)delegate
+                            {
+                                pictureBox5.BackgroundImage = Resources.SemConexao;
+                                btnEntrar.Enabled = false;
+                            });
+                        }
+
+                        Thread.Sleep(350);
+                    }
+
+                    return;
+                };
+
+            GSTarefasAssincronas.ExecuteTarefaAssincrona(acao);
+        }
+
         #endregion
 
 
@@ -106,12 +145,12 @@ namespace GestaoEmpresa.GS.GestaoEmpresa.GS.GestaoEmpresa.UI.Principal
             else
                 CarregueLogin();
 
-            CarregueConfiguracoesConexaoBanco();
-
             txtUsuario.Select();
 
-            //if (!BancoDeDados.VerifiqueStatusDaConexao())
-            //    MessageBox.Show("Erro de ConexaoSQL");
+            CarregueConfiguracoesConexaoBanco();
+            SessaoSistema.InicieVerificacaoDeConexao();
+
+            InicieVerificacaoParaAtualizarStatusDeConexao();
         }
 
         //Creio eu que esses não são mais usados, confirmar e excluir
@@ -119,6 +158,8 @@ namespace GestaoEmpresa.GS.GestaoEmpresa.GS.GestaoEmpresa.UI.Principal
         {
             lblConfiguracoesBasicas.Visible = true;
             gbConfiguracoesBasicas.Visible = false;
+
+            panelConexao.Location = new Point(557, 22);
 
             this.CarregueConfiguracoesConexaoBanco();
         }
@@ -168,7 +209,10 @@ namespace GestaoEmpresa.GS.GestaoEmpresa.GS.GestaoEmpresa.UI.Principal
         {
             lblConfiguracoesBasicas.Visible = false;
             //gbConfiguracoesBasicas.Location = new Point(this.ClientSize.Width - 230, 30);
+            gbConfiguracoesBasicas.Location = new Point(557, 30);
             gbConfiguracoesBasicas.Visible = true;
+
+            panelConexao.Location = new Point(557, 315);
         }
 
         private void label13_Click_1(object sender, EventArgs e)
@@ -201,6 +245,8 @@ namespace GestaoEmpresa.GS.GestaoEmpresa.GS.GestaoEmpresa.UI.Principal
                         txtPermissaoUsuario.Text = usuario.Nome;
                         //txtPermissaoFuncao.Text = usuario.Funcionario.Funcao ?? "---";
                         //txtPermissaoGrupo.Text = usuario.GrupoUsuario == null ? "---" : usuario.GrupoUsuario.Nome;
+
+                        SessaoSistema.VerificarStatusDaConexao = false;
                         return;
                     }
                 }

@@ -13,6 +13,7 @@ using GS.GestaoEmpresa.Solucao.Negocio.Objetos.ObjetosConcretos;
 using GS.GestaoEmpresa.Solucao.Negocio.Servicos;
 using GS.GestaoEmpresa.Solucao.Utilitarios;
 using System.Globalization;
+using GS.GestaoEmpresa.Solucao.Mapeador.BancoDeDados;
 
 namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 {
@@ -24,9 +25,57 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         public CultureInfo Cultura = new CultureInfo("pt-BR");
 
+        GSAssistenteDeDigitacao assistant;
+
         public frmEstoque()
         {
             InitializeComponent();
+
+            assistant = new GSAssistenteDeDigitacao();
+            assistant.Idled += assistant_Idled;
+        }
+
+        void assistant_Idled(object sender, EventArgs e)
+        {
+            this.Invoke(
+                new MethodInvoker(() =>
+                {
+                    var pesquisa = txtPesquisa.Text.Trim();
+                    var filtro = cbFiltro.Text;
+
+                    if (filtro == string.Empty)
+                    {
+                        return;
+                    }
+
+                    var listaFiltrada = new List<Produto>();
+                    switch (filtro)
+                    {
+                        case "Código":
+                            listaFiltrada = _listaDeProdutos.FindAll(x => x.Codigo.ToString()
+                                                                                  .Contains(pesquisa));
+                            break;
+
+                        case "Nome":
+                            listaFiltrada = _listaDeProdutos.FindAll(x => x.Nome.ToString().ToUpper()
+                                                            .Contains(pesquisa.ToUpper()));
+
+                            //var listaQueryable = _listaDeProdutos.AsQueryable();
+
+                            //listaFiltrada = (from produto in listaQueryable
+                            //                where produto.Nome.ToUpper().Contains(pesquisa.ToUpper())
+                            //                select produto).ToList();
+
+                            break;
+
+                        case "Código do fabricante":
+                            listaFiltrada = _listaDeProdutos.FindAll(x => x.CodigoDoFabricante.ToString().ToUpper()
+                                                                                              .Contains(pesquisa.ToUpper()));
+                            break;
+                    }
+
+                    CarregueDataGridProdutos(listaFiltrada);
+                }));
         }
 
         private void frmEstoque_Load(object sender, EventArgs e)
@@ -216,34 +265,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         private void txtPesquisa_TextChanged(object sender, EventArgs e)
         {
-            var pesquisa = txtPesquisa.Text.Trim();
-            var filtro = cbFiltro.Text;
-
-            if (filtro == string.Empty)
-            {
-                return;
-            }
-
-            var listaFiltrada = new List<Produto>();
-            switch (filtro)
-            {
-                case "Código":
-                    listaFiltrada = _listaDeProdutos.FindAll(x => x.Codigo.ToString()
-                                                                          .Contains(pesquisa));
-                    break;
-
-                case "Nome":
-                    listaFiltrada = _listaDeProdutos.FindAll(x => x.Nome.ToString().ToUpper()
-                                                                        .Contains(pesquisa.ToUpper()));
-                    break;
-
-                case "Código do fabricante":
-                    listaFiltrada = _listaDeProdutos.FindAll(x => x.CodigoDoFabricante.ToString().ToUpper()
-                                                                                      .Contains(pesquisa.ToUpper()));
-                    break;
-            }
-
-            CarregueDataGridProdutos(listaFiltrada);
+            assistant.TextChanged();
         }
 
         private void txtPesquisa_Leave(object sender, EventArgs e)
