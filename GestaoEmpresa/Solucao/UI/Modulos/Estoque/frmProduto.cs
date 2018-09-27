@@ -170,7 +170,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             txtObservacoes.Text = objeto.Observacao ?? string.Empty;
             txtQuantidadeEmEstoque.Text = objeto.QuantidadeEmEstoque.ToString();
             txtQuantidadeMinima.Text = objeto.QuantidadeMinimaParaAviso.ToString();
-            txtPorcentagemDeLucro.Text = Math.Round(objeto.PorcentagemDeLucro * 100, 2).ToString();
+            txtPorcentagemDeLucro.Valor = Math.Round(objeto.PorcentagemDeLucro * 100, 2);
             txtPrecoDeCompra.Valor = objeto.PrecoDeCompra;
             txtPrecoDeVenda.Valor = objeto.PrecoDeVenda;
             cbStatus.SelectedItem = objeto.Status.ToString();

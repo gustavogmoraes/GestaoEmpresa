@@ -278,7 +278,7 @@
             // 
             this.lblIpBanco.AutoSize = true;
             this.lblIpBanco.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblIpBanco.Location = new System.Drawing.Point(144, 61);
+            this.lblIpBanco.Location = new System.Drawing.Point(134, 61);
             this.lblIpBanco.Name = "lblIpBanco";
             this.lblIpBanco.Size = new System.Drawing.Size(0, 17);
             this.lblIpBanco.TabIndex = 55;

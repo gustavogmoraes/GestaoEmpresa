@@ -360,8 +360,8 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                     
                     // Valida entradas sem valores
                     // Ver pra colocar no validador
-                    if (((EnumTipoDeInteracao)cbTipo.SelectedIndex + 1) == EnumTipoDeInteracao.Entrada &&
-                        cbTipo GStxtValor.Valor == 0)
+                    if (((EnumTipoDeInteracao)cbTipo.SelectedIndex + 1) == EnumTipoDeInteracao.ENTRADA &&
+                        GStxtValor.Valor == 0)
                     {
                         var resultado = MessageBox.Show(Mensagens.TEM_CERTEZA_QUE_QUER_DAR_ENTRADA_SEM_VALOR(), "Confirmação", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                         if (resultado == DialogResult.Yes)
@@ -370,7 +370,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                         }
                         else if (resultado == DialogResult.No)
                         {
-                           //GStxtValor.Focus();
+                           GStxtValor.Focus();
                            return;
                         }
                     }
