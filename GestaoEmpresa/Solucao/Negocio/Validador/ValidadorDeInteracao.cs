@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using GS.GestaoEmpresa.Solucao.Negocio.Objetos.ObjetosConcretos;
 using GS.GestaoEmpresa.Solucao.Mapeador.Mapeadores.MapeadoresConcretos;
@@ -52,6 +53,8 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Validador
         private MapeadorDeNumeroDeSerie _mapeadorDeNumeroDeSerie;
 
         private MapeadorDeProduto _mapeadorDeProduto;
+
+        private MapeadorDeInteracao _mapeadorDeInteracao;
         
         private MapeadorDeNumeroDeSerie MapeadorDeNumeroDeSerie()
         {
@@ -61,6 +64,35 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Validador
         private MapeadorDeProduto MapeadorDeProduto()
         {
             return _mapeadorDeProduto ?? (_mapeadorDeProduto = new MapeadorDeProduto());
+        }
+
+        private MapeadorDeInteracao MapeadorDeInteracao()
+        {
+            return _mapeadorDeInteracao ?? (_mapeadorDeInteracao = new MapeadorDeInteracao());
+        }
+
+        public List<Inconsistencia> ValideExclusao(int codigoInteracao, int codigoProduto)
+        {
+            var listaDeInteracoes = MapeadorDeInteracao().ConsulteTodasInteracoesPorProduto(codigoProduto);
+            var ultimaInteracaoComEsseProduto = listaDeInteracoes.FirstOrDefault(x => x.Horario == listaDeInteracoes.Max(y => x.Horario));
+            var produto = MapeadorDeProduto().Consulte(codigoProduto);
+
+            var listaDeInconsistencias = new List<Inconsistencia>();
+            if (codigoInteracao != ultimaInteracaoComEsseProduto.Codigo)
+            {
+                listaDeInconsistencias.Add(
+                    new Inconsistencia()
+                    {
+                        Modulo = "Controle de Estoque",
+                        Tela = "Cadastro de Interações",
+                        ConceitoValidado = "Interação",
+                        NomeDaPropriedadeValidada = "Interação",
+                        DescricaoDaPropriedadeValidada = "Interação",
+                        Mensagem = $"Não é possível deletar essa interação porque ela não é a última interação com o produto {produto.Codigo} - {produto.Nome}."
+                    });
+            }
+
+            return listaDeInconsistencias;
         }
 
 

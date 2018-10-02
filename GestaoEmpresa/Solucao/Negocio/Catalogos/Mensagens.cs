@@ -76,7 +76,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Catalogos
 
         public static string NAO_E_POSSIVEL_DAR_SAIDA_DO_NUMERO_DE_SERIE_X(string numeroDeSerie)
         {
-            return string.Format("Um produto com o número de série {0} já está em estoque!", numeroDeSerie);
+            return string.Format("Não é possível dar saída de um produto com o número de série {0}, pois o mesmo não está em estoque!", numeroDeSerie);
         }
         
         public static string TEM_CERTEZA_QUE_QUER_DAR_ENTRADA_SEM_VALOR()

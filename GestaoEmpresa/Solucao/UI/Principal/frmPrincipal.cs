@@ -94,10 +94,17 @@ namespace GestaoEmpresa.GS.GestaoEmpresa.GS.GestaoEmpresa.UI.Principal
             tabControl.SizeMode = TabSizeMode.Fixed;
         }
 
-        public void InicieVerificacaoParaAtualizarStatusDeConexao()
+        public void DefinaLabelsIPs()
         {
+            //SessaoSistema.BusqueConfiguracoesConexaoDoArquivo(DIRETORIO_LOCAL, NOME_ARQUIVO_CONFIGURACOES_BANCO);
+
             lblIpApp.Text = GSUtilitarios.ObtenhaIPLocal();
             lblIpBanco.Text = SessaoSistema.InformacoesConexao.Servidor;
+        }
+
+        public void InicieVerificacaoParaAtualizarStatusDeConexao()
+        {
+            DefinaLabelsIPs();
 
             Action acao =
                 () =>
@@ -180,6 +187,7 @@ namespace GestaoEmpresa.GS.GestaoEmpresa.GS.GestaoEmpresa.UI.Principal
                                                                   NOME_ARQUIVO_CONFIGURACOES_BANCO);
 
             this.CarregueConfiguracoesConexaoBanco();
+            DefinaLabelsIPs();
         }
 
         private void lblConfiguracoesBasicas_Click(object sender, EventArgs e)

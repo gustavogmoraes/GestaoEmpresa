@@ -54,11 +54,11 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         {
             InitializeComponent();
 
-            //InicializeBotoes(EnumTipoDeForm.Detalhamento, ref btnEditarSalvar, ref btnCancelarExcluir, ref _switchBotaoEditarSalvar, ref _switchBotaoCancelarExcluir);
             _tipoDoForm = EnumTipoDeForm.Detalhamento;
 
             CarregueControlesComObjeto(interacao);
             DesabiliteControles();
+            InicializeBotoes(EnumTipoDeForm.Detalhamento, ref btnEditarSalvar, ref btnCancelarExcluir, ref _switchBotaoEditarSalvar, ref _switchBotaoCancelarExcluir);
             _codigoInteracao = interacao.Codigo;
         }
 
@@ -76,7 +76,9 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         protected virtual void HabiliteControles()
         {
-            foreach (Control controle in (this as Form).Controls)
+            var controles = (this as Form).Controls;
+
+            foreach (Control controle in controles)
             {
                 controle.Enabled = true;
             }
@@ -84,10 +86,28 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         protected virtual void DesabiliteControles()
         {
-            foreach (Control controle in (this as Form).Controls)
-            {
-                controle.Enabled = false;
-            }
+            cbTipo.Enabled = false;
+            txtLineTipo.Enabled = false;
+
+            txtQuantidade.Enabled = false;
+            txtLineQuantidadeEstoque.Enabled = false;
+
+            txtQuantidadeAux.Enabled = false;
+            txtLineQuantidadeAux.Enabled = false;
+
+            txtNumeroDaNotaFiscal.Enabled = false;
+
+            txtObservacoes.Enabled = false;
+            txtLineObservacoes.Enabled = false;
+
+            cbProduto.Enabled = false;
+            txtLineProduto.Enabled = false;
+
+            txtOrigem.Enabled = false;
+            txtLineOrigem.Enabled = false;
+
+            txtDestino.Enabled = false;
+            txtLineDestino.Enabled = false;
 
             foreach(Control controle in flpNumerosDeSerie.Controls)
             {
@@ -97,6 +117,9 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             }
 
             flpNumerosDeSerie.Enabled = true;
+            btnCancelarExcluir.Enabled = true;
+            btnEditarSalvar.Enabled = false;
+            btnEditarSalvar.Visible = false;
         }
 
         protected void InicializeBotoes(EnumTipoDeForm tipoDeForm,
@@ -416,13 +439,26 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                     break;
 
                 case EnumBotoesForm.Excluir:
-                    //Prompt de certeza
-                    using (var servicoDeInteracao = new ServicoDeInteracao())
+                    var resultado = MessageBox.Show($"Tem certeza que deseja excluir essa interação?", "Confirmação", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    if (resultado == DialogResult.Yes)
                     {
-                        //servicoDeInteracao.Exclua();
-                        //Retorno dessa função deve validar se pode excluir
-                        //Se tudo der certo, mensagem de sucesso e fecha
-                        this.Close();
+                        using (var servicoDeInteracao = new ServicoDeInteracao())
+                        {
+                            var inconsistencias = servicoDeInteracao.Exclua(_codigoInteracao);
+
+                            if (inconsistencias.Count > 0)
+                            {
+                                foreach (var inconsitencia in inconsistencias)
+                                {
+                                    MessageBox.Show(inconsitencia.Mensagem);
+                                }
+                            }
+                            else
+                            {
+                                MessageBox.Show("Interação excluída com sucesso!");
+                                this.Close();
+                            }
+                        }
                     }
                     break;
             }

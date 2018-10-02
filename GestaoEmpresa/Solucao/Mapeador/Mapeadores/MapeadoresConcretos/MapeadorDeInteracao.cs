@@ -200,6 +200,18 @@ namespace GS.GestaoEmpresa.Solucao.Mapeador.Mapeadores.MapeadoresConcretos
             }
         }
 
+        public void Exclua(int codigoDaInteracao)
+        {
+            string ComandoSQL =
+                $"DELETE FROM {Tabela} " +
+                $"WHERE CODIGO = {codigoDaInteracao};";
+
+            using (var persistencia = new GSBancoDeDados())
+            {
+                persistencia.ExecuteComando(ComandoSQL);
+            }
+        }
+
         #region IDisposable Support
         private bool disposedValue = false; // To detect redundant calls
 

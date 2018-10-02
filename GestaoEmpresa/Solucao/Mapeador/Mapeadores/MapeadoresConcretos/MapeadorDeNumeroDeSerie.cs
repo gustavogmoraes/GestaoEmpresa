@@ -102,7 +102,6 @@ namespace GS.GestaoEmpresa.Solucao.Mapeador.Mapeadores.MapeadoresConcretos
         {
             string ComandoSQL = String.Format("DELETE FROM {0} WHERE NUMERO = '{1}' AND CODIGO_INTERACAO = {2}",
                                               Tabela,
-                                              Colunas,
                                               numeroDeSerie,
                                               codigoDaInteracao);
 

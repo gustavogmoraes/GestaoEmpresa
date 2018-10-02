@@ -112,13 +112,15 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
                         var valorDoProduto = interacao.TipoDeInteracao == EnumTipoDeInteracao.ENTRADA
                                            ? produtoConsultado.PrecoDeCompra
                                            : produtoConsultado.PrecoDeVenda;
-                        
+
                         // Só devemos criar uma nova vigência, caso o valor seja diferente, senão é desnecessário
                         if (interacao.ValorInteracao != valorDoProduto)
                         {
                             if (interacao.TipoDeInteracao == EnumTipoDeInteracao.ENTRADA)
                             {
                                 produtoConsultado.PrecoDeCompra = interacao.ValorInteracao;
+
+                                produtoConsultado.PrecoDeVenda = Math.Round(produtoConsultado.PrecoDeCompra * (1 + produtoConsultado.PorcentagemDeLucro), 2);
                             }
                             else
                             {
@@ -162,6 +164,56 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
             var numeroDeSaidas = listaDeInteracoes.Where(x => x.TipoDeInteracao == EnumTipoDeInteracao.SAIDA).Count();
 
             return (numeroDeEntradas > numeroDeSaidas);
+        }
+
+        public List<Inconsistencia> Exclua(int codigoDaInteracao)
+        {
+            using (var mapeador = new MapeadorDeInteracao())
+            using (var mapeadorDeNS = new MapeadorDeNumeroDeSerie())
+            using (var servicoDeProduto = new ServicoDeProduto())
+            using (var validador = new ValidadorDeInteracao())
+            {
+                var interacao = Consulte(codigoDaInteracao);
+                var produto = servicoDeProduto.Consulte(interacao.Produto.Codigo);
+
+                var inconsistencias = validador.ValideExclusao(codigoDaInteracao, produto.Codigo);
+                if (inconsistencias.Count > 0)
+                {
+                    return inconsistencias;
+                }
+
+                int quantidadeInterada = 0;
+                int quantidadeInteradaAux = 0;
+
+                switch (interacao.TipoDeInteracao)
+                {
+                    case EnumTipoDeInteracao.ENTRADA:
+                        quantidadeInterada = interacao.QuantidadeInterada * (-1);
+                        break;
+
+                    case EnumTipoDeInteracao.SAIDA:
+                        quantidadeInterada = interacao.QuantidadeInterada;
+                        break;
+
+                    case EnumTipoDeInteracao.BASE_DE_TROCA:
+                        // Entrada
+                        quantidadeInterada = interacao.QuantidadeInterada * (-1);
+
+                        // Saída
+                        quantidadeInteradaAux = interacao.QuantidadeAuxiliar.GetValueOrDefault();
+                        break;
+                }
+
+                var NSs = mapeadorDeNS.ConsulteTodosPorInteracao(codigoDaInteracao);
+                NSs.ForEach(x => mapeadorDeNS.Exclua(x, codigoDaInteracao));
+
+                var novaQuantidade = produto.QuantidadeEmEstoque + quantidadeInterada + quantidadeInteradaAux;
+
+                mapeador.Exclua(codigoDaInteracao);
+                servicoDeProduto.AltereQuantidadeDeProduto(produto.Codigo, novaQuantidade);
+
+                return new List<Inconsistencia>();
+            }
         }
 
         #region IDisposable Support

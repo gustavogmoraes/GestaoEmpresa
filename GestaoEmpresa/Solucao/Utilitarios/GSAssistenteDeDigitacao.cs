@@ -10,20 +10,20 @@ namespace GS.GestaoEmpresa.Solucao.Utilitarios
     public class GSAssistenteDeDigitacao
     {
         public event EventHandler Idled = delegate { };
-        public int WaitingMilliSeconds { get; set; }
-        Timer waitingTimer;
+        public int MilissegundosDeEspera { get; set; }
+        Timer timer;
 
-        public GSAssistenteDeDigitacao(int waitingMilliSeconds = 650)
+        public GSAssistenteDeDigitacao(int milissegundosDeEspera = 650)
         {
-            WaitingMilliSeconds = waitingMilliSeconds;
-            waitingTimer = new Timer(p =>
+            MilissegundosDeEspera = milissegundosDeEspera;
+            timer = new Timer(p =>
             {
                 Idled(this, EventArgs.Empty);
             });
         }
         public void TextChanged()
         {
-            waitingTimer.Change(WaitingMilliSeconds, Timeout.Infinite);
+            timer.Change(MilissegundosDeEspera, Timeout.Infinite);
         }
     }
 }
