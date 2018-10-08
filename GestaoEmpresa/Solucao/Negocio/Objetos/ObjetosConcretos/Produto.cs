@@ -16,44 +16,34 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Objetos.ObjetosConcretos
             Coluna = "STATUS", TipoDeDadoBanco = DbType.Int32)]
         public EnumStatusDoProduto Status { get; set; }
 
-        [PropriedadeBD(
-            Coluna = "NOME", TipoDeDadoBanco = DbType.StringFixedLength, QuantidadeCaracteres = 50)]
+        [PropriedadeBD(Coluna = "NOME", TipoDeDadoBanco = DbType.StringFixedLength, QuantidadeCaracteres = 50)]
         public string Nome { get; set; }
 
-        [PropriedadeBD(
-            Coluna = "FABRICANTE", TipoDeDadoBanco = DbType.StringFixedLength, QuantidadeCaracteres = 50)]
+        [PropriedadeBD(Coluna = "FABRICANTE", TipoDeDadoBanco = DbType.StringFixedLength, QuantidadeCaracteres = 50)]
         public string Fabricante { get; set; }
 
-        [PropriedadeBD(
-            Coluna = "CODIGOFABRICANTE", TipoDeDadoBanco = DbType.StringFixedLength, QuantidadeCaracteres = 50)]
+        [PropriedadeBD(Coluna = "CODIGOFABRICANTE", TipoDeDadoBanco = DbType.StringFixedLength, QuantidadeCaracteres = 50)]
         public string CodigoDoFabricante { get; set; }
 
-        [PropriedadeBD(
-            Coluna = "PRECOCOMPRA", TipoDeDadoBanco = DbType.Decimal)]
+        [PropriedadeBD(Coluna = "PRECOCOMPRA", TipoDeDadoBanco = DbType.Decimal)]
         public decimal PrecoDeCompra { get; set; }
 
-        [PropriedadeBD(
-            Coluna = "PRECOVENDA", TipoDeDadoBanco = DbType.Decimal)]
+        [PropriedadeBD(Coluna = "PRECOVENDA", TipoDeDadoBanco = DbType.Decimal)]
         public decimal PrecoDeVenda { get; set; }
 
-        [PropriedadeBD(
-            Coluna = "PORCENTAGEMLUCRO", TipoDeDadoBanco = DbType.Double)]
+        [PropriedadeBD(Coluna = "PORCENTAGEMLUCRO", TipoDeDadoBanco = DbType.Double)]
         public decimal PorcentagemDeLucro { get; set; }
 
-        [PropriedadeBD(
-            Coluna = "QUANTIDADEESTOQUE", TipoDeDadoBanco = DbType.Int32)]
+        [PropriedadeBD(Coluna = "QUANTIDADEESTOQUE", TipoDeDadoBanco = DbType.Int32)]
         public int QuantidadeEmEstoque { get; set; }
 
-        [PropriedadeBD(
-            Coluna = "AVISARQUANTIDADE", TipoDeDadoBanco = DbType.StringFixedLength, QuantidadeCaracteres = 1)]
+        [PropriedadeBD(Coluna = "AVISARQUANTIDADE", TipoDeDadoBanco = DbType.StringFixedLength, QuantidadeCaracteres = 1)]
         public bool AvisarQuantidade { get; set; }
 
-        [PropriedadeBD(
-            Coluna = "QUANTIDADEMINIMAAVISO", TipoDeDadoBanco = DbType.Int32)]
+        [PropriedadeBD(Coluna = "QUANTIDADEMINIMAAVISO", TipoDeDadoBanco = DbType.Int32)]
         public int QuantidadeMinimaParaAviso { get; set; }
 
-        [PropriedadeBD(
-            Coluna = "AVISARQUANTIDADE", TipoDeDadoBanco = DbType.StringFixedLength, QuantidadeCaracteres = 3000)]
+        [PropriedadeBD(Coluna = "AVISARQUANTIDADE", TipoDeDadoBanco = DbType.StringFixedLength, QuantidadeCaracteres = 3000)]
         public string Observacao { get; set; }
     }
 }

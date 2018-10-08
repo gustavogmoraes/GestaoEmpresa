@@ -46,7 +46,6 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.txtLineHorario = new System.Windows.Forms.Label();
             this.txtLineTipo = new System.Windows.Forms.Label();
             this.txtLineQuantidadeEstoque = new System.Windows.Forms.Label();
-            this.txtHorario = new System.Windows.Forms.TextBox();
             this.txtOrigem = new System.Windows.Forms.TextBox();
             this.lblOrigem = new System.Windows.Forms.Label();
             this.txtLineOrigem = new System.Windows.Forms.Label();
@@ -73,6 +72,8 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.lblQuantidadeAux = new System.Windows.Forms.Label();
             this.txtLineQuantidadeAux = new System.Windows.Forms.Label();
             this.txtQuantidadeAux = new System.Windows.Forms.TextBox();
+            this.dateData = new System.Windows.Forms.DateTimePicker();
+            this.dateHorario = new System.Windows.Forms.DateTimePicker();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.btnEditarSalvar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnCancelarExcluir)).BeginInit();
@@ -206,9 +207,9 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.txtLineHorario.ForeColor = System.Drawing.Color.SteelBlue;
             this.txtLineHorario.Location = new System.Drawing.Point(234, 64);
             this.txtLineHorario.Name = "txtLineHorario";
-            this.txtLineHorario.Size = new System.Drawing.Size(249, 42);
+            this.txtLineHorario.Size = new System.Drawing.Size(270, 42);
             this.txtLineHorario.TabIndex = 86;
-            this.txtLineHorario.Text = "___________";
+            this.txtLineHorario.Text = "____________";
             // 
             // txtLineTipo
             // 
@@ -231,18 +232,6 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.txtLineQuantidadeEstoque.Size = new System.Drawing.Size(123, 42);
             this.txtLineQuantidadeEstoque.TabIndex = 99;
             this.txtLineQuantidadeEstoque.Text = "_____";
-            // 
-            // txtHorario
-            // 
-            this.txtHorario.BackColor = System.Drawing.Color.Silver;
-            this.txtHorario.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtHorario.Enabled = false;
-            this.txtHorario.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtHorario.ForeColor = System.Drawing.Color.Black;
-            this.txtHorario.Location = new System.Drawing.Point(242, 77);
-            this.txtHorario.Name = "txtHorario";
-            this.txtHorario.Size = new System.Drawing.Size(188, 22);
-            this.txtHorario.TabIndex = 101;
             // 
             // txtOrigem
             // 
@@ -543,12 +532,38 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.txtQuantidadeAux.TabIndex = 129;
             this.txtQuantidadeAux.TextChanged += new System.EventHandler(this.txtQuantidadeAux_TextChanged);
             // 
+            // dateData
+            // 
+            this.dateData.CustomFormat = "";
+            this.dateData.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dateData.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.dateData.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.dateData.Location = new System.Drawing.Point(251, 70);
+            this.dateData.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.dateData.Name = "dateData";
+            this.dateData.Size = new System.Drawing.Size(123, 29);
+            this.dateData.TabIndex = 130;
+            // 
+            // dateHorario
+            // 
+            this.dateHorario.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dateHorario.Format = System.Windows.Forms.DateTimePickerFormat.Time;
+            this.dateHorario.Location = new System.Drawing.Point(382, 70);
+            this.dateHorario.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.dateHorario.Name = "dateHorario";
+            this.dateHorario.ShowUpDown = true;
+            this.dateHorario.Size = new System.Drawing.Size(90, 29);
+            this.dateHorario.TabIndex = 131;
+            this.dateHorario.Value = new System.DateTime(2018, 8, 24, 0, 0, 0, 0);
+            // 
             // frmInteracao
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Silver;
             this.ClientSize = new System.Drawing.Size(602, 815);
+            this.Controls.Add(this.dateData);
+            this.Controls.Add(this.dateHorario);
             this.Controls.Add(this.lblQuantidadeAux);
             this.Controls.Add(this.txtQuantidadeAux);
             this.Controls.Add(this.txtLineQuantidadeAux);
@@ -574,7 +589,6 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.Controls.Add(this.txtOrigem);
             this.Controls.Add(this.lblOrigem);
             this.Controls.Add(this.txtLineOrigem);
-            this.Controls.Add(this.txtHorario);
             this.Controls.Add(this.lblVigencia);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.cbTipo);
@@ -613,7 +627,6 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         private System.Windows.Forms.Label txtLineHorario;
         private System.Windows.Forms.Label txtLineTipo;
         private System.Windows.Forms.Label txtLineQuantidadeEstoque;
-        private System.Windows.Forms.TextBox txtHorario;
         private System.Windows.Forms.TextBox txtOrigem;
         private System.Windows.Forms.Label lblOrigem;
         private System.Windows.Forms.Label txtLineOrigem;
@@ -641,5 +654,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         private Label lblQuantidadeAux;
         private Label txtLineQuantidadeAux;
         private TextBox txtQuantidadeAux;
+        private DateTimePicker dateData;
+        private DateTimePicker dateHorario;
     }
 }

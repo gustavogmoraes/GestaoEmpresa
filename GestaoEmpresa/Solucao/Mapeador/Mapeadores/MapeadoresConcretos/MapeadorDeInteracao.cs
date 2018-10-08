@@ -35,7 +35,8 @@ namespace GS.GestaoEmpresa.Solucao.Mapeador.Mapeadores.MapeadoresConcretos
             { "DESTINO", typeof(string) },
             { "NUMERODANOTAFISCAL", typeof(string) },
             { "INFORMA_NUMERO_DE_SERIE", typeof(bool) },
-            { "QUANTIDADE_AUX", typeof(int) }
+            { "QUANTIDADE_AUX", typeof(int) },
+            { "HORARIO_PROGRAMADO", typeof(DateTime) }
         };
 
         private Interacao MonteRetorno(DataTable tabela, int linha)
@@ -65,7 +66,8 @@ namespace GS.GestaoEmpresa.Solucao.Mapeador.Mapeadores.MapeadoresConcretos
                                  ? tabela.Rows[linha]["NUMERODANOTAFISCAL"].ToString() 
                                  : null;
             retorno.InformaNumeroDeSerie = GSUtilitarios.ConvertaValorBooleano(tabela.Rows[linha]["INFORMA_NUMERO_DE_SERIE"].ToString());
-            
+            retorno.HorarioProgramado = (DateTime)tabela.Rows[linha]["HORARIO_PROGRAMADO"];
+
             return retorno;
         }
 
@@ -83,7 +85,8 @@ namespace GS.GestaoEmpresa.Solucao.Mapeador.Mapeadores.MapeadoresConcretos
                    $"'{interacao.Destino ?? "NULL"}', " +
                    $"'{interacao.NumeroDaNota ?? "NULL"}', " +
                    $"'{GSUtilitarios.ConvertaValorBooleano(interacao.InformaNumeroDeSerie)}', " +
-                   $"{(interacao.QuantidadeAuxiliar.HasValue ? interacao.QuantidadeAuxiliar.Value.ToString() : "NULL")}";
+                   $"{(interacao.QuantidadeAuxiliar.HasValue ? interacao.QuantidadeAuxiliar.Value.ToString() : "NULL")}, " +
+                   $" CAST('{GSUtilitarios.FormateDateTimePtBrParaBD(interacao.Horario)}' AS DATETIME2)";
         }
 
         public void Insira(Interacao interacao)

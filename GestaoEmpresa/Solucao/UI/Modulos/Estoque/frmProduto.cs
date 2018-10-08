@@ -49,7 +49,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         }
 
         public frmProduto(Produto produto)
-            {
+        {
             InitializeComponent();
 
             InicializeBotoes(EnumTipoDeForm.Detalhamento);
@@ -170,7 +170,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             txtObservacoes.Text = objeto.Observacao ?? string.Empty;
             txtQuantidadeEmEstoque.Text = objeto.QuantidadeEmEstoque.ToString();
             txtQuantidadeMinima.Text = objeto.QuantidadeMinimaParaAviso.ToString();
-            txtPorcentagemDeLucro.Valor = Math.Round(objeto.PorcentagemDeLucro * 100, 2);
+            txtPorcentagemDeLucro.Valor = objeto.PorcentagemDeLucro * 100;
             txtPrecoDeCompra.Valor = objeto.PrecoDeCompra;
             txtPrecoDeVenda.Valor = objeto.PrecoDeVenda;
             cbStatus.SelectedItem = objeto.Status.ToString();
@@ -188,7 +188,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             produto.Observacao = txtObservacoes.Text.Trim();
             produto.PrecoDeCompra = txtPrecoDeCompra.Valor;
             produto.PrecoDeVenda = txtPrecoDeVenda.Valor;
-            produto.PorcentagemDeLucro = txtPorcentagemDeLucro.Valor;
+            produto.PorcentagemDeLucro = Math.Round(txtPorcentagemDeLucro.Valor / 100, 2);
             produto.Status = cbStatus.SelectedIndex != -1
                            ? (EnumStatusDoProduto)cbStatus.SelectedIndex + 1
                            : EnumStatusDoProduto.Ativo;

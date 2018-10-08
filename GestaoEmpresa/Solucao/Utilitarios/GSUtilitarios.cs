@@ -215,11 +215,11 @@ namespace GS.GestaoEmpresa.Solucao.Utilitarios
         }
 
         /// <summary>
-		/// Encontra a propriedade que é chave no tipo/objeto passado.
-		/// </summary>
-		/// <param name="tipo">Tipo de dado a ser avaliado</param>
-		/// <returns>Retorna o tipo de dado da propriedade marcada com o atributo [Chave].</returns>
-		public static PropertyInfo EncontrePropriedadeChaveDoTipo(Type tipo)
+        /// Encontra a propriedade que é chave no tipo/objeto passado.
+        /// </summary>
+        /// <param name="tipo">Tipo de dado a ser avaliado</param>
+        /// <returns>Retorna o tipo de dado da propriedade marcada com o atributo [Chave].</returns>
+        public static PropertyInfo EncontrePropriedadeChaveDoTipo(Type tipo)
         {
             var propriedadeChave = tipo.GetProperties()
                                        .Where(x => Attribute.IsDefined(x, typeof(PropriedadeBD)))
@@ -385,6 +385,38 @@ namespace GS.GestaoEmpresa.Solucao.Utilitarios
         }
 
         #endregion
+
+        public static DateTime ObtenhaDateTimeCompletoDePickers(
+            DateTimePicker dateDataInicio, DateTimePicker dateHoraInicio)
+        {
+            var dia = dateDataInicio.Value.Day;
+            var mes = dateDataInicio.Value.Month;
+            var ano = dateDataInicio.Value.Year;
+
+            var hora = dateHoraInicio.Value.Hour;
+            var minuto = dateHoraInicio.Value.Minute;
+            var segundo = dateHoraInicio.Value.Second;
+
+            return new DateTime(ano, mes, dia, hora, minuto, segundo);
+        }
+
+        public static DateTime ObtenhaHorario(DateTime horarioProgramado)
+        {
+            var hora = horarioProgramado.Hour;
+            var minuto = horarioProgramado.Minute;
+            var segundo = horarioProgramado.Second;
+
+            return new DateTime(int.MinValue, int.MinValue, int.MinValue, hora, minuto, segundo);
+        }
+
+        public static DateTime ObtenhaData(DateTime horarioProgramado)
+        {
+            var dia = horarioProgramado.Day;
+            var mes = horarioProgramado.Month;
+            var ano = horarioProgramado.Year;
+
+            return new DateTime(ano, mes, dia);
+        }
 
 
         #region TextBox Monetaria

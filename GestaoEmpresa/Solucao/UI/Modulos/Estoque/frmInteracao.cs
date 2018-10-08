@@ -46,7 +46,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             InicializeBotoes(EnumTipoDeForm.Cadastro, ref btnEditarSalvar, ref btnCancelarExcluir, ref _switchBotaoEditarSalvar, ref _switchBotaoCancelarExcluir);
             _tipoDoForm = EnumTipoDeForm.Cadastro;
             cbTipo.Text = "Ativo";
-            txtHorario.Enabled = false;
+            //txtHorario.Enabled = false;
             txtLineHorario.Enabled = false;
         }
 
@@ -197,7 +197,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         public void CarregueControlesComObjeto(Interacao objeto)
         {
             cbTipo.SelectedIndex = (int)objeto.TipoDeInteracao - 1;
-            txtHorario.Text = objeto.Horario.ToString(Cultura);
+            //txtHorario.Text = objeto.Horario.ToString(Cultura);
             txtObservacoes.Text = objeto.Observacao ?? string.Empty;
             txtQuantidade.Text = objeto.QuantidadeInterada.ToString();
             txtQuantidadeAux.Text = (objeto.QuantidadeAuxiliar ?? new int?()).ToString();
@@ -207,6 +207,8 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             cbProduto.Text = objeto.Produto.Nome.Trim();
             chkAtualizar.Checked = objeto.AtualizarValorDoProdutoNoCatalogo;
             txtNumeroDaNotaFiscal.Text = objeto.NumeroDaNota;
+            dateData.Value = GSUtilitarios.ObtenhaData(objeto.HorarioProgramado);
+            dateHorario.Value = GSUtilitarios.ObtenhaHorario(objeto.HorarioProgramado);
 
             if (objeto.InformaNumeroDeSerie)
             {
@@ -249,6 +251,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             interacao.Origem = txtOrigem.Text.Trim();
             interacao.Destino = txtDestino.Text.Trim();
             interacao.NumeroDaNota = txtNumeroDaNotaFiscal.Text.Trim();
+            interacao.HorarioProgramado = GSUtilitarios.ObtenhaDateTimeCompletoDePickers(dateData, dateHorario);
 
             var listaDeProdutos = new List<Produto>();
             using (var servicoDeProduto = new ServicoDeProduto())
@@ -399,7 +402,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                     }
 
                     var horario = DateTime.Now;
-                    txtHorario.Text = horario.ToString(Cultura);
+                    //txtHorario.Text = horario.ToString(Cultura);
 
                     using (var servicoDeInteracao = new ServicoDeInteracao())
                     {

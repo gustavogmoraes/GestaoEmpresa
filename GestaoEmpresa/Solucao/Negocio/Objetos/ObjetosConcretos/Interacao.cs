@@ -18,6 +18,8 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Objetos.ObjetosConcretos
 
         public DateTime Horario { get; set; }
 
+        public DateTime HorarioProgramado { get; set; }
+
         public EnumTipoDeInteracao TipoDeInteracao { get; set; }
 
         public Produto Produto { get; set; }
