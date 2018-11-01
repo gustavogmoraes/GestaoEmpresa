@@ -401,25 +401,6 @@ namespace GS.GestaoEmpresa.Solucao.Utilitarios
             return new DateTime(ano, mes, dia, hora, minuto, segundo);
         }
 
-        public static DateTime ObtenhaHorario(DateTime horarioProgramado)
-        {
-            var hora = horarioProgramado.Hour;
-            var minuto = horarioProgramado.Minute;
-            var segundo = horarioProgramado.Second;
-
-            return new DateTime(int.MinValue, int.MinValue, int.MinValue, hora, minuto, segundo);
-        }
-
-        public static DateTime ObtenhaData(DateTime horarioProgramado)
-        {
-            var dia = horarioProgramado.Day;
-            var mes = horarioProgramado.Month;
-            var ano = horarioProgramado.Year;
-
-            return new DateTime(ano, mes, dia);
-        }
-
-
         #region TextBox Monetaria
 
         public static void AjusteTextBoxMonetaria(ref TextBox textBox)

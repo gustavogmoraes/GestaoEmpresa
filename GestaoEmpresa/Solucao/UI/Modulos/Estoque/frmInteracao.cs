@@ -209,8 +209,8 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             chkAtualizar.Checked = objeto.AtualizarValorDoProdutoNoCatalogo;
             txtNumeroDaNotaFiscal.Text = objeto.NumeroDaNota;
 
-            dateData.Value = GSUtilitarios.ObtenhaData(objeto.HorarioProgramado);
-            dateHorario.Value = GSUtilitarios.ObtenhaHorario(objeto.HorarioProgramado);
+            dateData.Value = objeto.HorarioProgramado;
+            dateHorario.Value = objeto.HorarioProgramado;
 
             if (objeto.InformaNumeroDeSerie)
             {
