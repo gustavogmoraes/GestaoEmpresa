@@ -7,13 +7,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using GS.GestaoEmpresa.Solucao.Mapeador.Mapeadores.MapeadoresConcretos;
 using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores;
-using GS.GestaoEmpresa.Solucao.Negocio.Objetos.ObjetosConcretos;
+using GS.GestaoEmpresa.Solucao.Negocio.Objetos;
 using GS.GestaoEmpresa.Solucao.Negocio.Servicos;
 using GS.GestaoEmpresa.Solucao.Utilitarios;
 using System.Globalization;
-using GS.GestaoEmpresa.Solucao.Mapeador.BancoDeDados;
+using GS.GestaoEmpresa.Solucao.Persistencia.BancoDeDados;
+using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores.Comuns;
 
 namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 {

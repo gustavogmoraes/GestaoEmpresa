@@ -77,7 +77,7 @@
             this.colunaOrigem = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colunaDestino = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colunaDetalharHist = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.ucSessaoSistema2 = new GS.GestaoEmpresa.Solucao.Mapeador.BancoDeDados.UCSessaoSistema();
+            this.ucSessaoSistema2 = new GS.GestaoEmpresa.Solucao.Persistencia.BancoDeDados.UCSessaoSistema();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.tabControl1.SuspendLayout();
             this.tabProdutos.SuspendLayout();
@@ -701,7 +701,7 @@
         private System.Windows.Forms.Button btnCatalogo;
         private System.Windows.Forms.Button btnHistorico;
         private System.Windows.Forms.DataGridView dgvProdutos;
-        private Mapeador.BancoDeDados.UCSessaoSistema ucSessaoSistema1;
+        private Persistencia.BancoDeDados.UCSessaoSistema ucSessaoSistema1;
         private System.Windows.Forms.Button btnNovoProduto;
         private System.Windows.Forms.Label lblPesquisarPor;
         private System.Windows.Forms.ComboBox cbFiltro;
@@ -739,7 +739,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colunaOrigem;
         private System.Windows.Forms.DataGridViewTextBoxColumn colunaDestino;
         private System.Windows.Forms.DataGridViewButtonColumn colunaDetalharHist;
-        private Mapeador.BancoDeDados.UCSessaoSistema ucSessaoSistema2;
+        private Persistencia.BancoDeDados.UCSessaoSistema ucSessaoSistema2;
         private System.Windows.Forms.PictureBox pictureBox2;
     }
 }

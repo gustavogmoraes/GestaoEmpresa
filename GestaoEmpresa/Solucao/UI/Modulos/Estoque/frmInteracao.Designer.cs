@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using GS.GestaoEmpresa.Solucao.Negocio.Objetos.ObjetosConcretos;
+using GS.GestaoEmpresa.Solucao.Negocio.Objetos;
 
 namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 {

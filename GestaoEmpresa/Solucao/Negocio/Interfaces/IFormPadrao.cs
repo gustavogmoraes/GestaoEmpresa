@@ -1,4 +1,4 @@
-﻿using GS.GestaoEmpresa.Solucao.Negocio.Objetos.ObjetosConcretos;
+﻿using GS.GestaoEmpresa.Solucao.Negocio.Objetos;
 using System;
 using System.Collections.Generic;
 using System.Linq;

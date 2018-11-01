@@ -1,6 +1,7 @@
 ﻿using GS.GestaoEmpresa.Solucao.Negocio.Catalogos;
 using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores;
-using GS.GestaoEmpresa.Solucao.Negocio.Objetos.ObjetosConcretos;
+using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores.Comuns;
+using GS.GestaoEmpresa.Solucao.Negocio.Objetos;
 using GS.GestaoEmpresa.Solucao.Negocio.Servicos;
 using GS.GestaoEmpresa.Solucao.Utilitarios;
 using System;

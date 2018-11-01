@@ -1,7 +1,8 @@
 ﻿using GS.GestaoEmpresa.Solucao.Negocio.Catalogos;
 using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores;
+using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores.Comuns;
 using GS.GestaoEmpresa.Solucao.Negocio.Interfaces;
-using GS.GestaoEmpresa.Solucao.Negocio.Objetos.ObjetosConcretos;
+using GS.GestaoEmpresa.Solucao.Negocio.Objetos;
 using GS.GestaoEmpresa.Solucao.Negocio.Servicos;
 using GS.GestaoEmpresa.Solucao.UI.ControlesGenericos;
 using GS.GestaoEmpresa.Solucao.Utilitarios;
@@ -207,6 +208,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             cbProduto.Text = objeto.Produto.Nome.Trim();
             chkAtualizar.Checked = objeto.AtualizarValorDoProdutoNoCatalogo;
             txtNumeroDaNotaFiscal.Text = objeto.NumeroDaNota;
+
             dateData.Value = GSUtilitarios.ObtenhaData(objeto.HorarioProgramado);
             dateHorario.Value = GSUtilitarios.ObtenhaHorario(objeto.HorarioProgramado);
 

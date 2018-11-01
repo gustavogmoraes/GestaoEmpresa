@@ -1,12 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
-using GS.GestaoEmpresa.Solucao.Mapeador.BancoDeDados;
-using GS.GestaoEmpresa.Solucao.Negocio.Objetos.ObjetosConcretos;
+using GS.GestaoEmpresa.Solucao.Persistencia.BancoDeDados;
+using GS.GestaoEmpresa.Solucao.Negocio.Objetos;
 using GS.GestaoEmpresa.Solucao.Utilitarios;
-using GS.GestaoEmpresa.Solucao.Mapeador.Mapeadores.MapeadoresConcretos;
 using GS.GestaoEmpresa.Solucao.Negocio.Catalogos;
 using GS.GestaoEmpresa.Solucao.Negocio.Servicos;
+using GS.GestaoEmpresa.Solucao.Persistencia.Repositorios;
 
 namespace GS.GestaoEmpresa.Solucao.Negocio.Validador
 {
@@ -72,7 +72,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Validador
             var listaDeInconsistencias = new List<Inconsistencia>();
 
             Produto produtoConsultado;
-            using (var mapeadorDeProduto = new MapeadorDeProduto())
+            using (var mapeadorDeProduto = new RepositorioDeProduto())
             {
                 produtoConsultado = mapeadorDeProduto.Consulte(produto.Codigo);
             }
@@ -112,7 +112,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Validador
         private bool EhCadastro(int codigoDoProduto)
         {
             Produto produtoConsultado;
-            using (var mapeadorDeProduto = new MapeadorDeProduto())
+            using (var mapeadorDeProduto = new RepositorioDeProduto())
             {
                 produtoConsultado = mapeadorDeProduto.Consulte(codigoDoProduto);
             }

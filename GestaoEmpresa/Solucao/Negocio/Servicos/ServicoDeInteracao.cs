@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using GS.GestaoEmpresa.Solucao.Negocio.Objetos.ObjetosConcretos;
-using GS.GestaoEmpresa.Solucao.Mapeador.Mapeadores.MapeadoresConcretos;
+using GS.GestaoEmpresa.Solucao.Negocio.Objetos;
 using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores;
 using GS.GestaoEmpresa.Solucao.Negocio.Validador;
+using GS.GestaoEmpresa.Solucao.Persistencia.Repositorios;
+using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores.Comuns;
 
 namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
 {
@@ -15,8 +16,8 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
         public List<Interacao> ConsulteTodasAsInteracoes()
         {
             var listaDeInteracoes = new List<Interacao>();
-            using (var mapeadorDeInteracao = new MapeadorDeInteracao())
-            using (var mapeadorDeNumeroDeSerie = new MapeadorDeNumeroDeSerie())
+            using (var mapeadorDeInteracao = new RepositorioDeInteracao())
+            using (var mapeadorDeNumeroDeSerie = new RepositorioDeNumeroDeSerie())
             {
                 listaDeInteracoes = mapeadorDeInteracao.ConsulteTodasAsInteracoes();
                 
@@ -32,8 +33,8 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
         public List<Interacao> ConsulteTodasAsInteracoesPorProduto(int codigoProduto)
         {
             var listaDeInteracoes = new List<Interacao>();
-            using (var mapeadorDeInteracao = new MapeadorDeInteracao())
-            using (var mapeadorDeNumeroDeSerie = new MapeadorDeNumeroDeSerie())
+            using (var mapeadorDeInteracao = new RepositorioDeInteracao())
+            using (var mapeadorDeNumeroDeSerie = new RepositorioDeNumeroDeSerie())
             {
                 listaDeInteracoes = mapeadorDeInteracao.ConsulteTodasInteracoesPorProduto(codigoProduto);
                 
@@ -49,8 +50,8 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
         public Interacao Consulte(int codigoDaInteracao)
         {
             var interacao = new Interacao();
-            using (var mapeadorDeInteracao = new MapeadorDeInteracao())
-            using (var mapeadorDeNumeroDeSerie = new MapeadorDeNumeroDeSerie())
+            using (var mapeadorDeInteracao = new RepositorioDeInteracao())
+            using (var mapeadorDeNumeroDeSerie = new RepositorioDeNumeroDeSerie())
             {
                 interacao = mapeadorDeInteracao.Consulte(codigoDaInteracao);
                 interacao.NumerosDeSerie = mapeadorDeNumeroDeSerie.ConsulteTodosPorInteracao(codigoDaInteracao);
@@ -70,8 +71,8 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
 
             if (listaDeInconsistencias.Count == 0)
             {
-                using (var mapeadorDeInteracao = new MapeadorDeInteracao())
-                using (var mapeadorDeNumeroDeSerie = new MapeadorDeNumeroDeSerie())
+                using (var mapeadorDeInteracao = new RepositorioDeInteracao())
+                using (var mapeadorDeNumeroDeSerie = new RepositorioDeNumeroDeSerie())
                 using (var servicoDeProduto = new ServicoDeProduto())
                 {
                     interacao.Horario = horario;
@@ -143,7 +144,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
         {
             var listaDeRetorno = new List<Interacao>();
             List<int> codigosDasInteracoes;
-            using (var mapeadorDeNumeroDeSerie = new MapeadorDeNumeroDeSerie())
+            using (var mapeadorDeNumeroDeSerie = new RepositorioDeNumeroDeSerie())
             {
                 codigosDasInteracoes = mapeadorDeNumeroDeSerie.ConsulteTodosOsCodigosDeInteracoesDeUmNumero(numeroDeSerie);
             }
@@ -168,8 +169,8 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
 
         public List<Inconsistencia> Exclua(int codigoDaInteracao)
         {
-            using (var mapeador = new MapeadorDeInteracao())
-            using (var mapeadorDeNS = new MapeadorDeNumeroDeSerie())
+            using (var mapeador = new RepositorioDeInteracao())
+            using (var mapeadorDeNS = new RepositorioDeNumeroDeSerie())
             using (var servicoDeProduto = new ServicoDeProduto())
             using (var validador = new ValidadorDeInteracao())
             {

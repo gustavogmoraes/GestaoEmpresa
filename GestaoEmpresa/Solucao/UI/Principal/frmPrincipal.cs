@@ -1,8 +1,8 @@
 ﻿using GS.GestaoEmpresa.Properties;
-using GS.GestaoEmpresa.Solucao.Mapeador.BancoDeDados;
-using GS.GestaoEmpresa.Solucao.Mapeador.Mapeadores.MapeadoresConcretos;
+using GS.GestaoEmpresa.Solucao.Persistencia.BancoDeDados;
+using GS.GestaoEmpresa.Solucao.Persistencia.Repositorios;
 using GS.GestaoEmpresa.Solucao.Negocio.Catalogos;
-using GS.GestaoEmpresa.Solucao.Negocio.Objetos.ObjetosConcretos;
+using GS.GestaoEmpresa.Solucao.Negocio.Objetos;
 using GS.GestaoEmpresa.Solucao.Negocio.Servicos;
 using GS.GestaoEmpresa.Solucao.UI.Modulos.Configuracoes;
 using GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque;
@@ -66,7 +66,7 @@ namespace GestaoEmpresa.GS.GestaoEmpresa.GS.GestaoEmpresa.UI.Principal
         {
             tabControl1.SelectTab("tabChamador");
 
-            using (var servicoMapeadorUsuario = new MapeadorDeUsuario())
+            using (var servicoMapeadorUsuario = new RepositorioDeUsuario())
             {
                 var usuario = servicoMapeadorUsuario.Consulte(SessaoSistema.CodigoUsuario);
 

@@ -1,11 +1,12 @@
 using System;
 using System.Linq;
 using System.Collections.Generic;
-using GS.GestaoEmpresa.Solucao.Negocio.Objetos.ObjetosConcretos;
-using GS.GestaoEmpresa.Solucao.Mapeador.Mapeadores.MapeadoresConcretos;
+using GS.GestaoEmpresa.Solucao.Negocio.Objetos;
 using GS.GestaoEmpresa.Solucao.Negocio.Catalogos;
 using GS.GestaoEmpresa.Solucao.Negocio.Servicos;
 using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores;
+using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores.Comuns;
+using GS.GestaoEmpresa.Solucao.Persistencia.Repositorios;
 
 namespace GS.GestaoEmpresa.Solucao.Negocio.Validador
 {
@@ -50,25 +51,25 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Validador
 
         private List<Inconsistencia> _listaDeInconsistencias { get; set; }
 
-        private MapeadorDeNumeroDeSerie _mapeadorDeNumeroDeSerie;
+        private RepositorioDeNumeroDeSerie _mapeadorDeNumeroDeSerie;
 
-        private MapeadorDeProduto _mapeadorDeProduto;
+        private RepositorioDeProduto _mapeadorDeProduto;
 
-        private MapeadorDeInteracao _mapeadorDeInteracao;
+        private RepositorioDeInteracao _mapeadorDeInteracao;
         
-        private MapeadorDeNumeroDeSerie MapeadorDeNumeroDeSerie()
+        private RepositorioDeNumeroDeSerie MapeadorDeNumeroDeSerie()
         {
-            return _mapeadorDeNumeroDeSerie ?? (_mapeadorDeNumeroDeSerie = new MapeadorDeNumeroDeSerie());
+            return _mapeadorDeNumeroDeSerie ?? (_mapeadorDeNumeroDeSerie = new RepositorioDeNumeroDeSerie());
         }
 
-        private MapeadorDeProduto MapeadorDeProduto()
+        private RepositorioDeProduto MapeadorDeProduto()
         {
-            return _mapeadorDeProduto ?? (_mapeadorDeProduto = new MapeadorDeProduto());
+            return _mapeadorDeProduto ?? (_mapeadorDeProduto = new RepositorioDeProduto());
         }
 
-        private MapeadorDeInteracao MapeadorDeInteracao()
+        private RepositorioDeInteracao MapeadorDeInteracao()
         {
-            return _mapeadorDeInteracao ?? (_mapeadorDeInteracao = new MapeadorDeInteracao());
+            return _mapeadorDeInteracao ?? (_mapeadorDeInteracao = new RepositorioDeInteracao());
         }
 
         public List<Inconsistencia> ValideExclusao(int codigoInteracao, int codigoProduto)

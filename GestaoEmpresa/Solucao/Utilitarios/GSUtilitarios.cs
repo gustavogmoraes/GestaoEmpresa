@@ -6,11 +6,12 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Reflection;
 using System.Collections;
-using GS.GestaoEmpresa.Solucao.Negocio.Objetos.Atributos;
 using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores;
 using System.Windows.Forms;
 using System.Net.Sockets;
 using System.Net;
+using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores.Comuns;
+using GS.GestaoEmpresa.Solucao.Negocio.Atributos;
 
 namespace GS.GestaoEmpresa.Solucao.Utilitarios
 {
@@ -496,7 +497,7 @@ namespace GS.GestaoEmpresa.Solucao.Utilitarios
         /// <returns>Retorna uma lista dos dados da string Multivalor</returns>
         public static List<dynamic> ConvertaDadoMultivalorLista(string dado)
         {
-            const string NAMESPACE_OBJETOS_CONCRETOS = "GestaoEmpresa.GS.GestaoEmpresa.GS.GestaoEmpresa.Negocio.Objetos.ObjetosConcretos";
+            const string NAMESPACE_OBJETOS_CONCRETOS = "GestaoEmpresa.GS.GestaoEmpresa.GS.GestaoEmpresa.Negocio.Objetos";
 
             var nomeTipoMultivalor = ObtenhaValorEntreStrings(dado, "Multivalor(", ")");
             Object tipoMultivalor = Activator.CreateInstance(null,
@@ -517,7 +518,7 @@ namespace GS.GestaoEmpresa.Solucao.Utilitarios
 
         //public static string ConvertaDadoMultivalorLista(string dado, bool semLista)
         //{
-        //	const string NAMESPACE_OBJETOS_CONCRETOS = "GestaoEmpresa.GS.GestaoEmpresa.GS.GestaoEmpresa.Negocio.Objetos.ObjetosConcretos";
+        //	const string NAMESPACE_OBJETOS_CONCRETOS = "GestaoEmpresa.GS.GestaoEmpresa.GS.GestaoEmpresa.Negocio.Objetos";
 
         //	var nomeTipoMultivalor = ObtenhaValorEntreStrings(dado, "MultivalorSemLista(", ")");
         //	Object tipoMultivalor = Activator.CreateInstance(null,

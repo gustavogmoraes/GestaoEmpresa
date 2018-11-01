@@ -1,6 +1,7 @@
-﻿using GS.GestaoEmpresa.Solucao.Mapeador.Mapeadores.MapeadoresConcretos;
+﻿using GS.GestaoEmpresa.Solucao.Persistencia.Repositorios;
 using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores;
-using GS.GestaoEmpresa.Solucao.Negocio.Objetos.ObjetosConcretos;
+using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores.Comuns;
+using GS.GestaoEmpresa.Solucao.Negocio.Objetos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +14,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
     {
         public void CrieUsuarioAdministrador()
         {
-            using (var mapeadorDeUsuario = new MapeadorDeUsuario())
+            using (var mapeadorDeUsuario = new RepositorioDeUsuario())
             {
                 mapeadorDeUsuario.Insira(
                     new Usuario
@@ -30,7 +31,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
         {
             Usuario usuario;
 
-            using (var mapeadorDeUsuario = new MapeadorDeUsuario())
+            using (var mapeadorDeUsuario = new RepositorioDeUsuario())
             {
                 usuario = mapeadorDeUsuario.Consulte(nome);
             }
