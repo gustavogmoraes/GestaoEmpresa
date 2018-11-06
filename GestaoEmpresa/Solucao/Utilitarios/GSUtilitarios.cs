@@ -260,9 +260,9 @@ namespace GS.GestaoEmpresa.Solucao.Utilitarios
 		/// </summary>
 		/// <param name="lista">Lista</param>
 		/// <returns>Retorna o tipo da lista.</returns>
-		public static Type ObtenhaTipoLista<T>(List<T> lista)
+		public static Type ObtenhaTipoLista(IList lista)
         {
-            return typeof(T);
+            return lista.GetType().GetProperty("Item").PropertyType;
         }
 
         /// <summary>
