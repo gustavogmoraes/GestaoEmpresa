@@ -89,7 +89,16 @@ namespace GS.GestaoEmpresa.Solucao.Utilitarios
 
 
         #region Utilitários p/ Criação de Objetos
+	
+	
+	// Obtém o Type dos Itens de um GenericType
+	//var tipoDosElementosDaLista = propriedade.PropertyType.GetGenericArguments().SingleOrDefault();
 
+	//// Obtém o Type através da instância de um GenericType
+	//var tipoGenerico = propriedade.PropertyType;
+	//var instanciaDoTipoGenerico = Activator.CreateInstance(tipoGenerico);
+	//var tipoDosElementosDoTipoGenerico = ((IList)instanciaDoTipoGenerico).GetCollectionElementType();
+	
         /// <summary>
         /// Cria uma lista do tipo passado
         /// </summary>
