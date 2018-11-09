@@ -109,6 +109,11 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
                     {
                         mapeadorDeProduto.InsiraNaTabelaQuantidade(produto.Codigo);
                     }
+                    
+                    if(tipoDoForm == EnumTipoDeForm.Edicao)
+                    {
+                        AltereQuantidadeDeProduto(produto.Codigo, produto.QuantidadeEmEstoque);
+                    }
                 }
             }
 
