@@ -301,8 +301,8 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                     btnEditarSalvar.Image = Properties.Resources.floppy_icon;
                     _switchBotaoEditarSalvar = EnumBotoesForm.Salvar;
 
-                    txtLineQuantidadeEstoque.Enabled = false;
-                    txtQuantidadeEmEstoque.Enabled = false;
+                    txtLineQuantidadeEstoque.Enabled = true;
+                    txtQuantidadeEmEstoque.Enabled = true;
 
                     break;
 
