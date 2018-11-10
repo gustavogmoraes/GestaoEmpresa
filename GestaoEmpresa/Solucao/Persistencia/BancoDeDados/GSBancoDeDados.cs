@@ -35,8 +35,11 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.BancoDeDados
             {
                 _informacoesConexao = SessaoSistema.InformacoesConexao;
 
-                // Configuração
-                DefinaStringDeConexao(_informacoesConexao.Servidor, _informacoesConexao.NomeBanco, _informacoesConexao.Usuario, _informacoesConexao.Senha);
+                if (_informacoesConexao != null)
+                {
+                    // Configuração
+                    DefinaStringDeConexao(_informacoesConexao.Servidor, _informacoesConexao.NomeBanco, _informacoesConexao.Usuario, _informacoesConexao.Senha);
+                }
             }
             try
             {

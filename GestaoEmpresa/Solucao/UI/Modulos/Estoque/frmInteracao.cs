@@ -47,8 +47,9 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             InicializeBotoes(EnumTipoDeForm.Cadastro, ref btnEditarSalvar, ref btnCancelarExcluir, ref _switchBotaoEditarSalvar, ref _switchBotaoCancelarExcluir);
             _tipoDoForm = EnumTipoDeForm.Cadastro;
             cbTipo.Text = "Ativo";
-            //txtHorario.Enabled = false;
-            txtLineHorario.Enabled = false;
+            
+            txtLineHorario.Enabled = true;
+            dateHorario.Value = DateTime.Now;
         }
 
         public frmInteracao(Interacao interacao)
@@ -109,6 +110,12 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
             txtDestino.Enabled = false;
             txtLineDestino.Enabled = false;
+
+            dateHorario.Enabled = false;
+            dateData.Enabled = false;
+
+            chkAtualizar.Enabled = false;
+            chkInformarNumeroDeSerie.Enabled = false;
 
             foreach(Control controle in flpNumerosDeSerie.Controls)
             {
@@ -198,7 +205,6 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         public void CarregueControlesComObjeto(Interacao objeto)
         {
             cbTipo.SelectedIndex = (int)objeto.TipoDeInteracao - 1;
-            //txtHorario.Text = objeto.Horario.ToString(Cultura);
             txtObservacoes.Text = objeto.Observacao ?? string.Empty;
             txtQuantidade.Text = objeto.QuantidadeInterada.ToString();
             txtQuantidadeAux.Text = (objeto.QuantidadeAuxiliar ?? new int?()).ToString();

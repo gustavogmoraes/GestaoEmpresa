@@ -56,7 +56,6 @@ C:\Users\Almoxarifado\Documents\GitHub\GestaoEmpresa\GestaoEmpresa\bin\Debug\GS.
 C:\Users\Almoxarifado\Documents\GitHub\GestaoEmpresa\GestaoEmpresa\bin\Debug\GS.GestaoEmpresa.exe
 C:\Users\Almoxarifado\Documents\GitHub\GestaoEmpresa\GestaoEmpresa\bin\Debug\GS.GestaoEmpresa.pdb
 C:\Users\Almoxarifado\Documents\GitHub\GestaoEmpresa\GestaoEmpresa\obj\Debug\GS.GestaoEmpresa.csprojAssemblyReference.cache
-C:\Users\Almoxarifado\Documents\GitHub\GestaoEmpresa\GestaoEmpresa\obj\Debug\GS.GestaoEmpresa.Solucao.Mapeador.BancoDeDados.UCSessaoSistema.resources
 C:\Users\Almoxarifado\Documents\GitHub\GestaoEmpresa\GestaoEmpresa\obj\Debug\GS.GestaoEmpresa.Solucao.UI.ControlesGenericos.GSMultiTextBox.resources
 C:\Users\Almoxarifado\Documents\GitHub\GestaoEmpresa\GestaoEmpresa\obj\Debug\GS.GestaoEmpresa.Solucao.UI.ControlesGenericos.GSTextBoxMonetaria.resources
 C:\Users\Almoxarifado\Documents\GitHub\GestaoEmpresa\GestaoEmpresa\obj\Debug\GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque.frmEstoque.resources
@@ -103,3 +102,4 @@ C:\Users\Hyago e Juliana\Documents\GitHub\GestaoEmpresa\GestaoEmpresa\obj\Debug\
 C:\Users\Hyago e Juliana\Documents\GitHub\GestaoEmpresa\GestaoEmpresa\obj\Debug\GS.GestaoEmpresa.csproj.CoreCompileInputs.cache
 C:\Users\Hyago e Juliana\Documents\GitHub\GestaoEmpresa\GestaoEmpresa\obj\Debug\GS.GestaoEmpresa.exe
 C:\Users\Hyago e Juliana\Documents\GitHub\GestaoEmpresa\GestaoEmpresa\obj\Debug\GS.GestaoEmpresa.pdb
+C:\Users\Almoxarifado\Documents\GitHub\GestaoEmpresa\GestaoEmpresa\obj\Debug\GS.GestaoEmpresa.Solucao.Persistencia.BancoDeDados.UCSessaoSistema.resources

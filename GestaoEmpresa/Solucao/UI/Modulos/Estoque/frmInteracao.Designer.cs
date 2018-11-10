@@ -57,7 +57,6 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.cbProduto = new System.Windows.Forms.ComboBox();
             this.chkAtualizar = new System.Windows.Forms.CheckBox();
             this.flpNumerosDeSerie = new System.Windows.Forms.FlowLayoutPanel();
-            this.GSMultiTextBox = new GS.GestaoEmpresa.Solucao.UI.ControlesGenericos.GSMultiTextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
@@ -68,12 +67,13 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.txtObservacoes = new System.Windows.Forms.TextBox();
             this.lblObservacoes = new System.Windows.Forms.Label();
             this.txtLineObservacoes = new System.Windows.Forms.Label();
-            this.GStxtValor = new GS.GestaoEmpresa.Solucao.UI.ControlesGenericos.GSTextBoxMonetaria();
             this.lblQuantidadeAux = new System.Windows.Forms.Label();
             this.txtLineQuantidadeAux = new System.Windows.Forms.Label();
             this.txtQuantidadeAux = new System.Windows.Forms.TextBox();
             this.dateData = new System.Windows.Forms.DateTimePicker();
             this.dateHorario = new System.Windows.Forms.DateTimePicker();
+            this.GStxtValor = new GS.GestaoEmpresa.Solucao.UI.ControlesGenericos.GSTextBoxMonetaria();
+            this.GSMultiTextBox = new GS.GestaoEmpresa.Solucao.UI.ControlesGenericos.GSMultiTextBox();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.btnEditarSalvar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnCancelarExcluir)).BeginInit();
@@ -205,11 +205,11 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.txtLineHorario.Enabled = false;
             this.txtLineHorario.Font = new System.Drawing.Font("Microsoft Sans Serif", 27.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtLineHorario.ForeColor = System.Drawing.Color.SteelBlue;
-            this.txtLineHorario.Location = new System.Drawing.Point(234, 64);
+            this.txtLineHorario.Location = new System.Drawing.Point(235, 64);
             this.txtLineHorario.Name = "txtLineHorario";
-            this.txtLineHorario.Size = new System.Drawing.Size(270, 42);
+            this.txtLineHorario.Size = new System.Drawing.Size(228, 42);
             this.txtLineHorario.TabIndex = 86;
-            this.txtLineHorario.Text = "____________";
+            this.txtLineHorario.Text = "__________";
             // 
             // txtLineTipo
             // 
@@ -363,15 +363,6 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.flpNumerosDeSerie.Size = new System.Drawing.Size(484, 125);
             this.flpNumerosDeSerie.TabIndex = 115;
             // 
-            // GSMultiTextBox
-            // 
-            this.GSMultiTextBox.BackColor = System.Drawing.Color.Silver;
-            this.GSMultiTextBox.Location = new System.Drawing.Point(3, 3);
-            this.GSMultiTextBox.Name = "GSMultiTextBox";
-            this.GSMultiTextBox.Size = new System.Drawing.Size(451, 32);
-            this.GSMultiTextBox.TabIndex = 0;
-            this.GSMultiTextBox.Texto = "";
-            // 
             // label1
             // 
             this.label1.AutoSize = true;
@@ -484,19 +475,6 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.txtLineObservacoes.TabIndex = 125;
             this.txtLineObservacoes.Text = "__________________________";
             // 
-            // GStxtValor
-            // 
-            this.GStxtValor.BackColor = System.Drawing.Color.Silver;
-            this.GStxtValor.Location = new System.Drawing.Point(279, 473);
-            this.GStxtValor.Name = "GStxtValor";
-            this.GStxtValor.Size = new System.Drawing.Size(153, 36);
-            this.GStxtValor.TabIndex = 121;
-            this.GStxtValor.Valor = new decimal(new int[] {
-            0,
-            0,
-            0,
-            131072});
-            // 
             // lblQuantidadeAux
             // 
             this.lblQuantidadeAux.AutoSize = true;
@@ -538,7 +516,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.dateData.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dateData.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.dateData.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.dateData.Location = new System.Drawing.Point(251, 70);
+            this.dateData.Location = new System.Drawing.Point(248, 70);
             this.dateData.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.dateData.Name = "dateData";
             this.dateData.Size = new System.Drawing.Size(123, 29);
@@ -546,15 +524,38 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             // 
             // dateHorario
             // 
+            this.dateHorario.CustomFormat = "HH:mm";
             this.dateHorario.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dateHorario.Format = System.Windows.Forms.DateTimePickerFormat.Time;
-            this.dateHorario.Location = new System.Drawing.Point(382, 70);
+            this.dateHorario.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dateHorario.Location = new System.Drawing.Point(381, 70);
             this.dateHorario.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.dateHorario.Name = "dateHorario";
             this.dateHorario.ShowUpDown = true;
-            this.dateHorario.Size = new System.Drawing.Size(90, 29);
+            this.dateHorario.Size = new System.Drawing.Size(66, 29);
             this.dateHorario.TabIndex = 131;
             this.dateHorario.Value = new System.DateTime(2018, 8, 24, 0, 0, 0, 0);
+            // 
+            // GStxtValor
+            // 
+            this.GStxtValor.BackColor = System.Drawing.Color.Silver;
+            this.GStxtValor.Location = new System.Drawing.Point(279, 473);
+            this.GStxtValor.Name = "GStxtValor";
+            this.GStxtValor.Size = new System.Drawing.Size(153, 36);
+            this.GStxtValor.TabIndex = 121;
+            this.GStxtValor.Valor = new decimal(new int[] {
+            0,
+            0,
+            0,
+            131072});
+            // 
+            // GSMultiTextBox
+            // 
+            this.GSMultiTextBox.BackColor = System.Drawing.Color.Silver;
+            this.GSMultiTextBox.Location = new System.Drawing.Point(3, 3);
+            this.GSMultiTextBox.Name = "GSMultiTextBox";
+            this.GSMultiTextBox.Size = new System.Drawing.Size(451, 32);
+            this.GSMultiTextBox.TabIndex = 0;
+            this.GSMultiTextBox.Texto = "";
             // 
             // frmInteracao
             // 

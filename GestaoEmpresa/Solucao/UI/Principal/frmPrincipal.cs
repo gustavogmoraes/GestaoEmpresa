@@ -96,10 +96,17 @@ namespace GestaoEmpresa.GS.GestaoEmpresa.GS.GestaoEmpresa.UI.Principal
 
         public void DefinaLabelsIPs()
         {
-            //SessaoSistema.BusqueConfiguracoesConexaoDoArquivo(DIRETORIO_LOCAL, NOME_ARQUIVO_CONFIGURACOES_BANCO);
+            if (SessaoSistema.InformacoesConexao == null)
+            {
+                SessaoSistema.BusqueConfiguracoesConexaoDoArquivo(DIRETORIO_LOCAL, NOME_ARQUIVO_CONFIGURACOES_BANCO);
+            }
 
             lblIpApp.Text = GSUtilitarios.ObtenhaIPLocal();
-            lblIpBanco.Text = SessaoSistema.InformacoesConexao.Servidor;
+
+            if (SessaoSistema.InformacoesConexao != null)
+            {
+                lblIpBanco.Text = SessaoSistema.InformacoesConexao.Servidor;
+            }
         }
 
         public void InicieVerificacaoParaAtualizarStatusDeConexao()

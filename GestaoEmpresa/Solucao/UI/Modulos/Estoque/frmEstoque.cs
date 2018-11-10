@@ -115,8 +115,8 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                 var indice = interacao.Horario.ToString(Cultura).Length - 3;
 
                 dgvHistorico.Rows.Add(interacao.Codigo,
-                                      interacao.Horario.ToString(Cultura)
-                                                       .Remove(indice, 3),
+                                      interacao.HorarioProgramado.ToString(Cultura)
+                                                                 .Remove(indice, 3),
                                       GSUtilitarios.ConvertaEnumeradorParaString(interacao.TipoDeInteracao),
                                       interacao.Produto.Nome,
                                       interacao.Observacao,
