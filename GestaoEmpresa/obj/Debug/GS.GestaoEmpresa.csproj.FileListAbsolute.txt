@@ -68,23 +68,6 @@ C:\Users\Almoxarifado\Documents\GitHub\GestaoEmpresa\GestaoEmpresa\obj\Debug\GS.
 C:\Users\Almoxarifado\Documents\GitHub\GestaoEmpresa\GestaoEmpresa\obj\Debug\GS.GestaoEmpresa.csproj.CoreCompileInputs.cache
 C:\Users\Almoxarifado\Documents\GitHub\GestaoEmpresa\GestaoEmpresa\obj\Debug\GS.GestaoEmpresa.exe
 C:\Users\Almoxarifado\Documents\GitHub\GestaoEmpresa\GestaoEmpresa\obj\Debug\GS.GestaoEmpresa.pdb
-D:\ProjetosVS\GestaoEmpresa\GestaoEmpresa\obj\Debug\GS.GestaoEmpresa.Solucao.UI.ControlesGenericos.GSMultiTextBox.resources
-D:\ProjetosVS\GestaoEmpresa\GestaoEmpresa\obj\Debug\GS.GestaoEmpresa.Solucao.UI.ControlesGenericos.GSTextBoxMonetaria.resources
-D:\ProjetosVS\GestaoEmpresa\GestaoEmpresa\obj\Debug\GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque.frmEstoque.resources
-D:\ProjetosVS\GestaoEmpresa\GestaoEmpresa\obj\Debug\GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque.frmInteracao.resources
-D:\ProjetosVS\GestaoEmpresa\GestaoEmpresa\obj\Debug\GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque.frmProduto.resources
-D:\ProjetosVS\GestaoEmpresa\GestaoEmpresa\obj\Debug\GestaoEmpresa.GS.GestaoEmpresa.GS.GestaoEmpresa.UI.Principal.frmPrincipal.resources
-D:\ProjetosVS\GestaoEmpresa\GestaoEmpresa\obj\Debug\GS.GestaoEmpresa.Properties.Resources.resources
-D:\ProjetosVS\GestaoEmpresa\GestaoEmpresa\obj\Debug\GS.GestaoEmpresa.Solucao.UI.Modulos.Configuracoes.frmConfiguracoes.resources
-D:\ProjetosVS\GestaoEmpresa\GestaoEmpresa\obj\Debug\GS.GestaoEmpresa.csproj.GenerateResource.cache
-D:\ProjetosVS\GestaoEmpresa\GestaoEmpresa\obj\Debug\GS.GestaoEmpresa.csproj.CoreCompileInputs.cache
-D:\ProjetosVS\GestaoEmpresa\GestaoEmpresa\bin\Debug\GS.GestaoEmpresa.exe.config
-D:\ProjetosVS\GestaoEmpresa\GestaoEmpresa\bin\Debug\GS.GestaoEmpresa.exe
-D:\ProjetosVS\GestaoEmpresa\GestaoEmpresa\bin\Debug\GS.GestaoEmpresa.pdb
-D:\ProjetosVS\GestaoEmpresa\GestaoEmpresa\obj\Debug\GS.GestaoEmpresa.exe
-D:\ProjetosVS\GestaoEmpresa\GestaoEmpresa\obj\Debug\GS.GestaoEmpresa.pdb
-D:\ProjetosVS\GestaoEmpresa\GestaoEmpresa\obj\Debug\GS.GestaoEmpresa.Solucao.Persistencia.BancoDeDados.UCSessaoSistema.resources
-D:\ProjetosVS\GestaoEmpresa\GestaoEmpresa\obj\Debug\GS.GestaoEmpresa.csprojAssemblyReference.cache
 C:\Users\Hyago e Juliana\Documents\GitHub\GestaoEmpresa\GestaoEmpresa\bin\Debug\GS.GestaoEmpresa.exe.config
 C:\Users\Hyago e Juliana\Documents\GitHub\GestaoEmpresa\GestaoEmpresa\bin\Debug\GS.GestaoEmpresa.exe
 C:\Users\Hyago e Juliana\Documents\GitHub\GestaoEmpresa\GestaoEmpresa\bin\Debug\GS.GestaoEmpresa.pdb
@@ -103,3 +86,21 @@ C:\Users\Hyago e Juliana\Documents\GitHub\GestaoEmpresa\GestaoEmpresa\obj\Debug\
 C:\Users\Hyago e Juliana\Documents\GitHub\GestaoEmpresa\GestaoEmpresa\obj\Debug\GS.GestaoEmpresa.exe
 C:\Users\Hyago e Juliana\Documents\GitHub\GestaoEmpresa\GestaoEmpresa\obj\Debug\GS.GestaoEmpresa.pdb
 C:\Users\Almoxarifado\Documents\GitHub\GestaoEmpresa\GestaoEmpresa\obj\Debug\GS.GestaoEmpresa.Solucao.Persistencia.BancoDeDados.UCSessaoSistema.resources
+D:\ProjetosVS\GestaoEmpresa\GestaoEmpresa\bin\Debug\GS.GestaoEmpresa.exe.config
+D:\ProjetosVS\GestaoEmpresa\GestaoEmpresa\bin\Debug\GS.GestaoEmpresa.exe
+D:\ProjetosVS\GestaoEmpresa\GestaoEmpresa\bin\Debug\GS.GestaoEmpresa.pdb
+D:\ProjetosVS\GestaoEmpresa\GestaoEmpresa\obj\Debug\GS.GestaoEmpresa.Solucao.Persistencia.BancoDeDados.UCSessaoSistema.resources
+D:\ProjetosVS\GestaoEmpresa\GestaoEmpresa\obj\Debug\GS.GestaoEmpresa.Solucao.UI.ControlesGenericos.GSMultiTextBox.resources
+D:\ProjetosVS\GestaoEmpresa\GestaoEmpresa\obj\Debug\GS.GestaoEmpresa.Solucao.UI.ControlesGenericos.GSTextBoxMonetaria.resources
+D:\ProjetosVS\GestaoEmpresa\GestaoEmpresa\obj\Debug\GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque.frmEstoque.resources
+D:\ProjetosVS\GestaoEmpresa\GestaoEmpresa\obj\Debug\GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque.frmProduto.resources
+D:\ProjetosVS\GestaoEmpresa\GestaoEmpresa\obj\Debug\GestaoEmpresa.GS.GestaoEmpresa.GS.GestaoEmpresa.UI.Principal.frmPrincipal.resources
+D:\ProjetosVS\GestaoEmpresa\GestaoEmpresa\obj\Debug\GS.GestaoEmpresa.Properties.Resources.resources
+D:\ProjetosVS\GestaoEmpresa\GestaoEmpresa\obj\Debug\GS.GestaoEmpresa.Solucao.UI.Modulos.Configuracoes.frmConfiguracoes.resources
+D:\ProjetosVS\GestaoEmpresa\GestaoEmpresa\obj\Debug\GS.GestaoEmpresa.csproj.GenerateResource.cache
+D:\ProjetosVS\GestaoEmpresa\GestaoEmpresa\obj\Debug\GS.GestaoEmpresa.csproj.CoreCompileInputs.cache
+D:\ProjetosVS\GestaoEmpresa\GestaoEmpresa\obj\Debug\GS.GestaoEmpresa.exe
+D:\ProjetosVS\GestaoEmpresa\GestaoEmpresa\obj\Debug\GS.GestaoEmpresa.pdb
+D:\ProjetosVS\GestaoEmpresa\GestaoEmpresa\obj\Debug\GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque.frmInteracao.resources
+D:\ProjetosVS\GestaoEmpresa\GestaoEmpresa\obj\Debug\GS.GestaoEmpresa.csprojAssemblyReference.cache
+D:\ProjetosVS\GestaoEmpresa\GestaoEmpresa\obj\Debug\GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque.frmInteracaoMultipla.resources

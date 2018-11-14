@@ -539,5 +539,10 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                 new frmInteracao(interacao).Show();
             }
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            new frmInteracaoMultipla().Show();
+        }
     }
 }
