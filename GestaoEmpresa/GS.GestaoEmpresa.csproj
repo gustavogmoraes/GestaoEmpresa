@@ -137,17 +137,29 @@
     <Compile Include="Solucao\UI\Modulos\Estoque\frmInteracao.Designer.cs">
       <DependentUpon>frmInteracao.cs</DependentUpon>
     </Compile>
-    <Compile Include="Solucao\UI\Modulos\Estoque\frmInteracaoMultipla.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Solucao\UI\Modulos\Estoque\frmInteracaoMultipla.Designer.cs">
-      <DependentUpon>frmInteracaoMultipla.cs</DependentUpon>
-    </Compile>
     <Compile Include="Solucao\UI\Modulos\Estoque\frmProduto.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Solucao\UI\Modulos\Estoque\frmProduto.Designer.cs">
       <DependentUpon>frmProduto.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Solucao\UI\Modulos\Tecnico\frmEntradaLab.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Solucao\UI\Modulos\Tecnico\frmEntradaLab.Designer.cs">
+      <DependentUpon>frmEntradaLab.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Solucao\UI\Modulos\Tecnico\frmEntradaLabProduto.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Solucao\UI\Modulos\Tecnico\frmEntradaLabProduto.Designer.cs">
+      <DependentUpon>frmEntradaLabProduto.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Solucao\UI\Modulos\Tecnico\frmTecnico.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Solucao\UI\Modulos\Tecnico\frmTecnico.Designer.cs">
+      <DependentUpon>frmTecnico.cs</DependentUpon>
     </Compile>
     <Compile Include="Solucao\UI\Principal\frmPrincipal.cs">
       <SubType>Form</SubType>
@@ -176,11 +188,17 @@
     <EmbeddedResource Include="Solucao\UI\Modulos\Estoque\frmInteracao.resx">
       <DependentUpon>frmInteracao.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Solucao\UI\Modulos\Estoque\frmInteracaoMultipla.resx">
-      <DependentUpon>frmInteracaoMultipla.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Solucao\UI\Modulos\Estoque\frmProduto.resx">
       <DependentUpon>frmProduto.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Solucao\UI\Modulos\Tecnico\frmEntradaLab.resx">
+      <DependentUpon>frmEntradaLab.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Solucao\UI\Modulos\Tecnico\frmEntradaLabProduto.resx">
+      <DependentUpon>frmEntradaLabProduto.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Solucao\UI\Modulos\Tecnico\frmTecnico.resx">
+      <DependentUpon>frmTecnico.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Solucao\UI\Principal\frmPrincipal.resx">
       <DependentUpon>frmPrincipal.cs</DependentUpon>
@@ -271,13 +289,7 @@
     <None Include="Resources\SemConexao.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\addMultiplo.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\addMultiplo1.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\addMultiplo2.png" />
+    <None Include="Resources\TenicoBlueCerto2.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -35,9 +35,9 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         {
             this.lblVigencia = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.btnEditarSalvar = new System.Windows.Forms.PictureBox();
             this.btnCancelarExcluir = new System.Windows.Forms.PictureBox();
             this.lblInteracoes = new System.Windows.Forms.Label();
+            this.btnEditarSalvar = new System.Windows.Forms.PictureBox();
             this.cbTipo = new System.Windows.Forms.ComboBox();
             this.lblStatus = new System.Windows.Forms.Label();
             this.txtQuantidade = new System.Windows.Forms.TextBox();
@@ -57,6 +57,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.cbProduto = new System.Windows.Forms.ComboBox();
             this.chkAtualizar = new System.Windows.Forms.CheckBox();
             this.flpNumerosDeSerie = new System.Windows.Forms.FlowLayoutPanel();
+            this.GSMultiTextBox = new GS.GestaoEmpresa.Solucao.UI.ControlesGenericos.GSMultiTextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
@@ -73,10 +74,9 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.dateData = new System.Windows.Forms.DateTimePicker();
             this.dateHorario = new System.Windows.Forms.DateTimePicker();
             this.GStxtValor = new GS.GestaoEmpresa.Solucao.UI.ControlesGenericos.GSTextBoxMonetaria();
-            this.GSMultiTextBox = new GS.GestaoEmpresa.Solucao.UI.ControlesGenericos.GSMultiTextBox();
             this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.btnEditarSalvar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnCancelarExcluir)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btnEditarSalvar)).BeginInit();
             this.flpNumerosDeSerie.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -95,25 +95,13 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             // 
             this.panel1.BackColor = System.Drawing.Color.SteelBlue;
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel1.Controls.Add(this.btnEditarSalvar);
             this.panel1.Controls.Add(this.btnCancelarExcluir);
             this.panel1.Controls.Add(this.lblInteracoes);
+            this.panel1.Controls.Add(this.btnEditarSalvar);
             this.panel1.Location = new System.Drawing.Point(-1, -2);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(609, 40);
             this.panel1.TabIndex = 83;
-            // 
-            // btnEditarSalvar
-            // 
-            this.btnEditarSalvar.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnEditarSalvar.InitialImage = null;
-            this.btnEditarSalvar.Location = new System.Drawing.Point(525, 4);
-            this.btnEditarSalvar.Name = "btnEditarSalvar";
-            this.btnEditarSalvar.Size = new System.Drawing.Size(32, 30);
-            this.btnEditarSalvar.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.btnEditarSalvar.TabIndex = 36;
-            this.btnEditarSalvar.TabStop = false;
-            this.btnEditarSalvar.Click += new System.EventHandler(this.btnEditarSalvar_Click);
             // 
             // btnCancelarExcluir
             // 
@@ -138,6 +126,18 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.lblInteracoes.Size = new System.Drawing.Size(465, 29);
             this.lblInteracoes.TabIndex = 0;
             this.lblInteracoes.Text = "Consulta e Cadastro de Entradas e Saídas";
+            // 
+            // btnEditarSalvar
+            // 
+            this.btnEditarSalvar.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnEditarSalvar.InitialImage = null;
+            this.btnEditarSalvar.Location = new System.Drawing.Point(525, 4);
+            this.btnEditarSalvar.Name = "btnEditarSalvar";
+            this.btnEditarSalvar.Size = new System.Drawing.Size(32, 30);
+            this.btnEditarSalvar.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.btnEditarSalvar.TabIndex = 36;
+            this.btnEditarSalvar.TabStop = false;
+            this.btnEditarSalvar.Click += new System.EventHandler(this.btnEditarSalvar_Click);
             // 
             // cbTipo
             // 
@@ -363,6 +363,15 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.flpNumerosDeSerie.Size = new System.Drawing.Size(484, 125);
             this.flpNumerosDeSerie.TabIndex = 115;
             // 
+            // GSMultiTextBox
+            // 
+            this.GSMultiTextBox.BackColor = System.Drawing.Color.Silver;
+            this.GSMultiTextBox.Location = new System.Drawing.Point(3, 3);
+            this.GSMultiTextBox.Name = "GSMultiTextBox";
+            this.GSMultiTextBox.Size = new System.Drawing.Size(451, 32);
+            this.GSMultiTextBox.TabIndex = 0;
+            this.GSMultiTextBox.Texto = "";
+            // 
             // label1
             // 
             this.label1.AutoSize = true;
@@ -548,15 +557,6 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             0,
             131072});
             // 
-            // GSMultiTextBox
-            // 
-            this.GSMultiTextBox.BackColor = System.Drawing.Color.Silver;
-            this.GSMultiTextBox.Location = new System.Drawing.Point(3, 3);
-            this.GSMultiTextBox.Name = "GSMultiTextBox";
-            this.GSMultiTextBox.Size = new System.Drawing.Size(451, 32);
-            this.GSMultiTextBox.TabIndex = 0;
-            this.GSMultiTextBox.Texto = "";
-            // 
             // frmInteracao
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -607,8 +607,8 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.Load += new System.EventHandler(this.frmInteracao_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.btnEditarSalvar)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnCancelarExcluir)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btnEditarSalvar)).EndInit();
             this.flpNumerosDeSerie.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();

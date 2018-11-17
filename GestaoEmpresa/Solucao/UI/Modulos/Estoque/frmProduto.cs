@@ -194,7 +194,9 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                            ? (EnumStatusDoProduto)cbStatus.SelectedIndex + 1
                            : EnumStatusDoProduto.Ativo;
 
-            produto.QuantidadeEmEstoque = Convert.ToInt32(txtQuantidadeEmEstoque.Text);
+            produto.QuantidadeEmEstoque = ! string.IsNullOrEmpty(txtQuantidadeEmEstoque.Text)
+                                        ? Convert.ToInt32(txtQuantidadeEmEstoque.Text)
+                                        : 0;
             produto.QuantidadeMinimaParaAviso = !string.IsNullOrEmpty(txtQuantidadeMinima.Text.Trim())
                                               ? int.Parse(txtQuantidadeMinima.Text.Trim())
                                               : 0;

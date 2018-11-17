@@ -11,6 +11,7 @@ using System;
 using System.Drawing;
 using System.Threading;
 using System.Windows.Forms;
+using GS.GestaoEmpresa.Solucao.UI.Modulos.Tecnico;
 
 namespace GestaoEmpresa.GS.GestaoEmpresa.GS.GestaoEmpresa.UI.Principal
 {
@@ -297,6 +298,11 @@ namespace GestaoEmpresa.GS.GestaoEmpresa.GS.GestaoEmpresa.UI.Principal
             {
                 btnEntrar_Click_1(sender, e);
             }
+        }
+
+        private void btnTecnico_Click(object sender, EventArgs e)
+        {
+            new frmTecnico().Show();
         }
     }
 }

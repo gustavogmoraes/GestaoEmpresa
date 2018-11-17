@@ -555,10 +555,9 @@
             // 
             // btnTecnico
             // 
-            this.btnTecnico.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnTecnico.BackgroundImage")));
+            this.btnTecnico.BackgroundImage = global::GS.GestaoEmpresa.Properties.Resources.TenicoBlueCerto2;
             this.btnTecnico.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.btnTecnico.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnTecnico.Enabled = false;
             this.btnTecnico.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnTecnico.Location = new System.Drawing.Point(537, 21);
             this.btnTecnico.Name = "btnTecnico";
@@ -567,6 +566,7 @@
             this.btnTecnico.Text = "Técnico";
             this.btnTecnico.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.btnTecnico.UseVisualStyleBackColor = true;
+            this.btnTecnico.Click += new System.EventHandler(this.btnTecnico_Click);
             // 
             // btnAuditoria
             // 
