@@ -209,7 +209,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         private void btnNovoProduto_Click(object sender, EventArgs e)
         {
-            
+            new frmProduto().Show();
         }
 
         private void btnRefresh_Click(object sender, EventArgs e)

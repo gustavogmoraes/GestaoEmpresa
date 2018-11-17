@@ -123,3 +123,23 @@ C:\Users\MEGA reserva\Documents\projeto mega\GestaoEmpresa-Developer\GestaoEmpre
 C:\Users\MEGA reserva\Documents\projeto mega\GestaoEmpresa-Developer\GestaoEmpresa-Developer\GestaoEmpresa\obj\Debug\GS.GestaoEmpresa.Solucao.UI.Modulos.Tecnico.frmTecnico.resources
 C:\Users\MEGA reserva\Documents\projeto mega\GestaoEmpresa-Developer\GestaoEmpresa-Developer\GestaoEmpresa\obj\Debug\GS.GestaoEmpresa.Solucao.UI.Modulos.Tecnico.frmEntradaLab.resources
 C:\Users\MEGA reserva\Documents\projeto mega\GestaoEmpresa-Developer\GestaoEmpresa-Developer\GestaoEmpresa\obj\Debug\GS.GestaoEmpresa.Solucao.UI.Modulos.Tecnico.frmEntradaLabProduto.resources
+C:\Users\MEGA reserva\Desktop\projeto sistema mega\GestaoEmpresa-Developer2\GestaoEmpresa\bin\Debug\GS.GestaoEmpresa.exe.config
+C:\Users\MEGA reserva\Desktop\projeto sistema mega\GestaoEmpresa-Developer2\GestaoEmpresa\bin\Debug\GS.GestaoEmpresa.exe
+C:\Users\MEGA reserva\Desktop\projeto sistema mega\GestaoEmpresa-Developer2\GestaoEmpresa\bin\Debug\GS.GestaoEmpresa.pdb
+C:\Users\MEGA reserva\Desktop\projeto sistema mega\GestaoEmpresa-Developer2\GestaoEmpresa\obj\Debug\GS.GestaoEmpresa.csprojAssemblyReference.cache
+C:\Users\MEGA reserva\Desktop\projeto sistema mega\GestaoEmpresa-Developer2\GestaoEmpresa\obj\Debug\GS.GestaoEmpresa.Solucao.Persistencia.BancoDeDados.UCSessaoSistema.resources
+C:\Users\MEGA reserva\Desktop\projeto sistema mega\GestaoEmpresa-Developer2\GestaoEmpresa\obj\Debug\GS.GestaoEmpresa.Solucao.UI.ControlesGenericos.GSMultiTextBox.resources
+C:\Users\MEGA reserva\Desktop\projeto sistema mega\GestaoEmpresa-Developer2\GestaoEmpresa\obj\Debug\GS.GestaoEmpresa.Solucao.UI.ControlesGenericos.GSTextBoxMonetaria.resources
+C:\Users\MEGA reserva\Desktop\projeto sistema mega\GestaoEmpresa-Developer2\GestaoEmpresa\obj\Debug\GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque.frmEstoque.resources
+C:\Users\MEGA reserva\Desktop\projeto sistema mega\GestaoEmpresa-Developer2\GestaoEmpresa\obj\Debug\GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque.frmInteracao.resources
+C:\Users\MEGA reserva\Desktop\projeto sistema mega\GestaoEmpresa-Developer2\GestaoEmpresa\obj\Debug\GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque.frmProduto.resources
+C:\Users\MEGA reserva\Desktop\projeto sistema mega\GestaoEmpresa-Developer2\GestaoEmpresa\obj\Debug\GS.GestaoEmpresa.Solucao.UI.Modulos.Tecnico.frmEntradaLab.resources
+C:\Users\MEGA reserva\Desktop\projeto sistema mega\GestaoEmpresa-Developer2\GestaoEmpresa\obj\Debug\GS.GestaoEmpresa.Solucao.UI.Modulos.Tecnico.frmEntradaLabProduto.resources
+C:\Users\MEGA reserva\Desktop\projeto sistema mega\GestaoEmpresa-Developer2\GestaoEmpresa\obj\Debug\GS.GestaoEmpresa.Solucao.UI.Modulos.Tecnico.frmTecnico.resources
+C:\Users\MEGA reserva\Desktop\projeto sistema mega\GestaoEmpresa-Developer2\GestaoEmpresa\obj\Debug\GestaoEmpresa.GS.GestaoEmpresa.GS.GestaoEmpresa.UI.Principal.frmPrincipal.resources
+C:\Users\MEGA reserva\Desktop\projeto sistema mega\GestaoEmpresa-Developer2\GestaoEmpresa\obj\Debug\GS.GestaoEmpresa.Properties.Resources.resources
+C:\Users\MEGA reserva\Desktop\projeto sistema mega\GestaoEmpresa-Developer2\GestaoEmpresa\obj\Debug\GS.GestaoEmpresa.Solucao.UI.Modulos.Configuracoes.frmConfiguracoes.resources
+C:\Users\MEGA reserva\Desktop\projeto sistema mega\GestaoEmpresa-Developer2\GestaoEmpresa\obj\Debug\GS.GestaoEmpresa.csproj.GenerateResource.cache
+C:\Users\MEGA reserva\Desktop\projeto sistema mega\GestaoEmpresa-Developer2\GestaoEmpresa\obj\Debug\GS.GestaoEmpresa.csproj.CoreCompileInputs.cache
+C:\Users\MEGA reserva\Desktop\projeto sistema mega\GestaoEmpresa-Developer2\GestaoEmpresa\obj\Debug\GS.GestaoEmpresa.exe
+C:\Users\MEGA reserva\Desktop\projeto sistema mega\GestaoEmpresa-Developer2\GestaoEmpresa\obj\Debug\GS.GestaoEmpresa.pdb
