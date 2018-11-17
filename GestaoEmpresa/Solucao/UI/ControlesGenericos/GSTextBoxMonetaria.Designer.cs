@@ -1,4 +1,4 @@
-﻿namespace GS.GestaoEmpresa.Solucao.UI
+﻿namespace GS.GestaoEmpresa.Solucao.UI.ControlesGenericos
 {
     partial class GSTextBoxMonetaria
     {
@@ -28,77 +28,55 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            this.lblCifrao = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
             this.txtValor = new System.Windows.Forms.TextBox();
-            this.txtLine = new System.Windows.Forms.Label();
-            this.pbErro = new System.Windows.Forms.PictureBox();
-            this.ttErro = new System.Windows.Forms.ToolTip(this.components);
-            ((System.ComponentModel.ISupportInitialize)(this.pbErro)).BeginInit();
+            this.txtLineValor = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
-            // lblCifrao
+            // label5
             // 
-            this.lblCifrao.AutoSize = true;
-            this.lblCifrao.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCifrao.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.lblCifrao.Location = new System.Drawing.Point(9, 4);
-            this.lblCifrao.Name = "lblCifrao";
-            this.lblCifrao.Size = new System.Drawing.Size(33, 22);
-            this.lblCifrao.TabIndex = 98;
-            this.lblCifrao.Text = "R$";
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.ForeColor = System.Drawing.Color.Black;
+            this.label5.Location = new System.Drawing.Point(-3, 4);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(33, 22);
+            this.label5.TabIndex = 126;
+            this.label5.Text = "R$";
             // 
             // txtValor
             // 
             this.txtValor.BackColor = System.Drawing.Color.Silver;
             this.txtValor.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtValor.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtValor.Location = new System.Drawing.Point(43, 4);
-            this.txtValor.MaxLength = 8;
+            this.txtValor.Location = new System.Drawing.Point(31, 3);
+            this.txtValor.MaxLength = 10;
             this.txtValor.Name = "txtValor";
-            this.txtValor.Size = new System.Drawing.Size(126, 24);
-            this.txtValor.TabIndex = 95;
+            this.txtValor.Size = new System.Drawing.Size(103, 24);
+            this.txtValor.TabIndex = 124;
             this.txtValor.TextChanged += new System.EventHandler(this.txtValor_TextChanged);
             // 
-            // txtLine
+            // txtLineValor
             // 
-            this.txtLine.AutoSize = true;
-            this.txtLine.Font = new System.Drawing.Font("Century Gothic", 27.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtLine.ForeColor = System.Drawing.Color.SteelBlue;
-            this.txtLine.Location = new System.Drawing.Point(-5, -10);
-            this.txtLine.Name = "txtLine";
-            this.txtLine.Size = new System.Drawing.Size(191, 44);
-            this.txtLine.TabIndex = 97;
-            this.txtLine.Text = "_________";
-            // 
-            // pbErro
-            // 
-            this.pbErro.Enabled = false;
-            this.pbErro.Image = global::GS.GestaoEmpresa.Properties.Resources.error_icon;
-            this.pbErro.Location = new System.Drawing.Point(181, 5);
-            this.pbErro.Name = "pbErro";
-            this.pbErro.Size = new System.Drawing.Size(32, 26);
-            this.pbErro.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pbErro.TabIndex = 99;
-            this.pbErro.TabStop = false;
-            this.pbErro.Visible = false;
-            // 
-            // ttErro
-            // 
-            this.ttErro.Popup += new System.Windows.Forms.PopupEventHandler(this.toolTip1_Popup);
+            this.txtLineValor.AutoSize = true;
+            this.txtLineValor.Font = new System.Drawing.Font("Century Gothic", 27.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtLineValor.ForeColor = System.Drawing.Color.SteelBlue;
+            this.txtLineValor.Location = new System.Drawing.Point(1, -10);
+            this.txtLineValor.Name = "txtLineValor";
+            this.txtLineValor.Size = new System.Drawing.Size(153, 44);
+            this.txtLineValor.TabIndex = 125;
+            this.txtLineValor.Text = "_______";
             // 
             // GSTextBoxMonetaria
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Silver;
-            this.Controls.Add(this.pbErro);
-            this.Controls.Add(this.lblCifrao);
+            this.Controls.Add(this.label5);
             this.Controls.Add(this.txtValor);
-            this.Controls.Add(this.txtLine);
+            this.Controls.Add(this.txtLineValor);
             this.Name = "GSTextBoxMonetaria";
-            this.Size = new System.Drawing.Size(220, 36);
-            ((System.ComponentModel.ISupportInitialize)(this.pbErro)).EndInit();
+            this.Size = new System.Drawing.Size(153, 36);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -106,10 +84,8 @@
 
         #endregion
 
-        private System.Windows.Forms.Label lblCifrao;
+        private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox txtValor;
-        private System.Windows.Forms.Label txtLine;
-        private System.Windows.Forms.PictureBox pbErro;
-        private System.Windows.Forms.ToolTip ttErro;
+        private System.Windows.Forms.Label txtLineValor;
     }
 }

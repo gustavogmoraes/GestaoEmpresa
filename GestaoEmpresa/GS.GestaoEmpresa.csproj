@@ -21,6 +21,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <UseVSHostingProcess>true</UseVSHostingProcess>
+    <LangVersion>7.3</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -30,6 +31,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>7.3</LangVersion>
   </PropertyGroup>
   <PropertyGroup>
     <NoWin32Manifest>true</NoWin32Manifest>
@@ -51,46 +53,71 @@
     <Reference Include="System.Security" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Solucao\Mapeador\BancoDeDados\UCSessaoSistema.cs">
+    <Compile Include="Solucao\Negocio\Objetos\Base\Pessoa.cs" />
+    <Compile Include="Solucao\Persistencia\BancoDeDados\GSBancoDeDados.cs" />
+    <Compile Include="Solucao\Persistencia\BancoDeDados\UCSessaoSistema.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Solucao\Mapeador\BancoDeDados\UCSessaoSistema.Designer.cs">
+    <Compile Include="Solucao\Persistencia\BancoDeDados\UCSessaoSistema.Designer.cs">
       <DependentUpon>UCSessaoSistema.cs</DependentUpon>
     </Compile>
-    <Compile Include="Solucao\Mapeador\Mapeadores\MapeadoresAbstratos\MapeadorPadraoEntidadeRelacionalUmParaMuitosVigencia.cs" />
-    <Compile Include="Solucao\Mapeador\Mapeadores\MapeadoresConcretos\MapeadorDeInteracao.cs" />
-    <Compile Include="Solucao\Mapeador\Mapeadores\MapeadoresConcretos\MapeadorEmail.cs" />
-    <Compile Include="Solucao\Mapeador\Mapeadores\MapeadoresConcretos\MapeadorTelefone.cs" />
-    <Compile Include="Solucao\Negocio\Enumeradores\EnumBotoesForm.cs" />
-    <Compile Include="Solucao\Negocio\Enumeradores\EnumStatusDoUsuario.cs" />
-    <Compile Include="Solucao\Negocio\Enumeradores\EnumTipoDeAcaoProduto.cs" />
-    <Compile Include="Solucao\Negocio\Enumeradores\EnumStatusDoProduto.cs" />
-    <Compile Include="Solucao\Negocio\Enumeradores\EnumTipoDeEntidadeRelacional.cs" />
-    <Compile Include="Solucao\Negocio\Enumeradores\EnumTipoDeForm.cs" />
+    <Compile Include="Solucao\Persistencia\Mapeamentos\Base\EnumTipoDeMapeamento.cs" />
+    <Compile Include="Solucao\Persistencia\Mapeamentos\Base\MapeamentoDeObjeto.cs" />
+    <Compile Include="Solucao\Persistencia\Mapeamentos\Base\MapeamentoDePropriedade.cs" />
+    <Compile Include="Solucao\Persistencia\Mapeamentos\MapeamentoDeCliente.cs" />
+    <Compile Include="Solucao\Persistencia\Mapeamentos\MapeamentoDeColaborador.cs" />
+    <Compile Include="Solucao\Persistencia\Mapeamentos\MapeamentoDeSolicitacaoDeAtendimento.cs" />
+    <Compile Include="Solucao\Persistencia\Mapeamentos\MapeamentoDeTelefone.cs" />
+    <Compile Include="Solucao\Persistencia\Repositorios\Base\BaseRepositorios.cs" />
+    <Compile Include="Solucao\Persistencia\Repositorios\Base\IRepositorio.cs" />
+    <Compile Include="Solucao\Persistencia\Repositorios\Base\IRepositorioConceitoComPortador.cs" />
+    <Compile Include="Solucao\Persistencia\Repositorios\Base\Repositorio.cs" />
+    <Compile Include="Solucao\Persistencia\Repositorios\Base\RepositorioConceitoComPortador.cs" />
+    <Compile Include="Solucao\Persistencia\Repositorios\Base\RepositorioVigencia.cs" />
+    <Compile Include="Solucao\Persistencia\Repositorios\RepositorioDeCliente.cs" />
+    <Compile Include="Solucao\Persistencia\Repositorios\RepositorioDeColaborador.cs" />
+    <Compile Include="Solucao\Persistencia\Repositorios\RepositorioDeSolicitacaoDeAtendimento.cs" />
+    <Compile Include="Solucao\Persistencia\Repositorios\RepositorioDeTelefone.cs" />
+    <Compile Include="Solucao\Persistencia\Repositorios\_Legado\RepositorioPadraoEntidadeRelacionalUmParaMuitosVigencia.cs" />
+    <Compile Include="Solucao\Persistencia\Repositorios\RepositorioDeInteracao.cs" />
+    <Compile Include="Solucao\Persistencia\Repositorios\RepositorioDeNumeroDeSerie.cs" />
+    <Compile Include="Solucao\Negocio\Enumeradores\Seguros\Base\TypeSafeEnum.cs" />
+    <Compile Include="Solucao\Negocio\Enumeradores\Seguros\Conceito\Conceito.cs" />
+    <Compile Include="Solucao\Negocio\Enumeradores\Comuns\EnumBotoesForm.cs" />
+    <Compile Include="Solucao\Negocio\Enumeradores\Seguros\Conceito\EnumConceitos.cs" />
+    <Compile Include="Solucao\Negocio\Enumeradores\Comuns\EnumStatusDoUsuario.cs" />
+    <Compile Include="Solucao\Negocio\Enumeradores\Comuns\EnumTipoDeAcaoProduto.cs" />
+    <Compile Include="Solucao\Negocio\Enumeradores\Comuns\EnumStatusDoProduto.cs" />
+    <Compile Include="Solucao\Negocio\Enumeradores\Comuns\EnumTipoDeEntidadeRelacional.cs" />
+    <Compile Include="Solucao\Negocio\Enumeradores\Comuns\EnumTipoDeForm.cs" />
+    <Compile Include="Solucao\Negocio\Enumeradores\Seguros\TipoDePessoa\EnumTipoDePessoa.cs" />
+    <Compile Include="Solucao\Negocio\Enumeradores\Seguros\TipoDePessoa\TipoDePessoa.cs" />
+    <Compile Include="Solucao\Negocio\Interfaces\IConceito.cs" />
+    <Compile Include="Solucao\Negocio\Interfaces\IConceitoComCodigo.cs" />
     <Compile Include="Solucao\Negocio\Interfaces\IFormPadrao.cs" />
-    <Compile Include="Solucao\Negocio\Objetos\Atributos\BancoDeDados.cs" />
-    <Compile Include="Solucao\Negocio\Objetos\Atributos\Multivalor.cs" />
-    <Compile Include="Solucao\Negocio\Objetos\ObjetosAbstratos\Grupo.cs" />
-    <Compile Include="Solucao\Negocio\Objetos\ObjetosConcretos\CampoDeTela.cs" />
-    <Compile Include="Solucao\Negocio\Objetos\ObjetosConcretos\Cliente.cs" />
-    <Compile Include="Solucao\Negocio\Objetos\ObjetosConcretos\Email.cs" />
-    <Compile Include="Solucao\Negocio\Objetos\ObjetosConcretos\Inconsistencia.cs" />
-    <Compile Include="Solucao\Negocio\Objetos\ObjetosConcretos\Produto.cs" />
-    <Compile Include="Solucao\Negocio\Objetos\ObjetosConcretos\Usuario.cs" />
-    <Compile Include="Solucao\Mapeador\Mapeadores\MapeadoresAbstratos\MapeadorPadrao.cs" />
-    <Compile Include="Solucao\Mapeador\Mapeadores\MapeadoresConcretos\MapeadorCliente.cs" />
-    <Compile Include="Solucao\Mapeador\Mapeadores\MapeadoresConcretos\MapeadorGrupoUsuario.cs" />
-    <Compile Include="Solucao\Mapeador\Mapeadores\MapeadoresConcretos\MapeadorDeUsuario.cs" />
+    <Compile Include="Solucao\Negocio\Atributos\PropriedadeBD.cs" />
+    <Compile Include="Solucao\Negocio\Atributos\Multivalor.cs" />
+    <Compile Include="Solucao\Negocio\Objetos\Base\Grupo.cs" />
+    <Compile Include="Solucao\Negocio\Objetos\CampoDeTela.cs" />
+    <Compile Include="Solucao\Negocio\Objetos\Cliente.cs" />
+    <Compile Include="Solucao\Negocio\Objetos\Email.cs" />
+    <Compile Include="Solucao\Negocio\Objetos\Inconsistencia.cs" />
+    <Compile Include="Solucao\Negocio\Objetos\Produto.cs" />
+    <Compile Include="Solucao\Negocio\Objetos\Telefone.cs" />
+    <Compile Include="Solucao\Negocio\Objetos\Usuario.cs" />
+    <Compile Include="Solucao\Persistencia\Repositorios\_Legado\RepositorioPadrao.cs" />
+    <Compile Include="Solucao\Persistencia\Repositorios\RepositorioDeGrupoUsuario.cs" />
+    <Compile Include="Solucao\Persistencia\Repositorios\RepositorioDeUsuario.cs" />
     <Compile Include="Solucao\Negocio\Servicos\ServicoDeInteracao.cs" />
     <Compile Include="Solucao\Negocio\Servicos\ServicoDeProduto.cs" />
     <Compile Include="Solucao\Negocio\Servicos\ServicoDeUsuario.cs" />
     <Compile Include="Solucao\Negocio\Validador\ValidadorDeInteracao.cs" />
     <Compile Include="Solucao\Negocio\Validador\ValidadorDeProduto.cs" />
-    <Compile Include="Solucao\UI\ControlesGenericos\FormPadrao.cs">
-      <SubType>Form</SubType>
+    <Compile Include="Solucao\UI\ControlesGenericos\GSMultiTextBox.cs">
+      <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Solucao\UI\ControlesGenericos\FormPadrao.Designer.cs">
-      <DependentUpon>FormPadrao.cs</DependentUpon>
+    <Compile Include="Solucao\UI\ControlesGenericos\GSMultiTextBox.Designer.cs">
+      <DependentUpon>GSMultiTextBox.cs</DependentUpon>
     </Compile>
     <Compile Include="Solucao\UI\ControlesGenericos\GSTextBoxMonetaria.cs">
       <SubType>UserControl</SubType>
@@ -116,6 +143,24 @@
     <Compile Include="Solucao\UI\Modulos\Estoque\frmProduto.Designer.cs">
       <DependentUpon>frmProduto.cs</DependentUpon>
     </Compile>
+    <Compile Include="Solucao\UI\Modulos\Tecnico\frmEntradaLab.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Solucao\UI\Modulos\Tecnico\frmEntradaLab.Designer.cs">
+      <DependentUpon>frmEntradaLab.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Solucao\UI\Modulos\Tecnico\frmEntradaLabProduto.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Solucao\UI\Modulos\Tecnico\frmEntradaLabProduto.Designer.cs">
+      <DependentUpon>frmEntradaLabProduto.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Solucao\UI\Modulos\Tecnico\frmTecnico.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Solucao\UI\Modulos\Tecnico\frmTecnico.Designer.cs">
+      <DependentUpon>frmTecnico.cs</DependentUpon>
+    </Compile>
     <Compile Include="Solucao\UI\Principal\frmPrincipal.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -123,14 +168,16 @@
       <DependentUpon>frmPrincipal.cs</DependentUpon>
     </Compile>
     <Compile Include="Solucao\Utilitarios\EnumCriptografiaBasica.cs" />
+    <Compile Include="Solucao\Utilitarios\GSTarefasAssincronas.cs" />
     <Compile Include="Solucao\Utilitarios\GSUtilitarios.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Solucao\Mapeador\BancoDeDados\UCSessaoSistema.resx">
+    <Compile Include="Solucao\Utilitarios\GSAssistenteDeDigitacao.cs" />
+    <EmbeddedResource Include="Solucao\Persistencia\BancoDeDados\UCSessaoSistema.resx">
       <DependentUpon>UCSessaoSistema.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Solucao\UI\ControlesGenericos\FormPadrao.resx">
-      <DependentUpon>FormPadrao.cs</DependentUpon>
+    <EmbeddedResource Include="Solucao\UI\ControlesGenericos\GSMultiTextBox.resx">
+      <DependentUpon>GSMultiTextBox.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Solucao\UI\ControlesGenericos\GSTextBoxMonetaria.resx">
       <DependentUpon>GSTextBoxMonetaria.cs</DependentUpon>
@@ -143,6 +190,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Solucao\UI\Modulos\Estoque\frmProduto.resx">
       <DependentUpon>frmProduto.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Solucao\UI\Modulos\Tecnico\frmEntradaLab.resx">
+      <DependentUpon>frmEntradaLab.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Solucao\UI\Modulos\Tecnico\frmEntradaLabProduto.resx">
+      <DependentUpon>frmEntradaLabProduto.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Solucao\UI\Modulos\Tecnico\frmTecnico.resx">
+      <DependentUpon>frmTecnico.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Solucao\UI\Principal\frmPrincipal.resx">
       <DependentUpon>frmPrincipal.cs</DependentUpon>
@@ -166,13 +222,11 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="Solucao\Negocio\Objetos\ObjetosConcretos\Endereco.cs" />
-    <Compile Include="Solucao\Negocio\Objetos\ObjetosConcretos\Telefone.cs" />
-    <Compile Include="Solucao\Mapeador\Mapeadores\MapeadoresAbstratos\MapeadorPadraoVigencia.cs" />
-    <Compile Include="Solucao\Mapeador\Mapeadores\MapeadoresConcretos\MapeadorEndereco.cs" />
+    <Compile Include="Solucao\Negocio\Objetos\Endereco.cs" />
+    <Compile Include="Solucao\Persistencia\Repositorios\_Legado\RepositorioPadraoVigencia.cs" />
     <Compile Include="Solucao\Negocio\Catalogos\Namespaces.cs" />
-    <Compile Include="Solucao\Mapeador\BancoDeDados\InformacoesConexaoBanco.cs" />
-    <Compile Include="Solucao\Mapeador\BancoDeDados\SessaoSistema.cs" />
+    <Compile Include="Solucao\Persistencia\BancoDeDados\InformacoesConexaoBanco.cs" />
+    <Compile Include="Solucao\Persistencia\BancoDeDados\SessaoSistema.cs" />
     <Compile Include="Solucao\UI\Modulos\Configuracoes\frmConfiguracoes.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -182,24 +236,25 @@
     <EmbeddedResource Include="Solucao\UI\Modulos\Configuracoes\frmConfiguracoes.resx">
       <DependentUpon>frmConfiguracoes.cs</DependentUpon>
     </EmbeddedResource>
-    <Compile Include="Solucao\Mapeador\Mapeadores\MapeadoresAbstratos\MapeadorPadraoEntidadeRelacionalUmParaMuitos.cs" />
+    <Compile Include="Solucao\Persistencia\Repositorios\_Legado\RepositorioPadraoEntidadeRelacionalUmParaMuitos.cs" />
     <Compile Include="Solucao\Negocio\Catalogos\Mensagens.cs" />
-    <Compile Include="Solucao\Mapeador\BancoDeDados\GSBancoDeDados.cs" />
-    <Compile Include="Solucao\Negocio\Objetos\ObjetosConcretos\IdentificadorExterno.cs" />
-    <Compile Include="Solucao\Negocio\Objetos\ObjetosConcretos\Interacao.cs" />
-    <Compile Include="Solucao\Negocio\Enumeradores\EnumTipoInteracao.cs" />
-    <Compile Include="Solucao\Negocio\Objetos\ObjetosConcretos\OrdemServico.cs" />
-    <Compile Include="Solucao\Negocio\Objetos\ObjetosConcretos\Chamado.cs" />
-    <Compile Include="Solucao\Negocio\Objetos\ObjetosConcretos\Funcionario.cs" />
-    <Compile Include="Solucao\Negocio\Objetos\ObjetosConcretos\LancamentoOS.cs" />
-    <Compile Include="Solucao\Negocio\Objetos\Atributos\Validacao.cs" />
-    <Compile Include="Solucao\Mapeador\Mapeadores\MapeadoresConcretos\MapeadorDeProduto.cs" />
+    <Compile Include="Solucao\Negocio\Objetos\IdentificadorExterno.cs" />
+    <Compile Include="Solucao\Negocio\Objetos\Interacao.cs" />
+    <Compile Include="Solucao\Negocio\Enumeradores\Comuns\EnumTipoInteracao.cs" />
+    <Compile Include="Solucao\Negocio\Objetos\OrdemDeServico.cs" />
+    <Compile Include="Solucao\Negocio\Objetos\SolicitacaoDeAtendimento.cs" />
+    <Compile Include="Solucao\Negocio\Objetos\Colaborador.cs" />
+    <Compile Include="Solucao\Negocio\Objetos\LancamentoOS.cs" />
+    <Compile Include="Solucao\Negocio\Atributos\Validacao.cs" />
+    <Compile Include="Solucao\Persistencia\Repositorios\RepositorioDeProduto.cs" />
     <Compile Include="Solucao\Negocio\Catalogos\Cores.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Resources\Conexao.png" />
+  </ItemGroup>
   <ItemGroup>
     <None Include="Resources\edit-512.png" />
   </ItemGroup>
@@ -229,6 +284,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\WhiteBox.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SemConexao.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\TenicoBlueCerto2.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

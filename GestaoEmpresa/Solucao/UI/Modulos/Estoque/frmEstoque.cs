@@ -7,12 +7,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using GS.GestaoEmpresa.Solucao.Mapeador.Mapeadores.MapeadoresConcretos;
 using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores;
-using GS.GestaoEmpresa.Solucao.Negocio.Objetos.ObjetosConcretos;
+using GS.GestaoEmpresa.Solucao.Negocio.Objetos;
 using GS.GestaoEmpresa.Solucao.Negocio.Servicos;
 using GS.GestaoEmpresa.Solucao.Utilitarios;
 using System.Globalization;
+using GS.GestaoEmpresa.Solucao.Persistencia.BancoDeDados;
+using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores.Comuns;
 
 namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 {
@@ -24,15 +25,63 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         public CultureInfo Cultura = new CultureInfo("pt-BR");
 
+        GSAssistenteDeDigitacao assistant;
+
         public frmEstoque()
         {
             InitializeComponent();
+
+            assistant = new GSAssistenteDeDigitacao();
+            assistant.Idled += assistant_Idled;
+        }
+
+        void assistant_Idled(object sender, EventArgs e)
+        {
+            this.Invoke(
+                new MethodInvoker(() =>
+                {
+                    var pesquisa = txtPesquisa.Text.Trim();
+                    var filtro = cbFiltro.Text;
+
+                    if (filtro == string.Empty)
+                    {
+                        return;
+                    }
+
+                    var listaFiltrada = new List<Produto>();
+                    switch (filtro)
+                    {
+                        case "Código":
+                            listaFiltrada = _listaDeProdutos.FindAll(x => x.Codigo.ToString()
+                                                                                  .Contains(pesquisa));
+                            break;
+
+                        case "Nome":
+                            listaFiltrada = _listaDeProdutos.FindAll(x => x.Nome.ToString().ToUpper()
+                                                            .Contains(pesquisa.ToUpper()));
+
+                            //var listaQueryable = _listaDeProdutos.AsQueryable();
+
+                            //listaFiltrada = (from produto in listaQueryable
+                            //                where produto.Nome.ToUpper().Contains(pesquisa.ToUpper())
+                            //                select produto).ToList();
+
+                            break;
+
+                        case "Código do fabricante":
+                            listaFiltrada = _listaDeProdutos.FindAll(x => x.CodigoDoFabricante.ToString().ToUpper()
+                                                                                              .Contains(pesquisa.ToUpper()));
+                            break;
+                    }
+
+                    CarregueDataGridProdutos(listaFiltrada);
+                }));
         }
 
         private void frmEstoque_Load(object sender, EventArgs e)
         {
             //Módulo - Estoque
-            ucSessaoSistema1.DefinaModulo("Estoque", Properties.Resources.WhiteBox);
+            //ucSessaoSistema1.DefinaModulo("Estoque", Properties.Resources.WhiteBox);
             this.EscondaHeadersTabControl(tabControl1);
 
             //Catálogo de Produtos
@@ -51,7 +100,10 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             }
 
             CarregueDataGridInteracoes(_listaDeInteracoes);
-            cbPesquisaHistorico.Text = "Descrição";
+            cbPesquisaHistorico.Text = "Observação";
+
+            //Selecionar pesquisa por produto
+            cbPesquisaHistorico.SelectedIndex = 5;
         }
 
         private void CarregueDataGridInteracoes(List<Interacao> listaDeInteracoes)
@@ -60,23 +112,32 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
             foreach (var interacao in listaDeInteracoes)
             {
-                dgvHistorico.Rows.Add(interacao.Horario.ToString(Cultura),
-                                      interacao.TipoInteracao,
-                                      interacao.Descricao,
+                var indice = interacao.Horario.ToString(Cultura).Length - 3;
+
+                dgvHistorico.Rows.Add(interacao.Codigo,
+                                      interacao.HorarioProgramado.ToString(Cultura)
+                                                                 .Remove(indice, 3),
+                                      GSUtilitarios.ConvertaEnumeradorParaString(interacao.TipoDeInteracao),
                                       interacao.Produto.Nome,
+                                      interacao.Observacao,
                                       interacao.QuantidadeInterada,
                                       GSUtilitarios.FormateDecimalParaStringMoedaReal(interacao.ValorInteracao),
                                       interacao.Origem,
                                       interacao.Destino);
 
-                if (interacao.TipoInteracao == EnumTipoInteracao.Entrada)
+                if (interacao.TipoDeInteracao == EnumTipoDeInteracao.ENTRADA)
                 {
                     dgvHistorico.Rows[dgvHistorico.Rows.Count - 1].DefaultCellStyle.BackColor = Color.LightBlue;
                 }
 
-                if (interacao.TipoInteracao == EnumTipoInteracao.Saida)
+                if (interacao.TipoDeInteracao == EnumTipoDeInteracao.SAIDA)
                 {
                     dgvHistorico.Rows[dgvHistorico.Rows.Count - 1].DefaultCellStyle.BackColor = Color.LightPink;
+                }
+
+                if (interacao.TipoDeInteracao == EnumTipoDeInteracao.BASE_DE_TROCA)
+                {
+                    dgvHistorico.Rows[dgvHistorico.Rows.Count - 1].DefaultCellStyle.BackColor = Color.LightGreen;
                 }
             }
             dgvHistorico.Refresh();
@@ -148,7 +209,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         private void btnNovoProduto_Click(object sender, EventArgs e)
         {
-            new frmProduto().Show();
+            
         }
 
         private void btnRefresh_Click(object sender, EventArgs e)
@@ -204,34 +265,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         private void txtPesquisa_TextChanged(object sender, EventArgs e)
         {
-            var pesquisa = txtPesquisa.Text.Trim();
-            var filtro = cbFiltro.Text;
-
-            if (filtro == string.Empty)
-            {
-                return;
-            }
-
-            var listaFiltrada = new List<Produto>();
-            switch (filtro)
-            {
-                case "Código":
-                    listaFiltrada = _listaDeProdutos.FindAll(x => x.Codigo.ToString()
-                                                                          .Contains(pesquisa));
-                    break;
-
-                case "Nome":
-                    listaFiltrada = _listaDeProdutos.FindAll(x => x.Nome.ToString().ToUpper()
-                                                                        .Contains(pesquisa.ToUpper()));
-                    break;
-
-                case "Código do fabricante":
-                    listaFiltrada = _listaDeProdutos.FindAll(x => x.CodigoDoFabricante.ToString().ToUpper()
-                                                                                      .Contains(pesquisa.ToUpper()));
-                    break;
-            }
-
-            CarregueDataGridProdutos(listaFiltrada);
+            assistant.TextChanged();
         }
 
         private void txtPesquisa_Leave(object sender, EventArgs e)
@@ -249,6 +283,9 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         {
             var senderGrid = (DataGridView)sender;
 
+            if (e.RowIndex < 0)
+                return;
+
             var codigoProduto = (int)senderGrid["colunaCodigo", e.RowIndex].Value;
             Produto produto;
 
@@ -265,7 +302,26 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         private void dgvHistorico_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
+            var senderGrid = (DataGridView)sender;
 
+            if (senderGrid.Columns[e.ColumnIndex] is DataGridViewButtonColumn && e.RowIndex >= 0)
+            {
+                if (senderGrid.Columns[e.ColumnIndex] == colunaDetalharHist)
+                {
+                    var codigoInteracao = (int)senderGrid["colunaCodigoInteracao", e.RowIndex].Value;
+                    Interacao interacao;
+
+                    using (var servicoDeInteracao = new ServicoDeInteracao())
+                    {
+                        interacao = servicoDeInteracao.Consulte(codigoInteracao);
+                    }
+
+                    if (interacao != null)
+                    {
+                        new frmInteracao(interacao).Show();
+                    }
+                }
+            }
         }
 
         private void cbPesquisaHistorico_SelectedIndexChanged(object sender, EventArgs e)
@@ -282,6 +338,9 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                 cbPesquisaPorProduto.Location = txtPesquisaHistorico.Location;
                 cbPesquisaPorProduto.ForeColor = Color.Silver;
                 cbPesquisaPorProduto.Text = "Pesquisar por produto...";
+
+                PreenchaComboBoxPesquisaComProdutos(_listaDeProdutos);
+
             }
             else
             {
@@ -308,8 +367,8 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             var listaFiltrada = new List<Interacao>();
             switch (filtro)
             {
-                case "Descrição":
-                    listaFiltrada = _listaDeInteracoes.FindAll(x => x.Descricao.ToUpper()
+                case "Observação":
+                    listaFiltrada = _listaDeInteracoes.FindAll(x => x.Observacao.ToUpper()
                                                                      .Contains(pesquisa.ToUpper()));
                     break;
 
@@ -327,6 +386,11 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                     listaFiltrada = _listaDeInteracoes.FindAll(x => x.Horario.ToString()
                                                                      .Contains(pesquisa));
                     break;
+
+                case "Número de Série":
+                    listaFiltrada = _listaDeInteracoes.FindAll(x => string.Join(" ", x.NumerosDeSerie.ToArray())
+                                                                          .Contains(pesquisa.ToUpper()));
+                    break;
             }
 
             CarregueDataGridInteracoes(listaFiltrada);
@@ -334,25 +398,25 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         private void cbPesquisaPorProduto_DropDown(object sender, EventArgs e)
         {
-            using (var servicoDeProduto = new ServicoDeProduto())
-            {
-                _listaDeProdutos = servicoDeProduto.ConsulteTodosOsProdutos();
-            }
+            //using (var servicoDeProduto = new ServicoDeProduto())
+            //{
+            //    _listaDeProdutos = servicoDeProduto.ConsulteTodosOsProdutos();
+            //}
 
-            var pesquisa = cbPesquisaPorProduto.Text.Trim();
+            //var pesquisa = cbPesquisaPorProduto.Text.Trim();
 
-            if (pesquisa == string.Empty || pesquisa == "Pesquisar por produto...")
-            {
-                PreenchaComboBoxPesquisaComProdutos(_listaDeProdutos);
-            }
-            else
-            {
-                var listaFiltrada = new List<Produto>();
-                listaFiltrada = _listaDeProdutos.FindAll(x => x.Nome.ToUpper()
-                                                               .Contains(pesquisa.ToUpper()));
+            //if (pesquisa == string.Empty || pesquisa == "Pesquisar por produto...")
+            //{
+            //    PreenchaComboBoxPesquisaComProdutos(_listaDeProdutos);
+            //}
+            //else
+            //{
+            //    var listaFiltrada = new List<Produto>();
+            //    listaFiltrada = _listaDeProdutos.FindAll(x => x.Nome.ToUpper()
+            //                                                   .Contains(pesquisa.ToUpper()));
 
-                PreenchaComboBoxPesquisaComProdutos(listaFiltrada);
-            }
+            //    PreenchaComboBoxPesquisaComProdutos(listaFiltrada);
+            //}
         }
 
         private void PreenchaComboBoxPesquisaComProdutos(List<Produto> produtos)
@@ -441,7 +505,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             if (e.RowIndex < 0)
                 return;
 
-            if (e.ColumnIndex == 8)
+            if (e.ColumnIndex == 9)
             {
                 e.Paint(e.CellBounds, DataGridViewPaintParts.All);
 
@@ -452,6 +516,27 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
                 e.Graphics.DrawImage(Properties.Resources.detalhar, new Rectangle(x, y, w, h));
                 e.Handled = true;
+            }
+        }
+
+        private void dgvHistorico_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0)
+                return;
+
+            var senderGrid = (DataGridView)sender;
+
+            var codigoInteracao = (int)senderGrid["colunaCodigoInteracao", e.RowIndex].Value;
+            Interacao interacao;
+
+            using (var servicoDeInteracao = new ServicoDeInteracao())
+            {
+                interacao = servicoDeInteracao.Consulte(codigoInteracao);
+            }
+
+            if (interacao != null)
+            {
+                new frmInteracao(interacao).Show();
             }
         }
     }

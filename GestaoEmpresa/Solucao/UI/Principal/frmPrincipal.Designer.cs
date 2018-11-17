@@ -42,6 +42,10 @@
             this.label12 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.txtServidorConfiguracao = new System.Windows.Forms.TextBox();
+            this.panelConexao = new System.Windows.Forms.Panel();
+            this.pictureBox5 = new System.Windows.Forms.PictureBox();
+            this.lblIpApp = new System.Windows.Forms.Label();
+            this.lblIpBanco = new System.Windows.Forms.Label();
             this.lblConfiguracoesBasicas = new System.Windows.Forms.Label();
             this.txtSenha = new System.Windows.Forms.TextBox();
             this.txtUsuario = new System.Windows.Forms.TextBox();
@@ -62,25 +66,27 @@
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
-            this.pictureBox4 = new System.Windows.Forms.PictureBox();
             this.label9 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.btnAtendimento = new System.Windows.Forms.Button();
+            this.btnTecnico = new System.Windows.Forms.Button();
             this.btnAuditoria = new System.Windows.Forms.Button();
             this.btnCorporativo = new System.Windows.Forms.Button();
-            this.btnTecnico = new System.Windows.Forms.Button();
             this.btnConfiguracoes = new System.Windows.Forms.Button();
             this.btnEstoque = new System.Windows.Forms.Button();
-            this.btnAtendimento = new System.Windows.Forms.Button();
+            this.pictureBox4 = new System.Windows.Forms.PictureBox();
             this.tabControl1.SuspendLayout();
             this.tabLogin.SuspendLayout();
             this.gbConfiguracoesBasicas.SuspendLayout();
+            this.panelConexao.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.tabChamador.SuspendLayout();
             this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
             this.groupBox2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -102,6 +108,7 @@
             this.tabLogin.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("tabLogin.BackgroundImage")));
             this.tabLogin.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.tabLogin.Controls.Add(this.gbConfiguracoesBasicas);
+            this.tabLogin.Controls.Add(this.panelConexao);
             this.tabLogin.Controls.Add(this.lblConfiguracoesBasicas);
             this.tabLogin.Controls.Add(this.txtSenha);
             this.tabLogin.Controls.Add(this.txtUsuario);
@@ -134,7 +141,7 @@
             this.gbConfiguracoesBasicas.Controls.Add(this.label11);
             this.gbConfiguracoesBasicas.Controls.Add(this.txtServidorConfiguracao);
             this.gbConfiguracoesBasicas.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.gbConfiguracoesBasicas.Location = new System.Drawing.Point(557, 30);
+            this.gbConfiguracoesBasicas.Location = new System.Drawing.Point(557, 143);
             this.gbConfiguracoesBasicas.Name = "gbConfiguracoesBasicas";
             this.gbConfiguracoesBasicas.Size = new System.Drawing.Size(225, 273);
             this.gbConfiguracoesBasicas.TabIndex = 47;
@@ -236,6 +243,46 @@
             this.txtServidorConfiguracao.Size = new System.Drawing.Size(210, 27);
             this.txtServidorConfiguracao.TabIndex = 0;
             // 
+            // panelConexao
+            // 
+            this.panelConexao.BackColor = System.Drawing.Color.Transparent;
+            this.panelConexao.Controls.Add(this.pictureBox5);
+            this.panelConexao.Controls.Add(this.lblIpApp);
+            this.panelConexao.Controls.Add(this.lblIpBanco);
+            this.panelConexao.Location = new System.Drawing.Point(557, 22);
+            this.panelConexao.Name = "panelConexao";
+            this.panelConexao.Size = new System.Drawing.Size(225, 100);
+            this.panelConexao.TabIndex = 56;
+            // 
+            // pictureBox5
+            // 
+            this.pictureBox5.BackgroundImage = global::GS.GestaoEmpresa.Properties.Resources.SemConexao;
+            this.pictureBox5.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.pictureBox5.Location = new System.Drawing.Point(13, 9);
+            this.pictureBox5.Name = "pictureBox5";
+            this.pictureBox5.Size = new System.Drawing.Size(210, 50);
+            this.pictureBox5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox5.TabIndex = 53;
+            this.pictureBox5.TabStop = false;
+            // 
+            // lblIpApp
+            // 
+            this.lblIpApp.AutoSize = true;
+            this.lblIpApp.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblIpApp.Location = new System.Drawing.Point(12, 61);
+            this.lblIpApp.Name = "lblIpApp";
+            this.lblIpApp.Size = new System.Drawing.Size(0, 17);
+            this.lblIpApp.TabIndex = 54;
+            // 
+            // lblIpBanco
+            // 
+            this.lblIpBanco.AutoSize = true;
+            this.lblIpBanco.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblIpBanco.Location = new System.Drawing.Point(134, 61);
+            this.lblIpBanco.Name = "lblIpBanco";
+            this.lblIpBanco.Size = new System.Drawing.Size(0, 17);
+            this.lblIpBanco.TabIndex = 55;
+            // 
             // lblConfiguracoesBasicas
             // 
             this.lblConfiguracoesBasicas.AutoSize = true;
@@ -258,6 +305,7 @@
             this.txtSenha.PasswordChar = '*';
             this.txtSenha.Size = new System.Drawing.Size(152, 26);
             this.txtSenha.TabIndex = 44;
+            this.txtSenha.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtSenha_KeyPress);
             // 
             // txtUsuario
             // 
@@ -349,6 +397,7 @@
             // 
             this.btnEntrar.BackColor = System.Drawing.Color.Gainsboro;
             this.btnEntrar.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnEntrar.Enabled = false;
             this.btnEntrar.FlatAppearance.BorderColor = System.Drawing.Color.SteelBlue;
             this.btnEntrar.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnEntrar.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -356,7 +405,7 @@
             this.btnEntrar.Location = new System.Drawing.Point(327, 352);
             this.btnEntrar.Name = "btnEntrar";
             this.btnEntrar.Size = new System.Drawing.Size(119, 35);
-            this.btnEntrar.TabIndex = 35;
+            this.btnEntrar.TabIndex = 45;
             this.btnEntrar.Text = "Entrar";
             this.btnEntrar.UseVisualStyleBackColor = false;
             this.btnEntrar.Click += new System.EventHandler(this.btnEntrar_Click_1);
@@ -462,18 +511,6 @@
             this.label8.TabIndex = 19;
             this.label8.Text = "Usuário:";
             // 
-            // pictureBox4
-            // 
-            this.pictureBox4.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox4.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pictureBox4.BackgroundImage")));
-            this.pictureBox4.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.pictureBox4.Location = new System.Drawing.Point(539, -23);
-            this.pictureBox4.Name = "pictureBox4";
-            this.pictureBox4.Size = new System.Drawing.Size(252, 176);
-            this.pictureBox4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox4.TabIndex = 23;
-            this.pictureBox4.TabStop = false;
-            // 
             // label9
             // 
             this.label9.AutoSize = true;
@@ -500,6 +537,36 @@
             this.groupBox2.TabIndex = 21;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Módulos";
+            // 
+            // btnAtendimento
+            // 
+            this.btnAtendimento.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnAtendimento.BackgroundImage")));
+            this.btnAtendimento.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.btnAtendimento.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnAtendimento.Enabled = false;
+            this.btnAtendimento.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnAtendimento.Location = new System.Drawing.Point(361, 21);
+            this.btnAtendimento.Name = "btnAtendimento";
+            this.btnAtendimento.Size = new System.Drawing.Size(170, 150);
+            this.btnAtendimento.TabIndex = 7;
+            this.btnAtendimento.Text = "Atendimento";
+            this.btnAtendimento.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnAtendimento.UseVisualStyleBackColor = true;
+            // 
+            // btnTecnico
+            // 
+            this.btnTecnico.BackgroundImage = global::GS.GestaoEmpresa.Properties.Resources.TenicoBlueCerto2;
+            this.btnTecnico.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.btnTecnico.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnTecnico.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnTecnico.Location = new System.Drawing.Point(537, 21);
+            this.btnTecnico.Name = "btnTecnico";
+            this.btnTecnico.Size = new System.Drawing.Size(170, 150);
+            this.btnTecnico.TabIndex = 13;
+            this.btnTecnico.Text = "Técnico";
+            this.btnTecnico.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnTecnico.UseVisualStyleBackColor = true;
+            this.btnTecnico.Click += new System.EventHandler(this.btnTecnico_Click);
             // 
             // btnAuditoria
             // 
@@ -530,21 +597,6 @@
             this.btnCorporativo.Text = "Corporativo";
             this.btnCorporativo.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.btnCorporativo.UseVisualStyleBackColor = true;
-            // 
-            // btnTecnico
-            // 
-            this.btnTecnico.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnTecnico.BackgroundImage")));
-            this.btnTecnico.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.btnTecnico.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnTecnico.Enabled = false;
-            this.btnTecnico.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnTecnico.Location = new System.Drawing.Point(537, 21);
-            this.btnTecnico.Name = "btnTecnico";
-            this.btnTecnico.Size = new System.Drawing.Size(170, 150);
-            this.btnTecnico.TabIndex = 13;
-            this.btnTecnico.Text = "Técnico";
-            this.btnTecnico.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.btnTecnico.UseVisualStyleBackColor = true;
             // 
             // btnConfiguracoes
             // 
@@ -578,20 +630,17 @@
             this.btnEstoque.UseVisualStyleBackColor = true;
             this.btnEstoque.Click += new System.EventHandler(this.btnEstoque_Click_1);
             // 
-            // btnAtendimento
+            // pictureBox4
             // 
-            this.btnAtendimento.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnAtendimento.BackgroundImage")));
-            this.btnAtendimento.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.btnAtendimento.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnAtendimento.Enabled = false;
-            this.btnAtendimento.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAtendimento.Location = new System.Drawing.Point(361, 21);
-            this.btnAtendimento.Name = "btnAtendimento";
-            this.btnAtendimento.Size = new System.Drawing.Size(170, 150);
-            this.btnAtendimento.TabIndex = 7;
-            this.btnAtendimento.Text = "Atendimento";
-            this.btnAtendimento.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.btnAtendimento.UseVisualStyleBackColor = true;
+            this.pictureBox4.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBox4.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pictureBox4.BackgroundImage")));
+            this.pictureBox4.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.pictureBox4.Location = new System.Drawing.Point(539, -23);
+            this.pictureBox4.Name = "pictureBox4";
+            this.pictureBox4.Size = new System.Drawing.Size(252, 176);
+            this.pictureBox4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox4.TabIndex = 23;
+            this.pictureBox4.TabStop = false;
             // 
             // frmPrincipal
             // 
@@ -611,6 +660,9 @@
             this.tabLogin.PerformLayout();
             this.gbConfiguracoesBasicas.ResumeLayout(false);
             this.gbConfiguracoesBasicas.PerformLayout();
+            this.panelConexao.ResumeLayout(false);
+            this.panelConexao.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
@@ -618,8 +670,8 @@
             this.tabChamador.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
             this.groupBox2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -668,5 +720,9 @@
         private System.Windows.Forms.Button btnConfiguracoes;
         private System.Windows.Forms.Button btnEstoque;
         private System.Windows.Forms.Button btnAtendimento;
+        private System.Windows.Forms.Label lblIpBanco;
+        private System.Windows.Forms.Label lblIpApp;
+        private System.Windows.Forms.PictureBox pictureBox5;
+        private System.Windows.Forms.Panel panelConexao;
     }
 }

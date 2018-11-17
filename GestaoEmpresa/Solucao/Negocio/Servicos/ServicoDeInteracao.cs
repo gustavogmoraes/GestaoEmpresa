@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using GS.GestaoEmpresa.Solucao.Negocio.Objetos.ObjetosConcretos;
-using GS.GestaoEmpresa.Solucao.Mapeador.Mapeadores.MapeadoresConcretos;
+using GS.GestaoEmpresa.Solucao.Negocio.Objetos;
 using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores;
 using GS.GestaoEmpresa.Solucao.Negocio.Validador;
+using GS.GestaoEmpresa.Solucao.Persistencia.Repositorios;
+using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores.Comuns;
 
 namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
 {
@@ -15,9 +16,15 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
         public List<Interacao> ConsulteTodasAsInteracoes()
         {
             var listaDeInteracoes = new List<Interacao>();
-            using (var mapeadorDeInteracao = new MapeadorDeInteracao())
+            using (var mapeadorDeInteracao = new RepositorioDeInteracao())
+            using (var mapeadorDeNumeroDeSerie = new RepositorioDeNumeroDeSerie())
             {
                 listaDeInteracoes = mapeadorDeInteracao.ConsulteTodasAsInteracoes();
+                
+                foreach (var interacao in listaDeInteracoes)
+                {
+                    interacao.NumerosDeSerie = mapeadorDeNumeroDeSerie.ConsulteTodosPorInteracao(interacao.Codigo);
+                }
             }
 
             return listaDeInteracoes;
@@ -26,20 +33,28 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
         public List<Interacao> ConsulteTodasAsInteracoesPorProduto(int codigoProduto)
         {
             var listaDeInteracoes = new List<Interacao>();
-            using (var mapeadorDeInteracao = new MapeadorDeInteracao())
+            using (var mapeadorDeInteracao = new RepositorioDeInteracao())
+            using (var mapeadorDeNumeroDeSerie = new RepositorioDeNumeroDeSerie())
             {
                 listaDeInteracoes = mapeadorDeInteracao.ConsulteTodasInteracoesPorProduto(codigoProduto);
+                
+                foreach (var interacao in listaDeInteracoes)
+                {
+                    interacao.NumerosDeSerie = mapeadorDeNumeroDeSerie.ConsulteTodosPorInteracao(interacao.Codigo);
+                }
             }
 
             return listaDeInteracoes;
         }
 
-        public Interacao Consulte(int codigoInteracao)
+        public Interacao Consulte(int codigoDaInteracao)
         {
             var interacao = new Interacao();
-            using (var mapeadorDeInteracao = new MapeadorDeInteracao())
+            using (var mapeadorDeInteracao = new RepositorioDeInteracao())
+            using (var mapeadorDeNumeroDeSerie = new RepositorioDeNumeroDeSerie())
             {
-                interacao = mapeadorDeInteracao.Consulte(codigoInteracao);
+                interacao = mapeadorDeInteracao.Consulte(codigoDaInteracao);
+                interacao.NumerosDeSerie = mapeadorDeNumeroDeSerie.ConsulteTodosPorInteracao(codigoDaInteracao);
             }
 
             return interacao;
@@ -56,32 +71,150 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
 
             if (listaDeInconsistencias.Count == 0)
             {
-                using (var mapeadorDeInteracao = new MapeadorDeInteracao())
+                using (var mapeadorDeInteracao = new RepositorioDeInteracao())
+                using (var mapeadorDeNumeroDeSerie = new RepositorioDeNumeroDeSerie())
+                using (var servicoDeProduto = new ServicoDeProduto())
                 {
                     interacao.Horario = horario;
                     interacao.Codigo = mapeadorDeInteracao.ObtenhaProximoCodigoDisponivel();
                     mapeadorDeInteracao.Insira(interacao);
-                }
 
-                var quantidadeInterada = interacao.TipoInteracao == EnumTipoInteracao.Entrada
-                                       ? interacao.QuantidadeInterada
-                                       : interacao.QuantidadeInterada * (-1);
+                    foreach (var numeroDeSerie in interacao.NumerosDeSerie)
+                    {
+                        mapeadorDeNumeroDeSerie.Insira(numeroDeSerie, interacao.Codigo, interacao.Produto.Codigo);
+                    }
 
-                var produto = interacao.Produto;
-                produto.QuantidadeEmEstoque = produto.QuantidadeEmEstoque + quantidadeInterada;
+                    int quantidadeInterada = 0;
+                    int quantidadeInteradaAux = 0;
+                    switch (interacao.TipoDeInteracao)
+                    {
+                        case EnumTipoDeInteracao.ENTRADA:
+                            quantidadeInterada = interacao.QuantidadeInterada;
+                            break;
 
-                if(interacao.AtualizarValorDoProdutoNoCatalogo)
-                {
-                    produto.PrecoDeCompra = interacao.ValorInteracao;
-                }
+                        case EnumTipoDeInteracao.SAIDA:
+                            quantidadeInterada = interacao.QuantidadeInterada * (-1);
+                            break;
 
-                using (var servicoDeProduto = new ServicoDeProduto())
-                {
-                    servicoDeProduto.Salve(produto, EnumTipoDeForm.Edicao);
+                        case EnumTipoDeInteracao.BASE_DE_TROCA:
+                            // Entrada
+                            quantidadeInterada = interacao.QuantidadeInterada;
+
+                            // Saída
+                            quantidadeInteradaAux = interacao.QuantidadeAuxiliar.GetValueOrDefault() * (-1);
+                            break;
+                    }
+
+                    var produtoConsultado = servicoDeProduto.Consulte(interacao.Produto.Codigo);
+
+                    // Nesse caso atualizamos o produto com o novo valor
+                    if (interacao.AtualizarValorDoProdutoNoCatalogo)
+                    {
+                        var valorDoProduto = interacao.TipoDeInteracao == EnumTipoDeInteracao.ENTRADA
+                                           ? produtoConsultado.PrecoDeCompra
+                                           : produtoConsultado.PrecoDeVenda;
+
+                        // Só devemos criar uma nova vigência, caso o valor seja diferente, senão é desnecessário
+                        if (interacao.ValorInteracao != valorDoProduto)
+                        {
+                            if (interacao.TipoDeInteracao == EnumTipoDeInteracao.ENTRADA)
+                            {
+                                produtoConsultado.PrecoDeCompra = interacao.ValorInteracao;
+
+                                produtoConsultado.PrecoDeVenda = Math.Round(produtoConsultado.PrecoDeCompra * (1 + produtoConsultado.PorcentagemDeLucro), 2);
+                            }
+                            else
+                            {
+                                produtoConsultado.PrecoDeVenda = interacao.ValorInteracao;
+                            }
+
+                            servicoDeProduto.Salve(produtoConsultado, EnumTipoDeForm.Edicao);
+                        }
+                    }
+
+                    servicoDeProduto.AltereQuantidadeDeProduto(produtoConsultado.Codigo,
+                                                               produtoConsultado.QuantidadeEmEstoque + quantidadeInterada + quantidadeInteradaAux);
                 }
             }
 
             return listaDeInconsistencias;
+        }
+        
+        private List<Interacao> ConsultePorNumeroDeSerie(string numeroDeSerie)
+        {
+            var listaDeRetorno = new List<Interacao>();
+            List<int> codigosDasInteracoes;
+            using (var mapeadorDeNumeroDeSerie = new RepositorioDeNumeroDeSerie())
+            {
+                codigosDasInteracoes = mapeadorDeNumeroDeSerie.ConsulteTodosOsCodigosDeInteracoesDeUmNumero(numeroDeSerie);
+            }
+            
+            foreach (var codigo in codigosDasInteracoes)
+            {
+                listaDeRetorno.Add(Consulte(codigo));
+            }
+            
+            return listaDeRetorno;
+        }
+        
+        public bool VerifiqueSeNumeroDeSerieEstahEmEstoque(string numeroDeSerie)
+        {
+            var listaDeInteracoes = ConsultePorNumeroDeSerie(numeroDeSerie);
+
+            var numeroDeEntradas = listaDeInteracoes.Where(x => x.TipoDeInteracao == EnumTipoDeInteracao.ENTRADA).Count();
+            var numeroDeSaidas = listaDeInteracoes.Where(x => x.TipoDeInteracao == EnumTipoDeInteracao.SAIDA).Count();
+
+            return (numeroDeEntradas > numeroDeSaidas);
+        }
+
+        public List<Inconsistencia> Exclua(int codigoDaInteracao)
+        {
+            using (var mapeador = new RepositorioDeInteracao())
+            using (var mapeadorDeNS = new RepositorioDeNumeroDeSerie())
+            using (var servicoDeProduto = new ServicoDeProduto())
+            using (var validador = new ValidadorDeInteracao())
+            {
+                var interacao = Consulte(codigoDaInteracao);
+                var produto = servicoDeProduto.Consulte(interacao.Produto.Codigo);
+
+                var inconsistencias = validador.ValideExclusao(codigoDaInteracao, produto.Codigo);
+                if (inconsistencias.Count > 0)
+                {
+                    return inconsistencias;
+                }
+
+                int quantidadeInterada = 0;
+                int quantidadeInteradaAux = 0;
+
+                switch (interacao.TipoDeInteracao)
+                {
+                    case EnumTipoDeInteracao.ENTRADA:
+                        quantidadeInterada = interacao.QuantidadeInterada * (-1);
+                        break;
+
+                    case EnumTipoDeInteracao.SAIDA:
+                        quantidadeInterada = interacao.QuantidadeInterada;
+                        break;
+
+                    case EnumTipoDeInteracao.BASE_DE_TROCA:
+                        // Entrada
+                        quantidadeInterada = interacao.QuantidadeInterada * (-1);
+
+                        // Saída
+                        quantidadeInteradaAux = interacao.QuantidadeAuxiliar.GetValueOrDefault();
+                        break;
+                }
+
+                var NSs = mapeadorDeNS.ConsulteTodosPorInteracao(codigoDaInteracao);
+                NSs.ForEach(x => mapeadorDeNS.Exclua(x, codigoDaInteracao));
+
+                var novaQuantidade = produto.QuantidadeEmEstoque + quantidadeInterada + quantidadeInteradaAux;
+
+                mapeador.Exclua(codigoDaInteracao);
+                servicoDeProduto.AltereQuantidadeDeProduto(produto.Codigo, novaQuantidade);
+
+                return new List<Inconsistencia>();
+            }
         }
 
         #region IDisposable Support

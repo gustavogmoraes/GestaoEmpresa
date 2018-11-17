@@ -5,6 +5,15 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Catalogos
 {
     public static class Mensagens
     {
+        public static string DEVE_SER_INFORMADOS_NS_PARA_TODOS_OS_PRODUTOS(int quantidadeNS, int quantidadeProdutos)
+        {
+            return string.Format(
+                "Devem ser informados números de série para todos os produtos.\n" +
+                "Foram informados {0} números de séries, mas estão sendo operados {1} produtos.",
+                quantidadeNS,
+                quantidadeProdutos);
+        }
+
         public static string NAO_HA_CONFIGURACOES_BANCO() 
         {
             return "Não há configurações de banco."; 
@@ -58,6 +67,21 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Catalogos
         public static string O_X_FOI_EXCLUIDO_COM_SUCESSO(string valor)
         {
             return string.Format("O {0} foi excluído com sucesso.", valor);
+        }
+
+        public static string UM_PRODUTO_COM_O_NUMERO_DE_SERIE_X_JA_ESTA_EM_ESTOQUE(string numeroDeSerie)
+        {
+            return string.Format("Um produto com o número de série {0} já está em estoque!", numeroDeSerie);
+        }
+
+        public static string NAO_E_POSSIVEL_DAR_SAIDA_DO_NUMERO_DE_SERIE_X(string numeroDeSerie)
+        {
+            return string.Format("Não é possível dar saída de um produto com o número de série {0}, pois o mesmo não está em estoque!", numeroDeSerie);
+        }
+        
+        public static string TEM_CERTEZA_QUE_QUER_DAR_ENTRADA_SEM_VALOR()
+        {
+            return "Você tem certeza que deseja dar entrada sem valor?";
         }
     }
 }

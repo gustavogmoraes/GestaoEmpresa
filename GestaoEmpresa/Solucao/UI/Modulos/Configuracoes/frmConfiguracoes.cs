@@ -1,5 +1,5 @@
-﻿using GS.GestaoEmpresa.Solucao.Mapeador.Mapeadores.MapeadoresConcretos;
-using GS.GestaoEmpresa.Solucao.Negocio.Objetos.ObjetosConcretos;
+﻿using GS.GestaoEmpresa.Solucao.Persistencia.Repositorios;
+using GS.GestaoEmpresa.Solucao.Negocio.Objetos;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -30,7 +30,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Configuracoes
         {
             List<Usuario> listaUsuarios;
 
-            using(var servicoMapeadorUsuario = new MapeadorDeUsuario())
+            using(var servicoMapeadorUsuario = new RepositorioDeUsuario())
             {
                 listaUsuarios = servicoMapeadorUsuario.ConsulteTodos();
             }
@@ -56,7 +56,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Configuracoes
         private void ChameEditarUsuario(int rowIndex)
         {
             var usuario = new Usuario();
-            using (var servicoMapeadorUsuario = new MapeadorDeUsuario())
+            using (var servicoMapeadorUsuario = new RepositorioDeUsuario())
             {
                usuario = servicoMapeadorUsuario.Consulte(dgvUsuarios.Rows[rowIndex]
                                                                     .Cells["NomeDeUsuario"]

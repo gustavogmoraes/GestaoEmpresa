@@ -1,8 +1,10 @@
 ﻿using GS.GestaoEmpresa.Solucao.Negocio.Catalogos;
 using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores;
+using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores.Comuns;
 using GS.GestaoEmpresa.Solucao.Negocio.Interfaces;
-using GS.GestaoEmpresa.Solucao.Negocio.Objetos.ObjetosConcretos;
+using GS.GestaoEmpresa.Solucao.Negocio.Objetos;
 using GS.GestaoEmpresa.Solucao.Negocio.Servicos;
+using GS.GestaoEmpresa.Solucao.UI.ControlesGenericos;
 using GS.GestaoEmpresa.Solucao.Utilitarios;
 using System;
 using System.Collections;
@@ -45,19 +47,20 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             InicializeBotoes(EnumTipoDeForm.Cadastro, ref btnEditarSalvar, ref btnCancelarExcluir, ref _switchBotaoEditarSalvar, ref _switchBotaoCancelarExcluir);
             _tipoDoForm = EnumTipoDeForm.Cadastro;
             cbTipo.Text = "Ativo";
-            txtHorario.Enabled = false;
-            txtLineHorario.Enabled = false;
+            
+            txtLineHorario.Enabled = true;
+            dateHorario.Value = DateTime.Now;
         }
 
         public frmInteracao(Interacao interacao)
         {
             InitializeComponent();
 
-            InicializeBotoes(EnumTipoDeForm.Detalhamento, ref btnEditarSalvar, ref btnCancelarExcluir, ref _switchBotaoEditarSalvar, ref _switchBotaoCancelarExcluir);
             _tipoDoForm = EnumTipoDeForm.Detalhamento;
 
             CarregueControlesComObjeto(interacao);
             DesabiliteControles();
+            InicializeBotoes(EnumTipoDeForm.Detalhamento, ref btnEditarSalvar, ref btnCancelarExcluir, ref _switchBotaoEditarSalvar, ref _switchBotaoCancelarExcluir);
             _codigoInteracao = interacao.Codigo;
         }
 
@@ -75,7 +78,9 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         protected virtual void HabiliteControles()
         {
-            foreach (Control controle in (this as Form).Controls)
+            var controles = (this as Form).Controls;
+
+            foreach (Control controle in controles)
             {
                 controle.Enabled = true;
             }
@@ -83,10 +88,46 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         protected virtual void DesabiliteControles()
         {
-            foreach (Control controle in (this as Form).Controls)
+            cbTipo.Enabled = false;
+            txtLineTipo.Enabled = false;
+
+            txtQuantidade.Enabled = false;
+            txtLineQuantidadeEstoque.Enabled = false;
+
+            txtQuantidadeAux.Enabled = false;
+            txtLineQuantidadeAux.Enabled = false;
+
+            txtNumeroDaNotaFiscal.Enabled = false;
+
+            txtObservacoes.Enabled = false;
+            txtLineObservacoes.Enabled = false;
+
+            cbProduto.Enabled = false;
+            txtLineProduto.Enabled = false;
+
+            txtOrigem.Enabled = false;
+            txtLineOrigem.Enabled = false;
+
+            txtDestino.Enabled = false;
+            txtLineDestino.Enabled = false;
+
+            dateHorario.Enabled = false;
+            dateData.Enabled = false;
+
+            chkAtualizar.Enabled = false;
+            chkInformarNumeroDeSerie.Enabled = false;
+
+            foreach(Control controle in flpNumerosDeSerie.Controls)
             {
-                controle.Enabled = false;
+                controle.Controls.Find("btnAdicionar", false)[0].Visible = false;
+                controle.Controls.Find("txtTexto", false)[0].Enabled = false;
+                controle.Controls.Find("txtLineTexto", false)[0].Enabled = false;
             }
+
+            flpNumerosDeSerie.Enabled = true;
+            btnCancelarExcluir.Enabled = true;
+            btnEditarSalvar.Enabled = false;
+            btnEditarSalvar.Visible = false;
         }
 
         protected void InicializeBotoes(EnumTipoDeForm tipoDeForm,
@@ -141,52 +182,84 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             }
 
             PreenchaComboBoxPesquisaComProdutos(listaDeProdutos);
+            
+            switch(_tipoDoForm)
+            {
+                case EnumTipoDeForm.Cadastro:
+                    cbTipo.SelectedIndex = 0;
+                    break;
+
+                case EnumTipoDeForm.Detalhamento:
+                    if (cbTipo.SelectedIndex == ((int)EnumTipoDeInteracao.BASE_DE_TROCA - 1))
+                    {
+                        txtLineQuantidadeAux.Visible = true;
+                        txtQuantidadeAux.Visible = true;
+                        lblQuantidadeAux.Visible = true;
+                    }
+                    break;
+            }
 
             InicializeInconsistencias();
         }
-
-        public void RealizeValidacoesDeTela()
-        {
-            if (cbTipo.SelectedIndex == -1)
-            {
-                MessageBox.Show("Um tipo deve ser selecionado");
-                return;
-            }
-
-            if (cbProduto.SelectedIndex == -1)
-            {
-                MessageBox.Show("Um produto deve ser selecionado");
-                return;
-            }
-        }
-
+        
         public void CarregueControlesComObjeto(Interacao objeto)
         {
-            txtDescricao.Text = objeto.Descricao ?? string.Empty;
+            cbTipo.SelectedIndex = (int)objeto.TipoDeInteracao - 1;
             txtObservacoes.Text = objeto.Observacao ?? string.Empty;
             txtQuantidade.Text = objeto.QuantidadeInterada.ToString();
+            txtQuantidadeAux.Text = (objeto.QuantidadeAuxiliar ?? new int?()).ToString();
             GStxtValor.Valor = objeto.ValorInteracao;
-            cbTipo.SelectedItem = objeto.TipoInteracao.ToString();
             txtOrigem.Text = objeto.Origem ?? string.Empty;
             txtDestino.Text = objeto.Destino ?? string.Empty;
             cbProduto.Text = objeto.Produto.Nome.Trim();
             chkAtualizar.Checked = objeto.AtualizarValorDoProdutoNoCatalogo;
+            txtNumeroDaNotaFiscal.Text = objeto.NumeroDaNota;
+
+            dateData.Value = objeto.HorarioProgramado;
+            dateHorario.Value = objeto.HorarioProgramado;
+
+            if (objeto.InformaNumeroDeSerie)
+            {
+                chkInformarNumeroDeSerie.Checked = true;
+                foreach (var numero in objeto.NumerosDeSerie)
+                {
+                    if (numero == objeto.NumerosDeSerie.FirstOrDefault())
+                    {
+                        GSMultiTextBox.Texto = numero;
+                    }
+                    else
+                    {
+                        flpNumerosDeSerie.Controls.Add(
+                            new GSMultiTextBox()
+                            {
+                                Texto = numero
+                            });
+                    }
+                }
+            }
+            else
+            {
+                chkInformarNumeroDeSerie.Checked = false;
+            }
         }
 
         public Interacao CarregueObjetoComControles()
         {
             var interacao = new Interacao();
-            
-            interacao.Descricao = txtDescricao.Text.Trim();
             interacao.Observacao = txtObservacoes.Text.Trim();
             interacao.ValorInteracao = GStxtValor.Valor;
             interacao.AtualizarValorDoProdutoNoCatalogo = chkAtualizar.Checked;
-            interacao.TipoInteracao = (EnumTipoInteracao)cbTipo.SelectedIndex + 1;
+            interacao.TipoDeInteracao = (EnumTipoDeInteracao)cbTipo.SelectedIndex + 1;
             interacao.QuantidadeInterada = !string.IsNullOrEmpty(txtQuantidade.Text.Trim())
                                          ? int.Parse(txtQuantidade.Text.Trim())
                                          : 0;
+            interacao.QuantidadeAuxiliar = !string.IsNullOrEmpty(txtQuantidadeAux.Text.Trim())
+                                         ? new int?(int.Parse(txtQuantidadeAux.Text.Trim()))
+                                         : new int?();
             interacao.Origem = txtOrigem.Text.Trim();
             interacao.Destino = txtDestino.Text.Trim();
+            interacao.NumeroDaNota = txtNumeroDaNotaFiscal.Text.Trim();
+            interacao.HorarioProgramado = GSUtilitarios.ObtenhaDateTimeCompletoDePickers(dateData, dateHorario);
 
             var listaDeProdutos = new List<Produto>();
             using (var servicoDeProduto = new ServicoDeProduto())
@@ -195,6 +268,26 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             }
 
             interacao.Produto = listaDeProdutos.Find(x => x.Nome.Trim() == cbProduto.Text.Trim());
+            
+            if (chkInformarNumeroDeSerie.Checked)
+            {
+                interacao.InformaNumeroDeSerie = true;
+
+                //Carregando números de série
+                foreach (var multiTextBox in flpNumerosDeSerie.Controls)
+                {
+                    var valor = (multiTextBox as GSMultiTextBox).Texto;
+
+                    if (!string.IsNullOrEmpty(valor))
+                    {
+                        interacao.NumerosDeSerie.Add(valor);
+                    }
+                }
+            }
+            else
+            {
+                interacao.InformaNumeroDeSerie = false;
+            }
 
             return interacao;
         }
@@ -227,9 +320,11 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                     //        Text = string.Format("{0}, ", inconsistencia.Mensagem)
                     //    });
 
+                    MessageBox.Show(inconsistencia.Mensagem);
+
                     if (inconsistencia.NomeDaPropriedadeValidada == "ValorInteracao")
                     {
-                        GStxtValor.ListaDeInconsistencias = new List<Inconsistencia> { inconsistencia };
+                        //GStxtValor.ListaDeInconsistencias = new List<Inconsistencia> { inconsistencia };
                     }
                 }
 }
@@ -296,11 +391,26 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
                 case EnumBotoesForm.Salvar:
                     var interacao = CarregueObjetoComControles();
-
-                    RealizeValidacoesDeTela();
+                    
+                    // Valida entradas sem valores
+                    // Ver pra colocar no validador
+                    if (((EnumTipoDeInteracao)cbTipo.SelectedIndex + 1) == EnumTipoDeInteracao.ENTRADA &&
+                        GStxtValor.Valor == 0)
+                    {
+                        var resultado = MessageBox.Show(Mensagens.TEM_CERTEZA_QUE_QUER_DAR_ENTRADA_SEM_VALOR(), "Confirmação", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                        if (resultado == DialogResult.Yes)
+                        {
+                           //Não faz nada
+                        }
+                        else if (resultado == DialogResult.No)
+                        {
+                           GStxtValor.Focus();
+                           return;
+                        }
+                    }
 
                     var horario = DateTime.Now;
-                    txtHorario.Text = horario.ToString(Cultura);
+                    //txtHorario.Text = horario.ToString(Cultura);
 
                     using (var servicoDeInteracao = new ServicoDeInteracao())
                     {
@@ -340,13 +450,26 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                     break;
 
                 case EnumBotoesForm.Excluir:
-                    //Prompt de certeza
-                    using (var servicoDeInteracao = new ServicoDeInteracao())
+                    var resultado = MessageBox.Show($"Tem certeza que deseja excluir essa interação?", "Confirmação", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    if (resultado == DialogResult.Yes)
                     {
-                        //servicoDeInteracao.Exclua();
-                        //Retorno dessa função deve validar se pode excluir
-                        //Se tudo der certo, mensagem de sucesso e fecha
-                        this.Close();
+                        using (var servicoDeInteracao = new ServicoDeInteracao())
+                        {
+                            var inconsistencias = servicoDeInteracao.Exclua(_codigoInteracao);
+
+                            if (inconsistencias.Count > 0)
+                            {
+                                foreach (var inconsitencia in inconsistencias)
+                                {
+                                    MessageBox.Show(inconsitencia.Mensagem);
+                                }
+                            }
+                            else
+                            {
+                                MessageBox.Show("Interação excluída com sucesso!");
+                                this.Close();
+                            }
+                        }
                     }
                     break;
             }
@@ -354,17 +477,155 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         private void cbTipo_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (cbTipo.Text == "Saída")
+            if (_tipoDoForm != EnumTipoDeForm.Detalhamento)
             {
-                lblValor.Enabled = false;
-                GStxtValor.Enabled = false;
-                chkAtualizar.Enabled = false;
+                switch (cbTipo.Text)
+                {
+                    case "Saída":
+                        lblQuantidadeEstoque.Text = "Quantidade";
+
+                        lblValor.Enabled = false;
+                        GStxtValor.Enabled = false;
+                        chkAtualizar.Enabled = false;
+
+                        lblQuantidadeAux.Visible = false;
+                        txtLineQuantidadeAux.Visible = false;
+                        txtQuantidadeAux.Visible = false;
+
+                        // Tem que ser feito pra evitar inconsistencias
+                        chkAtualizar.Checked = false;
+                        GStxtValor.Valor = 0;
+                        break;
+
+                    case "Entrada":
+                        lblQuantidadeEstoque.Text = "Quantidade";
+
+                        lblValor.Enabled = true;
+                        GStxtValor.Enabled = true;
+                        chkAtualizar.Enabled = true;
+
+                        lblQuantidadeAux.Visible = false;
+                        txtLineQuantidadeAux.Visible = false;
+                        txtQuantidadeAux.Visible = false;
+
+                        chkAtualizar.Checked = true;
+                        AtualizeValorComODoProduto();
+                        break;
+
+                    case "Base de troca":
+                        lblValor.Enabled = false;
+                        GStxtValor.Enabled = false;
+                        chkAtualizar.Enabled = false;
+
+                        lblQuantidadeEstoque.Text = "Qtd. Entrada";
+
+                        lblQuantidadeAux.Visible = true;
+                        txtLineQuantidadeAux.Visible = true;
+                        txtQuantidadeAux.Visible = true;
+
+                        // Tem que ser feito pra evitar inconsistencias
+                        chkAtualizar.Checked = false;
+                        GStxtValor.Valor = 0;
+                        break;
+                }
+            }
+        }
+
+        private void AtualizeValorComODoProduto()
+        {
+            var listaDeProdutos = new List<Produto>();
+            using (var servicoDeProduto = new ServicoDeProduto())
+            {
+                listaDeProdutos = servicoDeProduto.ConsulteTodosOsProdutos();
+            }
+
+            var produto = listaDeProdutos.Find(x => x.Nome.Trim() == cbProduto.Text);
+            if (produto == null)
+            {
+                return;
+            }
+                
+            decimal valorASerAtribuido = 0;
+            switch ((EnumTipoDeInteracao)cbTipo.SelectedIndex + 1)
+            {
+                case EnumTipoDeInteracao.ENTRADA:
+                    valorASerAtribuido = produto.PrecoDeCompra;
+                    break;
+
+                case EnumTipoDeInteracao.SAIDA:
+                    valorASerAtribuido = produto.PrecoDeVenda;
+                    break;
+            }
+
+            GStxtValor.Valor = valorASerAtribuido;
+        }
+
+        private void btnAdicionarNumeroDeSerie_Click(object sender, EventArgs e)
+        {
+            flpNumerosDeSerie.Controls.Add(
+                new TextBox()
+                {
+                    AccessibleRole = AccessibleRole.Default,
+                    BorderStyle = BorderStyle.None,
+                    BackColor = Color.Silver,
+                    ForeColor = Color.Black,
+                    Visible = true,
+                    Enabled = true,
+                    Font = new Font("Century Gothic", 14.25f),
+                    Size = new Size(462, 24),
+                });
+        }
+
+        private void txtOrigem_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtLineOrigem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void cbProduto_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            AtualizeValorComODoProduto();
+        }
+
+        private void chkInformarNumeroDeSerie_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chkInformarNumeroDeSerie.Checked)
+            {
+                label1.Enabled = true;
+                flpNumerosDeSerie.Enabled = true;
             }
             else
             {
-                lblValor.Enabled = true;
-                GStxtValor.Enabled = true;
-                chkAtualizar.Enabled = true;
+                label1.Enabled = false;
+                flpNumerosDeSerie.Enabled = false;
+            }
+        }
+
+        private void txtQuantidadeAux_TextChanged(object sender, EventArgs e)
+        {
+            if (txtQuantidadeAux.Text.All(char.IsDigit))
+            {
+                return;
+            }
+            else
+            {
+                txtQuantidadeAux.Text = txtQuantidadeAux.Text.Trim().Remove(txtQuantidadeAux.Text.Length - 1);
+            }
+        }
+
+        private void txtNumeroDaNotaFiscal_TextChanged(object sender, EventArgs e)
+        {
+            if (txtNumeroDaNotaFiscal.Text.All(char.IsDigit))
+            {
+                return;
+            }
+            else
+            {
+                txtNumeroDaNotaFiscal.Text = txtNumeroDaNotaFiscal.Text.Trim().Remove(txtNumeroDaNotaFiscal.Text.Length - 1);
             }
         }
     }

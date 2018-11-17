@@ -1,14 +1,15 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
-using GS.GestaoEmpresa.Solucao.Mapeador.BancoDeDados;
-using GS.GestaoEmpresa.Solucao.Negocio.Objetos.ObjetosConcretos;
+using GS.GestaoEmpresa.Solucao.Persistencia.BancoDeDados;
+using GS.GestaoEmpresa.Solucao.Negocio.Objetos;
 using GS.GestaoEmpresa.Solucao.Utilitarios;
-using GS.GestaoEmpresa.Solucao.Mapeador.Mapeadores.MapeadoresConcretos;
 using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores;
 using GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque;
 using System.Runtime.InteropServices;
 using GS.GestaoEmpresa.Solucao.Negocio.Validador;
+using GS.GestaoEmpresa.Solucao.Persistencia.Repositorios;
+using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores.Comuns;
 
 namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
 {
@@ -16,7 +17,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
     {
         public List<Produto> ConsulteTodosOsProdutos()
         {
-            using (var mapeadorDeProduto = new MapeadorDeProduto())
+            using (var mapeadorDeProduto = new RepositorioDeProduto())
             {
                 return mapeadorDeProduto.ConsulteTodos();
             }
@@ -26,7 +27,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
         {
             var listaDeVigencias = new List<DateTime>();
 
-            using (var mapeadorDeProduto = new MapeadorDeProduto())
+            using (var mapeadorDeProduto = new RepositorioDeProduto())
             {
                 listaDeVigencias = mapeadorDeProduto.ConsulteTodasVigencias(codigoDoProduto);
             }
@@ -36,20 +37,20 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
 
         public Produto Consulte(int codigo, DateTime data)
         {
-            using (var mapeadorDeProduto = new MapeadorDeProduto())
+            using (var mapeadorDeProduto = new RepositorioDeProduto())
                 return mapeadorDeProduto.Consulte(codigo, data);
         }
 
         public Produto Consulte(int codigo)
         {
-            using (var mapeadorDeProduto = new MapeadorDeProduto())
+            using (var mapeadorDeProduto = new RepositorioDeProduto())
                 return mapeadorDeProduto.Consulte(codigo);
         }
 
         public int ObtenhaProximoCodigoDisponivel()
         {
             int codigo;
-            using (var mapeadorDeProduto = new MapeadorDeProduto())
+            using (var mapeadorDeProduto = new RepositorioDeProduto())
             {
                 codigo = mapeadorDeProduto.ObtenhaProximoCodigoDisponivel();
             }
@@ -67,7 +68,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
 
             if (listaDeInconsistenciasExclusao.Count == 0)
             {
-                using (var mapeadorDeProduto = new MapeadorDeProduto())
+                using (var mapeadorDeProduto = new RepositorioDeProduto())
                 {
                     mapeadorDeProduto.Exclua(codigoDoProduto);
                 }
@@ -100,13 +101,31 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
 
             if (listaDeInconsistencias.Count == 0)
             {
-                using (var mapeadorDeProduto = new MapeadorDeProduto())
+                using (var mapeadorDeProduto = new RepositorioDeProduto())
                 {
                     mapeadorDeProduto.Insira(produto);
+
+                    if(tipoDoForm == EnumTipoDeForm.Cadastro)
+                    {
+                        mapeadorDeProduto.InsiraNaTabelaQuantidade(produto.Codigo);
+                    }
+                    
+                    if(tipoDoForm == EnumTipoDeForm.Edicao)
+                    {
+                        AltereQuantidadeDeProduto(produto.Codigo, produto.QuantidadeEmEstoque);
+                    }
                 }
             }
 
             return listaDeInconsistencias;
+        }
+
+        public void AltereQuantidadeDeProduto(int codigoDoProduto, int novaQuantidade)
+        {
+            using (var mapeadorDeProduto = new RepositorioDeProduto())
+            {
+                mapeadorDeProduto.AltereQuantidadeDeProduto(codigoDoProduto, novaQuantidade);
+            }
         }
 
         #region IDisposable Support

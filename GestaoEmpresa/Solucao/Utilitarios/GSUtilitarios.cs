@@ -6,9 +6,12 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Reflection;
 using System.Collections;
-using GS.GestaoEmpresa.Solucao.Negocio.Objetos.Atributos;
 using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores;
 using System.Windows.Forms;
+using System.Net.Sockets;
+using System.Net;
+using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores.Comuns;
+using GS.GestaoEmpresa.Solucao.Negocio.Atributos;
 
 namespace GS.GestaoEmpresa.Solucao.Utilitarios
 {
@@ -17,6 +20,8 @@ namespace GS.GestaoEmpresa.Solucao.Utilitarios
         #region Propriedades
 
         public static readonly Dictionary<Type, string> DicionarioTipoDadosParaBancoDeDados;
+
+        public static readonly CultureInfo Cultura = new CultureInfo("pt-BR");
 
         #endregion
 
@@ -73,17 +78,33 @@ namespace GS.GestaoEmpresa.Solucao.Utilitarios
             return booleano ? "S" : "N";
         }
 
+        public static string ConvertaEnumeradorParaString(EnumTipoDeInteracao tipoDeInteracao)
+        {
+            return Cultura.TextInfo.ToTitleCase(tipoDeInteracao.ToString().ToLowerInvariant()
+                                                                          .Replace("_", " "))
+                                   .Replace(" De ", " de ");
+        }
+
         #endregion
 
 
         #region Utilitários p/ Criação de Objetos
+	
+	
+	// Obtém o Type dos Itens de um GenericType
+	//var tipoDosElementosDaLista = propriedade.PropertyType.GetGenericArguments().SingleOrDefault();
 
+	//// Obtém o Type através da instância de um GenericType
+	//var tipoGenerico = propriedade.PropertyType;
+	//var instanciaDoTipoGenerico = Activator.CreateInstance(tipoGenerico);
+	//var tipoDosElementosDoTipoGenerico = ((IList)instanciaDoTipoGenerico).GetCollectionElementType();
+	
         /// <summary>
-		/// Cria uma lista do tipo passado
-		/// </summary>
-		/// <param name="tipo">Tipo dos elementos da lista</param>
-		/// <returns>Retorna uma lista do tipo passado.</returns>
-		public static IList CrieLista(Type tipo)
+        /// Cria uma lista do tipo passado
+        /// </summary>
+        /// <param name="tipo">Tipo dos elementos da lista</param>
+        /// <returns>Retorna uma lista do tipo passado.</returns>
+        public static IList CrieLista(Type tipo)
         {
             Type tipoGenericoLista = typeof(List<>).MakeGenericType(tipo);
 
@@ -150,7 +171,7 @@ namespace GS.GestaoEmpresa.Solucao.Utilitarios
 
         public static string FormateDecimalParaStringMoedaReal(decimal valor)
         {
-            return string.Format(CultureInfo.GetCultureInfo("pt-BR"), "{0:C}", valor);
+            return string.Format(CultureInfo.GetCultureInfo("pt-BR"), "{0:C}", valor).Replace("R$ ", String.Empty);
         }
         #endregion
 
@@ -189,12 +210,12 @@ namespace GS.GestaoEmpresa.Solucao.Utilitarios
 		public static PropertyInfo EncontrePropriedadeChaveDoObjeto(Object objeto)
         {
             var propriedadeChave = objeto.GetType().GetProperties()
-                                         .Where(x => Attribute.IsDefined(x, typeof(BancoDeDados)))
+                                         .Where(x => Attribute.IsDefined(x, typeof(PropriedadeBD)))
                                          .FirstOrDefault();
             
             if(propriedadeChave != null)
             {
-                var atributo = (BancoDeDados)propriedadeChave.GetCustomAttribute(typeof(BancoDeDados));
+                var atributo = (PropriedadeBD)propriedadeChave.GetCustomAttribute(typeof(PropriedadeBD));
 
                 if (atributo.EhChave)
                     return propriedadeChave;
@@ -204,19 +225,19 @@ namespace GS.GestaoEmpresa.Solucao.Utilitarios
         }
 
         /// <summary>
-		/// Encontra a propriedade que é chave no tipo/objeto passado.
-		/// </summary>
-		/// <param name="tipo">Tipo de dado a ser avaliado</param>
-		/// <returns>Retorna o tipo de dado da propriedade marcada com o atributo [Chave].</returns>
-		public static PropertyInfo EncontrePropriedadeChaveDoTipo(Type tipo)
+        /// Encontra a propriedade que é chave no tipo/objeto passado.
+        /// </summary>
+        /// <param name="tipo">Tipo de dado a ser avaliado</param>
+        /// <returns>Retorna o tipo de dado da propriedade marcada com o atributo [Chave].</returns>
+        public static PropertyInfo EncontrePropriedadeChaveDoTipo(Type tipo)
         {
             var propriedadeChave = tipo.GetProperties()
-                                       .Where(x => Attribute.IsDefined(x, typeof(BancoDeDados)))
+                                       .Where(x => Attribute.IsDefined(x, typeof(PropriedadeBD)))
                                        .FirstOrDefault();
 
             if (propriedadeChave != null)
             {
-                var atributo = (BancoDeDados)propriedadeChave.GetCustomAttribute(typeof(BancoDeDados));
+                var atributo = (PropriedadeBD)propriedadeChave.GetCustomAttribute(typeof(PropriedadeBD));
 
                 if (atributo.EhChave)
                     return propriedadeChave;
@@ -232,11 +253,10 @@ namespace GS.GestaoEmpresa.Solucao.Utilitarios
             return string.Format(cultura, "{0:C}", precoDeVenda).Remove(0, 2);
         }
 
-        public static PropertyInfo EncontrePropriedadeMarcadaComAtributo(Type tipo, Attribute atributo)
+        public static List<PropertyInfo> EncontrePropriedadeMarcadaComAtributo(Type tipo, Type tipoDoAtributo)
         {
             return tipo.GetProperties()
-                       .Where(x => Attribute.IsDefined(x, atributo.GetType()))
-                       .FirstOrDefault();
+                       .Where(x => Attribute.IsDefined(x, tipoDoAtributo)).ToList();
         }
 
         #endregion
@@ -249,9 +269,9 @@ namespace GS.GestaoEmpresa.Solucao.Utilitarios
 		/// </summary>
 		/// <param name="lista">Lista</param>
 		/// <returns>Retorna o tipo da lista.</returns>
-		public static Type ObtenhaTipoLista<T>(List<T> lista)
+		public static Type ObtenhaTipoLista(IList lista)
         {
-            return typeof(T);
+            return lista.GetType().GetProperty("Item").PropertyType;
         }
 
         /// <summary>
@@ -282,9 +302,9 @@ namespace GS.GestaoEmpresa.Solucao.Utilitarios
         /// <returns>Retorna um booleano da validação feita.</returns>
         public static EnumTipoDeEntidadeRelacional ObtenhaTipoDeEntidadeRelacional(PropertyInfo propriedade)
         {
-            if(Attribute.IsDefined(propriedade, typeof(BancoDeDados)))
+            if(Attribute.IsDefined(propriedade, typeof(PropriedadeBD)))
             {
-                var atributo = (BancoDeDados)Attribute.GetCustomAttribute(propriedade, typeof(BancoDeDados));
+                var atributo = (PropriedadeBD)Attribute.GetCustomAttribute(propriedade, typeof(PropriedadeBD));
 
                 return atributo.TipoDeRelacionamento;
             }
@@ -326,9 +346,9 @@ namespace GS.GestaoEmpresa.Solucao.Utilitarios
         /// <returns>Retorna um booleano da validação feita.</returns>
         public static bool VerifiqueSePropriedadeEhEntidadeRelacionalUmParaMuitos(PropertyInfo propriedade)
         {
-            if(Attribute.IsDefined(propriedade, typeof(BancoDeDados)))
+            if(Attribute.IsDefined(propriedade, typeof(PropriedadeBD)))
             {
-                var atributo = (BancoDeDados)Attribute.GetCustomAttribute(propriedade, typeof(BancoDeDados));
+                var atributo = (PropriedadeBD)Attribute.GetCustomAttribute(propriedade, typeof(PropriedadeBD));
 
                 return (atributo.TipoDeRelacionamento == EnumTipoDeEntidadeRelacional.UmParaMuitos);
             }
@@ -351,6 +371,44 @@ namespace GS.GestaoEmpresa.Solucao.Utilitarios
 
         #endregion
 
+
+        #region Utilitários p/ rede
+
+        public static string ObtenhaIPLocal()
+        {
+            using (Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, 0))
+            {
+                var ipLocal = string.Empty;
+                try
+                {
+                    socket.Connect("8.8.8.8", 65530);
+                    IPEndPoint endPoint = socket.LocalEndPoint as IPEndPoint;
+                    ipLocal = endPoint.Address.ToString();
+                }
+                catch
+                {
+                    ipLocal = "Erro ao obter...";
+                }
+
+                return ipLocal;
+            }
+        }
+
+        #endregion
+
+        public static DateTime ObtenhaDateTimeCompletoDePickers(
+            DateTimePicker dateDataInicio, DateTimePicker dateHoraInicio)
+        {
+            var dia = dateDataInicio.Value.Day;
+            var mes = dateDataInicio.Value.Month;
+            var ano = dateDataInicio.Value.Year;
+
+            var hora = dateHoraInicio.Value.Hour;
+            var minuto = dateHoraInicio.Value.Minute;
+            var segundo = dateHoraInicio.Value.Second;
+
+            return new DateTime(ano, mes, dia, hora, minuto, segundo);
+        }
 
         #region TextBox Monetaria
 
@@ -429,7 +487,7 @@ namespace GS.GestaoEmpresa.Solucao.Utilitarios
         /// <returns>Retorna uma lista dos dados da string Multivalor</returns>
         public static List<dynamic> ConvertaDadoMultivalorLista(string dado)
         {
-            const string NAMESPACE_OBJETOS_CONCRETOS = "GestaoEmpresa.GS.GestaoEmpresa.GS.GestaoEmpresa.Negocio.Objetos.ObjetosConcretos";
+            const string NAMESPACE_OBJETOS_CONCRETOS = "GestaoEmpresa.GS.GestaoEmpresa.GS.GestaoEmpresa.Negocio.Objetos";
 
             var nomeTipoMultivalor = ObtenhaValorEntreStrings(dado, "Multivalor(", ")");
             Object tipoMultivalor = Activator.CreateInstance(null,
@@ -450,7 +508,7 @@ namespace GS.GestaoEmpresa.Solucao.Utilitarios
 
         //public static string ConvertaDadoMultivalorLista(string dado, bool semLista)
         //{
-        //	const string NAMESPACE_OBJETOS_CONCRETOS = "GestaoEmpresa.GS.GestaoEmpresa.GS.GestaoEmpresa.Negocio.Objetos.ObjetosConcretos";
+        //	const string NAMESPACE_OBJETOS_CONCRETOS = "GestaoEmpresa.GS.GestaoEmpresa.GS.GestaoEmpresa.Negocio.Objetos";
 
         //	var nomeTipoMultivalor = ObtenhaValorEntreStrings(dado, "MultivalorSemLista(", ")");
         //	Object tipoMultivalor = Activator.CreateInstance(null,

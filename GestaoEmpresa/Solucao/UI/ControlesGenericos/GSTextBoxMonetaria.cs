@@ -7,12 +7,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Globalization;
-using GS.GestaoEmpresa.Solucao.Negocio.Objetos.ObjetosConcretos;
 using GS.GestaoEmpresa.Solucao.Utilitarios;
-using GS.GestaoEmpresa.Solucao.Negocio.Catalogos;
+using System.Globalization;
 
-namespace GS.GestaoEmpresa.Solucao.UI
+namespace GS.GestaoEmpresa.Solucao.UI.ControlesGenericos
 {
     public partial class GSTextBoxMonetaria : UserControl
     {
@@ -21,71 +19,58 @@ namespace GS.GestaoEmpresa.Solucao.UI
             InitializeComponent();
         }
 
-        #region Propriedades
-
         private CultureInfo _cultura = new CultureInfo("pt-BR");
 
-        private List<Inconsistencia> _listaDeInconsistencias;
+        //private List<Inconsistencia> _listaDeInconsistencias;
 
         public decimal Valor
         {
-            get { return decimal.Parse(string.IsNullOrEmpty(txtValor.Text) ? 0.ToString() : txtValor.Text , _cultura); }
+            get { return decimal.Parse(string.IsNullOrEmpty(txtValor.Text) ? 0.ToString() : txtValor.Text, _cultura); }
 
             set { this.txtValor.Text = GSUtilitarios.FormateDecimalParaStringMoedaReal(value); }
         }
 
-        public List<Inconsistencia> ListaDeInconsistencias
+        private void txtValor_TextChanged(object sender, EventArgs e)
         {
-            get { return _listaDeInconsistencias; }
-
-            set
-            {
-                _listaDeInconsistencias = value;
-                InicializeInconsistencias();
-            }
+            AjusteTextBoxMonetaria(ref txtValor);
         }
 
-        #endregion
-
-        #region Métodos
-
-        private void InicializeInconsistencias()
+        public static void AjusteTextBoxMonetaria(ref TextBox textBox)
         {
-            if (_listaDeInconsistencias == null)
+            if (!textBox.Text.All(x => GSUtilitarios.EhDigitoOuPonto(x)))
             {
-                _listaDeInconsistencias = new List<Inconsistencia>();
-            }
-
-            if (_listaDeInconsistencias.Count == 0)
-            {
+                textBox.Text = string.Empty;
                 return;
             }
 
-            txtLine.ForeColor = Cores.Erro;
-            pbErro.Enabled = true;
-            pbErro.Visible = true;
+            string numero = string.Empty;
+            double valor = 0;
 
-            var listaDeMensagens = new List<string>();
-            foreach (var inconsistencia in _listaDeInconsistencias)
+            try
             {
-                listaDeMensagens.Add(inconsistencia.Mensagem);
+                numero = textBox.Text.Replace(",", string.Empty)
+                                     .Replace(".", string.Empty);
+
+                if (numero == string.Empty)
+                {
+                    return;
+                }
+
+                numero.PadLeft(3, '0');
+
+                if (numero.Length > 3 && numero.Substring(0, 1) == "0")
+                {
+                    numero = numero.Substring(1, numero.Length - 1);
+                }
+
+                valor = Convert.ToDouble(numero) / 100;
+                textBox.Text = string.Format(CultureInfo.GetCultureInfo("pt-BR"), "{0:N}", valor);
+                textBox.SelectionStart = textBox.Text.Length;
             }
-
-            var mensagemDaTooltip = string.Join("\n", listaDeMensagens);
-
-            ttErro.SetToolTip(pbErro, mensagemDaTooltip);
-        }
-
-        #endregion
-
-        private void txtValor_TextChanged(object sender, EventArgs e)
-        {
-            GSUtilitarios.AjusteTextBoxMonetaria(ref txtValor);
-        }
-
-        private void toolTip1_Popup(object sender, PopupEventArgs e)
-        {
-
+            catch (Exception)
+            {
+                throw new Exception("Ocorreu um erro na formatação monetária.");
+            }
         }
     }
 }
