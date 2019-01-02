@@ -143,3 +143,6 @@ C:\Users\MEGA reserva\Desktop\projeto sistema mega\GestaoEmpresa-Developer2\Gest
 C:\Users\MEGA reserva\Desktop\projeto sistema mega\GestaoEmpresa-Developer2\GestaoEmpresa\obj\Debug\GS.GestaoEmpresa.csproj.CoreCompileInputs.cache
 C:\Users\MEGA reserva\Desktop\projeto sistema mega\GestaoEmpresa-Developer2\GestaoEmpresa\obj\Debug\GS.GestaoEmpresa.exe
 C:\Users\MEGA reserva\Desktop\projeto sistema mega\GestaoEmpresa-Developer2\GestaoEmpresa\obj\Debug\GS.GestaoEmpresa.pdb
+D:\ProjetosVS\GestaoEmpresa\GestaoEmpresa\obj\Debug\GS.GestaoEmpresa.Solucao.UI.Modulos.Tecnico.frmEntradaLab.resources
+D:\ProjetosVS\GestaoEmpresa\GestaoEmpresa\obj\Debug\GS.GestaoEmpresa.Solucao.UI.Modulos.Tecnico.frmEntradaLabProduto.resources
+D:\ProjetosVS\GestaoEmpresa\GestaoEmpresa\obj\Debug\GS.GestaoEmpresa.Solucao.UI.Modulos.Tecnico.frmTecnico.resources
