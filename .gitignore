@@ -334,3 +334,7 @@ ASALocalRun/
 .localhistory/
 .vs\
 GestaoEmpresa/bin/Debug\
+.vs/GS.GestaoEmpresa/v15/Server/sqlite3/storage.ide-shm
+.vs/GS.GestaoEmpresa/v15/Server/sqlite3/storage.ide-wal
+GestaoEmpresa/obj/Debug/GS.GestaoEmpresa.csproj.CoreCompileInputs.cache
+GestaoEmpresa/obj/Debug/GS.GestaoEmpresa.csprojAssemblyReference.cache
