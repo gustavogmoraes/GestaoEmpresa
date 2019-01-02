@@ -332,4 +332,8 @@ ASALocalRun/
 
 # Local History for Visual Studio
 .localhistory/
+.vs/
 GestaoEmpresa/bin/Debug/ConexaoBanco.txt
+GestaoEmpresa/bin/Debug/GS.GestaoEmpresa.exe
+GestaoEmpresa/bin/Debug/GS.GestaoEmpresa.exe.config
+GestaoEmpresa/bin/Debug/GS.GestaoEmpresa.pdb
