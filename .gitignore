@@ -336,3 +336,6 @@ ASALocalRun/
 GestaoEmpresa/.vs/
 GestaoEmpresa/obj
 GestaoEmpresa/bin/
+.vs/GS.GestaoEmpresa/v15/
+.vs/GS.GestaoEmpresa/v15/Server/
+GestaoEmpresa/bin/Debug/
