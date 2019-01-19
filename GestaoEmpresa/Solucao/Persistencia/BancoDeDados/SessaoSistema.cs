@@ -57,7 +57,7 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.BancoDeDados
 
             using (var writer = new StreamWriter(diretorio + nomeArquivo, true))
             {
-                writer.WriteLine(String.Format("{0}|{1}|{2}|{3}",
+                writer.WriteLine(string.Format("{0}|{1}|{2}|{3}",
                                                informacoesConexaoBanco.Servidor,
 
                                                GSUtilitarios.ApliqueCriptografiaBasica(informacoesConexaoBanco.NomeBanco,

@@ -1,5 +1,6 @@
 ﻿using GestaoEmpresa.GS.GestaoEmpresa.GS.GestaoEmpresa.UI.Principal;
 using GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque;
+using GS.GestaoEmpresa.Solucao.UI.Modulos.Tecnico;
 using System;
 using System.Collections.Generic;
 using System.Linq;
