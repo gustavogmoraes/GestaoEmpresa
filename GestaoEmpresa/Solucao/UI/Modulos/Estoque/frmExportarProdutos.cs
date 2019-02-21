@@ -36,7 +36,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         {
             using (var servicoDeProduto = new ServicoDeProduto())
             {
-                var propriedades = typeof(Produto).GetProperties().ObtenhaPropriedadesELabels().ToList();
+                var propriedades = typeof(Produto).GetProperties().Where(x => x.GetCustomAttributes(typeof(Identificacao), true) != null).ToList().ObtenhaPropriedadesELabels().ToList();
                 propriedades.ForEach(x => gridExportacao.Columns.Add(x.Key.Name, x.Value));
                 
                 foreach(DataGridViewColumn column in gridExportacao.Columns)

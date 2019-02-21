@@ -27,9 +27,9 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
         {
             var listaDeVigencias = new List<DateTime>();
 
-            using (var mapeadorDeProduto = new RepositorioDeProduto())
+            using (var repositorioDeProduto = new RepositorioDeProdutoRaven())
             {
-                listaDeVigencias = mapeadorDeProduto.ConsulteTodasVigencias(codigoDoProduto);
+                listaDeVigencias = repositorioDeProduto.ConsulteVigencias(codigoDoProduto) as List<DateTime>;
             }
 
             return listaDeVigencias;
@@ -37,8 +37,8 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
 
         public int ObtenhaQuantidadeDeRegistros()
         {
-            using (var repositorioDeProduto = new RepositorioDeProduto())
-                return repositorioDeProduto.ObtenhaQuantidadeDeRegistros();
+            using (var repositorioDeProduto = new RepositorioDeProdutoRaven())
+                return repositorioDeProduto.ConsulteTodos().Count;
         }
 
         public Produto Consulte(int codigo, DateTime data)
