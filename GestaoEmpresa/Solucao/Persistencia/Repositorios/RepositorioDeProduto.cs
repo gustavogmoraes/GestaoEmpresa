@@ -48,6 +48,24 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios
 		"QUANTIDADEESTOQUE INT, " +
 		"QUANTIDADEMINIMAAVISO INT);";
 
+        public int ObtenhaQuantidadeDeRegistros()
+        {
+            var colunas = Colunas.Replace(", ", ", T1.")
+                                 .Replace("CODIGO, ", string.Empty);
+            var consultaDerivada =
+                $"SELECT T1.CODIGO, {colunas}, PRODUTOS_QUANTIDADES.QUANTIDADE AS QUANTIDADEESTOQUE FROM {Tabela} AS T1 " +
+                $"INNER JOIN(SELECT MAX(VIGENCIA) VIGENCIA, CODIGO FROM {Tabela} GROUP BY CODIGO) AS T2 " +
+                $"ON T1.CODIGO = T2.CODIGO AND T1.VIGENCIA = T2.VIGENCIA INNER JOIN PRODUTOS_QUANTIDADES ON T1.CODIGO = PRODUTOS_QUANTIDADES.CODIGO_PRODUTO";
+
+            var consulta = $"SELECT COUNT(1) FROM ({consultaDerivada}) AS DERIVADA";
+
+            using (var GSBD = new GSBancoDeDados())
+            {
+                var result = GSBD.ExecuteConsultaRetornoUnico(consulta, typeof(int));
+                return result ?? 0;
+            }
+        }
+
         private string _scriptDrop =>
 		"DROP TABLE PRODUTOS;";
 
@@ -247,19 +265,19 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios
             //                                         .Replace("CODIGO, ", string.Empty),
             //                                  Tabela);
 
-            string ComandoSQL = String.Format("SELECT T1.{0}, {1}, PRODUTOS_QUANTIDADES.QUANTIDADE AS QUANTIDADEESTOQUE FROM {2} AS T1 " +
-											  "INNER JOIN(SELECT MAX(VIGENCIA) VIGENCIA, {0} FROM {2} GROUP BY {0}) AS T2 " +
-                                              "ON T1.{0} = T2.{0} AND T1.VIGENCIA = T2.VIGENCIA INNER JOIN PRODUTOS_QUANTIDADES ON T1.CODIGO = PRODUTOS_QUANTIDADES.CODIGO_PRODUTO ORDER BY {0}",
-											  "CODIGO",
-                                              Colunas.Replace(", ", ", T1.")
-                                                     .Replace("CODIGO, ", string.Empty),
-											  Tabela);
+            var colunas = Colunas.Replace(", ", ", T1.")
+                                 .Replace("CODIGO, ", string.Empty);
+
+            var comandoSQL =
+                $"SELECT T1.CODIGO, {colunas}, PRODUTOS_QUANTIDADES.QUANTIDADE AS QUANTIDADEESTOQUE FROM {Tabela} AS T1 " +
+                $"INNER JOIN(SELECT MAX(VIGENCIA) VIGENCIA, CODIGO FROM {Tabela} GROUP BY CODIGO) AS T2 " +
+                $"ON T1.CODIGO = T2.CODIGO AND T1.VIGENCIA = T2.VIGENCIA INNER JOIN PRODUTOS_QUANTIDADES ON T1.CODIGO = PRODUTOS_QUANTIDADES.CODIGO_PRODUTO ORDER BY CODIGO";
 
             DataTable tabela;
             try
             {
                 using (var GSBancoDeDados = new GSBancoDeDados())
-                    tabela = GSBancoDeDados.ExecuteConsulta(ComandoSQL);
+                    tabela = GSBancoDeDados.ExecuteConsulta(comandoSQL);
 
                 if(tabela == null)
                     return null;

@@ -25,6 +25,21 @@ namespace GS.GestaoEmpresa.Solucao.Utilitarios
 
         #endregion
 
+        #region Números
+
+        public static IEnumerable<int> EncontreInteirosFaltandoEmUmaSequencia(this IEnumerable<int> sequencia)
+        {
+            var menorValor = 1;
+            var maiorValor = sequencia.Max();
+
+            var serie = new HashSet<int>(Enumerable.Range(menorValor, maiorValor));
+            serie.ExceptWith(sequencia);
+
+            return serie;
+        }
+
+        #endregion
+
 
         #region BancoDeDados
 
@@ -122,7 +137,7 @@ namespace GS.GestaoEmpresa.Solucao.Utilitarios
         /// <param name="dado">Dado em string a ser criptografado</param>
         /// <param name="tipoCriptografia">Informação para "criptografar" ou "descriptografar"</param>
         /// <returns>Retorna o dado criptografado no escopo da máquina local.</returns>
-        public static string ApliqueCriptografiaBasica(string dado, EnumCriptografiaBasica tipoCriptografia)
+        public static string ApliqueCriptografiaBasica(this string dado, EnumCriptografiaBasica tipoCriptografia)
         {
             if (tipoCriptografia == EnumCriptografiaBasica.Encriptar)
             {

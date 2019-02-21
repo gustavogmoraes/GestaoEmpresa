@@ -15,11 +15,11 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
 {
     public class ServicoDeProduto : IDisposable
     {
-        public List<Produto> ConsulteTodosOsProdutos()
+        public IList<Produto> ConsulteTodosOsProdutos()
         {
-            using (var mapeadorDeProduto = new RepositorioDeProduto())
+            using (var repositorioDeProduto = new RepositorioDeProdutoRaven())
             {
-                return mapeadorDeProduto.ConsulteTodos();
+                return repositorioDeProduto.ConsulteTodos();
             }
         }
 
@@ -33,6 +33,12 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
             }
 
             return listaDeVigencias;
+        }
+
+        public int ObtenhaQuantidadeDeRegistros()
+        {
+            using (var repositorioDeProduto = new RepositorioDeProduto())
+                return repositorioDeProduto.ObtenhaQuantidadeDeRegistros();
         }
 
         public Produto Consulte(int codigo, DateTime data)

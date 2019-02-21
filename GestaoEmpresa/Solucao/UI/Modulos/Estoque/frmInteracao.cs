@@ -178,7 +178,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             var listaDeProdutos = new List<Produto>();
             using (var servicoDeProduto = new ServicoDeProduto())
             {
-                listaDeProdutos = servicoDeProduto.ConsulteTodosOsProdutos();
+                listaDeProdutos = servicoDeProduto.ConsulteTodosOsProdutos().ToList();
             }
 
             PreenchaComboBoxPesquisaComProdutos(listaDeProdutos);
@@ -264,7 +264,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             var listaDeProdutos = new List<Produto>();
             using (var servicoDeProduto = new ServicoDeProduto())
             {
-                listaDeProdutos = servicoDeProduto.ConsulteTodosOsProdutos();
+                listaDeProdutos = servicoDeProduto.ConsulteTodosOsProdutos().ToList();
             }
 
             interacao.Produto = listaDeProdutos.Find(x => x.Nome.Trim() == cbProduto.Text.Trim());
@@ -536,7 +536,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             var listaDeProdutos = new List<Produto>();
             using (var servicoDeProduto = new ServicoDeProduto())
             {
-                listaDeProdutos = servicoDeProduto.ConsulteTodosOsProdutos();
+                listaDeProdutos = servicoDeProduto.ConsulteTodosOsProdutos().ToList();
             }
 
             var produto = listaDeProdutos.Find(x => x.Nome.Trim() == cbProduto.Text);

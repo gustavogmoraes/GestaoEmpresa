@@ -14,6 +14,8 @@ using GS.GestaoEmpresa.Solucao.Utilitarios;
 using System.Globalization;
 using GS.GestaoEmpresa.Solucao.Persistencia.BancoDeDados;
 using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores.Comuns;
+using System.Reflection;
+using GS.GestaoEmpresa.Solucao.Persistencia.Repositorios;
 
 namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 {
@@ -87,7 +89,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             //Catálogo de Produtos
             using (var servicoDeProduto = new ServicoDeProduto())
             {
-                _listaDeProdutos = servicoDeProduto.ConsulteTodosOsProdutos();
+                _listaDeProdutos = servicoDeProduto.ConsulteTodosOsProdutos().ToList();
             }
 
             CarregueDataGridProdutos(_listaDeProdutos);
@@ -219,7 +221,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
             using (var servicoDeProduto = new ServicoDeProduto())
             {
-                _listaDeProdutos = servicoDeProduto.ConsulteTodosOsProdutos();
+                _listaDeProdutos = servicoDeProduto.ConsulteTodosOsProdutos().ToList();
             }
 
             CarregueDataGridProdutos(_listaDeProdutos);
@@ -398,7 +400,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         private void cbPesquisaPorProduto_DropDown(object sender, EventArgs e)
         {
-            //using (var servicoDeProduto = new ServicoDeProduto())
+            //using (var servicoDeProduto = new ServicoDeProdutoRaven())
             //{
             //    _listaDeProdutos = servicoDeProduto.ConsulteTodosOsProdutos();
             //}
@@ -538,6 +540,11 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             {
                 new frmInteracao(interacao).Show();
             }
+        }
+
+        private void btnExportarExcel_Click(object sender, EventArgs e)
+        {
+            new frmExportarProdutos().Show();
         }
     }
 }

@@ -16,6 +16,7 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.BancoDeDados
         public static int CodigoUsuario { get; set; }
 
         public static string NomeUsuario { get; set; }
+
         public static InformacoesConexaoBanco InformacoesConexao { get; internal set; }
 
         /// <summary>
@@ -57,15 +58,11 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.BancoDeDados
 
             using (var writer = new StreamWriter(diretorio + nomeArquivo, true))
             {
-                writer.WriteLine(string.Format("{0}|{1}|{2}|{3}",
-                                               informacoesConexaoBanco.Servidor,
-
-                                               GSUtilitarios.ApliqueCriptografiaBasica(informacoesConexaoBanco.NomeBanco,
-                                                                                                 EnumCriptografiaBasica.Encriptar),
-                                               GSUtilitarios.ApliqueCriptografiaBasica(informacoesConexaoBanco.Usuario,
-                                                                                                 EnumCriptografiaBasica.Encriptar),
-                                               GSUtilitarios.ApliqueCriptografiaBasica(informacoesConexaoBanco.Senha,
-                                                                                                 EnumCriptografiaBasica.Encriptar)));
+                writer.WriteLine(
+                    $"{informacoesConexaoBanco.Servidor}|" +
+                    $"{informacoesConexaoBanco.NomeBanco.ApliqueCriptografiaBasica(EnumCriptografiaBasica.Encriptar)}|" +
+                    $"{informacoesConexaoBanco.Usuario.ApliqueCriptografiaBasica(EnumCriptografiaBasica.Encriptar)}|" +
+                    $"{informacoesConexaoBanco.Senha.ApliqueCriptografiaBasica(EnumCriptografiaBasica.Encriptar)}");
             }
         }
 

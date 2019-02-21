@@ -10,5 +10,9 @@
 
         public string Senha { get; set; }
 
+        public string UrlRaven =>   /* local */ //@"http://localhost:8080";
+                                   /* servidor */ @"http://192.168.15.250:8081";
+
+        public string DatabaseRaven => "GestaoEmpresa";
     }
 }
