@@ -95,6 +95,8 @@
     <Compile Include="Solucao\Negocio\Interfaces\IConceitoComCodigoEVigencia.cs" />
     <Compile Include="Solucao\Negocio\Interfaces\ConceitoComHistorico.cs" />
     <Compile Include="Solucao\Negocio\Objetos\Base\Pessoa.cs" />
+    <Compile Include="Solucao\Negocio\Servicos\Base\ServicoPadrao.cs" />
+    <Compile Include="Solucao\Negocio\Validador\Base\ValidadorPadrao.cs" />
     <Compile Include="Solucao\Persistencia\BancoDeDados\GSBancoDeDados.cs" />
     <Compile Include="Solucao\Persistencia\BancoDeDados\UCSessaoSistema.cs">
       <SubType>UserControl</SubType>
