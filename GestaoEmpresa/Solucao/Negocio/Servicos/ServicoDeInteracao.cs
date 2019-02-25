@@ -49,15 +49,10 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
 
         public Interacao Consulte(int codigoDaInteracao)
         {
-            var interacao = new Interacao();
-            using (var mapeadorDeInteracao = new RepositorioDeInteracao())
-            using (var mapeadorDeNumeroDeSerie = new RepositorioDeNumeroDeSerie())
+            using (var repositorioDeInteracao = new RepositorioDeInteracaoRaven())
             {
-                interacao = mapeadorDeInteracao.Consulte(codigoDaInteracao);
-                interacao.NumerosDeSerie = mapeadorDeNumeroDeSerie.ConsulteTodosPorInteracao(codigoDaInteracao);
+                return repositorioDeInteracao.Consulte(codigoDaInteracao);
             }
-
-            return interacao;
         }
 
         public List<Inconsistencia> Salve(Interacao interacao, EnumTipoDeForm tipoDoForm, DateTime horario)

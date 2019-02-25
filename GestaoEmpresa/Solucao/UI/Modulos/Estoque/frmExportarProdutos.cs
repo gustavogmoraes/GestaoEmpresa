@@ -20,8 +20,6 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
     {
         private int? _columnIndex = null;
 
-        private DataSet _tabela = null;
-
         public frmExportarProdutos()
         {
             InitializeComponent();
@@ -36,7 +34,9 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         {
             using (var servicoDeProduto = new ServicoDeProduto())
             {
-                var propriedades = typeof(Produto).GetProperties().Where(x => x.GetCustomAttributes(typeof(Identificacao), true) != null).ToList().ObtenhaPropriedadesELabels().ToList();
+                var propriedades = GSUtilitarios.EncontrePropriedadeMarcadaComAtributo(typeof(Produto), typeof(Identificacao))
+                                                .ObtenhaPropriedadesELabels().ToList();
+
                 propriedades.ForEach(x => gridExportacao.Columns.Add(x.Key.Name, x.Value));
                 
                 foreach(DataGridViewColumn column in gridExportacao.Columns)

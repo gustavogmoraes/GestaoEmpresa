@@ -3,10 +3,11 @@ using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores;
 using System.Collections.Generic;
 using System.Data;
 using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores.Comuns;
+using GS.GestaoEmpresa.Solucao.Negocio.Interfaces;
 
 namespace GS.GestaoEmpresa.Solucao.Negocio.Objetos
 {
-    public class Interacao
+    public class Interacao : IConceito
     {
         public Interacao()
         {

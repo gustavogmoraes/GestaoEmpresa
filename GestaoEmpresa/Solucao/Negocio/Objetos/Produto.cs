@@ -5,10 +5,11 @@ using GS.GestaoEmpresa.Solucao.Negocio.Interfaces;
 using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores.Comuns;
 using GS.GestaoEmpresa.Solucao.Negocio.Atributos;
 using System;
+using GS.GestaoEmpresa.Solucao.Negocio.Objetos.Base;
 
 namespace GS.GestaoEmpresa.Solucao.Negocio.Objetos
 {
-	public class Produto : ConceitoComHistorico
+	public class Produto : ObjetoComHistorico
 	{
         [Identificacao(Descricao = "Status")]
         public EnumStatusDoProduto Status { get; set; }

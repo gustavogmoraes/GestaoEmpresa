@@ -1,26 +1,49 @@
 ﻿using GS.GestaoEmpresa.Solucao.Negocio.Interfaces;
+using GS.GestaoEmpresa.Solucao.Negocio.Objetos;
 using GS.GestaoEmpresa.Solucao.Persistencia.BancoDeDados;
 using GS.GestaoEmpresa.Solucao.Utilitarios;
+using Raven.Client;
 using Raven.Client.Documents;
+using Raven.Client.Documents.Conventions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios.RavenDB.Base
+namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios.Base
 {
-    public abstract class RepositorioComHistoricoBaseRaven<T> : IDisposable
-        where T : ConceitoComHistorico, new()
+    public abstract class RepositorioPadrao<T> : IDisposable
+        where T : class, IConceito, new()
     {
+        /// <summary>
+        /// A document store, conexão
+        /// </summary>
         protected DocumentStore _documentStore { get; set; }
 
-        public RepositorioComHistoricoBaseRaven()
+        /// <summary>
+        /// Nomenclatura do node principal.
+        /// Ainda não entendi muito bem como funciona, mas faz parte dos ids.
+        /// </summary>
+        protected string _mainNodeClusterTag => "A";
+
+        public RepositorioPadrao()
         {
-            _documentStore = new DocumentStore();
-            _documentStore.Urls = new string[] { SessaoSistema.InformacoesConexao.UrlRaven };
-            _documentStore.Database = SessaoSistema.InformacoesConexao.DatabaseRaven;
+            _documentStore = new DocumentStore
+            {
+                Urls = new string[] { SessaoSistema.InformacoesConexao.UrlRaven },
+                Database = SessaoSistema.InformacoesConexao.DatabaseRaven
+            };
+
             _documentStore.Initialize();
+        }
+
+        protected string ObtenhaIdRaven(int codigo)
+        {
+            var collectionName =_documentStore.Conventions.GetCollectionName(typeof(T));
+            var idPrefix = _documentStore.Conventions.TransformTypeCollectionNameToDocumentIdPrefix(collectionName);
+
+            return $"{idPrefix}/{codigo}-{_mainNodeClusterTag}";
         }
 
         public int Insira(T item)
@@ -39,31 +62,35 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios.RavenDB.Base
         public T Consulte(int codigo)
         {
             using (var sessaoRaven = _documentStore.OpenSession())
-                return sessaoRaven.Query<T>().FirstOrDefault(x => x.Codigo == codigo && x.Atual);
+            {
+                return sessaoRaven.Load<T>(ObtenhaIdRaven(codigo));
+            }
         }
 
-        public T Consulte(int codigo, DateTime data)
+        public IList<T> Consulte(Func<T, bool> filtro)
         {
             using (var sessaoRaven = _documentStore.OpenSession())
-                return sessaoRaven.Query<T>().Where(x => x.Codigo == codigo)
-                                             .OrderByDescending(x => x.Vigencia)
-                                             .FirstOrDefault();
+            {
+                return sessaoRaven.Query<T>().Where(filtro).ToList();
+            }
         }
 
         public IList<T> ConsulteTodos()
         {
             using (var sessaoRaven = _documentStore.OpenSession())
-                return sessaoRaven.Query<T>().Where(x => x.Atual).ToList();
+            {
+                return sessaoRaven.Query<T>().ToList();
+            }
         }
 
-        public IList<DateTime> ConsulteVigencias(int codigo)
+        public void Atualize(T item)
         {
             using (var sessaoRaven = _documentStore.OpenSession())
             {
-                return sessaoRaven.Query<T>().Where(x => x.Codigo == codigo)
-                                             .Select(x => x.Vigencia)
-                                             .OrderByDescending(x => x)
-                                             .ToList();
+                var itemConsultado = sessaoRaven.Load<T>(ObtenhaIdRaven(item.Codigo));
+                itemConsultado = item;
+
+                sessaoRaven.SaveChanges();
             }
         }
 
@@ -71,10 +98,7 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios.RavenDB.Base
         {
             using (var sessaoRaven = _documentStore.OpenSession())
             {
-                var itens = sessaoRaven.Query<T>().Where(x => x.Codigo == codigo).ToList();
-
-                itens.ForEach(x => sessaoRaven.Delete<T>(x));
-                
+                sessaoRaven.Delete(ObtenhaIdRaven(codigo));
                 sessaoRaven.SaveChanges();
             }
         }
@@ -91,27 +115,9 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios.RavenDB.Base
             }
         }
 
-        #region IDisposable Support
-        private bool disposedValue = false;
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!disposedValue)
-            {
-                if (disposing)
-                {
-                    _documentStore.Dispose();
-                }
-
-                disposedValue = true;
-            }
-        }
-
         public void Dispose()
         {
-            Dispose(true);
-            // GC.SuppressFinalize(this);
+            _documentStore.Dispose();
         }
-        #endregion
     }
 }

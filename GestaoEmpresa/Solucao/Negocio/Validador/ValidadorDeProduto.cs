@@ -1,9 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Data;
-using GS.GestaoEmpresa.Solucao.Persistencia.BancoDeDados;
 using GS.GestaoEmpresa.Solucao.Negocio.Objetos;
-using GS.GestaoEmpresa.Solucao.Utilitarios;
 using GS.GestaoEmpresa.Solucao.Negocio.Catalogos;
 using GS.GestaoEmpresa.Solucao.Negocio.Servicos;
 using GS.GestaoEmpresa.Solucao.Persistencia.Repositorios;
@@ -104,7 +101,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Validador
                         Modulo = "Controle de Estoque",
                         Tela = "Cadastro de Produtos",
                         ConceitoValidado = "Produto",
-                        Mensagem = Mensagens.NADA_FOI_ALTERADO()
+                        Mensagem = Mensagens.NADA_FOI_ALTERADO
                     });
             }
         }

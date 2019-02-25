@@ -1,12 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Data;
-using GS.GestaoEmpresa.Solucao.Persistencia.BancoDeDados;
 using GS.GestaoEmpresa.Solucao.Negocio.Objetos;
-using GS.GestaoEmpresa.Solucao.Utilitarios;
-using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores;
-using GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque;
-using System.Runtime.InteropServices;
 using GS.GestaoEmpresa.Solucao.Negocio.Validador;
 using GS.GestaoEmpresa.Solucao.Persistencia.Repositorios;
 using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores.Comuns;
@@ -17,19 +11,18 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
     {
         public IList<Produto> ConsulteTodosOsProdutos()
         {
-            using (var repositorioDeProduto = new RepositorioDeProdutoRaven())
+            using (var RepositorioDeProdutoRaven = new RepositorioDeProdutoRaven())
             {
-                return repositorioDeProduto.ConsulteTodos();
+                return RepositorioDeProdutoRaven.ConsulteTodos();
             }
         }
 
         public List<DateTime> ConsulteTodasAsVigenciasDeUmProduto(int codigoDoProduto)
         {
             var listaDeVigencias = new List<DateTime>();
-
-            using (var repositorioDeProduto = new RepositorioDeProdutoRaven())
+            using (var RepositorioDeProdutoRaven = new RepositorioDeProdutoRaven())
             {
-                listaDeVigencias = repositorioDeProduto.ConsulteVigencias(codigoDoProduto) as List<DateTime>;
+                listaDeVigencias = RepositorioDeProdutoRaven.ConsulteVigencias(codigoDoProduto) as List<DateTime>;
             }
 
             return listaDeVigencias;
@@ -37,26 +30,26 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
 
         public int ObtenhaQuantidadeDeRegistros()
         {
-            using (var repositorioDeProduto = new RepositorioDeProdutoRaven())
-                return repositorioDeProduto.ConsulteTodos().Count;
+            using (var RepositorioDeProdutoRaven = new RepositorioDeProdutoRaven())
+                return RepositorioDeProdutoRaven.ConsulteTodos().Count;
         }
 
         public Produto Consulte(int codigo, DateTime data)
         {
-            using (var mapeadorDeProduto = new RepositorioDeProduto())
+            using (var mapeadorDeProduto = new RepositorioDeProdutoRaven())
                 return mapeadorDeProduto.Consulte(codigo, data);
         }
 
         public Produto Consulte(int codigo)
         {
-            using (var mapeadorDeProduto = new RepositorioDeProduto())
+            using (var mapeadorDeProduto = new RepositorioDeProdutoRaven())
                 return mapeadorDeProduto.Consulte(codigo);
         }
 
         public int ObtenhaProximoCodigoDisponivel()
         {
             int codigo;
-            using (var mapeadorDeProduto = new RepositorioDeProduto())
+            using (var mapeadorDeProduto = new RepositorioDeProdutoRaven())
             {
                 codigo = mapeadorDeProduto.ObtenhaProximoCodigoDisponivel();
             }
@@ -74,7 +67,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
 
             if (listaDeInconsistenciasExclusao.Count == 0)
             {
-                using (var mapeadorDeProduto = new RepositorioDeProduto())
+                using (var mapeadorDeProduto = new RepositorioDeProdutoRaven())
                 {
                     mapeadorDeProduto.Exclua(codigoDoProduto);
                 }
@@ -107,16 +100,16 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
 
             if (listaDeInconsistencias.Count == 0)
             {
-                using (var mapeadorDeProduto = new RepositorioDeProduto())
+                using (var mapeadorDeProduto = new RepositorioDeProdutoRaven())
                 {
                     mapeadorDeProduto.Insira(produto);
 
-                    if(tipoDoForm == EnumTipoDeForm.Cadastro)
+                    if (tipoDoForm == EnumTipoDeForm.Cadastro)
                     {
                         mapeadorDeProduto.InsiraNaTabelaQuantidade(produto.Codigo);
                     }
-                    
-                    if(tipoDoForm == EnumTipoDeForm.Edicao)
+
+                    if (tipoDoForm == EnumTipoDeForm.Edicao)
                     {
                         AltereQuantidadeDeProduto(produto.Codigo, produto.QuantidadeEmEstoque);
                     }
@@ -128,47 +121,12 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
 
         public void AltereQuantidadeDeProduto(int codigoDoProduto, int novaQuantidade)
         {
-            using (var mapeadorDeProduto = new RepositorioDeProduto())
+            using (var mapeadorDeProduto = new RepositorioDeProdutoRaven())
             {
                 mapeadorDeProduto.AltereQuantidadeDeProduto(codigoDoProduto, novaQuantidade);
             }
         }
 
-        #region IDisposable Support
-        private bool disposedValue = false; // To detect redundant calls
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!disposedValue)
-            {
-                if (disposing)
-                {
-                    // TODO: dispose managed state (managed objects).
-                }
-
-                // TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.
-                // TODO: set large fields to null.
-
-                disposedValue = true;
-            }
-        }
-
-        // TODO: override a finalizer only if Dispose(bool disposing) above has code to free unmanaged resources.
-        // ~ServicoDeProduto() {
-        //   // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
-        //   Dispose(false);
-        // }
-
-        // This code added to correctly implement the disposable pattern.
-        public void Dispose()
-        {
-            // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
-            Dispose(true);
-            // TODO: uncomment the following line if the finalizer is overridden above.
-            // GC.SuppressFinalize(this);
-        }
-
-        
-        #endregion
+        public void Dispose() { }
     }
 }       

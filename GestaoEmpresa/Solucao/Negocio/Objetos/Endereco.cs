@@ -2,7 +2,7 @@
 
 namespace GS.GestaoEmpresa.Solucao.Negocio.Objetos
 {
-    public class Endereco : IConceito
+    public class Endereco
     {
         public int Codigo { get; set; }
 

@@ -121,7 +121,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
             if (proximoCodigo == 0)
             {
-                MessageBox.Show(Mensagens.ERRO());
+                MessageBox.Show(Mensagens.ERRO);
                 return;
             }
 

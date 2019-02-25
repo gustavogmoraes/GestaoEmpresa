@@ -1,13 +1,10 @@
 ﻿using GS.GestaoEmpresa.Solucao.Negocio.Atributos;
+using GS.GestaoEmpresa.Solucao.Negocio.Interfaces;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace GS.GestaoEmpresa.Solucao.Negocio.Interfaces
+namespace GS.GestaoEmpresa.Solucao.Negocio.Objetos.Base
 {
-    public class ConceitoComHistorico : IConceito
+    public class ObjetoComHistorico : IConceitoComHistorico
     {
         [Identificacao(Descricao = "Código")]
         public int Codigo { get; set; }

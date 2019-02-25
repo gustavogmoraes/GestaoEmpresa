@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace GS.GestaoEmpresa.Solucao.Negocio.Objetos
 {
-    public class Telefone : IConceito
+    public class Telefone
     {
         public string Numero { get; set; }
 

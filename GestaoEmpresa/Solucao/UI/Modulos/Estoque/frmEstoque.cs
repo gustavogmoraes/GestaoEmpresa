@@ -16,6 +16,7 @@ using GS.GestaoEmpresa.Solucao.Persistencia.BancoDeDados;
 using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores.Comuns;
 using System.Reflection;
 using GS.GestaoEmpresa.Solucao.Persistencia.Repositorios;
+using GS.GestaoEmpresa.Properties;
 
 namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 {
@@ -39,52 +40,59 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         void assistant_Idled(object sender, EventArgs e)
         {
-            this.Invoke(
-                new MethodInvoker(() =>
+            Invoke(new MethodInvoker(() =>
+            {
+                var pesquisa = txtPesquisa.Text.Trim();
+                var filtro = cbFiltro.Text;
+
+                if (filtro == string.Empty)
                 {
-                    var pesquisa = txtPesquisa.Text.Trim();
-                    var filtro = cbFiltro.Text;
+                    return;
+                }
 
-                    if (filtro == string.Empty)
-                    {
-                        return;
-                    }
+                var listaFiltrada = new List<Produto>();
+                switch (filtro)
+                {
+                    case "Código":
+                        listaFiltrada = _listaDeProdutos.FindAll(x => x.Codigo.ToString()
+                                                                                .Contains(pesquisa));
+                        break;
 
-                    var listaFiltrada = new List<Produto>();
-                    switch (filtro)
-                    {
-                        case "Código":
-                            listaFiltrada = _listaDeProdutos.FindAll(x => x.Codigo.ToString()
-                                                                                  .Contains(pesquisa));
-                            break;
+                    case "Nome":
+                        listaFiltrada = _listaDeProdutos.FindAll(x => x.Nome.ToString().ToUpper()
+                                                        .Contains(pesquisa.ToUpper()));
 
-                        case "Nome":
-                            listaFiltrada = _listaDeProdutos.FindAll(x => x.Nome.ToString().ToUpper()
-                                                            .Contains(pesquisa.ToUpper()));
+                        break;
 
-                            //var listaQueryable = _listaDeProdutos.AsQueryable();
+                    case "Código do fabricante":
+                        listaFiltrada = 
+                        _listaDeProdutos.FindAll(x => 
+                            x.CodigoDoFabricante.ToString().ToUpper().Contains(pesquisa.ToUpper()));
+                        break;
+                }
 
-                            //listaFiltrada = (from produto in listaQueryable
-                            //                where produto.Nome.ToUpper().Contains(pesquisa.ToUpper())
-                            //                select produto).ToList();
-
-                            break;
-
-                        case "Código do fabricante":
-                            listaFiltrada = _listaDeProdutos.FindAll(x => x.CodigoDoFabricante.ToString().ToUpper()
-                                                                                              .Contains(pesquisa.ToUpper()));
-                            break;
-                    }
-
-                    CarregueDataGridProdutos(listaFiltrada);
-                }));
+                CarregueDataGridProdutos(listaFiltrada);
+            }));
         }
 
         private void frmEstoque_Load(object sender, EventArgs e)
         {
+            //var dialogResult = MessageBox.Show("Confirmação", "Migrar dados para RavenDB", MessageBoxButtons.YesNo);
+            //if (dialogResult == DialogResult.Yes)
+            //{
+            //    using (var repositorioDeUsuario = new RepositorioDeUsuarioRaven())
+            //    using (var repositorioDeProduto = new RepositorioDeProdutoRaven())
+            //    using (var repositorioDeInteracao = new RepositorioDeInteracaoRaven())
+            //    {
+            //        repositorioDeUsuario.MigreUsuariosParaRaven();
+            //        repositorioDeProduto.MigreProdutosParaRaven();
+            //        repositorioDeInteracao.MigreInteracaoParaRaven();
+            //    }
+            //}
+
             //Módulo - Estoque
-            //ucSessaoSistema1.DefinaModulo("Estoque", Properties.Resources.WhiteBox);
-            this.EscondaHeadersTabControl(tabControl1);
+            //ucSessaoSistema1.DefinaModulo("Estoque", Resources.WhiteBox);
+            EscondaHeadersTabControl(tabControl1);
 
             //Catálogo de Produtos
             using (var servicoDeProduto = new ServicoDeProduto())

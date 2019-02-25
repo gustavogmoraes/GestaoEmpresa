@@ -397,7 +397,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                     if (((EnumTipoDeInteracao)cbTipo.SelectedIndex + 1) == EnumTipoDeInteracao.ENTRADA &&
                         GStxtValor.Valor == 0)
                     {
-                        var resultado = MessageBox.Show(Mensagens.TEM_CERTEZA_QUE_QUER_DAR_ENTRADA_SEM_VALOR(), "Confirmação", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                        var resultado = MessageBox.Show(Mensagens.TEM_CERTEZA_QUE_QUER_DAR_ENTRADA_SEM_VALOR, "Confirmação", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                         if (resultado == DialogResult.Yes)
                         {
                            //Não faz nada

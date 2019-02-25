@@ -270,8 +270,7 @@ namespace GS.GestaoEmpresa.Solucao.Utilitarios
 
         public static List<PropertyInfo> EncontrePropriedadeMarcadaComAtributo(Type tipo, Type tipoDoAtributo)
         {
-            return tipo.GetProperties()
-                       .Where(x => Attribute.IsDefined(x, tipoDoAtributo)).ToList();
+            return tipo.GetProperties().Where(x => Attribute.IsDefined(x, tipoDoAtributo)).ToList();
         }
 
         #endregion

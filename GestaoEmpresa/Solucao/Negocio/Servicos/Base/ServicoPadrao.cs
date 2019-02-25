@@ -1,6 +1,7 @@
 ﻿using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores.Seguros.Conceito;
+using GS.GestaoEmpresa.Solucao.Negocio.Interfaces;
 using GS.GestaoEmpresa.Solucao.Negocio.Validador.Base;
-using GS.GestaoEmpresa.Solucao.Persistencia.Repositorios.RepositoriosAbstratos;
+using GS.GestaoEmpresa.Solucao.Persistencia.Repositorios.Base;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos.Base
 {
     public abstract class ServicoPadrao<TConceito, TValidador, TRepositorio> : IDisposable
-        where TConceito : Conceito, new()
+        where TConceito : class, IConceito, new()
         where TValidador : ValidadorPadrao<TConceito>, IDisposable, new()
         where TRepositorio : RepositorioPadrao<TConceito>, IDisposable, new()
     {

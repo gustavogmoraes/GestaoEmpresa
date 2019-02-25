@@ -108,7 +108,7 @@
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(241, 22);
             this.label2.TabIndex = 7;
-            this.label2.Text = "Mega Telecomunicações";
+            this.label2.Text = "Empresa";
             // 
             // UCSessaoSistema
             // 
