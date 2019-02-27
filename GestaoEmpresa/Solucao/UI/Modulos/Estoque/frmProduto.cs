@@ -130,20 +130,13 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         protected void cbVigencia_SelectedValueChanged(object sender, EventArgs e)
         {
-            if (cbVigencia.SelectedIndex == -1)
-            {
-                return;
-            }
-            
-            var produto = new Produto();
+            if (cbVigencia.SelectedIndex == -1) return;
 
+            Produto produto = null;
             using (var servicoDeProduto = new ServicoDeProduto())
-            {
-                produto = servicoDeProduto.Consulte(int.Parse(txtCodigo.Text.Trim()),
-                                                    DateTime.Parse(cbVigencia.SelectedItem.ToString(), Cultura));
-            }
+                produto = servicoDeProduto.Consulte(int.Parse(txtCodigo.Text.Trim()), DateTime.Parse(cbVigencia.SelectedItem.ToString(), Cultura));
 
-            this.CarregueControlesComObjeto(produto);
+            if(produto != null) CarregueControlesComObjeto(produto);
         }
 
         protected void CarregueComboDeVigencias(int codigo)

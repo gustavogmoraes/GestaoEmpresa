@@ -69,7 +69,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Validador
             var listaDeInconsistencias = new List<Inconsistencia>();
 
             Produto produtoConsultado;
-            using (var mapeadorDeProduto = new RepositorioDeProduto())
+            using (var mapeadorDeProduto = new RepositorioDeProdutoRaven())
             {
                 produtoConsultado = mapeadorDeProduto.Consulte(produto.Codigo);
             }
@@ -109,7 +109,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Validador
         private bool EhCadastro(int codigoDoProduto)
         {
             Produto produtoConsultado;
-            using (var mapeadorDeProduto = new RepositorioDeProduto())
+            using (var mapeadorDeProduto = new RepositorioDeProdutoRaven())
             {
                 produtoConsultado = mapeadorDeProduto.Consulte(codigoDoProduto);
             }

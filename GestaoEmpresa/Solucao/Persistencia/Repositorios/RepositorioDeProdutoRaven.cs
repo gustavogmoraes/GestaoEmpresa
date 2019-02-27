@@ -2,41 +2,37 @@
 using GS.GestaoEmpresa.Solucao.Persistencia.BancoDeDados;
 using GS.GestaoEmpresa.Solucao.Persistencia.Repositorios.Base;
 using Newtonsoft.Json;
+using Raven.Client;
+using Raven.Client.Documents;
+using Raven.Client.Documents.Session;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Threading.Tasks;
-using static Raven.Client.Constants;
 
 namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios
 {
     public class RepositorioDeProdutoRaven : RepositorioHistoricoPadrao<Produto>
     {
-        private Dictionary<int, int> _tabelaDeQuantidades { get; set; }
-
-        public class TabelaDeQuantidadesDeProduto
-        {
-            public Dictionary<int, int> Tabela { get; set; }
-        }
-
-        public RepositorioDeProdutoRaven()
+        public int ConsulteQuantidade(int codigo)
         {
             using (var sessaoRaven = _documentStore.OpenSession())
-            {
-                var variavel = sessaoRaven.Load<TabelaDeQuantidadesDeProduto>("TabelaDeQuantidadesDeProduto");
-            }
-        }
-
-        public void InsiraNaTabelaQuantidade(int codigo)
-        {
-            throw new NotImplementedException();
+                return sessaoRaven.Query<Produto>().Where(x => x.Atual && x.Codigo == codigo)
+                                                   .Select(x => x.QuantidadeEmEstoque)
+                                                   .FirstOrDefault();
         }
 
         public void AltereQuantidadeDeProduto(int codigoDoProduto, int novaQuantidade)
         {
-            throw new NotImplementedException();
+            using (var sessaoRaven = _documentStore.OpenSession())
+            {
+                var produto = sessaoRaven.Query<Produto>().FirstOrDefault(_filtroAtual(codigoDoProduto));
+                produto.QuantidadeEmEstoque = novaQuantidade;
+                sessaoRaven.SaveChanges();
+            }
         }
+
+        #region Migração SQLServer para RavenDB
 
         public void MigreProdutosParaRaven()
         {
@@ -60,26 +56,8 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios
                     }
                 }
             }
-
-            MigreTabelaQuantidade();
         }
 
-        public void MigreTabelaQuantidade()
-        {
-            using (var GSBD = new GSBancoDeDados())
-            using (var sessaoRaven = _documentStore.OpenSession())
-            {
-                var tabelaQuantidades = new Dictionary<int, int>();
-                var tabelaQuantidadesSQL = GSBD.ExecuteConsulta("SELECT CODIGO_PRODUTO, QUANTIDADE FROM PRODUTOS_QUANTIDADES");
-
-                foreach (DataRow linha in tabelaQuantidadesSQL.Rows)
-                {
-                    tabelaQuantidades.Add(Convert.ToInt32(linha["CODIGO_PRODUTO"]), Convert.ToInt32(linha["QUANTIDADE"]));
-                }
-
-                sessaoRaven.Store(new TabelaDeQuantidadesDeProduto { Tabela = tabelaQuantidades }, "TabelaDeQuantidadesDeProduto");
-                sessaoRaven.SaveChanges();
-            }
-        }
+        #endregion
     }
 }

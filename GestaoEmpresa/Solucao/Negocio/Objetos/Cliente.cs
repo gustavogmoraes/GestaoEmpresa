@@ -1,16 +1,10 @@
-﻿using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores;
-using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores.Comuns;
-using GS.GestaoEmpresa.Solucao.Negocio.Interfaces;
-using GS.GestaoEmpresa.Solucao.Negocio.Objetos.Base;
-using System;
+﻿using GS.GestaoEmpresa.Solucao.Negocio.Objetos.Base;
 using System.Collections.Generic;
 
 namespace GS.GestaoEmpresa.Solucao.Negocio.Objetos
 {
-    public class Cliente : Pessoa, IConceitoComHistorico
+    public class Cliente : Pessoa
     {
-		public int Codigo {get; set;}
-		
 		public bool Status {get; set;}
 
 		public string NomeFantasia { get; set; }
@@ -30,9 +24,5 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Objetos
         public string Observacao { get; set; }
 
         public List<Email> Emails { get; set; }
-
-        public DateTime Vigencia { get; set; }
-
-        public bool Atual { get; set; }
     }
 }

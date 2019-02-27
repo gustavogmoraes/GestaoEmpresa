@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace GS.GestaoEmpresa.Solucao.Negocio.Objetos.Base
 {
-    public class Pessoa
+    public class Pessoa : ObjetoComHistorico
     {
         public string Nome { get; set; }
 

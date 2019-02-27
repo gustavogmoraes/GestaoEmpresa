@@ -1,15 +1,10 @@
 ﻿using GS.GestaoEmpresa.Solucao.Negocio.Interfaces;
-using GS.GestaoEmpresa.Solucao.Negocio.Objetos;
 using GS.GestaoEmpresa.Solucao.Persistencia.BancoDeDados;
 using GS.GestaoEmpresa.Solucao.Utilitarios;
-using Raven.Client;
 using Raven.Client.Documents;
-using Raven.Client.Documents.Conventions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios.Base
 {
@@ -19,7 +14,7 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios.Base
         /// <summary>
         /// A document store, conexão
         /// </summary>
-        protected DocumentStore _documentStore { get; set; }
+        protected GSDocumentStore _documentStore { get; set; }
 
         /// <summary>
         /// Nomenclatura do node principal.
@@ -29,7 +24,7 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios.Base
 
         public RepositorioPadrao()
         {
-            _documentStore = new DocumentStore
+            _documentStore = new GSDocumentStore
             {
                 Urls = new string[] { SessaoSistema.InformacoesConexao.UrlRaven },
                 Database = SessaoSistema.InformacoesConexao.DatabaseRaven
@@ -108,10 +103,16 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios.Base
             using (var session = _documentStore.OpenSession())
             {
                 var listaDeCodigos = session.Query<T>().Select(x => x.Codigo).ToList().Distinct().OrderBy(x => x).ToList();
+                if (listaDeCodigos != null && listaDeCodigos.Any())
+                {
+                    var numerosFaltando = listaDeCodigos.EncontreInteirosFaltandoEmUmaSequencia();
 
-                return listaDeCodigos != null && listaDeCodigos.Any()
-                    ? listaDeCodigos.EncontreInteirosFaltandoEmUmaSequencia().Min()
-                    : listaDeCodigos.Max() + 1;
+                    return numerosFaltando != null && numerosFaltando.Count() > 0
+                        ? numerosFaltando.Min()
+                        : listaDeCodigos.Max() + 1;
+                }
+
+                return 1;
             }
         }
 

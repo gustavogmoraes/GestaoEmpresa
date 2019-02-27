@@ -4,6 +4,7 @@ using GS.GestaoEmpresa.Solucao.Negocio.Objetos;
 using GS.GestaoEmpresa.Solucao.Negocio.Validador;
 using GS.GestaoEmpresa.Solucao.Persistencia.Repositorios;
 using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores.Comuns;
+using System.Linq;
 
 namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
 {
@@ -11,18 +12,18 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
     {
         public IList<Produto> ConsulteTodosOsProdutos()
         {
-            using (var RepositorioDeProdutoRaven = new RepositorioDeProdutoRaven())
+            using (var repositorioDeProdutoRaven = new RepositorioDeProdutoRaven())
             {
-                return RepositorioDeProdutoRaven.ConsulteTodos();
+                return repositorioDeProdutoRaven.ConsulteTodos();
             }
         }
 
         public List<DateTime> ConsulteTodasAsVigenciasDeUmProduto(int codigoDoProduto)
         {
             var listaDeVigencias = new List<DateTime>();
-            using (var RepositorioDeProdutoRaven = new RepositorioDeProdutoRaven())
+            using (var repositorioDeProdutoRaven = new RepositorioDeProdutoRaven())
             {
-                listaDeVigencias = RepositorioDeProdutoRaven.ConsulteVigencias(codigoDoProduto) as List<DateTime>;
+                listaDeVigencias = repositorioDeProdutoRaven.ConsulteVigencias(codigoDoProduto) as List<DateTime>;
             }
 
             return listaDeVigencias;
@@ -44,6 +45,14 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
         {
             using (var mapeadorDeProduto = new RepositorioDeProdutoRaven())
                 return mapeadorDeProduto.Consulte(codigo);
+        }
+
+        public int ConsulteQuantidade(int codigo)
+        {
+            using (var repositorioDeProduto = new RepositorioDeProdutoRaven())
+            {
+                return repositorioDeProduto.ConsulteQuantidade(codigo);
+            }
         }
 
         public int ObtenhaProximoCodigoDisponivel()
@@ -78,6 +87,8 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
 
         public List<Inconsistencia> Salve(Produto produto, EnumTipoDeForm tipoDoForm)
         {
+            var horarioChamada = DateTime.Now;
+
             var listaDeInconsistencias = new List<Inconsistencia>();
 
             if (tipoDoForm == EnumTipoDeForm.Cadastro)
@@ -102,16 +113,18 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
             {
                 using (var mapeadorDeProduto = new RepositorioDeProdutoRaven())
                 {
-                    mapeadorDeProduto.Insira(produto);
+                    produto.Vigencia = horarioChamada;
 
                     if (tipoDoForm == EnumTipoDeForm.Cadastro)
                     {
-                        mapeadorDeProduto.InsiraNaTabelaQuantidade(produto.Codigo);
-                    }
+                        produto.Atual = true;
+                        produto.QuantidadeEmEstoque = 0;
 
-                    if (tipoDoForm == EnumTipoDeForm.Edicao)
+                        mapeadorDeProduto.Insira(produto);
+                    }
+                    else if (tipoDoForm == EnumTipoDeForm.Edicao)
                     {
-                        AltereQuantidadeDeProduto(produto.Codigo, produto.QuantidadeEmEstoque);
+                        mapeadorDeProduto.Atualize(produto);
                     }
                 }
             }

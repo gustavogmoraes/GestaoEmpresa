@@ -28,7 +28,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Validador
 
         private void ValideRegraQuantidades()
         {
-            var quantidadeAtual = MapeadorDeProduto().Consulte(_interacao.Produto.Codigo).QuantidadeEmEstoque;
+            var quantidadeAtual = RepositorioDeProduto().Consulte(_interacao.Produto.Codigo).QuantidadeEmEstoque;
             var quantidadeInterada = _interacao.TipoDeInteracao == EnumTipoDeInteracao.SAIDA ? _interacao.QuantidadeInterada * -1 : _interacao.QuantidadeInterada;
             var quantidadeAuxiliar = (_interacao.QuantidadeAuxiliar ?? 0) * -1;
 
@@ -51,32 +51,25 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Validador
 
         private List<Inconsistencia> _listaDeInconsistencias { get; set; }
 
-        private RepositorioDeNumeroDeSerie _mapeadorDeNumeroDeSerie;
+        private RepositorioDeProdutoRaven _mapeadorDeProduto;
 
-        private RepositorioDeProduto _mapeadorDeProduto;
+        private RepositorioDeInteracaoRaven _mapeadorDeInteracao;
 
-        private RepositorioDeInteracao _mapeadorDeInteracao;
-        
-        private RepositorioDeNumeroDeSerie MapeadorDeNumeroDeSerie()
+        private RepositorioDeProdutoRaven RepositorioDeProduto()
         {
-            return _mapeadorDeNumeroDeSerie ?? (_mapeadorDeNumeroDeSerie = new RepositorioDeNumeroDeSerie());
+            return _mapeadorDeProduto ?? (_mapeadorDeProduto = new RepositorioDeProdutoRaven());
         }
 
-        private RepositorioDeProduto MapeadorDeProduto()
+        private RepositorioDeInteracaoRaven RepositorioDeInteracao()
         {
-            return _mapeadorDeProduto ?? (_mapeadorDeProduto = new RepositorioDeProduto());
-        }
-
-        private RepositorioDeInteracao MapeadorDeInteracao()
-        {
-            return _mapeadorDeInteracao ?? (_mapeadorDeInteracao = new RepositorioDeInteracao());
+            return _mapeadorDeInteracao ?? (_mapeadorDeInteracao = new RepositorioDeInteracaoRaven());
         }
 
         public List<Inconsistencia> ValideExclusao(int codigoInteracao, int codigoProduto)
         {
-            var listaDeInteracoes = MapeadorDeInteracao().ConsulteTodasInteracoesPorProduto(codigoProduto);
+            var listaDeInteracoes = RepositorioDeInteracao().Consulte(x => x.Produto.Codigo == codigoProduto);
             var ultimaInteracaoComEsseProduto = listaDeInteracoes.FirstOrDefault(x => x.Horario == listaDeInteracoes.Max(y => x.Horario));
-            var produto = MapeadorDeProduto().Consulte(codigoProduto);
+            var produto = RepositorioDeProduto().Consulte(codigoProduto);
 
             var listaDeInconsistencias = new List<Inconsistencia>();
             if (codigoInteracao != ultimaInteracaoComEsseProduto.Codigo)
@@ -186,7 +179,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Validador
                 foreach (var numeroDeSerie in _interacao.NumerosDeSerie)
                 {
                     // Consultamos se o número de série existe para evitar gastar processamento
-                    if (!MapeadorDeNumeroDeSerie().VerifiqueSeExisteEmBanco(numeroDeSerie))
+                    if (!servicoDeInteracao.VerifiqueSeNumeroDeSerieExisteNoBanco(numeroDeSerie))
                         continue;
 
                     var estahEmEstoque = servicoDeInteracao.VerifiqueSeNumeroDeSerieEstahEmEstoque(numeroDeSerie);

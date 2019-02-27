@@ -18,5 +18,14 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios
                 interacoes.ForEach(x => Insira(x));
             }
         }
+
+        public bool VerifiqueSeNumeroDeSerieExisteNoBanco(string numeroDeSerie)
+        {
+            using (var sessaoRaven = _documentStore.OpenSession())
+            {
+                return sessaoRaven.Query<Interacao>().Where(x => x.InformaNumeroDeSerie && x.NumerosDeSerie.Count > 0)
+                                                     .Any(x => x.NumerosDeSerie.Contains(numeroDeSerie));
+            }
+        }
     }
 }

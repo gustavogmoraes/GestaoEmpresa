@@ -15,36 +15,26 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
     {
         public List<Interacao> ConsulteTodasAsInteracoes()
         {
-            var listaDeInteracoes = new List<Interacao>();
-            using (var mapeadorDeInteracao = new RepositorioDeInteracao())
-            using (var mapeadorDeNumeroDeSerie = new RepositorioDeNumeroDeSerie())
+            using (var repositorioDeInteracao = new RepositorioDeInteracaoRaven())
             {
-                listaDeInteracoes = mapeadorDeInteracao.ConsulteTodasAsInteracoes();
-                
-                foreach (var interacao in listaDeInteracoes)
-                {
-                    interacao.NumerosDeSerie = mapeadorDeNumeroDeSerie.ConsulteTodosPorInteracao(interacao.Codigo);
-                }
+                return repositorioDeInteracao.ConsulteTodos().OrderByDescending(x => x.HorarioProgramado).ToList();
             }
+        }
 
-            return listaDeInteracoes;
+        public bool VerifiqueSeNumeroDeSerieExisteNoBanco(string numeroDeSerie)
+        {
+            using (var repositorioDeInteracao = new RepositorioDeInteracaoRaven())
+            {
+                return repositorioDeInteracao.VerifiqueSeNumeroDeSerieExisteNoBanco(numeroDeSerie);
+            }
         }
 
         public List<Interacao> ConsulteTodasAsInteracoesPorProduto(int codigoProduto)
         {
-            var listaDeInteracoes = new List<Interacao>();
-            using (var mapeadorDeInteracao = new RepositorioDeInteracao())
-            using (var mapeadorDeNumeroDeSerie = new RepositorioDeNumeroDeSerie())
+            using (var repositorioDeInteracao = new RepositorioDeInteracaoRaven())
             {
-                listaDeInteracoes = mapeadorDeInteracao.ConsulteTodasInteracoesPorProduto(codigoProduto);
-                
-                foreach (var interacao in listaDeInteracoes)
-                {
-                    interacao.NumerosDeSerie = mapeadorDeNumeroDeSerie.ConsulteTodosPorInteracao(interacao.Codigo);
-                }
+                return repositorioDeInteracao.Consulte(x => x.Produto.Codigo == codigoProduto).ToList();
             }
-
-            return listaDeInteracoes;
         }
 
         public Interacao Consulte(int codigoDaInteracao)
@@ -66,18 +56,12 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
 
             if (listaDeInconsistencias.Count == 0)
             {
-                using (var mapeadorDeInteracao = new RepositorioDeInteracao())
-                using (var mapeadorDeNumeroDeSerie = new RepositorioDeNumeroDeSerie())
+                using (var repositorioDeInteracao = new RepositorioDeInteracaoRaven())
                 using (var servicoDeProduto = new ServicoDeProduto())
                 {
                     interacao.Horario = horario;
-                    interacao.Codigo = mapeadorDeInteracao.ObtenhaProximoCodigoDisponivel();
-                    mapeadorDeInteracao.Insira(interacao);
-
-                    foreach (var numeroDeSerie in interacao.NumerosDeSerie)
-                    {
-                        mapeadorDeNumeroDeSerie.Insira(numeroDeSerie, interacao.Codigo, interacao.Produto.Codigo);
-                    }
+                    interacao.Codigo = repositorioDeInteracao.ObtenhaProximoCodigoDisponivel();
+                    repositorioDeInteracao.Insira(interacao);
 
                     int quantidadeInterada = 0;
                     int quantidadeInteradaAux = 0;
@@ -137,19 +121,12 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
         
         private List<Interacao> ConsultePorNumeroDeSerie(string numeroDeSerie)
         {
-            var listaDeRetorno = new List<Interacao>();
-            List<int> codigosDasInteracoes;
-            using (var mapeadorDeNumeroDeSerie = new RepositorioDeNumeroDeSerie())
+            using (var repositorioDeInteracao = new RepositorioDeInteracaoRaven())
             {
-                codigosDasInteracoes = mapeadorDeNumeroDeSerie.ConsulteTodosOsCodigosDeInteracoesDeUmNumero(numeroDeSerie);
+                return repositorioDeInteracao.Consulte(x => x.InformaNumeroDeSerie && 
+                                                            x.NumerosDeSerie.Contains(numeroDeSerie))
+                                             .ToList();
             }
-            
-            foreach (var codigo in codigosDasInteracoes)
-            {
-                listaDeRetorno.Add(Consulte(codigo));
-            }
-            
-            return listaDeRetorno;
         }
         
         public bool VerifiqueSeNumeroDeSerieEstahEmEstoque(string numeroDeSerie)
@@ -164,15 +141,14 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
 
         public List<Inconsistencia> Exclua(int codigoDaInteracao)
         {
-            using (var mapeador = new RepositorioDeInteracao())
-            using (var mapeadorDeNS = new RepositorioDeNumeroDeSerie())
             using (var servicoDeProduto = new ServicoDeProduto())
             using (var validador = new ValidadorDeInteracao())
+            using (var repositorioDeInteracao = new RepositorioDeInteracaoRaven())
             {
                 var interacao = Consulte(codigoDaInteracao);
-                var produto = servicoDeProduto.Consulte(interacao.Produto.Codigo);
+                var quantidadeDeProduto = servicoDeProduto.ConsulteQuantidade(interacao.Produto.Codigo);
 
-                var inconsistencias = validador.ValideExclusao(codigoDaInteracao, produto.Codigo);
+                var inconsistencias = validador.ValideExclusao(codigoDaInteracao, interacao.Produto.Codigo);
                 if (inconsistencias.Count > 0)
                 {
                     return inconsistencias;
@@ -200,13 +176,10 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
                         break;
                 }
 
-                var NSs = mapeadorDeNS.ConsulteTodosPorInteracao(codigoDaInteracao);
-                NSs.ForEach(x => mapeadorDeNS.Exclua(x, codigoDaInteracao));
+                var novaQuantidade = quantidadeDeProduto + quantidadeInterada + quantidadeInteradaAux;
 
-                var novaQuantidade = produto.QuantidadeEmEstoque + quantidadeInterada + quantidadeInteradaAux;
-
-                mapeador.Exclua(codigoDaInteracao);
-                servicoDeProduto.AltereQuantidadeDeProduto(produto.Codigo, novaQuantidade);
+                repositorioDeInteracao.Exclua(codigoDaInteracao);
+                servicoDeProduto.AltereQuantidadeDeProduto(interacao.Produto.Codigo, novaQuantidade);
 
                 return new List<Inconsistencia>();
             }
