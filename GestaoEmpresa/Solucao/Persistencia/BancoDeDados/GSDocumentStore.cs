@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Raven.Client.ServerWide.Operations;
 using static GS.GestaoEmpresa.Solucao.Persistencia.Repositorios.RepositorioDeProdutoRaven;
 
 namespace GS.GestaoEmpresa.Solucao.Persistencia.BancoDeDados
@@ -14,6 +15,24 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.BancoDeDados
     public class GSDocumentStore : DocumentStore
     {
         public GSDocumentStore()
+        {
+            Urls = new[] {SessaoSistema.InformacoesConexao.Servidor};
+            Database = SessaoSistema.InformacoesConexao.NomeBanco;
+
+            SobrescrevaConventions();
+            Initialize();
+        }
+
+        public GSDocumentStore(string url, string database)
+        {
+            Urls = new[] { url };
+            Database = database;
+
+            SobrescrevaConventions();
+            Initialize();
+        }
+
+        private void SobrescrevaConventions()
         {
             base.Conventions.FindCollectionName = type =>
             {

@@ -123,6 +123,7 @@
     <Compile Include="Solucao\Negocio\Objetos\Base\Pessoa.cs" />
     <Compile Include="Solucao\Negocio\Servicos\Base\ServicoPadrao.cs" />
     <Compile Include="Solucao\Negocio\Validador\Base\ValidadorPadrao.cs" />
+    <Compile Include="Solucao\Persistencia\BancoDeDados\EnumTipoDeBanco.cs" />
     <Compile Include="Solucao\Persistencia\BancoDeDados\GSBancoDeDados.cs" />
     <Compile Include="Solucao\Persistencia\BancoDeDados\GSDocumentStore.cs" />
     <Compile Include="Solucao\Persistencia\BancoDeDados\UCSessaoSistema.cs">

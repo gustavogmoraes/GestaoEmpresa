@@ -1,12 +1,8 @@
 ﻿using GS.GestaoEmpresa.Solucao.Persistencia.Repositorios;
-using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores;
 using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores.Comuns;
 using GS.GestaoEmpresa.Solucao.Negocio.Objetos;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
 {
@@ -27,16 +23,16 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
             }
         }
 
+        public Usuario Consulte(int codigo)
+        {
+            using (var repositorioDeUsuario = new RepositorioDeUsuarioRaven())
+                return repositorioDeUsuario.Consulte(codigo);
+        }
+
         public Usuario Consulte(string nome)
         {
-            Usuario usuario;
-
-            using (var mapeadorDeUsuario = new RepositorioDeUsuario())
-            {
-                usuario = mapeadorDeUsuario.Consulte(nome);
-            }
-
-            return usuario;
+            using (var repositorioDeUsuario = new RepositorioDeUsuarioRaven())
+                return repositorioDeUsuario.Consulte(x => x.Nome.Contains(nome)).FirstOrDefault();
         }
 
         #region IDisposable Support

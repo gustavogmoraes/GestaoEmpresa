@@ -244,7 +244,6 @@ namespace GestaoEmpresa.GS.GestaoEmpresa.GS.GestaoEmpresa.UI.Principal
             using (var servicoDeUsuario = new ServicoDeUsuario())
             {
                 var usuario = servicoDeUsuario.Consulte((txtUsuario.Text.Trim()));
-
                 if (usuario != null)
                 {
                     if (usuario.Senha == txtSenha.Text.Trim().GetHashCode())
@@ -266,6 +265,7 @@ namespace GestaoEmpresa.GS.GestaoEmpresa.GS.GestaoEmpresa.UI.Principal
                         return;
                     }
                 }
+
                 txtSenha.Clear();
                 MessageBox.Show("Usuário ou senha incorretos");
             }

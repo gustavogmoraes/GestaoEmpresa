@@ -27,19 +27,17 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.BancoDeDados
         {
             if (File.Exists(diretorio + nomeArquivo))
             {
-                string texto = File.ReadAllText(diretorio + nomeArquivo);
-                texto = texto.Replace("\r\n", String.Empty);
-                string[] textoDividido = texto.Split('|');
+                var texto = File.ReadAllText(diretorio + nomeArquivo);
+                texto = texto.Replace("\r\n", string.Empty);
+
+                var textoDividido = texto.Split('|');
 
                 return new InformacoesConexaoBanco()
                 {
                     Servidor = textoDividido[0],
-                    NomeBanco = GSUtilitarios.ApliqueCriptografiaBasica(textoDividido[1],
-                                                                        EnumCriptografiaBasica.Desencriptar),
-                    Usuario = GSUtilitarios.ApliqueCriptografiaBasica(textoDividido[2],
-                                                                        EnumCriptografiaBasica.Desencriptar),
-                    Senha = GSUtilitarios.ApliqueCriptografiaBasica(textoDividido[3],
-                                                                        EnumCriptografiaBasica.Desencriptar)
+                    NomeBanco = textoDividido[1].ApliqueCriptografiaBasica(EnumCriptografiaBasica.Desencriptar),
+                    Usuario = textoDividido[2].ApliqueCriptografiaBasica(EnumCriptografiaBasica.Desencriptar),
+                    Senha = textoDividido[3].ApliqueCriptografiaBasica(EnumCriptografiaBasica.Desencriptar)
                 };
             }
 
@@ -78,9 +76,24 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.BancoDeDados
             {
                 while (VerificarStatusDaConexao)
                 {
-                    using (var persistencia = new GSBancoDeDados())
+                    if (InformacoesConexao != null)
                     {
-                        ConexaoAtiva = persistencia.VerifiqueStatusDaConexao();
+                        switch (InformacoesConexao.TipoDeBanco)
+                        {
+                            case EnumTipoDeBanco.SQLSERVER:
+                                using (var persistencia = new GSBancoDeDados())
+                                {
+                                    ConexaoAtiva = persistencia.VerifiqueStatusDaConexao();
+                                }
+                                break;
+
+                            case EnumTipoDeBanco.RAVENDB:
+                                using (var documentStore = new GSDocumentStore())
+                                {
+                                    ConexaoAtiva = documentStore.IsServerOnline();
+                                }
+                                break;
+                        }
                     }
 
                     Thread.Sleep(300);

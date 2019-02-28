@@ -10,9 +10,12 @@
 
         public string Senha { get; set; }
 
-        public string UrlRaven =>   /* local */ @"http://localhost:8080";
-                                   /* servidor */ // @"http://192.168.15.250:8081";
+        private EnumTipoDeBanco? _tipoDeBanco;
 
-        public string DatabaseRaven => "GestaoEmpresa";
+        public EnumTipoDeBanco TipoDeBanco
+        {
+            get => _tipoDeBanco ?? EnumTipoDeBanco.RAVENDB;
+            set => _tipoDeBanco = value;
+        }
     }
 }

@@ -8,6 +8,9 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using GS.GestaoEmpresa.Solucao.Persistencia.BancoDeDados;
+using Raven.Client.Documents;
+using Raven.Client.ServerWide.Operations;
 
 namespace GS.GestaoEmpresa.Solucao.Utilitarios
 {
@@ -83,6 +86,30 @@ namespace GS.GestaoEmpresa.Solucao.Utilitarios
                 default:
                     return false;
             }
+        }
+
+        public static bool TryGetServerVersion(this IDocumentStore documentStore, out BuildNumber buildNumber, int timeoutMilliseconds = 5000)
+        {
+            try
+            {
+                var task = documentStore.Maintenance.Server.SendAsync(new GetBuildNumberOperation());
+                var success = task.Wait(timeoutMilliseconds);
+
+                buildNumber = task.Result;
+                return success;
+            }
+            catch (Exception e)
+            {
+                buildNumber = null;
+                return false;
+            }
+        }
+
+        public static bool IsServerOnline(this GSDocumentStore documentStore, int timeoutMilliseconds = 5000)
+        {
+            BuildNumber buildNumber;
+
+            return documentStore.TryGetServerVersion(out buildNumber);
         }
     }
 }

@@ -24,12 +24,7 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios.Base
 
         public RepositorioPadrao()
         {
-            _documentStore = new GSDocumentStore
-            {
-                Urls = new string[] { SessaoSistema.InformacoesConexao.UrlRaven },
-                Database = SessaoSistema.InformacoesConexao.DatabaseRaven
-            };
-
+            _documentStore = new GSDocumentStore();
             _documentStore.Initialize();
         }
 
