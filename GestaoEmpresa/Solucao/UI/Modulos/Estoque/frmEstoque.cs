@@ -79,7 +79,6 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         {
             #region Migração de dados SQLServer --> RavenDB
 
-            //    {
             var dialogResult = MessageBox.Show("Migrar dados para RavenDB", "Confirmação", MessageBoxButtons.YesNo);
             if (dialogResult == DialogResult.Yes)
             {
