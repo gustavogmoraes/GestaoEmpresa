@@ -88,6 +88,25 @@ namespace GS.GestaoEmpresa.Solucao.Utilitarios
             }
         }
 
+        public static DateTime ConvertaParaDateTime(this string dado, EnumFormatacaoDateTime formatacaoDateTime, char separadorData, char separadorHora = ':')
+        {
+            string formato = null;
+            switch (formatacaoDateTime)
+            {
+                case EnumFormatacaoDateTime.DD_MM_YYYY:
+                    formato = $@"dd{separadorData}MM{separadorData}yyyy";
+                    break;
+                case EnumFormatacaoDateTime.MM_DD_YYYY:
+                    formato = $@"mm{separadorData}DD{separadorData}yyyy";
+                    break;
+                case EnumFormatacaoDateTime.DD_MM_YYYY_HH_MM_SS:
+                    formato = $@"dd{separadorData}MM{separadorData}yyyy HH{separadorHora}mm{separadorHora}SS";
+                    break;
+            }
+
+            return DateTime.ParseExact(dado, formato, CultureInfo.GetCultureInfo("pt-BR"));
+        }
+
         public static bool TryGetServerVersion(this IDocumentStore documentStore, out BuildNumber buildNumber, int timeoutMilliseconds = 5000)
         {
             try
