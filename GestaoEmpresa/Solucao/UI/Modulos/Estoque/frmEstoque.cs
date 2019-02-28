@@ -79,21 +79,21 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         {
             #region Migração de dados SQLServer --> RavenDB
 
-            var dialogResult = MessageBox.Show("Migrar dados para RavenDB", "Confirmação", MessageBoxButtons.YesNo);
-            if (dialogResult == DialogResult.Yes)
-            {
-                Task.Run(() => 
-                {
-                    using (var repositorioDeUsuario = new RepositorioDeUsuarioRaven())
-                    using (var repositorioDeProduto = new RepositorioDeProdutoRaven())
-                    using (var repositorioDeInteracao = new RepositorioDeInteracaoRaven())
-                    {
-                        repositorioDeUsuario.MigreUsuariosParaRaven();
-                        repositorioDeProduto.MigreProdutosParaRaven();
-                        repositorioDeInteracao.MigreInteracaoParaRaven();
-                    }
-                });
-            }
+            //var dialogResult = MessageBox.Show("Migrar dados para RavenDB", "Confirmação", MessageBoxButtons.YesNo);
+           // if (dialogResult == DialogResult.Yes)
+            //{
+             //   Task.Run(() => 
+              //  {
+              //      using (var repositorioDeUsuario = new RepositorioDeUsuarioRaven())
+              //     using (var repositorioDeProduto = new RepositorioDeProdutoRaven())
+              //     using (var repositorioDeInteracao = new RepositorioDeInteracaoRaven())
+              //     {
+              //        repositorioDeUsuario.MigreUsuariosParaRaven();
+              //        repositorioDeProduto.MigreProdutosParaRaven();
+              //        repositorioDeInteracao.MigreInteracaoParaRaven();
+              //    }
+              // });
+             //}
 
             #endregion
 
