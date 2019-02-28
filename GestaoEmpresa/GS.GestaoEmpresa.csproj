@@ -121,6 +121,7 @@
     <Compile Include="Solucao\Negocio\Atributos\Identificacao.cs" />
     <Compile Include="Solucao\Negocio\Objetos\Base\ObjetoComHistorico.cs" />
     <Compile Include="Solucao\Negocio\Objetos\Base\Pessoa.cs" />
+    <Compile Include="Solucao\Negocio\Objetos\ClienteAntigo.cs" />
     <Compile Include="Solucao\Negocio\Servicos\Base\ServicoPadrao.cs" />
     <Compile Include="Solucao\Negocio\Validador\Base\ValidadorPadrao.cs" />
     <Compile Include="Solucao\Persistencia\BancoDeDados\EnumTipoDeBanco.cs" />
@@ -135,6 +136,7 @@
     <Compile Include="Solucao\Persistencia\Repositorios\Base\RepositorioPadrao.cs" />
     <Compile Include="Solucao\Persistencia\Repositorios\Base\RepositorioHistoricoPadrao.cs" />
     <Compile Include="Solucao\Persistencia\Repositorios\RepositorioDeCliente.cs" />
+    <Compile Include="Solucao\Persistencia\Repositorios\RepositorioDeClienteAntigo.cs" />
     <Compile Include="Solucao\Persistencia\Repositorios\RepositorioDeColaborador.cs" />
     <Compile Include="Solucao\Persistencia\Repositorios\RepositorioDeInteracaoRaven.cs" />
     <Compile Include="Solucao\Persistencia\Repositorios\RepositorioDeProdutoRaven.cs" />

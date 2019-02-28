@@ -17,6 +17,8 @@ using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores.Comuns;
 using System.Reflection;
 using GS.GestaoEmpresa.Solucao.Persistencia.Repositorios;
 using GS.GestaoEmpresa.Properties;
+using System.IO;
+using Newtonsoft.Json;
 
 namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 {
@@ -80,26 +82,73 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             #region Migração de dados SQLServer --> RavenDB
 
             //var dialogResult = MessageBox.Show("Migrar dados para RavenDB", "Confirmação", MessageBoxButtons.YesNo);
-           // if (dialogResult == DialogResult.Yes)
+            // if (dialogResult == DialogResult.Yes)
             //{
-             //   Task.Run(() => 
-              //  {
-              //      using (var repositorioDeUsuario = new RepositorioDeUsuarioRaven())
-              //     using (var repositorioDeProduto = new RepositorioDeProdutoRaven())
-              //     using (var repositorioDeInteracao = new RepositorioDeInteracaoRaven())
-              //     {
-              //        repositorioDeUsuario.MigreUsuariosParaRaven();
-              //        repositorioDeProduto.MigreProdutosParaRaven();
-              //        repositorioDeInteracao.MigreInteracaoParaRaven();
-              //    }
-              // });
-             //}
+            //   Task.Run(() => 
+            //  {
+            //      using (var repositorioDeUsuario = new RepositorioDeUsuarioRaven())
+            //     using (var repositorioDeProduto = new RepositorioDeProdutoRaven())
+            //     using (var repositorioDeInteracao = new RepositorioDeInteracaoRaven())
+            //     {
+            //        repositorioDeUsuario.MigreUsuariosParaRaven();
+            //        repositorioDeProduto.MigreProdutosParaRaven();
+            //        repositorioDeInteracao.MigreInteracaoParaRaven();
+            //    }
+            // });
+            //}
 
             #endregion
 
+            #region Migração de dados ClientesAntigos ---> RavenDB
+
+           /* var dialogResult = MessageBox.Show(" Migração de dados ClientesAntigos ---> RavenDB", "Confirmação", MessageBoxButtons.YesNo);
+            if (dialogResult == DialogResult.Yes)
+            {
+                var caminho = Directory.GetCurrentDirectory();
+               const string NOME_DO_ARQUIVO_IMPORTADO_FILTRADO = @"ImportadoFiltrado.json";
+                Console.WriteLine("Recuperando lista salva.");
+               var arquivo = File.ReadAllText(caminho + "/" + NOME_DO_ARQUIVO_IMPORTADO_FILTRADO);
+
+                if (arquivo != null)
+                {
+                    MessageBox.Show("Lista recuperada com sucesso.");
+                    var jsonSerializer = new JsonSerializer();
+                   var ListaClienteAntigo = JsonConvert.DeserializeObject<List<ClienteAntigo>>(arquivo);
+                    var ListaCliente = ListaClienteAntigo.Select(x => new Cliente {Codigo = x.Codigo, Nome = x.Nome }).ToList();
+                    Task.Run(() =>
+                    {
+                        using (var repositorioDeCliente = new RepositorioDeCliente())
+                        using (var repositorioDeClienteAntigo = new RepositorioDeClienteAntigo())
+                        {
+                           
+                            foreach (var item in ListaClienteAntigo)
+                            {
+                                repositorioDeClienteAntigo.Insira(item);
+                                
+                            }
+                            foreach (var item in ListaCliente)
+                            {
+                                repositorioDeCliente.Insira(item);
+                            }
+                        }
+                        MessageBox.Show("Finalizado importaçao.");
+                    });
+                    
+                }
+                else
+                {
+                    MessageBox.Show("Falha na recuperacao.");
+                }
+                
+                
+             }
+             */
+             #endregion
+
+
             //Módulo - Estoque
             //ucSessaoSistema1.DefinaModulo("Estoque", Resources.WhiteBox);
-            EscondaHeadersTabControl(tabControl1);
+             EscondaHeadersTabControl(tabControl1);
 
             //Catálogo de Produtos
             using (var servicoDeProduto = new ServicoDeProduto())
