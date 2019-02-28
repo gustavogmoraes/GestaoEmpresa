@@ -543,7 +543,6 @@
             this.btnAtendimento.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnAtendimento.BackgroundImage")));
             this.btnAtendimento.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.btnAtendimento.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnAtendimento.Enabled = false;
             this.btnAtendimento.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnAtendimento.Location = new System.Drawing.Point(361, 21);
             this.btnAtendimento.Name = "btnAtendimento";
@@ -552,6 +551,7 @@
             this.btnAtendimento.Text = "Atendimento";
             this.btnAtendimento.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.btnAtendimento.UseVisualStyleBackColor = true;
+            this.btnAtendimento.Click += new System.EventHandler(this.btnAtendimento_Click);
             // 
             // btnTecnico
             // 

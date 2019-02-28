@@ -7,6 +7,8 @@ using GS.GestaoEmpresa.Solucao.Negocio.Servicos;
 using GS.GestaoEmpresa.Solucao.UI.Modulos.Configuracoes;
 using GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque;
 using GS.GestaoEmpresa.Solucao.Utilitarios;
+using GS.GestaoEmpresa.Solucao.UI.Modulos.Atendimento;
+
 using System;
 using System.Drawing;
 using System.Threading;
@@ -303,6 +305,11 @@ namespace GestaoEmpresa.GS.GestaoEmpresa.GS.GestaoEmpresa.UI.Principal
         private void btnTecnico_Click(object sender, EventArgs e)
         {
             new frmTecnico().Show();
+        }
+
+        private void btnAtendimento_Click(object sender, EventArgs e)
+        {
+            new frmAtendimento().Show();
         }
     }
 }

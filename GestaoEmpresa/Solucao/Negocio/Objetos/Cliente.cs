@@ -1,9 +1,10 @@
 ﻿using GS.GestaoEmpresa.Solucao.Negocio.Objetos.Base;
 using System.Collections.Generic;
+using GS.GestaoEmpresa.Solucao.Negocio.Interfaces;
 
 namespace GS.GestaoEmpresa.Solucao.Negocio.Objetos
 {
-    public class Cliente : Pessoa
+    public class Cliente : Pessoa, IConceitoComPendencia
     {
 		public bool Status {get; set;}
 
@@ -24,5 +25,6 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Objetos
         public string Observacao { get; set; }
 
         public List<Email> Emails { get; set; }
+        public bool CadastroPendente { get; set; }
     }
 }

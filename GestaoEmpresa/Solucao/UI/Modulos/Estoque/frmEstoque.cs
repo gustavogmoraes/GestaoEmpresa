@@ -19,10 +19,11 @@ using GS.GestaoEmpresa.Solucao.Persistencia.Repositorios;
 using GS.GestaoEmpresa.Properties;
 using System.IO;
 using Newtonsoft.Json;
+using GS.GestaoEmpresa.Solucao.Negocio.Interfaces;
 
 namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 {
-    public partial class frmEstoque : Form
+    public partial class frmEstoque : Form 
     {
         private List<Produto> _listaDeProdutos { get; set; }
 
@@ -67,8 +68,8 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                         break;
 
                     case "Código do fabricante":
-                        listaFiltrada = 
-                        _listaDeProdutos.FindAll(x => 
+                        listaFiltrada =
+                        _listaDeProdutos.FindAll(x =>
                             x.CodigoDoFabricante.ToString().ToUpper().Contains(pesquisa.ToUpper()));
                         break;
                 }
@@ -100,31 +101,42 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             #endregion
 
             #region Migração de dados ClientesAntigos ---> RavenDB
-
-           /* var dialogResult = MessageBox.Show(" Migração de dados ClientesAntigos ---> RavenDB", "Confirmação", MessageBoxButtons.YesNo);
+            /*
+            var dialogResult = MessageBox.Show(" Migração de dados ClientesAntigos ---> RavenDB", "Confirmação", MessageBoxButtons.YesNo);
             if (dialogResult == DialogResult.Yes)
             {
                 var caminho = Directory.GetCurrentDirectory();
-               const string NOME_DO_ARQUIVO_IMPORTADO_FILTRADO = @"ImportadoFiltrado.json";
+                const string NOME_DO_ARQUIVO_IMPORTADO_FILTRADO = @"ImportadoFiltrado.json";
                 Console.WriteLine("Recuperando lista salva.");
-               var arquivo = File.ReadAllText(caminho + "/" + NOME_DO_ARQUIVO_IMPORTADO_FILTRADO);
+                var arquivo = File.ReadAllText(caminho + "/" + NOME_DO_ARQUIVO_IMPORTADO_FILTRADO);
 
                 if (arquivo != null)
                 {
                     MessageBox.Show("Lista recuperada com sucesso.");
                     var jsonSerializer = new JsonSerializer();
-                   var ListaClienteAntigo = JsonConvert.DeserializeObject<List<ClienteAntigo>>(arquivo);
-                    var ListaCliente = ListaClienteAntigo.Select(x => new Cliente {Codigo = x.Codigo, Nome = x.Nome }).ToList();
+                    var ListaClienteAntigo = JsonConvert.DeserializeObject<List<ClienteAntigo>>(arquivo);
+                    var ListaCliente = ListaClienteAntigo.
+                        Select(x => new Cliente
+                        {
+                            Codigo = x.Codigo,
+                            Nome = x.Nome,
+                            Atual = true,
+                            CadastroPendente = true,
+                            Vigencia = DateTime.ParseExact(string.IsNullOrEmpty(x.DataDoAntigoCadastro) ? "27/02/2019" : x.DataDoAntigoCadastro, "dd/MM/yyyy",
+                                CultureInfo.GetCultureInfo("pt-BR"))
+
+                        }).ToList();
                     Task.Run(() =>
                     {
+
                         using (var repositorioDeCliente = new RepositorioDeCliente())
                         using (var repositorioDeClienteAntigo = new RepositorioDeClienteAntigo())
                         {
-                           
+
                             foreach (var item in ListaClienteAntigo)
                             {
                                 repositorioDeClienteAntigo.Insira(item);
-                                
+
                             }
                             foreach (var item in ListaCliente)
                             {
@@ -133,22 +145,22 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                         }
                         MessageBox.Show("Finalizado importaçao.");
                     });
-                    
+
                 }
                 else
                 {
                     MessageBox.Show("Falha na recuperacao.");
                 }
-                
-                
-             }
-             */
-             #endregion
+
+
+            }
+            */
+            #endregion
 
 
             //Módulo - Estoque
             //ucSessaoSistema1.DefinaModulo("Estoque", Resources.WhiteBox);
-             EscondaHeadersTabControl(tabControl1);
+            EscondaHeadersTabControl(tabControl1);
 
             //Catálogo de Produtos
             using (var servicoDeProduto = new ServicoDeProduto())
@@ -304,7 +316,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             if (e.ColumnIndex == 8)
             {
                 e.Paint(e.CellBounds, DataGridViewPaintParts.All);
-                
+
                 var w = Properties.Resources.detalhar.Width;
                 var h = Properties.Resources.detalhar.Height;
                 var x = e.CellBounds.Left + (e.CellBounds.Width - w) / 2;
@@ -609,6 +621,71 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         private void btnExportarExcel_Click(object sender, EventArgs e)
         {
             new frmExportarProdutos().Show();
+        }
+
+        private void cbFiltro_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tabProdutos_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lblPesquisarPor_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void pictureBox3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tabHistorico_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void pictureBox1_Click_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void ScrollSelecao_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void pictureBox2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void ucSessaoSistema2_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

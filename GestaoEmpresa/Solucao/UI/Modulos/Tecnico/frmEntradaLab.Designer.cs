@@ -137,7 +137,7 @@
             this.lblRastreioCaso.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.lblRastreioCaso.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblRastreioCaso.ForeColor = System.Drawing.Color.SteelBlue;
-            this.lblRastreioCaso.Location = new System.Drawing.Point(484, 604);
+            this.lblRastreioCaso.Location = new System.Drawing.Point(484, 556);
             this.lblRastreioCaso.Name = "lblRastreioCaso";
             this.lblRastreioCaso.Size = new System.Drawing.Size(304, 22);
             this.lblRastreioCaso.TabIndex = 45;
@@ -411,7 +411,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Silver;
-            this.ClientSize = new System.Drawing.Size(1204, 844);
+            this.ClientSize = new System.Drawing.Size(1204, 749);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.txtQuantidadeAux);

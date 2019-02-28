@@ -19,6 +19,6 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Objetos
 
         public string DDD { get; set; }
 
-        public int Codigo { get; set; }
+       // public int Codigo { get; set; }
     }
 }
