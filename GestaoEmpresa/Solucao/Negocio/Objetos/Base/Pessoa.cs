@@ -15,7 +15,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Objetos.Base
 
         public TipoDePessoa TipoDePessoa { get; set; }
 
-        public List<Endereco> Enderecos { get; set; }
+        public Endereco Enderecos { get; set; }
 
         public List<Telefone> Telefones { get; set; }
     }
