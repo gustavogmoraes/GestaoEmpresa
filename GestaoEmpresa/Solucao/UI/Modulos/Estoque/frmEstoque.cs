@@ -101,7 +101,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             #endregion
 
             #region Migração de dados ClientesAntigos ---> RavenDB
-            /*
+            
             var dialogResult = MessageBox.Show(" Migração de dados ClientesAntigos ---> RavenDB", "Confirmação", MessageBoxButtons.YesNo);
             if (dialogResult == DialogResult.Yes)
             {
@@ -122,10 +122,12 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                             Nome = x.Nome,
                             Atual = true,
                             CadastroPendente = true,
-                            Vigencia = DateTime.ParseExact(string.IsNullOrEmpty(x.DataDoAntigoCadastro) ? "27/02/2019" : x.DataDoAntigoCadastro, "dd/MM/yyyy",
-                                CultureInfo.GetCultureInfo("pt-BR"))
+                            Vigencia = (string.IsNullOrEmpty(x.DataDoAntigoCadastro) 
+                                            ? "27/02/2019" 
+                                            : x.DataDoAntigoCadastro).ConvertaParaDateTime(EnumFormatacaoDateTime.DD_MM_YYYY, '/')
 
                         }).ToList();
+
                     Task.Run(() =>
                     {
 
@@ -151,10 +153,8 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                 {
                     MessageBox.Show("Falha na recuperacao.");
                 }
-
-
             }
-            */
+            
             #endregion
 
 
