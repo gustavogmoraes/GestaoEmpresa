@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GS.GestaoEmpresa.Solucao.Negocio.Interfaces
 {
-    interface IConceitoComPendencia
+    public interface IConceitoComPendencia
     {
         bool CadastroPendente { get; set; }
     }

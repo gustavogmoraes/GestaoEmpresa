@@ -120,6 +120,7 @@
   <ItemGroup>
     <Compile Include="Solucao\Negocio\Atributos\Identificacao.cs" />
     <Compile Include="Solucao\Negocio\Enumeradores\Comuns\EnumFormatacaoDateTime.cs" />
+    <Compile Include="Solucao\Negocio\Interfaces\iConceitoComPendencia.cs" />
     <Compile Include="Solucao\Negocio\Objetos\Base\ObjetoComHistorico.cs" />
     <Compile Include="Solucao\Negocio\Objetos\Base\Pessoa.cs" />
     <Compile Include="Solucao\Negocio\Objetos\ClienteAntigo.cs" />
@@ -187,6 +188,18 @@
     <Compile Include="Solucao\UI\ControlesGenericos\GSTextBoxMonetaria.Designer.cs">
       <DependentUpon>GSTextBoxMonetaria.cs</DependentUpon>
     </Compile>
+    <Compile Include="Solucao\UI\Modulos\Atendimento\frmAtendimento.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Solucao\UI\Modulos\Atendimento\frmAtendimento.designer.cs">
+      <DependentUpon>frmAtendimento.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Solucao\UI\Modulos\Atendimento\frmCliente.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Solucao\UI\Modulos\Atendimento\frmCliente.designer.cs">
+      <DependentUpon>frmCliente.cs</DependentUpon>
+    </Compile>
     <Compile Include="Solucao\UI\Modulos\Estoque\frmEstoque.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -250,6 +263,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Solucao\UI\ControlesGenericos\GSTextBoxMonetaria.resx">
       <DependentUpon>GSTextBoxMonetaria.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Solucao\UI\Modulos\Atendimento\frmAtendimento.resx">
+      <DependentUpon>frmAtendimento.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Solucao\UI\Modulos\Atendimento\frmCliente.resx">
+      <DependentUpon>frmCliente.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Solucao\UI\Modulos\Estoque\frmEstoque.resx">
       <DependentUpon>frmEstoque.cs</DependentUpon>

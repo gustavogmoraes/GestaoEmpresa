@@ -25,6 +25,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Objetos
         public string Observacao { get; set; }
 
         public List<Email> Emails { get; set; }
+
         public bool CadastroPendente { get; set; }
     }
 }

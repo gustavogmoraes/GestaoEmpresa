@@ -7,12 +7,12 @@ using GS.GestaoEmpresa.Solucao.Negocio.Servicos;
 using GS.GestaoEmpresa.Solucao.UI.Modulos.Configuracoes;
 using GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque;
 using GS.GestaoEmpresa.Solucao.Utilitarios;
-using GS.GestaoEmpresa.Solucao.UI.Modulos.Atendimento;
 
 using System;
 using System.Drawing;
 using System.Threading;
 using System.Windows.Forms;
+using GS.GestaoEmpresa.Solucao.UI.Modulos.Atendimento;
 using GS.GestaoEmpresa.Solucao.UI.Modulos.Tecnico;
 
 namespace GestaoEmpresa.GS.GestaoEmpresa.GS.GestaoEmpresa.UI.Principal
