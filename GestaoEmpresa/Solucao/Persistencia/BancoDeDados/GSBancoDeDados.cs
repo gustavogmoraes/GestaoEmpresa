@@ -8,7 +8,6 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.BancoDeDados
 {
 	public class GSBancoDeDados : IDisposable
 	{
-
         #region Constantes
 
         public const string DIRETORIO_LOCAL = @".\";

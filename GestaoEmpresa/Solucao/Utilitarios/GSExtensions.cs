@@ -8,6 +8,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using GS.GestaoEmpresa.Solucao.Persistencia.BancoDeDados;
 using Raven.Client.Documents;
 using Raven.Client.Documents.Operations;
@@ -108,6 +109,18 @@ namespace GS.GestaoEmpresa.Solucao.Utilitarios
             }
 
             return DateTime.ParseExact(dado, formato, CultureInfo.GetCultureInfo("pt-BR"));
+        }
+
+        public static int? EncontreIndiceNaGrid(this DataGridView dataGrid, string coluna, string valorNaColuna)
+        {
+            var quantidade = dataGrid.RowCount;
+            for (int i = 0; i < quantidade; i++)
+            {
+                if (dataGrid[coluna, i].Value.ToString().Trim() == valorNaColuna.Trim())
+                    return i;
+            }
+
+            return null;
         }
     }
 }

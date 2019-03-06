@@ -4,142 +4,54 @@ using GS.GestaoEmpresa.Solucao.Negocio.Objetos;
 using GS.GestaoEmpresa.Solucao.Negocio.Validador;
 using GS.GestaoEmpresa.Solucao.Persistencia.Repositorios;
 using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores.Comuns;
-using System.Linq;
+using GS.GestaoEmpresa.Solucao.Negocio.Servicos.Base;
+using GS.GestaoEmpresa.Solucao.UI;
+using GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque;
 
 namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
 {
-    public class ServicoDeProduto : IDisposable
+    public class ServicoDeProduto : ServicoHistoricoPadrao<Produto, ValidadorDeProduto, RepositorioDeProduto>, IDisposable
     {
-        public IList<Produto> ConsulteTodosOsProdutos()
+        #region Implementação padrão
+
+        protected override Action AcaoSucessoValidacaoDeCadastro(Produto produto)
         {
-            using (var repositorioDeProdutoRaven = new RepositorioDeProdutoRaven())
-            {
-                return repositorioDeProdutoRaven.ConsulteTodos();
-            }
+            return () => { produto.QuantidadeEmEstoque = 0; };
         }
 
-        public List<DateTime> ConsulteTodasAsVigenciasDeUmProduto(int codigoDoProduto)
+        protected override Action AcaoSucessoValidacaoDeEdicao(Produto item)
         {
-            var listaDeVigencias = new List<DateTime>();
-            using (var repositorioDeProdutoRaven = new RepositorioDeProdutoRaven())
-            {
-                listaDeVigencias = repositorioDeProdutoRaven.ConsulteVigencias(codigoDoProduto) as List<DateTime>;
-            }
-
-            return listaDeVigencias;
+            return null;
         }
 
-        public int ObtenhaQuantidadeDeRegistros()
+        protected override Action AcaoSucessoValidacaoDeExclusao(int codigo)
         {
-            using (var RepositorioDeProdutoRaven = new RepositorioDeProdutoRaven())
-                return RepositorioDeProdutoRaven.ConsulteTodos().Count;
+            return null;
         }
 
-        public Produto Consulte(int codigo, DateTime data)
-        {
-            using (var mapeadorDeProduto = new RepositorioDeProdutoRaven())
-                return mapeadorDeProduto.Consulte(codigo, data);
-        }
-
-        public Produto Consulte(int codigo)
-        {
-            using (var mapeadorDeProduto = new RepositorioDeProdutoRaven())
-                return mapeadorDeProduto.Consulte(codigo);
-        }
+        #endregion
 
         public int ConsulteQuantidade(int codigo)
         {
-            using (var repositorioDeProduto = new RepositorioDeProdutoRaven())
+            using (var repositorioDeProduto = new RepositorioDeProduto())
             {
                 return repositorioDeProduto.ConsulteQuantidade(codigo);
             }
         }
 
-        public int ObtenhaProximoCodigoDisponivel()
-        {
-            int codigo;
-            using (var mapeadorDeProduto = new RepositorioDeProdutoRaven())
-            {
-                codigo = mapeadorDeProduto.ObtenhaProximoCodigoDisponivel();
-            }
-
-            return codigo;
-        }
-
-        public List<Inconsistencia> Exclua(int codigoDoProduto)
-        {
-            var listaDeInconsistenciasExclusao = new List<Inconsistencia>();
-            using (var validadorDeProduto = new ValidadorDeProduto())
-            {
-                listaDeInconsistenciasExclusao = validadorDeProduto.ValideExcluir(codigoDoProduto);
-            }
-
-            if (listaDeInconsistenciasExclusao.Count == 0)
-            {
-                using (var mapeadorDeProduto = new RepositorioDeProdutoRaven())
-                {
-                    mapeadorDeProduto.Exclua(codigoDoProduto);
-                }
-            }
-
-            return listaDeInconsistenciasExclusao;
-        }
-
-        public List<Inconsistencia> Salve(Produto produto, EnumTipoDeForm tipoDoForm)
-        {
-            var horarioChamada = DateTime.Now;
-
-            var listaDeInconsistencias = new List<Inconsistencia>();
-
-            if (tipoDoForm == EnumTipoDeForm.Cadastro)
-            {
-                using (var validadorDeProduto = new ValidadorDeProduto())
-                {
-                    listaDeInconsistencias = validadorDeProduto.ValideCadastroInicial(produto);
-                }
-
-                if (listaDeInconsistencias.Count > 0)
-                {
-                    return listaDeInconsistencias;
-                }
-            }
-
-            using (var validadorDeProduto = new ValidadorDeProduto())
-            {
-                listaDeInconsistencias = validadorDeProduto.ValideSalvar(produto);
-            }
-
-            if (listaDeInconsistencias.Count == 0)
-            {
-                using (var mapeadorDeProduto = new RepositorioDeProdutoRaven())
-                {
-                    produto.Vigencia = horarioChamada;
-
-                    if (tipoDoForm == EnumTipoDeForm.Cadastro)
-                    {
-                        produto.Atual = true;
-                        produto.QuantidadeEmEstoque = 0;
-
-                        mapeadorDeProduto.Insira(produto);
-                    }
-                    else if (tipoDoForm == EnumTipoDeForm.Edicao)
-                    {
-                        mapeadorDeProduto.Atualize(produto);
-                    }
-                }
-            }
-
-            return listaDeInconsistencias;
-        }
-
         public void AltereQuantidadeDeProduto(int codigoDoProduto, int novaQuantidade)
         {
-            using (var mapeadorDeProduto = new RepositorioDeProdutoRaven())
+            using (var repositorioDeProduto = new RepositorioDeProduto())
             {
-                mapeadorDeProduto.AltereQuantidadeDeProduto(codigoDoProduto, novaQuantidade);
+                repositorioDeProduto.AltereQuantidadeDeProduto(codigoDoProduto, novaQuantidade);
+
+                var formEstoque = GerenciadorDeForms.Obtenha<frmEstoque>();
+                if (formEstoque != null)
+                {
+                    var produto = Consulte(codigoDoProduto);
+                    formEstoque.RecarregueProdutoEspecifico(produto);
+                }
             }
         }
-
-        public void Dispose() { }
     }
 }       

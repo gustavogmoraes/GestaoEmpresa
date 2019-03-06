@@ -4,20 +4,42 @@ using System.Collections.Generic;
 using GS.GestaoEmpresa.Solucao.Negocio.Objetos;
 using GS.GestaoEmpresa.Solucao.Negocio.Catalogos;
 using GS.GestaoEmpresa.Solucao.Negocio.Servicos;
-using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores;
 using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores.Comuns;
+using GS.GestaoEmpresa.Solucao.Negocio.Validador.Base;
 using GS.GestaoEmpresa.Solucao.Persistencia.Repositorios;
 
 namespace GS.GestaoEmpresa.Solucao.Negocio.Validador
 {
-    public class ValidadorDeInteracao : IDisposable
+    public class ValidadorDeInteracao : ValidadorPadrao<Interacao>, IDisposable
     {
-        public List<Inconsistencia> Valide(Interacao interacao)
-        {
-            _interacao = interacao;
-            _listaDeInconsistencias = new List<Inconsistencia>();
+        #region Propriedades
 
-            //Chame validações aqui
+        private Interacao _interacao { get; set; }
+
+        private List<Inconsistencia> _listaDeInconsistencias { get; set; }
+
+        private RepositorioDeProduto _mapeadorDeProduto;
+
+        private RepositorioDeInteracao _mapeadorDeInteracao;
+
+        private RepositorioDeProduto RepositorioDeProduto()
+        {
+            return _mapeadorDeProduto ?? (_mapeadorDeProduto = new RepositorioDeProduto());
+        }
+
+        private RepositorioDeInteracao RepositorioDeInteracao()
+        {
+            return _mapeadorDeInteracao ?? (_mapeadorDeInteracao = new RepositorioDeInteracao());
+        }
+
+        #endregion
+
+        #region Implementação Padrão
+
+        public override IList<Inconsistencia> ValideCadastro(Interacao item)
+        {
+            _interacao = item;
+            _listaDeInconsistencias = new List<Inconsistencia>();
 
             ValideRegraObrigatoriedades();
             ValideRegrasDeNumeroDeSerie();
@@ -26,53 +48,21 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Validador
             return _listaDeInconsistencias;
         }
 
-        private void ValideRegraQuantidades()
+        // Conceito não possui edição
+        public override IList<Inconsistencia> ValideEdicao(Interacao item)
         {
-            var quantidadeAtual = RepositorioDeProduto().Consulte(_interacao.Produto.Codigo).QuantidadeEmEstoque;
-            var quantidadeInterada = _interacao.TipoDeInteracao == EnumTipoDeInteracao.SAIDA ? _interacao.QuantidadeInterada * -1 : _interacao.QuantidadeInterada;
-            var quantidadeAuxiliar = (_interacao.QuantidadeAuxiliar ?? 0) * -1;
-
-            if ((quantidadeAtual + quantidadeInterada +  quantidadeAuxiliar) < 0)
-            {
-                _listaDeInconsistencias.Add(
-                    new Inconsistencia()
-                    {
-                        Modulo = "Controle de Estoque",
-                        Tela = "Cadastro de Interações",
-                        ConceitoValidado = "Interação",
-                        NomeDaPropriedadeValidada = "Produto",
-                        DescricaoDaPropriedadeValidada = "Produto da entrada/saída",
-                        Mensagem = "Essa interação deixaria o produto com quantidade abaixo de 0!"
-                    });
-            }
+            return new List<Inconsistencia>();
         }
 
-        private Interacao _interacao { get; set; }
-
-        private List<Inconsistencia> _listaDeInconsistencias { get; set; }
-
-        private RepositorioDeProdutoRaven _mapeadorDeProduto;
-
-        private RepositorioDeInteracaoRaven _mapeadorDeInteracao;
-
-        private RepositorioDeProdutoRaven RepositorioDeProduto()
+        public override IList<Inconsistencia> ValideExclusao(int codigo)
         {
-            return _mapeadorDeProduto ?? (_mapeadorDeProduto = new RepositorioDeProdutoRaven());
-        }
+            var interacao = RepositorioDeInteracao().Consulte(codigo);
 
-        private RepositorioDeInteracaoRaven RepositorioDeInteracao()
-        {
-            return _mapeadorDeInteracao ?? (_mapeadorDeInteracao = new RepositorioDeInteracaoRaven());
-        }
-
-        public List<Inconsistencia> ValideExclusao(int codigoInteracao, int codigoProduto)
-        {
-            var listaDeInteracoes = RepositorioDeInteracao().Consulte(x => x.Produto.Codigo == codigoProduto);
+            var listaDeInteracoes = RepositorioDeInteracao().Consulte(x => x.Produto.Codigo == interacao.Produto.Codigo);
             var ultimaInteracaoComEsseProduto = listaDeInteracoes.FirstOrDefault(x => x.Horario == listaDeInteracoes.Max(y => x.Horario));
-            var produto = RepositorioDeProduto().Consulte(codigoProduto);
 
             var listaDeInconsistencias = new List<Inconsistencia>();
-            if (codigoInteracao != ultimaInteracaoComEsseProduto.Codigo)
+            if (codigo != ultimaInteracaoComEsseProduto.Codigo)
             {
                 listaDeInconsistencias.Add(
                     new Inconsistencia()
@@ -82,13 +72,14 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Validador
                         ConceitoValidado = "Interação",
                         NomeDaPropriedadeValidada = "Interação",
                         DescricaoDaPropriedadeValidada = "Interação",
-                        Mensagem = $"Não é possível deletar essa interação porque ela não é a última interação com o produto {produto.Codigo} - {produto.Nome}."
+                        Mensagem = $"Não é possível deletar essa interação porque ela não é a última interação com o produto {interacao.Produto.Codigo} - {interacao.Produto.Nome}."
                     });
             }
 
             return listaDeInconsistencias;
         }
 
+        #endregion
 
         #region Regras de validação
 
@@ -215,6 +206,27 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Validador
             }
         }
 
+        private void ValideRegraQuantidades()
+        {
+            var quantidadeAtual = RepositorioDeProduto().Consulte(_interacao.Produto.Codigo).QuantidadeEmEstoque;
+            var quantidadeInterada = _interacao.TipoDeInteracao == EnumTipoDeInteracao.SAIDA ? _interacao.QuantidadeInterada * -1 : _interacao.QuantidadeInterada;
+            var quantidadeAuxiliar = (_interacao.QuantidadeAuxiliar ?? 0) * -1;
+
+            if ((quantidadeAtual + quantidadeInterada + quantidadeAuxiliar) < 0)
+            {
+                _listaDeInconsistencias.Add(
+                    new Inconsistencia()
+                    {
+                        Modulo = "Controle de Estoque",
+                        Tela = "Cadastro de Interações",
+                        ConceitoValidado = "Interação",
+                        NomeDaPropriedadeValidada = "Produto",
+                        DescricaoDaPropriedadeValidada = "Produto da entrada/saída",
+                        Mensagem = "Essa interação deixaria o produto com quantidade abaixo de 0!"
+                    });
+            }
+        }
+
         #endregion
 
         #region Suporte à IDisposable
@@ -251,6 +263,5 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Validador
             // GC.SuppressFinalize(this);
         }
         #endregion
-
     }
 }

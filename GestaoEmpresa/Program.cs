@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using GS.GestaoEmpresa.Solucao.UI;
 
 namespace GestaoEmpresa
 {
@@ -19,7 +20,7 @@ namespace GestaoEmpresa
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new frmPrincipal());
+            Application.Run(GerenciadorDeForms.Crie<frmPrincipal>());
         }
     }
 }

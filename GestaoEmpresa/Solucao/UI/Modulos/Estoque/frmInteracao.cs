@@ -17,10 +17,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using GestaoEmpresa.GS.GestaoEmpresa.GS.GestaoEmpresa.UI.Principal;
 
 namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 {
-    public partial class frmInteracao : Form, IFormPadrao<Interacao>
+    public partial class frmInteracao : Form, IFormPadrao<Interacao>, IFormGerenciado
     {
         private int _codigoInteracao { get; set; }
 
@@ -178,7 +179,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             var listaDeProdutos = new List<Produto>();
             using (var servicoDeProduto = new ServicoDeProduto())
             {
-                listaDeProdutos = servicoDeProduto.ConsulteTodosOsProdutos().ToList();
+                listaDeProdutos = servicoDeProduto.ConsulteTodos().ToList();
             }
 
             PreenchaComboBoxPesquisaComProdutos(listaDeProdutos);
@@ -264,7 +265,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             var listaDeProdutos = new List<Produto>();
             using (var servicoDeProduto = new ServicoDeProduto())
             {
-                listaDeProdutos = servicoDeProduto.ConsulteTodosOsProdutos().ToList();
+                listaDeProdutos = servicoDeProduto.ConsulteTodos().ToList();
             }
 
             interacao.Produto = listaDeProdutos.Find(x => x.Nome.Trim() == cbProduto.Text.Trim());
@@ -409,12 +410,12 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                         }
                     }
 
-                    var horario = DateTime.Now;
+                    interacao.Horario = DateTime.Now;
                     //txtHorario.Text = horario.ToString(Cultura);
 
                     using (var servicoDeInteracao = new ServicoDeInteracao())
                     {
-                        _listaDeInconsistencias = servicoDeInteracao.Salve(interacao, _tipoDoForm, horario);
+                        _listaDeInconsistencias = servicoDeInteracao.Salve(interacao, _tipoDoForm).ToList();
                     }
 
                     if (_listaDeInconsistencias.Count == 0)
@@ -536,7 +537,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             var listaDeProdutos = new List<Produto>();
             using (var servicoDeProduto = new ServicoDeProduto())
             {
-                listaDeProdutos = servicoDeProduto.ConsulteTodosOsProdutos().ToList();
+                listaDeProdutos = servicoDeProduto.ConsulteTodos().ToList();
             }
 
             var produto = listaDeProdutos.Find(x => x.Nome.Trim() == cbProduto.Text);
@@ -627,6 +628,13 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             {
                 txtNumeroDaNotaFiscal.Text = txtNumeroDaNotaFiscal.Text.Trim().Remove(txtNumeroDaNotaFiscal.Text.Length - 1);
             }
+        }
+
+        public string IdInstancia { get; set; }
+
+        public void ApagueInstancia()
+        {
+            GerenciadorDeForms.Apague<frmInteracao>(IdInstancia);
         }
     }
 }

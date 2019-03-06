@@ -124,6 +124,7 @@
     <Compile Include="Solucao\Negocio\Objetos\Base\ObjetoComHistorico.cs" />
     <Compile Include="Solucao\Negocio\Objetos\Base\Pessoa.cs" />
     <Compile Include="Solucao\Negocio\Objetos\ClienteAntigo.cs" />
+    <Compile Include="Solucao\Negocio\Servicos\Base\ServicoHistoricoPadrao.cs" />
     <Compile Include="Solucao\Negocio\Servicos\Base\ServicoPadrao.cs" />
     <Compile Include="Solucao\Negocio\Validador\Base\ValidadorPadrao.cs" />
     <Compile Include="Solucao\Persistencia\BancoDeDados\EnumTipoDeBanco.cs" />
@@ -140,11 +141,9 @@
     <Compile Include="Solucao\Persistencia\Repositorios\RepositorioDeCliente.cs" />
     <Compile Include="Solucao\Persistencia\Repositorios\RepositorioDeClienteAntigo.cs" />
     <Compile Include="Solucao\Persistencia\Repositorios\RepositorioDeColaborador.cs" />
-    <Compile Include="Solucao\Persistencia\Repositorios\RepositorioDeInteracaoRaven.cs" />
-    <Compile Include="Solucao\Persistencia\Repositorios\RepositorioDeProdutoRaven.cs" />
-    <Compile Include="Solucao\Persistencia\Repositorios\RepositorioDeSolicitacaoDeAtendimento.cs" />
     <Compile Include="Solucao\Persistencia\Repositorios\RepositorioDeInteracao.cs" />
-    <Compile Include="Solucao\Persistencia\Repositorios\RepositorioDeNumeroDeSerie.cs" />
+    <Compile Include="Solucao\Persistencia\Repositorios\RepositorioDeProduto.cs" />
+    <Compile Include="Solucao\Persistencia\Repositorios\RepositorioDeSolicitacaoDeAtendimento.cs" />
     <Compile Include="Solucao\Negocio\Enumeradores\Seguros\Base\TypeSafeEnum.cs" />
     <Compile Include="Solucao\Negocio\Enumeradores\Seguros\Conceito\Conceito.cs" />
     <Compile Include="Solucao\Negocio\Enumeradores\Comuns\EnumBotoesForm.cs" />
@@ -169,13 +168,12 @@
     <Compile Include="Solucao\Negocio\Objetos\Produto.cs" />
     <Compile Include="Solucao\Negocio\Objetos\Telefone.cs" />
     <Compile Include="Solucao\Negocio\Objetos\Usuario.cs" />
-    <Compile Include="Solucao\Persistencia\Repositorios\RepositorioDeUsuario.cs" />
     <Compile Include="Solucao\Negocio\Servicos\ServicoDeInteracao.cs" />
     <Compile Include="Solucao\Negocio\Servicos\ServicoDeProduto.cs" />
     <Compile Include="Solucao\Negocio\Servicos\ServicoDeUsuario.cs" />
     <Compile Include="Solucao\Negocio\Validador\ValidadorDeInteracao.cs" />
     <Compile Include="Solucao\Negocio\Validador\ValidadorDeProduto.cs" />
-    <Compile Include="Solucao\Persistencia\Repositorios\RepositorioDeUsuarioRaven.cs" />
+    <Compile Include="Solucao\Persistencia\Repositorios\RepositorioDeUsuario.cs" />
     <Compile Include="Solucao\UI\ControlesGenericos\GSMultiTextBox.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -188,6 +186,8 @@
     <Compile Include="Solucao\UI\ControlesGenericos\GSTextBoxMonetaria.Designer.cs">
       <DependentUpon>GSTextBoxMonetaria.cs</DependentUpon>
     </Compile>
+    <Compile Include="Solucao\UI\GerenciadorDeForms.cs" />
+    <Compile Include="Solucao\UI\IFormGerenciado.cs" />
     <Compile Include="Solucao\UI\Modulos\Atendimento\frmAtendimento.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -336,7 +336,6 @@
     <Compile Include="Solucao\Negocio\Objetos\Colaborador.cs" />
     <Compile Include="Solucao\Negocio\Objetos\LancamentoOS.cs" />
     <Compile Include="Solucao\Negocio\Atributos\Validacao.cs" />
-    <Compile Include="Solucao\Persistencia\Repositorios\RepositorioDeProduto.cs" />
     <Compile Include="Solucao\Negocio\Catalogos\Cores.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -1,16 +1,11 @@
 ﻿using GS.GestaoEmpresa.Solucao.Negocio.Objetos;
 using Raven.Client.Documents;
 using Raven.Client.Documents.Conventions;
-using Raven.Client.Documents.Session;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Raven.Client.Documents.Operations.Indexes;
 using Raven.Client.ServerWide;
 using Raven.Client.ServerWide.Operations;
-using static GS.GestaoEmpresa.Solucao.Persistencia.Repositorios.RepositorioDeProdutoRaven;
 
 namespace GS.GestaoEmpresa.Solucao.Persistencia.BancoDeDados
 {

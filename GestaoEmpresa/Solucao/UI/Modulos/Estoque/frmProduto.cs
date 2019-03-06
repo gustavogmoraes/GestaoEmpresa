@@ -15,10 +15,11 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Sparrow.Utils;
 
 namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 {
-    public partial class frmProduto : Form
+    public partial class frmProduto : Form, IFormGerenciado
     {
         private EnumBotoesForm _switchBotaoEditarSalvar;
 
@@ -146,7 +147,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             var listaDeVigencias = new List<DateTime>();
             using (var servicoDeProduto = new ServicoDeProduto())
             {
-                listaDeVigencias = servicoDeProduto.ConsulteTodasAsVigenciasDeUmProduto(codigo);
+                listaDeVigencias = servicoDeProduto.ConsulteVigencias(codigo).ToList();
             }
 
             foreach (var vigencia in listaDeVigencias)
@@ -347,11 +348,21 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                     var listaDeInconsistencias = new List<Inconsistencia>();
 
                     using (var servicoDeProduto = new ServicoDeProduto())
-                        listaDeInconsistencias = servicoDeProduto.Salve(produto, _tipoDoForm);
+                        listaDeInconsistencias = servicoDeProduto.Salve(produto, _tipoDoForm).ToList();
 
                     if (listaDeInconsistencias.Count == 0)
                     {
-                        MessageBox.Show(Mensagens.X_FOI_CADASTRADO_COM_SUCESSO("Produto"));
+                        if (_tipoDoForm == EnumTipoDeForm.Cadastro)
+                        {
+                            GerenciadorDeForms.Obtenha<frmEstoque>().AdicioneNovoProdutoNaGrid(produto);
+                            MessageBox.Show(Mensagens.X_FOI_CADASTRADO_COM_SUCESSO("Produto"));
+                        }
+                        else
+                        {
+                            GerenciadorDeForms.Obtenha<frmEstoque>().RecarregueProdutoEspecifico(produto);
+                            MessageBox.Show(Mensagens.X_FOI_ATUALIZADO_COM_SUCESSO("Produto"));
+                        }
+
                         InicializeBotoes(EnumTipoDeForm.Detalhamento);
                         _tipoDoForm = EnumTipoDeForm.Edicao;
                         DesabiliteControles();
@@ -359,6 +370,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                         SelecioneUltimaVigencia();
                         cbVigencia.Enabled = true;
                         txtLineVigencia.Enabled = true;
+
                         return;
                     }
 
@@ -402,7 +414,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                         var listaDeInconsistenciasExclusao = new List<Inconsistencia>();
                         using (var servicoDeProduto = new ServicoDeProduto())
                         {
-                            listaDeInconsistenciasExclusao = servicoDeProduto.Exclua(codigoDoProduto);
+                            listaDeInconsistenciasExclusao = servicoDeProduto.Exclua(codigoDoProduto).ToList();
                         }
 
                         if (listaDeInconsistenciasExclusao.Count == 0)
@@ -472,6 +484,18 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         {
             if (txtPorcentagemDeLucro.Valor > 0)
                 AjustePrecosNaTela(sender as Control);
+        }
+
+        public string IdInstancia { get; set; }
+
+        public void ApagueInstancia()
+        {
+            GerenciadorDeForms.Apague<frmProduto>(IdInstancia);
+        }
+
+        private void frmProduto_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            ApagueInstancia();
         }
     }
 }

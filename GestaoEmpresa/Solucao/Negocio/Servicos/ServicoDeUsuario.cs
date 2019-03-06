@@ -10,9 +10,9 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
     {
         public void CrieUsuarioAdministrador()
         {
-            using (var mapeadorDeUsuario = new RepositorioDeUsuario())
+            using (var repositorioDeUsuario = new RepositorioDeUsuario())
             {
-                mapeadorDeUsuario.Insira(
+                repositorioDeUsuario.Insira(
                     new Usuario
                     {
                         Codigo = 1,
@@ -25,13 +25,13 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
 
         public Usuario Consulte(int codigo)
         {
-            using (var repositorioDeUsuario = new RepositorioDeUsuarioRaven())
+            using (var repositorioDeUsuario = new RepositorioDeUsuario())
                 return repositorioDeUsuario.Consulte(codigo);
         }
 
         public Usuario Consulte(string nome)
         {
-            using (var repositorioDeUsuario = new RepositorioDeUsuarioRaven())
+            using (var repositorioDeUsuario = new RepositorioDeUsuario())
                 return repositorioDeUsuario.Consulte(x => x.Nome.Contains(nome)).FirstOrDefault();
         }
 

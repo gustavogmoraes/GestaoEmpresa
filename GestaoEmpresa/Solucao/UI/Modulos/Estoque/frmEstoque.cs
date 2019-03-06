@@ -23,7 +23,7 @@ using GS.GestaoEmpresa.Solucao.Negocio.Interfaces;
 
 namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 {
-    public partial class frmEstoque : Form 
+    public partial class frmEstoque : Form, IFormGerenciado
     {
         private List<Produto> _listaDeProdutos { get; set; }
 
@@ -102,58 +102,58 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
             #region Migração de dados ClientesAntigos ---> RavenDB
             
-            var dialogResult = MessageBox.Show(" Migração de dados ClientesAntigos ---> RavenDB", "Confirmação", MessageBoxButtons.YesNo);
-            if (dialogResult == DialogResult.Yes)
-            {
-                var caminho = Directory.GetCurrentDirectory();
-                const string NOME_DO_ARQUIVO_IMPORTADO_FILTRADO = @"ImportadoFiltrado.json";
-                Console.WriteLine("Recuperando lista salva.");
-                var arquivo = File.ReadAllText(caminho + "/" + NOME_DO_ARQUIVO_IMPORTADO_FILTRADO);
+            //var dialogResult = MessageBox.Show(" Migração de dados ClientesAntigos ---> RavenDB", "Confirmação", MessageBoxButtons.YesNo);
+            //if (dialogResult == DialogResult.Yes)
+            //{
+            //    var caminho = Directory.GetCurrentDirectory();
+            //    const string NOME_DO_ARQUIVO_IMPORTADO_FILTRADO = @"ImportadoFiltrado.json";
+            //    Console.WriteLine("Recuperando lista salva.");
+            //    var arquivo = File.ReadAllText(caminho + "/" + NOME_DO_ARQUIVO_IMPORTADO_FILTRADO);
 
-                if (arquivo != null)
-                {
-                    MessageBox.Show("Lista recuperada com sucesso.");
-                    var jsonSerializer = new JsonSerializer();
-                    var ListaClienteAntigo = JsonConvert.DeserializeObject<List<ClienteAntigo>>(arquivo);
-                    var ListaCliente = ListaClienteAntigo.
-                        Select(x => new Cliente
-                        {
-                            Codigo = x.Codigo,
-                            Nome = x.Nome,
-                            Atual = true,
-                            CadastroPendente = true,
-                            Vigencia = (string.IsNullOrEmpty(x.DataDoAntigoCadastro) 
-                                            ? "27/02/2019" 
-                                            : x.DataDoAntigoCadastro).ConvertaParaDateTime(EnumFormatacaoDateTime.DD_MM_YYYY, '/')
+            //    if (arquivo != null)
+            //    {
+            //        MessageBox.Show("Lista recuperada com sucesso.");
+            //        var jsonSerializer = new JsonSerializer();
+            //        var ListaClienteAntigo = JsonConvert.DeserializeObject<List<ClienteAntigo>>(arquivo);
+            //        var ListaCliente = ListaClienteAntigo.
+            //            Select(x => new Cliente
+            //            {
+            //                Codigo = x.Codigo,
+            //                Nome = x.Nome,
+            //                Atual = true,
+            //                CadastroPendente = true,
+            //                Vigencia = (string.IsNullOrEmpty(x.DataDoAntigoCadastro) 
+            //                                ? "27/02/2019" 
+            //                                : x.DataDoAntigoCadastro).ConvertaParaDateTime(EnumFormatacaoDateTime.DD_MM_YYYY, '/')
 
-                        }).ToList();
+            //            }).ToList();
 
-                    Task.Run(() =>
-                    {
+            //        Task.Run(() =>
+            //        {
 
-                        using (var repositorioDeCliente = new RepositorioDeCliente())
-                        using (var repositorioDeClienteAntigo = new RepositorioDeClienteAntigo())
-                        {
+            //            using (var repositorioDeCliente = new RepositorioDeCliente())
+            //            using (var repositorioDeClienteAntigo = new RepositorioDeClienteAntigo())
+            //            {
 
-                            foreach (var item in ListaClienteAntigo)
-                            {
-                                repositorioDeClienteAntigo.Insira(item);
+            //                foreach (var item in ListaClienteAntigo)
+            //                {
+            //                    repositorioDeClienteAntigo.Insira(item);
 
-                            }
-                            foreach (var item in ListaCliente)
-                            {
-                                repositorioDeCliente.Insira(item);
-                            }
-                        }
-                        MessageBox.Show("Finalizado importaçao.");
-                    });
+            //                }
+            //                foreach (var item in ListaCliente)
+            //                {
+            //                    repositorioDeCliente.Insira(item);
+            //                }
+            //            }
+            //            MessageBox.Show("Finalizado importaçao.");
+            //        });
 
-                }
-                else
-                {
-                    MessageBox.Show("Falha na recuperacao.");
-                }
-            }
+            //    }
+            //    else
+            //    {
+            //        MessageBox.Show("Falha na recuperacao.");
+            //    }
+            //}
             
             #endregion
 
@@ -165,7 +165,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             //Catálogo de Produtos
             using (var servicoDeProduto = new ServicoDeProduto())
             {
-                _listaDeProdutos = servicoDeProduto.ConsulteTodosOsProdutos().ToList();
+                _listaDeProdutos = servicoDeProduto.ConsulteTodos().ToList();
             }
 
             CarregueDataGridProdutos(_listaDeProdutos);
@@ -193,8 +193,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                 var indice = interacao.Horario.ToString(Cultura).Length - 3;
 
                 dgvHistorico.Rows.Add(interacao.Codigo,
-                                      interacao.HorarioProgramado.ToString(Cultura)
-                                                                 .Remove(indice, 3),
+                                      interacao.HorarioProgramado.ToString(Cultura).Remove(indice, 3),
                                       GSUtilitarios.ConvertaEnumeradorParaString(interacao.TipoDeInteracao),
                                       interacao.Produto.Nome,
                                       interacao.Observacao,
@@ -279,7 +278,9 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
                     if (produto != null)
                     {
-                        new frmProduto(produto).Show();
+                        var instanciaForm = GerenciadorDeForms.Crie<frmProduto>(produto);
+                        if (instanciaForm != null)
+                            instanciaForm.Show();
                     }
                 }
             }
@@ -287,7 +288,9 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         private void btnNovoProduto_Click(object sender, EventArgs e)
         {
-            new frmProduto().Show();
+            var instanciaForm = GerenciadorDeForms.Crie<frmProduto>();
+            if (instanciaForm != null)
+                instanciaForm.Show();
         }
 
         private void btnRefresh_Click(object sender, EventArgs e)
@@ -297,7 +300,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
             using (var servicoDeProduto = new ServicoDeProduto())
             {
-                _listaDeProdutos = servicoDeProduto.ConsulteTodosOsProdutos().ToList();
+                _listaDeProdutos = servicoDeProduto.ConsulteTodos().ToList();
             }
 
             CarregueDataGridProdutos(_listaDeProdutos);
@@ -686,6 +689,70 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         private void ucSessaoSistema2_Load(object sender, EventArgs e)
         {
 
+        }
+
+        public void RecarregueProdutos()
+        {
+            // Mantendo a seleção e scroll presente na tela
+            var index = dgvProdutos.CurrentRow.Index;
+
+            using (var servicoDeProduto = new ServicoDeProduto())
+            {
+                _listaDeProdutos = servicoDeProduto.ConsulteTodos().ToList();
+            }
+
+            CarregueDataGridProdutos(_listaDeProdutos);
+            dgvProdutos.Refresh();
+
+            dgvProdutos.FirstDisplayedScrollingRowIndex = index;
+        }
+
+        public void RecarregueProdutoEspecifico(Produto produto)
+        {
+            // Mantendo a seleção e scroll presente na tela
+            var index = dgvProdutos.CurrentRow.Index;
+
+            var indice = dgvProdutos.EncontreIndiceNaGrid("colunaCodigo", produto.Codigo.ToString());
+            if (indice.HasValue)
+            {
+                dgvProdutos.Rows[indice.Value].Cells[1].Value = produto.CodigoDoFabricante;
+                dgvProdutos.Rows[indice.Value].Cells[2].Value = produto.Status;
+                dgvProdutos.Rows[indice.Value].Cells[3].Value = produto.Nome;
+                dgvProdutos.Rows[indice.Value].Cells[4].Value = produto.Observacao;
+                dgvProdutos.Rows[indice.Value].Cells[5].Value = produto.PrecoDeCompra.FormateParaStringMoedaReal();
+                dgvProdutos.Rows[indice.Value].Cells[6].Value = produto.PrecoDeVenda.FormateParaStringMoedaReal();
+                dgvProdutos.Rows[indice.Value].Cells[7].Value = produto.QuantidadeEmEstoque;
+            }
+
+            dgvProdutos.Refresh();
+
+            dgvProdutos.FirstDisplayedScrollingRowIndex = index;
+        }
+
+        public void AdicioneNovoProdutoNaGrid(Produto produto)
+        {
+            // Mantendo a seleção e scroll presente na tela
+            var index = dgvProdutos.CurrentRow.Index;
+
+            dgvProdutos.Rows.Add(produto.Codigo,
+                produto.CodigoDoFabricante,
+                produto.Status,
+                produto.Nome,
+                produto.Observacao,
+                produto.PrecoDeCompra.FormateParaStringMoedaReal(),
+                produto.PrecoDeVenda.FormateParaStringMoedaReal(),
+                produto.QuantidadeEmEstoque);
+
+            dgvProdutos.Refresh();
+
+            dgvProdutos.FirstDisplayedScrollingRowIndex = index;
+        }
+
+        public string IdInstancia { get; set; }
+
+        public void ApagueInstancia()
+        {
+            GerenciadorDeForms.Apague<frmEstoque>(IdInstancia);
         }
     }
 }

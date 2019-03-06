@@ -12,12 +12,13 @@ using System;
 using System.Drawing;
 using System.Threading;
 using System.Windows.Forms;
+using GS.GestaoEmpresa.Solucao.UI;
 using GS.GestaoEmpresa.Solucao.UI.Modulos.Atendimento;
 using GS.GestaoEmpresa.Solucao.UI.Modulos.Tecnico;
 
 namespace GestaoEmpresa.GS.GestaoEmpresa.GS.GestaoEmpresa.UI.Principal
 {
-    public partial class frmPrincipal : Form
+    public partial class frmPrincipal : Form, IFormGerenciado
     {
 
         #region Constantes
@@ -290,7 +291,9 @@ namespace GestaoEmpresa.GS.GestaoEmpresa.GS.GestaoEmpresa.UI.Principal
 
         private void btnEstoque_Click_1(object sender, EventArgs e)
         {
-            new frmEstoque().Show();
+            var instanciaDoForm = GerenciadorDeForms.Crie<frmEstoque>();
+            if(instanciaDoForm != null)
+                instanciaDoForm.Show();
         }
 
         private void txtSenha_KeyPress(object sender, KeyPressEventArgs e)
@@ -309,6 +312,13 @@ namespace GestaoEmpresa.GS.GestaoEmpresa.GS.GestaoEmpresa.UI.Principal
         private void btnAtendimento_Click(object sender, EventArgs e)
         {
             new frmAtendimento().Show();
+        }
+
+        public string IdInstancia { get; set; }
+
+        public void ApagueInstancia()
+        {
+            GerenciadorDeForms.Apague<frmPrincipal>(IdInstancia);
         }
     }
 }

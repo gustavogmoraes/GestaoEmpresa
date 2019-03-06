@@ -211,7 +211,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             var listaDeProdutos = new List<Produto>();
             using (var servicoDeProduto = new ServicoDeProduto())
             {
-                listaDeProdutos = servicoDeProduto.ConsulteTodosOsProdutos().ToList();
+                listaDeProdutos = servicoDeProduto.ConsulteTodos().ToList();
             }
 
             if (listaDeProdutos.Count > 0)

@@ -1,13 +1,16 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using GS.GestaoEmpresa.Solucao.Negocio.Objetos;
 using GS.GestaoEmpresa.Solucao.Negocio.Catalogos;
 using GS.GestaoEmpresa.Solucao.Negocio.Servicos;
+using GS.GestaoEmpresa.Solucao.Negocio.Validador.Base;
 using GS.GestaoEmpresa.Solucao.Persistencia.Repositorios;
 
 namespace GS.GestaoEmpresa.Solucao.Negocio.Validador
 {
-    public class ValidadorDeProduto : IDisposable
+    public class ValidadorDeProduto : ValidadorPadrao<Produto>, IDisposable
     {
         public ValidadorDeProduto()
         {
@@ -19,30 +22,6 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Validador
         private Produto _produtoAnterior { get; set; }
 
         private List<Inconsistencia> _listaDeInconsistencias { get; set; }
-
-        public List<Inconsistencia> ValideSalvar(Produto produto)
-        {
-            _produto = produto;
-            _listaDeInconsistencias = new List<Inconsistencia>();
-
-            if (EhCadastro(produto.Codigo))
-            {
-                ValideRegraObrigatoriedades();
-            }
-            else
-            {
-                ValideRegraNaoHouveAlteracao();
-            }
-
-            return _listaDeInconsistencias;
-        }
-
-        public List<Inconsistencia> ValideExcluir(int codigoDoProduto)
-        {
-            ValideRegraProdutoPodeSerExcluido(codigoDoProduto);
-
-            return _listaDeInconsistencias;
-        }
 
         private void ValideRegraProdutoPodeSerExcluido(int codigoDoProduto)
         {
@@ -69,7 +48,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Validador
             var listaDeInconsistencias = new List<Inconsistencia>();
 
             Produto produtoConsultado;
-            using (var mapeadorDeProduto = new RepositorioDeProdutoRaven())
+            using (var mapeadorDeProduto = new RepositorioDeProduto())
             {
                 produtoConsultado = mapeadorDeProduto.Consulte(produto.Codigo);
             }
@@ -93,36 +72,60 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Validador
 
         private void ValideRegraNaoHouveAlteracao()
         {
-            if (_produtoAnterior.Equals(_produto))
+            var propriedadesNaoComparar = new List<PropertyInfo>
             {
-                _listaDeInconsistencias.Add(
-                    new Inconsistencia()
-                    {
-                        Modulo = "Controle de Estoque",
-                        Tela = "Cadastro de Produtos",
-                        ConceitoValidado = "Produto",
-                        Mensagem = Mensagens.NADA_FOI_ALTERADO
-                    });
+                { typeof(Produto).GetProperty("Vigencia") },
+                { typeof(Produto).GetProperty("QuantidadeEmEstoque") }
+            };
+
+            var propriedades = typeof(Produto).GetProperties().Except(propriedadesNaoComparar);
+            foreach (var propriedade in propriedades)
+            {
+                var valorAnterior = propriedade.GetValue(_produtoAnterior, null);
+                var novoValor = propriedade.GetValue(_produto, null);
+
+                if (valorAnterior != novoValor)
+                    return;
             }
+            
+            _listaDeInconsistencias.Add(
+                new Inconsistencia()
+                {
+                    Modulo = "Controle de Estoque",
+                    Tela = "Cadastro de Produtos",
+                    ConceitoValidado = "Produto",
+                    Mensagem = Mensagens.NADA_FOI_ALTERADO
+                });
         }
 
-        private bool EhCadastro(int codigoDoProduto)
+        public override IList<Inconsistencia> ValideCadastro(Produto item)
         {
-            Produto produtoConsultado;
-            using (var mapeadorDeProduto = new RepositorioDeProdutoRaven())
-            {
-                produtoConsultado = mapeadorDeProduto.Consulte(codigoDoProduto);
-            }
+            _produto = item;
 
-            if (produtoConsultado == null)
-            {
-                return true;
-            }
+            ValideRegraObrigatoriedades();
 
-            _produtoAnterior = produtoConsultado;
-            return false;
+            return _listaDeInconsistencias;
         }
 
+        public override IList<Inconsistencia> ValideEdicao(Produto item)
+        {
+            _produto = item;
+            using (var servicoDeProduto = new ServicoDeProduto())
+            {
+                _produtoAnterior = servicoDeProduto.Consulte(item.Codigo, item.Vigencia.AddSeconds(-1));
+            }
+
+            ValideRegraNaoHouveAlteracao();
+
+            return _listaDeInconsistencias;
+        }
+
+        public override IList<Inconsistencia> ValideExclusao(int codigo)
+        {
+            ValideRegraProdutoPodeSerExcluido(codigo);
+
+            return _listaDeInconsistencias;
+        }
 
         #region IDisposable Support
         private bool disposedValue = false; // To detect redundant calls
@@ -159,5 +162,6 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Validador
         }
         #endregion
 
+        
     }
 }

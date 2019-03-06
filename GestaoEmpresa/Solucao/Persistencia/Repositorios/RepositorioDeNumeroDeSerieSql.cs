@@ -8,7 +8,7 @@ using System.Data;
 
 namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios
 {
-    public class RepositorioDeNumeroDeSerie : IDisposable
+    public class RepositorioDeNumeroDeSerieSql : IDisposable
     {
         #region Propriedades
 

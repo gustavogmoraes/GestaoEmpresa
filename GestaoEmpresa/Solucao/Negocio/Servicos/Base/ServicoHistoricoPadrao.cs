@@ -1,18 +1,19 @@
-﻿using GS.GestaoEmpresa.Solucao.Negocio.Interfaces;
-using GS.GestaoEmpresa.Solucao.Negocio.Validador.Base;
-using GS.GestaoEmpresa.Solucao.Persistencia.Repositorios.Base;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores.Comuns;
+using GS.GestaoEmpresa.Solucao.Negocio.Interfaces;
 using GS.GestaoEmpresa.Solucao.Negocio.Objetos;
+using GS.GestaoEmpresa.Solucao.Negocio.Objetos.Base;
+using GS.GestaoEmpresa.Solucao.Negocio.Validador.Base;
+using GS.GestaoEmpresa.Solucao.Persistencia.Repositorios.Base;
 
 namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos.Base
 {
-    public abstract class ServicoPadrao<TConceito, TValidador, TRepositorio> : IDisposable
-        where TConceito : class, IConceito, new()
+    public abstract class ServicoHistoricoPadrao<TConceito, TValidador, TRepositorio> : IDisposable
+        where TConceito : ObjetoComHistorico, IConceitoComHistorico, new()
         where TValidador : ValidadorPadrao<TConceito>, IDisposable, new()
-        where TRepositorio : RepositorioPadrao<TConceito>, IDisposable, new()
+        where TRepositorio : RepositorioHistoricoPadrao<TConceito>, IDisposable, new()
     {
         private TValidador _validador;
         protected TValidador Validador
@@ -33,9 +34,29 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos.Base
             return Repositorio.Consulte(codigo);
         }
 
+        public TConceito Consulte(int codigo, DateTime data)
+        {
+            return Repositorio.Consulte(codigo, data);
+        }
+
         public IList<TConceito> ConsulteTodos()
         {
             return Repositorio.ConsulteTodos();
+        }
+
+        public IList<DateTime> ConsulteVigencias(int codigo)
+        {
+            return Repositorio.ConsulteVigencias(codigo);
+        }
+
+        public int ObtenhaQuantidadeDeRegistros()
+        {
+            return Repositorio.ObtenhaQuantidadeDeRegistros();
+        }
+
+        public int ObtenhaProximoCodigoDisponivel()
+        {
+            return Repositorio.ObtenhaProximoCodigoDisponivel();
         }
 
         protected abstract Action AcaoSucessoValidacaoDeCadastro(TConceito item);
@@ -46,6 +67,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos.Base
 
         public IList<Inconsistencia> Salve(TConceito item, EnumTipoDeForm tipoDeForm)
         {
+            item.Vigencia = DateTime.Now;
             var inconsistencias = new List<Inconsistencia>();
 
             switch (tipoDeForm)
@@ -71,7 +93,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos.Base
 
                         Repositorio.Atualize(item);
                     }
-                        
+
                     break;
             }
 
@@ -89,7 +111,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos.Base
 
                 Repositorio.Exclua(codigo);
             }
-                
+
 
             return inconsistencias;
         }

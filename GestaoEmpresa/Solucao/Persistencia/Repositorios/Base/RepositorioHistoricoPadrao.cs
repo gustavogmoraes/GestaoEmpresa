@@ -25,6 +25,7 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios.Base
         public int Insira(T item)
         {
             if (item.Codigo == 0) item.Codigo = ObtenhaProximoCodigoDisponivel();
+            item.Atual = true;
 
             using (var sessaoRaven = _documentStore.OpenSession())
             {
@@ -58,6 +59,12 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios.Base
                                              .OrderByDescending(x => x.Vigencia)
                                              .FirstOrDefault();
             }
+        }
+
+        public int ObtenhaQuantidadeDeRegistros()
+        {
+            using (var sessaoRaven = _documentStore.OpenSession())
+                return sessaoRaven.Query<T>().Where(x => x.Atual).Count();
         }
 
         public IList<T> ConsulteTodos()

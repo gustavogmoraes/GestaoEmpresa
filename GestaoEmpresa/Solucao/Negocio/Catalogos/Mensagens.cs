@@ -24,7 +24,10 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Catalogos
             $"Já existe um(a) {valor1} cadastrado(a) com esse(a) {valor2}";
 
         public static string X_FOI_CADASTRADO_COM_SUCESSO(string valor) => 
-            $"{valor} foi cadastrado(a) com sucesso!\n Atualize a tabela para vê-lo(a).";
+            $"{valor} foi cadastrado(a) com sucesso!.";
+
+        public static string X_FOI_ATUALIZADO_COM_SUCESSO(string valor) =>
+            $"{valor} foi atualizado(a) com sucesso!.";
 
         public static string X_DEVE_SER_SELECIONADO(string valor) => 
             $"{valor} deve ser selecionado(a).";

@@ -390,7 +390,7 @@ namespace GS.GestaoEmpresa.Solucao.Utilitarios
 
         public static string ObtenhaIPLocal()
         {
-            using (Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, 0))
+            using (var socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, 0))
             {
                 var ipLocal = string.Empty;
                 try

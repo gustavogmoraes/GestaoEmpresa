@@ -32,7 +32,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Configuracoes
 
             using(var servicoMapeadorUsuario = new RepositorioDeUsuario())
             {
-                listaUsuarios = servicoMapeadorUsuario.ConsulteTodos();
+                listaUsuarios = servicoMapeadorUsuario.ConsulteTodos().ToList();
             }
 
             foreach(var usuario in listaUsuarios)
@@ -58,13 +58,14 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Configuracoes
             var usuario = new Usuario();
             using (var servicoMapeadorUsuario = new RepositorioDeUsuario())
             {
-               usuario = servicoMapeadorUsuario.Consulte(dgvUsuarios.Rows[rowIndex]
-                                                                    .Cells["NomeDeUsuario"]
-                                                                    .Value
-                                                                    .ToString().Trim());  
+                var nome = dgvUsuarios.Rows[rowIndex]
+                                      .Cells["NomeDeUsuario"]
+                                      .Value
+                                      .ToString().Trim();
+               usuario = servicoMapeadorUsuario.Consulte(x => x.Nome == nome).FirstOrDefault();  
             }
 
-            //new frmUsuario(usuario).Show();
+            //GerenciadorDeForms.Crie<frmUsuario>().Show();
         }
 
         private void tabUsuarios_Click(object sender, EventArgs e)
