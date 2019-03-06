@@ -18,7 +18,6 @@ using System.Reflection;
 using GS.GestaoEmpresa.Solucao.Persistencia.Repositorios;
 using GS.GestaoEmpresa.Properties;
 using System.IO;
-using Newtonsoft.Json;
 using GS.GestaoEmpresa.Solucao.Negocio.Interfaces;
 
 namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque

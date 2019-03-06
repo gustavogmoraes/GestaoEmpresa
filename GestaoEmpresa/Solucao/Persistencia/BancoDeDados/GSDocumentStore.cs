@@ -31,13 +31,10 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.BancoDeDados
 
         private void SobrescrevaConventions()
         {
-            base.Conventions.FindCollectionName = type =>
-            {
-                if (NomenclaturaDeColecaoCustomizada.ContainsKey(type))
-                    return NomenclaturaDeColecaoCustomizada[type];
-
-                return DocumentConventions.DefaultGetCollectionName(type);
-            };
+            base.Conventions.FindCollectionName = type => 
+                NomenclaturaDeColecaoCustomizada.ContainsKey(type) 
+                    ? NomenclaturaDeColecaoCustomizada[type] 
+                    : DocumentConventions.DefaultGetCollectionName(type);
         }
 
         public static Dictionary<Type, string> NomenclaturaDeColecaoCustomizada =>
