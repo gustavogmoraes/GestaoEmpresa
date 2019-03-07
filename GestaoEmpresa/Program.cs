@@ -21,7 +21,8 @@ namespace GestaoEmpresa
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(GerenciadorDeForms.Crie<frmPrincipal>());
+            Application.Run(new frmProdutoMetro());
+            //Application.Run(GerenciadorDeForms.Crie<frmPrincipal>());
         }
 
         // Remove and reinstall all references
