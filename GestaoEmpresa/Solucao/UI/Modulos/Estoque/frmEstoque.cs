@@ -22,7 +22,7 @@ using GS.GestaoEmpresa.Solucao.Negocio.Interfaces;
 
 namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 {
-    public partial class frmEstoque : Form, IFormGerenciado
+    public partial class frmEstoque : Form, IView
     {
         private List<Produto> _listaDeProdutos { get; set; }
 
@@ -277,7 +277,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
                     if (produto != null)
                     {
-                        var instanciaForm = GerenciadorDeForms.Crie<frmProduto>(produto);
+                        var instanciaForm = GerenciadorDeViews.Crie<frmProduto>(produto);
                         if (instanciaForm != null)
                             instanciaForm.Show();
                     }
@@ -287,7 +287,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         private void btnNovoProduto_Click(object sender, EventArgs e)
         {
-            var instanciaForm = GerenciadorDeForms.Crie<frmProduto>();
+            var instanciaForm = GerenciadorDeViews.Crie<frmProduto>();
             if (instanciaForm != null)
                 instanciaForm.Show();
         }
@@ -751,7 +751,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         public void ApagueInstancia()
         {
-            GerenciadorDeForms.Apague<frmEstoque>(IdInstancia);
+            GerenciadorDeViews.Apague<frmEstoque>(IdInstancia);
         }
     }
 }

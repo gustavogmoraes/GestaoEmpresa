@@ -120,9 +120,10 @@
     <Reference Include="System.Security" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Solucao\Negocio\Atributos\CampoTela.cs" />
     <Compile Include="Solucao\Negocio\Atributos\Identificacao.cs" />
     <Compile Include="Solucao\Negocio\Enumeradores\Comuns\EnumFormatacaoDateTime.cs" />
-    <Compile Include="Solucao\Negocio\Interfaces\iConceitoComPendencia.cs" />
+    <Compile Include="Solucao\Negocio\Interfaces\IConceitoComPendencia.cs" />
     <Compile Include="Solucao\Negocio\Objetos\Base\ObjetoComHistorico.cs" />
     <Compile Include="Solucao\Negocio\Objetos\Base\Pessoa.cs" />
     <Compile Include="Solucao\Negocio\Objetos\ClienteAntigo.cs" />
@@ -159,11 +160,9 @@
     <Compile Include="Solucao\Negocio\Enumeradores\Seguros\TipoDePessoa\TipoDePessoa.cs" />
     <Compile Include="Solucao\Negocio\Interfaces\IConceitoComHistorico.cs" />
     <Compile Include="Solucao\Negocio\Interfaces\IConceito.cs" />
-    <Compile Include="Solucao\Negocio\Interfaces\IFormPadrao.cs" />
     <Compile Include="Solucao\Negocio\Atributos\PropriedadeBD.cs" />
     <Compile Include="Solucao\Negocio\Atributos\Multivalor.cs" />
     <Compile Include="Solucao\Negocio\Objetos\Base\Grupo.cs" />
-    <Compile Include="Solucao\Negocio\Objetos\CampoDeTela.cs" />
     <Compile Include="Solucao\Negocio\Objetos\Cliente.cs" />
     <Compile Include="Solucao\Negocio\Objetos\Email.cs" />
     <Compile Include="Solucao\Negocio\Objetos\Inconsistencia.cs" />
@@ -182,6 +181,8 @@
     <Compile Include="Solucao\UI\Base\GSForm.Designer.cs">
       <DependentUpon>GSForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Solucao\UI\Base\IPresenter.cs" />
+    <Compile Include="Solucao\UI\Base\Presenter.cs" />
     <Compile Include="Solucao\UI\ControlesGenericos\GSMetroToggle.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -206,8 +207,8 @@
     <Compile Include="Solucao\UI\ControlesGenericos\GSTopBorder.Designer.cs">
       <DependentUpon>GSTopBorder.cs</DependentUpon>
     </Compile>
-    <Compile Include="Solucao\UI\GerenciadorDeForms.cs" />
-    <Compile Include="Solucao\UI\IFormGerenciado.cs" />
+    <Compile Include="Solucao\UI\GerenciadorDeViews.cs" />
+    <Compile Include="Solucao\UI\IView.cs" />
     <Compile Include="Solucao\UI\Modulos\Atendimento\frmAtendimento.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -250,6 +251,7 @@
     <Compile Include="Solucao\UI\Modulos\Estoque\frmProdutoMetro.Designer.cs">
       <DependentUpon>frmProdutoMetro.cs</DependentUpon>
     </Compile>
+    <Compile Include="Solucao\UI\Modulos\Estoque\ProdutoPresenter.cs" />
     <Compile Include="Solucao\UI\Modulos\Tecnico\frmEntradaLab.cs">
       <SubType>Form</SubType>
     </Compile>

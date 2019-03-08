@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using GestaoEmpresa.GS.GestaoEmpresa.GS.GestaoEmpresa.UI.Principal;
 using GS.GestaoEmpresa.Solucao.Negocio.Interfaces;
+using GS.GestaoEmpresa.Solucao.UI.Base;
 using GS.GestaoEmpresa.Solucao.UI.Modulos.Atendimento;
 using GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque;
 using GS.GestaoEmpresa.Solucao.UI.Modulos.Tecnico;
@@ -13,60 +14,67 @@ using MoreLinq;
 
 namespace GS.GestaoEmpresa.Solucao.UI
 {
-    public static class GerenciadorDeForms
+    public static class GerenciadorDeViews
     {
-        public class Tela
+        /// <summary>
+        /// Tela Model-View-Presenter
+        /// </summary>
+        public class TelaMVP
         {
-            public Tela(Type tipo, bool instanciaUnica)
+            public TelaMVP(Type tipoDaView, Type tipoDoPresenter, bool instanciaUnica)
             {
-                TipoDoForm = tipo;
+                TipoDaView = tipoDaView;
+                TipoDoPresenter = tipoDoPresenter;
                 InstanciaUnica = instanciaUnica;
             }
 
-            public Type TipoDoForm { get; set; }
+            public Type TipoDoModel { get; set; }
 
-            public Dictionary<string, Form> Instancias { get; set; }
+            public Type TipoDaView { get; set; }
+
+            public Type TipoDoPresenter { get; set; }
 
             public bool InstanciaUnica { get; set; }
+
+            public Dictionary<string, IPresenter> Instancias { get; set; }
         }
 
-        private static List<Tela> ControladorDeInstancias
+        private static List<TelaMVP> ControladorDeInstancias
         {
             get =>
                 _controladorDeInstancias ??
                 (_controladorDeInstancias =
-                    new List<Tela>
+                    new List<TelaMVP>
                     {
-                        { new Tela(typeof(frmPrincipal), true) },
-                        { new Tela(typeof(frmEstoque), true) },
-                        { new Tela(typeof(frmProduto), false) },
-                        { new Tela(typeof(frmInteracao), true) },
-                        { new Tela(typeof(frmAtendimento), true) },
+                        { new TelaMVP(typeof(frmPrincipal), null, true) },
+                        { new TelaMVP(typeof(frmEstoque), null, true) },
+                        { new TelaMVP(typeof(frmProduto), typeof(ProdutoPresenter), false) },
+                        { new TelaMVP(typeof(frmInteracao), null, true) },
+                        { new TelaMVP(typeof(frmAtendimento), null, true) },
                     });
 
             set => _controladorDeInstancias = value;
         }
 
-        private static List<Tela> _controladorDeInstancias { get; set; }
+        private static List<TelaMVP> _controladorDeInstancias { get; set; }
 
-        public static Form Crie<T>()
-            where T : Form
+        public static IView Crie<TView>() 
+            where TView : IView
         {
-            var tela = ControladorDeInstancias.Find(x => x.TipoDoForm == typeof(T));
+            var tela = ControladorDeInstancias.Find(x => x.TipoDaView == typeof(TView));
             if (!(tela.InstanciaUnica && tela.Instancias != null))
             {
-                if (tela.Instancias == null)
-                    tela.Instancias = new Dictionary<string, Form>();
+                if (tela.Instancias == null) tela.Instancias = new Dictionary<string, IPresenter>();
 
                 var idInstancia = tela.InstanciaUnica ? "Única" : Guid.NewGuid().ToString();
                 if (!tela.Instancias.ContainsKey(idInstancia))
                 {
-                    var instancia = Activator.CreateInstance<T>();
-                    (instancia as IFormGerenciado).IdInstancia = idInstancia;
+                    var instancia = Activator.CreateInstance<TView>();
+                    (instancia as IView).IdInstancia = idInstancia;
 
-                    tela.Instancias.Add(idInstancia, instancia as Form);
+                    tela.Instancias.Add(idInstancia, instancia as IPresenter);
 
-                    return instancia as Form;
+                    return instancia;
                 }
             }
 
@@ -77,22 +85,22 @@ namespace GS.GestaoEmpresa.Solucao.UI
         public static Form Crie<T>(IConceito conceito)
             where T : Form
         {
-            var tela = ControladorDeInstancias.Find(x => x.TipoDoForm == typeof(T));
+            var tela = ControladorDeInstancias.Find(x => x.TipoDaView == typeof(T));
 
             if (tela.InstanciaUnica && tela.Instancias != null)
                 return null;
 
             if (tela.Instancias == null)
-                tela.Instancias = new Dictionary<string, Form>();
+                tela.Instancias = new Dictionary<string, IPresenter>();
 
             
             var idInstancia = tela.InstanciaUnica ? "Única" : conceito.Codigo.ToString();
             if (!tela.Instancias.ContainsKey(idInstancia))
             {
                 var instancia = Activator.CreateInstance(typeof(T), conceito);
-                (instancia as IFormGerenciado).IdInstancia = idInstancia;
+                (instancia as IView).IdInstancia = idInstancia;
 
-                tela.Instancias.Add(idInstancia, instancia as Form);
+                tela.Instancias.Add(idInstancia, instancia as IPresenter);
 
                 return instancia as Form;
             }
@@ -105,7 +113,7 @@ namespace GS.GestaoEmpresa.Solucao.UI
         public static T Obtenha<T>()
             where T : Form
         {
-            var tela = ControladorDeInstancias.Find(x => x.TipoDoForm == typeof(T));
+            var tela = ControladorDeInstancias.Find(x => x.TipoDaView == typeof(T));
             if (tela.Instancias != null && tela.Instancias.Count > 0)
             {
                 return tela.Instancias.Values.FirstOrDefault() as T;
@@ -117,7 +125,7 @@ namespace GS.GestaoEmpresa.Solucao.UI
         public static T Obtenha<T>(string codigoDaInstancia)
             where T : Form
         {
-            var tela = ControladorDeInstancias.Find(x => x.TipoDoForm == typeof(T));
+            var tela = ControladorDeInstancias.Find(x => x.TipoDaView == typeof(T));
             if (tela.Instancias != null && tela.Instancias.Count > 0)
             {
                 return tela.Instancias.FirstOrDefault(x => x.Key == codigoDaInstancia).Value as T;
@@ -129,7 +137,7 @@ namespace GS.GestaoEmpresa.Solucao.UI
         public static IList<T> ObtenhaLista<T>()
             where T : Form
         {
-            var tela = ControladorDeInstancias.Find(x => x.TipoDoForm == typeof(T));
+            var tela = ControladorDeInstancias.Find(x => x.TipoDaView == typeof(T));
             if (tela.Instancias != null && tela.Instancias.Count > 0)
             {
                 return tela.Instancias.Values as IList<T>;
@@ -139,14 +147,14 @@ namespace GS.GestaoEmpresa.Solucao.UI
         }
 
         public static void Apague<T>()
-            where T : Form
+            where T : IView
         {
-            var instancias = ControladorDeInstancias.Find(x => x.TipoDoForm == typeof(T)).Instancias.Values;
+            var instancias = ControladorDeInstancias.Find(x => x.TipoDaView == typeof(T)).Instancias.Values;
             if (instancias != null && instancias.Count > 0)
             {
-                instancias.ForEach(x => x.Invoke((MethodInvoker) delegate
+                instancias.ForEach(x => (x.View as Form).Invoke((MethodInvoker) delegate
                 {
-                    x.Dispose();
+                    (x as Form).Dispose();
                 }));
 
                 instancias = null;
@@ -156,10 +164,10 @@ namespace GS.GestaoEmpresa.Solucao.UI
         public static void Apague<T>(string codigoDaInstancia)
             where T : Form
         {
-            var instancias = ControladorDeInstancias.Find(x => x.TipoDoForm == typeof(T)).Instancias;
+            var instancias = ControladorDeInstancias.Find(x => x.TipoDaView == typeof(T)).Instancias;
             
             if(instancias.ContainsKey(codigoDaInstancia))
-                instancias[codigoDaInstancia].Dispose();
+                (instancias[codigoDaInstancia].View as Form).Dispose();
 
             instancias.Remove(codigoDaInstancia);
 

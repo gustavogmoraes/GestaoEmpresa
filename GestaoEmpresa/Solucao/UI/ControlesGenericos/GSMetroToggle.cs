@@ -22,6 +22,17 @@ namespace GS.GestaoEmpresa.Solucao.UI.ControlesGenericos
 
         public string TextoOff { get; set; }
 
+        public bool Checked
+        {
+            get => metroToggle.Checked;
+            set => metroToggle.Checked = value;
+        }
+
+        public void Turn()
+        {
+            metroToggle.Checked = !metroToggle.Checked;
+        }
+
         private void metroToggle_CheckedChanged(object sender, EventArgs e)
         {
             if (metroToggle.Checked)

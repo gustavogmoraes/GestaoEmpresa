@@ -18,7 +18,7 @@ using GS.GestaoEmpresa.Solucao.UI.Modulos.Tecnico;
 
 namespace GestaoEmpresa.GS.GestaoEmpresa.GS.GestaoEmpresa.UI.Principal
 {
-    public partial class frmPrincipal : Form, IFormGerenciado
+    public partial class frmPrincipal : Form, IView
     {
 
         #region Constantes
@@ -291,7 +291,7 @@ namespace GestaoEmpresa.GS.GestaoEmpresa.GS.GestaoEmpresa.UI.Principal
 
         private void btnEstoque_Click_1(object sender, EventArgs e)
         {
-            var instanciaDoForm = GerenciadorDeForms.Crie<frmEstoque>();
+            var instanciaDoForm = GerenciadorDeViews.Crie<frmEstoque>();
             if(instanciaDoForm != null)
                 instanciaDoForm.Show();
         }
@@ -318,7 +318,7 @@ namespace GestaoEmpresa.GS.GestaoEmpresa.GS.GestaoEmpresa.UI.Principal
 
         public void ApagueInstancia()
         {
-            GerenciadorDeForms.Apague<frmPrincipal>(IdInstancia);
+            GerenciadorDeViews.Apague<frmPrincipal>(IdInstancia);
         }
     }
 }

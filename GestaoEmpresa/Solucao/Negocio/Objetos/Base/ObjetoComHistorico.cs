@@ -7,12 +7,14 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Objetos.Base
     public class ObjetoComHistorico : IConceitoComHistorico
     {
         [Identificacao(Descricao = "Código")]
+        [CampoTela]
         public int Codigo { get; set; }
 
         public bool Atual { get; set; }
 
         private DateTime _vigencia;
 
+        [CampoTela]
         public DateTime Vigencia
         {
             get => _vigencia;

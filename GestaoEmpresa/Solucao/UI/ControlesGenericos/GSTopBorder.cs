@@ -8,6 +8,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using MetroFramework.Forms;
 
 namespace GS.GestaoEmpresa.Solucao.UI.ControlesGenericos
 {
@@ -30,7 +31,15 @@ namespace GS.GestaoEmpresa.Solucao.UI.ControlesGenericos
             if (e.Button == MouseButtons.Left)
             {
                 ReleaseCapture();
-                SendMessage(this.ParentForm.Handle, WM_NCLBUTTONDOWN, HT_CAPTION, 0);
+
+                // Temos que ativar o movable do Metro Form, senão ele não consegue mover
+                // Salvamos o valor para volta-lo ao que ele é depois de mover
+                var movable = ((MetroForm) ParentForm).Movable;
+                ((MetroForm) ParentForm).Movable = true;
+
+                SendMessage(ParentForm.Handle, WM_NCLBUTTONDOWN, HT_CAPTION, 0);
+
+                ((MetroForm) ParentForm).Movable = movable;
             }
         }
 
@@ -39,11 +48,6 @@ namespace GS.GestaoEmpresa.Solucao.UI.ControlesGenericos
         public GSTopBorder()
         {
             InitializeComponent();
-        }
-
-        private void GSTopBorder_Load(object sender, EventArgs e)
-        {
-
         }
 
         private void btnClose_Click(object sender, EventArgs e)

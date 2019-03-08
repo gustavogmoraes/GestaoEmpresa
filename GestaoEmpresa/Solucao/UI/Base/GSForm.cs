@@ -1,23 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Linq.Expressions;
+using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
+using GS.GestaoEmpresa.Properties;
+using GS.GestaoEmpresa.Solucao.Negocio.Atributos;
+using GS.GestaoEmpresa.Solucao.Negocio.Interfaces;
+using GS.GestaoEmpresa.Solucao.Negocio.Objetos;
+using GS.GestaoEmpresa.Solucao.UI.ControlesGenericos;
+using GS.GestaoEmpresa.Solucao.Utilitarios;
+using MetroFramework.Controls;
 using MetroFramework.Forms;
+using MoreLinq;
 
 namespace GS.GestaoEmpresa.Solucao.UI.Base
 {
-    public partial class GSForm : MetroForm
+    public partial class GSForm: MetroForm
     {
         public GSForm()
         {
             InitializeComponent();
         }
-
 
         protected virtual void btnEditarSalvarOnClick(object sender, EventArgs e)
         {

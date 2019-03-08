@@ -21,25 +21,11 @@ using GestaoEmpresa.GS.GestaoEmpresa.GS.GestaoEmpresa.UI.Principal;
 
 namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 {
-    public partial class frmInteracao : Form, IFormPadrao<Interacao>, IFormGerenciado
+    public partial class frmInteracao : Form, IFormPadrao<Interacao>, IView
     {
         private int _codigoInteracao { get; set; }
 
         private decimal _valor { get; set; }
-
-        public List<CampoDeTela> ListaDeCampos
-        {
-            get
-            {
-                return new List<CampoDeTela>()
-                {
-                    new CampoDeTela("QuantidadeInterada", txtQuantidade, txtLineQuantidadeEstoque),
-                    new CampoDeTela("Origem", txtOrigem, txtLineOrigem),
-                    new CampoDeTela("Destino", txtDestino, txtLineDestino)
-                };
-                
-            }
-        }
 
         public frmInteracao()
         {
@@ -634,7 +620,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         public void ApagueInstancia()
         {
-            GerenciadorDeForms.Apague<frmInteracao>(IdInstancia);
+            GerenciadorDeViews.Apague<frmInteracao>(IdInstancia);
         }
     }
 }

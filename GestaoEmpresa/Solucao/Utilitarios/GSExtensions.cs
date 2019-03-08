@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
@@ -121,6 +122,39 @@ namespace GS.GestaoEmpresa.Solucao.Utilitarios
             }
 
             return null;
+        }
+
+        public static MemberInfo GetPropertyFromExpression(this LambdaExpression GetPropertyLambda)
+        {
+            MemberExpression Exp = null;
+
+            //this line is necessary, because sometimes the expression comes in as Convert(originalexpression)
+            if (GetPropertyLambda.Body is UnaryExpression)
+            {
+                var UnExp = (UnaryExpression)GetPropertyLambda.Body;
+                if (UnExp.Operand is MemberExpression)
+                {
+                    Exp = (MemberExpression)UnExp.Operand;
+                }
+                else
+                    throw new ArgumentException();
+            }
+            else if (GetPropertyLambda.Body is MemberExpression)
+            {
+                Exp = (MemberExpression)GetPropertyLambda.Body;
+            }
+            else
+            {
+                throw new ArgumentException();
+            }
+
+            return Exp.Member;
+        }
+
+        public static IList<PropertyInfo> EncontrePropriedadesMarcadasComAtributo<T>(this Type tipo)
+            where T : Attribute
+        {
+            return tipo.GetProperties().Where(x => Attribute.IsDefined(x, typeof(T))).ToList();
         }
     }
 }

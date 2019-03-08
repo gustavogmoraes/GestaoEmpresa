@@ -19,7 +19,7 @@ using Sparrow.Utils;
 
 namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 {
-    public partial class frmProduto : Form, IFormGerenciado
+    public partial class frmProduto : Form, IView
     {
         private EnumBotoesForm _switchBotaoEditarSalvar;
 
@@ -354,12 +354,12 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                     {
                         if (_tipoDoForm == EnumTipoDeForm.Cadastro)
                         {
-                            GerenciadorDeForms.Obtenha<frmEstoque>().AdicioneNovoProdutoNaGrid(produto);
+                            GerenciadorDeViews.Obtenha<frmEstoque>().AdicioneNovoProdutoNaGrid(produto);
                             MessageBox.Show(Mensagens.X_FOI_CADASTRADO_COM_SUCESSO("Produto"));
                         }
                         else
                         {
-                            GerenciadorDeForms.Obtenha<frmEstoque>().RecarregueProdutoEspecifico(produto);
+                            GerenciadorDeViews.Obtenha<frmEstoque>().RecarregueProdutoEspecifico(produto);
                             MessageBox.Show(Mensagens.X_FOI_ATUALIZADO_COM_SUCESSO("Produto"));
                         }
 
@@ -490,7 +490,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         public void ApagueInstancia()
         {
-            GerenciadorDeForms.Apague<frmProduto>(IdInstancia);
+            GerenciadorDeViews.Apague<frmProduto>(IdInstancia);
         }
 
         private void frmProduto_FormClosed(object sender, FormClosedEventArgs e)

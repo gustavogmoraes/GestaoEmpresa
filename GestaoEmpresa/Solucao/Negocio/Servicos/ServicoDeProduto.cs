@@ -45,7 +45,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
             {
                 repositorioDeProduto.AltereQuantidadeDeProduto(codigoDoProduto, novaQuantidade);
 
-                var formEstoque = GerenciadorDeForms.Obtenha<frmEstoque>();
+                var formEstoque = GerenciadorDeViews.Obtenha<frmEstoque>();
                 if (formEstoque != null)
                 {
                     var produto = Consulte(codigoDoProduto);

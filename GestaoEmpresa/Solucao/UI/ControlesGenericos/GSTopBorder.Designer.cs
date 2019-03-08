@@ -63,7 +63,6 @@
             this.Controls.Add(this.btnClose);
             this.Name = "GSTopBorder";
             this.Size = new System.Drawing.Size(426, 26);
-            this.Load += new System.EventHandler(this.GSTopBorder_Load);
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.GSTopBorder_MouseDown);
             this.ResumeLayout(false);
 

@@ -6,7 +6,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using GS.GestaoEmpresa.Solucao.Negocio.Objetos;
 using GS.GestaoEmpresa.Solucao.UI;
+using GS.GestaoEmpresa.Solucao.UI.Base;
 using GS.GestaoEmpresa.Solucao.UI.Modulos.Atendimento;
 
 namespace GestaoEmpresa
@@ -21,13 +23,20 @@ namespace GestaoEmpresa
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new frmProdutoMetro());
+
+            var produto = new Produto
+            {
+                Codigo = 1,
+                Vigencia = DateTime.Now,
+                Nome = "Teste"
+            };
+
+            Application.Run(GerenciadorDeViews.Crie<frmProdutoMetro>(produto));
             //Application.Run(GerenciadorDeForms.Crie<frmPrincipal>());
         }
 
         // Remove and reinstall all references
         // Open NuGet Package Manager Console 
         // Type "Update-Package -Reinstall" and hit enter
-
     }
 }

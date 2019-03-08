@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GS.GestaoEmpresa.Solucao.UI
 {
-    public interface IFormGerenciado
+    public interface IView
     {
         string IdInstancia { get; set; }
 

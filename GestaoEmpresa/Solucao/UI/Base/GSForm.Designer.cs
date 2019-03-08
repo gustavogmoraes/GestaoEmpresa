@@ -30,10 +30,10 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GSForm));
             this.btnCancelarExcluir = new System.Windows.Forms.PictureBox();
-            this.gsTopBorder = new GS.GestaoEmpresa.Solucao.UI.ControlesGenericos.GSTopBorder();
             this.btnEditarSalvar = new System.Windows.Forms.PictureBox();
             this.panelTitulo = new System.Windows.Forms.Panel();
             this.lblTitulo = new System.Windows.Forms.Label();
+            this.gsTopBorder = new GS.GestaoEmpresa.Solucao.UI.ControlesGenericos.GSTopBorder();
             ((System.ComponentModel.ISupportInitialize)(this.btnCancelarExcluir)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnEditarSalvar)).BeginInit();
             this.panelTitulo.SuspendLayout();
@@ -51,15 +51,6 @@
             this.btnCancelarExcluir.TabIndex = 39;
             this.btnCancelarExcluir.TabStop = false;
             this.btnCancelarExcluir.Click += new System.EventHandler(this.btnCancelarExcluir_Click);
-            // 
-            // gsTopBorder
-            // 
-            this.gsTopBorder.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            this.gsTopBorder.Location = new System.Drawing.Point(0, 0);
-            this.gsTopBorder.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.gsTopBorder.Name = "gsTopBorder";
-            this.gsTopBorder.Size = new System.Drawing.Size(604, 26);
-            this.gsTopBorder.TabIndex = 40;
             // 
             // btnEditarSalvar
             // 
@@ -96,6 +87,15 @@
             this.lblTitulo.Size = new System.Drawing.Size(0, 37);
             this.lblTitulo.TabIndex = 0;
             // 
+            // gsTopBorder
+            // 
+            this.gsTopBorder.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            this.gsTopBorder.Location = new System.Drawing.Point(0, 0);
+            this.gsTopBorder.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.gsTopBorder.Name = "gsTopBorder";
+            this.gsTopBorder.Size = new System.Drawing.Size(604, 26);
+            this.gsTopBorder.TabIndex = 40;
+            // 
             // GSForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
@@ -120,10 +120,10 @@
         }
 
         #endregion
-        private ControlesGenericos.GSTopBorder gsTopBorder;
         private System.Windows.Forms.Panel panelTitulo;
         public System.Windows.Forms.PictureBox btnCancelarExcluir;
         public System.Windows.Forms.PictureBox btnEditarSalvar;
         public System.Windows.Forms.Label lblTitulo;
+        public ControlesGenericos.GSTopBorder gsTopBorder;
     }
 }
