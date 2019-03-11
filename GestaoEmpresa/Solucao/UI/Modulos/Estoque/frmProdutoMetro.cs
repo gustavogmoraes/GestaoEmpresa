@@ -20,5 +20,12 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         {
             InitializeComponent();
         }
+
+        public string IdInstancia { get; set; }
+
+        public void ApagueInstancia()
+        {
+            GerenciadorDeViews.Exclua<frmProdutoMetro>(IdInstancia);
+        }
     }
 }

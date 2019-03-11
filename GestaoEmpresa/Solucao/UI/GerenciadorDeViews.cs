@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -48,7 +49,7 @@ namespace GS.GestaoEmpresa.Solucao.UI
                     {
                         { new TelaMVP(typeof(frmPrincipal), null, true) },
                         { new TelaMVP(typeof(frmEstoque), null, true) },
-                        { new TelaMVP(typeof(frmProduto), typeof(ProdutoPresenter), false) },
+                        { new TelaMVP(typeof(frmProdutoMetro), typeof(ProdutoPresenter), false) },
                         { new TelaMVP(typeof(frmInteracao), null, true) },
                         { new TelaMVP(typeof(frmAtendimento), null, true) },
                     });
@@ -58,10 +59,12 @@ namespace GS.GestaoEmpresa.Solucao.UI
 
         private static List<TelaMVP> _controladorDeInstancias { get; set; }
 
-        public static IView Crie<TView>() 
-            where TView : IView
+        public static TPresenter Crie<TPresenter>()
+            where TPresenter : class, IPresenter, new()
         {
-            var tela = ControladorDeInstancias.Find(x => x.TipoDaView == typeof(TView));
+            var tela = ControladorDeInstancias.Find(x => x.TipoDoPresenter == typeof(TPresenter));
+            if (tela == null) throw new Exception("View não encontrada pelo gerenciador!");
+
             if (!(tela.InstanciaUnica && tela.Instancias != null))
             {
                 if (tela.Instancias == null) tela.Instancias = new Dictionary<string, IPresenter>();
@@ -69,12 +72,13 @@ namespace GS.GestaoEmpresa.Solucao.UI
                 var idInstancia = tela.InstanciaUnica ? "Única" : Guid.NewGuid().ToString();
                 if (!tela.Instancias.ContainsKey(idInstancia))
                 {
-                    var instancia = Activator.CreateInstance<TView>();
-                    (instancia as IView).IdInstancia = idInstancia;
+                    var instanciaPresenter = (TPresenter)Activator.CreateInstance(tela.TipoDoPresenter);
+                    var instanciaView = (IView)Activator.CreateInstance(tela.TipoDaView);
+                    instanciaPresenter.View = instanciaView;
 
-                    tela.Instancias.Add(idInstancia, instancia as IPresenter);
+                    tela.Instancias.Add(idInstancia, instanciaPresenter);
 
-                    return instancia;
+                    return instanciaPresenter;
                 }
             }
 
@@ -82,72 +86,33 @@ namespace GS.GestaoEmpresa.Solucao.UI
             return null;
         }
 
-        public static Form Crie<T>(IConceito conceito)
-            where T : Form
+        public static TPresenter Crie<TPresenter>(IConceito conceito)
+            where TPresenter : class, IPresenter, new()
         {
-            var tela = ControladorDeInstancias.Find(x => x.TipoDaView == typeof(T));
+            var instanciaPresenter = Crie<TPresenter>();
+            instanciaPresenter.Model = conceito.GetType();
 
-            if (tela.InstanciaUnica && tela.Instancias != null)
-                return null;
+            instanciaPresenter.CarregueControlesComModel();
 
-            if (tela.Instancias == null)
-                tela.Instancias = new Dictionary<string, IPresenter>();
-
-            
-            var idInstancia = tela.InstanciaUnica ? "Única" : conceito.Codigo.ToString();
-            if (!tela.Instancias.ContainsKey(idInstancia))
-            {
-                var instancia = Activator.CreateInstance(typeof(T), conceito);
-                (instancia as IView).IdInstancia = idInstancia;
-
-                tela.Instancias.Add(idInstancia, instancia as IPresenter);
-
-                return instancia as Form;
-            }
-
-            MessageBox.Show($"Já existe uma tela aberta com o item {conceito.Codigo}!");
-
-            return null;
+            return instanciaPresenter;
         }
 
-        public static T Obtenha<T>()
-            where T : Form
+        public static TPresenter Obtenha<TPresenter>()
+            //where TModel : class, IConceito, new()
+            //where TView : Form, IView, new()
+            where TPresenter : class, IPresenter, new()
         {
-            var tela = ControladorDeInstancias.Find(x => x.TipoDaView == typeof(T));
+            var tela = ControladorDeInstancias.Find(x => x.TipoDoPresenter == typeof(TPresenter));
             if (tela.Instancias != null && tela.Instancias.Count > 0)
             {
-                return tela.Instancias.Values.FirstOrDefault() as T;
+                return tela.Instancias.Values.FirstOrDefault() as TPresenter;
             }
 
             return null;
         }
 
-        public static T Obtenha<T>(string codigoDaInstancia)
-            where T : Form
-        {
-            var tela = ControladorDeInstancias.Find(x => x.TipoDaView == typeof(T));
-            if (tela.Instancias != null && tela.Instancias.Count > 0)
-            {
-                return tela.Instancias.FirstOrDefault(x => x.Key == codigoDaInstancia).Value as T;
-            }
-
-            return null;
-        }
-
-        public static IList<T> ObtenhaLista<T>()
-            where T : Form
-        {
-            var tela = ControladorDeInstancias.Find(x => x.TipoDaView == typeof(T));
-            if (tela.Instancias != null && tela.Instancias.Count > 0)
-            {
-                return tela.Instancias.Values as IList<T>;
-            }
-
-            return null;
-        }
-
-        public static void Apague<T>()
-            where T : IView
+        public static void Exclua<T>()
+            where T : Form, IView
         {
             var instancias = ControladorDeInstancias.Find(x => x.TipoDaView == typeof(T)).Instancias.Values;
             if (instancias != null && instancias.Count > 0)
@@ -161,8 +126,8 @@ namespace GS.GestaoEmpresa.Solucao.UI
             }
         }
 
-        public static void Apague<T>(string codigoDaInstancia)
-            where T : Form
+        public static void Exclua<T>(string codigoDaInstancia)
+            where T : Form, IView
         {
             var instancias = ControladorDeInstancias.Find(x => x.TipoDaView == typeof(T)).Instancias;
             

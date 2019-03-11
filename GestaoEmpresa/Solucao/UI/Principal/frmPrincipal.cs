@@ -291,7 +291,7 @@ namespace GestaoEmpresa.GS.GestaoEmpresa.GS.GestaoEmpresa.UI.Principal
 
         private void btnEstoque_Click_1(object sender, EventArgs e)
         {
-            var instanciaDoForm = GerenciadorDeViews.Crie<frmEstoque>();
+            var instanciaDoForm = new frmEstoque(); //GerenciadorDeViews.Crie<frmEstoque>();
             if(instanciaDoForm != null)
                 instanciaDoForm.Show();
         }
@@ -318,7 +318,7 @@ namespace GestaoEmpresa.GS.GestaoEmpresa.GS.GestaoEmpresa.UI.Principal
 
         public void ApagueInstancia()
         {
-            GerenciadorDeViews.Apague<frmPrincipal>(IdInstancia);
+            GerenciadorDeViews.Exclua<frmPrincipal>(IdInstancia);
         }
     }
 }

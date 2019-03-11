@@ -31,8 +31,8 @@ namespace GestaoEmpresa
                 Nome = "Teste"
             };
 
-            Application.Run(GerenciadorDeViews.Crie<frmProdutoMetro>(produto));
-            //Application.Run(GerenciadorDeForms.Crie<frmPrincipal>());
+            Application.Run(GerenciadorDeViews.Crie<ProdutoPresenter>(produto).View);
+            //Application.Run(new frmPrincipal());
         }
 
         // Remove and reinstall all references

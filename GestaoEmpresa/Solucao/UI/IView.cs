@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace GS.GestaoEmpresa.Solucao.UI
 {
     public interface IView
     {
-        string IdInstancia { get; set; }
+        void Show();
 
-        void ApagueInstancia();
+        void Dispose();
     }
 }

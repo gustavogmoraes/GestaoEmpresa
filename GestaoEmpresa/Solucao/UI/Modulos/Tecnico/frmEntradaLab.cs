@@ -54,7 +54,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Tecnico
 
         private void button1_Click(object sender, EventArgs e)
         {
-            GerenciadorDeViews.Crie<frmEntradaLabProduto>().Show();
+            //GerenciadorDeViews.Crie<frmEntradaLabProduto>().Show();
         }
 
         private void cbStatusLab_SelectedIndexChanged(object sender, EventArgs e)

@@ -15,29 +15,47 @@ using MoreLinq;
 
 namespace GS.GestaoEmpresa.Solucao.UI.Base
 {
-    public abstract class Presenter<TModel, TView>
-        where TModel : class, IConceito, new()
+    public abstract class Presenter<TView> : IPresenter
         where TView : Form, IView, new()
     {
-        public TModel Model { get; set; }
+        public string IdInstancia { get; set; }
+
+        public Type Model { get; set; }
 
         public TView View { get; set; }
 
-        protected abstract Dictionary<Expression<Func<TModel, object>>, Expression<Func<TView, Control>>> MapeamentoDeControles { get; }
+        protected virtual void MapeieControles<TModel>(Dictionary<Expression<Func<TModel, object>>, Expression<Func<TView, Control>>> mapeamento)
+            where TModel : class, IConceito, new()
+        {
+            Model = typeof(TModel);
+            _mapeamentoDeControles = mapeamento as Dictionary<Expression<Func<IConceito, object>>, Expression<Func<TView, Control>>>;
+        }
+
+        private Dictionary<Expression<Func<IConceito, object>>, Expression<Func<TView, Control>>> _mapeamentoDeControles { get; set; }
 
         private Dictionary<PropertyInfo, Control> Mapeamento
         {
             get
             {
-                var dicionario = new Dictionary<PropertyInfo, Control>();
-                MapeamentoDeControles.ForEach(x => 
-                    dicionario.Add(
-                        (PropertyInfo)x.Key.GetPropertyFromExpression(),
-                        View.Controls.Find(x.Value.GetPropertyFromExpression().Name, false).FirstOrDefault()));
+                Dictionary<PropertyInfo, Control> dicionario = null;
+                if (_mapeamentoDeControles != null)
+                {
+                    dicionario = new Dictionary<PropertyInfo, Control>();
+                    _mapeamentoDeControles.ForEach(x =>
+                        dicionario.Add(
+                            (PropertyInfo)x.Key.GetPropertyFromExpression(),
+                            View.Controls.Find(x.Value.GetPropertyFromExpression().Name, false).FirstOrDefault()));
+                }
 
                 return dicionario;
             }
         }
+
+        IView IPresenter.View { get => View; set => View = (TView)value; }
+
+        Type IPresenter.Model { get => Model; set => Model = value; }
+
+        //IConceito IPresenter.Model { get => Model; set => Model = (TModel)value; }
 
         public virtual void CarregueControlesComModel()
         {
@@ -87,9 +105,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
 
         public virtual void CarregueModelComControles()
         {
-            Model = new TModel();
-            
-            
+            //Model = new TModel();
         }
     }
 }

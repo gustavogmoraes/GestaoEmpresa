@@ -277,9 +277,8 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
                     if (produto != null)
                     {
-                        var instanciaForm = GerenciadorDeViews.Crie<frmProduto>(produto);
-                        if (instanciaForm != null)
-                            instanciaForm.Show();
+                        var presenter = GerenciadorDeViews.Crie<ProdutoPresenter>(produto);
+                        if (presenter != null) presenter.View.Show();
                     }
                 }
             }
@@ -287,9 +286,8 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         private void btnNovoProduto_Click(object sender, EventArgs e)
         {
-            var instanciaForm = GerenciadorDeViews.Crie<frmProduto>();
-            if (instanciaForm != null)
-                instanciaForm.Show();
+            var presenter = GerenciadorDeViews.Crie<ProdutoPresenter>();
+            if (presenter != null) presenter.View.Show();
         }
 
         private void btnRefresh_Click(object sender, EventArgs e)
@@ -751,7 +749,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         public void ApagueInstancia()
         {
-            GerenciadorDeViews.Apague<frmEstoque>(IdInstancia);
+            GerenciadorDeViews.Exclua<frmEstoque>(IdInstancia);
         }
     }
 }

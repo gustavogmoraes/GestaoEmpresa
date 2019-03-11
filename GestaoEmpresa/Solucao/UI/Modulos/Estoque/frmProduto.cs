@@ -354,12 +354,12 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                     {
                         if (_tipoDoForm == EnumTipoDeForm.Cadastro)
                         {
-                            GerenciadorDeViews.Obtenha<frmEstoque>().AdicioneNovoProdutoNaGrid(produto);
+                            GerenciadorDeViews.Obtenha<EstoquePresenter>().AdicioneNovoProdutoNaGrid(produto);
                             MessageBox.Show(Mensagens.X_FOI_CADASTRADO_COM_SUCESSO("Produto"));
                         }
                         else
                         {
-                            GerenciadorDeViews.Obtenha<frmEstoque>().RecarregueProdutoEspecifico(produto);
+                            GerenciadorDeViews.Obtenha<EstoquePresenter>().RecarregueProdutoEspecifico(produto);
                             MessageBox.Show(Mensagens.X_FOI_ATUALIZADO_COM_SUCESSO("Produto"));
                         }
 
@@ -490,7 +490,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         public void ApagueInstancia()
         {
-            GerenciadorDeViews.Apague<frmProduto>(IdInstancia);
+            GerenciadorDeViews.Exclua<frmProduto>(IdInstancia);
         }
 
         private void frmProduto_FormClosed(object sender, FormClosedEventArgs e)

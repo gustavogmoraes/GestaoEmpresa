@@ -21,7 +21,7 @@ using GestaoEmpresa.GS.GestaoEmpresa.GS.GestaoEmpresa.UI.Principal;
 
 namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 {
-    public partial class frmInteracao : Form, IFormPadrao<Interacao>, IView
+    public partial class frmInteracao : Form, IView
     {
         private int _codigoInteracao { get; set; }
 
@@ -620,7 +620,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         public void ApagueInstancia()
         {
-            GerenciadorDeViews.Apague<frmInteracao>(IdInstancia);
+            GerenciadorDeViews.Exclua<frmInteracao>(IdInstancia);
         }
     }
 }

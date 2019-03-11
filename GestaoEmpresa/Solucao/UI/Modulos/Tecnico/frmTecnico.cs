@@ -19,7 +19,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Tecnico
 
         private void btnFluxoLab_Click(object sender, EventArgs e)
         {
-            GerenciadorDeViews.Crie<frmEntradaLab>().Show();
+            //GerenciadorDeViews.Crie<frmEntradaLab>().Show();
         }
 
         private void btnRefresh_Click(object sender, EventArgs e)
