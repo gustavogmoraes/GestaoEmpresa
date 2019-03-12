@@ -12,7 +12,9 @@ using System;
 using System.Drawing;
 using System.Threading;
 using System.Windows.Forms;
+using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores.Comuns;
 using GS.GestaoEmpresa.Solucao.UI;
+using GS.GestaoEmpresa.Solucao.UI.Base;
 using GS.GestaoEmpresa.Solucao.UI.Modulos.Atendimento;
 using GS.GestaoEmpresa.Solucao.UI.Modulos.Tecnico;
 
@@ -20,6 +22,10 @@ namespace GestaoEmpresa.GS.GestaoEmpresa.GS.GestaoEmpresa.UI.Principal
 {
     public partial class frmPrincipal : Form, IView
     {
+        public IPresenter Presenter { get; set; }
+
+        public EnumTipoDeForm TipoDeForm { get; set; }
+
 
         #region Constantes
 

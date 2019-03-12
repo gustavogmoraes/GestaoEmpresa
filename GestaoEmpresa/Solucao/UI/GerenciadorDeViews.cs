@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using GestaoEmpresa.GS.GestaoEmpresa.GS.GestaoEmpresa.UI.Principal;
+using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores.Comuns;
 using GS.GestaoEmpresa.Solucao.Negocio.Interfaces;
 using GS.GestaoEmpresa.Solucao.UI.Base;
 using GS.GestaoEmpresa.Solucao.UI.Modulos.Atendimento;
@@ -48,7 +49,7 @@ namespace GS.GestaoEmpresa.Solucao.UI
                     new List<TelaMVP>
                     {
                         { new TelaMVP(typeof(frmPrincipal), null, true) },
-                        { new TelaMVP(typeof(frmEstoque), null, true) },
+                        { new TelaMVP(typeof(frmEstoque), typeof(EstoquePresenter), true) },
                         { new TelaMVP(typeof(frmProdutoMetro), typeof(ProdutoPresenter), false) },
                         { new TelaMVP(typeof(frmInteracao), null, true) },
                         { new TelaMVP(typeof(frmAtendimento), null, true) },
@@ -74,7 +75,10 @@ namespace GS.GestaoEmpresa.Solucao.UI
                 {
                     var instanciaPresenter = (TPresenter)Activator.CreateInstance(tela.TipoDoPresenter);
                     var instanciaView = (IView)Activator.CreateInstance(tela.TipoDaView);
+
+                    instanciaPresenter.IdInstancia = idInstancia;
                     instanciaPresenter.View = instanciaView;
+                    instanciaPresenter.View.TipoDeForm = EnumTipoDeForm.Cadastro;
 
                     tela.Instancias.Add(idInstancia, instanciaPresenter);
 
@@ -90,16 +94,16 @@ namespace GS.GestaoEmpresa.Solucao.UI
             where TPresenter : class, IPresenter, new()
         {
             var instanciaPresenter = Crie<TPresenter>();
-            instanciaPresenter.Model = conceito.GetType();
+            instanciaPresenter.Model = conceito;
+            instanciaPresenter.IdInstancia = conceito.Codigo.ToString();
 
             instanciaPresenter.CarregueControlesComModel();
+            instanciaPresenter.View.TipoDeForm = EnumTipoDeForm.Detalhamento;
 
             return instanciaPresenter;
         }
 
         public static TPresenter Obtenha<TPresenter>()
-            //where TModel : class, IConceito, new()
-            //where TView : Form, IView, new()
             where TPresenter : class, IPresenter, new()
         {
             var tela = ControladorDeInstancias.Find(x => x.TipoDoPresenter == typeof(TPresenter));

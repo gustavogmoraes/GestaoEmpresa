@@ -18,6 +18,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using GestaoEmpresa.GS.GestaoEmpresa.GS.GestaoEmpresa.UI.Principal;
+using GS.GestaoEmpresa.Solucao.UI.Base;
 
 namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 {
@@ -32,7 +33,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             InitializeComponent();
 
             InicializeBotoes(EnumTipoDeForm.Cadastro, ref btnEditarSalvar, ref btnCancelarExcluir, ref _switchBotaoEditarSalvar, ref _switchBotaoCancelarExcluir);
-            _tipoDoForm = EnumTipoDeForm.Cadastro;
+            TipoDeForm = EnumTipoDeForm.Cadastro;
             cbTipo.Text = "Ativo";
             
             txtLineHorario.Enabled = true;
@@ -43,7 +44,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         {
             InitializeComponent();
 
-            _tipoDoForm = EnumTipoDeForm.Detalhamento;
+            TipoDeForm = EnumTipoDeForm.Detalhamento;
 
             CarregueControlesComObjeto(interacao);
             DesabiliteControles();
@@ -53,13 +54,15 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         #region FormPadrao
 
+        public IPresenter Presenter { get; set; }
+
         protected CultureInfo Cultura = new CultureInfo("pt-BR");
 
         protected EnumBotoesForm _switchBotaoEditarSalvar;
 
         protected EnumBotoesForm _switchBotaoCancelarExcluir;
 
-        protected EnumTipoDeForm _tipoDoForm;
+        public EnumTipoDeForm TipoDeForm { get; set; }
 
         protected List<Inconsistencia> _listaDeInconsistencias { get; set; }
 
@@ -170,7 +173,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
             PreenchaComboBoxPesquisaComProdutos(listaDeProdutos);
             
-            switch(_tipoDoForm)
+            switch(TipoDeForm)
             {
                 case EnumTipoDeForm.Cadastro:
                     cbTipo.SelectedIndex = 0;
@@ -373,7 +376,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                 case EnumBotoesForm.Editar:
                     HabiliteControles();
                     InicializeBotoes(EnumTipoDeForm.Edicao, ref btnEditarSalvar, ref btnCancelarExcluir, ref _switchBotaoEditarSalvar, ref _switchBotaoCancelarExcluir);
-                    _tipoDoForm = EnumTipoDeForm.Edicao;
+                    TipoDeForm = EnumTipoDeForm.Edicao;
                     break;
 
                 case EnumBotoesForm.Salvar:
@@ -401,14 +404,14 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
                     using (var servicoDeInteracao = new ServicoDeInteracao())
                     {
-                        _listaDeInconsistencias = servicoDeInteracao.Salve(interacao, _tipoDoForm).ToList();
+                        _listaDeInconsistencias = servicoDeInteracao.Salve(interacao, TipoDeForm).ToList();
                     }
 
                     if (_listaDeInconsistencias.Count == 0)
                     {
                         MessageBox.Show(Mensagens.X_FOI_CADASTRADO_COM_SUCESSO("Entrada/Saída"));
                         InicializeBotoes(EnumTipoDeForm.Detalhamento, ref btnEditarSalvar, ref btnCancelarExcluir, ref _switchBotaoEditarSalvar, ref _switchBotaoCancelarExcluir);
-                        _tipoDoForm = EnumTipoDeForm.Edicao;
+                        TipoDeForm = EnumTipoDeForm.Edicao;
                         DesabiliteControles();
                         return;
                     }
@@ -424,7 +427,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             {
                 case EnumBotoesForm.Cancelar:
                     InicializeBotoes(EnumTipoDeForm.Detalhamento, ref btnEditarSalvar, ref btnCancelarExcluir, ref _switchBotaoEditarSalvar, ref _switchBotaoCancelarExcluir);
-                    _tipoDoForm = EnumTipoDeForm.Detalhamento;
+                    TipoDeForm = EnumTipoDeForm.Detalhamento;
 
                     Interacao interacao;
                     using (var servicoDeInteracao = new ServicoDeInteracao())
@@ -464,7 +467,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         private void cbTipo_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (_tipoDoForm != EnumTipoDeForm.Detalhamento)
+            if (TipoDeForm != EnumTipoDeForm.Detalhamento)
             {
                 switch (cbTipo.Text)
                 {

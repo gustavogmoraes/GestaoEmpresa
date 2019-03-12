@@ -15,6 +15,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using GS.GestaoEmpresa.Solucao.UI.Base;
 using Sparrow.Utils;
 
 namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
@@ -25,7 +26,9 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         private EnumBotoesForm _switchBotaoCancelarExcluir;
 
-        private EnumTipoDeForm _tipoDoForm;
+        public IPresenter Presenter { get; set; }
+
+        public EnumTipoDeForm TipoDeForm { get; set; }
 
         private enum EnumBotoesForm
         {
@@ -43,7 +46,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             InitializeComponent();
 
             InicializeBotoes(EnumTipoDeForm.Cadastro);
-            _tipoDoForm = EnumTipoDeForm.Cadastro;
+            TipoDeForm = EnumTipoDeForm.Cadastro;
             cbStatus.Text = "Ativo";
             txtCodigo.Text = "Novo";
             cbVigencia.Enabled = false;
@@ -55,7 +58,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             InitializeComponent();
 
             InicializeBotoes(EnumTipoDeForm.Detalhamento);
-            _tipoDoForm = EnumTipoDeForm.Detalhamento;
+            TipoDeForm = EnumTipoDeForm.Detalhamento;
 
             CarregueControlesComObjeto(produto);
             CarregueComboDeVigencias(produto.Codigo);
@@ -334,7 +337,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                     txtCodigo.Enabled = false;
                     txtLineCodigo.Enabled = false;
                     InicializeBotoes(EnumTipoDeForm.Edicao);
-                    _tipoDoForm = EnumTipoDeForm.Edicao;
+                    TipoDeForm = EnumTipoDeForm.Edicao;
                     break;
 
                 case EnumBotoesForm.Salvar:
@@ -348,11 +351,11 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                     var listaDeInconsistencias = new List<Inconsistencia>();
 
                     using (var servicoDeProduto = new ServicoDeProduto())
-                        listaDeInconsistencias = servicoDeProduto.Salve(produto, _tipoDoForm).ToList();
+                        listaDeInconsistencias = servicoDeProduto.Salve(produto, TipoDeForm).ToList();
 
                     if (listaDeInconsistencias.Count == 0)
                     {
-                        if (_tipoDoForm == EnumTipoDeForm.Cadastro)
+                        if (TipoDeForm == EnumTipoDeForm.Cadastro)
                         {
                             GerenciadorDeViews.Obtenha<EstoquePresenter>().AdicioneNovoProdutoNaGrid(produto);
                             MessageBox.Show(Mensagens.X_FOI_CADASTRADO_COM_SUCESSO("Produto"));
@@ -364,7 +367,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                         }
 
                         InicializeBotoes(EnumTipoDeForm.Detalhamento);
-                        _tipoDoForm = EnumTipoDeForm.Edicao;
+                        TipoDeForm = EnumTipoDeForm.Edicao;
                         DesabiliteControles();
                         CarregueComboDeVigencias(produto.Codigo);
                         SelecioneUltimaVigencia();
@@ -389,7 +392,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             {
                 case EnumBotoesForm.Cancelar:
                     InicializeBotoes(EnumTipoDeForm.Detalhamento);
-                    _tipoDoForm = EnumTipoDeForm.Detalhamento;
+                    TipoDeForm = EnumTipoDeForm.Detalhamento;
 
                     Produto produto;
                     using (var servicoDeProduto = new ServicoDeProduto())

@@ -24,15 +24,15 @@ namespace GestaoEmpresa
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            var produto = new Produto
-            {
-                Codigo = 1,
-                Vigencia = DateTime.Now,
-                Nome = "Teste"
-            };
+            //var produto = new Produto
+            //{
+            //    Codigo = 1,
+            //    Vigencia = DateTime.Now,
+            //    Nome = "Teste"
+            //};
 
-            Application.Run(GerenciadorDeViews.Crie<ProdutoPresenter>(produto).View);
-            //Application.Run(new frmPrincipal());
+            //Application.Run(GerenciadorDeViews.Crie<ProdutoPresenter>(produto).View);
+            Application.Run(new frmPrincipal());
         }
 
         // Remove and reinstall all references

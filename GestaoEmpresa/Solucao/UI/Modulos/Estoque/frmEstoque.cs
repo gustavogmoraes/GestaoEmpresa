@@ -19,6 +19,7 @@ using GS.GestaoEmpresa.Solucao.Persistencia.Repositorios;
 using GS.GestaoEmpresa.Properties;
 using System.IO;
 using GS.GestaoEmpresa.Solucao.Negocio.Interfaces;
+using GS.GestaoEmpresa.Solucao.UI.Base;
 
 namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 {
@@ -751,5 +752,9 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         {
             GerenciadorDeViews.Exclua<frmEstoque>(IdInstancia);
         }
+
+        public EnumTipoDeForm TipoDeForm { get; set; }
+
+        public IPresenter Presenter { get; set; }
     }
 }
