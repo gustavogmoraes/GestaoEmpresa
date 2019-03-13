@@ -14,18 +14,11 @@ using GS.GestaoEmpresa.Solucao.UI.Base;
 
 namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 {
-    public partial class frmProdutoMetro : GSForm, IView
+    public partial class frmProdutoMetro : GSForm
     {
         public frmProdutoMetro()
         {
             InitializeComponent();
-        }
-
-        public string IdInstancia { get; set; }
-
-        public void ApagueInstancia()
-        {
-            GerenciadorDeViews.Exclua<frmProdutoMetro>(IdInstancia);
         }
     }
 }

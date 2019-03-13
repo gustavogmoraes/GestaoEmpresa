@@ -466,116 +466,26 @@ namespace GS.GestaoEmpresa.Solucao.Utilitarios
 
         #endregion
 
+	    public static IEnumerable<Type> GetAllTypesImplementingOpenGenericType(Type openGenericType, Assembly assembly)
+	    {
+	        return from x in assembly.GetTypes()
+	            from z in x.GetInterfaces()
+	            let y = x.BaseType
+	            where
+	                (y != null && y.IsGenericType &&
+	                 openGenericType.IsAssignableFrom(y.GetGenericTypeDefinition())) ||
+	                (z.IsGenericType &&
+	                 openGenericType.IsAssignableFrom(z.GetGenericTypeDefinition()))
+	            select x;
+	    }
 
-        //Todos comentados, ainda pensando se vou usar
-        #region Multivalor
+        public static IEnumerable<Type> GetTypesThatImplementsInteface(Type typeOfInterface)
+	    {
+	        var types = AppDomain.CurrentDomain.GetAssemblies()
+	                             .SelectMany(s => s.GetTypes())
+	                             .Where(p => typeOfInterface.IsAssignableFrom(p));
 
-        /// <summary>
-        /// Verifica se o dado é Multivalor(salva multiplos dados na mesma tupla num formato personalizado).
-        /// </summary>
-        /// <param name="dado">Dado(em string) a ser avaliado.</param>
-        /// <returns>Retorna um booleano validando a informação.</returns>
-        public static bool VerifiqueSeDadoEhMultivalor(string dado)
-        {
-            if (dado.Trim().StartsWith("Multivalor("))
-                return true;
-            else
-                return false;
-        }
-
-        /// <summary>
-        /// Verifica se a propriedade é Multivalor(marcada com o atributo [Multivalor]).
-        /// A nível de banco de dados, ser Multivalor significa que salva multiplos dados na mesma tupla num formato personalizado)
-        /// </summary>
-        /// <param name="propriedade">Propriedade a ser avaliada.</param>
-        /// <returns>Retorna um booleano validando a informação.</returns>
-        public static bool VerifiqueSePropriedadeEhMultivalor(PropertyInfo propriedade)
-        {
-            return Attribute.IsDefined(propriedade, typeof(Multivalor));
-        }
-
-        /// <summary>
-        /// Converte dado (em string) Multivalor numa lista de dados específica para aquele valor.
-        /// </summary>
-        /// <param name="dado">Dado(em string) a ser convertido.</param>
-        /// <returns>Retorna uma lista dos dados da string Multivalor</returns>
-        public static List<dynamic> ConvertaDadoMultivalorLista(string dado)
-        {
-            const string NAMESPACE_OBJETOS_CONCRETOS = "GestaoEmpresa.GS.GestaoEmpresa.GS.GestaoEmpresa.Negocio.Objetos";
-
-            var nomeTipoMultivalor = ObtenhaValorEntreStrings(dado, "Multivalor(", ")");
-            Object tipoMultivalor = Activator.CreateInstance(null,
-                                                             NAMESPACE_OBJETOS_CONCRETOS + nomeTipoMultivalor).Unwrap();
-            var construtor = tipoMultivalor.GetType().GetConstructor(new Type[] { typeof(string) });
-
-            var listaMultivalor = new List<dynamic>();
-            var valores = ObtenhaValorEntreStrings(dado, "){", "}").Split('|');
-
-            foreach (var valor in valores)
-            {
-                var parametros = valor.Split('#');
-                listaMultivalor.Add(construtor.Invoke(tipoMultivalor, parametros));
-            }
-
-            return listaMultivalor;
-        }
-
-        //public static string ConvertaDadoMultivalorLista(string dado, bool semLista)
-        //{
-        //	const string NAMESPACE_OBJETOS_CONCRETOS = "GestaoEmpresa.GS.GestaoEmpresa.GS.GestaoEmpresa.Negocio.Objetos";
-
-        //	var nomeTipoMultivalor = ObtenhaValorEntreStrings(dado, "MultivalorSemLista(", ")");
-        //	Object tipoMultivalor = Activator.CreateInstance(null,
-        //													 NAMESPACE_OBJETOS_CONCRETOS + nomeTipoMultivalor).Unwrap();
-        //	var construtor = tipoMultivalor.GetType().GetConstructor(new Type[] { typeof(string) });
-
-        //	var listaMultivalor = new List<dynamic>();
-        //	var valores = ObtenhaValorEntreStrings(dado, "){", "}").Split('|');
-
-        //	string[] propriedades;
-        //	foreach (var valor in valores)
-        //	{
-        //		propriedades = valor.Split('#');
-        //	}
-
-        //	valor = tipoChave.GetMethod("Parse", new Type[] { typeof(string) })
-        //								 .Invoke(null, new object[] { dado.ToString() });
-
-        //	Object servicoMapeadorPropriedadeComplexa = Activator.CreateInstance(null, "GestaoEmpresa.GS.GestaoEmpresa.GS.GestaoEmpresa.ServicoMapeador.ServicosMapeadores.ServicosMapeadoresConcretos.Mapeador" + propriedade.Name).Unwrap();
-
-        //	valor = servicoMapeadorPropriedadeComplexa.GetType()
-        //											  .GetMethod("Consulte", new Type[] { tipoChave })
-        //											  .Invoke(servicoMapeadorPropriedadeComplexa, propriedades);
-        //}
-
-        /// <summary>
-        /// Converte lista Multivalor para uma string Multivalor.
-        /// </summary>
-        /// <param name="listaMultivalor">Lista a ser convertida.</param>
-        /// <returns>Retorna uma string da lista lista Multivalor</returns>
-        //public static string ConvertaDadoMultivalorLista(List<Object> listaMultivalor)
-        //{
-        //	var tipoMultivalor = listaMultivalor.FirstOrDefault().GetType();
-        //	string valoresInsercaoMultivalor = string.Empty;
-
-        //	foreach (var valor in listaMultivalor)
-        //	{
-        //		foreach (var propriedade in valor.GetType().GetProperties())
-        //		{
-        //			valoresInsercaoMultivalor += propriedade.GetValue(valor, null).ToString() + "#";
-        //		}
-
-        //		valoresInsercaoMultivalor += "|";
-        //	}
-
-        //	string retorno = string.Format("Multivalor({0}{{1}}",
-        //								   tipoMultivalor.Name.ToString(),
-        //								   valoresInsercaoMultivalor);
-
-        //	return retorno;
-        //}
-
-        #endregion
-
+	        return types;
+	    }
     }
 }

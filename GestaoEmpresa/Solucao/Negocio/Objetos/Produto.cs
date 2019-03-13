@@ -11,11 +11,9 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Objetos
 {
 	public class Produto : ObjetoComHistorico
 	{
-	    [CampoTela]
         [Identificacao(Descricao = "Status")]
         public EnumStatusDoProduto Status { get; set; }
 
-	    [CampoTela]
         [Identificacao(Descricao = "Nome")]
         public string Nome { get; set; }
 

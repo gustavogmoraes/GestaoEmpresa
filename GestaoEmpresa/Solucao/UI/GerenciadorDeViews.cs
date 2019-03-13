@@ -8,11 +8,17 @@ using System.Windows.Forms;
 using GestaoEmpresa.GS.GestaoEmpresa.GS.GestaoEmpresa.UI.Principal;
 using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores.Comuns;
 using GS.GestaoEmpresa.Solucao.Negocio.Interfaces;
+using GS.GestaoEmpresa.Solucao.Negocio.Objetos.Base;
+using GS.GestaoEmpresa.Solucao.Negocio.Servicos.Base;
+using GS.GestaoEmpresa.Solucao.Negocio.Validador.Base;
+using GS.GestaoEmpresa.Solucao.Persistencia.Repositorios.Base;
 using GS.GestaoEmpresa.Solucao.UI.Base;
 using GS.GestaoEmpresa.Solucao.UI.Modulos.Atendimento;
 using GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque;
 using GS.GestaoEmpresa.Solucao.UI.Modulos.Tecnico;
+using GS.GestaoEmpresa.Solucao.Utilitarios;
 using MoreLinq;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime;
 
 namespace GS.GestaoEmpresa.Solucao.UI
 {
@@ -78,7 +84,9 @@ namespace GS.GestaoEmpresa.Solucao.UI
 
                     instanciaPresenter.IdInstancia = idInstancia;
                     instanciaPresenter.View = instanciaView;
+                    instanciaView.Presenter = instanciaPresenter;
                     instanciaPresenter.View.TipoDeForm = EnumTipoDeForm.Cadastro;
+                    instanciaPresenter.HabiliteControles();
 
                     tela.Instancias.Add(idInstancia, instanciaPresenter);
 
@@ -95,10 +103,11 @@ namespace GS.GestaoEmpresa.Solucao.UI
         {
             var instanciaPresenter = Crie<TPresenter>();
             instanciaPresenter.Model = conceito;
-            instanciaPresenter.IdInstancia = conceito.Codigo.ToString();
+            //instanciaPresenter.IdInstancia = conceito.Codigo.ToString();
 
             instanciaPresenter.CarregueControlesComModel();
             instanciaPresenter.View.TipoDeForm = EnumTipoDeForm.Detalhamento;
+            instanciaPresenter.DesabiliteControles();
 
             return instanciaPresenter;
         }
@@ -130,18 +139,46 @@ namespace GS.GestaoEmpresa.Solucao.UI
             }
         }
 
-        public static void Exclua<T>(string codigoDaInstancia)
-            where T : Form, IView
+        public static void Exclua(Type tipoDaView, string idDaInstancia)
         {
-            var instancias = ControladorDeInstancias.Find(x => x.TipoDaView == typeof(T)).Instancias;
-            
-            if(instancias.ContainsKey(codigoDaInstancia))
-                (instancias[codigoDaInstancia].View as Form).Dispose();
+            var instancias = ControladorDeInstancias.Find(x => x.TipoDaView == tipoDaView).Instancias;
+            instancias[idDaInstancia] = null; // Disposing Presenter
+            instancias.Remove(idDaInstancia);
+        }
 
-            instancias.Remove(codigoDaInstancia);
+        public static void Exclua(string idDaInstancia)
+        {
+            var instancias = ControladorDeInstancias.Find(x => x.Instancias.ContainsKey(idDaInstancia)).Instancias;
+            instancias[idDaInstancia] = null; // Disposing Presenter
+            instancias.Remove(idDaInstancia);
+        }
 
-            if (instancias.Count == 0)
-                instancias = null;
+        public static IServicoHistoricoPadrao ObtenhaServicoHistoricoPadraoPorModel(IConceito model)
+        {
+            var tipos = GSUtilitarios.GetTypesThatImplementsInteface(typeof(IServicoHistoricoPadrao));
+            var classes = tipos.ToList().Where(x => !x.IsInterface && !x.Name.Contains("ServicoHistoricoPadrao"));
+            var servico = classes.FirstOrDefault(x => x.BaseType.GenericTypeArguments.First() == model.GetType());
+
+            var instanciaServico = (IServicoHistoricoPadrao)Activator.CreateInstance(servico);
+
+            if (instanciaServico == null)
+                throw new Exception("Não foi possível encontrar um serviço implementado que contemple o model informado");
+
+            return instanciaServico;
+        }
+
+        public static IServicoPadrao ObtenhaServicoPadraoPorModel(IConceito model)
+        {
+            var tipos = GSUtilitarios.GetTypesThatImplementsInteface(typeof(IServicoPadrao));
+            var classes = tipos.ToList().Where(x => !x.IsInterface && !x.Name.Contains("ServicoPadrao"));
+            var servico = classes.FirstOrDefault(x => x.BaseType.GenericTypeArguments.First() == model.GetType());
+
+            var instanciaServico = (IServicoPadrao)Activator.CreateInstance(servico);
+
+            if (instanciaServico == null)
+                throw new Exception("Não foi possível encontrar um serviço implementado que contemple o model informado");
+
+            return instanciaServico;
         }
     }
 }

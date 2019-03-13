@@ -17,7 +17,14 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                 new Dictionary<Expression<Func<Produto, object>>, Expression<Func<frmProdutoMetro, Control>>>
                 {
                     { model => model.Codigo, view => view.txtCodigo },
-                    { model => model.Nome, view => view.txtNome }
+                    { model => model.Vigencia, view => view.cbVigencia },
+                    { model => model.Nome, view => view.txtNome },
+                    { model => model.Observacao, view => view.txtObservacoes },
+                    { model => model.Fabricante, view => view.txtMarca },
+                    { model => model.CodigoDoFabricante, view => view.txtCodigoFabricante },
+                    { model => model.QuantidadeMinimaParaAviso, view => view.txtQuantidadeMinima },
+                    { model => model.QuantidadeEmEstoque, view => view.txtQuantidadeEmEstoque },
+                    { model => model.AvisarQuantidade, view => view.chkAvisarQuantidade }
                 });
         }
 

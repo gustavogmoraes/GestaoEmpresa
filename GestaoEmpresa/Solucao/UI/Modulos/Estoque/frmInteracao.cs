@@ -55,6 +55,15 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         #region FormPadrao
 
         public IPresenter Presenter { get; set; }
+        public void ChamadaMinimizarForm(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void ChamadaFecharForm(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
 
         protected CultureInfo Cultura = new CultureInfo("pt-BR");
 
@@ -623,7 +632,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         public void ApagueInstancia()
         {
-            GerenciadorDeViews.Exclua<frmInteracao>(IdInstancia);
+            //GerenciadorDeViews.Exclua<frmInteracao>(IdInstancia);
         }
     }
 }

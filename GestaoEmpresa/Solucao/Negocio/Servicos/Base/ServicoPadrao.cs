@@ -9,7 +9,7 @@ using GS.GestaoEmpresa.Solucao.Negocio.Objetos;
 
 namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos.Base
 {
-    public abstract class ServicoPadrao<TConceito, TValidador, TRepositorio> : IDisposable
+    public abstract class ServicoPadrao<TConceito, TValidador, TRepositorio> : IServicoPadrao, IDisposable
         where TConceito : class, IConceito, new()
         where TValidador : ValidadorPadrao<TConceito>, IDisposable, new()
         where TRepositorio : RepositorioPadrao<TConceito>, IDisposable, new()

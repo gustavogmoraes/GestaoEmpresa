@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -7,8 +8,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using GS.GestaoEmpresa.Solucao.Negocio.Atributos;
+using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores.Comuns;
 using GS.GestaoEmpresa.Solucao.Negocio.Interfaces;
 using GS.GestaoEmpresa.Solucao.Negocio.Objetos;
+using GS.GestaoEmpresa.Solucao.Negocio.Servicos;
 using GS.GestaoEmpresa.Solucao.UI.ControlesGenericos;
 using GS.GestaoEmpresa.Solucao.Utilitarios;
 using MetroFramework.Controls;
@@ -53,8 +56,12 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
         {
             if ((Model == null) || Mapeamento == null || Mapeamento.Count == 0) return;
 
-            var propriedades = Model.GetType().EncontrePropriedadesMarcadasComAtributo<CampoTela>();
+            var propriedades = Mapeamento.Keys;
             if (propriedades == null || propriedades.Count == 0) return;
+
+            if (propriedades.Select(x => x.Name).Contains("Vigencia"))
+                CarregueComboDeVigencias(
+                    (MetroComboBox)View.Controls.Find("cbVigencia", false).FirstOrDefault(), Model.Codigo);
 
             foreach (var propriedade in propriedades)
             {
@@ -77,7 +84,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
         {
             if ((Model == null) || Mapeamento == null || Mapeamento.Count == 0) return;
 
-            var propriedades = Model.GetType().EncontrePropriedadesMarcadasComAtributo<CampoTela>();
+            var propriedades = Mapeamento.Keys;
             if (propriedades == null || propriedades.Count == 0) return;
 
             foreach (var propriedade in propriedades)
@@ -98,6 +105,46 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
         public DialogResult ExibaPromptConfirmacao(string mensagem)
         {
             return (DialogResult) ExecuteFuncaoNaView(() => { return MessageBox.Show(mensagem, "Confirmação", MessageBoxButtons.YesNo); });
+        }
+
+        public void MinimizarView(object sender, EventArgs eventArgs)
+        {
+            View.WindowState = FormWindowState.Minimized;
+        }
+
+        public void FecharView(object sender, EventArgs eventArgs)
+        {
+            View.Close();
+            GerenciadorDeViews.Exclua(View.GetType(), IdInstancia);
+        }
+
+        public void HabiliteControles(IList<string> excecoes = null)
+        {
+            SwitchControles(true, excecoes);
+        }
+
+        public void DesabiliteControles(IList<string> excecoes = null)
+        {
+            SwitchControles(false, excecoes);
+        }
+
+        private void SwitchControles(bool opcao, IList<string> excecoes)
+        {
+            if (excecoes == null) excecoes = new List<string>();
+            
+            var listaControles = View.Controls.Cast<Control>().ToList();
+
+            var topBorder = listaControles.Find(x => x.GetType() == typeof(Panel) || x.GetType() == typeof(MetroPanel));
+            if (topBorder != null)
+                excecoes.Add(topBorder.Name);
+
+            excecoes.Add(string.Empty);
+            var listaNomesControles = listaControles.Select(x => x.Name)
+                                                    .Except(excecoes)
+                                                    .ToList();
+            
+
+            listaNomesControles.ForEach(x => View.Controls.Find(x, true).FirstOrDefault().Enabled = opcao);
         }
 
         public void ExecuteAcaoNaView(Action acao)
@@ -130,11 +177,20 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
                     new Tuple<Action<Control, PropertyInfo, object>, Action<Control, PropertyInfo, object>>(
                         (controle, propriedade, model) =>
                         {
-                            ((MetroComboBox)controle).SelectedText = (string)propriedade.GetValue(model, null);
+                            var valorProp = propriedade.GetValue(model, null);
+                            var ehCbVigencia = controle.Name == "cbVigencia";
+                            if (ehCbVigencia)
+                                ((MetroComboBox) controle).SelectedItem = ((MetroComboBox) controle).Items.Cast<string>().ToList().FirstOrDefault();
+                            else ((MetroComboBox) controle).SelectedText = valorProp.ToString();
                         },
                         (controle, propriedade, model) =>
                         {
-                            propriedade.SetValue(model, ((MetroComboBox)controle).SelectedText);
+                            var ehCbVigencia = controle.Name == "cbVigencia";
+                            var valorControle = ((MetroComboBox) controle).SelectedText;
+
+                            propriedade.SetValue(model, ehCbVigencia 
+                                                            ? (object)valorControle.ConvertaParaDateTime(EnumFormatacaoDateTime.DD_MM_YYYY_HH_MM_SS, '/')
+                                                            : valorControle);
                         })
                 },
                 {
@@ -186,5 +242,24 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
                         })
                 },
             };
+
+        protected void CarregueComboDeVigencias(MetroComboBox cbVigencia, int codigo)
+        {
+            cbVigencia.Items.Clear();
+
+            var listaDeVigencias = new List<DateTime>();
+            using (var servico = GerenciadorDeViews.ObtenhaServicoHistoricoPadraoPorModel(Model))
+            {
+                if (servico == null) return;
+                listaDeVigencias = servico.ConsulteVigencias(codigo).ToList();
+            }
+
+            foreach (var vigencia in listaDeVigencias)
+            {
+                cbVigencia.Items.Add(vigencia.ToString(CultureInfo.GetCultureInfo("pt-BR")));
+            }
+
+            // A última vigência é selecionada no delegate do método CarregueControlesComModel
+        }
     }
 }

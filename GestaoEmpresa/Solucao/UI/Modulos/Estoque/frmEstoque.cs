@@ -750,11 +750,21 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         public void ApagueInstancia()
         {
-            GerenciadorDeViews.Exclua<frmEstoque>(IdInstancia);
+            //GerenciadorDeViews.Exclua<frmEstoque>(IdInstancia);
         }
 
         public EnumTipoDeForm TipoDeForm { get; set; }
 
         public IPresenter Presenter { get; set; }
+
+        public void ChamadaMinimizarForm(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void ChamadaFecharForm(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -10,7 +10,7 @@ using GS.GestaoEmpresa.Solucao.Persistencia.Repositorios.Base;
 
 namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos.Base
 {
-    public abstract class ServicoHistoricoPadrao<TConceito, TValidador, TRepositorio> : IDisposable
+    public abstract class ServicoHistoricoPadrao<TConceito, TValidador, TRepositorio> : IServicoHistoricoPadrao, IDisposable
         where TConceito : ObjetoComHistorico, IConceitoComHistorico, new()
         where TValidador : ValidadorPadrao<TConceito>, IDisposable, new()
         where TRepositorio : RepositorioHistoricoPadrao<TConceito>, IDisposable, new()

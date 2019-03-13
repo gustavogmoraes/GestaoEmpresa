@@ -24,6 +24,16 @@ namespace GestaoEmpresa.GS.GestaoEmpresa.GS.GestaoEmpresa.UI.Principal
     {
         public IPresenter Presenter { get; set; }
 
+        public void ChamadaMinimizarForm(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void ChamadaFecharForm(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
         public EnumTipoDeForm TipoDeForm { get; set; }
 
 
@@ -324,7 +334,7 @@ namespace GestaoEmpresa.GS.GestaoEmpresa.GS.GestaoEmpresa.UI.Principal
 
         public void ApagueInstancia()
         {
-            GerenciadorDeViews.Exclua<frmPrincipal>(IdInstancia);
+            //GerenciadorDeViews.Exclua<frmPrincipal>(IdInstancia);
         }
     }
 }

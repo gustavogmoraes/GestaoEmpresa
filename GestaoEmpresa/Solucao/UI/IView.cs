@@ -18,5 +18,9 @@ namespace GS.GestaoEmpresa.Solucao.UI
         void Show();
 
         void Dispose();
+
+        void ChamadaMinimizarForm(object sender, EventArgs e);
+
+        void ChamadaFecharForm(object sender, EventArgs e);
     }
 }

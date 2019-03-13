@@ -8,6 +8,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using GS.GestaoEmpresa.Solucao.UI.Base;
 using MetroFramework.Forms;
 
 namespace GS.GestaoEmpresa.Solucao.UI.ControlesGenericos
@@ -52,12 +53,12 @@ namespace GS.GestaoEmpresa.Solucao.UI.ControlesGenericos
 
         private void btnClose_Click(object sender, EventArgs e)
         {
-            ParentForm.Close();
+            (ParentForm as IView).ChamadaFecharForm(sender, e);
         }
 
         private void btnMinimize_Click_1(object sender, EventArgs e)
         {
-            ParentForm.WindowState = FormWindowState.Minimized;
+            (ParentForm as IView).ChamadaMinimizarForm(sender, e);
         }
     }
 }

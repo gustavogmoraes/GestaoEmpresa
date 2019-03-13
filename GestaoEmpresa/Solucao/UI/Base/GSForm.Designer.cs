@@ -32,8 +32,8 @@
             this.btnCancelarExcluir = new System.Windows.Forms.PictureBox();
             this.btnEditarSalvar = new System.Windows.Forms.PictureBox();
             this.panelTitulo = new System.Windows.Forms.Panel();
-            this.lblTitulo = new System.Windows.Forms.Label();
             this.gsTopBorder = new GS.GestaoEmpresa.Solucao.UI.ControlesGenericos.GSTopBorder();
+            this.lblTitulo = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.btnCancelarExcluir)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnEditarSalvar)).BeginInit();
             this.panelTitulo.SuspendLayout();
@@ -78,15 +78,6 @@
             this.panelTitulo.Size = new System.Drawing.Size(610, 62);
             this.panelTitulo.TabIndex = 52;
             // 
-            // lblTitulo
-            // 
-            this.lblTitulo.AutoSize = true;
-            this.lblTitulo.Font = new System.Drawing.Font("Segoe UI Light", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTitulo.Location = new System.Drawing.Point(4, 19);
-            this.lblTitulo.Name = "lblTitulo";
-            this.lblTitulo.Size = new System.Drawing.Size(0, 37);
-            this.lblTitulo.TabIndex = 0;
-            // 
             // gsTopBorder
             // 
             this.gsTopBorder.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
@@ -95,6 +86,15 @@
             this.gsTopBorder.Name = "gsTopBorder";
             this.gsTopBorder.Size = new System.Drawing.Size(604, 26);
             this.gsTopBorder.TabIndex = 40;
+            // 
+            // lblTitulo
+            // 
+            this.lblTitulo.AutoSize = true;
+            this.lblTitulo.Font = new System.Drawing.Font("Segoe UI Light", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTitulo.Location = new System.Drawing.Point(4, 19);
+            this.lblTitulo.Name = "lblTitulo";
+            this.lblTitulo.Size = new System.Drawing.Size(0, 37);
+            this.lblTitulo.TabIndex = 0;
             // 
             // GSForm
             // 

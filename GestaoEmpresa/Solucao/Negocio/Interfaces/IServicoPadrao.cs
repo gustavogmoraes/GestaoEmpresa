@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GS.GestaoEmpresa.Solucao.Negocio.Atributos
+namespace GS.GestaoEmpresa.Solucao.Negocio.Interfaces
 {
-    public class CampoTela : Attribute
+    public interface IServicoPadrao
     {
 
     }

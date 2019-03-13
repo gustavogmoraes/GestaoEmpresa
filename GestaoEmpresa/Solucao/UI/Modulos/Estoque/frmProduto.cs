@@ -28,6 +28,16 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         public IPresenter Presenter { get; set; }
 
+        public void ChamadaMinimizarForm(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void ChamadaFecharForm(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
         public EnumTipoDeForm TipoDeForm { get; set; }
 
         private enum EnumBotoesForm
@@ -493,7 +503,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         public void ApagueInstancia()
         {
-            GerenciadorDeViews.Exclua<frmProduto>(IdInstancia);
+            //GerenciadorDeViews.Exclua<frmProduto>(IdInstancia);
         }
 
         private void frmProduto_FormClosed(object sender, FormClosedEventArgs e)
