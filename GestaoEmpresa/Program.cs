@@ -7,9 +7,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using GS.GestaoEmpresa.Solucao.Negocio.Objetos;
+using GS.GestaoEmpresa.Solucao.Negocio.Validador;
 using GS.GestaoEmpresa.Solucao.UI;
 using GS.GestaoEmpresa.Solucao.UI.Base;
 using GS.GestaoEmpresa.Solucao.UI.Modulos.Atendimento;
+using KellermanSoftware.CompareNetObjects;
 
 namespace GestaoEmpresa
 {
@@ -24,14 +26,6 @@ namespace GestaoEmpresa
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            //var produto = new Produto
-            //{
-            //    Codigo = 1,
-            //    Vigencia = DateTime.Now,
-            //    Nome = "Teste"
-            //};
-
-            //Application.Run(GerenciadorDeViews.Crie<ProdutoPresenter>(produto).View);
             Application.Run(new frmPrincipal());
         }
 

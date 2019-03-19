@@ -7,6 +7,7 @@ using GS.GestaoEmpresa.Solucao.Negocio.Catalogos;
 using GS.GestaoEmpresa.Solucao.Negocio.Servicos;
 using GS.GestaoEmpresa.Solucao.Negocio.Validador.Base;
 using GS.GestaoEmpresa.Solucao.Persistencia.Repositorios;
+using KellermanSoftware.CompareNetObjects;
 
 namespace GS.GestaoEmpresa.Solucao.Negocio.Validador
 {
@@ -72,30 +73,20 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Validador
 
         private void ValideRegraNaoHouveAlteracao()
         {
-            var propriedadesNaoComparar = new List<PropertyInfo>
-            {
-                { typeof(Produto).GetProperty("Vigencia") },
-                { typeof(Produto).GetProperty("QuantidadeEmEstoque") }
-            };
+            var logica = new CompareLogic();
+            logica.Config.MembersToIgnore = new List<string>{ "Vigencia", "QuantidadeEmEstoque" };
+            // https://github.com/GregFinzer/Compare-Net-Objects/wiki/Ignoring-Members
 
-            var propriedades = typeof(Produto).GetProperties().Except(propriedadesNaoComparar);
-            foreach (var propriedade in propriedades)
-            {
-                var valorAnterior = propriedade.GetValue(_produtoAnterior, null);
-                var novoValor = propriedade.GetValue(_produto, null);
-
-                if (valorAnterior != novoValor)
-                    return;
-            }
-            
-            _listaDeInconsistencias.Add(
-                new Inconsistencia()
-                {
-                    Modulo = "Controle de Estoque",
-                    Tela = "Cadastro de Produtos",
-                    ConceitoValidado = "Produto",
-                    Mensagem = Mensagens.NADA_FOI_ALTERADO
-                });
+            var resultado = logica.Compare(_produtoAnterior, _produto);
+            if (resultado.AreEqual)
+                _listaDeInconsistencias.Add(
+                    new Inconsistencia()
+                    {
+                        Modulo = "Controle de Estoque",
+                        Tela = "Cadastro de Produtos",
+                        ConceitoValidado = "Produto",
+                        Mensagem = Mensagens.NADA_FOI_ALTERADO
+                    });
         }
 
         public override IList<Inconsistencia> ValideCadastro(Produto item)
