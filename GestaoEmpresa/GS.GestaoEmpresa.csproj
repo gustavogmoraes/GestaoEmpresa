@@ -209,6 +209,12 @@
     <Compile Include="Solucao\UI\ControlesGenericos\GSTopBorder.Designer.cs">
       <DependentUpon>GSTopBorder.cs</DependentUpon>
     </Compile>
+    <Compile Include="Solucao\UI\ControlesGenericos\GSWaitForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Solucao\UI\ControlesGenericos\GSWaitForm.Designer.cs">
+      <DependentUpon>GSWaitForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Solucao\UI\GerenciadorDeViews.cs" />
     <Compile Include="Solucao\UI\IView.cs" />
     <Compile Include="Solucao\UI\Modulos\Atendimento\frmAtendimento.cs">
@@ -303,6 +309,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Solucao\UI\ControlesGenericos\GSTopBorder.resx">
       <DependentUpon>GSTopBorder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Solucao\UI\ControlesGenericos\GSWaitForm.resx">
+      <DependentUpon>GSWaitForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Solucao\UI\Modulos\Atendimento\frmAtendimento.resx">
       <DependentUpon>frmAtendimento.cs</DependentUpon>
