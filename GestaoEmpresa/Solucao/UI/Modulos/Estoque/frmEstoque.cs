@@ -58,12 +58,12 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                 {
                     case "Código":
                         listaFiltrada = _listaDeProdutos.FindAll(x => x.Codigo.ToString()
-                                                                                .Contains(pesquisa));
+                                                                              .Contains(pesquisa));
                         break;
 
                     case "Nome":
                         listaFiltrada = _listaDeProdutos.FindAll(x => x.Nome.ToString().ToUpper()
-                                                        .Contains(pesquisa.ToUpper()));
+                                                                       .Contains(pesquisa.ToUpper()));
 
                         break;
 
@@ -165,7 +165,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             //Catálogo de Produtos
             using (var servicoDeProduto = new ServicoDeProduto())
             {
-                _listaDeProdutos = servicoDeProduto.ConsulteTodos().ToList();
+                _listaDeProdutos = servicoDeProduto.ConsulteTodosParaAterrissagem();
             }
 
             CarregueDataGridProdutos(_listaDeProdutos);
@@ -174,7 +174,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             //Histórico de Produtos
             using (var servicoDeInteracao = new ServicoDeInteracao())
             {
-                _listaDeInteracoes = servicoDeInteracao.ConsulteTodasAsInteracoes();
+                _listaDeInteracoes = servicoDeInteracao.ConsulteTodasParaAterrissagem();
             }
 
             CarregueDataGridInteracoes(_listaDeInteracoes);
@@ -298,7 +298,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
             using (var servicoDeProduto = new ServicoDeProduto())
             {
-                _listaDeProdutos = servicoDeProduto.ConsulteTodos().ToList();
+                _listaDeProdutos = servicoDeProduto.ConsulteTodosParaAterrissagem().ToList();
             }
 
             CarregueDataGridProdutos(_listaDeProdutos);
@@ -318,12 +318,12 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             {
                 e.Paint(e.CellBounds, DataGridViewPaintParts.All);
 
-                var w = Properties.Resources.detalhar.Width;
-                var h = Properties.Resources.detalhar.Height;
+                var w = Resources.detalhar.Width;
+                var h = Resources.detalhar.Height;
                 var x = e.CellBounds.Left + (e.CellBounds.Width - w) / 2;
                 var y = e.CellBounds.Top + (e.CellBounds.Height - h) / 2;
 
-                e.Graphics.DrawImage(Properties.Resources.detalhar, new Rectangle(x, y, w, h));
+                e.Graphics.DrawImage(Resources.detalhar, new Rectangle(x, y, w, h));
                 e.Handled = true;
             }
         }
@@ -557,7 +557,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         {
             using (var servicoDeInteracao = new ServicoDeInteracao())
             {
-                _listaDeInteracoes = servicoDeInteracao.ConsulteTodasAsInteracoes();
+                _listaDeInteracoes = servicoDeInteracao.ConsulteTodasParaAterrissagem();
             }
 
             txtPesquisaHistorico.ForeColor = Color.Silver;
@@ -581,19 +581,18 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         private void dgvHistorico_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
         {
-            if (e.RowIndex < 0)
-                return;
+            if (e.RowIndex < 0) return;
 
             if (e.ColumnIndex == 9)
             {
                 e.Paint(e.CellBounds, DataGridViewPaintParts.All);
 
-                var w = Properties.Resources.detalhar.Width;
-                var h = Properties.Resources.detalhar.Height;
+                var w = Resources.detalhar.Width;
+                var h = Resources.detalhar.Height;
                 var x = e.CellBounds.Left + (e.CellBounds.Width - w) / 2;
                 var y = e.CellBounds.Top + (e.CellBounds.Height - h) / 2;
 
-                e.Graphics.DrawImage(Properties.Resources.detalhar, new Rectangle(x, y, w, h));
+                e.Graphics.DrawImage(Resources.detalhar, new Rectangle(x, y, w, h));
                 e.Handled = true;
             }
         }
@@ -696,7 +695,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
             using (var servicoDeProduto = new ServicoDeProduto())
             {
-                _listaDeProdutos = servicoDeProduto.ConsulteTodos().ToList();
+                _listaDeProdutos = servicoDeProduto.ConsulteTodosParaAterrissagem();
             }
 
             CarregueDataGridProdutos(_listaDeProdutos);
