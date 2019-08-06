@@ -6,6 +6,7 @@ using Raven.Client.Documents;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 
 namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios.Base
 {
@@ -71,6 +72,18 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios.Base
         {
             using (var sessaoRaven = _documentStore.OpenSession())
                 return sessaoRaven.Query<T>().Where(x => x.Atual).ToList();
+        }
+
+        public IList<T> ConsulteTodos(Expression<Func<T, object>> seletor)
+        {
+            using (var sessaoRaven = _documentStore.OpenSession())
+            {
+                return sessaoRaven.Query<T>().Where(x => x.Atual)
+                                             .Select(seletor)
+                                             .ToList()
+                                             .Cast<T>()
+                                             .ToList();
+            }
         }
 
         public IList<DateTime> ConsulteVigencias(int codigo)
