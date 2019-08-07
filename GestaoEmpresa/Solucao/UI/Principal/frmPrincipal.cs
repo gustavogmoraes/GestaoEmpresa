@@ -17,6 +17,11 @@ using GS.GestaoEmpresa.Solucao.UI;
 using GS.GestaoEmpresa.Solucao.UI.Base;
 using GS.GestaoEmpresa.Solucao.UI.Modulos.Atendimento;
 using GS.GestaoEmpresa.Solucao.UI.Modulos.Tecnico;
+using Microsoft.VisualBasic;
+using System.Collections.Generic;
+using System.Data;
+using System.Globalization;
+using System.Linq;
 
 namespace GestaoEmpresa.GS.GestaoEmpresa.GS.GestaoEmpresa.UI.Principal
 {
@@ -336,5 +341,373 @@ namespace GestaoEmpresa.GS.GestaoEmpresa.GS.GestaoEmpresa.UI.Principal
         {
             //GerenciadorDeViews.Exclua<frmPrincipal>(IdInstancia);
         }
+
+        #region Migração
+
+        private void Label15_Click(object sender, EventArgs e)
+        {
+            var serverRaven = SessaoSistema.InformacoesConexao.Servidor;
+            var nomeBancoRaven = SessaoSistema.InformacoesConexao.NomeBanco;
+
+            var informacoesConexaoBanco = new InformacoesConexaoBanco
+            {
+                Servidor = Interaction.InputBox("Endereço BD SQL", "Migração de dados", ""),
+                NomeBanco = Interaction.InputBox("Nome banco", "Migração de dados", ""),
+                Usuario = Interaction.InputBox("Usuario", "Migração de dados", ""),
+                Senha = Interaction.InputBox("Senha", "Migração de dados", ""),
+                TipoDeBanco = EnumTipoDeBanco.SQLSERVER
+            };
+
+            SessaoSistema.InformacoesConexao = informacoesConexaoBanco;
+
+            MessageBox.Show("Consultando...");
+
+            var listaProdutosRaven = new List<Produto>();
+            var listaUsuariosRaven = new List<Usuario>();
+            var listaInteracoesRaven = new List<Interacao>();
+
+            var ultimasVigenciasDeProduto = ConsulteTodosProdutosSql();
+            foreach(var ultimaVigencia in ultimasVigenciasDeProduto)
+            {
+                var todasVigencias = ConsulteTodasVigenciasProduto(ultimaVigencia.Codigo);
+                todasVigencias = todasVigencias.OrderBy(x => x).ToList();
+
+                foreach(var vigencia in todasVigencias)
+                {
+                    var produtoConsultado = ConsulteProduto(ultimaVigencia.Codigo, vigencia);
+                    produtoConsultado.Vigencia = vigencia;
+
+                    if(vigencia == todasVigencias.LastOrDefault())
+                    {
+                        produtoConsultado.Atual = true;
+                    }
+
+                    listaProdutosRaven.Add(produtoConsultado);
+                }
+            }
+
+            listaUsuariosRaven.AddRange(ConsulteTodosUsuarios());
+            listaInteracoesRaven.AddRange(ConsulteTodasAsInteracoes().OrderBy(x => x.HorarioProgramado));
+
+            informacoesConexaoBanco = new InformacoesConexaoBanco
+            {
+                Servidor = serverRaven,
+                NomeBanco = nomeBancoRaven,
+                TipoDeBanco = EnumTipoDeBanco.RAVENDB
+            };
+
+            SessaoSistema.InformacoesConexao = informacoesConexaoBanco;
+
+            MessageBox.Show("Salvando...");
+
+            using (var repoUser = new RepositorioDeUsuario())
+            using (var repoProduto = new RepositorioDeProduto())
+            using (var repoInteracao = new RepositorioDeInteracao())
+            {
+                listaUsuariosRaven.ForEach(x => repoUser.Insira(x));
+                listaInteracoesRaven.ForEach(x => repoInteracao.Insira(x));
+
+                foreach (var grupo in listaProdutosRaven.GroupBy(x => x.Codigo))
+                {
+                    var lista = grupo.OrderBy(x => x.Vigencia).ToList();
+                    repoProduto.Insira(lista.FirstOrDefault());
+
+                    lista.Remove(lista.FirstOrDefault());
+                    lista.ForEach(x => repoProduto.Atualize(x));
+                }
+            }
+
+            MessageBox.Show("Concluído!");
+        }
+
+        private string ColunasProduto => string.Join(", ", this.ColunasETiposDeDadosProduto.Keys);
+
+        private Dictionary<string, Type> ColunasETiposDeDadosProduto =>
+            new Dictionary<string, Type>()
+            {
+                { "CODIGO", typeof(int) },
+                { "STATUS", typeof(bool) },
+                { "NOME", typeof(string) },
+                { "FABRICANTE", typeof(string) },
+                { "CODIGOFABRICANTE", typeof(string) },
+                { "PRECOCOMPRA", typeof(decimal) },
+                { "PRECOVENDA", typeof(decimal) },
+                { "PORCENTAGEMLUCRO", typeof(float) },
+		        { "AVISARQUANTIDADE", typeof(bool) },
+                { "QUANTIDADEMINIMAAVISO", typeof(int) },
+                { "OBSERVACAO", typeof(string) }
+            };
+
+        private Produto MonteRetornoProduto(DataTable tabela, int linha)
+        {
+            var retorno = new Produto();
+
+            retorno.Codigo = int.Parse(tabela.Rows[linha]["CODIGO"].ToString());
+            retorno.Status = (EnumStatusDoProduto)int.Parse(tabela.Rows[linha]["STATUS"].ToString());
+            retorno.Nome = tabela.Rows[linha]["NOME"].ToString();
+            retorno.Fabricante = tabela.Rows[linha]["FABRICANTE"] != DBNull.Value
+                               ? tabela.Rows[linha]["FABRICANTE"].ToString()
+                               : null;
+            retorno.CodigoDoFabricante = tabela.Rows[linha]["CODIGOFABRICANTE"] != DBNull.Value
+                                       ? tabela.Rows[linha]["CODIGOFABRICANTE"].ToString()
+                                       : null;
+            retorno.PrecoDeCompra = decimal.Parse(tabela.Rows[linha]["PRECOCOMPRA"].ToString());
+            retorno.PrecoDeVenda = decimal.Parse(tabela.Rows[linha]["PRECOVENDA"].ToString());
+            retorno.PorcentagemDeLucro = decimal.Parse(tabela.Rows[linha]["PORCENTAGEMLUCRO"].ToString());
+            retorno.QuantidadeEmEstoque = tabela.Rows[linha]["QUANTIDADEESTOQUE"] != DBNull.Value
+                                        ? int.Parse(tabela.Rows[linha]["QUANTIDADEESTOQUE"].ToString())
+                                        : 0;
+            retorno.AvisarQuantidade = GSUtilitarios.ConvertaValorBooleano(tabela.Rows[linha]["AVISARQUANTIDADE"].ToString());
+            retorno.QuantidadeMinimaParaAviso = int.Parse(tabela.Rows[linha]["QUANTIDADEMINIMAAVISO"].ToString());
+            retorno.Observacao = tabela.Rows[linha]["OBSERVACAO"] != DBNull.Value
+                               ? tabela.Rows[linha]["OBSERVACAO"].ToString()
+                               : null;
+
+            return retorno;
+        }
+
+        private List<Produto> ConsulteTodosProdutosSql()
+        {
+            var Tabela = "PRODUTOS";
+
+            var colunas = ColunasProduto.Replace(", ", ", T1.")
+                                        .Replace("CODIGO, ", string.Empty);
+
+            var comandoSQL =
+                $"SELECT T1.CODIGO, {colunas}, PRODUTOS_QUANTIDADES.QUANTIDADE AS QUANTIDADEESTOQUE FROM {Tabela} AS T1 " +
+                $"INNER JOIN(SELECT MAX(VIGENCIA) VIGENCIA, CODIGO FROM {Tabela} GROUP BY CODIGO) AS T2 " +
+                $"ON T1.CODIGO = T2.CODIGO AND T1.VIGENCIA = T2.VIGENCIA INNER JOIN PRODUTOS_QUANTIDADES ON T1.CODIGO = PRODUTOS_QUANTIDADES.CODIGO_PRODUTO ORDER BY CODIGO";
+
+            DataTable tabela;
+            try
+            {
+                using (var GSBancoDeDados = new GSBancoDeDados())
+                    tabela = GSBancoDeDados.ExecuteConsulta(comandoSQL);
+
+                if (tabela == null)
+                    return null;
+
+                var listaRetorno = new List<Produto>();
+                for (int linha = 0; linha < tabela.Rows.Count; linha++)
+                {
+                    listaRetorno.Add(MonteRetornoProduto(tabela, linha));
+                }
+
+                return listaRetorno;
+            }
+            catch (System.Exception)
+            {
+                return null;
+                throw;
+            }
+        }
+
+        public List<DateTime> ConsulteTodasVigenciasProduto(int Codigo)
+        {
+            string ComandoSQL = String.Format("SELECT VIGENCIA FROM {0} WHERE {1} = {2} ORDER BY VIGENCIA DESC",
+                                              "PRODUTOS",
+                                              "CODIGO",
+                                              Codigo);
+
+            DataTable tabela;
+            try
+            {
+                using (var GSBancoDeDados = new GSBancoDeDados())
+                    tabela = GSBancoDeDados.ExecuteConsulta(ComandoSQL);
+
+                if (tabela == null)
+                    return null;
+
+                var listaRetorno = new List<DateTime>();
+
+                for (int linha = 0; linha < tabela.Rows.Count; linha++)
+                {
+                    var dado = tabela.Rows[linha]["VIGENCIA"];
+                    //listaRetorno.Add(GSUtilitarios.FormateDateTimePtBrParaBD(dado.ToString()));
+                    listaRetorno.Add((DateTime)dado);
+                }
+
+                return listaRetorno;
+            }
+            catch (System.Exception)
+
+            {
+                return null;
+                throw;
+            }
+        }
+
+        public Produto ConsulteProduto(int Codigo, DateTime vigencia)
+        {
+            string ComandoSQL = String.Format("SELECT {0}, PRODUTOS_QUANTIDADES.QUANTIDADE AS QUANTIDADEESTOQUE FROM {1} " +
+                                              "INNER JOIN PRODUTOS_QUANTIDADES ON PRODUTOS.CODIGO = PRODUTOS_QUANTIDADES.CODIGO_PRODUTO " +
+                                              "WHERE CODIGO = {2} " +
+                                              "AND VIGENCIA = (SELECT MAX(VIGENCIA) FROM PRODUTOS WHERE VIGENCIA <= CAST ('{3}' AS DATETIME2))",
+                                              ColunasProduto,
+                                              "PRODUTOS",
+                                              Codigo,
+                                              GSUtilitarios.FormateDateTimePtBrParaBD(vigencia));
+
+            DataTable tabela;
+            try
+            {
+                using (var GSBancoDeDados = new GSBancoDeDados())
+                    tabela = GSBancoDeDados.ExecuteConsulta(ComandoSQL);
+
+                if (tabela == null)
+                    return null;
+
+                return MonteRetornoProduto(tabela, 0);
+            }
+            catch (System.Exception)
+            {
+                return null;
+                throw;
+            }
+        }
+
+        
+
+        private string ColunasUsuario => string.Join(", ", this.ColunasETiposDeDadosUsuario.Keys);
+
+        private Dictionary<string, Type> ColunasETiposDeDadosUsuario
+        =>
+        new Dictionary<string, Type>()
+        {
+            {"CODIGO", typeof(int)},
+            {"STATUS", typeof(bool)},
+            {"NOME", typeof(string)},
+            {"SENHA", typeof(int)}
+        };
+
+        private Usuario MonteRetornoUsuario(DataTable tabela, int linha)
+        {
+            var retorno = new Usuario();
+
+            retorno.Codigo = int.Parse(tabela.Rows[linha]["CODIGO"].ToString());
+            retorno.Status = (EnumStatusDoUsuario)int.Parse(tabela.Rows[linha]["STATUS"].ToString());
+            retorno.Nome = tabela.Rows[linha]["NOME"].ToString();
+            retorno.Senha = int.Parse(tabela.Rows[linha]["SENHA"].ToString());
+
+            return retorno;
+        }
+
+        public List<Usuario> ConsulteTodosUsuarios()
+        {
+            string ComandoSQL = String.Format("SELECT {0} FROM {1}", ColunasUsuario, "USUARIOS");
+
+            DataTable tabela;
+            try
+            {
+                using (var GSBancoDeDados = new GSBancoDeDados())
+                    tabela = GSBancoDeDados.ExecuteConsulta(ComandoSQL);
+
+                if (tabela == null)
+                    return null;
+
+                var listaRetorno = new List<Usuario>();
+                for (int linha = 0; linha < tabela.Rows.Count; linha++)
+                {
+                    listaRetorno.Add(MonteRetornoUsuario(tabela, linha));
+                }
+
+                return listaRetorno;
+            }
+            catch (System.Exception)
+            {
+                return null;
+                throw;
+            }
+        }
+
+        private string ColunasInteracoes => string.Join(", ", this.ColunasETiposDeDadosInteracoes.Keys);
+
+        private Dictionary<string, Type> ColunasETiposDeDadosInteracoes
+        =>
+        new Dictionary<string, Type>()
+        {
+            { "CODIGO", typeof(int)},
+            { "HORARIO", typeof(DateTime)},
+            { "TIPO", typeof(bool)},
+            { "OBSERVACOES", typeof(string)},
+            { "CODIGO_PRODUTO", typeof(int) },
+            { "QUANTIDADE", typeof(int) },
+            { "VALOR", typeof(decimal) },
+            { "ATUALIZARVALORNOCATALOGO", typeof(bool)},
+            { "ORIGEM", typeof(string) },
+            { "DESTINO", typeof(string) },
+            { "NUMERODANOTAFISCAL", typeof(string) },
+            { "INFORMA_NUMERO_DE_SERIE", typeof(bool) },
+            { "QUANTIDADE_AUX", typeof(int) },
+            { "HORARIO_PROGRAMADO", typeof(DateTime) }
+        };
+
+        private Interacao MonteRetornoInteracoes(DataTable tabela, int linha)
+        {
+            var retorno = new Interacao();
+
+            retorno.Codigo = int.Parse(tabela.Rows[linha]["CODIGO"].ToString());
+            retorno.TipoDeInteracao = (EnumTipoDeInteracao)int.Parse(tabela.Rows[linha]["TIPO"].ToString());
+            retorno.Observacao = tabela.Rows[linha]["OBSERVACOES"] != DBNull.Value
+                               ? tabela.Rows[linha]["OBSERVACOES"].ToString()
+                               : null;
+            retorno.QuantidadeInterada = int.Parse(tabela.Rows[linha]["QUANTIDADE"].ToString());
+            retorno.QuantidadeAuxiliar = tabela.Rows[linha]["QUANTIDADE_AUX"] != DBNull.Value
+                                       ? int.Parse(tabela.Rows[linha]["QUANTIDADE_AUX"].ToString())
+                                      : new int?();
+            retorno.ValorInteracao = decimal.Parse(tabela.Rows[linha]["VALOR"].ToString());
+            retorno.AtualizarValorDoProdutoNoCatalogo = GSUtilitarios.ConvertaValorBooleano(tabela.Rows[linha]["ATUALIZARVALORNOCATALOGO"].ToString());
+            retorno.Origem = tabela.Rows[linha]["ORIGEM"] != DBNull.Value
+                           ? tabela.Rows[linha]["ORIGEM"].ToString()
+                           : null;
+            retorno.Destino = tabela.Rows[linha]["DESTINO"] != DBNull.Value
+                            ? tabela.Rows[linha]["DESTINO"].ToString()
+                            : null;
+            retorno.Horario = (DateTime)tabela.Rows[linha]["HORARIO"];
+            retorno.NumeroDaNota = tabela.Rows[linha]["NUMERODANOTAFISCAL"].ToString() != "NULL"
+                                 ? tabela.Rows[linha]["NUMERODANOTAFISCAL"].ToString()
+                                 : null;
+            retorno.InformaNumeroDeSerie = GSUtilitarios.ConvertaValorBooleano(tabela.Rows[linha]["INFORMA_NUMERO_DE_SERIE"].ToString());
+            retorno.HorarioProgramado = (DateTime)tabela.Rows[linha]["HORARIO_PROGRAMADO"];
+
+            retorno.Produto = ConsulteProduto(int.Parse(tabela.Rows[linha]["CODIGO_PRODUTO"].ToString()), retorno.HorarioProgramado);
+
+            return retorno;
+        }
+
+        public List<Interacao> ConsulteTodasAsInteracoes()
+        {
+            string ComandoSQL = String.Format("SELECT {0} FROM {1} " +
+                                              "ORDER BY HORARIO DESC",
+                                              ColunasInteracoes,
+                                              "INTERACOES");
+
+            DataTable tabela;
+            try
+            {
+                using (var GSBancoDeDados = new GSBancoDeDados())
+                    tabela = GSBancoDeDados.ExecuteConsulta(ComandoSQL);
+
+                if (tabela == null)
+                    return null;
+
+
+                var listaRetorno = new List<Interacao>();
+                for (int linha = 0; linha < tabela.Rows.Count; linha++)
+                {
+                    listaRetorno.Add(MonteRetornoInteracoes(tabela, linha));
+                }
+
+                return listaRetorno;
+            }
+            catch (System.Exception)
+            {
+                return null;
+                throw;
+            }
+        }
+
+        #endregion
+
     }
 }

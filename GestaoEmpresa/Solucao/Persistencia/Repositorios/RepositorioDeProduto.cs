@@ -16,7 +16,7 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios
         public int ConsulteQuantidade(int codigo)
         {
             using (var sessaoRaven = _documentStore.OpenSession())
-                return sessaoRaven.Query<Produto>().Where(x => x.Atual && x.Codigo == codigo)
+                return sessaoRaven.Query<Produto>().Where(_filtroAtual(codigo))
                                                    .Select(x => x.QuantidadeEmEstoque)
                                                    .FirstOrDefault();
         }

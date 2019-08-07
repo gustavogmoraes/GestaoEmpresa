@@ -80,26 +80,6 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         private void frmEstoque_Load(object sender, EventArgs e)
         {
-            #region Migração de dados SQLServer --> RavenDB
-
-            //var dialogResult = MessageBox.Show("Migrar dados para RavenDB", "Confirmação", MessageBoxButtons.YesNo);
-            // if (dialogResult == DialogResult.Yes)
-            //{
-            //   Task.Run(() => 
-            //  {
-            //      using (var repositorioDeUsuario = new RepositorioDeUsuarioRaven())
-            //     using (var repositorioDeProduto = new RepositorioDeProdutoRaven())
-            //     using (var repositorioDeInteracao = new RepositorioDeInteracaoRaven())
-            //     {
-            //        repositorioDeUsuario.MigreUsuariosParaRaven();
-            //        repositorioDeProduto.MigreProdutosParaRaven();
-            //        repositorioDeInteracao.MigreInteracaoParaRaven();
-            //    }
-            // });
-            //}
-
-            #endregion
-
             #region Migração de dados ClientesAntigos ---> RavenDB
             
             //var dialogResult = MessageBox.Show(" Migração de dados ClientesAntigos ---> RavenDB", "Confirmação", MessageBoxButtons.YesNo);
@@ -156,7 +136,6 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             //}
             
             #endregion
-
 
             //Módulo - Estoque
             //ucSessaoSistema1.DefinaModulo("Estoque", Resources.WhiteBox);
