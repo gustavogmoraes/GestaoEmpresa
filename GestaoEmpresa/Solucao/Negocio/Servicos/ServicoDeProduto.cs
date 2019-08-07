@@ -7,6 +7,7 @@ using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores.Comuns;
 using GS.GestaoEmpresa.Solucao.Negocio.Servicos.Base;
 using GS.GestaoEmpresa.Solucao.UI;
 using GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque;
+using System.Linq;
 
 namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
 {
@@ -52,6 +53,22 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
                     //formEstoque.RecarregueProdutoEspecifico(produto);
                 }
             }
+        }
+
+        public List<Produto> ConsulteTodosParaAterrissagem()
+        {
+            return Repositorio.ConsulteTodos(seletor: x => new Produto
+            {
+                Codigo = x.Codigo,
+                CodigoDoFabricante = x.CodigoDoFabricante,
+                Nome = x.Nome,
+                Observacao = x.Observacao,
+                PrecoDeCompra = x.PrecoDeCompra,
+                PrecoDeVenda = x.PrecoDeVenda,
+                QuantidadeEmEstoque = x.QuantidadeEmEstoque
+            })
+            .OrderBy(x => x.Codigo)
+            .ToList();
         }
     }
 }       

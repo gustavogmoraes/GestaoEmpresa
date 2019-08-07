@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Linq;
 using GS.GestaoEmpresa.Solucao.Negocio.Objetos;
 using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores;
 using GS.GestaoEmpresa.Solucao.Negocio.Validador;
@@ -34,7 +35,23 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
                 return repositorioDeInteracao.Consulte(x => x.Produto.Codigo == codigoProduto).ToList();
             }
         }
-        
+
+        public List<Interacao> ConsulteTodasParaAterrissagem()
+        {
+            return Repositorio.ConsulteTodos(seletor: x => new Interacao
+            {
+                Codigo = x.Codigo,
+                Observacao = x.Observacao,
+                Origem = x.Origem,
+                Destino = x.Destino,
+                TipoDeInteracao = x.TipoDeInteracao,
+                NumerosDeSerie = x.NumerosDeSerie,
+                Produto = new Produto { Nome = x.Produto.Nome }
+            })
+            .OrderBy(x => x.Codigo)
+            .ToList();
+        }
+
         private List<Interacao> ConsultePorNumeroDeSerie(string numeroDeSerie)
         {
             using (var repositorioDeInteracao = new RepositorioDeInteracao())
