@@ -63,5 +63,16 @@ namespace GS.GestaoEmpresa.Solucao.UI.ControlesGenericos
                 ultimaBox.btnRemover.Visible = true;
             }
         }
+
+        private void TxtTexto_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (new[] {Keys.Return, Keys.Enter}.Contains(e.KeyCode))
+            {
+                btnAdicionar_Click(e, null);
+
+                var painel = (Parent as FlowLayoutPanel);
+                painel?.Controls.OfType<GSMultiTextBox>().LastOrDefault()?.txtTexto.Focus();
+            }
+        }
     }
 }

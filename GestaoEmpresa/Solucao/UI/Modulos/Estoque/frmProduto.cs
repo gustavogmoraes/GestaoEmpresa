@@ -183,6 +183,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             txtPrecoDeVenda.Valor = objeto.PrecoDeVenda;
             cbStatus.SelectedItem = objeto.Status.ToString();
             chkAvisar.Checked = objeto.AvisarQuantidade;
+            
         }
 
         protected Produto CarregueObjetoComControles()

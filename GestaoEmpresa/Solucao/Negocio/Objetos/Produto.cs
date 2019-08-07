@@ -43,5 +43,8 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Objetos
 
         [Identificacao(Descricao = "Observação")]
         public string Observacao { get; set; }
+
+        [Identificacao(Descricao = "Codigo de barras")]
+        public string CodigoDeBarras { get; set; }
     }
 }

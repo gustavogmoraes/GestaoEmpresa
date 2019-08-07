@@ -165,7 +165,8 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
                     new Tuple<Action<Control, PropertyInfo, object>, Action<Control, PropertyInfo, object>>(
                         (controle, propriedade, model) =>
                         {
-                            ((MetroTextBox) controle).Text = propriedade.GetValue(model, null).ToString();
+                            var valor = propriedade.GetValue(model, null);
+                            ((MetroTextBox) controle).Text = (valor ?? string.Empty).ToString();
                         },
                         (controle, propriedade, model) =>
                         {
@@ -187,6 +188,9 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
                         {
                             var ehCbVigencia = controle.Name == "cbVigencia";
                             var valorControle = ((MetroComboBox) controle).SelectedText;
+
+                            if (valorControle == string.Empty)
+                                valorControle = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
 
                             propriedade.SetValue(model, ehCbVigencia 
                                                             ? (object)valorControle.ConvertaParaDateTime(EnumFormatacaoDateTime.DD_MM_YYYY_HH_MM_SS, '/')

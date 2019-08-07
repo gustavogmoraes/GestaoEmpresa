@@ -61,22 +61,23 @@
             // 
             this.txtTexto.BackColor = System.Drawing.Color.Silver;
             this.txtTexto.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtTexto.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtTexto.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtTexto.ForeColor = System.Drawing.Color.Black;
             this.txtTexto.Location = new System.Drawing.Point(0, 3);
             this.txtTexto.MaxLength = 100;
             this.txtTexto.Name = "txtTexto";
-            this.txtTexto.Size = new System.Drawing.Size(382, 24);
+            this.txtTexto.Size = new System.Drawing.Size(382, 22);
             this.txtTexto.TabIndex = 105;
+            this.txtTexto.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtTexto_KeyDown);
             // 
             // txtLineTexto
             // 
             this.txtLineTexto.AutoSize = true;
-            this.txtLineTexto.Font = new System.Drawing.Font("Century Gothic", 27.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtLineTexto.Font = new System.Drawing.Font("Microsoft Sans Serif", 27.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtLineTexto.ForeColor = System.Drawing.Color.SteelBlue;
             this.txtLineTexto.Location = new System.Drawing.Point(-6, -10);
             this.txtLineTexto.Name = "txtLineTexto";
-            this.txtLineTexto.Size = new System.Drawing.Size(400, 44);
+            this.txtLineTexto.Size = new System.Drawing.Size(438, 42);
             this.txtLineTexto.TabIndex = 106;
             this.txtLineTexto.Text = "____________________";
             // 

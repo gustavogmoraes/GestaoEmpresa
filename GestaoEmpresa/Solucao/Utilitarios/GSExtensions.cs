@@ -105,11 +105,11 @@ namespace GS.GestaoEmpresa.Solucao.Utilitarios
                     formato = $@"mm{separadorData}DD{separadorData}yyyy";
                     break;
                 case EnumFormatacaoDateTime.DD_MM_YYYY_HH_MM_SS:
-                    formato = $@"dd{separadorData}MM{separadorData}yyyy HH{separadorHora}mm{separadorHora}SS";
+                    formato = $@"dd{separadorData}MM{separadorData}yyyy HH{separadorHora}mm{separadorHora}ss";
                     break;
             }
 
-            return DateTime.ParseExact(dado, formato, CultureInfo.GetCultureInfo("pt-BR"));
+            return DateTime.ParseExact(dado, formato, CultureInfo.InvariantCulture);
         }
 
         public static int? EncontreIndiceNaGrid(this DataGridView dataGrid, string coluna, string valorNaColuna)

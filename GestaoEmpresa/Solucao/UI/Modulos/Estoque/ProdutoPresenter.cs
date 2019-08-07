@@ -24,7 +24,8 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                     { model => model.CodigoDoFabricante, view => view.txtCodigoFabricante },
                     { model => model.QuantidadeMinimaParaAviso, view => view.txtQuantidadeMinima },
                     { model => model.QuantidadeEmEstoque, view => view.txtQuantidadeEmEstoque },
-                    { model => model.AvisarQuantidade, view => view.chkAvisarQuantidade }
+                    { model => model.AvisarQuantidade, view => view.chkAvisarQuantidade },
+                    { model => model.CodigoDeBarras, view => view.txtCodigoDeBarras }
                 });
         }
 

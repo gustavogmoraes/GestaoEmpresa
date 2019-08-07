@@ -53,6 +53,8 @@
             this.lblVigencia = new MetroFramework.Controls.MetroLabel();
             this.txtCodigo = new MetroFramework.Controls.MetroTextBox();
             this.lblCodigo = new MetroFramework.Controls.MetroLabel();
+            this.txtCodigoDeBarras = new MetroFramework.Controls.MetroTextBox();
+            this.lblCodigoDeBarras = new MetroFramework.Controls.MetroLabel();
             ((System.ComponentModel.ISupportInitialize)(this.btnCancelarExcluir)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnEditarSalvar)).BeginInit();
             this.SuspendLayout();
@@ -63,7 +65,7 @@
             // 
             // lblTitulo
             // 
-            this.lblTitulo.Size = new System.Drawing.Size(381, 37);
+            this.lblTitulo.Size = new System.Drawing.Size(379, 37);
             this.lblTitulo.Text = "Cadastro e consulta de produtos";
             // 
             // lblStatus
@@ -280,7 +282,7 @@
             this.lblPorcentagemLucro.FontSize = MetroFramework.MetroLabelSize.Tall;
             this.lblPorcentagemLucro.Location = new System.Drawing.Point(208, 503);
             this.lblPorcentagemLucro.Name = "lblPorcentagemLucro";
-            this.lblPorcentagemLucro.Size = new System.Drawing.Size(180, 25);
+            this.lblPorcentagemLucro.Size = new System.Drawing.Size(179, 25);
             this.lblPorcentagemLucro.TabIndex = 68;
             this.lblPorcentagemLucro.Text = "Porcentagem de lucro";
             this.lblPorcentagemLucro.UseCustomBackColor = true;
@@ -371,7 +373,7 @@
             this.lblObservacoes.FontSize = MetroFramework.MetroLabelSize.Tall;
             this.lblObservacoes.Location = new System.Drawing.Point(21, 285);
             this.lblObservacoes.Name = "lblObservacoes";
-            this.lblObservacoes.Size = new System.Drawing.Size(109, 25);
+            this.lblObservacoes.Size = new System.Drawing.Size(110, 25);
             this.lblObservacoes.TabIndex = 64;
             this.lblObservacoes.Text = "Observações";
             this.lblObservacoes.UseCustomBackColor = true;
@@ -393,7 +395,7 @@
             this.txtNome.CustomButton.Visible = false;
             this.txtNome.FontSize = MetroFramework.MetroTextBoxSize.Medium;
             this.txtNome.Lines = new string[0];
-            this.txtNome.Location = new System.Drawing.Point(25, 239);
+            this.txtNome.Location = new System.Drawing.Point(25, 260);
             this.txtNome.MaxLength = 32767;
             this.txtNome.Name = "txtNome";
             this.txtNome.PasswordChar = '\0';
@@ -414,7 +416,7 @@
             this.lblNome.AutoSize = true;
             this.lblNome.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this.lblNome.FontSize = MetroFramework.MetroLabelSize.Tall;
-            this.lblNome.Location = new System.Drawing.Point(21, 211);
+            this.lblNome.Location = new System.Drawing.Point(21, 232);
             this.lblNome.Name = "lblNome";
             this.lblNome.Size = new System.Drawing.Size(59, 25);
             this.lblNome.TabIndex = 62;
@@ -438,7 +440,7 @@
             this.txtCodigoFabricante.CustomButton.Visible = false;
             this.txtCodigoFabricante.FontSize = MetroFramework.MetroTextBoxSize.Medium;
             this.txtCodigoFabricante.Lines = new string[0];
-            this.txtCodigoFabricante.Location = new System.Drawing.Point(229, 162);
+            this.txtCodigoFabricante.Location = new System.Drawing.Point(229, 149);
             this.txtCodigoFabricante.MaxLength = 32767;
             this.txtCodigoFabricante.Name = "txtCodigoFabricante";
             this.txtCodigoFabricante.PasswordChar = '\0';
@@ -459,7 +461,7 @@
             this.lblCodigoFabricante.AutoSize = true;
             this.lblCodigoFabricante.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this.lblCodigoFabricante.FontSize = MetroFramework.MetroLabelSize.Tall;
-            this.lblCodigoFabricante.Location = new System.Drawing.Point(225, 134);
+            this.lblCodigoFabricante.Location = new System.Drawing.Point(225, 121);
             this.lblCodigoFabricante.Name = "lblCodigoFabricante";
             this.lblCodigoFabricante.Size = new System.Drawing.Size(172, 25);
             this.lblCodigoFabricante.TabIndex = 60;
@@ -483,7 +485,7 @@
             this.txtMarca.CustomButton.Visible = false;
             this.txtMarca.FontSize = MetroFramework.MetroTextBoxSize.Medium;
             this.txtMarca.Lines = new string[0];
-            this.txtMarca.Location = new System.Drawing.Point(25, 162);
+            this.txtMarca.Location = new System.Drawing.Point(25, 149);
             this.txtMarca.MaxLength = 32767;
             this.txtMarca.Name = "txtMarca";
             this.txtMarca.PasswordChar = '\0';
@@ -504,7 +506,7 @@
             this.lblMarca.AutoSize = true;
             this.lblMarca.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this.lblMarca.FontSize = MetroFramework.MetroLabelSize.Tall;
-            this.lblMarca.Location = new System.Drawing.Point(21, 134);
+            this.lblMarca.Location = new System.Drawing.Point(21, 121);
             this.lblMarca.Name = "lblMarca";
             this.lblMarca.Size = new System.Drawing.Size(59, 25);
             this.lblMarca.TabIndex = 58;
@@ -581,11 +583,58 @@
             this.lblCodigo.Text = "Código";
             this.lblCodigo.UseCustomBackColor = true;
             // 
+            // txtCodigoDeBarras
+            // 
+            this.txtCodigoDeBarras.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
+            // 
+            // 
+            // 
+            this.txtCodigoDeBarras.CustomButton.Image = null;
+            this.txtCodigoDeBarras.CustomButton.Location = new System.Drawing.Point(520, 1);
+            this.txtCodigoDeBarras.CustomButton.Name = "";
+            this.txtCodigoDeBarras.CustomButton.Size = new System.Drawing.Size(21, 21);
+            this.txtCodigoDeBarras.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
+            this.txtCodigoDeBarras.CustomButton.TabIndex = 1;
+            this.txtCodigoDeBarras.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
+            this.txtCodigoDeBarras.CustomButton.UseSelectable = true;
+            this.txtCodigoDeBarras.CustomButton.Visible = false;
+            this.txtCodigoDeBarras.FontSize = MetroFramework.MetroTextBoxSize.Medium;
+            this.txtCodigoDeBarras.Lines = new string[0];
+            this.txtCodigoDeBarras.Location = new System.Drawing.Point(25, 203);
+            this.txtCodigoDeBarras.MaxLength = 32767;
+            this.txtCodigoDeBarras.Name = "txtCodigoDeBarras";
+            this.txtCodigoDeBarras.PasswordChar = '\0';
+            this.txtCodigoDeBarras.ScrollBars = System.Windows.Forms.ScrollBars.None;
+            this.txtCodigoDeBarras.SelectedText = "";
+            this.txtCodigoDeBarras.SelectionLength = 0;
+            this.txtCodigoDeBarras.SelectionStart = 0;
+            this.txtCodigoDeBarras.ShortcutsEnabled = true;
+            this.txtCodigoDeBarras.Size = new System.Drawing.Size(542, 23);
+            this.txtCodigoDeBarras.TabIndex = 79;
+            this.txtCodigoDeBarras.UseCustomBackColor = true;
+            this.txtCodigoDeBarras.UseSelectable = true;
+            this.txtCodigoDeBarras.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
+            this.txtCodigoDeBarras.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
+            // 
+            // lblCodigoDeBarras
+            // 
+            this.lblCodigoDeBarras.AutoSize = true;
+            this.lblCodigoDeBarras.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
+            this.lblCodigoDeBarras.FontSize = MetroFramework.MetroLabelSize.Tall;
+            this.lblCodigoDeBarras.Location = new System.Drawing.Point(20, 175);
+            this.lblCodigoDeBarras.Name = "lblCodigoDeBarras";
+            this.lblCodigoDeBarras.Size = new System.Drawing.Size(143, 25);
+            this.lblCodigoDeBarras.TabIndex = 78;
+            this.lblCodigoDeBarras.Text = "Código de barras";
+            this.lblCodigoDeBarras.UseCustomBackColor = true;
+            // 
             // frmProdutoMetro
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(599, 710);
+            this.Controls.Add(this.txtCodigoDeBarras);
+            this.Controls.Add(this.lblCodigoDeBarras);
             this.Controls.Add(this.lblStatus);
             this.Controls.Add(this.toggleStatus);
             this.Controls.Add(this.chkAvisarQuantidade);
@@ -638,6 +687,8 @@
             this.Controls.SetChildIndex(this.chkAvisarQuantidade, 0);
             this.Controls.SetChildIndex(this.toggleStatus, 0);
             this.Controls.SetChildIndex(this.lblStatus, 0);
+            this.Controls.SetChildIndex(this.lblCodigoDeBarras, 0);
+            this.Controls.SetChildIndex(this.txtCodigoDeBarras, 0);
             ((System.ComponentModel.ISupportInitialize)(this.btnCancelarExcluir)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnEditarSalvar)).EndInit();
             this.ResumeLayout(false);
@@ -671,5 +722,7 @@
         public MetroFramework.Controls.MetroLabel lblPrecoCompra;
         public MetroFramework.Controls.MetroTextBox txtObservacoes;
         public MetroFramework.Controls.MetroLabel lblObservacoes;
+        public MetroFramework.Controls.MetroTextBox txtCodigoDeBarras;
+        public MetroFramework.Controls.MetroLabel lblCodigoDeBarras;
     }
 }

@@ -67,7 +67,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
                 PrecoDeVenda = x.PrecoDeVenda,
                 QuantidadeEmEstoque = x.QuantidadeEmEstoque
             })
-            .OrderBy(x => x.Codigo)
+            .OrderBy(x => x.Nome)
             .ToList();
         }
     }
