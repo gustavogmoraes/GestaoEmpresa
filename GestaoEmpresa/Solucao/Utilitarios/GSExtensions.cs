@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using GS.GestaoEmpresa.Solucao.Persistencia.BancoDeDados;
+using GS.GestaoEmpresa.Solucao.UI;
 using Raven.Client.Documents;
 using Raven.Client.Documents.Operations;
 using Raven.Client.Documents.Operations.Indexes;
@@ -156,5 +157,23 @@ namespace GS.GestaoEmpresa.Solucao.Utilitarios
         {
             return tipo.GetProperties().Where(x => Attribute.IsDefined(x, typeof(T))).ToList();
         }
+
+        public static void Focar(this IView view, Form invoker)
+        {
+            var form = (view as Form);
+
+            invoker.Invoke((MethodInvoker)delegate
+           {
+               form.TopMost = true;
+                form.Visible = true;
+                form.WindowState = FormWindowState.Normal;
+                form.Show();
+                form.Activate();
+                form.Select();
+                form.Focus();
+            });
+        }
+        
     }
+    
 }
