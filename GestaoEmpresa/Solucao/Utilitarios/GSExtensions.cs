@@ -163,8 +163,8 @@ namespace GS.GestaoEmpresa.Solucao.Utilitarios
             var form = (view as Form);
 
             invoker.Invoke((MethodInvoker)delegate
-           {
-               form.TopMost = true;
+            {
+                form.TopMost = true;
                 form.Visible = true;
                 form.WindowState = FormWindowState.Normal;
                 form.Show();

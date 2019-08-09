@@ -102,14 +102,13 @@ namespace GS.GestaoEmpresa.Solucao.UI
             where TPresenter : class, IPresenter, new()
         {
             var instanciaPresenter = Crie<TPresenter>();
-            instanciaPresenter.Model = conceito;
-            //instanciaPresenter.IdInstancia = conceito.Codigo.ToString();
+                instanciaPresenter.Model = conceito;
+                //instanciaPresenter.IdInstancia = conceito.Codigo.ToString();
 
-            instanciaPresenter.CarregueControlesComModel();
-            instanciaPresenter.View.TipoDeForm = EnumTipoDeForm.Detalhamento;
-            instanciaPresenter.DesabiliteControles();
+                instanciaPresenter.CarregueControlesComModel();
+                instanciaPresenter.View.TipoDeForm = EnumTipoDeForm.Detalhamento;
 
-            return instanciaPresenter;
+                return instanciaPresenter;
         }
 
         public static TPresenter Obtenha<TPresenter>()

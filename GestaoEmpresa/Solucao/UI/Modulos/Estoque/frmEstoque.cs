@@ -241,6 +241,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             dgvProdutos.Refresh();
         }
 
+        [STAThread]
         private void dgvProdutos_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             var senderGrid = (DataGridView)sender;
@@ -260,22 +261,20 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                     IPresenter presenter = null;
                     if (produto == null) return;
 
-                    using (var frmWait = new GSWaitForm(() =>
+                    using (var frmWait = new GSWaitForm(this, () =>
                     {
-                        for (int i = 0; i < 100; i++)
+                        long teste = 0;
+                        for (int i = 0; i < 1000; i++)
                         {
                             for (int j = 0; j < 10000; j++)
                             {
-
+                                teste += (long)j;
                             }
                         }
 
-                        Invoke((MethodInvoker) delegate
-                        {
-                            presenter = GerenciadorDeViews.Crie<ProdutoPresenter>(produto);
-                            presenter.View.Focar(this);
-                        });
-                    }))
+                        presenter = GerenciadorDeViews.Crie<ProdutoPresenter>(produto);
+                    },
+                        () => presenter.View.Focar(this)))
                     {
                         frmWait.ShowDialog(this);
                     }
@@ -574,7 +573,22 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         private void btnNovaInteracao_Click(object sender, EventArgs e)
         {
-            new frmInteracao().Show();
+            using (var frmWait = new GSWaitForm(this, () =>
+            {
+                long teste = 0;
+                for (int i = 0; i < 10000; i++)
+                {
+                    for (int j = 0; j < 10000; j++)
+                    {
+                        teste += j;
+                    }
+                }
+            },
+                () => new frmInteracao().Show()))
+            {
+                frmWait.ShowDialog(this);
+            }
+
         }
 
         private void dgvHistorico_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
