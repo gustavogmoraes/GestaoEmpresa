@@ -156,5 +156,14 @@ namespace GS.GestaoEmpresa.Solucao.Utilitarios
         {
             return tipo.GetProperties().Where(x => Attribute.IsDefined(x, typeof(T))).ToList();
         }
+
+        public static object GetDefault(this Type type)
+        {
+            if (type.IsValueType)
+            {
+                return Activator.CreateInstance(type);
+            }
+            return null;
+        }
     }
 }

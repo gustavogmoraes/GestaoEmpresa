@@ -20,5 +20,10 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         {
             InitializeComponent();
         }
+
+        protected override void ChamadaSalvar(object sender, EventArgs e)
+        {
+            (Presenter as ProdutoPresenter)?.Salve();
+        }
     }
 }

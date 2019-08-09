@@ -16,6 +16,8 @@ using GS.GestaoEmpresa.Solucao.UI.ControlesGenericos;
 using GS.GestaoEmpresa.Solucao.Utilitarios;
 using MetroFramework.Controls;
 using MoreLinq;
+using GS.GestaoEmpresa.Solucao.Utilitarios;
+using OfficeOpenXml.FormulaParsing.Utilities;
 
 namespace GS.GestaoEmpresa.Solucao.UI.Base
 {
@@ -163,14 +165,24 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
                 {
                     typeof(MetroTextBox),
                     new Tuple<Action<Control, PropertyInfo, object>, Action<Control, PropertyInfo, object>>(
+
+                        // Objeto --> Controle
                         (controle, propriedade, model) =>
                         {
                             var valor = propriedade.GetValue(model, null);
                             ((MetroTextBox) controle).Text = (valor ?? string.Empty).ToString();
                         },
+
+                        // Controle --> Objeto
                         (controle, propriedade, model) =>
                         {
-                            propriedade.SetValue(model, Convert.ChangeType(((MetroTextBox) controle).Text, propriedade.PropertyType));
+                            var valor = ((MetroTextBox) controle).Text;
+                            if (propriedade.PropertyType.IsNumericType() && valor == string.Empty)
+                            {
+                                valor = 0.ToString();
+                            }
+
+                            propriedade.SetValue(model, Convert.ChangeType(valor, propriedade.PropertyType));
                         })
                 },
                 {

@@ -105,6 +105,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
         protected virtual void ChamadaSalvarOnClick(object sender, EventArgs e)
         {
             Presenter.CarregueModelComControles();
+            ChamadaSalvar(sender, e);
         }
 
         protected virtual void ChamadaCancelarOnClick(object sender, EventArgs e)
@@ -122,6 +123,11 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
         protected virtual void ChamadaExclusao(object sender, EventArgs e)
         {
 
+        }
+
+        protected virtual void ChamadaSalvar(object sender, EventArgs e)
+        {
+            
         }
 
         #endregion
