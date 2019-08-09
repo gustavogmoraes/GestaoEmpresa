@@ -18,8 +18,10 @@ using System.Reflection;
 using GS.GestaoEmpresa.Solucao.Persistencia.Repositorios;
 using GS.GestaoEmpresa.Properties;
 using System.IO;
+using System.Threading;
 using GS.GestaoEmpresa.Solucao.Negocio.Interfaces;
 using GS.GestaoEmpresa.Solucao.UI.Base;
+using GS.GestaoEmpresa.Solucao.UI.ControlesGenericos;
 
 namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 {
@@ -247,7 +249,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             {
                 if (senderGrid.Columns[e.ColumnIndex] == colunaDetalhar)
                 {
-                    var codigoProduto = (int)senderGrid["colunaCodigo", e.RowIndex].Value;
+                    var codigoProduto = (int) senderGrid["colunaCodigo", e.RowIndex].Value;
                     Produto produto;
 
                     using (var servicoDeProduto = new ServicoDeProduto())
@@ -255,10 +257,27 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                         produto = servicoDeProduto.Consulte(codigoProduto);
                     }
 
-                    if (produto != null)
+                    IPresenter presenter = null;
+                    if (produto == null) return;
+
+                    using (var frmWait = new GSWaitForm(() =>
                     {
-                        var presenter = GerenciadorDeViews.Crie<ProdutoPresenter>(produto);
-                        if (presenter != null) presenter.View.Show();
+                        for (int i = 0; i < 100; i++)
+                        {
+                            for (int j = 0; j < 10000; j++)
+                            {
+
+                            }
+                        }
+
+                        Invoke((MethodInvoker) delegate
+                        {
+                            presenter = GerenciadorDeViews.Crie<ProdutoPresenter>(produto);
+                            presenter.View.Focar(this);
+                        });
+                    }))
+                    {
+                        frmWait.ShowDialog(this);
                     }
                 }
             }
@@ -267,7 +286,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         private void btnNovoProduto_Click(object sender, EventArgs e)
         {
             var presenter = GerenciadorDeViews.Crie<ProdutoPresenter>();
-            if (presenter != null) presenter.View.Show();
+            presenter?.View.Show();
         }
 
         private void btnRefresh_Click(object sender, EventArgs e)

@@ -59,7 +59,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
             if ((Model == null) || Mapeamento == null || Mapeamento.Count == 0) return;
 
             var propriedades = Mapeamento.Keys;
-            if (propriedades == null || propriedades.Count == 0) return;
+            if (propriedades.Count == 0) return;
 
             if (propriedades.Select(x => x.Name).Contains("Vigencia"))
                 CarregueComboDeVigencias(
