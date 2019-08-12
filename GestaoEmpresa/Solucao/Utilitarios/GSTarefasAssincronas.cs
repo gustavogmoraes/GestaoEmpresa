@@ -10,10 +10,7 @@ namespace GS.GestaoEmpresa.Solucao.Utilitarios
     {
         public static void ExecuteTarefaAssincrona(Action acao)
         {
-            Task.Run(() =>
-            {
-                acao.Invoke();
-            });
+            Task.Run(acao.Invoke);
         }
     }
 }

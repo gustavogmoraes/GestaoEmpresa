@@ -34,7 +34,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
 
         protected Dictionary<PropertyInfo, string> Mapeamento { get; set; }
 
-        public Presenter()
+        protected Presenter()
         {
             View = new TView { Presenter = this };
         }
@@ -62,8 +62,10 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
             if (propriedades.Count == 0) return;
 
             if (propriedades.Select(x => x.Name).Contains("Vigencia"))
-                CarregueComboDeVigencias(
-                    (MetroComboBox)View.Controls.Find("cbVigencia", false).FirstOrDefault(), Model.Codigo);
+            {
+                var control = (MetroComboBox) View.Controls.Find("cbVigencia", false).FirstOrDefault();
+                CarregueComboDeVigencias(control, Model.Codigo);
+            }
 
             foreach (var propriedade in propriedades)
             {

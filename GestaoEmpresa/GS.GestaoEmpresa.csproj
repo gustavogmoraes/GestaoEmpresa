@@ -451,5 +451,11 @@
   <ItemGroup>
     <None Include="Resources\Load.gif" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Load2.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Preloader_2.gif" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

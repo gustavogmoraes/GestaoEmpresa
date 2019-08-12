@@ -241,44 +241,31 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             dgvProdutos.Refresh();
         }
 
-        [STAThread]
         private void dgvProdutos_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             var senderGrid = (DataGridView)sender;
 
-            if (senderGrid.Columns[e.ColumnIndex] is DataGridViewButtonColumn && e.RowIndex >= 0)
+            if (senderGrid.Columns[e.ColumnIndex] is DataGridViewButtonColumn &&
+                senderGrid.Columns[e.ColumnIndex] == colunaDetalhar &&
+                e.RowIndex >= 0)
             {
-                if (senderGrid.Columns[e.ColumnIndex] == colunaDetalhar)
-                {
-                    var codigoProduto = (int) senderGrid["colunaCodigo", e.RowIndex].Value;
-                    Produto produto;
+                var codigoProduto = (int) senderGrid["colunaCodigo", e.RowIndex].Value;
 
-                    using (var servicoDeProduto = new ServicoDeProduto())
+                IPresenter presenter = null;
+                GSWaitForm.Mostrar(
+                    this,
+                    () =>
                     {
-                        produto = servicoDeProduto.Consulte(codigoProduto);
-                    }
-
-                    IPresenter presenter = null;
-                    if (produto == null) return;
-
-                    using (var frmWait = new GSWaitForm(this, () =>
-                    {
-                        long teste = 0;
-                        for (int i = 0; i < 1000; i++)
+                        using (var servicoDeProduto = new ServicoDeProduto())
                         {
-                            for (int j = 0; j < 10000; j++)
-                            {
-                                teste += (long)j;
-                            }
+                            var produto = servicoDeProduto.Consulte(codigoProduto);
+                            presenter = GerenciadorDeViews.Crie<ProdutoPresenter>(produto);
                         }
-
-                        presenter = GerenciadorDeViews.Crie<ProdutoPresenter>(produto);
                     },
-                        () => presenter.View.Focar(this)))
+                    () =>
                     {
-                        frmWait.ShowDialog(this);
-                    }
-                }
+                        presenter.View.Show();
+                    });
             }
         }
 
@@ -573,22 +560,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         private void btnNovaInteracao_Click(object sender, EventArgs e)
         {
-            using (var frmWait = new GSWaitForm(this, () =>
-            {
-                long teste = 0;
-                for (int i = 0; i < 10000; i++)
-                {
-                    for (int j = 0; j < 10000; j++)
-                    {
-                        teste += j;
-                    }
-                }
-            },
-                () => new frmInteracao().Show()))
-            {
-                frmWait.ShowDialog(this);
-            }
-
+            GSWaitForm.Mostrar(this, posProcessamento: () => { new frmInteracao().Show(); });
         }
 
         private void dgvHistorico_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)

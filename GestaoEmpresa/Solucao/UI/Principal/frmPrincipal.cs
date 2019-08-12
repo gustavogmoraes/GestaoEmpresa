@@ -61,8 +61,8 @@ namespace GestaoEmpresa.GS.GestaoEmpresa.GS.GestaoEmpresa.UI.Principal
         {
             // Fazemos os ajustes
             //lblConfiguracoesBasicas.Location = new Point(this.ClientSize.Width - 80, 15);
-            this.EscondaHeadersTabControl(tabControl1);
-            this.CentralizeTabControl(tabControl1);
+            EscondaHeadersTabControl(tabControl1);
+            CentralizeTabControl(tabControl1);
 
             // Habilitamos a visibilidade
             tabControl1.Visible = true;
@@ -162,8 +162,6 @@ namespace GestaoEmpresa.GS.GestaoEmpresa.GS.GestaoEmpresa.UI.Principal
 
                         Thread.Sleep(350);
                     }
-
-                    return;
                 };
 
             GSTarefasAssincronas.ExecuteTarefaAssincrona(acao);
@@ -387,7 +385,14 @@ namespace GestaoEmpresa.GS.GestaoEmpresa.GS.GestaoEmpresa.UI.Principal
             }
 
             listaUsuariosRaven.AddRange(ConsulteTodosUsuarios());
-            listaInteracoesRaven.AddRange(ConsulteTodasAsInteracoes().OrderBy(x => x.HorarioProgramado));
+
+            var listaInteracoes = ConsulteTodasAsInteracoes();
+            //foreach (var interacao in listaInteracoes)
+            //{
+            //    interacao.Horario
+            //}
+
+            listaInteracoesRaven.AddRange(listaInteracoes.OrderBy(x => x.HorarioProgramado));
 
             informacoesConexaoBanco = new InformacoesConexaoBanco
             {

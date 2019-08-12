@@ -4,55 +4,59 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using GS.GestaoEmpresa.Solucao.Utilitarios;
 
 namespace GS.GestaoEmpresa.Solucao.UI.ControlesGenericos
 {
     public partial class GSWaitForm : Form
     {
-        public Action Worker { get; set; }
-
-        public Action PostAction { get; set; }
-
-        public Form View { get; set; }
-
-        public GSWaitForm(Form view, Action worker, Action postAction)
+        public GSWaitForm()
         {
             InitializeComponent();
-
-            View = view ?? throw new ArgumentNullException();
-            Worker = worker ?? throw new ArgumentNullException();
-            PostAction = postAction ?? throw new ArgumentNullException();
         }
 
-        protected override void OnLoad(EventArgs e)
+        public static void Mostrar(Form caller, [Optional]Action processamento, [Optional]Action posProcessamento)
         {
-            base.OnLoad(e);
-            Task.Run(Worker).ContinueWith(x =>
+            var form = new GSWaitForm
             {
-                View.Invoke((MethodInvoker) delegate { PostAction(); });
-                Invoke((MethodInvoker)Close);
-            });
+                TopMost = true,
+                WindowState = FormWindowState.Normal
+            };
 
-            //Task.Run(() => { Invoke((MethodInvoker)delegate { Worker(); }); }).ContinueWith(x =>
-            //{
-            //    Thread.Sleep(2000);
-            //    Invoke((MethodInvoker)Close);
-            //});
+            caller.Invoke((MethodInvoker) delegate { form.Show(); });
 
-            //Task.Factory
-            //    .StartNew(Worker)
-            //    .ContinueWith(
-            //        x => { View.Invoke((MethodInvoker) delegate
-            //        {
-            //            PostAction();
-            //            Close();
-            //        }); },
-            //        TaskScheduler.FromCurrentSynchronizationContext());
+            if (processamento == null)
+            {
+                processamento = () => { };
+            }
 
+            if (posProcessamento == null)
+            {
+                posProcessamento = () => { };
+            }
+
+            var task = Task.Run(processamento);
+
+            Task.WhenAll(task).ContinueWith(x =>
+            {
+                Thread.Sleep(TimeSpan.FromMilliseconds(700));
+
+                caller.Invoke((MethodInvoker) delegate
+                {
+                    posProcessamento();
+
+                    form.Hide();
+                    form.Close();
+                    form.Dispose();
+                });
+            },
+            TaskContinuationOptions.RunContinuationsAsynchronously);
         }
     }
 }

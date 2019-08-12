@@ -66,6 +66,8 @@ namespace GS.GestaoEmpresa.Solucao.UI
 
         private static List<TelaMVP> _controladorDeInstancias { get; set; }
 
+        private static Form _instanciaPrincipal { get; set; }
+
         public static TPresenter Crie<TPresenter>()
             where TPresenter : class, IPresenter, new()
         {
@@ -80,7 +82,12 @@ namespace GS.GestaoEmpresa.Solucao.UI
                 if (!tela.Instancias.ContainsKey(idInstancia))
                 {
                     var instanciaPresenter = (TPresenter)Activator.CreateInstance(tela.TipoDoPresenter);
-                    var instanciaView = (IView)Activator.CreateInstance(tela.TipoDaView);
+
+                    IView instanciaView = null;
+                    ObtenhaPrincipal().Invoke((MethodInvoker) delegate
+                    {
+                        instanciaView = (IView)Activator.CreateInstance(tela.TipoDaView);
+                    });
 
                     instanciaPresenter.IdInstancia = idInstancia;
                     instanciaPresenter.View = instanciaView;
@@ -98,17 +105,26 @@ namespace GS.GestaoEmpresa.Solucao.UI
             return null;
         }
 
+        public static Form ObtenhaPrincipal()
+        {
+            return _instanciaPrincipal ?? (_instanciaPrincipal = new frmPrincipal());
+        }
+
         public static TPresenter Crie<TPresenter>(IConceito conceito)
             where TPresenter : class, IPresenter, new()
         {
             var instanciaPresenter = Crie<TPresenter>();
+
+            ObtenhaPrincipal().Invoke((MethodInvoker) delegate
+            {
                 instanciaPresenter.Model = conceito;
                 //instanciaPresenter.IdInstancia = conceito.Codigo.ToString();
 
                 instanciaPresenter.CarregueControlesComModel();
                 instanciaPresenter.View.TipoDeForm = EnumTipoDeForm.Detalhamento;
+            });
 
-                return instanciaPresenter;
+            return instanciaPresenter;
         }
 
         public static TPresenter Obtenha<TPresenter>()
@@ -122,6 +138,7 @@ namespace GS.GestaoEmpresa.Solucao.UI
 
             return null;
         }
+
 
         public static void Exclua<T>()
             where T : Form, IView
