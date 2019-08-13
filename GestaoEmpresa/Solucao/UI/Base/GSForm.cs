@@ -122,7 +122,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
 
         protected virtual void ChamadaExclusao(object sender, EventArgs e)
         {
-
+            
         }
 
         protected virtual void ChamadaSalvar(object sender, EventArgs e)

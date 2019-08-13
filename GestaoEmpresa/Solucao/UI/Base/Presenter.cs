@@ -121,7 +121,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
 
         public DialogResult ExibaPromptConfirmacao(string mensagem)
         {
-            return (DialogResult) ExecuteFuncaoNaView(() => { return MessageBox.Show(mensagem, "Confirmação", MessageBoxButtons.YesNo); });
+            return (DialogResult) ExecuteFuncaoNaView(() => MessageBox.Show(mensagem, "Confirmação", MessageBoxButtons.YesNo));
         }
 
         public void MinimizarView(object sender, EventArgs eventArgs)
@@ -171,7 +171,10 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
 
         public object ExecuteFuncaoNaView(Func<object> funcao)
         {
-            return View.Invoke((MethodInvoker)delegate { funcao.Invoke(); });
+            object result = null;
+            View.Invoke((MethodInvoker)delegate { result = funcao.Invoke(); });
+
+            return result;
         }
 
         private static Dictionary<Type, Tuple<Action<Control, PropertyInfo, object>, Action<Control, PropertyInfo, object>>> ConversoesControlePropriedade = 
