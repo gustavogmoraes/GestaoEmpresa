@@ -25,5 +25,10 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         {
             (Presenter as ProdutoPresenter)?.Salve();
         }
+
+        protected override void ChamadaExclusao(object sender, EventArgs e)
+        {
+            (Presenter as ProdutoPresenter)?.Exclua(Presenter.Model.Codigo);
+        }
     }
 }

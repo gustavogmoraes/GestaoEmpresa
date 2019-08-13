@@ -319,7 +319,8 @@ namespace GestaoEmpresa.GS.GestaoEmpresa.GS.GestaoEmpresa.UI.Principal
         {
             if (e.KeyChar.Equals('\r') || e.KeyChar.Equals(Keys.Return) || e.KeyChar.Equals(Keys.Return))
             {
-                btnEntrar_Click_1(sender, e);
+                if(btnEntrar.Enabled)
+                    btnEntrar_Click_1(sender, e);
             }
         }
 
@@ -347,7 +348,7 @@ namespace GestaoEmpresa.GS.GestaoEmpresa.GS.GestaoEmpresa.UI.Principal
             var serverRaven = SessaoSistema.InformacoesConexao.Servidor;
             var nomeBancoRaven = SessaoSistema.InformacoesConexao.NomeBanco;
 
-            var informacoesConexaoBanco = new InformacoesConexaoBanco
+            var informacoesConexaoBancoSQL = new InformacoesConexaoBanco
             {
                 Servidor = Interaction.InputBox("Endereço BD SQL", "Migração de dados", ""),
                 NomeBanco = Interaction.InputBox("Nome banco", "Migração de dados", ""),
@@ -356,7 +357,7 @@ namespace GestaoEmpresa.GS.GestaoEmpresa.GS.GestaoEmpresa.UI.Principal
                 TipoDeBanco = EnumTipoDeBanco.SQLSERVER
             };
 
-            SessaoSistema.InformacoesConexao = informacoesConexaoBanco;
+            SessaoSistema.InformacoesConexao = informacoesConexaoBancoSQL;
 
             MessageBox.Show("Consultando...");
 
@@ -386,31 +387,23 @@ namespace GestaoEmpresa.GS.GestaoEmpresa.GS.GestaoEmpresa.UI.Principal
 
             listaUsuariosRaven.AddRange(ConsulteTodosUsuarios());
 
-            var listaInteracoes = ConsulteTodasAsInteracoes();
-            //foreach (var interacao in listaInteracoes)
-            //{
-            //    interacao.Horario
-            //}
-
-            listaInteracoesRaven.AddRange(listaInteracoes.OrderBy(x => x.HorarioProgramado));
-
-            informacoesConexaoBanco = new InformacoesConexaoBanco
+            var informacoesConexaoBancoRaven = new InformacoesConexaoBanco
             {
                 Servidor = serverRaven,
                 NomeBanco = nomeBancoRaven,
                 TipoDeBanco = EnumTipoDeBanco.RAVENDB
             };
 
-            SessaoSistema.InformacoesConexao = informacoesConexaoBanco;
+            SessaoSistema.InformacoesConexao = informacoesConexaoBancoRaven;
 
             MessageBox.Show("Salvando...");
 
             using (var repoUser = new RepositorioDeUsuario())
             using (var repoProduto = new RepositorioDeProduto())
-            using (var repoInteracao = new RepositorioDeInteracao())
+            //using (var repoInteracao = new RepositorioDeInteracao())
             {
                 listaUsuariosRaven.ForEach(x => repoUser.Insira(x));
-                listaInteracoesRaven.ForEach(x => repoInteracao.Insira(x));
+                //listaInteracoesRaven.ForEach(x => repoInteracao.Insira(x));
 
                 foreach (var grupo in listaProdutosRaven.GroupBy(x => x.Codigo))
                 {
@@ -421,6 +414,15 @@ namespace GestaoEmpresa.GS.GestaoEmpresa.GS.GestaoEmpresa.UI.Principal
                     lista.ForEach(x => repoProduto.Atualize(x));
                 }
             }
+
+            SessaoSistema.InformacoesConexao = informacoesConexaoBancoSQL;
+            var listaInteracoes = ConsulteTodasAsInteracoes();
+            listaInteracoesRaven.AddRange(listaInteracoes.OrderBy(x => x.HorarioProgramado));
+
+            SessaoSistema.InformacoesConexao = informacoesConexaoBancoRaven;
+
+            using (var repoInteracao = new RepositorioDeInteracao())
+                listaInteracoesRaven.ForEach(x => repoInteracao.Insira(x));
 
             MessageBox.Show("Concluído!");
         }

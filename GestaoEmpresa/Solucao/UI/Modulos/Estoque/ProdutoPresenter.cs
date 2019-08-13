@@ -36,5 +36,13 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                 return servicoDeProduto.Salve((Produto)Model, View.TipoDeForm);
             }
         }
+
+        public IList<Inconsistencia> Exclua(int codigo)
+        {
+            using (var servicoDeProduto = new ServicoDeProduto())
+            {
+                return servicoDeProduto.Exclua(codigo);
+            }
+        }
     }
 }
