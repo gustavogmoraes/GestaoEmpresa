@@ -448,7 +448,7 @@ namespace GestaoEmpresa.GS.GestaoEmpresa.GS.GestaoEmpresa.UI.Principal
             var retorno = new Produto();
 
             retorno.Codigo = int.Parse(tabela.Rows[linha]["CODIGO"].ToString());
-            retorno.Status = (EnumStatusDoProduto)int.Parse(tabela.Rows[linha]["STATUS"].ToString());
+            retorno.Status = (EnumStatusToggle)int.Parse(tabela.Rows[linha]["STATUS"].ToString());
             retorno.Nome = tabela.Rows[linha]["NOME"].ToString();
             retorno.Fabricante = tabela.Rows[linha]["FABRICANTE"] != DBNull.Value
                                ? tabela.Rows[linha]["FABRICANTE"].ToString()
@@ -709,6 +709,22 @@ namespace GestaoEmpresa.GS.GestaoEmpresa.GS.GestaoEmpresa.UI.Principal
             {
                 return null;
                 throw;
+            }
+        }
+
+        protected override void OnLoad(EventArgs e)
+        {
+            base.OnLoad(e);
+
+            if (SessaoSistema.WorkTestMode)
+            {
+                txtUsuario.Text = "admin";
+                txtSenha.Text = "admin";
+
+                btnEntrar_Click_1(btnEntrar, e);
+
+                WindowState = FormWindowState.Minimized;
+                new frmEstoque{ Opacity = 0 }.Show();
             }
         }
 

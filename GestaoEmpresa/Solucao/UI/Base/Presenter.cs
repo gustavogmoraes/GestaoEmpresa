@@ -41,17 +41,30 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
 
         protected virtual void MapeieControles<TModel>(
             Dictionary<Expression<Func<TModel, object>>, Expression<Func<TView, Control>>> mapeamento)
-            where TModel : class, IConceito, new() 
+            where TModel : class, IConceito, new()
         {
             Model = new TModel();
-            if (mapeamento != null)
-            {
-                Mapeamento = new Dictionary<PropertyInfo, string>();
-                mapeamento.ForEach(x =>
-                    Mapeamento.Add(
-                        (PropertyInfo)x.Key.GetPropertyFromExpression(),
-                        x.Value.GetPropertyFromExpression().Name));
-            }
+            if (mapeamento == null) return;
+
+            Mapeamento = new Dictionary<PropertyInfo, string>();
+            mapeamento.ForEach(x =>
+                Mapeamento.Add(
+                    (PropertyInfo)x.Key.GetPropertyFromExpression(),
+                    x.Value.GetPropertyFromExpression().Name));
+        }
+
+        protected virtual void NewMapeie<TModel>(IList<MapeamentoDeControle<TModel, TView>> mapeamentosDeControles)
+            where TModel : class, IConceito, new()
+        {
+
+        }
+
+        protected virtual void TesteMap<TModel>(
+            Expression<Func<TModel, object>> propriedade,
+            Expression<Func<TView, Control>> controle)
+            where TModel : class, IConceito, new()
+        {
+
         }
 
         public virtual void CarregueControlesComModel()
@@ -240,7 +253,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
                     new Tuple<Action<Control, PropertyInfo, object>, Action<Control, PropertyInfo, object>>(
                         (controle, propriedade, model) =>
                         {
-                            ((GSMetroToggle)controle).Checked = (bool)propriedade.GetValue(model, null);
+                            ((GSMetroToggle)controle).Checked = (EnumStatusToggle)propriedade.GetValue(model, null) == EnumStatusToggle.Ativo;
                         },
                         (controle, propriedade, model) =>
                         {

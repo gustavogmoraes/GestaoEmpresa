@@ -9,15 +9,18 @@ using GS.GestaoEmpresa.Solucao.UI.Base;
 
 namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 {
-    public class ProdutoPresenter : Presenter<frmProdutoMetro>
+    public sealed class ProdutoPresenter : Presenter<frmProdutoMetro>
     {
         public ProdutoPresenter()
         {
+            TesteMap<Produto>(model => model.Codigo, view => view.txtCodigo);
+
             MapeieControles(
                 new Dictionary<Expression<Func<Produto, object>>, Expression<Func<frmProdutoMetro, Control>>>
                 {
                     { model => model.Codigo, view => view.txtCodigo },
                     { model => model.Vigencia, view => view.cbVigencia },
+                    { model => model.Status, view => view.toggleStatus },
                     { model => model.Nome, view => view.txtNome },
                     { model => model.Observacao, view => view.txtObservacoes },
                     { model => model.Fabricante, view => view.txtMarca },
@@ -25,7 +28,10 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                     { model => model.QuantidadeMinimaParaAviso, view => view.txtQuantidadeMinima },
                     { model => model.QuantidadeEmEstoque, view => view.txtQuantidadeEmEstoque },
                     { model => model.AvisarQuantidade, view => view.chkAvisarQuantidade },
-                    { model => model.CodigoDeBarras, view => view.txtCodigoDeBarras }
+                    { model => model.CodigoDeBarras, view => view.txtCodigoDeBarras },
+                    { model => model.PrecoDeCompra, view => view.txtPrecoDeCompra },
+                    { model => model.PrecoDeVenda, view => view.txtPrecoDeVenda },
+                    { model => model.PorcentagemDeLucro, view => view.txtPorcentagemLucro }
                 });
         }
 

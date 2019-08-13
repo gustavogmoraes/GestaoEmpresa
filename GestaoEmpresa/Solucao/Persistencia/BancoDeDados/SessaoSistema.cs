@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Raven.Client.Documents.Operations;
 
 namespace GS.GestaoEmpresa.Solucao.Persistencia.BancoDeDados
 {
@@ -18,6 +19,8 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.BancoDeDados
         public static string NomeUsuario { get; set; }
 
         public static InformacoesConexaoBanco InformacoesConexao { get; internal set; }
+
+        public static bool WorkTestMode { get; set; }
 
         /// <summary>
 		/// Busca as informações de conexão com o banco de dados do arquivo no diretório especificado.

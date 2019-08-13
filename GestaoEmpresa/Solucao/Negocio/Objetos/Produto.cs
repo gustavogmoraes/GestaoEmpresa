@@ -12,7 +12,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Objetos
 	public class Produto : ObjetoComHistorico
 	{
         [Identificacao(Descricao = "Status")]
-        public EnumStatusDoProduto Status { get; set; }
+        public EnumStatusToggle Status { get; set; }
 
         [Identificacao(Descricao = "Nome")]
         public string Nome { get; set; }

@@ -199,8 +199,8 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             produto.PrecoDeVenda = txtPrecoDeVenda.Valor;
             produto.PorcentagemDeLucro = Math.Round(txtPorcentagemDeLucro.Valor / 100, 2);
             produto.Status = cbStatus.SelectedIndex != -1
-                           ? (EnumStatusDoProduto)cbStatus.SelectedIndex + 1
-                           : EnumStatusDoProduto.Ativo;
+                           ? (EnumStatusToggle)cbStatus.SelectedIndex + 1
+                           : EnumStatusToggle.Ativo;
 
             produto.QuantidadeEmEstoque = ! string.IsNullOrEmpty(txtQuantidadeEmEstoque.Text)
                                         ? Convert.ToInt32(txtQuantidadeEmEstoque.Text)

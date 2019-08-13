@@ -44,19 +44,22 @@ namespace GS.GestaoEmpresa.Solucao.UI.ControlesGenericos
             var task = Task.Run(processamento);
 
             Task.WhenAll(task).ContinueWith(x =>
-            {
-                Thread.Sleep(TimeSpan.FromMilliseconds(700));
-
-                caller.Invoke((MethodInvoker) delegate
                 {
-                    posProcessamento();
+                    Thread.Sleep(TimeSpan.FromMilliseconds(700));
 
-                    form.Hide();
-                    form.Close();
-                    form.Dispose();
-                });
-            },
-            TaskContinuationOptions.RunContinuationsAsynchronously);
+                    caller.Invoke((MethodInvoker) delegate
+                    {
+                        posProcessamento();
+
+                        //Thread.Sleep(TimeSpan.FromMilliseconds(700));
+
+                        form.Hide();
+                        form.Close();
+                        form.Dispose();
+                    });
+                },
+                //TaskScheduler.FromCurrentSynchronizationContext());
+                TaskContinuationOptions.RunContinuationsAsynchronously);
         }
     }
 }

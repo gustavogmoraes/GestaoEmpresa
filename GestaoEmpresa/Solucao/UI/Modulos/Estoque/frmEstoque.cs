@@ -19,9 +19,12 @@ using GS.GestaoEmpresa.Solucao.Persistencia.Repositorios;
 using GS.GestaoEmpresa.Properties;
 using System.IO;
 using System.Threading;
+using WindowsInput;
+using WindowsInput.Native;
 using GS.GestaoEmpresa.Solucao.Negocio.Interfaces;
 using GS.GestaoEmpresa.Solucao.UI.Base;
 using GS.GestaoEmpresa.Solucao.UI.ControlesGenericos;
+using Microsoft.VisualBasic.Devices;
 
 namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 {
@@ -748,6 +751,45 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         public void ChamadaFecharForm(object sender, EventArgs e)
         {
             throw new NotImplementedException();
+        }
+
+        protected override void OnLoad(EventArgs e)
+        {
+            base.OnLoad(e);
+            //SetStyle(ControlStyles.UserPaint, true);
+            //SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
+            //SetStyle(ControlStyles.AllPaintingInWmPaint, true);
+        }
+
+        protected override void OnShown(EventArgs e)
+        {
+            base.OnShown(e);
+
+            if (SessaoSistema.WorkTestMode)
+            {
+                //Opacity = 0;
+                WindowState = FormWindowState.Normal;
+
+                var simulator = new InputSimulator();
+
+                Task.Run(() => simulator.Keyboard.KeyDown(VirtualKeyCode.LWIN));
+                var task = Task.Run(() =>
+                {
+                    simulator.Keyboard
+                             .KeyPress(VirtualKeyCode.RIGHT)
+                             .Sleep(TimeSpan.FromMilliseconds(80))
+                             .KeyPress(VirtualKeyCode.DOWN);
+                });
+
+                task.ContinueWith(x =>
+                {
+                    Invoke((MethodInvoker) delegate
+                    {
+                        Opacity = 100;
+                        simulator.Keyboard.KeyUp(VirtualKeyCode.LWIN);
+                    });
+                });
+            }
         }
     }
 }
