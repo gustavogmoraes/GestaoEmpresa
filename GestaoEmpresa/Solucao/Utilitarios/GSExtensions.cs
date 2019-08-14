@@ -165,7 +165,7 @@ namespace GS.GestaoEmpresa.Solucao.Utilitarios
 
             if (invoker == null)
             {
-                invoker = GerenciadorDeViews.Obtenha<EstoquePresenter>().View;
+                invoker = GerenciadorDeViews.ObtenhaPrincipal();
             }
 
             invoker.Invoke((MethodInvoker)delegate

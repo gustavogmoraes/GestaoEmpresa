@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using GS.GestaoEmpresa.Solucao.Negocio.Interfaces;
+using GS.GestaoEmpresa.Solucao.Utilitarios;
 
 namespace GS.GestaoEmpresa.Solucao.UI.Base
 {
@@ -19,7 +21,12 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
             Action<object, Control> conversaoPropriedadeControle = null,
             Action<Control, object> conversaoControlePropriedade = null)
         {
-            
+            PropriedadeObjeto = (PropertyInfo) propriedade.GetPropertyFromExpression();
+            NomeControle = control.GetPropertyFromExpression().Name;
         }
+
+        public PropertyInfo PropriedadeObjeto { get; set; }
+
+        public string NomeControle { get; set; }
     }
 }

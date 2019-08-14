@@ -16,107 +16,97 @@ using GS.GestaoEmpresa.Solucao.UI.ControlesGenericos;
 using GS.GestaoEmpresa.Solucao.Utilitarios;
 using MetroFramework.Controls;
 using MoreLinq;
-using GS.GestaoEmpresa.Solucao.Utilitarios;
 using OfficeOpenXml.FormulaParsing.Utilities;
 
 namespace GS.GestaoEmpresa.Solucao.UI.Base
 {
-    public abstract class Presenter<TView> : IPresenter
+    public abstract class Presenter<TModel, TView> : IPresenter
+        where TModel : class, IConceito, new()
         where TView : Form, IView, new()
     {
         public string IdInstancia { get; set; }
 
-        public IConceito Model { get; private set; }
-        IConceito IPresenter.Model { get => Model; set => Model = value; }
+        public IConceito Model { get; set; }
+
+        //TModel IPresenter.Model { get => Model; set => Model = value; }
 
         public TView View { get; private set; }
         IView IPresenter.View { get => View; set => View = (TView)value; }
 
-        protected Dictionary<PropertyInfo, string> Mapeamento { get; set; }
+        protected List<MapeamentoDeControle<TModel, TView>> MapeamentoDeControles { get; set; }
+
+        //protected Dictionary<PropertyInfo, string> Mapeamento { get; set; }
 
         protected Presenter()
         {
             View = new TView { Presenter = this };
         }
 
-        protected virtual void MapeieControles<TModel>(
+        protected virtual void MapeieControles(
             Dictionary<Expression<Func<TModel, object>>, Expression<Func<TView, Control>>> mapeamento)
-            where TModel : class, IConceito, new()
         {
-            Model = new TModel();
-            if (mapeamento == null) return;
+            //Model = new TModel();
+            //if (mapeamento == null) return;
 
-            Mapeamento = new Dictionary<PropertyInfo, string>();
-            mapeamento.ForEach(x =>
-                Mapeamento.Add(
-                    (PropertyInfo)x.Key.GetPropertyFromExpression(),
-                    x.Value.GetPropertyFromExpression().Name));
+            //Mapeamento = new Dictionary<PropertyInfo, string>();
+            //mapeamento.ForEach(x =>
+            //    Mapeamento.Add(
+            //        (PropertyInfo)x.Key.GetPropertyFromExpression(),
+            //        x.Value.GetPropertyFromExpression().Name));
         }
 
-        protected virtual void NewMapeie<TModel>(IList<MapeamentoDeControle<TModel, TView>> mapeamentosDeControles)
-            where TModel : class, IConceito, new()
-        {
-
-        }
-
-        protected virtual void TesteMap<TModel>(
+        protected virtual void MapeieControle(
             Expression<Func<TModel, object>> propriedade,
-            Expression<Func<TView, Control>> controle)
-            where TModel : class, IConceito, new()
+            Expression<Func<TView, Control>> controle,
+            Action<object, Control> conversaoPropriedadeControle = null,
+            Action<Control, object> conversaoControlePropriedade = null)
         {
-
+            if (propriedade == null || controle == null) return;
+            if (Model == null) Model = new TModel();
+            if(MapeamentoDeControles == null) MapeamentoDeControles = new List<MapeamentoDeControle<TModel, TView>>();
+            
+            MapeamentoDeControles.Add(new MapeamentoDeControle<TModel, TView>(
+                propriedade, controle, conversaoPropriedadeControle, conversaoControlePropriedade));
         }
 
         public virtual void CarregueControlesComModel()
         {
-            if ((Model == null) || Mapeamento == null || Mapeamento.Count == 0) return;
+            if (Model == null || MapeamentoDeControles == null || MapeamentoDeControles.Count == 0) return;
 
-            var propriedades = Mapeamento.Keys;
-            if (propriedades.Count == 0) return;
-
-            if (propriedades.Select(x => x.Name).Contains("Vigencia"))
+            if (MapeamentoDeControles.Any(x => x.PropriedadeObjeto.Name.ToLowerInvariant().Contains("vigencia")))
             {
-                var control = (MetroComboBox) View.Controls.Find("cbVigencia", false).FirstOrDefault();
-                CarregueComboDeVigencias(control, Model.Codigo);
+                var controle = (MetroComboBox)View.Controls.Find("cbVigencia", false).FirstOrDefault();
+                CarregueComboDeVigencias(controle, Model.Codigo);
             }
 
-            foreach (var propriedade in propriedades)
+            MapeamentoDeControles.ForEach(mapeamento =>
             {
-                var map = Mapeamento.FirstOrDefault(x => x.Key.Name == propriedade.Name);
-                if (map.Key == null) continue;
+                var controle = View.Controls.Find(mapeamento.NomeControle, true).FirstOrDefault();
+                var tipoDoControle = controle?.GetType();
 
-                var controle = View.Controls.Find(map.Value, true).FirstOrDefault();
-                var tipoDoControle = controle.GetType();
-
-                if (ConversoesControlePropriedade.ContainsKey(tipoDoControle))
+                if (ConversoesControlePropriedade.ContainsKey(tipoDoControle ?? throw new InvalidOperationException()))
                 {
-                    ConversoesControlePropriedade[tipoDoControle].Item1.Invoke(controle, propriedade, Model);
+                    ConversoesControlePropriedade[tipoDoControle].Item1.Invoke(controle, mapeamento.PropriedadeObjeto, Model);
                 }
-            }
+            });
 
             View.Refresh();
         }
 
         public virtual void CarregueModelComControles()
         {
-            if ((Model == null) || Mapeamento == null || Mapeamento.Count == 0) return;
+            if (Model == null || MapeamentoDeControles == null || MapeamentoDeControles.Count == 0) return;
 
-            var propriedades = Mapeamento.Keys;
-            if (propriedades == null || propriedades.Count == 0) return;
-
-            foreach (var propriedade in propriedades)
+            MapeamentoDeControles.ForEach(mapeamento =>
             {
-                var map = Mapeamento.FirstOrDefault(x => x.Key.Name == propriedade.Name);
-                if (map.Key == null) continue;
+                var controle = View.Controls.Find(mapeamento.NomeControle, true).FirstOrDefault();
+                var tipoDoControle = controle?.GetType();
 
-                var controle = View.Controls.Find(map.Value, true).FirstOrDefault();
-                var tipoDoControle = controle.GetType();
-
-                if (ConversoesControlePropriedade.ContainsKey(tipoDoControle))
+                if (ConversoesControlePropriedade.ContainsKey(tipoDoControle ?? throw new InvalidOperationException()))
                 {
-                    ConversoesControlePropriedade[tipoDoControle].Item2.Invoke(controle, propriedade, Model);
+                    ConversoesControlePropriedade[tipoDoControle].Item2.Invoke(controle, mapeamento.PropriedadeObjeto, Model);
                 }
-            }
+            });
         }
 
         public DialogResult ExibaPromptConfirmacao(string mensagem)

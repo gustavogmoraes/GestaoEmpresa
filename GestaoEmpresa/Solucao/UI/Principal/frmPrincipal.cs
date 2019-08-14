@@ -310,9 +310,8 @@ namespace GestaoEmpresa.GS.GestaoEmpresa.GS.GestaoEmpresa.UI.Principal
 
         private void btnEstoque_Click_1(object sender, EventArgs e)
         {
-            var instanciaDoForm = new frmEstoque(); //GerenciadorDeViews.Crie<frmEstoque>();
-            if(instanciaDoForm != null)
-                instanciaDoForm.Show();
+            var instanciaDoForm = GerenciadorDeViews.CrieIndependente<frmEstoque>(out _);
+            instanciaDoForm?.Show();
         }
 
         private void txtSenha_KeyPress(object sender, KeyPressEventArgs e)

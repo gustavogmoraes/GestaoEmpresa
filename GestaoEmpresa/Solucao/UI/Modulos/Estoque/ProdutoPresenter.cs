@@ -9,30 +9,24 @@ using GS.GestaoEmpresa.Solucao.UI.Base;
 
 namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 {
-    public sealed class ProdutoPresenter : Presenter<frmProdutoMetro>
+    public sealed class ProdutoPresenter : Presenter<Produto, frmProdutoMetro>
     {
         public ProdutoPresenter()
         {
-            TesteMap<Produto>(model => model.Codigo, view => view.txtCodigo);
-
-            MapeieControles(
-                new Dictionary<Expression<Func<Produto, object>>, Expression<Func<frmProdutoMetro, Control>>>
-                {
-                    { model => model.Codigo, view => view.txtCodigo },
-                    { model => model.Vigencia, view => view.cbVigencia },
-                    { model => model.Status, view => view.toggleStatus },
-                    { model => model.Nome, view => view.txtNome },
-                    { model => model.Observacao, view => view.txtObservacoes },
-                    { model => model.Fabricante, view => view.txtMarca },
-                    { model => model.CodigoDoFabricante, view => view.txtCodigoFabricante },
-                    { model => model.QuantidadeMinimaParaAviso, view => view.txtQuantidadeMinima },
-                    { model => model.QuantidadeEmEstoque, view => view.txtQuantidadeEmEstoque },
-                    { model => model.AvisarQuantidade, view => view.chkAvisarQuantidade },
-                    { model => model.CodigoDeBarras, view => view.txtCodigoDeBarras },
-                    { model => model.PrecoDeCompra, view => view.txtPrecoDeCompra },
-                    { model => model.PrecoDeVenda, view => view.txtPrecoDeVenda },
-                    { model => model.PorcentagemDeLucro, view => view.txtPorcentagemLucro }
-                });
+            MapeieControle(model => model.Codigo, view => view.txtCodigo);
+            MapeieControle(model => model.Vigencia, view => view.cbVigencia);
+            MapeieControle(model => model.Status, view => view.toggleStatus);
+            MapeieControle(model => model.Nome, view => view.txtNome);
+            MapeieControle(model => model.Observacao, view => view.txtObservacoes);
+            MapeieControle(model => model.Fabricante, view => view.txtMarca);
+            MapeieControle(model => model.CodigoDoFabricante, view => view.txtCodigoFabricante);
+            MapeieControle(model => model.QuantidadeMinimaParaAviso, view => view.txtQuantidadeMinima);
+            MapeieControle(model => model.QuantidadeEmEstoque, view => view.txtQuantidadeEmEstoque);
+            MapeieControle(model => model.AvisarQuantidade, view => view.chkAvisarQuantidade);
+            MapeieControle(model => model.CodigoDeBarras, view => view.txtCodigoDeBarras);
+            MapeieControle(model => model.PrecoDeCompra, view => view.txtPrecoDeCompra);
+            MapeieControle(model => model.PrecoDeVenda, view => view.txtPrecoDeVenda);
+            MapeieControle(model => model.PorcentagemDeLucro, view => view.txtPorcentagemLucro);
         }
 
         public IList<Inconsistencia> Salve()

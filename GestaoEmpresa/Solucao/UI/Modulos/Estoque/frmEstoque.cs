@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -254,6 +255,8 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             {
                 var codigoProduto = (int) senderGrid["colunaCodigo", e.RowIndex].Value;
 
+                var stopwatchServCons = new Stopwatch();
+                stopwatchServCons.Start();
                 IPresenter presenter = null;
                 GSWaitForm.Mostrar(
                     this,

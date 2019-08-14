@@ -54,8 +54,6 @@ namespace GS.GestaoEmpresa.Solucao.UI
                 (_controladorDeInstancias =
                     new List<TelaMVP>
                     {
-                        { new TelaMVP(typeof(frmPrincipal), null, true) },
-                        { new TelaMVP(typeof(frmEstoque), typeof(EstoquePresenter), true) },
                         { new TelaMVP(typeof(frmProdutoMetro), typeof(ProdutoPresenter), false) },
                         { new TelaMVP(typeof(frmInteracao), null, true) },
                         { new TelaMVP(typeof(frmAtendimento), null, true) },
@@ -196,5 +194,35 @@ namespace GS.GestaoEmpresa.Solucao.UI
 
             return instanciaServico;
         }
+
+        public static T ObtenhaIndependente<T>(Guid? idInstancia = null)
+            where T : Form, new()
+        {
+            return (T)(idInstancia.HasValue
+                ? ControladorDeInstanciasIndependentes?[typeof(T)]?[idInstancia.GetValueOrDefault()]
+                : ControladorDeInstanciasIndependentes?[typeof(T)]?.FirstOrDefault().Value);
+        }
+
+        public static T CrieIndependente<T>(out Guid idInstancia, params object[] args)
+            where T : Form, new()
+        {
+            if(ControladorDeInstanciasIndependentes == null)
+                ControladorDeInstanciasIndependentes = new Dictionary<Type, Dictionary<Guid, Form>>();
+
+            if (ControladorDeInstanciasIndependentes.ContainsKey(typeof(T)))
+            {
+                if(ControladorDeInstanciasIndependentes[typeof(T)] == null)
+                    ControladorDeInstanciasIndependentes[typeof(T)] = new Dictionary<Guid, Form>();
+            }
+
+            var instanciaForm = (T)Activator.CreateInstance(typeof(T), args);
+            idInstancia = Guid.NewGuid();
+
+            ControladorDeInstanciasIndependentes[typeof(T)].Add(idInstancia, instanciaForm);
+
+            return instanciaForm;
+        }
+
+        private static Dictionary<Type, Dictionary<Guid, Form>> ControladorDeInstanciasIndependentes { get; set; }
     }
 }

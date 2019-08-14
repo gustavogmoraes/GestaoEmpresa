@@ -234,7 +234,6 @@
     <Compile Include="Solucao\UI\Modulos\Atendimento\frmCliente.designer.cs">
       <DependentUpon>frmCliente.cs</DependentUpon>
     </Compile>
-    <Compile Include="Solucao\UI\Modulos\Estoque\EstoquePresenter.cs" />
     <Compile Include="Solucao\UI\Modulos\Estoque\frmEstoque.cs">
       <SubType>Form</SubType>
     </Compile>

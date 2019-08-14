@@ -46,12 +46,11 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
             {
                 repositorioDeProduto.AltereQuantidadeDeProduto(codigoDoProduto, novaQuantidade);
 
-                var formEstoque = GerenciadorDeViews.Obtenha<EstoquePresenter>();
-                if (formEstoque != null)
-                {
-                    var produto = Consulte(codigoDoProduto);
-                    //formEstoque.RecarregueProdutoEspecifico(produto);
-                }
+                var formEstoque = GerenciadorDeViews.ObtenhaIndependente<frmEstoque>();
+                if (formEstoque == null) return;
+
+                var produto = Consulte(codigoDoProduto);
+                formEstoque.RecarregueProdutoEspecifico(produto);
             }
         }
 
