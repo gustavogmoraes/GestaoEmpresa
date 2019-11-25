@@ -1,5 +1,4 @@
-﻿using GestaoEmpresa.GS.GestaoEmpresa.GS.GestaoEmpresa.UI.Principal;
-using GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque;
+﻿using GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque;
 using GS.GestaoEmpresa.Solucao.UI.Modulos.Tecnico;
 using System;
 using System.Collections.Generic;
@@ -27,7 +26,7 @@ namespace GestaoEmpresa
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            SessaoSistema.WorkTestMode = true;
+            SessaoSistema.WorkTestMode = false;
 
             Application.Run(GerenciadorDeViews.ObtenhaPrincipal());
         }

@@ -5,7 +5,6 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using GestaoEmpresa.GS.GestaoEmpresa.GS.GestaoEmpresa.UI.Principal;
 using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores.Comuns;
 using GS.GestaoEmpresa.Solucao.Negocio.Interfaces;
 using GS.GestaoEmpresa.Solucao.Negocio.Objetos.Base;
@@ -16,6 +15,7 @@ using GS.GestaoEmpresa.Solucao.UI.Base;
 using GS.GestaoEmpresa.Solucao.UI.Modulos.Atendimento;
 using GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque;
 using GS.GestaoEmpresa.Solucao.UI.Modulos.Tecnico;
+using GS.GestaoEmpresa.Solucao.UI.Principal;
 using GS.GestaoEmpresa.Solucao.Utilitarios;
 using MoreLinq;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime;
@@ -223,6 +223,17 @@ namespace GS.GestaoEmpresa.Solucao.UI
             return instanciaForm;
         }
 
-        private static Dictionary<Type, Dictionary<Guid, Form>> ControladorDeInstanciasIndependentes { get; set; }
+        private static Dictionary<Type, Dictionary<Guid, Form>> _controladorDeInstanciasIndependentes { get; set; }
+
+        private static Dictionary<Type, Dictionary<Guid, Form>> ControladorDeInstanciasIndependentes
+        {
+            get => _controladorDeInstanciasIndependentes ?? 
+                   (_controladorDeInstanciasIndependentes = new Dictionary<Type, Dictionary<Guid, Form>>
+                    {
+                        {typeof(frmEstoque), null}
+                    });
+
+            set => _controladorDeInstanciasIndependentes = value;
+        }
     }
 }

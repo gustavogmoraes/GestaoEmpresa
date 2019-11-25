@@ -1,4 +1,4 @@
-﻿namespace GestaoEmpresa.GS.GestaoEmpresa.GS.GestaoEmpresa.UI.Principal
+﻿namespace GS.GestaoEmpresa.Solucao.UI.Principal
 {
     partial class frmPrincipal
     {

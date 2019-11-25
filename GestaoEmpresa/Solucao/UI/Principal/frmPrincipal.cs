@@ -1,29 +1,25 @@
-﻿using GS.GestaoEmpresa.Properties;
-using GS.GestaoEmpresa.Solucao.Persistencia.BancoDeDados;
-using GS.GestaoEmpresa.Solucao.Persistencia.Repositorios;
-using GS.GestaoEmpresa.Solucao.Negocio.Catalogos;
-using GS.GestaoEmpresa.Solucao.Negocio.Objetos;
-using GS.GestaoEmpresa.Solucao.Negocio.Servicos;
-using GS.GestaoEmpresa.Solucao.UI.Modulos.Configuracoes;
-using GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque;
-using GS.GestaoEmpresa.Solucao.Utilitarios;
-
-using System;
-using System.Drawing;
-using System.Threading;
-using System.Windows.Forms;
-using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores.Comuns;
-using GS.GestaoEmpresa.Solucao.UI;
-using GS.GestaoEmpresa.Solucao.UI.Base;
-using GS.GestaoEmpresa.Solucao.UI.Modulos.Atendimento;
-using GS.GestaoEmpresa.Solucao.UI.Modulos.Tecnico;
-using Microsoft.VisualBasic;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Globalization;
+using System.Drawing;
 using System.Linq;
+using System.Threading;
+using System.Windows.Forms;
+using GS.GestaoEmpresa.Properties;
+using GS.GestaoEmpresa.Solucao.Negocio.Catalogos;
+using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores.Comuns;
+using GS.GestaoEmpresa.Solucao.Negocio.Objetos;
+using GS.GestaoEmpresa.Solucao.Negocio.Servicos;
+using GS.GestaoEmpresa.Solucao.Persistencia.BancoDeDados;
+using GS.GestaoEmpresa.Solucao.Persistencia.Repositorios;
+using GS.GestaoEmpresa.Solucao.UI.Base;
+using GS.GestaoEmpresa.Solucao.UI.Modulos.Atendimento;
+using GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque;
+using GS.GestaoEmpresa.Solucao.UI.Modulos.Tecnico;
+using GS.GestaoEmpresa.Solucao.Utilitarios;
+using Microsoft.VisualBasic;
 
-namespace GestaoEmpresa.GS.GestaoEmpresa.GS.GestaoEmpresa.UI.Principal
+namespace GS.GestaoEmpresa.Solucao.UI.Principal
 {
     public partial class frmPrincipal : Form, IView
     {

@@ -13,6 +13,7 @@ using GS.GestaoEmpresa.Solucao.Negocio.Interfaces;
 using GS.GestaoEmpresa.Solucao.Negocio.Objetos;
 using GS.GestaoEmpresa.Solucao.Negocio.Servicos;
 using GS.GestaoEmpresa.Solucao.UI.ControlesGenericos;
+using GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque;
 using GS.GestaoEmpresa.Solucao.Utilitarios;
 using MetroFramework.Controls;
 using MoreLinq;
@@ -31,6 +32,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
         //TModel IPresenter.Model { get => Model; set => Model = value; }
 
         public TView View { get; private set; }
+
         IView IPresenter.View { get => View; set => View = (TView)value; }
 
         protected List<MapeamentoDeControle<TModel, TView>> MapeamentoDeControles { get; set; }
@@ -128,26 +130,73 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
         public void HabiliteControles(IList<string> excecoes = null)
         {
             SwitchControles(true, excecoes);
+
+            var comboVigencia = View.Controls.OfType<Control>().FirstOrDefault(x => x.Name == "cbVigencia");
+            if (comboVigencia == null) return;
+
+            switch (View.TipoDeForm)
+            {
+                case EnumTipoDeForm.Cadastro:
+                    ExecuteAcaoNaView(() => comboVigencia.Enabled = false);
+                    break;
+                case EnumTipoDeForm.Detalhamento:
+                    break;
+                case EnumTipoDeForm.Edicao:
+                    ExecuteAcaoNaView(() => comboVigencia.Enabled = false);
+                    break;
+            }
         }
 
         public void DesabiliteControles(IList<string> excecoes = null)
         {
             SwitchControles(false, excecoes);
+
+            var comboVigencia = View.Controls.OfType<Control>().FirstOrDefault(x => x.Name == "cbVigencia");
+            if (comboVigencia == null) return;
+
+            switch (View.TipoDeForm)
+            {
+                case EnumTipoDeForm.Cadastro:
+                    ExecuteAcaoNaView(() => comboVigencia.Enabled = false);
+                    break;
+                case EnumTipoDeForm.Detalhamento:
+                    ExecuteAcaoNaView(() => comboVigencia.Enabled = true);
+                    break;
+                case EnumTipoDeForm.Edicao:
+                    ExecuteAcaoNaView(() => comboVigencia.Enabled = true);
+                    break;
+            }
+        }
+
+        public void ViewCarregada()
+        {
+            switch (View.TipoDeForm)
+            {
+                case EnumTipoDeForm.Cadastro:
+                    HabiliteControles();
+                    break;
+                case EnumTipoDeForm.Detalhamento:
+                    DesabiliteControles(new [] { "cbVigencia" });
+                    break;
+                case EnumTipoDeForm.Edicao:
+                    HabiliteControles();
+                    break;
+            }
         }
 
         private void SwitchControles(bool opcao, IList<string> excecoes)
         {
-            if (excecoes == null) excecoes = new List<string>();
-            
+            var listaDeExcecao = (excecoes ?? new List<string>()).ToList();
+
             var listaControles = View.Controls.Cast<Control>().ToList();
 
             var topBorder = listaControles.Find(x => x.GetType() == typeof(Panel) || x.GetType() == typeof(MetroPanel));
             if (topBorder != null)
-                excecoes.Add(topBorder.Name);
+                listaDeExcecao.Add(topBorder.Name);
 
-            excecoes.Add(string.Empty);
+            listaDeExcecao.Add(string.Empty);
             var listaNomesControles = listaControles.Select(x => x.Name)
-                                                    .Except(excecoes)
+                                                    .Except(listaDeExcecao)
                                                     .ToList();
             
 
@@ -285,5 +334,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
 
             // A última vigência é selecionada no delegate do método CarregueControlesComModel
         }
+
+
     }
 }

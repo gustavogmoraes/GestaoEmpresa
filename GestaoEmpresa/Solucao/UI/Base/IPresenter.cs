@@ -32,5 +32,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
         void HabiliteControles(IList<string> excecoes = null);
 
         void DesabiliteControles(IList<string> excecoes = null);
+
+        void ViewCarregada();
     }
 }

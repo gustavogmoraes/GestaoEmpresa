@@ -187,6 +187,16 @@ namespace GS.GestaoEmpresa.Solucao.Utilitarios
             }
             return null;
         }
+
+        public static bool IsAny<T>(this T target, params T[] possibleValues)
+        {
+            return ((IEnumerable<T>)possibleValues).Contains<T>(target);
+        }
+
+        public static bool IsNotAny<T>(this T target, params T[] possibleValues)
+        {
+            return !target.IsAny<T>(possibleValues);
+        }
     }
 
 }

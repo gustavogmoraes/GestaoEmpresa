@@ -255,8 +255,6 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             {
                 var codigoProduto = (int) senderGrid["colunaCodigo", e.RowIndex].Value;
 
-                var stopwatchServCons = new Stopwatch();
-                stopwatchServCons.Start();
                 IPresenter presenter = null;
                 GSWaitForm.Mostrar(
                     this,
@@ -277,8 +275,17 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         private void btnNovoProduto_Click(object sender, EventArgs e)
         {
-            var presenter = GerenciadorDeViews.Crie<ProdutoPresenter>();
-            presenter?.View.Show();
+            IPresenter presenter = null;
+            GSWaitForm.Mostrar(
+                this,
+                () =>
+                {
+                    presenter = GerenciadorDeViews.Crie<ProdutoPresenter>();
+                },
+                () =>
+                {
+                    presenter.View.Show();
+                });
         }
 
         private void btnRefresh_Click(object sender, EventArgs e)

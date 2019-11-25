@@ -615,6 +615,7 @@
             this.txtCodigoDeBarras.UseSelectable = true;
             this.txtCodigoDeBarras.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
             this.txtCodigoDeBarras.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
+            this.txtCodigoDeBarras.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtCodigoDeBarras_KeyDown);
             // 
             // lblCodigoDeBarras
             // 

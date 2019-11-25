@@ -29,11 +29,13 @@ namespace GS.GestaoEmpresa.Solucao.Utilitarios
 
         public static IEnumerable<int> EncontreInteirosFaltandoEmUmaSequencia(this IEnumerable<int> sequencia)
         {
+            var sequenciaEnumerada = sequencia.ToList();
+
             var menorValor = 1;
-            var maiorValor = sequencia.Max();
+            var maiorValor = sequenciaEnumerada.Max();
 
             var serie = new HashSet<int>(Enumerable.Range(menorValor, maiorValor));
-            serie.ExceptWith(sequencia);
+            serie.ExceptWith(sequenciaEnumerada);
 
             return serie;
         }

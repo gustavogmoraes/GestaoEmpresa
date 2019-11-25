@@ -111,6 +111,7 @@
             this.Padding = new System.Windows.Forms.Padding(23, 78, 23, 26);
             this.Resizable = false;
             this.ShadowType = MetroFramework.Forms.MetroFormShadowType.SystemShadow;
+            this.Load += new System.EventHandler(this.GSForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.btnCancelarExcluir)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnEditarSalvar)).EndInit();
             this.panelTitulo.ResumeLayout(false);

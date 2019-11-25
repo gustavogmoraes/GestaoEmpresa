@@ -17,7 +17,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using GestaoEmpresa.GS.GestaoEmpresa.GS.GestaoEmpresa.UI.Principal;
 using GS.GestaoEmpresa.Solucao.UI.Base;
 
 namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque

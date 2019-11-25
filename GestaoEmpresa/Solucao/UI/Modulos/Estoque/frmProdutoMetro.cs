@@ -11,6 +11,7 @@ using System.Windows.Forms;
 using GS.GestaoEmpresa.Solucao.Negocio.Interfaces;
 using GS.GestaoEmpresa.Solucao.Negocio.Objetos;
 using GS.GestaoEmpresa.Solucao.UI.Base;
+using GS.GestaoEmpresa.Solucao.Utilitarios;
 
 namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 {
@@ -29,6 +30,14 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         protected override void ChamadaExclusao(object sender, EventArgs e)
         {
             (Presenter as ProdutoPresenter)?.Exclua(Presenter.Model.Codigo);
+        }
+
+        private void TxtCodigoDeBarras_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode.IsAny(Keys.Return, Keys.Enter))
+            {
+                txtNome.Focus();
+            }
         }
     }
 }

@@ -177,5 +177,10 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
         }
 
         #endregion
+
+        private void GSForm_Load(object sender, EventArgs e)
+        {
+            Presenter.ViewCarregada();
+        }
     }
 }
