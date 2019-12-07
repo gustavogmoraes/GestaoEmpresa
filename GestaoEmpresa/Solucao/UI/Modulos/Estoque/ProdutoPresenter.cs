@@ -6,10 +6,11 @@ using GS.GestaoEmpresa.Solucao.Negocio.Interfaces;
 using GS.GestaoEmpresa.Solucao.Negocio.Objetos;
 using GS.GestaoEmpresa.Solucao.Negocio.Servicos;
 using GS.GestaoEmpresa.Solucao.UI.Base;
+using GS.GestaoEmpresa.Solucao.UI.ControlesGenericos;
 
 namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 {
-    public sealed class ProdutoPresenter : Presenter<Produto, frmProdutoMetro>
+    public sealed class ProdutoPresenter : Presenter<Produto, frmProdutoMetro>, IPresenter
     {
         public ProdutoPresenter()
         {
@@ -43,6 +44,25 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             {
                 return servicoDeProduto.Exclua(codigo);
             }
+        }
+
+        public void RecarregueVigencia(DateTime dataVigencia)
+        {
+            GSWaitForm.Mostrar(
+                View,
+                () =>
+                {
+                    using (var servicoDeProduto = new ServicoDeProduto())
+                    {
+                        var vigenciaConsultada = servicoDeProduto.Consulte(Model.Codigo, dataVigencia);
+                        Model = vigenciaConsultada;
+
+                        View.Invoke((MethodInvoker)delegate
+                        {
+                            CarregueControlesComModel();
+                        });
+                    }
+                });
         }
     }
 }

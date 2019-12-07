@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
@@ -38,6 +39,17 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             {
                 txtNome.Focus();
             }
+        }
+
+        private void cbVigencia_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            //if(firstTimeSetting or Rendering)
+            //{
+            //    return;
+            //}
+
+            var dataVigencia = DateTime.ParseExact((string)cbVigencia.SelectedItem, "dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture);
+            (Presenter as ProdutoPresenter).RecarregueVigencia(dataVigencia);
         }
     }
 }

@@ -525,6 +525,7 @@
             this.cbVigencia.TabIndex = 57;
             this.cbVigencia.UseCustomBackColor = true;
             this.cbVigencia.UseSelectable = true;
+            this.cbVigencia.SelectedIndexChanged += new System.EventHandler(this.cbVigencia_SelectedIndexChanged);
             // 
             // lblVigencia
             // 

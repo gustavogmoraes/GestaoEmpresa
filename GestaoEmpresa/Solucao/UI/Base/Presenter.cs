@@ -37,6 +37,8 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
 
         protected List<MapeamentoDeControle<TModel, TView>> MapeamentoDeControles { get; set; }
 
+        public bool CodeFiredChange { get; set; }
+
         //protected Dictionary<PropertyInfo, string> Mapeamento { get; set; }
 
         protected Presenter()
@@ -250,7 +252,9 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
                             var valorProp = propriedade.GetValue(model, null);
                             var ehCbVigencia = controle.Name == "cbVigencia";
                             if (ehCbVigencia)
-                                ((MetroComboBox) controle).SelectedItem = ((MetroComboBox) controle).Items.Cast<string>().ToList().FirstOrDefault();
+                            {
+                                ((MetroComboBox) controle).SelectedIndex = 0;
+                            }
                             else ((MetroComboBox) controle).SelectedText = valorProp.ToString();
                         },
                         (controle, propriedade, model) =>
