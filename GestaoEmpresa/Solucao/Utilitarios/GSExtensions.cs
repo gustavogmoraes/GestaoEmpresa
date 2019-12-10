@@ -65,7 +65,7 @@ namespace GS.GestaoEmpresa.Solucao.Utilitarios
                 case TypeCode.Int16:
                 case TypeCode.Int32:
                 case TypeCode.Int64:
-                //case TypeCode.Decimal:
+                case TypeCode.Decimal:
                 case TypeCode.Double:
                 case TypeCode.Single:
                     return true;

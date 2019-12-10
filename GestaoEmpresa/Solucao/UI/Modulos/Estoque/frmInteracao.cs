@@ -209,7 +209,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             GStxtValor.Valor = objeto.ValorInteracao;
             txtOrigem.Text = objeto.Origem ?? string.Empty;
             txtDestino.Text = objeto.Destino ?? string.Empty;
-            cbProduto.Text = objeto.Produto.Nome.Trim();
+            cbProduto.Text = objeto.Produto?.Nome.Trim();
             chkAtualizar.Checked = objeto.AtualizarValorDoProdutoNoCatalogo;
             txtNumeroDaNotaFiscal.Text = objeto.NumeroDaNota;
 
@@ -628,6 +628,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         }
 
         public string IdInstancia { get; set; }
+        public bool EstahRenderizando { get; set; }
 
         public void ApagueInstancia()
         {

@@ -45,9 +45,10 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
                 Destino = x.Destino,
                 TipoDeInteracao = x.TipoDeInteracao,
                 NumerosDeSerie = x.NumerosDeSerie,
+                HorarioProgramado = x.HorarioProgramado,
                 Produto = new Produto { Nome = x.Produto.Nome }
             })
-            .OrderBy(x => x.Codigo)
+            .OrderByDescending(x => x.Codigo)
             .ToList();
         }
 

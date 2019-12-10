@@ -501,6 +501,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         }
 
         public string IdInstancia { get; set; }
+        public bool EstahRenderizando { get; set; }
 
         public void ApagueInstancia()
         {

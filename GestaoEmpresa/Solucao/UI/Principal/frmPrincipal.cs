@@ -4,6 +4,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using GS.GestaoEmpresa.Properties;
 using GS.GestaoEmpresa.Solucao.Negocio.Catalogos;
@@ -361,24 +362,26 @@ namespace GS.GestaoEmpresa.Solucao.UI.Principal
             var listaInteracoesRaven = new List<Interacao>();
 
             var ultimasVigenciasDeProduto = ConsulteTodosProdutosSql();
-            foreach(var ultimaVigencia in ultimasVigenciasDeProduto)
+
+            Parallel.ForEach(ultimasVigenciasDeProduto, ultimaVigencia =>
             {
                 var todasVigencias = ConsulteTodasVigenciasProduto(ultimaVigencia.Codigo);
+                
                 todasVigencias = todasVigencias.OrderBy(x => x).ToList();
 
-                foreach(var vigencia in todasVigencias)
+                foreach (var vigencia in todasVigencias)
                 {
                     var produtoConsultado = ConsulteProduto(ultimaVigencia.Codigo, vigencia);
                     produtoConsultado.Vigencia = vigencia;
 
-                    if(vigencia == todasVigencias.LastOrDefault())
+                    if (vigencia == todasVigencias.LastOrDefault())
                     {
                         produtoConsultado.Atual = true;
                     }
 
                     listaProdutosRaven.Add(produtoConsultado);
                 }
-            }
+            });
 
             listaUsuariosRaven.AddRange(ConsulteTodosUsuarios());
 
@@ -400,14 +403,15 @@ namespace GS.GestaoEmpresa.Solucao.UI.Principal
                 listaUsuariosRaven.ForEach(x => repoUser.Insira(x));
                 //listaInteracoesRaven.ForEach(x => repoInteracao.Insira(x));
 
-                foreach (var grupo in listaProdutosRaven.GroupBy(x => x.Codigo))
+                listaProdutosRaven.GroupBy(x => x.Codigo).ToList().ForEach(grupo =>
                 {
                     var lista = grupo.OrderBy(x => x.Vigencia).ToList();
+
                     repoProduto.Insira(lista.FirstOrDefault());
 
                     lista.Remove(lista.FirstOrDefault());
                     lista.ForEach(x => repoProduto.Atualize(x));
-                }
+                });
             }
 
             SessaoSistema.InformacoesConexao = informacoesConexaoBancoSQL;
@@ -541,10 +545,11 @@ namespace GS.GestaoEmpresa.Solucao.UI.Principal
 
         public Produto ConsulteProduto(int Codigo, DateTime vigencia)
         {
+            vigencia = new DateTime(vigencia.Year, vigencia.Month, vigencia.Day, vigencia.Hour, vigencia.Minute, 59);
             string ComandoSQL = String.Format("SELECT {0}, PRODUTOS_QUANTIDADES.QUANTIDADE AS QUANTIDADEESTOQUE FROM {1} " +
                                               "INNER JOIN PRODUTOS_QUANTIDADES ON PRODUTOS.CODIGO = PRODUTOS_QUANTIDADES.CODIGO_PRODUTO " +
                                               "WHERE CODIGO = {2} " +
-                                              "AND VIGENCIA = (SELECT MAX(VIGENCIA) FROM PRODUTOS WHERE VIGENCIA <= CAST ('{3}' AS DATETIME2))",
+                                              "AND VIGENCIA = (SELECT MAX(VIGENCIA) FROM PRODUTOS WHERE CODIGO = {2} AND VIGENCIA <= CAST ('{3}' AS DATETIME2))",
                                               ColunasProduto,
                                               "PRODUTOS",
                                               Codigo,
@@ -555,6 +560,12 @@ namespace GS.GestaoEmpresa.Solucao.UI.Principal
             {
                 using (var GSBancoDeDados = new GSBancoDeDados())
                     tabela = GSBancoDeDados.ExecuteConsulta(ComandoSQL);
+
+                if (tabela.Rows.Count == 0)
+                {
+                    var primeiraData = ConsulteTodasVigenciasProduto(Codigo).OrderBy(x => x).First();
+                    return ConsulteProduto(Codigo, primeiraData);
+                }
 
                 if (tabela == null)
                     return null;
@@ -644,6 +655,8 @@ namespace GS.GestaoEmpresa.Solucao.UI.Principal
             { "HORARIO_PROGRAMADO", typeof(DateTime) }
         };
 
+        public bool EstahRenderizando { get; set; }
+
         private Interacao MonteRetornoInteracoes(DataTable tabela, int linha)
         {
             var retorno = new Interacao();
@@ -670,7 +683,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Principal
                                  ? tabela.Rows[linha]["NUMERODANOTAFISCAL"].ToString()
                                  : null;
             retorno.InformaNumeroDeSerie = GSUtilitarios.ConvertaValorBooleano(tabela.Rows[linha]["INFORMA_NUMERO_DE_SERIE"].ToString());
-            retorno.HorarioProgramado = (DateTime)tabela.Rows[linha]["HORARIO_PROGRAMADO"];
+            retorno.HorarioProgramado = (DateTime)tabela.Rows[linha]["HORARIO"];
 
             retorno.Produto = ConsulteProduto(int.Parse(tabela.Rows[linha]["CODIGO_PRODUTO"].ToString()), retorno.HorarioProgramado);
 

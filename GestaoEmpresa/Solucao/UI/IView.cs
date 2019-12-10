@@ -15,6 +15,8 @@ namespace GS.GestaoEmpresa.Solucao.UI
 
         IPresenter Presenter { get; set; }
 
+        bool EstahRenderizando { get; set; }
+
         void Show();
 
         void Dispose();

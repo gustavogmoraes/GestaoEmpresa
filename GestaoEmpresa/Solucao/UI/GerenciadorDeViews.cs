@@ -137,6 +137,16 @@ namespace GS.GestaoEmpresa.Solucao.UI
             return null;
         }
 
+        public static IPresenter Obtenha(string idInstancia)
+        {
+            var tela = ControladorDeInstancias.Find(x => x.Instancias.ContainsKey(idInstancia));
+            if (tela.Instancias != null && tela.Instancias.Count > 0)
+            {
+                return tela.Instancias.Values.FirstOrDefault(x => x.IdInstancia == idInstancia) as IPresenter;
+            }
+
+            return null;
+        }
 
         public static void Exclua<T>()
             where T : Form, IView

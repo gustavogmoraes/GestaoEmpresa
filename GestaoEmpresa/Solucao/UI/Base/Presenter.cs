@@ -90,7 +90,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
 
                 if (ConversoesControlePropriedade.ContainsKey(tipoDoControle ?? throw new InvalidOperationException()))
                 {
-                    ConversoesControlePropriedade[tipoDoControle].Item1.Invoke(controle, mapeamento.PropriedadeObjeto, Model);
+                    ConversoesControlePropriedade[tipoDoControle].Item1.Invoke(controle, mapeamento.PropriedadeObjeto, Model, this);
                 }
             });
 
@@ -108,7 +108,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
 
                 if (ConversoesControlePropriedade.ContainsKey(tipoDoControle ?? throw new InvalidOperationException()))
                 {
-                    ConversoesControlePropriedade[tipoDoControle].Item2.Invoke(controle, mapeamento.PropriedadeObjeto, Model);
+                    ConversoesControlePropriedade[tipoDoControle].Item2.Invoke(controle, mapeamento.PropriedadeObjeto, Model, this);
                 }
             });
         }
@@ -218,46 +218,48 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
             return result;
         }
 
-        private static Dictionary<Type, Tuple<Action<Control, PropertyInfo, object>, Action<Control, PropertyInfo, object>>> ConversoesControlePropriedade = 
-            new Dictionary<Type, Tuple<Action<Control, PropertyInfo, object>, Action<Control, PropertyInfo, object>>>
+        private static Dictionary<Type, Tuple<Action<Control, PropertyInfo, object, IPresenter>, Action<Control, PropertyInfo, object, IPresenter>>> ConversoesControlePropriedade = 
+            new Dictionary<Type, Tuple<Action<Control, PropertyInfo, object, IPresenter>, Action<Control, PropertyInfo, object, IPresenter>>>
             {
                 {
                     typeof(MetroTextBox),
-                    new Tuple<Action<Control, PropertyInfo, object>, Action<Control, PropertyInfo, object>>(
+                    new Tuple<Action<Control, PropertyInfo, object, IPresenter>, Action<Control, PropertyInfo, object, IPresenter>>(
 
                         // Objeto --> Controle
-                        (controle, propriedade, model) =>
+                        (controle, propriedade, model, presenter) =>
                         {
                             var valor = propriedade.GetValue(model, null);
                             ((MetroTextBox) controle).Text = (valor ?? string.Empty).ToString();
                         },
 
                         // Controle --> Objeto
-                        (controle, propriedade, model) =>
+                        (controle, propriedade, model, presenter) =>
                         {
                             var valor = ((MetroTextBox) controle).Text;
-                            if (propriedade.PropertyType.IsNumericType() && valor == string.Empty)
+                            if (propriedade.PropertyType.IsNumericType() && string.IsNullOrEmpty(valor))
                             {
                                 valor = 0.ToString();
                             }
 
-                            propriedade.SetValue(model, Convert.ChangeType(valor, propriedade.PropertyType));
+                            propriedade.SetValue(model, Convert.ChangeType((string.IsNullOrEmpty(valor) ? null : valor), propriedade.PropertyType));
                         })
                 },
                 {
                     typeof(MetroComboBox),
-                    new Tuple<Action<Control, PropertyInfo, object>, Action<Control, PropertyInfo, object>>(
-                        (controle, propriedade, model) =>
+                    new Tuple<Action<Control, PropertyInfo, object, IPresenter>, Action<Control, PropertyInfo, object, IPresenter>>(
+                        (controle, propriedade, model, presenter) =>
                         {
                             var valorProp = propriedade.GetValue(model, null);
                             var ehCbVigencia = controle.Name == "cbVigencia";
+
                             if (ehCbVigencia)
                             {
+                                presenter.View.EstahRenderizando = true;
                                 ((MetroComboBox) controle).SelectedIndex = 0;
                             }
                             else ((MetroComboBox) controle).SelectedText = valorProp.ToString();
                         },
-                        (controle, propriedade, model) =>
+                        (controle, propriedade, model, presenter) =>
                         {
                             var ehCbVigencia = controle.Name == "cbVigencia";
                             var valorControle = ((MetroComboBox) controle).SelectedText;
@@ -272,48 +274,57 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
                 },
                 {
                     typeof(MetroCheckBox),
-                    new Tuple<Action<Control, PropertyInfo, object>, Action<Control, PropertyInfo, object>>(
-                        (controle, propriedade, model) =>
+                    new Tuple<Action<Control, PropertyInfo, object, IPresenter>, Action<Control, PropertyInfo, object, IPresenter>>(
+                        (controle, propriedade, model, presenter) =>
                         {
                             ((MetroCheckBox)controle).Checked = (bool)propriedade.GetValue(model, null);
                         },
-                        (controle, propriedade, model) =>
+                        (controle, propriedade, model, presenter) =>
                         {
                             propriedade.SetValue(model, ((MetroCheckBox)controle).Checked);
                         })
                 },
                 {
                     typeof(MetroDateTime),
-                    new Tuple<Action<Control, PropertyInfo, object>, Action<Control, PropertyInfo, object>>(
-                        (controle, propriedade, model) =>
+                    new Tuple<Action<Control, PropertyInfo, object, IPresenter>, Action<Control, PropertyInfo, object, IPresenter>>(
+                        (controle, propriedade, model, presenter) =>
                         {
                             ((MetroDateTime)controle).Value = (DateTime)propriedade.GetValue(model, null);
                         },
-                        (controle, propriedade, model) =>
+                        (controle, propriedade, model, presenter) =>
                         {
                             propriedade.SetValue(model, ((MetroDateTime)controle).Value);
                         })
                 },
                 {
                     typeof(GSMetroToggle),
-                    new Tuple<Action<Control, PropertyInfo, object>, Action<Control, PropertyInfo, object>>(
-                        (controle, propriedade, model) =>
+                    new Tuple<Action<Control, PropertyInfo, object, IPresenter>, Action<Control, PropertyInfo, object, IPresenter>>(
+                        (controle, propriedade, model, presenter) =>
                         {
                             ((GSMetroToggle)controle).Checked = (EnumStatusToggle)propriedade.GetValue(model, null) == EnumStatusToggle.Ativo;
                         },
-                        (controle, propriedade, model) =>
+                        (controle, propriedade, model, presenter) =>
                         {
-                            propriedade.SetValue(((GSMetroToggle)controle).Checked, null);
+                            if(propriedade.PropertyType == typeof(EnumStatusToggle))
+                            {
+                                var valorToggle = ((GSMetroToggle)controle).Checked ? EnumStatusToggle.Ativo : EnumStatusToggle.Inativo;
+                                propriedade.SetValue(model, valorToggle);
+                            }
+                            else
+                            {
+                                var valor = ((GSMetroToggle)controle).Checked;
+                                propriedade.SetValue(valor, valor);
+                            }
                         })
                 },
                 {
                     typeof(GSTextBoxMonetaria),
-                    new Tuple<Action<Control, PropertyInfo, object>, Action<Control, PropertyInfo, object>>(
-                        (controle, propriedade, model) =>
+                    new Tuple<Action<Control, PropertyInfo, object, IPresenter>, Action<Control, PropertyInfo, object, IPresenter>>(
+                        (controle, propriedade, model, presenter) =>
                         {
                             ((GSTextBoxMonetaria)controle).Valor = (decimal)propriedade.GetValue(model, null);
                         },
-                        (controle, propriedade, model) =>
+                        (controle, propriedade, model, presenter) =>
                         {
                             propriedade.SetValue(model, ((GSTextBoxMonetaria)controle).Valor);
                         })

@@ -56,8 +56,9 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                 {
                     int numeroAleatorio = rng.Next(1, quantidadeDeRegistros);
                     listaProdutos.Add(servicoDeProduto.Consulte(numeroAleatorio));
-                    listaProdutos.Sort((x, y) => x.Codigo.CompareTo(y.Codigo));
                 }
+
+                listaProdutos.Sort((x, y) => x.Codigo.CompareTo(y.Codigo));
 
                 listaProdutos.ForEach(x =>
                     gridExportacao.Rows.Add(
@@ -133,7 +134,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                 location.Y += 2;
 
                 txtBox.Text = coluna.HeaderText;
-                txtBox.Location = location;//PointToClient(MousePosition)
+                txtBox.Location = location; //PointToClient(MousePosition)
                 txtBox.BringToFront();
                 txtBox.Show();
                 txtBox.Focus();

@@ -41,6 +41,8 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
             }
         }
 
+        public bool EstahRenderizando { get; set; }
+
         #endregion
 
         #region Construtores

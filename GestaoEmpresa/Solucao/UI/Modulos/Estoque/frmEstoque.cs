@@ -752,6 +752,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         public EnumTipoDeForm TipoDeForm { get; set; }
 
         public IPresenter Presenter { get; set; }
+        public bool EstahRenderizando { get; set; }
 
         public void ChamadaMinimizarForm(object sender, EventArgs e)
         {
