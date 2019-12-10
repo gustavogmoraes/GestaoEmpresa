@@ -30,12 +30,12 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos.Base
             set => _repositorio = value;
         }
 
-        public TConceito Consulte(int codigo)
+        public virtual TConceito Consulte(int codigo)
         {
             return Repositorio.Consulte(codigo);
         }
 
-        public TConceito Consulte(int codigo, DateTime data)
+        public virtual TConceito Consulte(int codigo, DateTime data)
         {
             return Repositorio.Consulte(codigo, data);
         }
@@ -66,7 +66,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos.Base
 
         protected abstract Action AcaoSucessoValidacaoDeExclusao(int codigo);
 
-        public IList<Inconsistencia> Salve(TConceito item, EnumTipoDeForm tipoDeForm)
+        public virtual IList<Inconsistencia> Salve(TConceito item, EnumTipoDeForm tipoDeForm)
         {
             item.Vigencia = DateTime.Now;
             var inconsistencias = new List<Inconsistencia>();

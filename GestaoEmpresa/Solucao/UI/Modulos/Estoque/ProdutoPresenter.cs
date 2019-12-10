@@ -67,5 +67,13 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                     }
                 });
         }
+
+        public Produto Consulte(int codigo)
+        {
+            using (var servicoDeProduto = new ServicoDeProduto())
+            {
+                return servicoDeProduto.Consulte(codigo);
+            }
+        }
     }
 }

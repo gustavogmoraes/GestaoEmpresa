@@ -17,7 +17,10 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
 
         protected override Action AcaoSucessoValidacaoDeCadastro(Produto produto)
         {
-            return () => { produto.QuantidadeEmEstoque = 0; };
+            return () => 
+            { 
+                produto.QuantidadeEmEstoque = 0;
+            };
         }
 
         protected override Action AcaoSucessoValidacaoDeEdicao(Produto item)
@@ -64,10 +67,30 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
                 Observacao = x.Observacao,
                 PrecoDeCompra = x.PrecoDeCompra,
                 PrecoDeVenda = x.PrecoDeVenda,
-                QuantidadeEmEstoque = x.QuantidadeEmEstoque
+                QuantidadeEmEstoque = x.QuantidadeEmEstoque,
+                Status = x.Status
             })
             .OrderBy(x => x.Nome)
             .ToList();
+        }
+
+        public override Produto Consulte(int codigo)
+        {
+            var produto = base.Consulte(codigo);
+            produto.PorcentagemDeLucro *= 100;
+
+            return produto;
+        }
+
+        public override IList<Inconsistencia> Salve(Produto item, EnumTipoDeForm tipoDeForm)
+        {
+            item.PorcentagemDeLucro /= 100;
+
+            var inconsistencias = base.Salve(item, tipoDeForm);
+
+            item.PorcentagemDeLucro *= 100;
+
+            return inconsistencias;
         }
     }
 }       

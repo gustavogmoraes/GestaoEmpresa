@@ -13,6 +13,7 @@ using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores.Comuns;
 using GS.GestaoEmpresa.Solucao.Negocio.Interfaces;
 using GS.GestaoEmpresa.Solucao.Negocio.Objetos;
 using GS.GestaoEmpresa.Solucao.UI.Base;
+using GS.GestaoEmpresa.Solucao.UI.ControlesGenericos;
 using GS.GestaoEmpresa.Solucao.Utilitarios;
 
 namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
@@ -27,17 +28,35 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         protected override void ChamadaSalvar(object sender, EventArgs e)
         {
             var result = (Presenter as ProdutoPresenter)?.Salve();
-            if(!result.Any())
+            if(result.Any())
             {
-                MessageBox.Show("Cadastrado com sucesso!", "Resultado");
+                result.ToList().ForEach(x => MessageBox.Show(x.Mensagem, "Inconsistência"));
+                return;
             }
 
-            TipoDeForm = EnumTipoDeForm.Detalhamento;
+            var cadastroOuAtualizacao = TipoDeForm == EnumTipoDeForm.Cadastro ? "Cadastrado" : "Atualizado";
+            MessageBox.Show($"{cadastroOuAtualizacao} com sucesso!", "Resultado");
+
+            GSWaitForm.Mostrar(this, () =>
+            {
+                Invoke((MethodInvoker)delegate
+                {
+                    TipoDeForm = EnumTipoDeForm.Detalhamento;
+                    Presenter.ViewCarregada();
+                });
+            });
         }
 
         protected override void ChamadaExclusao(object sender, EventArgs e)
         {
-            (Presenter as ProdutoPresenter)?.Exclua(Presenter.Model.Codigo);
+            var result = (Presenter as ProdutoPresenter)?.Exclua(Presenter.Model.Codigo);
+            if (result.Any())
+            {
+                result.ToList().ForEach(x => MessageBox.Show(x.Mensagem, "Inconsistência"));
+            }
+
+            MessageBox.Show("Excluído com sucesso!", "Resultado");
+            Presenter.FecharView(sender, e);
         }
 
         private void TxtCodigoDeBarras_KeyDown(object sender, KeyEventArgs e)

@@ -178,6 +178,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
                     HabiliteControles();
                     break;
                 case EnumTipoDeForm.Detalhamento:
+                    CarregueControlesComModel();
                     DesabiliteControles(new [] { "cbVigencia" });
                     break;
                 case EnumTipoDeForm.Edicao:
@@ -255,7 +256,10 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
                             if (ehCbVigencia)
                             {
                                 presenter.View.EstahRenderizando = true;
-                                ((MetroComboBox) controle).SelectedIndex = 0;
+                                if(((MetroComboBox) controle).Items.Count > 0)
+                                {
+                                    ((MetroComboBox) controle).SelectedIndex = 0;
+                                }
                             }
                             else ((MetroComboBox) controle).SelectedText = valorProp.ToString();
                         },

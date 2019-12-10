@@ -46,5 +46,9 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Objetos
 
         [Identificacao(Descricao = "Codigo de barras")]
         public string CodigoDeBarras { get; set; }
+
+        public Produto(Produto modelo) : base (modelo) { }
+
+        public Produto() { }
     }
 }

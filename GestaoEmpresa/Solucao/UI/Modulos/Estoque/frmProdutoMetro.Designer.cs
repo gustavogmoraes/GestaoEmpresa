@@ -55,6 +55,7 @@
             this.lblCodigo = new MetroFramework.Controls.MetroLabel();
             this.txtCodigoDeBarras = new MetroFramework.Controls.MetroTextBox();
             this.lblCodigoDeBarras = new MetroFramework.Controls.MetroLabel();
+            this.metroLabel1 = new MetroFramework.Controls.MetroLabel();
             ((System.ComponentModel.ISupportInitialize)(this.btnCancelarExcluir)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnEditarSalvar)).BeginInit();
             this.SuspendLayout();
@@ -611,7 +612,7 @@
             this.txtCodigoDeBarras.SelectionStart = 0;
             this.txtCodigoDeBarras.ShortcutsEnabled = true;
             this.txtCodigoDeBarras.Size = new System.Drawing.Size(542, 23);
-            this.txtCodigoDeBarras.TabIndex = 79;
+            this.txtCodigoDeBarras.TabIndex = 62;
             this.txtCodigoDeBarras.UseCustomBackColor = true;
             this.txtCodigoDeBarras.UseSelectable = true;
             this.txtCodigoDeBarras.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
@@ -630,11 +631,24 @@
             this.lblCodigoDeBarras.Text = "Código de barras";
             this.lblCodigoDeBarras.UseCustomBackColor = true;
             // 
+            // metroLabel1
+            // 
+            this.metroLabel1.AutoSize = true;
+            this.metroLabel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
+            this.metroLabel1.FontSize = MetroFramework.MetroLabelSize.Tall;
+            this.metroLabel1.Location = new System.Drawing.Point(359, 529);
+            this.metroLabel1.Name = "metroLabel1";
+            this.metroLabel1.Size = new System.Drawing.Size(26, 25);
+            this.metroLabel1.TabIndex = 80;
+            this.metroLabel1.Text = "%";
+            this.metroLabel1.UseCustomBackColor = true;
+            // 
             // frmProdutoMetro
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(599, 710);
+            this.Controls.Add(this.metroLabel1);
             this.Controls.Add(this.txtCodigoDeBarras);
             this.Controls.Add(this.lblCodigoDeBarras);
             this.Controls.Add(this.lblStatus);
@@ -691,6 +705,7 @@
             this.Controls.SetChildIndex(this.lblStatus, 0);
             this.Controls.SetChildIndex(this.lblCodigoDeBarras, 0);
             this.Controls.SetChildIndex(this.txtCodigoDeBarras, 0);
+            this.Controls.SetChildIndex(this.metroLabel1, 0);
             ((System.ComponentModel.ISupportInitialize)(this.btnCancelarExcluir)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnEditarSalvar)).EndInit();
             this.ResumeLayout(false);
@@ -726,5 +741,6 @@
         public MetroFramework.Controls.MetroLabel lblObservacoes;
         public MetroFramework.Controls.MetroTextBox txtCodigoDeBarras;
         public MetroFramework.Controls.MetroLabel lblCodigoDeBarras;
+        public MetroFramework.Controls.MetroLabel metroLabel1;
     }
 }
