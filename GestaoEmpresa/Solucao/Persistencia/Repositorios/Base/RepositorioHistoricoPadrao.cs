@@ -15,7 +15,9 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios.Base
     {
         protected GSDocumentStore _documentStore { get; set; }
 
-        protected Func<T, bool> _filtroAtual(int codigo) => (x => x.Atual && x.Codigo == codigo);
+        protected Func<T, bool> _filtroAtualComCodigo(int codigo) => (x => x.Atual && x.Codigo == codigo);
+
+        protected Expression<Func<T, bool>> _filtroAtual() => (x => x.Atual);
 
         public RepositorioHistoricoPadrao()
         {
@@ -68,21 +70,35 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios.Base
                 return sessaoRaven.Query<T>().Where(x => x.Atual).Count();
         }
 
-        public IList<T> ConsulteTodos()
-        {
-            using (var sessaoRaven = _documentStore.OpenSession())
-                return sessaoRaven.Query<T>().Where(x => x.Atual).ToList();
-        }
-
-        public IList<T> ConsulteTodos(Expression<Func<T, object>> seletor)
+        public IList<T> ConsulteTodos(Expression<Func<T, object>> seletor = null, Expression<Func<T, bool>> filtro = null)
         {
             using (var sessaoRaven = _documentStore.OpenSession())
             {
-                return sessaoRaven.Query<T>().Where(x => x.Atual)
-                                             .Select(seletor)
-                                             .ToList()
-                                             .Cast<T>()
-                                             .ToList();
+                if(filtro != null)
+                {
+                    filtro = filtro.AndAlso(_filtroAtual());
+                }
+
+                var queryable = filtro != null
+                    ? sessaoRaven.Query<T>().Where(filtro)
+                    : sessaoRaven.Query<T>().Where(_filtroAtual());
+
+                return seletor == null
+                    ? queryable.ToList().Cast<T>().ToList()
+                    : queryable.Select(seletor).ToList().Cast<T>().ToList();
+            }
+        }
+
+        public IList<T> ConsulteTodos(Expression<Func<T, object>> seletor, Expression<Func<T, object>> propriedade, string pesquisa)
+        {
+            using (var sessaoRaven = _documentStore.OpenSession())
+            {
+                return sessaoRaven.Query<T>()
+                    .Search(propriedade, pesquisa)
+                    .Select(seletor)
+                    .ToList()
+                    .Cast<T>()
+                    .ToList();
             }
         }
 
@@ -106,7 +122,7 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios.Base
         {
             using (var sessaoRaven = _documentStore.OpenSession())
             {
-                var itemAnterior = sessaoRaven.Query<T>().FirstOrDefault(_filtroAtual(item.Codigo));
+                var itemAnterior = sessaoRaven.Query<T>().FirstOrDefault(_filtroAtualComCodigo(item.Codigo));
                 itemAnterior.Atual = false;
 
                 item.Atual = true;

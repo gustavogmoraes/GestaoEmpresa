@@ -197,6 +197,31 @@ namespace GS.GestaoEmpresa.Solucao.Utilitarios
         {
             return !target.IsAny<T>(possibleValues);
         }
+
+        public static DateTime RemovaMs(this DateTime dt)
+        {
+            return new DateTime(dt.Year, dt.Month, dt.Day, dt.Hour, dt.Minute, dt.Second);
+        }
+
+        public static Expression<Func<T, bool>> AndAlso<T>(this Expression<Func<T, bool>> expression1, Expression<Func<T, bool>> expression2)
+            where T: class
+        {
+            var body = Expression.AndAlso(expression1.Body, expression2.Body);
+            var lambda = Expression.Lambda<Func<T, bool>>(body, expression1.Parameters);
+
+            return lambda;
+        }
+
+        public static void SetTextWithoutFiringEvents(this TextBoxBase textBox, string text)
+        {
+            var view = (IView)textBox.FindForm();
+
+            view.EstahRenderizando = true;
+
+            textBox.Text = text;
+
+            view.EstahRenderizando = false;
+        }
     }
 
 }

@@ -43,8 +43,12 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         {
             InitializeComponent();
 
-            assistant = new GSAssistenteDeDigitacao();
+            assistant = new GSAssistenteDeDigitacao(400);
             assistant.Idled += assistant_Idled;
+
+            cbPesquisaPorProduto.DisplayMember = "Nome";
+            CbPesquisaPorProdutoAssistente = new GSAssistenteDeDigitacao(400);
+            CbPesquisaPorProdutoAssistente.Idled += CbPesquisaPorProdutoAssistente_Idled;
         }
 
         void assistant_Idled(object sender, EventArgs e)
@@ -60,34 +64,45 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                 }
 
                 var listaFiltrada = new List<Produto>();
-                switch (filtro)
-                {
-                    case "Código":
-                        listaFiltrada = _listaDeProdutos.FindAll(x => x.Codigo.ToString()
-                                                                              .Contains(pesquisa));
-                        break;
+                GSWaitForm.Mostrar(
+                    this,
+                    () =>
+                    {
+                        using (var servicoDeProduto = new ServicoDeProduto())
+                        {
+                            if (string.IsNullOrEmpty(pesquisa))
+                            {
+                                listaFiltrada = _listaDeProdutos;
+                                return;
+                            }
 
-                    case "Nome":
-                        listaFiltrada = _listaDeProdutos.FindAll(x => x.Nome.ToString().ToUpper()
-                                                                       .Contains(pesquisa.ToUpper()));
+                            switch (filtro)
+                            {
+                                case "Código":
+                                    listaFiltrada = servicoDeProduto.ConsulteTodosParaAterrissagem(x => x.Codigo, pesquisa);
+                                    break;
 
-                        break;
+                                case "Nome":
+                                    listaFiltrada = servicoDeProduto.ConsulteTodosParaAterrissagem(x => x.Nome, pesquisa);
+                                    break;
 
-                    case "Código do fabricante":
-                        listaFiltrada =
-                        _listaDeProdutos.FindAll(x =>
-                            x.CodigoDoFabricante.ToString().ToUpper().Contains(pesquisa.ToUpper()));
-                        break;
-                }
-
-                CarregueDataGridProdutos(listaFiltrada);
+                                case "Código do fabricante":
+                                    listaFiltrada = servicoDeProduto.ConsulteTodosParaAterrissagem(x => x.CodigoDoFabricante, pesquisa);
+                                    break;
+                            }
+                        }
+                    },
+                    () =>
+                    {
+                        CarregueDataGridProdutos(listaFiltrada);
+                    });
             }));
         }
 
         private void frmEstoque_Load(object sender, EventArgs e)
         {
             #region Migração de dados ClientesAntigos ---> RavenDB
-            
+
             //var dialogResult = MessageBox.Show(" Migração de dados ClientesAntigos ---> RavenDB", "Confirmação", MessageBoxButtons.YesNo);
             //if (dialogResult == DialogResult.Yes)
             //{
@@ -140,7 +155,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             //        MessageBox.Show("Falha na recuperacao.");
             //    }
             //}
-            
+
             #endregion
 
             //Módulo - Estoque
@@ -153,7 +168,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                 _listaDeProdutos = servicoDeProduto.ConsulteTodosParaAterrissagem();
             }
 
-            CarregueDataGridProdutos(_listaDeProdutos);
+            CarregueDataGridProdutos(_listaDeProdutos.Take(300).ToList());
             cbFiltro.SelectedText = "Nome";
 
             //Histórico de Produtos
@@ -162,7 +177,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                 _listaDeInteracoes = servicoDeInteracao.ConsulteTodasParaAterrissagem();
             }
 
-            CarregueDataGridInteracoes(_listaDeInteracoes);
+            CarregueDataGridInteracoes(_listaDeInteracoes.Take(300).ToList());
             cbPesquisaHistorico.Text = "Observação";
 
             //Selecionar pesquisa por produto
@@ -253,7 +268,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                 senderGrid.Columns[e.ColumnIndex] == colunaDetalhar &&
                 e.RowIndex >= 0)
             {
-                var codigoProduto = (int) senderGrid["colunaCodigo", e.RowIndex].Value;
+                var codigoProduto = (int)senderGrid["colunaCodigo", e.RowIndex].Value;
 
                 IPresenter presenter = null;
                 GSWaitForm.Mostrar(
@@ -341,6 +356,11 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         private void txtPesquisa_TextChanged(object sender, EventArgs e)
         {
+            if (EstahRenderizando)
+            {
+                return;
+            }
+
             assistant.TextChanged();
         }
 
@@ -349,9 +369,9 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             if (txtPesquisa.Text == string.Empty)
             {
                 txtPesquisa.ForeColor = Color.Silver;
-                txtPesquisa.Text = "Pesquisar...";
+                txtPesquisa.SetTextWithoutFiringEvents("Pesquisar...");
 
-                CarregueDataGridProdutos(_listaDeProdutos);
+                //CarregueDataGridProdutos(_listaDeProdutos);
             }
         }
 
@@ -527,16 +547,12 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         private void cbPesquisaPorProduto_SelectedIndexChanged(object sender, EventArgs e)
         {
-            var listaDeInteracoes = new List<Interacao>();
-
-            var produto = _listaDeProdutos.Find(x => x.Nome == cbPesquisaPorProduto.Text);
-
             using (var servicoDeInteracao = new ServicoDeInteracao())
             {
-                listaDeInteracoes = servicoDeInteracao.ConsulteTodasAsInteracoesPorProduto(produto.Codigo);
+                int codigoProduto = Convert.ToInt32(((dynamic)cbPesquisaPorProduto.SelectedItem).Codigo);
+                var listaDeInteracoes = servicoDeInteracao.ConsulteTodasAsInteracoesPorProduto(codigoProduto);
+                CarregueDataGridInteracoes(listaDeInteracoes);
             }
-
-            CarregueDataGridInteracoes(listaDeInteracoes);
         }
 
         private void txtPesquisaHistorico_Leave(object sender, EventArgs e)
@@ -544,7 +560,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             if (txtPesquisaHistorico.Text == string.Empty)
             {
                 txtPesquisaHistorico.ForeColor = Color.Silver;
-                txtPesquisaHistorico.Text = "Pesquisar...";
+                txtPesquisaHistorico.SetTextWithoutFiringEvents("Pesquisar...");
 
                 CarregueDataGridInteracoes(_listaDeInteracoes);
             }
@@ -794,13 +810,53 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
                 task.ContinueWith(x =>
                 {
-                    Invoke((MethodInvoker) delegate
-                    {
-                        Opacity = 100;
-                        simulator.Keyboard.KeyUp(VirtualKeyCode.LWIN);
-                    });
+                    Invoke((MethodInvoker)delegate
+                   {
+                       Opacity = 100;
+                       simulator.Keyboard.KeyUp(VirtualKeyCode.LWIN);
+                   });
                 });
             }
+        }
+
+        private GSAssistenteDeDigitacao CbPesquisaPorProdutoAssistente { get; set; }
+
+        private void cbPesquisaPorProduto_TextChanged(object sender, EventArgs e)
+        {
+            if (cbPesquisaPorProduto.SelectedIndex < 0)
+            {
+                CbPesquisaPorProdutoAssistente.TextChanged();
+            }
+        }
+
+        private void CbPesquisaPorProdutoAssistente_Idled(object sender, EventArgs e)
+        {
+            Invoke(new MethodInvoker(() =>
+            {
+                using(var servicoDeProduto = new ServicoDeProduto())
+                {
+                    var textoParaPesquisar = cbPesquisaPorProduto.Text.Trim().ToLowerInvariant();
+                    if (string.IsNullOrEmpty(textoParaPesquisar))
+                    {
+                        cbPesquisaPorProduto.Items.Clear();
+                        cbPesquisaPorProduto.Items.AddRange(_listaDeProdutos.Select(x => new { x.Codigo, x.Nome}).ToArray());
+                        cbPesquisaPorProduto.SelectionStart = cbPesquisaPorProduto.Text.Length;
+
+                        return;
+                    }
+
+                    cbPesquisaPorProduto.Items.Clear();
+
+                    var produtosPesquisados = servicoDeProduto.ConsulteTodosParaAterrissagem(x => x.Nome, cbPesquisaPorProduto.Text);
+                    if (produtosPesquisados.Any())
+                    {
+                        cbPesquisaPorProduto.Items.AddRange(produtosPesquisados.Select(x => new { x.Codigo, x.Nome }).ToArray());
+                        cbPesquisaPorProduto.DroppedDown = true;
+                    }
+
+                    cbPesquisaPorProduto.SelectionStart = cbPesquisaPorProduto.Text.Length;
+                }
+            }));
         }
     }
 }

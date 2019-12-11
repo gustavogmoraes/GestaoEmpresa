@@ -327,8 +327,6 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             // 
             // cbProduto
             // 
-            this.cbProduto.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            this.cbProduto.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.cbProduto.BackColor = System.Drawing.Color.Silver;
             this.cbProduto.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cbProduto.FormattingEnabled = true;
@@ -337,6 +335,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.cbProduto.Size = new System.Drawing.Size(467, 32);
             this.cbProduto.TabIndex = 111;
             this.cbProduto.SelectedIndexChanged += new System.EventHandler(this.cbProduto_SelectedIndexChanged);
+            this.cbProduto.TextChanged += new System.EventHandler(this.cbProduto_TextChanged);
             // 
             // chkAtualizar
             // 

@@ -8,6 +8,7 @@ using GS.GestaoEmpresa.Solucao.Negocio.Servicos.Base;
 using GS.GestaoEmpresa.Solucao.UI;
 using GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque;
 using System.Linq;
+using System.Linq.Expressions;
 
 namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
 {
@@ -57,21 +58,36 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
             }
         }
 
+        private Expression<Func<Produto, object>> SeletorProdutoAterrissagem => x => new Produto
+        {
+            Codigo = x.Codigo,
+            CodigoDoFabricante = x.CodigoDoFabricante,
+            Nome = x.Nome,
+            Observacao = x.Observacao,
+            PrecoDeCompra = x.PrecoDeCompra,
+            PrecoDeVenda = x.PrecoDeVenda,
+            QuantidadeEmEstoque = x.QuantidadeEmEstoque,
+            Status = x.Status
+        };
+
         public List<Produto> ConsulteTodosParaAterrissagem()
         {
-            return Repositorio.ConsulteTodos(seletor: x => new Produto
-            {
-                Codigo = x.Codigo,
-                CodigoDoFabricante = x.CodigoDoFabricante,
-                Nome = x.Nome,
-                Observacao = x.Observacao,
-                PrecoDeCompra = x.PrecoDeCompra,
-                PrecoDeVenda = x.PrecoDeVenda,
-                QuantidadeEmEstoque = x.QuantidadeEmEstoque,
-                Status = x.Status
-            })
-            .OrderBy(x => x.Nome)
-            .ToList();
+            return Repositorio.ConsulteTodos(SeletorProdutoAterrissagem)
+                .OrderBy(x => x.Nome)
+                .ToList();
+        }
+
+        public List<Produto> ConsulteTodosParaAterrissagem(Expression<Func<Produto, bool>> filtro)
+        {
+            return Repositorio.ConsulteTodos(SeletorProdutoAterrissagem, filtro)
+                .OrderBy(x => x.Nome)
+                .ToList();
+        }
+        public List<Produto> ConsulteTodosParaAterrissagem(Expression<Func<Produto, object>> propriedade, string pesquisa)
+        {
+            return Repositorio.ConsulteTodos(SeletorProdutoAterrissagem, propriedade, pesquisa)
+                .OrderBy(x => x.Nome)
+                .ToList();
         }
 
         public override Produto Consulte(int codigo)
@@ -91,6 +107,14 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
             item.PorcentagemDeLucro *= 100;
 
             return inconsistencias;
+        }
+
+        public Produto Consulte(Expression<Func<Produto, bool>> filtro)
+        {
+            using (var repositorioDeProduto = new RepositorioDeProduto())
+            {
+                return repositorioDeProduto.Consulte(filtro);
+            }
         }
     }
 }       

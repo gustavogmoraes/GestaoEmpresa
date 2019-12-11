@@ -30,18 +30,22 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         public frmInteracao()
         {
             InitializeComponent();
+            InicializeAssistentesDigitacao();
 
             InicializeBotoes(EnumTipoDeForm.Cadastro, ref btnEditarSalvar, ref btnCancelarExcluir, ref _switchBotaoEditarSalvar, ref _switchBotaoCancelarExcluir);
             TipoDeForm = EnumTipoDeForm.Cadastro;
             cbTipo.Text = "Ativo";
             
             txtLineHorario.Enabled = true;
+            
+
             dateHorario.Value = DateTime.Now;
         }
 
         public frmInteracao(Interacao interacao)
         {
             InitializeComponent();
+            InicializeAssistentesDigitacao();
 
             TipoDeForm = EnumTipoDeForm.Detalhamento;
 
@@ -49,6 +53,14 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             DesabiliteControles();
             InicializeBotoes(EnumTipoDeForm.Detalhamento, ref btnEditarSalvar, ref btnCancelarExcluir, ref _switchBotaoEditarSalvar, ref _switchBotaoCancelarExcluir);
             _codigoInteracao = interacao.Codigo;
+        }
+
+        private GSAssistenteDeDigitacao CbProdutoAssistente { get; set; }
+
+        private void InicializeAssistentesDigitacao()
+        {
+            CbProdutoAssistente = new GSAssistenteDeDigitacao(350);
+            CbProdutoAssistente.Idled += CbProdutoAssistant_Idled;
         }
 
         #region FormPadrao
@@ -171,16 +183,21 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         #endregion
 
+        private List<dynamic> ProdutosParaPesquisa { get; set; }
+
         private void frmInteracao_Load(object sender, EventArgs e)
         {
-            var listaDeProdutos = new List<Produto>();
             using (var servicoDeProduto = new ServicoDeProduto())
             {
-                listaDeProdutos = servicoDeProduto.ConsulteTodos().ToList();
+                ProdutosParaPesquisa = servicoDeProduto.ConsulteTodos().OrderBy(x => x.Nome).Select(x => new
+                {
+                    x.Codigo,
+                    x.Nome
+                }).ToList<dynamic>();
+
+                PreenchaComboBoxPesquisaComProdutos(ProdutosParaPesquisa);
             }
 
-            PreenchaComboBoxPesquisaComProdutos(listaDeProdutos);
-            
             switch(TipoDeForm)
             {
                 case EnumTipoDeForm.Cadastro:
@@ -259,14 +276,14 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             interacao.NumeroDaNota = txtNumeroDaNotaFiscal.Text.Trim();
             interacao.HorarioProgramado = GSUtilitarios.ObtenhaDateTimeCompletoDePickers(dateData, dateHorario);
 
-            var listaDeProdutos = new List<Produto>();
             using (var servicoDeProduto = new ServicoDeProduto())
             {
-                listaDeProdutos = servicoDeProduto.ConsulteTodos().ToList();
+                int codigoProduto = Convert.ToInt32(((dynamic)cbProduto.SelectedItem).Codigo);
+                var horarioProgramado = GSUtilitarios.ObtenhaDateTimeCompletoDePickers(dateData, dateHorario).RemovaMs();
+
+                interacao.Produto = servicoDeProduto.Consulte(codigoProduto, horarioProgramado);
             }
 
-            interacao.Produto = listaDeProdutos.Find(x => x.Nome.Trim() == cbProduto.Text.Trim());
-            
             if (chkInformarNumeroDeSerie.Checked)
             {
                 interacao.InformaNumeroDeSerie = true;
@@ -367,13 +384,14 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             //}
         }
 
-        private void PreenchaComboBoxPesquisaComProdutos(List<Produto> produtos)
+        private void PreenchaComboBoxPesquisaComProdutos(List<dynamic> produtos)
         {
             cbProduto.Items.Clear();
+            cbProduto.DisplayMember = "Nome";
 
             foreach (var produto in produtos)
             {
-                cbProduto.Items.Add(produto.Nome);
+                cbProduto.Items.Add(produto);
             }
         }
 
@@ -492,7 +510,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
                         // Tem que ser feito pra evitar inconsistencias
                         chkAtualizar.Checked = false;
-                        GStxtValor.Valor = 0;
+                        AtualizeValorComODoProduto();
                         break;
 
                     case "Entrada":
@@ -534,28 +552,34 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             var listaDeProdutos = new List<Produto>();
             using (var servicoDeProduto = new ServicoDeProduto())
             {
-                listaDeProdutos = servicoDeProduto.ConsulteTodos().ToList();
-            }
+                if(cbProduto.SelectedItem == null)
+                {
+                    return;
+                }
 
-            var produto = listaDeProdutos.Find(x => x.Nome.Trim() == cbProduto.Text);
-            if (produto == null)
-            {
-                return;
-            }
-                
-            decimal valorASerAtribuido = 0;
-            switch ((EnumTipoDeInteracao)cbTipo.SelectedIndex + 1)
-            {
-                case EnumTipoDeInteracao.ENTRADA:
-                    valorASerAtribuido = produto.PrecoDeCompra;
-                    break;
+                int codigoProduto = Convert.ToInt32(((dynamic)cbProduto.SelectedItem).Codigo);
+                var horarioProgramado = GSUtilitarios.ObtenhaDateTimeCompletoDePickers(dateData, dateHorario).RemovaMs();
 
-                case EnumTipoDeInteracao.SAIDA:
-                    valorASerAtribuido = produto.PrecoDeVenda;
-                    break;
-            }
+                var produto = servicoDeProduto.Consulte(codigoProduto, horarioProgramado);
+                if (produto == null)
+                {
+                    return;
+                }
 
-            GStxtValor.Valor = valorASerAtribuido;
+                decimal valorASerAtribuido = 0;
+                switch ((EnumTipoDeInteracao)cbTipo.SelectedIndex + 1)
+                {
+                    case EnumTipoDeInteracao.ENTRADA:
+                        valorASerAtribuido = produto.PrecoDeCompra;
+                        break;
+
+                    case EnumTipoDeInteracao.SAIDA:
+                        valorASerAtribuido = produto.PrecoDeVenda;
+                        break;
+                }
+
+                GStxtValor.Valor = valorASerAtribuido;
+            }
         }
 
         private void btnAdicionarNumeroDeSerie_Click(object sender, EventArgs e)
@@ -633,6 +657,42 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         public void ApagueInstancia()
         {
             //GerenciadorDeViews.Exclua<frmInteracao>(IdInstancia);
+        }
+
+        private void cbProduto_TextChanged(object sender, EventArgs e)
+        {
+            // Significa que o input foi feito por usuario
+            if(cbProduto.SelectedIndex < 0)
+            {
+                CbProdutoAssistente.TextChanged();
+            }
+        }
+
+        void CbProdutoAssistant_Idled(object sender, EventArgs e)
+        {
+            Invoke(new MethodInvoker(() =>
+            {
+                var textoParaPesquisar = cbProduto.Text.Trim().ToLowerInvariant();
+                if(string.IsNullOrEmpty(textoParaPesquisar))
+                {
+                    cbProduto.Items.Clear();
+                    cbProduto.Items.AddRange(ProdutosParaPesquisa.ToArray());
+                    cbProduto.SelectionStart = cbProduto.Text.Length;
+
+                    return;
+                }
+
+                cbProduto.Items.Clear();
+
+                var produtosPesquisados = ProdutosParaPesquisa.Where(x => x.Nome.ToLowerInvariant().Contains(textoParaPesquisar)).ToArray();
+                if(produtosPesquisados.Any())
+                {
+                    cbProduto.Items.AddRange(produtosPesquisados);
+                    cbProduto.DroppedDown = true;
+                }
+
+                cbProduto.SelectionStart = cbProduto.Text.Length;
+            }));
         }
     }
 }
