@@ -78,5 +78,15 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             var dataVigencia = DateTime.ParseExact((string)cbVigencia.SelectedItem, "dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture);
             (Presenter as ProdutoPresenter).RecarregueVigencia(dataVigencia);
         }
+
+        private void txtPorcentagemLucro_Leave(object sender, EventArgs e)
+        {
+            if(!string.IsNullOrEmpty(txtPrecoDeCompra.Text) &&
+               !string.IsNullOrEmpty(txtPorcentagemLucro.Text))
+            {
+                var precoCompra = Convert.ToDecimal(txtPrecoDeCompra.Text);
+                txtPrecoDeVenda.Text = ((precoCompra * Convert.ToDecimal(txtPorcentagemLucro.Text) / 100) + precoCompra).ToString();
+            }
+        }
     }
 }

@@ -57,7 +57,6 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.cbProduto = new System.Windows.Forms.ComboBox();
             this.chkAtualizar = new System.Windows.Forms.CheckBox();
             this.flpNumerosDeSerie = new System.Windows.Forms.FlowLayoutPanel();
-            this.GSMultiTextBox = new GS.GestaoEmpresa.Solucao.UI.ControlesGenericos.GSMultiTextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
@@ -74,6 +73,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.dateData = new System.Windows.Forms.DateTimePicker();
             this.dateHorario = new System.Windows.Forms.DateTimePicker();
             this.GStxtValor = new GS.GestaoEmpresa.Solucao.UI.ControlesGenericos.GSTextBoxMonetaria();
+            this.GSMultiTextBox = new GS.GestaoEmpresa.Solucao.UI.ControlesGenericos.GSMultiTextBox();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.btnCancelarExcluir)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnEditarSalvar)).BeginInit();
@@ -174,7 +174,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.txtQuantidade.Location = new System.Drawing.Point(36, 477);
             this.txtQuantidade.Name = "txtQuantidade";
             this.txtQuantidade.Size = new System.Drawing.Size(64, 22);
-            this.txtQuantidade.TabIndex = 70;
+            this.txtQuantidade.TabIndex = 5;
             this.txtQuantidade.TextChanged += new System.EventHandler(this.txtQuantidade_TextChanged);
             // 
             // lblQuantidadeEstoque
@@ -243,7 +243,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.txtOrigem.MaxLength = 100;
             this.txtOrigem.Name = "txtOrigem";
             this.txtOrigem.Size = new System.Drawing.Size(462, 22);
-            this.txtOrigem.TabIndex = 104;
+            this.txtOrigem.TabIndex = 8;
             this.txtOrigem.TextChanged += new System.EventHandler(this.txtOrigem_TextChanged);
             // 
             // lblOrigem
@@ -265,7 +265,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.txtLineOrigem.Location = new System.Drawing.Point(16, 536);
             this.txtLineOrigem.Name = "txtLineOrigem";
             this.txtLineOrigem.Size = new System.Drawing.Size(543, 42);
-            this.txtLineOrigem.TabIndex = 103;
+            this.txtLineOrigem.TabIndex = 7;
             this.txtLineOrigem.Text = "_________________________";
             this.txtLineOrigem.Click += new System.EventHandler(this.txtLineOrigem_Click);
             // 
@@ -279,7 +279,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.txtDestino.MaxLength = 100;
             this.txtDestino.Name = "txtDestino";
             this.txtDestino.Size = new System.Drawing.Size(461, 22);
-            this.txtDestino.TabIndex = 107;
+            this.txtDestino.TabIndex = 9;
             // 
             // lblDestino
             // 
@@ -328,12 +328,14 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             // cbProduto
             // 
             this.cbProduto.BackColor = System.Drawing.Color.Silver;
+            this.cbProduto.DropDownHeight = 500;
             this.cbProduto.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cbProduto.FormattingEnabled = true;
+            this.cbProduto.IntegralHeight = false;
             this.cbProduto.Location = new System.Drawing.Point(37, 140);
             this.cbProduto.Name = "cbProduto";
             this.cbProduto.Size = new System.Drawing.Size(467, 32);
-            this.cbProduto.TabIndex = 111;
+            this.cbProduto.TabIndex = 1;
             this.cbProduto.SelectedIndexChanged += new System.EventHandler(this.cbProduto_SelectedIndexChanged);
             this.cbProduto.TextChanged += new System.EventHandler(this.cbProduto_TextChanged);
             // 
@@ -347,7 +349,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.chkAtualizar.Location = new System.Drawing.Point(432, 455);
             this.chkAtualizar.Name = "chkAtualizar";
             this.chkAtualizar.Size = new System.Drawing.Size(181, 76);
-            this.chkAtualizar.TabIndex = 113;
+            this.chkAtualizar.TabIndex = 100;
             this.chkAtualizar.Text = "Atualizar catálogo \r\nde produtos com \r\nnovo preço.\r\n";
             this.chkAtualizar.UseVisualStyleBackColor = true;
             // 
@@ -361,15 +363,6 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.flpNumerosDeSerie.Name = "flpNumerosDeSerie";
             this.flpNumerosDeSerie.Size = new System.Drawing.Size(484, 125);
             this.flpNumerosDeSerie.TabIndex = 115;
-            // 
-            // GSMultiTextBox
-            // 
-            this.GSMultiTextBox.BackColor = System.Drawing.Color.Silver;
-            this.GSMultiTextBox.Location = new System.Drawing.Point(3, 3);
-            this.GSMultiTextBox.Name = "GSMultiTextBox";
-            this.GSMultiTextBox.Size = new System.Drawing.Size(451, 32);
-            this.GSMultiTextBox.TabIndex = 0;
-            this.GSMultiTextBox.Texto = "";
             // 
             // label1
             // 
@@ -411,7 +404,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.txtNumeroDaNotaFiscal.MaxLength = 100;
             this.txtNumeroDaNotaFiscal.Name = "txtNumeroDaNotaFiscal";
             this.txtNumeroDaNotaFiscal.Size = new System.Drawing.Size(462, 22);
-            this.txtNumeroDaNotaFiscal.TabIndex = 120;
+            this.txtNumeroDaNotaFiscal.TabIndex = 4;
             this.txtNumeroDaNotaFiscal.TextChanged += new System.EventHandler(this.txtNumeroDaNotaFiscal_TextChanged);
             // 
             // lblNS
@@ -444,7 +437,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.chkInformarNumeroDeSerie.Location = new System.Drawing.Point(23, 186);
             this.chkInformarNumeroDeSerie.Name = "chkInformarNumeroDeSerie";
             this.chkInformarNumeroDeSerie.Size = new System.Drawing.Size(247, 28);
-            this.chkInformarNumeroDeSerie.TabIndex = 122;
+            this.chkInformarNumeroDeSerie.TabIndex = 2;
             this.chkInformarNumeroDeSerie.Text = "Informar Número de Série";
             this.chkInformarNumeroDeSerie.UseVisualStyleBackColor = true;
             this.chkInformarNumeroDeSerie.CheckedChanged += new System.EventHandler(this.chkInformarNumeroDeSerie_CheckedChanged);
@@ -459,7 +452,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.txtObservacoes.Name = "txtObservacoes";
             this.txtObservacoes.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.txtObservacoes.Size = new System.Drawing.Size(483, 101);
-            this.txtObservacoes.TabIndex = 123;
+            this.txtObservacoes.TabIndex = 10;
             // 
             // lblObservacoes
             // 
@@ -515,7 +508,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.txtQuantidadeAux.Location = new System.Drawing.Point(161, 477);
             this.txtQuantidadeAux.Name = "txtQuantidadeAux";
             this.txtQuantidadeAux.Size = new System.Drawing.Size(64, 22);
-            this.txtQuantidadeAux.TabIndex = 129;
+            this.txtQuantidadeAux.TabIndex = 6;
             this.txtQuantidadeAux.TextChanged += new System.EventHandler(this.txtQuantidadeAux_TextChanged);
             // 
             // dateData
@@ -549,12 +542,21 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.GStxtValor.Location = new System.Drawing.Point(279, 473);
             this.GStxtValor.Name = "GStxtValor";
             this.GStxtValor.Size = new System.Drawing.Size(153, 36);
-            this.GStxtValor.TabIndex = 121;
+            this.GStxtValor.TabIndex = 7;
             this.GStxtValor.Valor = new decimal(new int[] {
             0,
             0,
             0,
             131072});
+            // 
+            // GSMultiTextBox
+            // 
+            this.GSMultiTextBox.BackColor = System.Drawing.Color.Silver;
+            this.GSMultiTextBox.Location = new System.Drawing.Point(3, 3);
+            this.GSMultiTextBox.Name = "GSMultiTextBox";
+            this.GSMultiTextBox.Size = new System.Drawing.Size(451, 32);
+            this.GSMultiTextBox.TabIndex = 3;
+            this.GSMultiTextBox.Texto = "";
             // 
             // frmInteracao
             // 
@@ -640,7 +642,6 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         private Label label1;
         private Label label2;
         private FlowLayoutPanel flowLayoutPanel1;
-        private TextBox txtNumeroDaNotaFiscal;
         private Label lblNS;
         private Label label4;
         private ControlesGenericos.GSMultiTextBox GSMultiTextBox;
@@ -656,5 +657,6 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         private TextBox txtQuantidadeAux;
         private DateTimePicker dateData;
         private DateTimePicker dateHorario;
+        public TextBox txtNumeroDaNotaFiscal;
     }
 }

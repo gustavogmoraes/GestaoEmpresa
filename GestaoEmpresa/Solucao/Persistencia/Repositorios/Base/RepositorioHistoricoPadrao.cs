@@ -93,11 +93,15 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios.Base
         {
             using (var sessaoRaven = _documentStore.OpenSession())
             {
-                return sessaoRaven.Query<T>()
-                    .Search(propriedade, pesquisa)
+                var queryRaven = sessaoRaven.Query<T>()
+                    .Where(_filtroAtual())
+                    //.Search(propriedade, pesquisa)
                     .Select(seletor)
-                    .ToList()
+                    .ToList();
+                
+                return queryRaven
                     .Cast<T>()
+                    .Where(x => propriedade.Compile().Invoke(x).ToString().ToLowerInvariant().Contains(pesquisa))
                     .ToList();
             }
         }

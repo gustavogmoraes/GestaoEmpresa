@@ -139,6 +139,7 @@
             this.label15.Size = new System.Drawing.Size(98, 13);
             this.label15.TabIndex = 57;
             this.label15.Text = "Migração de dados";
+            this.label15.Visible = false;
             this.label15.Click += new System.EventHandler(this.Label15_Click);
             // 
             // gbConfiguracoesBasicas

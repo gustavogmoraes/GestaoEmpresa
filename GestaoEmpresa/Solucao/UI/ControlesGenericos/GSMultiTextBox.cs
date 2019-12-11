@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque;
 
 namespace GS.GestaoEmpresa.Solucao.UI.ControlesGenericos
 {
@@ -64,6 +65,16 @@ namespace GS.GestaoEmpresa.Solucao.UI.ControlesGenericos
             }
         }
 
+        protected override bool ProcessDialogKey(Keys keyData)
+        {
+            if (keyData == Keys.Tab)
+            {
+                return false;
+            }
+
+            return base.ProcessDialogKey(keyData);
+        }
+
         private void TxtTexto_KeyDown(object sender, KeyEventArgs e)
         {
             if (new[] {Keys.Return, Keys.Enter}.Contains(e.KeyCode))
@@ -72,6 +83,24 @@ namespace GS.GestaoEmpresa.Solucao.UI.ControlesGenericos
 
                 var painel = (Parent as FlowLayoutPanel);
                 painel?.Controls.OfType<GSMultiTextBox>().LastOrDefault()?.txtTexto.Focus();
+
+                return;
+            }
+
+            if (new[] { Keys.Tab }.Contains(e.KeyCode))
+            {
+                var painel = (Parent as FlowLayoutPanel);
+                if(painel?.Controls.OfType<GSMultiTextBox>().Last() == this)
+                {
+                    var form = (Parent as FlowLayoutPanel).FindForm() as frmInteracao;
+                    form.txtNumeroDaNotaFiscal.Focus();
+
+                    return;
+                }
+
+                var indexOfThis = painel.Controls.IndexOf(this);
+                var proximo = painel?.Controls[indexOfThis + 1];
+                ((GSMultiTextBox)proximo).txtTexto.Focus();
             }
         }
     }

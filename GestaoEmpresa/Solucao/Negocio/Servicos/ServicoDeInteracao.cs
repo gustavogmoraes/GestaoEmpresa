@@ -46,6 +46,8 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
                 TipoDeInteracao = x.TipoDeInteracao,
                 NumerosDeSerie = x.NumerosDeSerie,
                 HorarioProgramado = x.HorarioProgramado,
+                ValorInteracao = x.ValorInteracao,
+                QuantidadeInterada = x.QuantidadeInterada,
                 Produto = new Produto { Nome = x.Produto.Nome }
             })
             .OrderByDescending(x => x.Codigo)

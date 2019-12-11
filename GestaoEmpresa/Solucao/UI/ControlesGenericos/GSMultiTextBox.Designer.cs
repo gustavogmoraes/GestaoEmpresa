@@ -68,6 +68,7 @@
             this.txtTexto.Name = "txtTexto";
             this.txtTexto.Size = new System.Drawing.Size(382, 22);
             this.txtTexto.TabIndex = 105;
+            this.txtTexto.TabStop = false;
             this.txtTexto.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtTexto_KeyDown);
             // 
             // txtLineTexto
@@ -101,7 +102,7 @@
 
         private System.Windows.Forms.Button btnAdicionar;
         private System.Windows.Forms.Button btnRemover;
-        private System.Windows.Forms.TextBox txtTexto;
         private System.Windows.Forms.Label txtLineTexto;
+        public System.Windows.Forms.TextBox txtTexto;
     }
 }

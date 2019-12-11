@@ -87,7 +87,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                                     break;
 
                                 case "Código do fabricante":
-                                    listaFiltrada = servicoDeProduto.ConsulteTodosParaAterrissagem(x => x.CodigoDoFabricante, pesquisa);
+                                    listaFiltrada = servicoDeProduto.ConsulteTodosParaAterrissagem(x => x.CodigoDoFabricante.ToString(), pesquisa);
                                     break;
                             }
                         }
@@ -378,22 +378,23 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         private void dgvProdutos_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             var senderGrid = (DataGridView)sender;
-
-            if (e.RowIndex < 0)
-                return;
-
             var codigoProduto = (int)senderGrid["colunaCodigo", e.RowIndex].Value;
-            Produto produto;
 
-            using (var servicoDeProduto = new ServicoDeProduto())
-            {
-                produto = servicoDeProduto.Consulte(codigoProduto);
-            }
-
-            if (produto != null)
-            {
-                new frmProduto(produto).Show();
-            }
+            IPresenter presenter = null;
+            GSWaitForm.Mostrar(
+                this,
+                () =>
+                {
+                    using (var servicoDeProduto = new ServicoDeProduto())
+                    {
+                        var produto = servicoDeProduto.Consulte(codigoProduto);
+                        presenter = GerenciadorDeViews.Crie<ProdutoPresenter>(produto);
+                    }
+                },
+                () =>
+                {
+                    presenter.View.Show();
+                });
         }
 
         private void dgvHistorico_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -851,7 +852,9 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                     if (produtosPesquisados.Any())
                     {
                         cbPesquisaPorProduto.Items.AddRange(produtosPesquisados.Select(x => new { x.Codigo, x.Nome }).ToArray());
+                        cbPesquisaPorProduto.Focus();
                         cbPesquisaPorProduto.DroppedDown = true;
+                        cbPesquisaPorProduto.Cursor = Cursors.Default;
                     }
 
                     cbPesquisaPorProduto.SelectionStart = cbPesquisaPorProduto.Text.Length;

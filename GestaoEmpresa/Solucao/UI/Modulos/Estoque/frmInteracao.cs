@@ -59,7 +59,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         private void InicializeAssistentesDigitacao()
         {
-            CbProdutoAssistente = new GSAssistenteDeDigitacao(350);
+            CbProdutoAssistente = new GSAssistenteDeDigitacao();
             CbProdutoAssistente.Idled += CbProdutoAssistant_Idled;
         }
 
@@ -361,6 +361,11 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         private void cbProduto_DropDown(object sender, EventArgs e)
         {
+            if(EstahRenderizando)
+            {
+                return;
+            }
+
             //var listaDeProdutos = new List<Produto>();
 
             //using (var servicoDeProduto = new ServicoDeProduto())
@@ -549,6 +554,11 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         private void AtualizeValorComODoProduto()
         {
+            if(EstahRenderizando)
+            {
+                return;
+            }
+
             var listaDeProdutos = new List<Produto>();
             using (var servicoDeProduto = new ServicoDeProduto())
             {
@@ -610,6 +620,11 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         private void cbProduto_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if(EstahRenderizando)
+            {
+                return;
+            }
+
             AtualizeValorComODoProduto();
         }
 
@@ -619,6 +634,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             {
                 label1.Enabled = true;
                 flpNumerosDeSerie.Enabled = true;
+                flpNumerosDeSerie.Controls.OfType<GSMultiTextBox>().First().txtTexto.Focus();
             }
             else
             {
@@ -661,6 +677,11 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         private void cbProduto_TextChanged(object sender, EventArgs e)
         {
+            if(EstahRenderizando)
+            {
+                return;
+            }
+
             // Significa que o input foi feito por usuario
             if(cbProduto.SelectedIndex < 0)
             {
@@ -670,8 +691,14 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         void CbProdutoAssistant_Idled(object sender, EventArgs e)
         {
+            if(EstahRenderizando)
+            {
+                return;
+            }
+
             Invoke(new MethodInvoker(() =>
             {
+                cbProduto.AutoCompleteMode = AutoCompleteMode.None;
                 var textoParaPesquisar = cbProduto.Text.Trim().ToLowerInvariant();
                 if(string.IsNullOrEmpty(textoParaPesquisar))
                 {
@@ -687,8 +714,15 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                 var produtosPesquisados = ProdutosParaPesquisa.Where(x => x.Nome.ToLowerInvariant().Contains(textoParaPesquisar)).ToArray();
                 if(produtosPesquisados.Any())
                 {
+                    
                     cbProduto.Items.AddRange(produtosPesquisados);
+                    cbProduto.Focus();
                     cbProduto.DroppedDown = true;
+                    EstahRenderizando = true;
+                        cbProduto.SelectedIndex = -1;
+                        cbProduto.Text = textoParaPesquisar;
+                    EstahRenderizando = false;
+                    cbProduto.Cursor = Cursors.Default;
                 }
 
                 cbProduto.SelectionStart = cbProduto.Text.Length;
