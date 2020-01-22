@@ -19,6 +19,7 @@ using GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque;
 using GS.GestaoEmpresa.Solucao.UI.Modulos.Tecnico;
 using GS.GestaoEmpresa.Solucao.Utilitarios;
 using Microsoft.VisualBasic;
+using Raven.Client.Extensions;
 
 namespace GS.GestaoEmpresa.Solucao.UI.Principal
 {
@@ -264,7 +265,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Principal
                 var usuario = servicoDeUsuario.Consulte((txtUsuario.Text.Trim()));
                 if (usuario != null)
                 {
-                    if (usuario.Senha == txtSenha.Text.Trim().GetHashCode())
+                    if (usuario.Senha == txtSenha.Text.Trim().GetDeterministicHashCode())
                     {
                         tabControl1.SelectTab("tabChamador");
                         //GerenciadorAbas.ChamadorAtivo = true;
@@ -734,7 +735,29 @@ namespace GS.GestaoEmpresa.Solucao.UI.Principal
                 btnEntrar_Click_1(btnEntrar, e);
 
                 WindowState = FormWindowState.Minimized;
-                new frmEstoque{ Opacity = 0 }.Show();
+
+                var repoCfg = new RepositorioDeConfiguracao();
+                var cfg = repoCfg.ObtenhaUnica();
+                if (cfg == null)
+                {
+                    repoCfg.Insira(new Configuracoes
+                    {
+                        Codigo = 1,
+                        PorcentagemDeLucroPadrao = (decimal)0.4,
+                        PorcentagemImpostoProtege = (decimal)0.0449
+                    });
+                }
+
+                using (var servico = new ServicoDeProduto())
+                {
+                    servico.ImportePlanilhaIntelbras(@"C:\Users\gustavo.moraes\Documents\GitHub\GestaoEmpresa\ProjetosOutSln\Tabela de Preços - Soluções e Projetos-Revendas 15-20 v2.xlsb").ContinueWithTask(() =>
+                    {
+                        Console.WriteLine("Completado com sucesso");
+                        return Task.CompletedTask;
+                    });
+                }
+
+                //new frmEstoque{ Opacity = 0 }.Show();
             }
         }
 

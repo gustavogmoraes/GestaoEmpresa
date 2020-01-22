@@ -28,7 +28,7 @@
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x64</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -38,6 +38,7 @@
     <WarningLevel>4</WarningLevel>
     <UseVSHostingProcess>true</UseVSHostingProcess>
     <LangVersion>7.3</LangVersion>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -55,6 +56,9 @@
   <PropertyGroup>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>GestaoEmpresa.Program</StartupObject>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="EPPlus, Version=4.5.3.1, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
       <HintPath>..\packages\EPPlus.4.5.3.1\lib\net40\EPPlus.dll</HintPath>
@@ -64,6 +68,12 @@
     </Reference>
     <Reference Include="Lambda2Js.Signed, Version=3.1.2.0, Culture=neutral, PublicKeyToken=9ba16f7edfc48fe6, processorArchitecture=MSIL">
       <HintPath>..\packages\Lambda2Js.Signed.3.1.2\lib\net40\Lambda2Js.Signed.dll</HintPath>
+    </Reference>
+    <Reference Include="LinqToExcel, Version=1.10.1.0, Culture=neutral, PublicKeyToken=9c8ea65a58f03f1f, processorArchitecture=MSIL">
+      <HintPath>..\packages\LinqToExcel_x64.1.10.1\lib\LinqToExcel.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
     </Reference>
     <Reference Include="MetroFramework, Version=1.4.0.0, Culture=neutral, PublicKeyToken=5f91a84759bf584a, processorArchitecture=MSIL">
       <HintPath>..\packages\MetroModernUI.1.4.0.0\lib\net\MetroFramework.dll</HintPath>
@@ -81,9 +91,21 @@
     <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="OleDB, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\OleDB_dotNET.1.0.0\lib\net40\OleDB.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="Raven.Client, Version=4.1.4.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
       <HintPath>..\packages\RavenDB.Client.4.1.4\lib\netstandard2.0\Raven.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="Remotion, Version=1.13.52.2, Culture=neutral, PublicKeyToken=0669cf0452175907, processorArchitecture=MSIL">
+      <HintPath>..\packages\LinqToExcel_x64.1.10.1\lib\Remotion.dll</HintPath>
+    </Reference>
+    <Reference Include="Remotion.Data.Linq, Version=1.13.52.2, Culture=neutral, PublicKeyToken=0669cf0452175907, processorArchitecture=MSIL">
+      <HintPath>..\packages\LinqToExcel_x64.1.10.1\lib\Remotion.Data.Linq.dll</HintPath>
+    </Reference>
+    <Reference Include="Remotion.Interfaces, Version=1.13.52.2, Culture=neutral, PublicKeyToken=0669cf0452175907, processorArchitecture=MSIL">
+      <HintPath>..\packages\LinqToExcel_x64.1.10.1\lib\Remotion.Interfaces.dll</HintPath>
     </Reference>
     <Reference Include="Sparrow, Version=4.1.4.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
       <HintPath>..\packages\RavenDB.Client.4.1.4\lib\netstandard2.0\Sparrow.dll</HintPath>
@@ -94,6 +116,9 @@
     </Reference>
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.OleDb, Version=4.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Data.OleDb.4.7.0\lib\net461\System.Data.OleDb.dll</HintPath>
+    </Reference>
     <Reference Include="System.DirectoryServices" />
     <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.2\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
@@ -109,6 +134,7 @@
     <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.2\lib\netstandard2.0\System.Threading.Tasks.Extensions.dll</HintPath>
     </Reference>
+    <Reference Include="System.Transactions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -127,12 +153,15 @@
   <ItemGroup>
     <Compile Include="Solucao\Negocio\Atributos\Identificacao.cs" />
     <Compile Include="Solucao\Negocio\Enumeradores\Comuns\EnumFormatacaoDateTime.cs" />
+    <Compile Include="Solucao\Negocio\Enumeradores\Seguros\UnidadeIntelbras\EnumUnidadeIntelbras.cs" />
+    <Compile Include="Solucao\Negocio\Enumeradores\Seguros\UnidadeIntelbras\UnidadeIntelbras.cs" />
     <Compile Include="Solucao\Negocio\Interfaces\IConceitoComPendencia.cs" />
     <Compile Include="Solucao\Negocio\Interfaces\IServicoHistoricoPadrao.cs" />
     <Compile Include="Solucao\Negocio\Interfaces\IServicoPadrao.cs" />
     <Compile Include="Solucao\Negocio\Objetos\Base\ObjetoComHistorico.cs" />
     <Compile Include="Solucao\Negocio\Objetos\Base\Pessoa.cs" />
     <Compile Include="Solucao\Negocio\Objetos\ClienteAntigo.cs" />
+    <Compile Include="Solucao\Negocio\Objetos\Configuracoes.cs" />
     <Compile Include="Solucao\Negocio\Servicos\Base\ServicoHistoricoPadrao.cs" />
     <Compile Include="Solucao\Negocio\Servicos\Base\ServicoPadrao.cs" />
     <Compile Include="Solucao\Negocio\Validador\Base\ValidadorPadrao.cs" />
@@ -150,6 +179,7 @@
     <Compile Include="Solucao\Persistencia\Repositorios\RepositorioDeCliente.cs" />
     <Compile Include="Solucao\Persistencia\Repositorios\RepositorioDeClienteAntigo.cs" />
     <Compile Include="Solucao\Persistencia\Repositorios\RepositorioDeColaborador.cs" />
+    <Compile Include="Solucao\Persistencia\Repositorios\RepositorioDeConfiguracao.cs" />
     <Compile Include="Solucao\Persistencia\Repositorios\RepositorioDeInteracao.cs" />
     <Compile Include="Solucao\Persistencia\Repositorios\RepositorioDeProduto.cs" />
     <Compile Include="Solucao\Persistencia\Repositorios\RepositorioDeSolicitacaoDeAtendimento.cs" />
@@ -460,5 +490,6 @@
   <ItemGroup>
     <None Include="Resources\Preloader_2.gif" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

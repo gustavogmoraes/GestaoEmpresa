@@ -84,7 +84,7 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios.Base
                     : sessaoRaven.Query<T>().Where(_filtroAtual());
 
                 return seletor == null
-                    ? queryable.ToList().Cast<T>().ToList()
+                    ? queryable.ToList().ToList()
                     : queryable.Select(seletor).ToList().Cast<T>().ToList();
             }
         }
@@ -131,7 +131,9 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios.Base
 
                 item.Atual = true;
                 if (item.Vigencia == null || item.Vigencia == DateTime.MinValue)
+                {
                     item.Vigencia = DateTime.Now;
+                }
 
                 sessaoRaven.Store(item);
                 sessaoRaven.SaveChanges();

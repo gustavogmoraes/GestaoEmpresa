@@ -3,6 +3,7 @@ using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores.Comuns;
 using GS.GestaoEmpresa.Solucao.Negocio.Objetos;
 using System;
 using System.Linq;
+using GS.GestaoEmpresa.Solucao.Utilitarios;
 
 namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
 {
@@ -18,7 +19,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
                         Codigo = 1,
                         Status = EnumStatusDoUsuario.Ativo,
                         Nome = "admin",
-                        Senha = "admin".GetHashCode(),
+                        Senha = "admin".GetDeterministicHashCode(),
                     });
             }
         }

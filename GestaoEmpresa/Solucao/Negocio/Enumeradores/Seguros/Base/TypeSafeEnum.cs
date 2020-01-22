@@ -30,7 +30,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Enumeradores.Seguros.Base
 
         public static IEnumerable<TEntidade> ObtenhaTodos()
         {
-            return typeof(TEntidade).GetProperties(BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly)
+            return typeof(TEntidade).GetProperties(BindingFlags.Public | BindingFlags.Static)
                 .Select(x => x.GetValue(typeof(TEntidade), null) as TEntidade);
         }
 

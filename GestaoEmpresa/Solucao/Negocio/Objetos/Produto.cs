@@ -5,6 +5,7 @@ using GS.GestaoEmpresa.Solucao.Negocio.Interfaces;
 using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores.Comuns;
 using GS.GestaoEmpresa.Solucao.Negocio.Atributos;
 using System;
+using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores.Seguros.UnidadeIntelbras;
 using GS.GestaoEmpresa.Solucao.Negocio.Objetos.Base;
 
 namespace GS.GestaoEmpresa.Solucao.Negocio.Objetos
@@ -47,8 +48,23 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Objetos
         [Identificacao(Descricao = "Codigo de barras")]
         public string CodigoDeBarras { get; set; }
 
+        [Identificacao(Descricao = "Porcentagem de Ipi")]
+        public decimal Ipi { get; set; }
+
+        public decimal PrecoNaIntelbras { get; set; }
+
+        public UnidadeIntelbras Unidade { get; set; }
+
+        public decimal PrecoSugeridoRevenda { get; set; }
+
         public Produto(Produto modelo) : base (modelo) { }
 
         public Produto() { }
+
+        public void CalculePrecoDeVenda()
+        {
+            PrecoDeVenda = PrecoDeCompra + 
+                           PrecoDeCompra * PorcentagemDeLucro;
+        }
     }
 }

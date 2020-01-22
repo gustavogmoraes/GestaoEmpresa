@@ -13,6 +13,7 @@ using System.Windows.Forms;
 using GS.GestaoEmpresa.Solucao.Persistencia.BancoDeDados;
 using GS.GestaoEmpresa.Solucao.UI;
 using GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque;
+using MoreLinq;
 using Raven.Client.Documents;
 using Raven.Client.Documents.Operations;
 using Raven.Client.Documents.Operations.Indexes;
@@ -204,7 +205,7 @@ namespace GS.GestaoEmpresa.Solucao.Utilitarios
         }
 
         public static Expression<Func<T, bool>> AndAlso<T>(this Expression<Func<T, bool>> expression1, Expression<Func<T, bool>> expression2)
-            where T: class
+            where T : class
         {
             var body = Expression.AndAlso(expression1.Body, expression2.Body);
             var lambda = Expression.Lambda<Func<T, bool>>(body, expression1.Parameters);
@@ -221,6 +222,43 @@ namespace GS.GestaoEmpresa.Solucao.Utilitarios
             textBox.Text = text;
 
             view.EstahRenderizando = false;
+        }
+
+        public static int GetDeterministicHashCode(this string str)
+        {
+            unchecked
+            {
+                int hash1 = (5381 << 16) + 5381;
+                int hash2 = hash1;
+
+                for (int i = 0; i < str.Length; i += 2)
+                {
+                    hash1 = ((hash1 << 5) + hash1) ^ str[i];
+                    if (i == str.Length - 1)
+                        break;
+                    hash2 = ((hash2 << 5) + hash2) ^ str[i + 1];
+                }
+
+                return hash1 + (hash2 * 1566083941);
+            }
+        }
+
+        private static readonly Dictionary<string, string> CustomTitleCaseReplacements = new Dictionary<string, string>
+        {
+            { "De", "de" },
+            { "Do", "do" }
+        };
+
+
+        public static string ToCustomTitleCase(this string text)
+        {
+            var textInfo = CultureInfo.GetCultureInfo("pt-BR").TextInfo;
+
+            var tempText = textInfo.ToTitleCase(text);
+
+            CustomTitleCaseReplacements.ForEach(x => tempText = tempText.Replace(x.Key, x.Value));
+            
+            return tempText;
         }
     }
 
