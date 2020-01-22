@@ -43,11 +43,11 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         {
             InitializeComponent();
 
-            assistant = new GSAssistenteDeDigitacao(400);
+            assistant = new GSAssistenteDeDigitacao(Convert.ToInt32(TimeSpan.FromSeconds(2).TotalMilliseconds));
             assistant.Idled += assistant_Idled;
 
             cbPesquisaPorProduto.DisplayMember = "Nome";
-            CbPesquisaPorProdutoAssistente = new GSAssistenteDeDigitacao(400);
+            CbPesquisaPorProdutoAssistente = new GSAssistenteDeDigitacao(Convert.ToInt32(TimeSpan.FromSeconds(2).TotalMilliseconds));
             CbPesquisaPorProdutoAssistente.Idled += CbPesquisaPorProdutoAssistente_Idled;
         }
 
@@ -87,7 +87,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                                     break;
 
                                 case "Código do fabricante":
-                                    listaFiltrada = servicoDeProduto.ConsulteTodosParaAterrissagem(x => x.CodigoDoFabricante.ToString(), pesquisa);
+                                    listaFiltrada = servicoDeProduto.ConsulteTodosParaAterrissagem(x => x.CodigoDoFabricante, pesquisa);
                                     break;
                             }
                         }
@@ -793,31 +793,31 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         {
             base.OnShown(e);
 
-            if (SessaoSistema.WorkTestMode)
-            {
-                //Opacity = 0;
-                WindowState = FormWindowState.Normal;
+            //if (SessaoSistema.WorkTestMode)
+            //{
+            //    //Opacity = 0;
+            //    WindowState = FormWindowState.Normal;
 
-                var simulator = new InputSimulator();
+            //    var simulator = new InputSimulator();
 
-                Task.Run(() => simulator.Keyboard.KeyDown(VirtualKeyCode.LWIN));
-                var task = Task.Run(() =>
-                {
-                    simulator.Keyboard
-                             .KeyPress(VirtualKeyCode.RIGHT)
-                             .Sleep(TimeSpan.FromMilliseconds(80))
-                             .KeyPress(VirtualKeyCode.DOWN);
-                });
+            //    Task.Run(() => simulator.Keyboard.KeyDown(VirtualKeyCode.LWIN));
+            //    var task = Task.Run(() =>
+            //    {
+            //        simulator.Keyboard
+            //                 .KeyPress(VirtualKeyCode.RIGHT)
+            //                 .Sleep(TimeSpan.FromMilliseconds(80))
+            //                 .KeyPress(VirtualKeyCode.DOWN);
+            //    });
 
-                task.ContinueWith(x =>
-                {
-                    Invoke((MethodInvoker)delegate
-                   {
-                       Opacity = 100;
-                       simulator.Keyboard.KeyUp(VirtualKeyCode.LWIN);
-                   });
-                });
-            }
+            //    task.ContinueWith(x =>
+            //    {
+            //        Invoke((MethodInvoker)delegate
+            //       {
+            //           Opacity = 100;
+            //           simulator.Keyboard.KeyUp(VirtualKeyCode.LWIN);
+            //       });
+            //    });
+            //}
         }
 
         private GSAssistenteDeDigitacao CbPesquisaPorProdutoAssistente { get; set; }

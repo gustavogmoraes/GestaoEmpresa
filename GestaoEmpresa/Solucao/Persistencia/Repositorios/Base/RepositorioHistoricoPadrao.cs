@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
 
 namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios.Base
 {
@@ -98,10 +99,20 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios.Base
                     //.Search(propriedade, pesquisa)
                     .Select(seletor)
                     .ToList();
-                
+
                 return queryRaven
                     .Cast<T>()
-                    .Where(x => propriedade.Compile().Invoke(x).ToString().ToLowerInvariant().Contains(pesquisa))
+                    .Where(x =>
+                    { 
+                        var prop = (PropertyInfo)propriedade.GetPropertyFromExpression();
+                        var val = prop.GetValue(x, null);
+                        if(val == null)
+                        {
+                            return false;
+                        }
+                        
+                        return val.ToString().ToLowerInvariant().Contains(pesquisa);
+                    })
                     .ToList();
             }
         }

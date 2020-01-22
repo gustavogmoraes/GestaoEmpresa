@@ -729,35 +729,50 @@ namespace GS.GestaoEmpresa.Solucao.UI.Principal
 
             if (SessaoSistema.WorkTestMode)
             {
-                txtUsuario.Text = "admin";
-                txtSenha.Text = "admin";
+                var repoUser = new RepositorioDeUsuario();
+
+                txtUsuario.Text = "junio.moraes";
+                txtSenha.Text = "Mega280271@";
 
                 btnEntrar_Click_1(btnEntrar, e);
 
                 WindowState = FormWindowState.Minimized;
 
-                var repoCfg = new RepositorioDeConfiguracao();
-                var cfg = repoCfg.ObtenhaUnica();
-                if (cfg == null)
-                {
-                    repoCfg.Insira(new Configuracoes
-                    {
-                        Codigo = 1,
-                        PorcentagemDeLucroPadrao = (decimal)0.4,
-                        PorcentagemImpostoProtege = (decimal)0.0449
-                    });
-                }
+                //var repoProd = new RepositorioDeProduto();
+                //var prods = repoProd.ConsulteTodos().Where(x => x.Atual && x.Vigencia == DateTime.MinValue).ToList();
 
-                using (var servico = new ServicoDeProduto())
-                {
-                    servico.ImportePlanilhaIntelbras(@"C:\Users\gustavo.moraes\Documents\GitHub\GestaoEmpresa\ProjetosOutSln\Tabela de Preços - Soluções e Projetos-Revendas 15-20 v2.xlsb").ContinueWithTask(() =>
-                    {
-                        Console.WriteLine("Completado com sucesso");
-                        return Task.CompletedTask;
-                    });
-                }
+                //var i = 0;
+                //Parallel.ForEach(prods, x =>
+                //{
+                //    i++;
+                //    var newProd = new Produto(x);
+                //    newProd.Vigencia = DateTime.Now;
+                //    repoProd.Atualize(newProd);
+                //});
+                //var repoCfg = new RepositorioDeConfiguracao();
+                //var cfg = repoCfg.ObtenhaUnica();
+                //if (cfg == null)
+                //{
+                //    repoCfg.Insira(new Configuracoes
+                //    {
+                //        Codigo = 1,
+                //        PorcentagemDeLucroPadrao = (decimal)0.4,
+                //        PorcentagemImpostoProtege = (decimal)0.0449
+                //    });
+                //}
 
-                //new frmEstoque{ Opacity = 0 }.Show();
+                //using (var servico = new ServicoDeProduto())
+                //{
+                //    servico.ImportePlanilhaIntelbras(@"..\ProjetosOutSln\Tabela de Preços - Soluções e Projetos-Revendas 15-20 v2.xlsb").ContinueWithTask(() =>
+                //    {
+                //        Console.WriteLine("Completado com sucesso");
+                //        return Task.CompletedTask;
+                //    });
+                //}
+
+                var estoque = new frmEstoque();
+                estoque.WindowState = FormWindowState.Maximized;
+                estoque.Show();
             }
         }
 
