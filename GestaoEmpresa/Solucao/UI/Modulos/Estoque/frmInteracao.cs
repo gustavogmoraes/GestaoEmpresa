@@ -127,6 +127,9 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             chkAtualizar.Enabled = false;
             chkInformarNumeroDeSerie.Enabled = false;
 
+            GStxtValor.Enabled = false;
+            txtNumeroDaNotaFiscal.Enabled = false;
+
             foreach(Control controle in flpNumerosDeSerie.Controls)
             {
                 controle.Controls.Find("btnAdicionar", false)[0].Visible = false;

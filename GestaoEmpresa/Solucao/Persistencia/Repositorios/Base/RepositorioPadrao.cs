@@ -54,7 +54,7 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios.Base
         {
             using (var sessaoRaven = _documentStore.OpenSession())
             {
-                return sessaoRaven.Load<T>(ObtenhaIdRaven(codigo));
+                return sessaoRaven.Query<T>().FirstOrDefault(x => x.Codigo == codigo);
             }
         }
 
