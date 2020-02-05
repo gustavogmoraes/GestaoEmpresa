@@ -18,7 +18,7 @@ namespace GestaoEmpresa
             Application.SetCompatibleTextRenderingDefault(false);
 
             SessaoSistema.IsMain = File.Exists(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "IsMain.txt"));
-            SessaoSistema.WorkTestMode = true;
+            //SessaoSistema.WorkTestMode = true;
 
             Application.Run(GerenciadorDeViews.ObtenhaPrincipal());
         }

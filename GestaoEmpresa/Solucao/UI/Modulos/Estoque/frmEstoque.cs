@@ -37,19 +37,22 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         public CultureInfo Cultura = new CultureInfo("pt-BR");
 
-        GSAssistenteDeDigitacao assistant;
+        readonly GSAssistenteDeDigitacao assistant;
 
         public frmEstoque()
         {
             InitializeComponent();
 
-            assistant = new GSAssistenteDeDigitacao(Convert.ToInt32(TimeSpan.FromSeconds(2).TotalMilliseconds));
+            assistant = new GSAssistenteDeDigitacao(Convert.ToInt32(TimeSpan.FromSeconds(1.2).TotalMilliseconds));
             assistant.Idled += assistant_Idled;
 
             cbPesquisaPorProduto.DisplayMember = "Nome";
-            CbPesquisaPorProdutoAssistente = new GSAssistenteDeDigitacao(Convert.ToInt32(TimeSpan.FromSeconds(2).TotalMilliseconds));
+            CbPesquisaPorProdutoAssistente = new GSAssistenteDeDigitacao(Convert.ToInt32(TimeSpan.FromSeconds(1.2).TotalMilliseconds));
             CbPesquisaPorProdutoAssistente.Idled += CbPesquisaPorProdutoAssistente_Idled;
         }
+
+
+        private string oldAssistantFilter { get; set; }
 
         void assistant_Idled(object sender, EventArgs e)
         {
@@ -58,10 +61,15 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                 var pesquisa = txtPesquisa.Text.Trim();
                 var filtro = cbFiltro.Text;
 
-                if (filtro == string.Empty)
+                if (filtro == null || string.IsNullOrEmpty(pesquisa))
                 {
-                    return;
+                    if (string.IsNullOrEmpty(oldAssistantFilter) || oldAssistantFilter == pesquisa)
+                    {
+                        return;
+                    }
                 }
+
+                oldAssistantFilter = pesquisa;
 
                 var listaFiltrada = new List<Produto>();
                 GSWaitForm.Mostrar(
@@ -830,11 +838,23 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             }
         }
 
+        private string oldAssistantPorProdutoFilter { get; set; }
         private void CbPesquisaPorProdutoAssistente_Idled(object sender, EventArgs e)
         {
             Invoke(new MethodInvoker(() =>
             {
-                using(var servicoDeProduto = new ServicoDeProduto())
+                var pesquisa = cbPesquisaPorProduto.Text.Trim();
+                if (string.IsNullOrEmpty(pesquisa))
+                {
+                    if (string.IsNullOrEmpty(oldAssistantPorProdutoFilter) || oldAssistantPorProdutoFilter == pesquisa)
+                    {
+                        return;
+                    }
+                }
+
+                oldAssistantPorProdutoFilter = pesquisa;
+
+                using (var servicoDeProduto = new ServicoDeProduto())
                 {
                     var textoParaPesquisar = cbPesquisaPorProduto.Text.Trim().ToLowerInvariant();
                     if (string.IsNullOrEmpty(textoParaPesquisar))

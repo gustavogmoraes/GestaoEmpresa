@@ -234,6 +234,11 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
                         (controle, propriedade, model, presenter) =>
                         {
                             var valor = propriedade.GetValue(model, null);
+                            if (propriedade.PropertyType == typeof(decimal))
+                            {
+                                valor = Math.Round(Convert.ToDecimal(valor), 2);
+                            }
+
                             ((MetroTextBox) controle).Text = (valor ?? string.Empty).ToString();
                         },
 

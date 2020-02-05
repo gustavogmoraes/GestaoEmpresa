@@ -33,6 +33,7 @@
             this.btnCancelarExcluir = new System.Windows.Forms.PictureBox();
             this.btnEditarSalvar = new System.Windows.Forms.PictureBox();
             this.panelTitulo = new System.Windows.Forms.Panel();
+            this.gsTopBorder1 = new GS.GestaoEmpresa.Solucao.UI.ControlesGenericos.GSTopBorder();
             ((System.ComponentModel.ISupportInitialize)(this.btnCancelarExcluir)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnEditarSalvar)).BeginInit();
             this.panelTitulo.SuspendLayout();
@@ -52,7 +53,7 @@
             this.btnCancelarExcluir.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnCancelarExcluir.ErrorImage = ((System.Drawing.Image)(resources.GetObject("btnCancelarExcluir.ErrorImage")));
             this.btnCancelarExcluir.Image = global::GS.GestaoEmpresa.Properties.Resources.cancel_icon;
-            this.btnCancelarExcluir.Location = new System.Drawing.Point(558, 27);
+            this.btnCancelarExcluir.Location = new System.Drawing.Point(558, 31);
             this.btnCancelarExcluir.Name = "btnCancelarExcluir";
             this.btnCancelarExcluir.Size = new System.Drawing.Size(33, 26);
             this.btnCancelarExcluir.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -66,7 +67,7 @@
             this.btnEditarSalvar.ErrorImage = ((System.Drawing.Image)(resources.GetObject("btnEditarSalvar.ErrorImage")));
             this.btnEditarSalvar.Image = global::GS.GestaoEmpresa.Properties.Resources.floppy_icon;
             this.btnEditarSalvar.InitialImage = null;
-            this.btnEditarSalvar.Location = new System.Drawing.Point(516, 25);
+            this.btnEditarSalvar.Location = new System.Drawing.Point(516, 29);
             this.btnEditarSalvar.Name = "btnEditarSalvar";
             this.btnEditarSalvar.Size = new System.Drawing.Size(32, 30);
             this.btnEditarSalvar.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -79,11 +80,21 @@
             this.panelTitulo.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
             this.panelTitulo.Controls.Add(this.btnEditarSalvar);
             this.panelTitulo.Controls.Add(this.btnCancelarExcluir);
+            this.panelTitulo.Controls.Add(this.gsTopBorder1);
             this.panelTitulo.Controls.Add(this.lblTitulo);
-            this.panelTitulo.Location = new System.Drawing.Point(-2, -5);
+            this.panelTitulo.Location = new System.Drawing.Point(-2, -3);
             this.panelTitulo.Name = "panelTitulo";
             this.panelTitulo.Size = new System.Drawing.Size(610, 62);
             this.panelTitulo.TabIndex = 52;
+            // 
+            // gsTopBorder1
+            // 
+            this.gsTopBorder1.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            this.gsTopBorder1.Location = new System.Drawing.Point(-1, -1);
+            this.gsTopBorder1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.gsTopBorder1.Name = "gsTopBorder1";
+            this.gsTopBorder1.Size = new System.Drawing.Size(607, 60);
+            this.gsTopBorder1.TabIndex = 53;
             // 
             // GSForm
             // 
@@ -115,5 +126,6 @@
         public System.Windows.Forms.PictureBox btnCancelarExcluir;
         public System.Windows.Forms.PictureBox btnEditarSalvar;
         private System.Windows.Forms.Panel panelTitulo;
+        private ControlesGenericos.GSTopBorder gsTopBorder1;
     }
 }
