@@ -208,7 +208,11 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
 
         public void ExecuteAcaoNaView(Action acao)
         {
-            View.Invoke((MethodInvoker) delegate { acao.Invoke(); });
+            Task.Run(() =>
+            {
+                while (!View.CanSelect) { }
+                View.Invoke((MethodInvoker)delegate { acao.Invoke(); });
+            });
         }
 
         public object ExecuteFuncaoNaView(Func<object> funcao)

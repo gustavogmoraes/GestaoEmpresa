@@ -164,13 +164,19 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
 
                 var configuracao = repositorioDeConfiguracoes.ObtenhaUnica();
 
-                items.ForEach(item =>
+                foreach(var item in items)
                 {
                     var produtoPersistido = repositorioDeProduto.Consulte(x =>
                         x.CodigoDoFabricante == item.CodigoDoProduto.Value.ToString().Trim());
 
                     if (produtoPersistido != null)
                     {
+                        if(produtoPersistido.PrecoNaIntelbras == 
+                            Convert.ToDecimal(item.PrecoDeCompra.Value.ToString().Replace("R$ ", string.Empty)))
+                        {
+                            continue;
+                        }
+
                         produtoPersistido.Nome = item.Nome.Value.ToString();
                         produtoPersistido.Fabricante = "Intelbras";
                         produtoPersistido.Unidade = UnidadeIntelbras.ObtenhaPorNome(item.Unidade.Value.ToString());
@@ -186,7 +192,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
 
                         repositorioDeProduto.Atualize(produtoPersistido);
 
-                        return;
+                        continue;
                     }
 
                     var novoProduto = new Produto
@@ -209,7 +215,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
                     novoProduto.CalculePrecoDeVenda();
 
                     repositorioDeProduto.Insira(novoProduto);
-                });
+                }
             }
 
             return Task.CompletedTask;

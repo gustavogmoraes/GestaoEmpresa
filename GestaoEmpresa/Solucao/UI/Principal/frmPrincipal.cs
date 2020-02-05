@@ -740,17 +740,14 @@ namespace GS.GestaoEmpresa.Solucao.UI.Principal
             }
             else if (SessaoSistema.WorkTestMode)
             {
-                using (var servicoDeUsuario = new ServicoDeUsuario())
-                {
-                    servicoDeUsuario.Insira("ana.paula", "M4044");
-                }
-
-                //var repoProd = new RepositorioDeProduto();
-                //var prods = repoProd.ConsulteTodos().Where(x => x.Atual && x.Vigencia == DateTime.MinValue).ToList();
+                //using (var servicoDeUsuario = new ServicoDeUsuario())
+                //{
+                //    servicoDeUsuario.Insira("ana.paula", "M4044");
+                //}
 
                 //using (var servico = new ServicoDeProduto())
                 //{
-                //    servico.ImportePlanilhaIntelbras(@"..\ProjetosOutSln\Tabela de Preços - Soluções e Projetos-Revendas 15-20 v2.xlsb").ContinueWithTask(() =>
+                //    servico.ImportePlanilhaIntelbras(@"F:\TabelaFev.xlsb").ContinueWithTask(() =>
                 //    {
                 //        Console.WriteLine("Completado com sucesso");
                 //        return Task.CompletedTask;
