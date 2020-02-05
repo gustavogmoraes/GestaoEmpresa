@@ -183,7 +183,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
         private void GSForm_Load(object sender, EventArgs e)
         {
             // Se tirar isso o Designer do VS pifa
-            if(Presenter == null)
+            if (Presenter == null)
             {
                 return;
             }

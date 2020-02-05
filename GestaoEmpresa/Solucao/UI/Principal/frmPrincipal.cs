@@ -693,14 +693,13 @@ namespace GS.GestaoEmpresa.Solucao.UI.Principal
 
         public List<Interacao> ConsulteTodasAsInteracoes()
         {
-            string ComandoSQL = String.Format("SELECT {0} FROM {1} " +
-                                              "ORDER BY HORARIO DESC",
-                                              ColunasInteracoes,
-                                              "INTERACOES");
+            string ComandoSQL = $"SELECT {ColunasInteracoes} " +
+                                "FROM INTERACOES " + 
+                                "ORDER BY HORARIO DESC";
 
-            DataTable tabela;
             try
             {
+                DataTable tabela;
                 using (var GSBancoDeDados = new GSBancoDeDados())
                     tabela = GSBancoDeDados.ExecuteConsulta(ComandoSQL);
 
@@ -727,10 +726,8 @@ namespace GS.GestaoEmpresa.Solucao.UI.Principal
         {
             base.OnLoad(e);
 
-            if (SessaoSistema.WorkTestMode)
+            if (SessaoSistema.IsMain)
             {
-                var repoUser = new RepositorioDeUsuario();
-
                 txtUsuario.Text = "junio.moraes";
                 txtSenha.Text = "Mega280271@";
 
@@ -738,28 +735,18 @@ namespace GS.GestaoEmpresa.Solucao.UI.Principal
 
                 WindowState = FormWindowState.Minimized;
 
+                var estoque = new frmEstoque { WindowState = FormWindowState.Maximized };
+                estoque.Show();
+            }
+            else if (SessaoSistema.WorkTestMode)
+            {
+                using (var servicoDeUsuario = new ServicoDeUsuario())
+                {
+                    servicoDeUsuario.Insira("ana.paula", "M4044");
+                }
+
                 //var repoProd = new RepositorioDeProduto();
                 //var prods = repoProd.ConsulteTodos().Where(x => x.Atual && x.Vigencia == DateTime.MinValue).ToList();
-
-                //var i = 0;
-                //Parallel.ForEach(prods, x =>
-                //{
-                //    i++;
-                //    var newProd = new Produto(x);
-                //    newProd.Vigencia = DateTime.Now;
-                //    repoProd.Atualize(newProd);
-                //});
-                //var repoCfg = new RepositorioDeConfiguracao();
-                //var cfg = repoCfg.ObtenhaUnica();
-                //if (cfg == null)
-                //{
-                //    repoCfg.Insira(new Configuracoes
-                //    {
-                //        Codigo = 1,
-                //        PorcentagemDeLucroPadrao = (decimal)0.4,
-                //        PorcentagemImpostoProtege = (decimal)0.0449
-                //    });
-                //}
 
                 //using (var servico = new ServicoDeProduto())
                 //{
@@ -769,10 +756,6 @@ namespace GS.GestaoEmpresa.Solucao.UI.Principal
                 //        return Task.CompletedTask;
                 //    });
                 //}
-
-                var estoque = new frmEstoque();
-                estoque.WindowState = FormWindowState.Maximized;
-                estoque.Show();
             }
         }
 

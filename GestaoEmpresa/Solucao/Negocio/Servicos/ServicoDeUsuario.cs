@@ -24,6 +24,21 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
             }
         }
 
+        public void Insira(string nome, string senha)
+        {
+            using (var repositorioDeUsuario = new RepositorioDeUsuario())
+            {
+                repositorioDeUsuario.Insira(
+                    new Usuario
+                    {
+                        Codigo = repositorioDeUsuario.ObtenhaProximoCodigoDisponivel(),
+                        Status = EnumStatusDoUsuario.Ativo,
+                        Nome = nome,
+                        Senha = senha.GetDeterministicHashCode(),
+                    });
+            }
+        }
+
         public Usuario Consulte(int codigo)
         {
             using (var repositorioDeUsuario = new RepositorioDeUsuario())

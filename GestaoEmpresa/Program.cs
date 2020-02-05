@@ -1,17 +1,8 @@
-﻿using GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque;
-using GS.GestaoEmpresa.Solucao.UI.Modulos.Tecnico;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System;
+using System.IO;
 using System.Windows.Forms;
-using GS.GestaoEmpresa.Solucao.Negocio.Objetos;
-using GS.GestaoEmpresa.Solucao.Negocio.Validador;
 using GS.GestaoEmpresa.Solucao.Persistencia.BancoDeDados;
 using GS.GestaoEmpresa.Solucao.UI;
-using GS.GestaoEmpresa.Solucao.UI.Base;
-using GS.GestaoEmpresa.Solucao.UI.Modulos.Atendimento;
-using KellermanSoftware.CompareNetObjects;
 
 namespace GestaoEmpresa
 {
@@ -26,7 +17,8 @@ namespace GestaoEmpresa
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            SessaoSistema.WorkTestMode = true;
+            SessaoSistema.IsMain = File.Exists(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "IsMain.txt"));
+            //SessaoSistema.WorkTestMode = true;
 
             Application.Run(GerenciadorDeViews.ObtenhaPrincipal());
         }

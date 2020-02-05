@@ -70,6 +70,7 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.BancoDeDados
         public static bool VerificarStatusDaConexao { get; set; }
 
         public static bool ConexaoAtiva { get; set; }
+        public static bool IsMain { get; set; }
 
         public static void InicieVerificacaoDeConexao()
         {

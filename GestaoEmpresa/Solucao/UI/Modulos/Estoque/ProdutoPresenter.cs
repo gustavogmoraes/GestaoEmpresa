@@ -28,6 +28,9 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             MapeieControle(model => model.PrecoDeCompra, view => view.txtPrecoDeCompra);
             MapeieControle(model => model.PrecoDeVenda, view => view.txtPrecoDeVenda);
             MapeieControle(model => model.PorcentagemDeLucro, view => view.txtPorcentagemLucro);
+            MapeieControle(model => model.Ipi, view => view.txtPorcentagemIpi);
+            MapeieControle(model => model.PrecoNaIntelbras, view => view.txtPrecoNaIntelbras);
+            MapeieControle(model => model.PrecoSugeridoRevenda, view => view.txtPrecoSugeridoRevenda);
         }
 
         public IList<Inconsistencia> Salve()

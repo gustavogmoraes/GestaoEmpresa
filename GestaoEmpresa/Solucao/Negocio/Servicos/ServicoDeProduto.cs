@@ -105,6 +105,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
         {
             var produto = base.Consulte(codigo);
             produto.PorcentagemDeLucro *= 100;
+            produto.Ipi *= 100;
 
             return produto;
         }
@@ -112,10 +113,12 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
         public override IList<Inconsistencia> Salve(Produto item, EnumTipoDeForm tipoDeForm)
         {
             item.PorcentagemDeLucro /= 100;
+            item.Ipi /= 100;
 
             var inconsistencias = base.Salve(item, tipoDeForm);
 
             item.PorcentagemDeLucro *= 100;
+            item.Ipi *= 100;
 
             return inconsistencias;
         }

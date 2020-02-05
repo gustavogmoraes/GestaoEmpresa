@@ -29,19 +29,26 @@ namespace GS.GestaoEmpresa.Solucao.UI.ControlesGenericos
 
         private void GSTopBorder_MouseDown(object sender, MouseEventArgs e)
         {
-            if (e.Button == MouseButtons.Left)
+            if (e.Button != MouseButtons.Left)
             {
-                ReleaseCapture();
-
-                // Temos que ativar o movable do Metro Form, senão ele não consegue mover
-                // Salvamos o valor para volta-lo ao que ele é depois de mover
-                var movable = ((MetroForm) ParentForm).Movable;
-                ((MetroForm) ParentForm).Movable = true;
-
-                SendMessage(ParentForm.Handle, WM_NCLBUTTONDOWN, HT_CAPTION, 0);
-
-                ((MetroForm) ParentForm).Movable = movable;
+                return;
             }
+
+            ReleaseCapture();
+
+            // Temos que ativar o movable do Metro Form, senão ele não consegue mover
+            // Salvamos o valor para volta-lo ao que ele é depois de mover
+            var parent = (MetroForm)ParentForm;
+
+            var movable = parent?.Movable;
+            if (ParentForm == null || !movable.HasValue)
+            {
+                return;
+            }
+            
+            parent.Movable = true;
+            SendMessage(ParentForm.Handle, WM_NCLBUTTONDOWN, HT_CAPTION, 0);
+            parent.Movable = movable.GetValueOrDefault();
         }
 
         #endregion
@@ -53,12 +60,12 @@ namespace GS.GestaoEmpresa.Solucao.UI.ControlesGenericos
 
         private void btnClose_Click(object sender, EventArgs e)
         {
-            (ParentForm as IView).ChamadaFecharForm(sender, e);
+            (ParentForm as IView)?.ChamadaFecharForm(sender, e);
         }
 
         private void btnMinimize_Click_1(object sender, EventArgs e)
         {
-            (ParentForm as IView).ChamadaMinimizarForm(sender, e);
+            (ParentForm as IView)?.ChamadaMinimizarForm(sender, e);
         }
     }
 }
