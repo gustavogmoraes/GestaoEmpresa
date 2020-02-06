@@ -101,6 +101,11 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
                 .ToList();
         }
 
+        public List<Produto> ConsulteTodosParaAterrissagem(string pesquisa, params Expression<Func<Produto, object>>[] propriedades) 
+        {
+            return Repositorio.ConsulteTodos(SeletorProdutoAterrissagem, pesquisa, propriedades).ToList();
+        }
+
         public override Produto Consulte(int codigo)
         {
             var produto = base.Consulte(codigo);

@@ -3,6 +3,7 @@ using GS.GestaoEmpresa.Solucao.Negocio.Objetos.Base;
 using GS.GestaoEmpresa.Solucao.Persistencia.BancoDeDados;
 using GS.GestaoEmpresa.Solucao.Utilitarios;
 using Raven.Client.Documents;
+using Raven.Client.Documents.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,7 +21,7 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios.Base
 
         protected Expression<Func<T, bool>> _filtroAtual() => (x => x.Atual);
 
-        public RepositorioHistoricoPadrao()
+        protected RepositorioHistoricoPadrao()
         {
             _documentStore = new GSDocumentStore();
             _documentStore.Initialize();
@@ -68,17 +69,14 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios.Base
         public int ObtenhaQuantidadeDeRegistros()
         {
             using (var sessaoRaven = _documentStore.OpenSession())
-                return sessaoRaven.Query<T>().Where(x => x.Atual).Count();
+                return sessaoRaven.Query<T>().Count(x => x.Atual);
         }
 
         public IList<T> ConsulteTodos(Expression<Func<T, object>> seletor = null, Expression<Func<T, bool>> filtro = null)
         {
             using (var sessaoRaven = _documentStore.OpenSession())
             {
-                if(filtro != null)
-                {
-                    filtro = filtro.AndAlso(_filtroAtual());
-                }
+                filtro = filtro?.AndAlso(_filtroAtual());
 
                 var queryable = filtro != null
                     ? sessaoRaven.Query<T>().Where(filtro)
@@ -114,6 +112,48 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios.Base
                         return val.ToString().ToLowerInvariant().Contains(pesquisa);
                     })
                     .ToList();
+            }
+        }
+
+        public IList<T> ConsulteTodos(Expression<Func<T, object>> seletor, string pesquisa, params Expression<Func<T, object>>[] propriedades)
+        {
+            using (var sessaoRaven = _documentStore.OpenSession())
+            {
+                var queryRaven = sessaoRaven.Query<T>()
+                    .Where(_filtroAtual())
+                    .Select(seletor)
+                    .ToList();
+
+                Func<T, object> foundProp = null;
+                var propNome = propriedades.FirstOrDefault(x => x.GetPropertyFromExpression().Name == "Nome")?.Compile();
+
+                var foundResults = queryRaven.Cast<T>()
+                    .Where(x =>
+                    {
+                        foreach (var propriedade in propriedades)
+                        {
+                            var prop = (PropertyInfo)propriedade.GetPropertyFromExpression();
+                            var val = prop.GetValue(x, null);
+                            if (val != null && val.ToString().ToLowerInvariant().Contains(pesquisa))
+                            {
+                                foundProp = propriedade.Compile();
+                                return true;
+                            }
+                        }
+
+                        return false;
+                    })
+                    .ToList();
+
+                if (!foundResults.Any())
+                {
+                    return new List<T>();
+                }
+
+                var query = foundResults.OrderBy(foundProp);
+                return (propNome == null 
+                    ? query 
+                    : query.ThenBy(propNome)).ToList();
             }
         }
 

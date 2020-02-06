@@ -58,10 +58,10 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         {
             Invoke(new MethodInvoker(() =>
             {
-                var pesquisa = txtPesquisa.Text.Trim();
-                var filtro = cbFiltro.Text;
+                var pesquisa = txtPesquisa.Text.ToLowerInvariant().Trim();
+                //var filtro = cbFiltro.Text;
 
-                if (filtro == null || string.IsNullOrEmpty(pesquisa))
+                if (string.IsNullOrEmpty(pesquisa))
                 {
                     if (string.IsNullOrEmpty(oldAssistantFilter) || oldAssistantFilter == pesquisa)
                     {
@@ -84,20 +84,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                                 return;
                             }
 
-                            switch (filtro)
-                            {
-                                case "Código":
-                                    listaFiltrada = servicoDeProduto.ConsulteTodosParaAterrissagem(x => x.Codigo, pesquisa);
-                                    break;
-
-                                case "Nome":
-                                    listaFiltrada = servicoDeProduto.ConsulteTodosParaAterrissagem(x => x.Nome, pesquisa);
-                                    break;
-
-                                case "Código do fabricante":
-                                    listaFiltrada = servicoDeProduto.ConsulteTodosParaAterrissagem(x => x.CodigoDoFabricante, pesquisa);
-                                    break;
-                            }
+                            listaFiltrada = servicoDeProduto.ConsulteTodosParaAterrissagem(pesquisa, x => x.Nome, x => x.CodigoDoFabricante, x => x.Codigo);
                         }
                     },
                     () =>
@@ -177,7 +164,6 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             }
 
             CarregueDataGridProdutos(_listaDeProdutos.Take(300).ToList());
-            cbFiltro.SelectedText = "Nome";
 
             //Histórico de Produtos
             using (var servicoDeInteracao = new ServicoDeInteracao())
