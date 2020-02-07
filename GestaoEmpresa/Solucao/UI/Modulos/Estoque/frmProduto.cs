@@ -368,12 +368,12 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                     {
                         if (TipoDeForm == EnumTipoDeForm.Cadastro)
                         {
-                            GerenciadorDeViews.ObtenhaIndependente<frmEstoque>().AdicioneNovoProdutoNaGrid(produto);
+                            GerenciadorDeViews.ObtenhaIndependente<FrmEstoque>().AdicioneNovoProdutoNaGrid(produto);
                             MessageBox.Show(Mensagens.X_FOI_CADASTRADO_COM_SUCESSO("Produto"));
                         }
                         else
                         {
-                            GerenciadorDeViews.ObtenhaIndependente<frmEstoque>().RecarregueProdutoEspecifico(produto);
+                            GerenciadorDeViews.ObtenhaIndependente<FrmEstoque>().RecarregueProdutoEspecifico(produto);
                             MessageBox.Show(Mensagens.X_FOI_ATUALIZADO_COM_SUCESSO("Produto"));
                         }
 

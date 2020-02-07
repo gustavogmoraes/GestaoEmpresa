@@ -308,7 +308,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Principal
 
         private void btnEstoque_Click_1(object sender, EventArgs e)
         {
-            var instanciaDoForm = GerenciadorDeViews.CrieIndependente<frmEstoque>(out _);
+            var instanciaDoForm = GerenciadorDeViews.CrieIndependente<FrmEstoque>(out _);
             instanciaDoForm?.Show();
         }
 
@@ -738,7 +738,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Principal
 
                 WindowState = FormWindowState.Minimized;
 
-                var estoque = new frmEstoque { WindowState = FormWindowState.Maximized };
+                var estoque = new FrmEstoque { WindowState = FormWindowState.Maximized };
                 estoque.Show();
             }
             else if (SessaoSistema.WorkTestMode)
@@ -777,7 +777,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Principal
                 //    });
                 //}
 
-                var estoque = new frmEstoque();
+                var estoque = new FrmEstoque();
                 estoque.WindowState = FormWindowState.Maximized;
                 estoque.Show();
             }

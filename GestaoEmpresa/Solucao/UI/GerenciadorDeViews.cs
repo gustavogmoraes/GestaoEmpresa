@@ -240,7 +240,7 @@ namespace GS.GestaoEmpresa.Solucao.UI
             get => _controladorDeInstanciasIndependentes ?? 
                    (_controladorDeInstanciasIndependentes = new Dictionary<Type, Dictionary<Guid, Form>>
                     {
-                        {typeof(frmEstoque), null}
+                        {typeof(FrmEstoque), null}
                     });
 
             set => _controladorDeInstanciasIndependentes = value;

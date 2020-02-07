@@ -73,7 +73,7 @@
             // 
             // lblTitulo
             // 
-            this.lblTitulo.Size = new System.Drawing.Size(381, 37);
+            this.lblTitulo.Size = new System.Drawing.Size(314, 30);
             this.lblTitulo.Text = "Cadastro e consulta de produtos";
             // 
             // lblStatus
@@ -107,7 +107,7 @@
             this.chkAvisarQuantidade.AutoSize = true;
             this.chkAvisarQuantidade.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this.chkAvisarQuantidade.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
-            this.chkAvisarQuantidade.Location = new System.Drawing.Point(25, 632);
+            this.chkAvisarQuantidade.Location = new System.Drawing.Point(21, 661);
             this.chkAvisarQuantidade.Name = "chkAvisarQuantidade";
             this.chkAvisarQuantidade.Size = new System.Drawing.Size(353, 19);
             this.chkAvisarQuantidade.TabIndex = 76;
@@ -132,7 +132,7 @@
             this.txtQuantidadeEmEstoque.CustomButton.Visible = false;
             this.txtQuantidadeEmEstoque.FontSize = MetroFramework.MetroTextBoxSize.Medium;
             this.txtQuantidadeEmEstoque.Lines = new string[0];
-            this.txtQuantidadeEmEstoque.Location = new System.Drawing.Point(399, 603);
+            this.txtQuantidadeEmEstoque.Location = new System.Drawing.Point(390, 633);
             this.txtQuantidadeEmEstoque.MaxLength = 32767;
             this.txtQuantidadeEmEstoque.Name = "txtQuantidadeEmEstoque";
             this.txtQuantidadeEmEstoque.PasswordChar = '\0';
@@ -153,7 +153,7 @@
             this.lblQuantidadeEmEstoque.AutoSize = true;
             this.lblQuantidadeEmEstoque.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this.lblQuantidadeEmEstoque.FontSize = MetroFramework.MetroLabelSize.Tall;
-            this.lblQuantidadeEmEstoque.Location = new System.Drawing.Point(383, 575);
+            this.lblQuantidadeEmEstoque.Location = new System.Drawing.Point(374, 605);
             this.lblQuantidadeEmEstoque.Name = "lblQuantidadeEmEstoque";
             this.lblQuantidadeEmEstoque.Size = new System.Drawing.Size(196, 25);
             this.lblQuantidadeEmEstoque.TabIndex = 74;
@@ -177,7 +177,7 @@
             this.txtQuantidadeMinima.CustomButton.Visible = false;
             this.txtQuantidadeMinima.FontSize = MetroFramework.MetroTextBoxSize.Medium;
             this.txtQuantidadeMinima.Lines = new string[0];
-            this.txtQuantidadeMinima.Location = new System.Drawing.Point(37, 603);
+            this.txtQuantidadeMinima.Location = new System.Drawing.Point(35, 624);
             this.txtQuantidadeMinima.MaxLength = 32767;
             this.txtQuantidadeMinima.Name = "txtQuantidadeMinima";
             this.txtQuantidadeMinima.PasswordChar = '\0';
@@ -198,7 +198,7 @@
             this.lblQuantidadeMinima.AutoSize = true;
             this.lblQuantidadeMinima.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this.lblQuantidadeMinima.FontSize = MetroFramework.MetroLabelSize.Tall;
-            this.lblQuantidadeMinima.Location = new System.Drawing.Point(21, 575);
+            this.lblQuantidadeMinima.Location = new System.Drawing.Point(19, 596);
             this.lblQuantidadeMinima.Name = "lblQuantidadeMinima";
             this.lblQuantidadeMinima.Size = new System.Drawing.Size(164, 25);
             this.lblQuantidadeMinima.TabIndex = 72;
@@ -291,7 +291,7 @@
             this.lblPorcentagemLucro.FontSize = MetroFramework.MetroLabelSize.Tall;
             this.lblPorcentagemLucro.Location = new System.Drawing.Point(336, 516);
             this.lblPorcentagemLucro.Name = "lblPorcentagemLucro";
-            this.lblPorcentagemLucro.Size = new System.Drawing.Size(180, 25);
+            this.lblPorcentagemLucro.Size = new System.Drawing.Size(179, 25);
             this.lblPorcentagemLucro.TabIndex = 68;
             this.lblPorcentagemLucro.Text = "Porcentagem de lucro";
             this.lblPorcentagemLucro.UseCustomBackColor = true;
@@ -382,7 +382,7 @@
             this.lblObservacoes.FontSize = MetroFramework.MetroLabelSize.Tall;
             this.lblObservacoes.Location = new System.Drawing.Point(21, 285);
             this.lblObservacoes.Name = "lblObservacoes";
-            this.lblObservacoes.Size = new System.Drawing.Size(109, 25);
+            this.lblObservacoes.Size = new System.Drawing.Size(110, 25);
             this.lblObservacoes.TabIndex = 64;
             this.lblObservacoes.Text = "Observações";
             this.lblObservacoes.UseCustomBackColor = true;
@@ -656,7 +656,7 @@
             this.metroLabel2.AutoSize = true;
             this.metroLabel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this.metroLabel2.FontSize = MetroFramework.MetroLabelSize.Tall;
-            this.metroLabel2.Location = new System.Drawing.Point(157, 541);
+            this.metroLabel2.Location = new System.Drawing.Point(148, 532);
             this.metroLabel2.Name = "metroLabel2";
             this.metroLabel2.Size = new System.Drawing.Size(26, 25);
             this.metroLabel2.TabIndex = 83;
@@ -680,7 +680,7 @@
             this.txtPorcentagemIpi.CustomButton.Visible = false;
             this.txtPorcentagemIpi.FontSize = MetroFramework.MetroTextBoxSize.Medium;
             this.txtPorcentagemIpi.Lines = new string[0];
-            this.txtPorcentagemIpi.Location = new System.Drawing.Point(30, 543);
+            this.txtPorcentagemIpi.Location = new System.Drawing.Point(21, 534);
             this.txtPorcentagemIpi.MaxLength = 32767;
             this.txtPorcentagemIpi.Name = "txtPorcentagemIpi";
             this.txtPorcentagemIpi.PasswordChar = '\0';
@@ -701,11 +701,11 @@
             this.metroLabel3.AutoSize = true;
             this.metroLabel3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this.metroLabel3.FontSize = MetroFramework.MetroLabelSize.Tall;
-            this.metroLabel3.Location = new System.Drawing.Point(25, 516);
+            this.metroLabel3.Location = new System.Drawing.Point(58, 506);
             this.metroLabel3.Name = "metroLabel3";
-            this.metroLabel3.Size = new System.Drawing.Size(160, 25);
+            this.metroLabel3.Size = new System.Drawing.Size(30, 25);
             this.metroLabel3.TabIndex = 81;
-            this.metroLabel3.Text = "Porcentagem de IPI";
+            this.metroLabel3.Text = "IPI";
             this.metroLabel3.UseCustomBackColor = true;
             // 
             // txtPrecoNaIntelbras
@@ -725,7 +725,7 @@
             this.txtPrecoNaIntelbras.CustomButton.Visible = false;
             this.txtPrecoNaIntelbras.FontSize = MetroFramework.MetroTextBoxSize.Medium;
             this.txtPrecoNaIntelbras.Lines = new string[0];
-            this.txtPrecoNaIntelbras.Location = new System.Drawing.Point(26, 477);
+            this.txtPrecoNaIntelbras.Location = new System.Drawing.Point(28, 471);
             this.txtPrecoNaIntelbras.MaxLength = 32767;
             this.txtPrecoNaIntelbras.Name = "txtPrecoNaIntelbras";
             this.txtPrecoNaIntelbras.PasswordChar = '\0';
@@ -746,7 +746,7 @@
             this.metroLabel5.AutoSize = true;
             this.metroLabel5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this.metroLabel5.FontSize = MetroFramework.MetroLabelSize.Tall;
-            this.metroLabel5.Location = new System.Drawing.Point(17, 449);
+            this.metroLabel5.Location = new System.Drawing.Point(19, 443);
             this.metroLabel5.Name = "metroLabel5";
             this.metroLabel5.Size = new System.Drawing.Size(148, 25);
             this.metroLabel5.TabIndex = 86;

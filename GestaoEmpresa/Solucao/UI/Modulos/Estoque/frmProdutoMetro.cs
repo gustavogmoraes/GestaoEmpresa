@@ -23,6 +23,8 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         public frmProdutoMetro()
         {
             InitializeComponent();
+
+            lblTitulo.BackColor = Color.Empty;
         }
 
         protected override void ChamadaSalvar(object sender, EventArgs e)

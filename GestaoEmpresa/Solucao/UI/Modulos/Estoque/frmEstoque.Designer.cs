@@ -1,6 +1,6 @@
 ﻿namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 {
-    partial class frmEstoque
+    partial class FrmEstoque
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmEstoque));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmEstoque));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -669,7 +669,7 @@
             this.Controls.Add(this.btnCatalogo);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.tabControl1);
-            this.Name = "frmEstoque";
+            this.Name = "FrmEstoque";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Estoque";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;

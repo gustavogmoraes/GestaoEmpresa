@@ -50,6 +50,8 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
         public GSForm()
         {
             InitializeComponent();
+
+            lblTitulo.BringToFront();
         }
 
         #endregion
@@ -183,13 +185,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
         private void GSForm_Load(object sender, EventArgs e)
         {
             // Se tirar isso o Designer do VS pifa
-            if (Presenter == null)
-            {
-                return;
-            }
-            //
-
-            Presenter.ViewCarregada();
+            Presenter?.ViewCarregada();
         }
     }
 }

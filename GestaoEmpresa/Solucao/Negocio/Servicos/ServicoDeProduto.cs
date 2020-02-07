@@ -60,7 +60,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
             {
                 repositorioDeProduto.AltereQuantidadeDeProduto(codigoDoProduto, novaQuantidade);
 
-                var formEstoque = GerenciadorDeViews.ObtenhaIndependente<frmEstoque>();
+                var formEstoque = GerenciadorDeViews.ObtenhaIndependente<FrmEstoque>();
                 if (formEstoque == null) return;
 
                 var produto = Consulte(codigoDoProduto);
