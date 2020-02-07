@@ -32,8 +32,6 @@
             this.btnCancelarExcluir = new System.Windows.Forms.PictureBox();
             this.btnEditarSalvar = new System.Windows.Forms.PictureBox();
             this.panelTitulo = new System.Windows.Forms.Panel();
-            this.gsTopBorder = new GS.GestaoEmpresa.Solucao.UI.ControlesGenericos.GSTopBorder();
-            this.lblTitulo = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.btnCancelarExcluir)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnEditarSalvar)).BeginInit();
             this.panelTitulo.SuspendLayout();
@@ -44,7 +42,7 @@
             this.btnCancelarExcluir.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnCancelarExcluir.ErrorImage = ((System.Drawing.Image)(resources.GetObject("btnCancelarExcluir.ErrorImage")));
             this.btnCancelarExcluir.Image = global::GS.GestaoEmpresa.Properties.Resources.cancel_icon;
-            this.btnCancelarExcluir.Location = new System.Drawing.Point(558, 31);
+            this.btnCancelarExcluir.Location = new System.Drawing.Point(558, 27);
             this.btnCancelarExcluir.Name = "btnCancelarExcluir";
             this.btnCancelarExcluir.Size = new System.Drawing.Size(33, 26);
             this.btnCancelarExcluir.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -58,7 +56,7 @@
             this.btnEditarSalvar.ErrorImage = ((System.Drawing.Image)(resources.GetObject("btnEditarSalvar.ErrorImage")));
             this.btnEditarSalvar.Image = global::GS.GestaoEmpresa.Properties.Resources.floppy_icon;
             this.btnEditarSalvar.InitialImage = null;
-            this.btnEditarSalvar.Location = new System.Drawing.Point(516, 29);
+            this.btnEditarSalvar.Location = new System.Drawing.Point(516, 25);
             this.btnEditarSalvar.Name = "btnEditarSalvar";
             this.btnEditarSalvar.Size = new System.Drawing.Size(32, 30);
             this.btnEditarSalvar.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -72,30 +70,11 @@
             this.panelTitulo.Controls.Add(this.gsTopBorder);
             this.panelTitulo.Controls.Add(this.btnEditarSalvar);
             this.panelTitulo.Controls.Add(this.btnCancelarExcluir);
-            this.panelTitulo.Controls.Add(this.gsTopBorder1);
             this.panelTitulo.Controls.Add(this.lblTitulo);
-            this.panelTitulo.Location = new System.Drawing.Point(-2, -3);
+            this.panelTitulo.Location = new System.Drawing.Point(-2, -5);
             this.panelTitulo.Name = "panelTitulo";
             this.panelTitulo.Size = new System.Drawing.Size(610, 62);
             this.panelTitulo.TabIndex = 52;
-            // 
-            // gsTopBorder
-            // 
-            this.gsTopBorder.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            this.gsTopBorder.Location = new System.Drawing.Point(0, 0);
-            this.gsTopBorder.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.gsTopBorder.Name = "gsTopBorder";
-            this.gsTopBorder.Size = new System.Drawing.Size(604, 26);
-            this.gsTopBorder.TabIndex = 40;
-            // 
-            // lblTitulo
-            // 
-            this.lblTitulo.AutoSize = true;
-            this.lblTitulo.Font = new System.Drawing.Font("Segoe UI Light", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTitulo.Location = new System.Drawing.Point(4, 19);
-            this.lblTitulo.Name = "lblTitulo";
-            this.lblTitulo.Size = new System.Drawing.Size(0, 37);
-            this.lblTitulo.TabIndex = 0;
             // 
             // GSForm
             // 
@@ -125,7 +104,6 @@
         private System.Windows.Forms.Panel panelTitulo;
         public System.Windows.Forms.PictureBox btnCancelarExcluir;
         public System.Windows.Forms.PictureBox btnEditarSalvar;
-        public System.Windows.Forms.Label lblTitulo;
-        public ControlesGenericos.GSTopBorder gsTopBorder;
+        private System.Windows.Forms.Panel panelTitulo;
     }
 }
