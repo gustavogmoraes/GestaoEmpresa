@@ -88,10 +88,5 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                 txtPrecoDeVenda.Text = ((precoCompra * Convert.ToDecimal(txtPorcentagemLucro.Text) / 100) + precoCompra).ToString();
             }
         }
-
-        private void frmProdutoMetro_Load(object sender, EventArgs e)
-        {
-
-        }
     }
 }
