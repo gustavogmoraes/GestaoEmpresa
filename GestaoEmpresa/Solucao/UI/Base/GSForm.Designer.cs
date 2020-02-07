@@ -32,6 +32,7 @@
             this.btnCancelarExcluir = new System.Windows.Forms.PictureBox();
             this.btnEditarSalvar = new System.Windows.Forms.PictureBox();
             this.panelTitulo = new System.Windows.Forms.Panel();
+            this.lblTitulo = new MetroFramework.Controls.MetroLabel();
             ((System.ComponentModel.ISupportInitialize)(this.btnCancelarExcluir)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnEditarSalvar)).BeginInit();
             this.panelTitulo.SuspendLayout();
@@ -67,14 +68,22 @@
             // panelTitulo
             // 
             this.panelTitulo.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            this.panelTitulo.Controls.Add(this.gsTopBorder);
+            this.panelTitulo.Controls.Add(this.lblTitulo);
             this.panelTitulo.Controls.Add(this.btnEditarSalvar);
             this.panelTitulo.Controls.Add(this.btnCancelarExcluir);
-            this.panelTitulo.Controls.Add(this.lblTitulo);
             this.panelTitulo.Location = new System.Drawing.Point(-2, -5);
             this.panelTitulo.Name = "panelTitulo";
             this.panelTitulo.Size = new System.Drawing.Size(610, 62);
             this.panelTitulo.TabIndex = 52;
+            // 
+            // lblTitulo
+            // 
+            this.lblTitulo.AutoSize = true;
+            this.lblTitulo.FontSize = MetroFramework.MetroLabelSize.Tall;
+            this.lblTitulo.Location = new System.Drawing.Point(18, 15);
+            this.lblTitulo.Name = "lblTitulo";
+            this.lblTitulo.Size = new System.Drawing.Size(0, 0);
+            this.lblTitulo.TabIndex = 40;
             // 
             // GSForm
             // 
@@ -104,6 +113,6 @@
         private System.Windows.Forms.Panel panelTitulo;
         public System.Windows.Forms.PictureBox btnCancelarExcluir;
         public System.Windows.Forms.PictureBox btnEditarSalvar;
-        private System.Windows.Forms.Panel panelTitulo;
+        protected MetroFramework.Controls.MetroLabel lblTitulo;
     }
 }
