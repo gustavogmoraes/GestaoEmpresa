@@ -29,24 +29,15 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GSForm));
-            this.lblTitulo = new System.Windows.Forms.Label();
             this.btnCancelarExcluir = new System.Windows.Forms.PictureBox();
             this.btnEditarSalvar = new System.Windows.Forms.PictureBox();
             this.panelTitulo = new System.Windows.Forms.Panel();
-            this.gsTopBorder1 = new GS.GestaoEmpresa.Solucao.UI.ControlesGenericos.GSTopBorder();
+            this.gsTopBorder = new GS.GestaoEmpresa.Solucao.UI.ControlesGenericos.GSTopBorder();
+            this.lblTitulo = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.btnCancelarExcluir)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnEditarSalvar)).BeginInit();
             this.panelTitulo.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // lblTitulo
-            // 
-            this.lblTitulo.AutoSize = true;
-            this.lblTitulo.Font = new System.Drawing.Font("Segoe UI Light", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTitulo.Location = new System.Drawing.Point(4, 19);
-            this.lblTitulo.Name = "lblTitulo";
-            this.lblTitulo.Size = new System.Drawing.Size(0, 37);
-            this.lblTitulo.TabIndex = 0;
             // 
             // btnCancelarExcluir
             // 
@@ -78,6 +69,7 @@
             // panelTitulo
             // 
             this.panelTitulo.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            this.panelTitulo.Controls.Add(this.gsTopBorder);
             this.panelTitulo.Controls.Add(this.btnEditarSalvar);
             this.panelTitulo.Controls.Add(this.btnCancelarExcluir);
             this.panelTitulo.Controls.Add(this.gsTopBorder1);
@@ -87,14 +79,23 @@
             this.panelTitulo.Size = new System.Drawing.Size(610, 62);
             this.panelTitulo.TabIndex = 52;
             // 
-            // gsTopBorder1
+            // gsTopBorder
             // 
-            this.gsTopBorder1.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            this.gsTopBorder1.Location = new System.Drawing.Point(-1, -1);
-            this.gsTopBorder1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.gsTopBorder1.Name = "gsTopBorder1";
-            this.gsTopBorder1.Size = new System.Drawing.Size(607, 60);
-            this.gsTopBorder1.TabIndex = 53;
+            this.gsTopBorder.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            this.gsTopBorder.Location = new System.Drawing.Point(0, 0);
+            this.gsTopBorder.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.gsTopBorder.Name = "gsTopBorder";
+            this.gsTopBorder.Size = new System.Drawing.Size(604, 26);
+            this.gsTopBorder.TabIndex = 40;
+            // 
+            // lblTitulo
+            // 
+            this.lblTitulo.AutoSize = true;
+            this.lblTitulo.Font = new System.Drawing.Font("Segoe UI Light", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTitulo.Location = new System.Drawing.Point(4, 19);
+            this.lblTitulo.Name = "lblTitulo";
+            this.lblTitulo.Size = new System.Drawing.Size(0, 37);
+            this.lblTitulo.TabIndex = 0;
             // 
             // GSForm
             // 
@@ -121,11 +122,10 @@
         }
 
         #endregion
-        public ControlesGenericos.GSTopBorder gsTopBorder;
-        public System.Windows.Forms.Label lblTitulo;
+        private System.Windows.Forms.Panel panelTitulo;
         public System.Windows.Forms.PictureBox btnCancelarExcluir;
         public System.Windows.Forms.PictureBox btnEditarSalvar;
-        private System.Windows.Forms.Panel panelTitulo;
-        private ControlesGenericos.GSTopBorder gsTopBorder1;
+        public System.Windows.Forms.Label lblTitulo;
+        public ControlesGenericos.GSTopBorder gsTopBorder;
     }
 }

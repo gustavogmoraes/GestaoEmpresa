@@ -72,14 +72,14 @@
             ((System.ComponentModel.ISupportInitialize)(this.btnEditarSalvar)).BeginInit();
             this.SuspendLayout();
             // 
+            // btnEditarSalvar
+            // 
+            this.btnEditarSalvar.Location = new System.Drawing.Point(520, 26);
+            // 
             // lblTitulo
             // 
             this.lblTitulo.Size = new System.Drawing.Size(379, 37);
             this.lblTitulo.Text = "Cadastro e consulta de produtos";
-            // 
-            // btnEditarSalvar
-            // 
-            this.btnEditarSalvar.Location = new System.Drawing.Point(520, 26);
             // 
             // lblStatus
             // 
@@ -248,7 +248,7 @@
             this.lblPrecoVenda.AutoSize = true;
             this.lblPrecoVenda.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this.lblPrecoVenda.FontSize = MetroFramework.MetroLabelSize.Tall;
-            this.lblPrecoVenda.Location = new System.Drawing.Point(437, 449);
+            this.lblPrecoVenda.Location = new System.Drawing.Point(433, 449);
             this.lblPrecoVenda.Name = "lblPrecoVenda";
             this.lblPrecoVenda.Size = new System.Drawing.Size(130, 25);
             this.lblPrecoVenda.TabIndex = 70;

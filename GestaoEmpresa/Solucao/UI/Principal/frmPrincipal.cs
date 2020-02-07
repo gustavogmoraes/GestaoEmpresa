@@ -693,13 +693,14 @@ namespace GS.GestaoEmpresa.Solucao.UI.Principal
 
         public List<Interacao> ConsulteTodasAsInteracoes()
         {
-            string ComandoSQL = $"SELECT {ColunasInteracoes} " +
-                                "FROM INTERACOES " + 
-                                "ORDER BY HORARIO DESC";
+            string ComandoSQL = String.Format("SELECT {0} FROM {1} " +
+                                              "ORDER BY HORARIO DESC",
+                                              ColunasInteracoes,
+                                              "INTERACOES");
 
+            DataTable tabela;
             try
             {
-                DataTable tabela;
                 using (var GSBancoDeDados = new GSBancoDeDados())
                     tabela = GSBancoDeDados.ExecuteConsulta(ComandoSQL);
 
@@ -726,8 +727,10 @@ namespace GS.GestaoEmpresa.Solucao.UI.Principal
         {
             base.OnLoad(e);
 
-            if (SessaoSistema.IsMain)
+            if (SessaoSistema.WorkTestMode)
             {
+                var repoUser = new RepositorioDeUsuario();
+
                 txtUsuario.Text = "junio.moraes";
                 txtSenha.Text = "Mega280271@";
 
@@ -745,6 +748,26 @@ namespace GS.GestaoEmpresa.Solucao.UI.Principal
                 //    servicoDeUsuario.Insira("ana.paula", "M4044");
                 //}
 
+                //var i = 0;
+                //Parallel.ForEach(prods, x =>
+                //{
+                //    i++;
+                //    var newProd = new Produto(x);
+                //    newProd.Vigencia = DateTime.Now;
+                //    repoProd.Atualize(newProd);
+                //});
+                //var repoCfg = new RepositorioDeConfiguracao();
+                //var cfg = repoCfg.ObtenhaUnica();
+                //if (cfg == null)
+                //{
+                //    repoCfg.Insira(new Configuracoes
+                //    {
+                //        Codigo = 1,
+                //        PorcentagemDeLucroPadrao = (decimal)0.4,
+                //        PorcentagemImpostoProtege = (decimal)0.0449
+                //    });
+                //}
+
                 //using (var servico = new ServicoDeProduto())
                 //{
                 //    servico.ImportePlanilhaIntelbras(@"F:\TabelaFev.xlsb").ContinueWithTask(() =>
@@ -753,6 +776,10 @@ namespace GS.GestaoEmpresa.Solucao.UI.Principal
                 //        return Task.CompletedTask;
                 //    });
                 //}
+
+                var estoque = new frmEstoque();
+                estoque.WindowState = FormWindowState.Maximized;
+                estoque.Show();
             }
         }
 
