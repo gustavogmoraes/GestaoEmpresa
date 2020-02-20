@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,6 +20,8 @@ using GS.GestaoEmpresa.Solucao.UI.Principal;
 using GS.GestaoEmpresa.Solucao.Utilitarios;
 using MoreLinq;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime;
+using OfficeOpenXml.FormulaParsing.ExpressionGraph;
+using Remotion.Data.Linq.Clauses;
 
 namespace GS.GestaoEmpresa.Solucao.UI
 {
@@ -27,12 +30,18 @@ namespace GS.GestaoEmpresa.Solucao.UI
         /// <summary>
         /// Tela Model-View-Presenter
         /// </summary>
+        /// 
         public class TelaMVP
         {
-            public TelaMVP(Type tipoDaView, Type tipoDoPresenter, bool instanciaUnica)
+            public static TelaMVP Of<TView, TPresenter>(bool instanciaUnica = false)
             {
-                TipoDaView = tipoDaView;
-                TipoDoPresenter = tipoDoPresenter;
+                return new TelaMVP(typeof(TView), typeof(TPresenter), instanciaUnica);
+            }
+
+            public TelaMVP(Type view, Type presenter = null, bool instanciaUnica = false)
+            {
+                TipoDaView = view;
+                TipoDoPresenter = presenter;
                 InstanciaUnica = instanciaUnica;
             }
 
@@ -47,25 +56,16 @@ namespace GS.GestaoEmpresa.Solucao.UI
             public Dictionary<string, IPresenter> Instancias { get; set; }
         }
 
-        private static List<TelaMVP> ControladorDeInstancias
+        private static List<TelaMVP> _controladorDeInstancias;
+        private static List<TelaMVP> ControladorDeInstancias => _controladorDeInstancias ?? (_controladorDeInstancias = new List<TelaMVP>
         {
-            get =>
-                _controladorDeInstancias ??
-                (_controladorDeInstancias =
-                    new List<TelaMVP>
-                    {
-                        { new TelaMVP(typeof(frmProdutoMetro), typeof(ProdutoPresenter), false) },
-                        { new TelaMVP(typeof(frmInteracao), null, true) },
-                        { new TelaMVP(typeof(frmAtendimento), null, true) },
-                    });
+            TelaMVP.Of<frmProdutoMetro, ProdutoPresenter>(),
+            TelaMVP.Of<frmInteracao, object>(true),
+            TelaMVP.Of<frmAtendimento, object>(true),
+            TelaMVP.Of<FrmOrcamento, OrcamentoPresenter>()
+        });
 
-            set => _controladorDeInstancias = value;
-        }
-
-        private static List<TelaMVP> _controladorDeInstancias { get; set; }
-
-        private static Form _instanciaPrincipal { get; set; }
-
+        private static Form _instanciaPrincipal;
         public static TPresenter Crie<TPresenter>()
             where TPresenter : class, IPresenter, new()
         {
@@ -233,15 +233,13 @@ namespace GS.GestaoEmpresa.Solucao.UI
             return instanciaForm;
         }
 
-        private static Dictionary<Type, Dictionary<Guid, Form>> _controladorDeInstanciasIndependentes { get; set; }
-
+        private static Dictionary<Type, Dictionary<Guid, Form>> _controladorDeInstanciasIndependentes;
         private static Dictionary<Type, Dictionary<Guid, Form>> ControladorDeInstanciasIndependentes
         {
-            get => _controladorDeInstanciasIndependentes ?? 
-                   (_controladorDeInstanciasIndependentes = new Dictionary<Type, Dictionary<Guid, Form>>
-                    {
-                        {typeof(FrmEstoque), null}
-                    });
+            get => _controladorDeInstanciasIndependentes ?? (_controladorDeInstanciasIndependentes = new Dictionary<Type, Dictionary<Guid, Form>>
+            {
+                {typeof(FrmEstoque), null}
+            });
 
             set => _controladorDeInstanciasIndependentes = value;
         }

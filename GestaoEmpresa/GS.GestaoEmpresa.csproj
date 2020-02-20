@@ -162,6 +162,7 @@
     <Compile Include="Solucao\Negocio\Objetos\Base\Pessoa.cs" />
     <Compile Include="Solucao\Negocio\Objetos\ClienteAntigo.cs" />
     <Compile Include="Solucao\Negocio\Objetos\Configuracoes.cs" />
+    <Compile Include="Solucao\Negocio\Objetos\Orcamento.cs" />
     <Compile Include="Solucao\Negocio\Servicos\Base\ServicoHistoricoPadrao.cs" />
     <Compile Include="Solucao\Negocio\Servicos\Base\ServicoPadrao.cs" />
     <Compile Include="Solucao\Negocio\Validador\Base\ValidadorPadrao.cs" />
@@ -264,6 +265,13 @@
     <Compile Include="Solucao\UI\Modulos\Atendimento\frmCliente.designer.cs">
       <DependentUpon>frmCliente.cs</DependentUpon>
     </Compile>
+    <Compile Include="Solucao\UI\Modulos\Atendimento\FrmOrcamento.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Solucao\UI\Modulos\Atendimento\FrmOrcamento.Designer.cs">
+      <DependentUpon>FrmOrcamento.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Solucao\UI\Modulos\Atendimento\OrcamentoPresenter.cs" />
     <Compile Include="Solucao\UI\Modulos\Estoque\frmEstoque.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -352,6 +360,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Solucao\UI\Modulos\Atendimento\frmCliente.resx">
       <DependentUpon>frmCliente.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Solucao\UI\Modulos\Atendimento\FrmOrcamento.resx">
+      <DependentUpon>FrmOrcamento.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Solucao\UI\Modulos\Estoque\frmEstoque.resx">
       <DependentUpon>frmEstoque.cs</DependentUpon>

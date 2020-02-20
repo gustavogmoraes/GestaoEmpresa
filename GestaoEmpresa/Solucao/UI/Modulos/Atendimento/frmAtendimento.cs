@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
+﻿using MetroFramework.Forms;
+using System;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using GS.GestaoEmpresa.Solucao.Persistencia.Repositorios;
 
 namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Atendimento
 {
@@ -20,27 +14,19 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Atendimento
 
         private void frmAtendimento_Load(object sender, EventArgs e)
         {
-            /*var dialogResult = MessageBox.Show(" Atualizar pendencia", "Confirmação", MessageBoxButtons.YesNo);
-            if (dialogResult == DialogResult.Yes)
-            {
-                Task.Run(() =>
-                 {
+            EscondaHeadersTabControl(tabControl1);
+        }
 
-                     using (var repositorioDeCliente = new RepositorioDeCliente())
-                     {
-                        var consulta = repositorioDeCliente.ConsulteTodos();
-                         foreach (var item in consulta)
-                         {
-                             item.CadastroPendente = true;
-                             repositorioDeCliente.Atualize(item);
-                         }
-                         MessageBox.Show(" finalizado");
-                     }
-                 });
-                
-            }
-            */
+        private void EscondaHeadersTabControl(TabControl tabControl)
+        {
+            tabControl.Appearance = TabAppearance.FlatButtons;
+            tabControl.ItemSize = new Size(0, 1);
+            tabControl.SizeMode = TabSizeMode.Fixed;
+        }
 
+        private void btnNovoProduto_Click(object sender, EventArgs e)
+        {
+            GerenciadorDeViews.Crie<OrcamentoPresenter>().View.Show();
         }
     }
 }

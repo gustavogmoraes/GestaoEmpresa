@@ -32,8 +32,8 @@
             this.btnCancelarExcluir = new System.Windows.Forms.PictureBox();
             this.btnEditarSalvar = new System.Windows.Forms.PictureBox();
             this.panelTitulo = new System.Windows.Forms.Panel();
-            this.gsTopBorder1 = new GS.GestaoEmpresa.Solucao.UI.ControlesGenericos.GSTopBorder();
             this.lblTitulo = new System.Windows.Forms.Label();
+            this.gsTopBorder1 = new GS.GestaoEmpresa.Solucao.UI.ControlesGenericos.GSTopBorder();
             ((System.ComponentModel.ISupportInitialize)(this.btnCancelarExcluir)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnEditarSalvar)).BeginInit();
             this.panelTitulo.SuspendLayout();
@@ -78,6 +78,15 @@
             this.panelTitulo.Size = new System.Drawing.Size(610, 62);
             this.panelTitulo.TabIndex = 52;
             // 
+            // lblTitulo
+            // 
+            this.lblTitulo.AutoSize = true;
+            this.lblTitulo.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTitulo.Location = new System.Drawing.Point(19, 26);
+            this.lblTitulo.Name = "lblTitulo";
+            this.lblTitulo.Size = new System.Drawing.Size(0, 57);
+            this.lblTitulo.TabIndex = 54;
+            // 
             // gsTopBorder1
             // 
             this.gsTopBorder1.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
@@ -87,18 +96,9 @@
             this.gsTopBorder1.Size = new System.Drawing.Size(605, 26);
             this.gsTopBorder1.TabIndex = 53;
             // 
-            // lblTitulo
-            // 
-            this.lblTitulo.AutoSize = true;
-            this.lblTitulo.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTitulo.Location = new System.Drawing.Point(19, 26);
-            this.lblTitulo.Name = "lblTitulo";
-            this.lblTitulo.Size = new System.Drawing.Size(0, 30);
-            this.lblTitulo.TabIndex = 54;
-            // 
             // GSForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(14F, 36F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackImage = ((System.Drawing.Image)(resources.GetObject("$this.BackImage")));
             this.BackMaxSize = 1500;
@@ -121,10 +121,10 @@
         }
 
         #endregion
-        private System.Windows.Forms.Panel panelTitulo;
         public System.Windows.Forms.PictureBox btnCancelarExcluir;
         public System.Windows.Forms.PictureBox btnEditarSalvar;
-        private ControlesGenericos.GSTopBorder gsTopBorder1;
         protected System.Windows.Forms.Label lblTitulo;
+        protected System.Windows.Forms.Panel panelTitulo;
+        protected ControlesGenericos.GSTopBorder gsTopBorder1;
     }
 }
