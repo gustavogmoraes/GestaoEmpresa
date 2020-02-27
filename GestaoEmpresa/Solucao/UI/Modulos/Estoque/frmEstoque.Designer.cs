@@ -78,6 +78,7 @@
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.btnCatalogo = new System.Windows.Forms.Button();
             this.ucSessaoSistema2 = new GS.GestaoEmpresa.Solucao.Persistencia.BancoDeDados.UCSessaoSistema();
+            this.button1 = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabProdutos.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
@@ -106,6 +107,7 @@
             // tabProdutos
             // 
             this.tabProdutos.BackColor = System.Drawing.Color.Silver;
+            this.tabProdutos.Controls.Add(this.button1);
             this.tabProdutos.Controls.Add(this.btnExportarExcel);
             this.tabProdutos.Controls.Add(this.btnRefresh);
             this.tabProdutos.Controls.Add(this.pictureBox3);
@@ -658,7 +660,20 @@
             this.ucSessaoSistema2.TabIndex = 5;
             this.ucSessaoSistema2.Load += new System.EventHandler(this.ucSessaoSistema2_Load);
             // 
-            // frmEstoque
+            // button1
+            // 
+            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.button1.BackgroundImage = global::GS.GestaoEmpresa.Properties.Resources.export_spreadsheet_512;
+            this.button1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button1.Location = new System.Drawing.Point(994, 6);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(32, 32);
+            this.button1.TabIndex = 12;
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // FrmEstoque
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -737,5 +752,6 @@
         private Persistencia.BancoDeDados.UCSessaoSistema ucSessaoSistema2;
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.Button btnExportarExcel;
+        private System.Windows.Forms.Button button1;
     }
 }

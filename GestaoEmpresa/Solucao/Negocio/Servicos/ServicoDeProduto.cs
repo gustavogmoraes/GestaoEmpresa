@@ -18,6 +18,7 @@ using GS.GestaoEmpresa.Solucao.Persistencia.BancoDeDados;
 using GS.GestaoEmpresa.Solucao.Utilitarios;
 using LinqToExcel;
 using LinqToExcel.Domain;
+using MoreLinq;
 using OfficeOpenXml;
 
 namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
@@ -152,8 +153,8 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
             {
                 var configuracao = new RepositorioDeConfiguracao().ObtenhaUnica();
 
-                excelQueryFactory
-                    .Worksheet(nomeWorksheet)
+                var totalItems =
+                excelQueryFactory.Worksheet(nomeWorksheet)
                     .Skip(indexLinhaDoCabecalho)
                     .Select(linha => new
                     {
@@ -165,10 +166,10 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
                         PrecoDeCompra = linha[indexPrecoCompra].ToString().Trim(),
                         PrecoRevenda = linha[indexPrecoRevenda].ToString().Trim()
                     })
-                    .ToList() // Execute query on EQF and enumerate results
-                    .Where(x => x.UF == "GO" && !x.AnyPropertyIsNull())
+                    .ToList(); // Execute query on EQF and enumerate results
+
+                totalItems.Where(x => x.UF == "GO" && !x.AnyPropertyIsNull())
                     .Distinct()
-                    .ToList() // Execute on memory query
                     .ForEach(item =>
                     {
                         if (item.PrecoDeCompra == "R$ -" || 

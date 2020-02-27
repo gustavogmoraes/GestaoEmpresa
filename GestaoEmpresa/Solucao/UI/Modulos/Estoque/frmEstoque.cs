@@ -25,6 +25,7 @@ using WindowsInput.Native;
 using GS.GestaoEmpresa.Solucao.Negocio.Interfaces;
 using GS.GestaoEmpresa.Solucao.UI.Base;
 using GS.GestaoEmpresa.Solucao.UI.ControlesGenericos;
+using LinqToExcel;
 using Microsoft.VisualBasic.Devices;
 
 namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
@@ -881,6 +882,11 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             }));
         }
 
+        public void UpdateProgress(int count)
+        {
+
+        }
+
         private void ChamadaImportarPlanilha(string caminhoArquivo)
         {
             var cronometro = new Stopwatch();
@@ -901,6 +907,31 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
                 MessageBox.Show($"Importação executada com sucesso\nTempo de execução: {cronometro.Elapsed}");
             });
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            var fileDialog = new OpenFileDialog { Filter = "Excel Files|*.xls;*.xlsx;*.xlsb" };
+
+            var dialogResult = fileDialog.ShowDialog();
+            if (dialogResult != DialogResult.OK || !fileDialog.CheckFileExists)
+            {
+                return;
+            }
+
+            using (var excelQueryFactory = new ExcelQueryFactory(fileDialog.FileName))
+            {
+                if (!excelQueryFactory.GetWorksheetNames().Contains("Tabela de Preços"))
+                {
+                    MessageBox.Show(
+                        "O xls informado não contém uma planilha chamada Tabela de Preços",
+                        "Arquivo inválido");
+
+                    return;
+                }
+
+                ChamadaImportarPlanilha(fileDialog.FileName);
+            }
         }
     }
 }

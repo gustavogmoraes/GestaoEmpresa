@@ -694,14 +694,13 @@ namespace GS.GestaoEmpresa.Solucao.UI.Principal
 
         public List<Interacao> ConsulteTodasAsInteracoes()
         {
-            string ComandoSQL = String.Format("SELECT {0} FROM {1} " +
-                                              "ORDER BY HORARIO DESC",
-                                              ColunasInteracoes,
-                                              "INTERACOES");
+            string ComandoSQL = $"SELECT {ColunasInteracoes} " +
+                                "FROM INTERACOES " + 
+                                "ORDER BY HORARIO DESC";
 
-            DataTable tabela;
             try
             {
+                DataTable tabela;
                 using (var GSBancoDeDados = new GSBancoDeDados())
                     tabela = GSBancoDeDados.ExecuteConsulta(ComandoSQL);
 
@@ -717,10 +716,9 @@ namespace GS.GestaoEmpresa.Solucao.UI.Principal
 
                 return listaRetorno;
             }
-            catch (System.Exception)
+            catch (Exception)
             {
                 return null;
-                throw;
             }
         }
 
@@ -744,8 +742,11 @@ namespace GS.GestaoEmpresa.Solucao.UI.Principal
             {
                 ChamadaMinimizarForm(this, EventArgs.Empty);
 
-                var form = GerenciadorDeViews.CrieIndependente<FrmAtendimento>(out var idInstancia);
-                form.btnNovoProduto_Click(this, EventArgs.Empty);
+                var estoque = new FrmEstoque { WindowState = FormWindowState.Maximized };
+                estoque.Show();
+
+                //var form = GerenciadorDeViews.CrieIndependente<FrmAtendimento>(out var idInstancia);
+                //form.btnNovoProduto_Click(this, EventArgs.Empty);
 
                 #region Usable
 
