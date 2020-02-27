@@ -8,7 +8,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using GS.GestaoEmpresa.Solucao.UI.Base;
-using MetroFramework.Forms;
 
 namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Atendimento
 {

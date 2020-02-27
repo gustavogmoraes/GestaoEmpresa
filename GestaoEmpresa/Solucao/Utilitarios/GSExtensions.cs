@@ -13,6 +13,7 @@ using System.Windows.Forms;
 using GS.GestaoEmpresa.Solucao.Persistencia.BancoDeDados;
 using GS.GestaoEmpresa.Solucao.UI;
 using GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque;
+using LinqToExcel;
 using MoreLinq;
 using Raven.Client.Documents;
 using Raven.Client.Documents.Operations;
@@ -254,12 +255,20 @@ namespace GS.GestaoEmpresa.Solucao.Utilitarios
         {
             var textInfo = CultureInfo.GetCultureInfo("pt-BR").TextInfo;
 
+            text = text.Trim().ToLowerInvariant();
             var tempText = textInfo.ToTitleCase(text);
 
             CustomTitleCaseReplacements.ForEach(x => tempText = tempText.Replace(x.Key, x.Value));
             
             return tempText;
         }
-    }
 
+        public static decimal ObtenhaMonetario(this Cell cell)
+        {
+            return Convert.ToDecimal(cell.Value.ToString().Replace("R$ ", string.Empty));
+        }
+
+        public static bool AnyPropertyIsNull(this object obj) => 
+            obj.GetType().GetProperties().ToList().All(prop => string.IsNullOrEmpty(prop.GetValue(obj).ToString()));
+    }
 }

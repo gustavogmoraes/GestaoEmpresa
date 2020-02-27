@@ -61,7 +61,7 @@ namespace GS.GestaoEmpresa.Solucao.UI
         {
             TelaMVP.Of<frmProdutoMetro, ProdutoPresenter>(),
             TelaMVP.Of<frmInteracao, object>(true),
-            TelaMVP.Of<frmAtendimento, object>(true),
+            TelaMVP.Of<FrmAtendimento, object>(true),
             TelaMVP.Of<FrmOrcamento, OrcamentoPresenter>()
         });
 
@@ -238,7 +238,8 @@ namespace GS.GestaoEmpresa.Solucao.UI
         {
             get => _controladorDeInstanciasIndependentes ?? (_controladorDeInstanciasIndependentes = new Dictionary<Type, Dictionary<Guid, Form>>
             {
-                {typeof(FrmEstoque), null}
+                { typeof(FrmEstoque), null },
+                { typeof(FrmAtendimento), null }
             });
 
             set => _controladorDeInstanciasIndependentes = value;

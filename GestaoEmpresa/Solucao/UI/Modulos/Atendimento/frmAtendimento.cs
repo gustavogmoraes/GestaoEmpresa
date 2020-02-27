@@ -5,9 +5,9 @@ using System.Windows.Forms;
 
 namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Atendimento
 {
-    public partial class frmAtendimento : Form
+    public partial class FrmAtendimento : Form
     {
-        public frmAtendimento()
+        public FrmAtendimento()
         {
             InitializeComponent();
         }
@@ -24,7 +24,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Atendimento
             tabControl.SizeMode = TabSizeMode.Fixed;
         }
 
-        private void btnNovoProduto_Click(object sender, EventArgs e)
+        public void btnNovoProduto_Click(object sender, EventArgs e)
         {
             GerenciadorDeViews.Crie<OrcamentoPresenter>().View.Show();
         }

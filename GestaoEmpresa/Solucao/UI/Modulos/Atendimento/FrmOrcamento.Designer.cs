@@ -35,21 +35,25 @@
             // 
             // btnCancelarExcluir
             // 
-            this.btnCancelarExcluir.Location = new System.Drawing.Point(937, 28);
+            this.btnCancelarExcluir.Location = new System.Drawing.Point(1121, 28);
             // 
             // btnEditarSalvar
             // 
-            this.btnEditarSalvar.Location = new System.Drawing.Point(895, 26);
+            this.btnEditarSalvar.Location = new System.Drawing.Point(1079, 26);
             // 
             // panelTitulo
             // 
-            this.panelTitulo.Size = new System.Drawing.Size(978, 62);
+            this.panelTitulo.Size = new System.Drawing.Size(1204, 62);
+            // 
+            // gsTopBorder1
+            // 
+            this.gsTopBorder1.Size = new System.Drawing.Size(1201, 26);
             // 
             // FrmOrcamento
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(14F, 36F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1280, 720);
+            this.ClientSize = new System.Drawing.Size(1200, 720);
             this.Name = "FrmOrcamento";
             this.Text = "FrmOrcamento";
             ((System.ComponentModel.ISupportInitialize)(this.btnCancelarExcluir)).EndInit();

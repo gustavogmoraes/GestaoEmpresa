@@ -145,7 +145,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
             const int indexUf = 7;
             const int indexIpi = 8;
             const int indexPrecoCompra = 10;
-            const int indexPrecoRevenda = 11;
+            const int indexPrecoRevenda = 12;
 
             using (var excelQueryFactory = new ExcelQueryFactory(caminhoArquivo))
             {
@@ -160,70 +160,90 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
                     PrecoDeCompra = x[indexPrecoCompra],
                     PrecoRevenda = x[indexPrecoRevenda]
                 }).ToList()
-                    .Where(x => ((string)x.UF).Trim() == "GO")
+                    .Where(x => ((string)x.UF).Trim() == "GO" &&
+                                !x.AnyPropertyIsNull())
                     .Distinct()
                     .ToList();
 
-                var repositorioDeProduto = new RepositorioDeProduto();
-                var repositorioDeConfiguracoes = new RepositorioDeConfiguracao();
+                var configuracao = new RepositorioDeConfiguracao().ObtenhaUnica();
 
-                var configuracao = repositorioDeConfiguracoes.ObtenhaUnica();
-
-                foreach(var item in items)
+                var i = 0;
+                items.ForEach(item =>
                 {
-                    var produtoPersistido = repositorioDeProduto.Consulte(x =>
-                        x.CodigoDoFabricante == item.CodigoDoProduto.Value.ToString().Trim());
-
-                    if (produtoPersistido != null)
+                    i++;
+                    using (var repositorioDeProduto = new RepositorioDeProduto())
                     {
-                        if(produtoPersistido.PrecoNaIntelbras == 
-                            Convert.ToDecimal(item.PrecoDeCompra.Value.ToString().Replace("R$ ", string.Empty)))
+                        if (item.PrecoDeCompra.Value.ToString().Trim() == "R$ -" ||
+                            item.PrecoRevenda.Value.ToString().Trim() == "R$ -")
                         {
-                            continue;
+                            return;
                         }
 
-                        produtoPersistido.Nome = item.Nome.Value.ToString();
-                        produtoPersistido.Fabricante = "Intelbras";
-                        produtoPersistido.Unidade = UnidadeIntelbras.ObtenhaPorNome(item.Unidade.Value.ToString());
-                        produtoPersistido.PrecoNaIntelbras = Convert.ToDecimal(item.PrecoDeCompra.Value.ToString().Replace("R$ ", string.Empty));
-                        produtoPersistido.Ipi = Convert.ToDecimal(item.Ipi.Value.ToString().Replace("%", string.Empty)) / 100;
-                        produtoPersistido.PrecoDeCompra = produtoPersistido.PrecoNaIntelbras +
-                                                          (produtoPersistido.PrecoNaIntelbras * produtoPersistido.Ipi) +
-                                                          (produtoPersistido.PrecoNaIntelbras * configuracao.PorcentagemImpostoProtege);
+                        var produtoPersistido = repositorioDeProduto.Consulte(x =>
+                            x.CodigoDoFabricante == item.CodigoDoProduto.Value.ToString().Trim());
 
-                        produtoPersistido.CalculePrecoDeVenda();
+                        if (produtoPersistido != null)
+                        {
+                            if (produtoPersistido.PrecoNaIntelbras == item.PrecoDeCompra.ObtenhaMonetario())
+                            {
+                                return;
+                            }
 
-                        produtoPersistido.PrecoSugeridoRevenda = Convert.ToDecimal(item.PrecoRevenda.Value.ToString().Replace("R$ ", string.Empty));
+                            PreenchaProduto(produtoPersistido, item, configuracao);
 
-                        repositorioDeProduto.Atualize(produtoPersistido);
+                            repositorioDeProduto.Atualize(produtoPersistido);
 
-                        continue;
+                            return;
+                        }
+
+                        var novoProduto = ObtenhaNovoProduto(item, configuracao);
+                        repositorioDeProduto.Insira(novoProduto);
                     }
-
-                    var novoProduto = new Produto
-                    {
-                        Nome = item.Nome.Value.ToString().Trim().ToCustomTitleCase(),
-                        Fabricante = "Intelbras",
-                        Status = EnumStatusToggle.Ativo,
-                        CodigoDoFabricante = item.CodigoDoProduto.Value.ToString().Trim(),
-                        Unidade = UnidadeIntelbras.ObtenhaPorNome(item.Unidade.Value.ToString()),
-                        PrecoNaIntelbras = Convert.ToDecimal(item.PrecoDeCompra.Value.ToString().Replace("R$ ", string.Empty)),
-                        Ipi = Convert.ToDecimal(item.Ipi.Value.ToString().Replace("%", string.Empty)) / 100,
-                        PrecoSugeridoRevenda = Convert.ToDecimal(item.PrecoRevenda.Value.ToString().Replace("R$ ", string.Empty)),
-                        PorcentagemDeLucro = configuracao.PorcentagemDeLucroPadrao
-                    };
-
-                    novoProduto.PrecoDeCompra = novoProduto.PrecoNaIntelbras +
-                                                (novoProduto.PrecoNaIntelbras * novoProduto.Ipi) +
-                                                (novoProduto.PrecoNaIntelbras * configuracao.PorcentagemImpostoProtege);
-
-                    novoProduto.CalculePrecoDeVenda();
-
-                    repositorioDeProduto.Insira(novoProduto);
-                }
+                });
             }
 
             return Task.CompletedTask;
+        }
+
+        private void PreenchaProduto(Produto produtoPersistido, dynamic item, Configuracoes configuracao)
+        {
+            produtoPersistido.Nome = item.Nome.Value.ToString();
+            produtoPersistido.Fabricante = "Intelbras";
+            produtoPersistido.Unidade = UnidadeIntelbras.ObtenhaPorNome(item.Unidade.Value.ToString());
+            produtoPersistido.PrecoNaIntelbras = GSExtensions.ObtenhaMonetario(item.PrecoDeCompra);
+            produtoPersistido.Ipi = Convert.ToDecimal((string) item.Ipi.Value.ToString().Replace("%", string.Empty)) / 100;
+            produtoPersistido.PrecoDeCompra = produtoPersistido.PrecoNaIntelbras +
+                                                produtoPersistido.PrecoNaIntelbras * produtoPersistido.Ipi +
+                                              produtoPersistido.PrecoNaIntelbras * configuracao.PorcentagemImpostoProtege;
+
+            produtoPersistido.CalculePrecoDeVenda();
+
+            produtoPersistido.PrecoSugeridoRevenda = GSExtensions.ObtenhaMonetario(item.PrecoRevenda);
+        }
+
+        private Produto ObtenhaNovoProduto(dynamic item, Configuracoes configuracao)
+        {
+            var novoProduto = new Produto
+            {
+                Nome = GSExtensions.ToCustomTitleCase(item.Nome.Value.ToString().Trim()),
+                Fabricante = "Intelbras",
+                Status = EnumStatusToggle.Ativo,
+                CodigoDoFabricante = item.CodigoDoProduto.Value.ToString().Trim(),
+                Unidade = UnidadeIntelbras.ObtenhaPorNome(item.Unidade.Value.ToString()),
+                PrecoNaIntelbras = GSExtensions.ObtenhaMonetario(item.PrecoDeCompra),
+                Ipi = Convert.ToDecimal((string) item.Ipi.Value.ToString().Replace("%", string.Empty)) / 100,
+                PrecoSugeridoRevenda = GSExtensions.ObtenhaMonetario(item.PrecoRevenda),
+                PorcentagemDeLucro = configuracao.PorcentagemDeLucroPadrao
+            };
+
+            novoProduto.PrecoDeCompra = novoProduto.PrecoNaIntelbras +
+                                        (novoProduto.PrecoNaIntelbras * novoProduto.Ipi) +
+                                        (novoProduto.PrecoNaIntelbras *
+                                         configuracao.PorcentagemImpostoProtege);
+
+            novoProduto.CalculePrecoDeVenda();
+
+            return novoProduto;
         }
     }
 }       

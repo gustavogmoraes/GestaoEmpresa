@@ -19,6 +19,8 @@ using GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque;
 using GS.GestaoEmpresa.Solucao.UI.Modulos.Tecnico;
 using GS.GestaoEmpresa.Solucao.Utilitarios;
 using Microsoft.VisualBasic;
+using MoreLinq;
+using Raven.Client.Documents.Linq;
 using Raven.Client.Extensions;
 
 namespace GS.GestaoEmpresa.Solucao.UI.Principal
@@ -29,12 +31,12 @@ namespace GS.GestaoEmpresa.Solucao.UI.Principal
 
         public void ChamadaMinimizarForm(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            WindowState = FormWindowState.Minimized;
         }
 
         public void ChamadaFecharForm(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            Close();
         }
 
         public EnumTipoDeForm TipoDeForm { get; set; }
@@ -136,33 +138,32 @@ namespace GS.GestaoEmpresa.Solucao.UI.Principal
         {
             DefinaLabelsIPs();
 
-            Action acao =
-                () =>
+            void Acao()
+            {
+                while (SessaoSistema.VerificarStatusDaConexao)
                 {
-                    while (SessaoSistema.VerificarStatusDaConexao)
+                    if (SessaoSistema.ConexaoAtiva)
                     {
-                        if (SessaoSistema.ConexaoAtiva)
+                        pictureBox5.Invoke((MethodInvoker) delegate
                         {
-                            pictureBox5.Invoke((MethodInvoker)delegate
-                            {
-                                pictureBox5.BackgroundImage = Resources.Conexao;
-                                btnEntrar.Enabled = true;
-                            });
-                        }
-                        else
-                        {
-                            pictureBox5.Invoke((MethodInvoker)delegate
-                            {
-                                pictureBox5.BackgroundImage = Resources.SemConexao;
-                                btnEntrar.Enabled = false;
-                            });
-                        }
-
-                        Thread.Sleep(350);
+                            pictureBox5.BackgroundImage = Resources.Conexao;
+                            btnEntrar.Enabled = true;
+                        });
                     }
-                };
+                    else
+                    {
+                        pictureBox5.Invoke((MethodInvoker) delegate
+                        {
+                            pictureBox5.BackgroundImage = Resources.SemConexao;
+                            btnEntrar.Enabled = false;
+                        });
+                    }
 
-            GSTarefasAssincronas.ExecuteTarefaAssincrona(acao);
+                    Thread.Sleep(350);
+                }
+            }
+
+            GSTarefasAssincronas.ExecuteTarefaAssincrona(Acao);
         }
 
         #endregion
@@ -328,7 +329,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Principal
 
         private void btnAtendimento_Click(object sender, EventArgs e)
         {
-            new frmAtendimento().Show();
+            new FrmAtendimento().Show();
         }
 
         public string IdInstancia { get; set; }
@@ -727,10 +728,8 @@ namespace GS.GestaoEmpresa.Solucao.UI.Principal
         {
             base.OnLoad(e);
 
-            if (SessaoSistema.WorkTestMode)
+            if (SessaoSistema.IsMain)
             {
-                var repoUser = new RepositorioDeUsuario();
-
                 txtUsuario.Text = "junio.moraes";
                 txtSenha.Text = "Mega280271@";
 
@@ -743,6 +742,13 @@ namespace GS.GestaoEmpresa.Solucao.UI.Principal
             }
             else if (SessaoSistema.WorkTestMode)
             {
+                ChamadaMinimizarForm(this, EventArgs.Empty);
+
+                var form = GerenciadorDeViews.CrieIndependente<FrmAtendimento>(out var idInstancia);
+                form.btnNovoProduto_Click(this, EventArgs.Empty);
+
+                #region Usable
+
                 //using (var servicoDeUsuario = new ServicoDeUsuario())
                 //{
                 //    servicoDeUsuario.Insira("ana.paula", "M4044");
@@ -768,18 +774,34 @@ namespace GS.GestaoEmpresa.Solucao.UI.Principal
                 //    });
                 //}
 
+                //using (var ds = new GSDocumentStore())
+                //{
+                //    ds.Initialize();
+                //    using (var sessao = ds.OpenSession("GestaoEmpresa"))
+                //    {
+                //        var todosOsProdutos = sessao.Query<Interacao>().ToList();
+                //        foreach (var t in todosOsProdutos)
+                //        {
+                //            t.Produto.Nome = t.Produto.Nome.ToCustomTitleCase();
+                //        }
+
+                //        sessao.SaveChanges();
+                //    }
+                //}
+
                 //using (var servico = new ServicoDeProduto())
                 //{
-                //    servico.ImportePlanilhaIntelbras(@"F:\TabelaFev.xlsb").ContinueWithTask(() =>
+                //    servico.ImportePlanilhaIntelbras(@"C:\Users\gusta\Documents\Tabela.xlsb").ContinueWithTask(() =>
                 //    {
                 //        Console.WriteLine("Completado com sucesso");
                 //        return Task.CompletedTask;
                 //    });
                 //}
 
-                var estoque = new FrmEstoque();
-                estoque.WindowState = FormWindowState.Maximized;
-                estoque.Show();
+                //var estoque = new FrmEstoque { WindowState = FormWindowState.Maximized };
+                //estoque.Show();
+
+                #endregion
             }
         }
 

@@ -72,34 +72,42 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             {
                 var pesquisa = txtPesquisa.Text.ToLowerInvariant().Trim();
                 var listaFiltrada = new List<Produto>();
+                var processou = false;
+
+                if (string.IsNullOrEmpty(pesquisa))
+                {
+                    if (string.IsNullOrEmpty(_txtPesquisaDeProdutoPreviousSearch) || _txtPesquisaDeProdutoPreviousSearch == pesquisa)
+                    {
+                        processou = false;
+                        return;
+                    }
+                }
+
+                if (string.IsNullOrEmpty(pesquisa))
+                {
+                    listaFiltrada = ListaDeProdutos;
+                    CarregueDataGridProdutos(listaFiltrada);
+                    processou = false;
+                    return;
+                }
 
                 GSWaitForm.Mostrar(
                     this,
                     () =>
                     {
-                        if (string.IsNullOrEmpty(pesquisa))
-                        {
-                            if (string.IsNullOrEmpty(_txtPesquisaDeProdutoPreviousSearch) || _txtPesquisaDeProdutoPreviousSearch == pesquisa)
-                            {
-                                return;
-                            }
-                        }
-
                         _txtPesquisaDeProdutoPreviousSearch = pesquisa;
                         using (var servicoDeProduto = new ServicoDeProduto())
                         {
-                            if (string.IsNullOrEmpty(pesquisa))
-                            {
-                                listaFiltrada = ListaDeProdutos;
-                                return;
-                            }
-
                             listaFiltrada = servicoDeProduto.ConsulteTodosParaAterrissagem(pesquisa, x => x.Nome, x => x.CodigoDoFabricante, x => x.Codigo);
+                            processou = true;
                         }
                     },
                     () =>
                     {
-                        CarregueDataGridProdutos(listaFiltrada);
+                        if (processou)
+                        {
+                            CarregueDataGridProdutos(listaFiltrada);
+                        }
                     });
             }));
         }
