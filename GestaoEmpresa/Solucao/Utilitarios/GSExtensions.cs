@@ -263,9 +263,9 @@ namespace GS.GestaoEmpresa.Solucao.Utilitarios
             return tempText;
         }
 
-        public static decimal ObtenhaMonetario(this Cell cell)
+        public static decimal ObtenhaMonetario(this string value)
         {
-            return Convert.ToDecimal(cell.Value.ToString().Replace("R$ ", string.Empty));
+            return Convert.ToDecimal(value.Replace("R$ ", string.Empty));
         }
 
         public static bool AnyPropertyIsNull(this object obj) => 

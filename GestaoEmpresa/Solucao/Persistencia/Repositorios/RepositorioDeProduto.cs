@@ -14,30 +14,40 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios
 {
     public class RepositorioDeProduto : RepositorioHistoricoPadrao<Produto>
     {
-        public int ConsulteQuantidade(int codigo)
+        public RepositorioDeProduto() { }
+        public RepositorioDeProduto(IDocumentSession traverseSession) : base(traverseSession) { }
+
+        public int? ConsulteQuantidade(int codigo)
         {
-            using (var sessaoRaven = _documentStore.OpenSession())
-                return sessaoRaven.Query<Produto>().Where(_filtroAtualComCodigo(codigo))
-                                                   .Select(x => x.QuantidadeEmEstoque)
-                                                   .FirstOrDefault();
+            using (var sessaoRaven = DocumentStore.OpenSession())
+            {
+                return sessaoRaven.Query<Produto>().FirstOrDefault(_filtroAtualComCodigo(codigo))?.QuantidadeEmEstoque;
+            }
         }
 
         public void AltereQuantidadeDeProduto(int codigoDoProduto, int novaQuantidade)
         {
-            using (var sessaoRaven = _documentStore.OpenSession())
+            using (var sessaoRaven = DocumentStore.OpenSession())
             {
                 var produto = sessaoRaven.Query<Produto>().FirstOrDefault(_filtroAtualComCodigo(codigoDoProduto));
+                if (produto == null) return;
+
                 produto.QuantidadeEmEstoque = novaQuantidade;
                 sessaoRaven.SaveChanges();
             }
         }
 
-        public Produto Consulte(Expression<Func<Produto, bool>> filtro)
+        public Produto Consulte(Expression<Func<Produto, bool>> filtro, IDocumentSession traverseSession = null)
         {
-            using (var sessaoRaven = _documentStore.OpenSession())
+            using (var sessaoRaven = traverseSession ?? DocumentStore.OpenSession())
             {
-                return sessaoRaven.Query<Produto>().FirstOrDefault(filtro);
+                return Consulte(sessaoRaven, filtro);
             }
+        }
+
+        public static Produto Consulte(IDocumentSession traverseSession, Expression<Func<Produto, bool>> filtro)
+        {
+            return traverseSession.Query<Produto>().FirstOrDefault(filtro);
         }
     }
 }

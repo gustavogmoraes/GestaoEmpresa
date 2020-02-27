@@ -46,7 +46,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
 
         #endregion
 
-        public int ConsulteQuantidade(int codigo)
+        public int? ConsulteQuantidade(int codigo)
         {
             using (var repositorioDeProduto = new RepositorioDeProduto())
             {
@@ -68,7 +68,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
             }
         }
 
-        private Expression<Func<Produto, object>> SeletorProdutoAterrissagem => x => new Produto
+        private static Expression<Func<Produto, object>> SeletorProdutoAterrissagem => x => new Produto
         {
             Codigo = x.Codigo,
             CodigoDoFabricante = x.CodigoDoFabricante,
@@ -136,9 +136,10 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
             }
         }
 
-        public Task ImportePlanilhaIntelbras(string caminhoArquivo)
+        public void ImportePlanilhaIntelbras(string caminhoArquivo)
         {
             const string nomeWorksheet = "Tabela de Preços";
+            const int indexLinhaDoCabecalho = 7;
             const int indexUnidade = 1;
             const int indexCodigoDoProduto = 2;
             const int indexNome = 3;
@@ -149,63 +150,57 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
 
             using (var excelQueryFactory = new ExcelQueryFactory(caminhoArquivo))
             {
-                var worksheet = excelQueryFactory.Worksheet(nomeWorksheet);
-                var items = worksheet.Skip(7).Select(x => new
-                {
-                    Unidade = x[indexUnidade],
-                    CodigoDoProduto = x[indexCodigoDoProduto],
-                    Nome = x[indexNome],
-                    UF = x[indexUf],
-                    Ipi = x[indexIpi],
-                    PrecoDeCompra = x[indexPrecoCompra],
-                    PrecoRevenda = x[indexPrecoRevenda]
-                }).ToList()
-                    .Where(x => ((string)x.UF).Trim() == "GO" &&
-                                !x.AnyPropertyIsNull())
-                    .Distinct()
-                    .ToList();
-
                 var configuracao = new RepositorioDeConfiguracao().ObtenhaUnica();
 
-                var i = 0;
-                items.ForEach(item =>
-                {
-                    i++;
-                    using (var repositorioDeProduto = new RepositorioDeProduto())
+                excelQueryFactory
+                    .Worksheet(nomeWorksheet)
+                    .Skip(indexLinhaDoCabecalho)
+                    .Select(linha => new
                     {
-                        if (item.PrecoDeCompra.Value.ToString().Trim() == "R$ -" ||
-                            item.PrecoRevenda.Value.ToString().Trim() == "R$ -")
+                        Unidade = linha[indexUnidade].ToString().Trim(),
+                        CodigoDoProduto = linha[indexCodigoDoProduto].ToString().Trim(),
+                        Nome = linha[indexNome].ToString().Trim(),
+                        UF = linha[indexUf].ToString().Trim(),
+                        Ipi = linha[indexIpi].ToString().Trim(),
+                        PrecoDeCompra = linha[indexPrecoCompra].ToString().Trim(),
+                        PrecoRevenda = linha[indexPrecoRevenda].ToString().Trim()
+                    })
+                    .ToList() // Execute query on EQF and enumerate results
+                    .Where(x => x.UF == "GO" && !x.AnyPropertyIsNull())
+                    .Distinct()
+                    .ToList() // Execute on memory query
+                    .ForEach(item =>
+                    {
+                        if (item.PrecoDeCompra == "R$ -" || 
+                            item.PrecoRevenda == "R$ -")
                         {
                             return;
                         }
 
-                        var produtoPersistido = repositorioDeProduto.Consulte(x =>
-                            x.CodigoDoFabricante == item.CodigoDoProduto.Value.ToString().Trim());
-
-                        if (produtoPersistido != null)
+                        using (var repositorioDeProduto = new RepositorioDeProduto(RavenHelper.OpenSession()))
                         {
-                            if (produtoPersistido.PrecoNaIntelbras == item.PrecoDeCompra.ObtenhaMonetario())
+                            var produtoPersistido = repositorioDeProduto.Consulte(x => x.CodigoDoFabricante == item.CodigoDoProduto);
+                            if (produtoPersistido != null)
                             {
+                                if (produtoPersistido.PrecoNaIntelbras == item.PrecoDeCompra.ObtenhaMonetario())
+                                {
+                                    return;
+                                }
+
+                                PreenchaProduto(produtoPersistido, item, configuracao);
+                                repositorioDeProduto.Atualize(produtoPersistido);
+
                                 return;
                             }
 
-                            PreenchaProduto(produtoPersistido, item, configuracao);
-
-                            repositorioDeProduto.Atualize(produtoPersistido);
-
-                            return;
+                            var novoProduto = ObtenhaNovoProduto(item, configuracao);
+                            repositorioDeProduto.Insira(novoProduto);
                         }
-
-                        var novoProduto = ObtenhaNovoProduto(item, configuracao);
-                        repositorioDeProduto.Insira(novoProduto);
-                    }
-                });
+                    });
             }
-
-            return Task.CompletedTask;
         }
 
-        private void PreenchaProduto(Produto produtoPersistido, dynamic item, Configuracoes configuracao)
+        private static void PreenchaProduto(Produto produtoPersistido, dynamic item, Configuracoes configuracao)
         {
             produtoPersistido.Nome = item.Nome.Value.ToString();
             produtoPersistido.Fabricante = "Intelbras";
@@ -221,7 +216,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
             produtoPersistido.PrecoSugeridoRevenda = GSExtensions.ObtenhaMonetario(item.PrecoRevenda);
         }
 
-        private Produto ObtenhaNovoProduto(dynamic item, Configuracoes configuracao)
+        private static Produto ObtenhaNovoProduto(dynamic item, Configuracoes configuracao)
         {
             var novoProduto = new Produto
             {

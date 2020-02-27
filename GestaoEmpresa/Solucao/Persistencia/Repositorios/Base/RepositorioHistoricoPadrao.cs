@@ -9,22 +9,32 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using Raven.Client.Documents.Session;
 
 namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios.Base
 {
     public abstract class RepositorioHistoricoPadrao<T> : IDisposable
         where T : ObjetoComHistorico, IConceitoComHistorico, new()
     {
-        protected GSDocumentStore _documentStore { get; set; }
+        protected GSDocumentStore DocumentStore { get; set; }
+        protected IDocumentSession Session { get; set; }
 
-        protected Func<T, bool> _filtroAtualComCodigo(int codigo) => (x => x.Atual && x.Codigo == codigo);
+        protected static Func<T, bool> _filtroAtualComCodigo(int codigo) => (x => x.Atual && x.Codigo == codigo);
 
         protected Expression<Func<T, bool>> _filtroAtual() => (x => x.Atual);
 
         protected RepositorioHistoricoPadrao()
         {
-            _documentStore = new GSDocumentStore();
-            _documentStore.Initialize();
+            DocumentStore = new GSDocumentStore();
+            DocumentStore.Initialize();
+        }
+
+        protected RepositorioHistoricoPadrao(IDocumentSession traverseSession)
+        {
+            DocumentStore = new GSDocumentStore();
+            DocumentStore.Initialize();
+
+            Session = traverseSession;
         }
 
         public int Insira(T item)
@@ -32,7 +42,7 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios.Base
             if (item.Codigo == 0) item.Codigo = ObtenhaProximoCodigoDisponivel();
             item.Atual = true;
 
-            using (var sessaoRaven = _documentStore.OpenSession())
+            using (var sessaoRaven = Session ?? DocumentStore.OpenSession())
             {
                 sessaoRaven.Store(item);
                 sessaoRaven.SaveChanges();
@@ -43,38 +53,35 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios.Base
 
         public T Consulte(int codigo)
         {
-            using (var sessaoRaven = _documentStore.OpenSession())
+            using (var sessaoRaven = Session ?? DocumentStore.OpenSession())
+            {
                 return sessaoRaven.Query<T>().FirstOrDefault(x => x.Codigo == codigo && x.Atual);
+            }
         }
 
         public T Consulte(int codigo, DateTime data)
         {
-            using (var sessaoRaven = _documentStore.OpenSession())
+            using (var sessaoRaven = Session ?? DocumentStore.OpenSession())
             {
-                // Deixei implementado, para exemplo, duas maneiras de fazer a mesma consulta, que literalmente são a mesma coisa,
-                // primeiro método em Linq e o segundo usando Method Chaining e Lambda, e são totalmente conversiveis entre si.
-                // Sou um pouco mais fã de Method Chaining, então no geral, está tudo implementado com ele.
 
-                //return (from produto in sessaoRaven.Query<T>()
-                //        where produto.Codigo == codigo && produto.Vigencia <= data
-                //        orderby produto.Vigencia descending
-                //        select produto).FirstOrDefault();
-
-                return sessaoRaven.Query<T>().Where(x => x.Codigo == codigo && x.Vigencia <= data)
-                                             .OrderByDescending(x => x.Vigencia)
-                                             .FirstOrDefault();
+                return sessaoRaven.Query<T>()
+                    .Where(x => x.Codigo == codigo && x.Vigencia <= data)
+                    .OrderByDescending(x => x.Vigencia)
+                    .FirstOrDefault();
             }
         }
 
         public int ObtenhaQuantidadeDeRegistros()
         {
-            using (var sessaoRaven = _documentStore.OpenSession())
+            using (var sessaoRaven = Session ?? DocumentStore.OpenSession())
+            {
                 return sessaoRaven.Query<T>().Count(x => x.Atual);
+            }
         }
 
         public IList<T> ConsulteTodos(Expression<Func<T, object>> seletor = null, Expression<Func<T, bool>> filtro = null)
         {
-            using (var sessaoRaven = _documentStore.OpenSession())
+            using (var sessaoRaven = Session ?? DocumentStore.OpenSession())
             {
                 filtro = filtro?.AndAlso(_filtroAtual());
 
@@ -90,7 +97,7 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios.Base
 
         public IList<T> ConsulteTodos(Expression<Func<T, object>> seletor, Expression<Func<T, object>> propriedade, string pesquisa)
         {
-            using (var sessaoRaven = _documentStore.OpenSession())
+            using (var sessaoRaven = Session ?? DocumentStore.OpenSession())
             {
                 var queryRaven = sessaoRaven.Query<T>()
                     .Where(_filtroAtual())
@@ -117,7 +124,7 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios.Base
 
         public IList<T> ConsulteTodos(Expression<Func<T, object>> seletor, string pesquisa, params Expression<Func<T, object>>[] propriedades)
         {
-            using (var sessaoRaven = _documentStore.OpenSession())
+            using (var sessaoRaven = Session ?? DocumentStore.OpenSession())
             {
                 var queryRaven = sessaoRaven.Query<T>()
                     .Where(_filtroAtual())
@@ -134,11 +141,10 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios.Base
                         {
                             var prop = (PropertyInfo)propriedade.GetPropertyFromExpression();
                             var val = prop.GetValue(x, null);
-                            if (val != null && val.ToString().ToLowerInvariant().Contains(pesquisa))
-                            {
-                                foundProp = propriedade.Compile();
-                                return true;
-                            }
+                            if (val == null || !val.ToString().ToLowerInvariant().Contains(pesquisa)) continue;
+
+                            foundProp = propriedade.Compile();
+                            return true;
                         }
 
                         return false;
@@ -159,7 +165,7 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios.Base
 
         public IList<DateTime> ConsulteVigencias(int codigo)
         {
-            using (var sessaoRaven = _documentStore.OpenSession())
+            using (var sessaoRaven = Session ?? DocumentStore.OpenSession())
             {
                 var resultadoConsulta = sessaoRaven.Query<T>().Where(x => x.Codigo == codigo)
                                                               .Select(x => x.Vigencia)
@@ -175,13 +181,18 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios.Base
 
         public void Atualize(T item)
         {
-            using (var sessaoRaven = _documentStore.OpenSession())
+            using (var sessaoRaven = Session ?? DocumentStore.OpenSession())
             {
                 var itemAnterior = sessaoRaven.Query<T>().FirstOrDefault(_filtroAtualComCodigo(item.Codigo));
-                itemAnterior.Atual = false;
+                if (itemAnterior == null)
+                {
+                    return;
+                }
 
+                itemAnterior.Atual = false;
                 item.Atual = true;
-                if (item.Vigencia == null || item.Vigencia == DateTime.MinValue)
+
+                if (item.Vigencia == DateTime.MinValue)
                 {
                     item.Vigencia = DateTime.Now;
                 }
@@ -193,7 +204,7 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios.Base
 
         public void Exclua(int codigo)
         {
-            using (var sessaoRaven = _documentStore.OpenSession())
+            using (var sessaoRaven = Session ?? DocumentStore.OpenSession())
             {
                 var itens = sessaoRaven.Query<T>().Where(x => x.Codigo == codigo).ToList();
 
@@ -205,25 +216,24 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios.Base
 
         public int ObtenhaProximoCodigoDisponivel()
         {
-            using (var session = _documentStore.OpenSession())
+            using (var session = Session ?? DocumentStore.OpenSession())
             {
                 var listaDeCodigos = session.Query<T>().Select(x => x.Codigo).ToList().Distinct().OrderBy(x => x).ToList();
-                if (listaDeCodigos != null && listaDeCodigos.Any())
-                {
-                    var numerosFaltando = listaDeCodigos.EncontreInteirosFaltandoEmUmaSequencia();
+                if (!listaDeCodigos.Any()) return 1;
 
-                    return numerosFaltando != null && numerosFaltando.Count() > 0
-                        ? numerosFaltando.Min()
-                        : listaDeCodigos.Max() + 1;   
-                }
+                var numerosFaltando = listaDeCodigos.EncontreInteirosFaltandoEmUmaSequencia().ToList();
+                return numerosFaltando.Any()
+                    ? numerosFaltando.Min()
+                    : listaDeCodigos.Max() + 1;
 
-                return 1;
             }
         }
 
         public void Dispose()
         {
-            _documentStore.Dispose();
+            Session?.SaveChanges();
+            Session?.Dispose();
+            DocumentStore?.Dispose();
         }
     }
 }

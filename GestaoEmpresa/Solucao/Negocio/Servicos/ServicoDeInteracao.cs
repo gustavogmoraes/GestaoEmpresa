@@ -68,8 +68,8 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
         {
             var listaDeInteracoes = ConsultePorNumeroDeSerie(numeroDeSerie);
 
-            var numeroDeEntradas = listaDeInteracoes.Where(x => x.TipoDeInteracao == EnumTipoDeInteracao.ENTRADA).Count();
-            var numeroDeSaidas = listaDeInteracoes.Where(x => x.TipoDeInteracao == EnumTipoDeInteracao.SAIDA).Count();
+            var numeroDeEntradas = listaDeInteracoes.Count(x => x.TipoDeInteracao == EnumTipoDeInteracao.ENTRADA);
+            var numeroDeSaidas = listaDeInteracoes.Count(x => x.TipoDeInteracao == EnumTipoDeInteracao.SAIDA);
 
             return (numeroDeEntradas > numeroDeSaidas);
         }
@@ -81,7 +81,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
             using (var repositorioDeInteracao = new RepositorioDeInteracao())
             {
                 var interacao = Consulte(codigoDaInteracao);
-                var quantidadeDeProduto = servicoDeProduto.ConsulteQuantidade(interacao.Produto.Codigo);
+                var quantidadeDeProduto = servicoDeProduto.ConsulteQuantidade(interacao.Produto.Codigo).GetValueOrDefault();
 
                 var inconsistencias = validador.ValideExclusao(codigoDaInteracao).ToList();
                 if (inconsistencias.Count > 0)

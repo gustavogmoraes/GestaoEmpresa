@@ -171,6 +171,35 @@ namespace GS.GestaoEmpresa.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Importação executada com sucesso
+        ///.
+        /// </summary>
+        internal static string FrmEstoque_ChamadaImportarPlanilha_ {
+            get {
+                return ResourceManager.GetString("FrmEstoque_ChamadaImportarPlanilha_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tempo de execução: {0}.
+        /// </summary>
+        internal static string FrmEstoque_ChamadaImportarPlanilha_Tempo_de_execução___0_ {
+            get {
+                return ResourceManager.GetString("FrmEstoque_ChamadaImportarPlanilha_Tempo_de_execução___0_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Importação executada com sucesso
+        ///Tempo de execução: {0}.
+        /// </summary>
+        internal static string ImportacaoRealizacaComSucesso {
+            get {
+                return ResourceManager.GetString("ImportacaoRealizacaComSucesso", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap Load {

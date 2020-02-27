@@ -880,5 +880,27 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                 }
             }));
         }
+
+        private void ChamadaImportarPlanilha(string caminhoArquivo)
+        {
+            var cronometro = new Stopwatch();
+            cronometro.Start();
+
+            Task.Run(() =>
+            {
+                using (var servicoDeProduto = new ServicoDeProduto())
+                {
+                    servicoDeProduto.ImportePlanilhaIntelbras(caminhoArquivo);
+                }
+            }).ContinueWith(async result =>
+            {
+                await result;
+
+                cronometro.Stop();
+                cronometro = null;
+
+                MessageBox.Show($"Importação executada com sucesso\nTempo de execução: {cronometro.Elapsed}");
+            });
+        }
     }
 }
