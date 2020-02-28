@@ -270,5 +270,31 @@ namespace GS.GestaoEmpresa.Solucao.Utilitarios
 
         public static bool AnyPropertyIsNull(this object obj) => 
             obj.GetType().GetProperties().ToList().All(prop => string.IsNullOrEmpty(prop.GetValue(obj).ToString()));
+
+        public static decimal ToDecimal(this string value) => Convert.ToDecimal(value);
+
+        public static decimal DivideBy(this decimal value, decimal by) => value / by;
+
+        /// <summary>
+        /// a == b
+        /// <para> c == ?</para>
+        /// </summary>
+        public static double RuleOfThree(double a, double b, double c)
+        {
+            return b * c / a;
+        }
+
+        public static int[] GetProgressRange(int total)
+        {
+            var values = new List<int>();
+            var x = 0;
+            for (int i = 1; i <= 100; i++)
+            {
+                var val = RuleOfThree(100, total, x += 1);
+                values.Add(Convert.ToInt32(val));
+            }
+
+            return values.Distinct().ToArray();
+        }
     }
 }

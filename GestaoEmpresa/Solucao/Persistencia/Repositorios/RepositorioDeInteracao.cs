@@ -12,10 +12,11 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios
     {
         public bool VerifiqueSeNumeroDeSerieExisteNoBanco(string numeroDeSerie)
         {
-            using (var sessaoRaven = _documentStore.OpenSession())
+            using (var sessaoRaven = DocumentStore.OpenSession())
             {
-                return sessaoRaven.Query<Interacao>().Where(x => x.InformaNumeroDeSerie && x.NumerosDeSerie.Count > 0)
-                                                     .Any(x => x.NumerosDeSerie.Contains(numeroDeSerie));
+                return sessaoRaven.Query<Interacao>()
+                    .Where(x => x.InformaNumeroDeSerie && x.NumerosDeSerie.Any())
+                    .Any(x => x.NumerosDeSerie.Contains(numeroDeSerie));
             }
         }
     }

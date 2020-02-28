@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.OleDb;
+using System.Diagnostics;
 using System.IO;
 using GS.GestaoEmpresa.Solucao.Negocio.Objetos;
 using GS.GestaoEmpresa.Solucao.Negocio.Validador;
@@ -12,7 +13,9 @@ using GS.GestaoEmpresa.Solucao.UI;
 using GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores.Seguros.UnidadeIntelbras;
 using GS.GestaoEmpresa.Solucao.Persistencia.BancoDeDados;
 using GS.GestaoEmpresa.Solucao.Utilitarios;
@@ -137,8 +140,36 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
             }
         }
 
-        public void ImportePlanilhaIntelbras(string caminhoArquivo)
+        public static void KeepTimeRunning(Stopwatch stopwatch, Form form, Label label)
         {
+            Task.Run(() =>
+            {
+                while (stopwatch.IsRunning)
+                {
+                    form.Invoke((MethodInvoker)delegate
+                    {
+                        label.Text = stopwatch.Elapsed.ToString("g").Substring(2, 5);
+                    });
+
+                    Thread.Sleep(250);
+                }
+            });
+        }
+
+        public void ImportePlanilhaIntelbras(string caminhoArquivo, FrmEstoque caller)
+        {
+            caller.Invoke((MethodInvoker) delegate
+            {
+                caller.button1.Enabled = false;
+
+                caller.metroProgressImportar.Visible = true;
+                caller.metroProgressImportar.Value = 1;
+
+                caller.txtQtyProgresso.Visible = true;
+                caller.txtCronometroImportar.Visible = true;
+            });
+            //
+
             const string nomeWorksheet = "Tabela de Preços";
             const int indexLinhaDoCabecalho = 7;
             const int indexUnidade = 1;
@@ -166,12 +197,31 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
                         PrecoDeCompra = linha[indexPrecoCompra].ToString().Trim(),
                         PrecoRevenda = linha[indexPrecoRevenda].ToString().Trim()
                     })
-                    .ToList(); // Execute query on EQF and enumerate results
+                    .ToList() // Execute query on EQF and enumerate results
+                    .Where(x => x.UF.ToString() == "GO") // Get only those from Goiás
+                    .ToList();
 
-                totalItems.Where(x => x.UF == "GO" && !x.AnyPropertyIsNull())
+                // Progress bar
+                var totalAdded = 0;
+
+                var items = GSExtensions.GetProgressRange(totalItems.Count);
+                //
+
+                totalItems.Where(x => !x.AnyPropertyIsNull())
                     .Distinct()
                     .ForEach(item =>
                     {
+                        // Progress bar reactivity
+                        totalAdded ++;
+                        caller.Invoke((MethodInvoker)delegate { caller.txtQtyProgresso.Text = $"{totalAdded}/{totalItems.Count}"; });
+                        
+
+                        if (totalAdded.IsAny(items))
+                        {
+                            caller.Invoke((MethodInvoker) delegate {caller.metroProgressImportar.Value += 1;});
+                        }
+                        //
+
                         if (item.PrecoDeCompra == "R$ -" || 
                             item.PrecoRevenda == "R$ -")
                         {
@@ -203,11 +253,11 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
 
         private static void PreenchaProduto(Produto produtoPersistido, dynamic item, Configuracoes configuracao)
         {
-            produtoPersistido.Nome = item.Nome.Value.ToString();
+            produtoPersistido.Nome = item.Nome;
             produtoPersistido.Fabricante = "Intelbras";
-            produtoPersistido.Unidade = UnidadeIntelbras.ObtenhaPorNome(item.Unidade.Value.ToString());
+            produtoPersistido.Unidade = UnidadeIntelbras.ObtenhaPorNome(item.Unidade);
             produtoPersistido.PrecoNaIntelbras = GSExtensions.ObtenhaMonetario(item.PrecoDeCompra);
-            produtoPersistido.Ipi = Convert.ToDecimal((string) item.Ipi.Value.ToString().Replace("%", string.Empty)) / 100;
+            produtoPersistido.Ipi = ((string)item.Ipi).Replace("%", string.Empty).ToDecimal().DivideBy(100);
             produtoPersistido.PrecoDeCompra = produtoPersistido.PrecoNaIntelbras +
                                                 produtoPersistido.PrecoNaIntelbras * produtoPersistido.Ipi +
                                               produtoPersistido.PrecoNaIntelbras * configuracao.PorcentagemImpostoProtege;
@@ -221,21 +271,21 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
         {
             var novoProduto = new Produto
             {
-                Nome = GSExtensions.ToCustomTitleCase(item.Nome.Value.ToString().Trim()),
+                Nome = ((string)item.Nome).ToCustomTitleCase(),
                 Fabricante = "Intelbras",
                 Status = EnumStatusToggle.Ativo,
-                CodigoDoFabricante = item.CodigoDoProduto.Value.ToString().Trim(),
-                Unidade = UnidadeIntelbras.ObtenhaPorNome(item.Unidade.Value.ToString()),
+                CodigoDoFabricante = item.CodigoDoProduto,
+                Unidade = UnidadeIntelbras.ObtenhaPorNome(item.Unidade),
                 PrecoNaIntelbras = GSExtensions.ObtenhaMonetario(item.PrecoDeCompra),
-                Ipi = Convert.ToDecimal((string) item.Ipi.Value.ToString().Replace("%", string.Empty)) / 100,
+                Ipi = ((string)item.Ipi).Replace("%", string.Empty).ToDecimal().DivideBy(100),
                 PrecoSugeridoRevenda = GSExtensions.ObtenhaMonetario(item.PrecoRevenda),
                 PorcentagemDeLucro = configuracao.PorcentagemDeLucroPadrao
             };
 
             novoProduto.PrecoDeCompra = novoProduto.PrecoNaIntelbras +
-                                        (novoProduto.PrecoNaIntelbras * novoProduto.Ipi) +
-                                        (novoProduto.PrecoNaIntelbras *
-                                         configuracao.PorcentagemImpostoProtege);
+                                        novoProduto.PrecoNaIntelbras * novoProduto.Ipi +
+                                        novoProduto.PrecoNaIntelbras *
+                                        configuracao.PorcentagemImpostoProtege;
 
             novoProduto.CalculePrecoDeVenda();
 

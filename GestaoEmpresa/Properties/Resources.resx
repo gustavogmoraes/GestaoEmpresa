@@ -121,8 +121,14 @@
   <data name="detalhar" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\detalhar.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="FrmEstoque_ChamadaImportarPlanilha_Tempo_de_execução___0_" xml:space="preserve">
+    <value>Tempo de execução: {0}</value>
+  </data>
   <data name="Load" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Load.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Load2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Load2.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="cancel-icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\cancel-icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -130,8 +136,8 @@
   <data name="edit-512" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\edit-512.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="export-spreadsheet-512" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\export-spreadsheet-512.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Preloader_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Preloader_2.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="delete" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\delete.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -142,8 +148,12 @@
   <data name="detail" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\detail.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="refresh" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\refresh.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="ImportacaoRealizacaComSucesso" xml:space="preserve">
+    <value>Importação executada com sucesso
+Tempo de execução: {0}</value>
+  </data>
+  <data name="SemConexao" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SemConexao.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="add" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\add.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -151,8 +161,8 @@
   <data name="error-icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\error-icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="SemConexao" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\SemConexao.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="export-spreadsheet-512" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\export-spreadsheet-512.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="floppy-icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\floppy-icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -163,24 +173,17 @@
   <data name="TenicoBlueCerto2" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\TenicoBlueCerto2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Load2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Load2.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="WhiteBox" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\WhiteBox.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Preloader_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Preloader_2.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="refresh" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\refresh.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="FrmEstoque_ChamadaImportarPlanilha_" xml:space="preserve">
     <value>Importação executada com sucesso
 </value>
   </data>
-  <data name="FrmEstoque_ChamadaImportarPlanilha_Tempo_de_execução___0_" xml:space="preserve">
-    <value>Tempo de execução: {0}</value>
+  <data name="WhiteBox" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\WhiteBox.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="ImportacaoRealizacaComSucesso" xml:space="preserve">
-    <value>Importação executada com sucesso
-Tempo de execução: {0}</value>
+  <data name="ImportFromExcel" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ImportFromExcel.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

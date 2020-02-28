@@ -36,6 +36,10 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabProdutos = new System.Windows.Forms.TabPage();
+            this.txtQtyProgresso = new MetroFramework.Controls.MetroLabel();
+            this.txtCronometroImportar = new MetroFramework.Controls.MetroLabel();
+            this.metroProgressImportar = new MetroFramework.Controls.MetroProgressBar();
+            this.button1 = new System.Windows.Forms.Button();
             this.btnExportarExcel = new System.Windows.Forms.Button();
             this.btnRefresh = new System.Windows.Forms.Button();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
@@ -78,7 +82,6 @@
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.btnCatalogo = new System.Windows.Forms.Button();
             this.ucSessaoSistema2 = new GS.GestaoEmpresa.Solucao.Persistencia.BancoDeDados.UCSessaoSistema();
-            this.button1 = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabProdutos.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
@@ -107,6 +110,9 @@
             // tabProdutos
             // 
             this.tabProdutos.BackColor = System.Drawing.Color.Silver;
+            this.tabProdutos.Controls.Add(this.txtQtyProgresso);
+            this.tabProdutos.Controls.Add(this.txtCronometroImportar);
+            this.tabProdutos.Controls.Add(this.metroProgressImportar);
             this.tabProdutos.Controls.Add(this.button1);
             this.tabProdutos.Controls.Add(this.btnExportarExcel);
             this.tabProdutos.Controls.Add(this.btnRefresh);
@@ -122,13 +128,60 @@
             this.tabProdutos.Text = "tabProdutos";
             this.tabProdutos.Click += new System.EventHandler(this.tabProdutos_Click);
             // 
+            // txtQtyProgresso
+            // 
+            this.txtQtyProgresso.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.txtQtyProgresso.AutoSize = true;
+            this.txtQtyProgresso.BackColor = System.Drawing.Color.Silver;
+            this.txtQtyProgresso.Location = new System.Drawing.Point(897, 2);
+            this.txtQtyProgresso.Name = "txtQtyProgresso";
+            this.txtQtyProgresso.Size = new System.Drawing.Size(38, 19);
+            this.txtQtyProgresso.TabIndex = 15;
+            this.txtQtyProgresso.Text = "1/100";
+            this.txtQtyProgresso.UseCustomBackColor = true;
+            this.txtQtyProgresso.Visible = false;
+            // 
+            // txtCronometroImportar
+            // 
+            this.txtCronometroImportar.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.txtCronometroImportar.AutoSize = true;
+            this.txtCronometroImportar.Location = new System.Drawing.Point(896, 20);
+            this.txtCronometroImportar.Name = "txtCronometroImportar";
+            this.txtCronometroImportar.Size = new System.Drawing.Size(40, 19);
+            this.txtCronometroImportar.TabIndex = 14;
+            this.txtCronometroImportar.Text = "00:00";
+            this.txtCronometroImportar.UseCustomBackColor = true;
+            this.txtCronometroImportar.Visible = false;
+            // 
+            // metroProgressImportar
+            // 
+            this.metroProgressImportar.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.metroProgressImportar.Location = new System.Drawing.Point(697, 10);
+            this.metroProgressImportar.Name = "metroProgressImportar";
+            this.metroProgressImportar.Size = new System.Drawing.Size(189, 23);
+            this.metroProgressImportar.TabIndex = 13;
+            this.metroProgressImportar.Visible = false;
+            // 
+            // button1
+            // 
+            this.button1.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.button1.BackgroundImage = global::GS.GestaoEmpresa.Properties.Resources.ImportFromExcel;
+            this.button1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button1.Location = new System.Drawing.Point(948, 6);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(32, 32);
+            this.button1.TabIndex = 12;
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // btnExportarExcel
             // 
-            this.btnExportarExcel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnExportarExcel.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btnExportarExcel.BackgroundImage = global::GS.GestaoEmpresa.Properties.Resources.export_spreadsheet_512;
             this.btnExportarExcel.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.btnExportarExcel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnExportarExcel.Location = new System.Drawing.Point(1032, 6);
+            this.btnExportarExcel.Location = new System.Drawing.Point(986, 6);
             this.btnExportarExcel.Name = "btnExportarExcel";
             this.btnExportarExcel.Size = new System.Drawing.Size(32, 32);
             this.btnExportarExcel.TabIndex = 11;
@@ -660,19 +713,6 @@
             this.ucSessaoSistema2.TabIndex = 5;
             this.ucSessaoSistema2.Load += new System.EventHandler(this.ucSessaoSistema2_Load);
             // 
-            // button1
-            // 
-            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button1.BackgroundImage = global::GS.GestaoEmpresa.Properties.Resources.export_spreadsheet_512;
-            this.button1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.Location = new System.Drawing.Point(994, 6);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(32, 32);
-            this.button1.TabIndex = 12;
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
             // FrmEstoque
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -752,6 +792,9 @@
         private Persistencia.BancoDeDados.UCSessaoSistema ucSessaoSistema2;
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.Button btnExportarExcel;
-        private System.Windows.Forms.Button button1;
+        public MetroFramework.Controls.MetroLabel txtCronometroImportar;
+        public MetroFramework.Controls.MetroProgressBar metroProgressImportar;
+        public System.Windows.Forms.Button button1;
+        public MetroFramework.Controls.MetroLabel txtQtyProgresso;
     }
 }

@@ -502,6 +502,8 @@
   <ItemGroup>
     <None Include="Resources\Preloader_2.gif" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Resources\ImportFromExcel.jpg" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

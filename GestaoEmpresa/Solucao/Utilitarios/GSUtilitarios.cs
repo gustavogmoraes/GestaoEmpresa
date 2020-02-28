@@ -27,17 +27,17 @@ namespace GS.GestaoEmpresa.Solucao.Utilitarios
 
         #region Números
 
-        public static IEnumerable<int> EncontreInteirosFaltandoEmUmaSequencia(this IEnumerable<int> sequencia)
+        public static List<int> EncontreInteirosFaltandoEmUmaSequencia(this IEnumerable<int> sequencia)
         {
             var sequenciaEnumerada = sequencia.ToList();
 
-            var menorValor = 1;
+            const int menorValor = 1;
             var maiorValor = sequenciaEnumerada.Max();
-
+                
             var serie = new HashSet<int>(Enumerable.Range(menorValor, maiorValor));
             serie.ExceptWith(sequenciaEnumerada);
 
-            return serie;
+            return serie.ToList();
         }
 
         #endregion

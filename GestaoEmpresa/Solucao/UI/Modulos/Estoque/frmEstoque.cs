@@ -20,6 +20,7 @@ using GS.GestaoEmpresa.Solucao.Persistencia.Repositorios;
 using GS.GestaoEmpresa.Properties;
 using System.IO;
 using System.Threading;
+using System.Windows.Forms.VisualStyles;
 using WindowsInput;
 using WindowsInput.Native;
 using GS.GestaoEmpresa.Solucao.Negocio.Interfaces;
@@ -889,24 +890,31 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         private void ChamadaImportarPlanilha(string caminhoArquivo)
         {
-            var cronometro = new Stopwatch();
-            cronometro.Start();
+            var stpWatch = new Stopwatch();
+            stpWatch.Start();
+
+            Task.Run(() => ServicoDeProduto.KeepTimeRunning(stpWatch, this, txtCronometroImportar));
 
             Task.Run(() =>
             {
-                using (var servicoDeProduto = new ServicoDeProduto())
-                {
-                    servicoDeProduto.ImportePlanilhaIntelbras(caminhoArquivo);
-                }
-            }).ContinueWith(async result =>
+                new ServicoDeProduto().ImportePlanilhaIntelbras(caminhoArquivo, this);
+            }).ContinueWith(result =>
             {
-                await result;
+                stpWatch.Stop();
 
-                cronometro.Stop();
-                cronometro = null;
+                Invoke((MethodInvoker)delegate
+                {
+                    MessageBox.Show($"Importação realizada com sucesso\nTempo de execução {txtCronometroImportar.Text}", "Sucesso");
 
-                MessageBox.Show($"Importação executada com sucesso\nTempo de execução: {cronometro.Elapsed}");
-            });
+                    txtQtyProgresso.Text = "1/100";
+                    txtCronometroImportar.Text = "00:00";
+                    txtCronometroImportar.Visible = false;
+                    txtQtyProgresso.Visible = false;
+                    metroProgressImportar.Visible = false;
+
+                    button1.Enabled = true;
+                });
+            }, TaskScheduler.FromCurrentSynchronizationContext());
         }
 
         private void button1_Click(object sender, EventArgs e)

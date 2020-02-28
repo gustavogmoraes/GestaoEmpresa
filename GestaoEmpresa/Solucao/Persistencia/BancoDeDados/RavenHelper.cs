@@ -11,14 +11,23 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.BancoDeDados
     {
         public static IDocumentSession OpenSession()
         {
-            using (var ds = new GSDocumentStore())
-            {
-                ds.Initialize();
-                using (var sessao = ds.OpenSession(SessaoSistema.InformacoesConexao.NomeBanco))
-                {
-                    return sessao;
-                }
-            }
+            var ds = new GSDocumentStore();
+            ds.Initialize();
+
+            return ds.OpenSession(SessaoSistema.InformacoesConexao.NomeBanco);
+        }
+
+        public static List<T> ExecuteRql<T>(string code)
+            where T : class
+        {
+            var ds = new GSDocumentStore();
+            ds.Initialize();
+
+
+            return ds.OpenSession()
+                .Advanced
+                .RawQuery<T>(code) // Example "from Produtos where Codigo >= 500"
+                .ToList();
         }
     }
 }
