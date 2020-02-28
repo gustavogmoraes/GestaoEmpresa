@@ -19,7 +19,7 @@ namespace GestaoEmpresa
 
             var isMainFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "IsMain.txt");
             SessaoSistema.IsMain = File.Exists(isMainFilePath);
-            SessaoSistema.WorkTestMode = true;
+            //SessaoSistema.WorkTestMode = true;
 
             Application.Run(GerenciadorDeViews.ObtenhaPrincipal());
         }

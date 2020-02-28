@@ -130,12 +130,12 @@
             // 
             // txtQtyProgresso
             // 
-            this.txtQtyProgresso.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.txtQtyProgresso.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.txtQtyProgresso.AutoSize = true;
             this.txtQtyProgresso.BackColor = System.Drawing.Color.Silver;
-            this.txtQtyProgresso.Location = new System.Drawing.Point(897, 2);
+            this.txtQtyProgresso.Location = new System.Drawing.Point(931, 2);
             this.txtQtyProgresso.Name = "txtQtyProgresso";
-            this.txtQtyProgresso.Size = new System.Drawing.Size(38, 19);
+            this.txtQtyProgresso.Size = new System.Drawing.Size(42, 19);
             this.txtQtyProgresso.TabIndex = 15;
             this.txtQtyProgresso.Text = "1/100";
             this.txtQtyProgresso.UseCustomBackColor = true;
@@ -143,9 +143,9 @@
             // 
             // txtCronometroImportar
             // 
-            this.txtCronometroImportar.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.txtCronometroImportar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.txtCronometroImportar.AutoSize = true;
-            this.txtCronometroImportar.Location = new System.Drawing.Point(896, 20);
+            this.txtCronometroImportar.Location = new System.Drawing.Point(931, 20);
             this.txtCronometroImportar.Name = "txtCronometroImportar";
             this.txtCronometroImportar.Size = new System.Drawing.Size(40, 19);
             this.txtCronometroImportar.TabIndex = 14;
@@ -155,8 +155,8 @@
             // 
             // metroProgressImportar
             // 
-            this.metroProgressImportar.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.metroProgressImportar.Location = new System.Drawing.Point(697, 10);
+            this.metroProgressImportar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.metroProgressImportar.Location = new System.Drawing.Point(732, 10);
             this.metroProgressImportar.Name = "metroProgressImportar";
             this.metroProgressImportar.Size = new System.Drawing.Size(189, 23);
             this.metroProgressImportar.TabIndex = 13;
@@ -164,11 +164,11 @@
             // 
             // button1
             // 
-            this.button1.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.button1.BackgroundImage = global::GS.GestaoEmpresa.Properties.Resources.ImportFromExcel;
             this.button1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.Location = new System.Drawing.Point(948, 6);
+            this.button1.Location = new System.Drawing.Point(983, 6);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(32, 32);
             this.button1.TabIndex = 12;
@@ -177,11 +177,11 @@
             // 
             // btnExportarExcel
             // 
-            this.btnExportarExcel.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnExportarExcel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnExportarExcel.BackgroundImage = global::GS.GestaoEmpresa.Properties.Resources.export_spreadsheet_512;
             this.btnExportarExcel.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.btnExportarExcel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnExportarExcel.Location = new System.Drawing.Point(986, 6);
+            this.btnExportarExcel.Location = new System.Drawing.Point(1023, 6);
             this.btnExportarExcel.Name = "btnExportarExcel";
             this.btnExportarExcel.Size = new System.Drawing.Size(32, 32);
             this.btnExportarExcel.TabIndex = 11;
