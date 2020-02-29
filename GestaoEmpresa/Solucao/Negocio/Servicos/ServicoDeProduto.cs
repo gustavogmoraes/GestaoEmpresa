@@ -158,6 +158,24 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
 
         public void ImportePlanilhaIntelbras(string caminhoArquivo, FrmEstoque caller)
         {
+            //var allLatest = new List<Produto>();
+            //using(var session = RavenHelper.OpenSession())
+            //{
+            //    var allLatestProducts =
+            //        session.Query<Produto>().Where(x =>
+            //            x.Atual &&
+            //            x.Fabricante == "Intelbras" &&
+            //            string.IsNullOrEmpty(x.CodigoDoFabricante)).ToList();
+
+            //    allLatest.AddRange(allLatestProducts);
+
+            //    session.Query<Produto>().Where(x =>
+            //        x.Fabricante == "Intelbras" &&
+            //            string.IsNullOrEmpty(x.CodigoDoFabricante)).ToList().ForEach(y =>
+            //            session.Delete(y));
+            //    session.SaveChanges();
+            //}
+
             caller.Invoke((MethodInvoker) delegate
             {
                 caller.button1.Enabled = false;
@@ -214,7 +232,6 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
                         // Progress bar reactivity
                         totalAdded ++;
                         caller.Invoke((MethodInvoker)delegate { caller.txtQtyProgresso.Text = $"{totalAdded}/{totalItems.Count}"; });
-                        
 
                         if (totalAdded.IsAny(items))
                         {
@@ -244,7 +261,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
                                 return;
                             }
 
-                            var novoProduto = ObtenhaNovoProduto(item, configuracao);
+                            var novoProduto = ObtenhaNovoProduto(item, configuracao/*, allLatest*/);
                             repositorioDeProduto.Insira(novoProduto);
                         }
                     });
@@ -267,7 +284,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
             produtoPersistido.PrecoSugeridoRevenda = GSExtensions.ObtenhaMonetario(item.PrecoRevenda);
         }
 
-        private static Produto ObtenhaNovoProduto(dynamic item, Configuracoes configuracao)
+        private static Produto ObtenhaNovoProduto(dynamic item, Configuracoes configuracao/*, List<Produto> latestProducts*/)
         {
             var novoProduto = new Produto
             {
@@ -288,6 +305,13 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
                                         configuracao.PorcentagemImpostoProtege;
 
             novoProduto.CalculePrecoDeVenda();
+
+            //novoProduto.Atual = true;
+            //var latestThis = latestProducts.FirstOrDefault(x => x.CodigoDoFabricante == novoProduto.CodigoDoFabricante);
+
+            //novoProduto.QuantidadeEmEstoque = latestThis.QuantidadeEmEstoque;
+            //novoProduto.QuantidadeMinimaParaAviso = latestThis.QuantidadeMinimaParaAviso;
+            //novoProduto.Observacao = latestThis.Observacao;
 
             return novoProduto;
         }
