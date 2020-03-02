@@ -35,6 +35,12 @@
             this.txtPesquisa = new System.Windows.Forms.TextBox();
             this.lblItensOrcados = new MetroFramework.Controls.MetroLabel();
             this.dgvItensOrcados = new System.Windows.Forms.DataGridView();
+            this.colunaOrcaCodigo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colunaOrcaCodigoFabricante = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colunaOrcaNome = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colunaOrcaValorUnitario = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colunaOrcaValorTotal = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colunaOrcaRemover = new System.Windows.Forms.DataGridViewButtonColumn();
             this.gbDadosCliente = new System.Windows.Forms.GroupBox();
             this.metroTextBox4 = new MetroFramework.Controls.MetroTextBox();
             this.metroLabel4 = new MetroFramework.Controls.MetroLabel();
@@ -49,15 +55,6 @@
             this.metroComboBox1 = new MetroFramework.Controls.MetroComboBox();
             this.lblVigencia = new MetroFramework.Controls.MetroLabel();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.metroLabel5 = new MetroFramework.Controls.MetroLabel();
-            this.colunaOrcaCodigo = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colunaOrcaCodigoFabricante = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colunaOrcaNome = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colunaOrcaValorUnitario = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colunaOrcaValorTotal = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colunaOrcaRemover = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.metroButton1 = new MetroFramework.Controls.MetroButton();
-            this.metroButton2 = new MetroFramework.Controls.MetroButton();
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewComboBoxColumn();
@@ -65,6 +62,9 @@
             this.dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewButtonColumn1 = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.metroLabel5 = new MetroFramework.Controls.MetroLabel();
+            this.metroButton1 = new MetroFramework.Controls.MetroButton();
+            this.BtnAdicionarProduto = new MetroFramework.Controls.MetroButton();
             ((System.ComponentModel.ISupportInitialize)(this.btnCancelarExcluir)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnEditarSalvar)).BeginInit();
             this.panelTitulo.SuspendLayout();
@@ -107,22 +107,24 @@
             // 
             this.pictureBox3.BackColor = System.Drawing.Color.Silver;
             this.pictureBox3.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox3.Image")));
-            this.pictureBox3.Location = new System.Drawing.Point(12, 641);
+            this.pictureBox3.Location = new System.Drawing.Point(175, 420);
             this.pictureBox3.Name = "pictureBox3";
             this.pictureBox3.Size = new System.Drawing.Size(32, 24);
             this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox3.TabIndex = 54;
             this.pictureBox3.TabStop = false;
+            this.pictureBox3.Visible = false;
             // 
             // txtPesquisa
             // 
             this.txtPesquisa.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtPesquisa.ForeColor = System.Drawing.Color.Silver;
-            this.txtPesquisa.Location = new System.Drawing.Point(50, 639);
+            this.txtPesquisa.Location = new System.Drawing.Point(213, 418);
             this.txtPesquisa.Name = "txtPesquisa";
-            this.txtPesquisa.Size = new System.Drawing.Size(570, 26);
+            this.txtPesquisa.Size = new System.Drawing.Size(935, 26);
             this.txtPesquisa.TabIndex = 53;
             this.txtPesquisa.Text = "Pesquisar...";
+            this.txtPesquisa.Visible = false;
             this.txtPesquisa.TextChanged += new System.EventHandler(this.txtPesquisa_TextChanged);
             this.txtPesquisa.Enter += new System.EventHandler(this.txtPesquisa_Enter);
             this.txtPesquisa.Leave += new System.EventHandler(this.txtPesquisa_Leave);
@@ -172,6 +174,50 @@
             this.dgvItensOrcados.RowHeadersVisible = false;
             this.dgvItensOrcados.Size = new System.Drawing.Size(1180, 170);
             this.dgvItensOrcados.TabIndex = 59;
+            // 
+            // colunaOrcaCodigo
+            // 
+            this.colunaOrcaCodigo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.colunaOrcaCodigo.HeaderText = "Sequencial";
+            this.colunaOrcaCodigo.Name = "colunaOrcaCodigo";
+            this.colunaOrcaCodigo.ReadOnly = true;
+            this.colunaOrcaCodigo.Width = 75;
+            // 
+            // colunaOrcaCodigoFabricante
+            // 
+            this.colunaOrcaCodigoFabricante.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.colunaOrcaCodigoFabricante.HeaderText = "Quantidade";
+            this.colunaOrcaCodigoFabricante.Name = "colunaOrcaCodigoFabricante";
+            this.colunaOrcaCodigoFabricante.ReadOnly = true;
+            this.colunaOrcaCodigoFabricante.Width = 186;
+            // 
+            // colunaOrcaNome
+            // 
+            this.colunaOrcaNome.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.colunaOrcaNome.HeaderText = "Descrição";
+            this.colunaOrcaNome.Name = "colunaOrcaNome";
+            this.colunaOrcaNome.ReadOnly = true;
+            // 
+            // colunaOrcaValorUnitario
+            // 
+            this.colunaOrcaValorUnitario.HeaderText = "Valor Unitário";
+            this.colunaOrcaValorUnitario.Name = "colunaOrcaValorUnitario";
+            this.colunaOrcaValorUnitario.ReadOnly = true;
+            this.colunaOrcaValorUnitario.Width = 150;
+            // 
+            // colunaOrcaValorTotal
+            // 
+            this.colunaOrcaValorTotal.HeaderText = "Valor Total";
+            this.colunaOrcaValorTotal.Name = "colunaOrcaValorTotal";
+            this.colunaOrcaValorTotal.ReadOnly = true;
+            // 
+            // colunaOrcaRemover
+            // 
+            this.colunaOrcaRemover.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.colunaOrcaRemover.HeaderText = "";
+            this.colunaOrcaRemover.Name = "colunaOrcaRemover";
+            this.colunaOrcaRemover.ReadOnly = true;
+            this.colunaOrcaRemover.Width = 30;
             // 
             // gbDadosCliente
             // 
@@ -454,83 +500,6 @@
             this.dataGridView1.Size = new System.Drawing.Size(1180, 170);
             this.dataGridView1.TabIndex = 64;
             // 
-            // metroLabel5
-            // 
-            this.metroLabel5.AutoSize = true;
-            this.metroLabel5.BackColor = System.Drawing.SystemColors.Control;
-            this.metroLabel5.FontSize = MetroFramework.MetroLabelSize.Tall;
-            this.metroLabel5.FontWeight = MetroFramework.MetroLabelWeight.Regular;
-            this.metroLabel5.Location = new System.Drawing.Point(12, 415);
-            this.metroLabel5.Name = "metroLabel5";
-            this.metroLabel5.Size = new System.Drawing.Size(157, 25);
-            this.metroLabel5.TabIndex = 63;
-            this.metroLabel5.Text = "Produtos Orçados";
-            this.metroLabel5.UseCustomBackColor = true;
-            // 
-            // colunaOrcaCodigo
-            // 
-            this.colunaOrcaCodigo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.colunaOrcaCodigo.HeaderText = "Sequencial";
-            this.colunaOrcaCodigo.Name = "colunaOrcaCodigo";
-            this.colunaOrcaCodigo.ReadOnly = true;
-            this.colunaOrcaCodigo.Width = 75;
-            // 
-            // colunaOrcaCodigoFabricante
-            // 
-            this.colunaOrcaCodigoFabricante.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.colunaOrcaCodigoFabricante.HeaderText = "Quantidade";
-            this.colunaOrcaCodigoFabricante.Name = "colunaOrcaCodigoFabricante";
-            this.colunaOrcaCodigoFabricante.ReadOnly = true;
-            this.colunaOrcaCodigoFabricante.Width = 186;
-            // 
-            // colunaOrcaNome
-            // 
-            this.colunaOrcaNome.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.colunaOrcaNome.HeaderText = "Descrição";
-            this.colunaOrcaNome.Name = "colunaOrcaNome";
-            this.colunaOrcaNome.ReadOnly = true;
-            // 
-            // colunaOrcaValorUnitario
-            // 
-            this.colunaOrcaValorUnitario.HeaderText = "Valor Unitário";
-            this.colunaOrcaValorUnitario.Name = "colunaOrcaValorUnitario";
-            this.colunaOrcaValorUnitario.ReadOnly = true;
-            this.colunaOrcaValorUnitario.Width = 150;
-            // 
-            // colunaOrcaValorTotal
-            // 
-            this.colunaOrcaValorTotal.HeaderText = "Valor Total";
-            this.colunaOrcaValorTotal.Name = "colunaOrcaValorTotal";
-            this.colunaOrcaValorTotal.ReadOnly = true;
-            // 
-            // colunaOrcaRemover
-            // 
-            this.colunaOrcaRemover.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.colunaOrcaRemover.HeaderText = "";
-            this.colunaOrcaRemover.Name = "colunaOrcaRemover";
-            this.colunaOrcaRemover.ReadOnly = true;
-            this.colunaOrcaRemover.Width = 30;
-            // 
-            // metroButton1
-            // 
-            this.metroButton1.BackgroundImage = global::GS.GestaoEmpresa.Properties.Resources.add;
-            this.metroButton1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.metroButton1.Location = new System.Drawing.Point(1157, 199);
-            this.metroButton1.Name = "metroButton1";
-            this.metroButton1.Size = new System.Drawing.Size(35, 33);
-            this.metroButton1.TabIndex = 65;
-            this.metroButton1.UseSelectable = true;
-            // 
-            // metroButton2
-            // 
-            this.metroButton2.BackgroundImage = global::GS.GestaoEmpresa.Properties.Resources.add;
-            this.metroButton2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.metroButton2.Location = new System.Drawing.Point(1157, 414);
-            this.metroButton2.Name = "metroButton2";
-            this.metroButton2.Size = new System.Drawing.Size(35, 30);
-            this.metroButton2.TabIndex = 66;
-            this.metroButton2.UseSelectable = true;
-            // 
             // dataGridViewTextBoxColumn1
             // 
             this.dataGridViewTextBoxColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
@@ -582,12 +551,46 @@
             this.dataGridViewButtonColumn1.ReadOnly = true;
             this.dataGridViewButtonColumn1.Width = 30;
             // 
+            // metroLabel5
+            // 
+            this.metroLabel5.AutoSize = true;
+            this.metroLabel5.BackColor = System.Drawing.SystemColors.Control;
+            this.metroLabel5.FontSize = MetroFramework.MetroLabelSize.Tall;
+            this.metroLabel5.FontWeight = MetroFramework.MetroLabelWeight.Regular;
+            this.metroLabel5.Location = new System.Drawing.Point(12, 415);
+            this.metroLabel5.Name = "metroLabel5";
+            this.metroLabel5.Size = new System.Drawing.Size(157, 25);
+            this.metroLabel5.TabIndex = 63;
+            this.metroLabel5.Text = "Produtos Orçados";
+            this.metroLabel5.UseCustomBackColor = true;
+            // 
+            // metroButton1
+            // 
+            this.metroButton1.BackgroundImage = global::GS.GestaoEmpresa.Properties.Resources.add;
+            this.metroButton1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.metroButton1.Location = new System.Drawing.Point(1157, 199);
+            this.metroButton1.Name = "metroButton1";
+            this.metroButton1.Size = new System.Drawing.Size(35, 33);
+            this.metroButton1.TabIndex = 65;
+            this.metroButton1.UseSelectable = true;
+            // 
+            // BtnAdicionarProduto
+            // 
+            this.BtnAdicionarProduto.BackgroundImage = global::GS.GestaoEmpresa.Properties.Resources.add;
+            this.BtnAdicionarProduto.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.BtnAdicionarProduto.Location = new System.Drawing.Point(1157, 414);
+            this.BtnAdicionarProduto.Name = "BtnAdicionarProduto";
+            this.BtnAdicionarProduto.Size = new System.Drawing.Size(35, 30);
+            this.BtnAdicionarProduto.TabIndex = 66;
+            this.BtnAdicionarProduto.UseSelectable = true;
+            this.BtnAdicionarProduto.Click += new System.EventHandler(this.BtnAdicionarProduto_Click);
+            // 
             // FrmOrcamento
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1200, 720);
-            this.Controls.Add(this.metroButton2);
+            this.Controls.Add(this.BtnAdicionarProduto);
             this.Controls.Add(this.metroButton1);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.metroLabel5);
@@ -607,7 +610,7 @@
             this.Controls.SetChildIndex(this.metroLabel5, 0);
             this.Controls.SetChildIndex(this.dataGridView1, 0);
             this.Controls.SetChildIndex(this.metroButton1, 0);
-            this.Controls.SetChildIndex(this.metroButton2, 0);
+            this.Controls.SetChildIndex(this.BtnAdicionarProduto, 0);
             ((System.ComponentModel.ISupportInitialize)(this.btnCancelarExcluir)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnEditarSalvar)).EndInit();
             this.panelTitulo.ResumeLayout(false);
@@ -650,7 +653,7 @@
         public System.Windows.Forms.DataGridView dataGridView1;
         private MetroFramework.Controls.MetroLabel metroLabel5;
         private MetroFramework.Controls.MetroButton metroButton1;
-        private MetroFramework.Controls.MetroButton metroButton2;
+        private MetroFramework.Controls.MetroButton BtnAdicionarProduto;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
         private System.Windows.Forms.DataGridViewComboBoxColumn dataGridViewTextBoxColumn3;

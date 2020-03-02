@@ -79,5 +79,18 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Atendimento
         #endregion
 
         #endregion
+
+        private void metroButton3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void BtnAdicionarProduto_Click(object sender, EventArgs e)
+        {
+            txtPesquisa.Visible = true;
+            pictureBox3.Visible = true;
+
+            txtPesquisa.Focus();
+        }
     }
 }
