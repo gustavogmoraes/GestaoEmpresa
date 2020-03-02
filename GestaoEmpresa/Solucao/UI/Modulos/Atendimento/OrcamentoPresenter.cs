@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
@@ -9,28 +10,40 @@ using GS.GestaoEmpresa.Solucao.Negocio.Objetos;
 using GS.GestaoEmpresa.Solucao.Negocio.Objetos.Orcamento;
 using GS.GestaoEmpresa.Solucao.Negocio.Servicos;
 using GS.GestaoEmpresa.Solucao.UI.Base;
+using GS.GestaoEmpresa.Solucao.UI.ControlesGenericos;
 using GS.GestaoEmpresa.Solucao.Utilitarios;
 
 namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Atendimento
 {
-    public class OrcamentoPresenter : Presenter<Orcamento, FrmOrcamento>
+    public sealed class OrcamentoPresenter : Presenter<Orcamento, FrmOrcamento>
     {
         public OrcamentoPresenter()
         {
-            //MapeieControles(new Dictionary<Expression<Func<Orcamento, object>>, Expression<Func<FrmOrcamento, Control>>>
-            //{
-            //    //{x => x.Codigo, x => x.txtCodigo }
-            //});
+            MapeieControle(view => view.Cliente.Nome, view => view.txtNomeCliente);
         }
 
         public void ConsulteEPreenchaGridDeProdutos(string searchTerm)
         {
             using (var servicoDeProduto = new ServicoDeProduto())
             {
-                //View.dgvProdutosPesquisa.Rows.Clear();
+                var produtosPesquisados = servicoDeProduto.ConsulteTodosParaAterrissagem(
+                    searchTerm, model => model.Nome, model => model.CodigoDoFabricante, model => model.Codigo);
+                View.Invoke((MethodInvoker) delegate
+                {
+                    var componentLocation = View.txtPesquisa.Location;
+                    componentLocation.Y -= View.txtPesquisa.Height;
+                    var componentePesquisaDeProduto = new GSPesquisaDeProduto
+                    {
+                        Location = componentLocation
+                    };
 
-                //servicoDeProduto.ConsulteTodosParaAterrissagem(searchTerm, x => x.Nome, x => x.CodigoDoFabricante, x => x.Codigo)
-                //    .ForEach(x => View.dgvProdutosPesquisa.Rows.Add(ObtenhaItemGridProdutoPesquisa(x)));
+                    View.Controls.Add(componentePesquisaDeProduto);
+                    produtosPesquisados.ForEach(x => componentePesquisaDeProduto.dgvItensPesquisa.Rows.Add(ObtenhaItemGridProdutoPesquisa(x)));
+
+                    componentePesquisaDeProduto.BringToFront();
+                    componentePesquisaDeProduto.Show();
+                });
+                
             }
         }
 
@@ -38,13 +51,10 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Atendimento
         {
             return new object[]
             {
-                produto.Codigo,
-                produto.CodigoDoFabricante,
                 produto.Nome,
-                produto.Observacao,
+                produto.CodigoDoFabricante,
                 produto.PrecoDeCompra.ToMonetaryString(),
                 produto.PrecoDeVenda.ToMonetaryString(),
-                produto.QuantidadeEmEstoque
             };
         }
     }

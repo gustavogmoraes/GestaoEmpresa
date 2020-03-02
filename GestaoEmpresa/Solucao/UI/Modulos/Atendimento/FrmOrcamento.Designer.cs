@@ -632,13 +632,9 @@
         private MetroFramework.Controls.MetroLabel lblItensOrcados;
         public System.Windows.Forms.DataGridView dgvItensOrcados;
         private System.Windows.Forms.GroupBox gbDadosCliente;
-        private MetroFramework.Controls.MetroTextBox txtNomeCliente;
         private MetroFramework.Controls.MetroLabel lblNomeCliente;
-        private MetroFramework.Controls.MetroTextBox metroTextBox4;
         private MetroFramework.Controls.MetroLabel metroLabel4;
-        private MetroFramework.Controls.MetroTextBox metroTextBox3;
         private MetroFramework.Controls.MetroLabel metroLabel3;
-        private MetroFramework.Controls.MetroTextBox metroTextBox2;
         private MetroFramework.Controls.MetroLabel metroLabel2;
         private MetroFramework.Controls.MetroTextBox metroTextBox1;
         private MetroFramework.Controls.MetroLabel metroLabel1;
@@ -661,5 +657,9 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn5;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn6;
         private System.Windows.Forms.DataGridViewButtonColumn dataGridViewButtonColumn1;
+        public MetroFramework.Controls.MetroTextBox txtNomeCliente;
+        public MetroFramework.Controls.MetroTextBox metroTextBox4;
+        public MetroFramework.Controls.MetroTextBox metroTextBox3;
+        public MetroFramework.Controls.MetroTextBox metroTextBox2;
     }
 }

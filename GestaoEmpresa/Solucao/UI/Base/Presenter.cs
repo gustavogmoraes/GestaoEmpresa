@@ -46,18 +46,18 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
             View = new TView { Presenter = this };
         }
 
-        protected virtual void MapeieControles(
-            Dictionary<Expression<Func<TModel, object>>, Expression<Func<TView, Control>>> mapeamento)
-        {
-            //Model = new TModel();
-            //if (mapeamento == null) return;
+        //protected virtual void MapeieControles(
+        //    params KeyValuePair<Expression<Func<TModel, object>>, Expression<Func<TView, Control>>>[] mapeamentos)
+        //{
+        //    //Model = new TModel();
+        //    //if (mapeamento == null) return;
 
-            //Mapeamento = new Dictionary<PropertyInfo, string>();
-            //mapeamento.ForEach(x =>
-            //    Mapeamento.Add(
-            //        (PropertyInfo)x.Key.GetPropertyFromExpression(),
-            //        x.Value.GetPropertyFromExpression().Name));
-        }
+        //    //Mapeamento = new Dictionary<PropertyInfo, string>();
+        //    //mapeamento.ForEach(x =>
+        //    //    Mapeamento.Add(
+        //    //        (PropertyInfo)x.Key.GetPropertyFromExpression(),
+        //    //        x.Value.GetPropertyFromExpression().Name));
+        //}
 
         protected virtual void MapeieControle(
             Expression<Func<TModel, object>> propriedade,

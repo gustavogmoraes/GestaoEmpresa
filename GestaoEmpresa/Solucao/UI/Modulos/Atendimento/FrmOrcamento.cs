@@ -80,11 +80,6 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Atendimento
 
         #endregion
 
-        private void metroButton3_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void BtnAdicionarProduto_Click(object sender, EventArgs e)
         {
             txtPesquisa.Visible = true;

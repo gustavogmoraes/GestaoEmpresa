@@ -741,13 +741,10 @@ namespace GS.GestaoEmpresa.Solucao.UI.Principal
             else if (SessaoSistema.WorkTestMode)
             {
                 ChamadaMinimizarForm(this, EventArgs.Empty);
-                txtUsuario.Text = "admin";
-                txtSenha.Text = "admin";
+                var view = GerenciadorDeViews.Crie<OrcamentoPresenter>().View;
+                view.Show();
 
-                var estoque = new FrmEstoque { WindowState = FormWindowState.Minimized };
-                estoque.Show();
-                estoque.button1.PerformClick();
-                
+                view.txtPesquisa.Text = "Impacta";
                 //var form = GerenciadorDeViews.CrieIndependente<FrmAtendimento>(out var idInstancia);
                 //form.btnNovoProduto_Click(this, EventArgs.Empty);
 
