@@ -159,19 +159,19 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
         public void ImportePlanilhaIntelbras(string caminhoArquivo, FrmEstoque caller)
         {
             //var allLatest = new List<Produto>();
-            //using(var session = RavenHelper.OpenSession())
+            //using (var session = RavenHelper.OpenSession())
             //{
             //    var allLatestProducts =
             //        session.Query<Produto>().Where(x =>
             //            x.Atual &&
             //            x.Fabricante == "Intelbras" &&
-            //            string.IsNullOrEmpty(x.CodigoDoFabricante)).ToList();
+            //            !string.IsNullOrEmpty(x.CodigoDoFabricante)).ToList();
 
             //    allLatest.AddRange(allLatestProducts);
 
             //    session.Query<Produto>().Where(x =>
             //        x.Fabricante == "Intelbras" &&
-            //            string.IsNullOrEmpty(x.CodigoDoFabricante)).ToList().ForEach(y =>
+            //            !string.IsNullOrEmpty(x.CodigoDoFabricante)).ToList().ForEach(y =>
             //            session.Delete(y));
             //    session.SaveChanges();
             //}
@@ -185,6 +185,8 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
 
                 caller.txtQtyProgresso.Visible = true;
                 caller.txtCronometroImportar.Visible = true;
+
+                caller.txtQtyProgresso.Text = "Lendo planilha";
             });
             //
 
@@ -298,7 +300,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
                 PrecoSugeridoRevenda = GSExtensions.ObtenhaMonetario(item.PrecoRevenda),
                 PorcentagemDeLucro = configuracao.PorcentagemDeLucroPadrao
             };
-
+            
             novoProduto.PrecoDeCompra = novoProduto.PrecoNaIntelbras +
                                         novoProduto.PrecoNaIntelbras * novoProduto.Ipi +
                                         novoProduto.PrecoNaIntelbras *
@@ -312,6 +314,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
             //novoProduto.QuantidadeEmEstoque = latestThis.QuantidadeEmEstoque;
             //novoProduto.QuantidadeMinimaParaAviso = latestThis.QuantidadeMinimaParaAviso;
             //novoProduto.Observacao = latestThis.Observacao;
+            //novoProduto.Vigencia = DateTime.Now;
 
             return novoProduto;
         }

@@ -133,11 +133,11 @@
             this.txtQtyProgresso.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.txtQtyProgresso.AutoSize = true;
             this.txtQtyProgresso.BackColor = System.Drawing.Color.Silver;
-            this.txtQtyProgresso.Location = new System.Drawing.Point(931, 2);
+            this.txtQtyProgresso.Location = new System.Drawing.Point(847, 2);
             this.txtQtyProgresso.Name = "txtQtyProgresso";
-            this.txtQtyProgresso.Size = new System.Drawing.Size(42, 19);
+            this.txtQtyProgresso.Size = new System.Drawing.Size(26, 19);
             this.txtQtyProgresso.TabIndex = 15;
-            this.txtQtyProgresso.Text = "1/100";
+            this.txtQtyProgresso.Text = "?/?";
             this.txtQtyProgresso.UseCustomBackColor = true;
             this.txtQtyProgresso.Visible = false;
             // 
@@ -145,7 +145,7 @@
             // 
             this.txtCronometroImportar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.txtCronometroImportar.AutoSize = true;
-            this.txtCronometroImportar.Location = new System.Drawing.Point(931, 20);
+            this.txtCronometroImportar.Location = new System.Drawing.Point(847, 20);
             this.txtCronometroImportar.Name = "txtCronometroImportar";
             this.txtCronometroImportar.Size = new System.Drawing.Size(40, 19);
             this.txtCronometroImportar.TabIndex = 14;
@@ -156,7 +156,7 @@
             // metroProgressImportar
             // 
             this.metroProgressImportar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.metroProgressImportar.Location = new System.Drawing.Point(732, 10);
+            this.metroProgressImportar.Location = new System.Drawing.Point(648, 10);
             this.metroProgressImportar.Name = "metroProgressImportar";
             this.metroProgressImportar.Size = new System.Drawing.Size(189, 23);
             this.metroProgressImportar.TabIndex = 13;

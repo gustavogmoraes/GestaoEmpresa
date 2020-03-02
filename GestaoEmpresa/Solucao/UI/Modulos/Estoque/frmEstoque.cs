@@ -906,7 +906,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                 {
                     MessageBox.Show($"Importação realizada com sucesso\nTempo de execução {txtCronometroImportar.Text}", "Sucesso");
 
-                    txtQtyProgresso.Text = "1/100";
+                    txtQtyProgresso.Text = "?/?";
                     txtCronometroImportar.Text = "00:00";
                     txtCronometroImportar.Visible = false;
                     txtQtyProgresso.Visible = false;
