@@ -162,7 +162,9 @@
     <Compile Include="Solucao\Negocio\Objetos\Base\Pessoa.cs" />
     <Compile Include="Solucao\Negocio\Objetos\ClienteAntigo.cs" />
     <Compile Include="Solucao\Negocio\Objetos\Configuracoes.cs" />
-    <Compile Include="Solucao\Negocio\Objetos\Orcamento.cs" />
+    <Compile Include="Solucao\Negocio\Objetos\Orcamento\ItemOrcamento.cs" />
+    <Compile Include="Solucao\Negocio\Objetos\Orcamento\Orcamento.cs" />
+    <Compile Include="Solucao\Negocio\Objetos\Orcamento\TipoDeItemOrcamento.cs" />
     <Compile Include="Solucao\Negocio\Servicos\Base\ServicoHistoricoPadrao.cs" />
     <Compile Include="Solucao\Negocio\Servicos\Base\ServicoPadrao.cs" />
     <Compile Include="Solucao\Negocio\Validador\Base\ValidadorPadrao.cs" />
@@ -176,6 +178,7 @@
     <Compile Include="Solucao\Persistencia\BancoDeDados\UCSessaoSistema.Designer.cs">
       <DependentUpon>UCSessaoSistema.cs</DependentUpon>
     </Compile>
+    <Compile Include="Solucao\Persistencia\Repositorios\Base\RepositorioDeOrcamento.cs" />
     <Compile Include="Solucao\Persistencia\Repositorios\Base\RepositorioPadrao.cs" />
     <Compile Include="Solucao\Persistencia\Repositorios\Base\RepositorioHistoricoPadrao.cs" />
     <Compile Include="Solucao\Persistencia\Repositorios\RepositorioDeCliente.cs" />
@@ -505,5 +508,6 @@
   <ItemGroup>
     <None Include="Resources\ImportFromExcel.jpg" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

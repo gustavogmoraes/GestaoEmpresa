@@ -80,6 +80,8 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
             Observacao = x.Observacao,
             PrecoDeCompra = x.PrecoDeCompra,
             PrecoDeVenda = x.PrecoDeVenda,
+            PrecoNaIntelbras =  x.PrecoNaIntelbras,
+            PrecoSugeridoRevenda = x.PrecoSugeridoRevenda,
             QuantidadeEmEstoque = x.QuantidadeEmEstoque,
             Status = x.Status
         };

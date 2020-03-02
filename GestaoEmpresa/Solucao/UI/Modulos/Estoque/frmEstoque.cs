@@ -35,10 +35,10 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
     {
         #region Fields
 
-        private readonly GSAssistenteDeDigitacao _txtPesquisaDeProdutoTypingAssistant;
+        private readonly GsTypingAssistant _txtPesquisaDeProdutoTypingAssistant;
         private string _txtPesquisaDeProdutoPreviousSearch;
 
-        private readonly GSAssistenteDeDigitacao _cbPesquisaPorProdutoTypingAssistant;
+        private readonly GsTypingAssistant _cbPesquisaPorProdutoTypingAssistant;
         private string _cbPesquisaPorProdutoPreviousSearch;
 
         #endregion
@@ -60,11 +60,11 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         {
             InitializeComponent();
 
-            _txtPesquisaDeProdutoTypingAssistant = new GSAssistenteDeDigitacao(AssistandMsWindupTime);
+            _txtPesquisaDeProdutoTypingAssistant = new GsTypingAssistant(AssistandMsWindupTime);
             _txtPesquisaDeProdutoTypingAssistant.Idled += TxtPesquisaDeProdutoAssistant_Idled;
 
             cbPesquisaPorProduto.DisplayMember = "Nome";
-            _cbPesquisaPorProdutoTypingAssistant = new GSAssistenteDeDigitacao(AssistandMsWindupTime);
+            _cbPesquisaPorProdutoTypingAssistant = new GsTypingAssistant(AssistandMsWindupTime);
             _cbPesquisaPorProdutoTypingAssistant.Idled += CbPesquisaPorProdutoAssistente_Idled;
         }
 

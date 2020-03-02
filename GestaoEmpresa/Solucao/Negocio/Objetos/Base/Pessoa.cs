@@ -11,7 +11,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Objetos.Base
     {
         public string Nome { get; set; }
 
-        public string CPFCNPJ { get; set; }
+        public string Cpfcnpj { get; set; }
 
         public TipoDePessoa TipoDePessoa { get; set; }
 

@@ -296,5 +296,9 @@ namespace GS.GestaoEmpresa.Solucao.Utilitarios
 
             return values.Distinct().ToArray();
         }
+
+        public static bool IsNullOrEmpty(this string str) => string.IsNullOrEmpty(str);
+
+        public static string ToMonetaryString(this decimal value) => GSUtilitarios.FormateDecimalParaStringMoedaReal(value);
     }
 }

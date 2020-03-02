@@ -55,11 +55,11 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             _codigoInteracao = interacao.Codigo;
         }
 
-        private GSAssistenteDeDigitacao CbProdutoAssistente { get; set; }
+        private GsTypingAssistant CbProdutoAssistente { get; set; }
 
         private void InicializeAssistentesDigitacao()
         {
-            CbProdutoAssistente = new GSAssistenteDeDigitacao();
+            CbProdutoAssistente = new GsTypingAssistant();
             CbProdutoAssistente.Idled += CbProdutoAssistant_Idled;
         }
 

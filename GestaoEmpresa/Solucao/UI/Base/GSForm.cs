@@ -27,7 +27,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
 
         public EnumBotoesForm SwitchBotaoCancelarExcluir { get; set; }
 
-        public IPresenter Presenter { get; set; }
+        public  IPresenter Presenter { get; set; }
 
         private EnumTipoDeForm _tipoDeForm { get; set; }
 

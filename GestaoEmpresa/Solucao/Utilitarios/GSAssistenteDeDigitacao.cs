@@ -7,23 +7,30 @@ using System.Threading.Tasks;
 
 namespace GS.GestaoEmpresa.Solucao.Utilitarios
 {
-    public class GSAssistenteDeDigitacao
+    public class GsTypingAssistant
     {
         public event EventHandler Idled = delegate { };
-        public int MilissegundosDeEspera { get; set; }
-        Timer timer;
+        public int WaitingMs { get; set; }
 
-        public GSAssistenteDeDigitacao(int milissegundosDeEspera = 650)
-        {
-            MilissegundosDeEspera = milissegundosDeEspera;
-            timer = new Timer(p =>
-            {
-                Idled(this, EventArgs.Empty);
-            });
+        private readonly Timer _timer;  
+
+        public GsTypingAssistant(int dueTime = 650)
+        {       
+            WaitingMs = dueTime;
+
+            _timer = new Timer(x => { Idled(this, EventArgs.Empty); });
         }
+
+        public GsTypingAssistant(TimeSpan dueTime)
+        {
+            WaitingMs = Convert.ToInt32(dueTime.TotalMilliseconds);
+
+            _timer = new Timer(x => { Idled(this, EventArgs.Empty); });
+        }
+
         public void TextChanged()
         {
-            timer.Change(MilissegundosDeEspera, Timeout.Infinite);
+            _timer.Change(WaitingMs, Timeout.Infinite);
         }
     }
 }
