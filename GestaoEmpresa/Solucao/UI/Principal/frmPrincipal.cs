@@ -744,7 +744,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Principal
                 var view = GerenciadorDeViews.Crie<OrcamentoPresenter>().View;
                 view.Show();
 
-                view.txtPesquisa.Text = "Impacta";
+                //view.txtPesquisa.Text = "Impacta";
                 //var form = GerenciadorDeViews.CrieIndependente<FrmAtendimento>(out var idInstancia);
                 //form.btnNovoProduto_Click(this, EventArgs.Empty);
 

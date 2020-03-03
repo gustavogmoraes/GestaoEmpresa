@@ -30,6 +30,7 @@
         {
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dgvItensPesquisa = new System.Windows.Forms.DataGridView();
+            this.colunaOrcaCodigo = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colunaOrcaNome = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colunaCodigoFabricante = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colunaOrcaPrecoCompra = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -42,7 +43,6 @@
             // 
             this.dgvItensPesquisa.AllowUserToAddRows = false;
             this.dgvItensPesquisa.AllowUserToDeleteRows = false;
-            this.dgvItensPesquisa.AllowUserToOrderColumns = true;
             this.dgvItensPesquisa.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
@@ -57,6 +57,7 @@
             this.dgvItensPesquisa.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dgvItensPesquisa.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvItensPesquisa.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.colunaOrcaCodigo,
             this.colunaOrcaNome,
             this.colunaCodigoFabricante,
             this.colunaOrcaPrecoCompra,
@@ -67,8 +68,19 @@
             this.dgvItensPesquisa.Name = "dgvItensPesquisa";
             this.dgvItensPesquisa.ReadOnly = true;
             this.dgvItensPesquisa.RowHeadersVisible = false;
-            this.dgvItensPesquisa.Size = new System.Drawing.Size(935, 150);
+            this.dgvItensPesquisa.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvItensPesquisa.Size = new System.Drawing.Size(800, 150);
             this.dgvItensPesquisa.TabIndex = 60;
+            this.dgvItensPesquisa.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvItensPesquisa_CellContentClick);
+            this.dgvItensPesquisa.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvItensPesquisa_RowEnter);
+            this.dgvItensPesquisa.Leave += new System.EventHandler(this.dgvItensPesquisa_Leave);
+            // 
+            // colunaOrcaCodigo
+            // 
+            this.colunaOrcaCodigo.HeaderText = "";
+            this.colunaOrcaCodigo.Name = "colunaOrcaCodigo";
+            this.colunaOrcaCodigo.ReadOnly = true;
+            this.colunaOrcaCodigo.Visible = false;
             // 
             // colunaOrcaNome
             // 
@@ -111,7 +123,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.dgvItensPesquisa);
             this.Name = "GSPesquisaDeProduto";
-            this.Size = new System.Drawing.Size(935, 150);
+            this.Size = new System.Drawing.Size(800, 150);
             ((System.ComponentModel.ISupportInitialize)(this.dgvItensPesquisa)).EndInit();
             this.ResumeLayout(false);
 
@@ -120,6 +132,7 @@
         #endregion
 
         public System.Windows.Forms.DataGridView dgvItensPesquisa;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colunaOrcaCodigo;
         private System.Windows.Forms.DataGridViewTextBoxColumn colunaOrcaNome;
         private System.Windows.Forms.DataGridViewTextBoxColumn colunaCodigoFabricante;
         private System.Windows.Forms.DataGridViewTextBoxColumn colunaOrcaPrecoCompra;

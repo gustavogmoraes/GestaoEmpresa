@@ -201,6 +201,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
             const int indexIpi = 8;
             const int indexPrecoCompra = 10;
             const int indexPrecoRevenda = 12;
+            const int indexPscf = 13;
 
             using (var excelQueryFactory = new ExcelQueryFactory(caminhoArquivo))
             {
@@ -217,7 +218,8 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
                         UF = linha[indexUf].ToString().Trim(),
                         Ipi = linha[indexIpi].ToString().Trim(),
                         PrecoDeCompra = linha[indexPrecoCompra].ToString().Trim(),
-                        PrecoRevenda = linha[indexPrecoRevenda].ToString().Trim()
+                        PrecoRevenda = linha[indexPrecoRevenda].ToString().Trim(),
+                        Pscf = linha[indexPscf].ToString().Trim()
                     })
                     .ToList() // Execute query on EQF and enumerate results
                     .Where(x => x.UF.ToString() == "GO") // Get only those from Goiás
@@ -243,8 +245,8 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
                         }
                         //
 
-                        if (item.PrecoDeCompra == "R$ -" || 
-                            item.PrecoRevenda == "R$ -")
+                        if (item.PrecoDeCompra.IsAny("R$ -", "-") || 
+                            item.PrecoRevenda.IsAny("R$ -", "-"))
                         {
                             return;
                         }
@@ -286,6 +288,8 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
             produtoPersistido.CalculePrecoDeVenda();
 
             produtoPersistido.PrecoSugeridoRevenda = GSExtensions.ObtenhaMonetario(item.PrecoRevenda);
+            produtoPersistido.PrecoSugeridoConsumidorFinal = GSExtensions.ObtenhaMonetario(item.Pscf);
+            produtoPersistido.Lucro2 = Convert.ToDecimal(0.30);
         }
 
         private static Produto ObtenhaNovoProduto(dynamic item, Configuracoes configuracao/*, List<Produto> latestProducts*/)
@@ -308,7 +312,12 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
                                         novoProduto.PrecoNaIntelbras *
                                         configuracao.PorcentagemImpostoProtege;
 
+            novoProduto.PrecoSugeridoConsumidorFinal = GSExtensions.ObtenhaMonetario(item.Pscf);
+            novoProduto.Lucro2 = Convert.ToDecimal(0.30);
+
             novoProduto.CalculePrecoDeVenda();
+
+            novoProduto.CalculePrecoDeVendaConsumidor();
 
             //novoProduto.Atual = true;
             //var latestThis = latestProducts.FirstOrDefault(x => x.CodigoDoFabricante == novoProduto.CodigoDoFabricante);

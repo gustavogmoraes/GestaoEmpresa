@@ -30,11 +30,13 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Atendimento
                     searchTerm, model => model.Nome, model => model.CodigoDoFabricante, model => model.Codigo);
                 View.Invoke((MethodInvoker) delegate
                 {
-                    var componentLocation = View.txtPesquisa.Location;
-                    componentLocation.Y -= View.txtPesquisa.Height;
-                    var componentePesquisaDeProduto = new GSPesquisaDeProduto
+                    var componentLocation = View.PointToClient(View.txtPesquisa.Location);
+                    var Y = componentLocation.Y += 22;
+                    var X = componentLocation.X += 90;
+
+                    var componentePesquisaDeProduto = new GSPesquisaDeProduto(this)
                     {
-                        Location = componentLocation
+                        Location = new Point(X, Y)
                     };
 
                     View.Controls.Add(componentePesquisaDeProduto);
@@ -42,15 +44,45 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Atendimento
 
                     componentePesquisaDeProduto.BringToFront();
                     componentePesquisaDeProduto.Show();
+
+                    componentePesquisaDeProduto.dgvItensPesquisa.Focus();
                 });
                 
             }
+        }
+
+        private int ObtenhaNovoSequencial()
+        {
+            return 1;
+        }
+
+        public void AdicioneProdutoOrcado(int codigo)
+        {
+            using (var servicoDeProduto = new ServicoDeProduto())
+            {
+                var produto = servicoDeProduto.Consulte(codigo);
+                var sequencial = ObtenhaNovoSequencial();
+
+                View.dgvItensOrcados.Rows.Add(ObtenhaItemGridProdutoOrcado(sequencial, produto));
+            }
+        }
+
+        private static object[] ObtenhaItemGridProdutoOrcado(int sequencial, Produto produto)
+        {
+            return new object[]
+            {
+                sequencial,
+                1,
+                produto.Nome,
+                produto.PrecoDeVenda.ToMonetaryString(),
+            };
         }
 
         private static object[] ObtenhaItemGridProdutoPesquisa(Produto produto)
         {
             return new object[]
             {
+                produto.Codigo,
                 produto.Nome,
                 produto.CodigoDoFabricante,
                 produto.PrecoDeCompra.ToMonetaryString(),

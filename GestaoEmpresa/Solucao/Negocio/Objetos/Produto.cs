@@ -57,6 +57,11 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Objetos
 
         public decimal PrecoSugeridoRevenda { get; set; }
 
+        public decimal Lucro2 { get; set; }
+
+        public decimal PrecoSugeridoConsumidorFinal { get; set; }
+
+
         public Produto(Produto modelo) : base (modelo) { }
 
         public Produto() { }
@@ -66,5 +71,12 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Objetos
             PrecoDeVenda = PrecoDeCompra + 
                            PrecoDeCompra * PorcentagemDeLucro;
         }
+
+        public void CalculePrecoDeVendaConsumidor()
+        {
+            PrecoVendaConsumidorFinal = PrecoSugeridoConsumidorFinal + PrecoSugeridoConsumidorFinal * Lucro2;
+        }
+
+        public decimal PrecoVendaConsumidorFinal { get; set; }
     }
 }

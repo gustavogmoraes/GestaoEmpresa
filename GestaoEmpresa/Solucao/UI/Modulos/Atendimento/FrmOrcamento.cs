@@ -39,19 +39,19 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Atendimento
 
         private void _txtPesquisaTypingAssistant_Idle(object obj, EventArgs args)
         {
+            var searchTerm = txtPesquisa.Text.Trim().ToLowerInvariant();
+            if (searchTerm.IsNullOrEmpty())
+            {
+                if (_txtPesquisaPreviousSearch.IsNullOrEmpty() || searchTerm == _txtPesquisaPreviousSearch)
+                {
+                    //_didSearch = false;
+                    return;
+                }
+            }
+
             GSWaitForm.Mostrar(this,
                 () =>
                 {
-                    var searchTerm = txtPesquisa.Text.Trim().ToLowerInvariant();
-                    if (searchTerm.IsNullOrEmpty())
-                    {
-                        if (_txtPesquisaPreviousSearch.IsNullOrEmpty() || searchTerm == _txtPesquisaPreviousSearch)
-                        {
-                            //_didSearch = false;
-                            return;
-                        }
-                    }
-
                     Presenter.ConsulteEPreenchaGridDeProdutos(searchTerm);
                     _txtPesquisaPreviousSearch = searchTerm;
                     //_didSearch = true;
