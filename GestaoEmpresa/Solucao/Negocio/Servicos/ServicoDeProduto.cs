@@ -283,13 +283,27 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
             produtoPersistido.Ipi = ((string)item.Ipi).Replace("%", string.Empty).ToDecimal().DivideBy(100);
             produtoPersistido.PrecoDeCompra = produtoPersistido.PrecoNaIntelbras +
                                                 produtoPersistido.PrecoNaIntelbras * produtoPersistido.Ipi +
-                                              produtoPersistido.PrecoNaIntelbras * configuracao.PorcentagemImpostoProtege;
+                                              produtoPersistido.PrecoNaIntelbras * CalculeValorDoProtege(produtoPersistido.Ipi);
 
             produtoPersistido.CalculePrecoDeVenda();
 
             produtoPersistido.PrecoSugeridoRevenda = GSExtensions.ObtenhaMonetario(item.PrecoRevenda);
             produtoPersistido.PrecoSugeridoConsumidorFinal = GSExtensions.ObtenhaMonetario(item.Pscf);
             produtoPersistido.Lucro2 = Convert.ToDecimal(0.30);
+        }
+
+        private static decimal CalculeValorDoProtege(decimal ipi)
+        {
+            switch (ipi)
+            {
+                case 4 / 100M:
+                    return 7.87M / 100M;
+                case 7 / 100M:
+                case 12 / 100M:
+                    return 4.49M / 100M;
+            }
+
+            return 0;
         }
 
         private static Produto ObtenhaNovoProduto(dynamic item, Configuracoes configuracao/*, List<Produto> latestProducts*/)
@@ -309,8 +323,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
             
             novoProduto.PrecoDeCompra = novoProduto.PrecoNaIntelbras +
                                         novoProduto.PrecoNaIntelbras * novoProduto.Ipi +
-                                        novoProduto.PrecoNaIntelbras *
-                                        configuracao.PorcentagemImpostoProtege;
+                                        novoProduto.PrecoNaIntelbras * CalculeValorDoProtege(novoProduto.Ipi);
 
             novoProduto.PrecoSugeridoConsumidorFinal = GSExtensions.ObtenhaMonetario(item.Pscf);
             novoProduto.Lucro2 = Convert.ToDecimal(0.30);
