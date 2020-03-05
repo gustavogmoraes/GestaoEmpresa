@@ -298,12 +298,14 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
             {
                 case 4 / 100M:
                     return 7.87M / 100M;
+
                 case 7 / 100M:
                 case 12 / 100M:
                     return 4.49M / 100M;
-            }
 
-            return 0;
+                default:
+                    return 4.49M / 100M;
+            }
         }
 
         private static Produto ObtenhaNovoProduto(dynamic item, Configuracoes configuracao/*, List<Produto> latestProducts*/)
