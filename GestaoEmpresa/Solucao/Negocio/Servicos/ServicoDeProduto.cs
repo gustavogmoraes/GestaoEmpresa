@@ -28,7 +28,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
 {
     public class ServicoDeProduto : ServicoHistoricoPadrao<Produto, ValidadorDeProduto, RepositorioDeProduto>, IDisposable
     {
-        #region Implementação padrão
+        #region Implementaï¿½ï¿½o padrï¿½o
 
         protected override Action AcaoSucessoValidacaoDeCadastro(Produto produto)
         {
@@ -192,7 +192,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
             });
             //
 
-            const string nomeWorksheet = "Tabela de Preços";
+            const string nomeWorksheet = "Tabela de Preï¿½os";
             const int indexLinhaDoCabecalho = 7;
             const int indexUnidade = 1;
             const int indexCodigoDoProduto = 2;
@@ -222,7 +222,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
                         Pscf = linha[indexPscf].ToString().Trim()
                     })
                     .ToList() // Execute query on EQF and enumerate results
-                    .Where(x => x.UF.ToString() == "GO") // Get only those from Goiás
+                    .Where(x => x.UF.ToString() == "GO") // Get only those from Goiï¿½s
                     .ToList();
 
                 // Progress bar
