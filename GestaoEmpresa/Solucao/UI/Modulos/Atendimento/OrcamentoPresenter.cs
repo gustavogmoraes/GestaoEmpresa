@@ -26,26 +26,10 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Atendimento
         {
             using (var servicoDeProduto = new ServicoDeProduto())
             {
-                var produtosPesquisados = servicoDeProduto.ConsulteTodosParaAterrissagem(
-                    searchTerm, model => model.Nome, model => model.CodigoDoFabricante, model => model.Codigo);
+                var produtosPesquisados = servicoDeProduto.ConsulteTodosParaAterrissagem(searchTerm, model => model.Nome, model => model.CodigoDoFabricante, model => model.Codigo);
                 View.Invoke((MethodInvoker) delegate
                 {
-                    var componentLocation = View.PointToClient(View.txtPesquisa.Location);
-                    var Y = componentLocation.Y += 22;
-                    var X = componentLocation.X += 90;
-
-                    var componentePesquisaDeProduto = new GSPesquisaDeProduto(this)
-                    {
-                        Location = new Point(X, Y)
-                    };
-
-                    View.Controls.Add(componentePesquisaDeProduto);
-                    produtosPesquisados.ForEach(x => componentePesquisaDeProduto.dgvItensPesquisa.Rows.Add(ObtenhaItemGridProdutoPesquisa(x)));
-
-                    componentePesquisaDeProduto.BringToFront();
-                    componentePesquisaDeProduto.Show();
-
-                    componentePesquisaDeProduto.dgvItensPesquisa.Focus();
+                    produtosPesquisados.ForEach(x => View.dgvItensPesquisa.Rows.Add(ObtenhaItemGridProdutoPesquisa(x)));
                 });
                 
             }

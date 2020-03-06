@@ -7,8 +7,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using GS.GestaoEmpresa.Solucao.Negocio.Objetos;
+using GS.GestaoEmpresa.Solucao.Negocio.Servicos;
 using GS.GestaoEmpresa.Solucao.UI.Base;
 using GS.GestaoEmpresa.Solucao.UI.ControlesGenericos;
+using GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque;
 using GS.GestaoEmpresa.Solucao.Utilitarios;
 
 namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Atendimento
@@ -86,6 +89,18 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Atendimento
             pictureBox3.Visible = true;
 
             txtPesquisa.Focus();
+        }
+
+        private void dgvItensPesquisa_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            var senderGrid = (DataGridView)sender;
+
+            if (senderGrid.Columns[e.ColumnIndex] is DataGridViewButtonColumn && 
+                e.RowIndex >= 0 &&
+                senderGrid.Columns[e.ColumnIndex] == colunaOrcaSelecionar)
+            {
+                Presenter.AdicioneProdutoOrcado(Convert.ToInt32(senderGrid[e.RowIndex, colunaOrcaCodigo.Index].Value));
+            }
         }
     }
 }
