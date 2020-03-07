@@ -192,7 +192,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
             });
             //
 
-            const string nomeWorksheet = "Tabela de Pre�os";
+            const string nomeWorksheet = "Tabela de Preços";
             const int indexLinhaDoCabecalho = 7;
             const int indexUnidade = 1;
             const int indexCodigoDoProduto = 2;
@@ -256,7 +256,8 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
                             var produtoPersistido = repositorioDeProduto.Consulte(x => x.CodigoDoFabricante == item.CodigoDoProduto);
                             if (produtoPersistido != null)
                             {
-                                if (produtoPersistido.PrecoNaIntelbras == item.PrecoDeCompra.ObtenhaMonetario())
+                                if (produtoPersistido.PrecoNaIntelbras == item.PrecoDeCompra.ObtenhaMonetario() &&
+                                    produtoPersistido.Ipi == Convert.ToDecimal(item.Ipi.Replace("%", string.Empty)) / 100)
                                 {
                                     return;
                                 }

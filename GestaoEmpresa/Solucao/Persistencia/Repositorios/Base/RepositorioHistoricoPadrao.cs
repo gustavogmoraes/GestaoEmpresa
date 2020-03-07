@@ -175,10 +175,7 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios.Base
             itemAnterior.Atual = false;
             item.Atual = true;
 
-            if (item.Vigencia == DateTime.MinValue)
-            {
-                item.Vigencia = DateTime.Now;
-            }
+            item.Vigencia = DateTime.Now;
 
             sessaoRaven.Store(item);
             sessaoRaven.SaveChanges();

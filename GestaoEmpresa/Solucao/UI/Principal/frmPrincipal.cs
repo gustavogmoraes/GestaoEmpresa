@@ -724,6 +724,8 @@ namespace GS.GestaoEmpresa.Solucao.UI.Principal
 
         protected override void OnLoad(EventArgs e)
         {
+            
+
             base.OnLoad(e);
 
             if (SessaoSistema.IsMain)
