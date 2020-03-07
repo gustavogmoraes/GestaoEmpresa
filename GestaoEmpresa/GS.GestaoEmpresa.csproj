@@ -246,12 +246,6 @@
     <Compile Include="Solucao\UI\ControlesGenericos\GSMultiTextBox.Designer.cs">
       <DependentUpon>GSMultiTextBox.cs</DependentUpon>
     </Compile>
-    <Compile Include="Solucao\UI\ControlesGenericos\GSPesquisaDeProduto.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Solucao\UI\ControlesGenericos\GSPesquisaDeProduto.Designer.cs">
-      <DependentUpon>GSPesquisaDeProduto.cs</DependentUpon>
-    </Compile>
     <Compile Include="Solucao\UI\ControlesGenericos\GSTextBoxMonetaria.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -364,9 +358,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Solucao\UI\ControlesGenericos\GSMultiTextBox.resx">
       <DependentUpon>GSMultiTextBox.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Solucao\UI\ControlesGenericos\GSPesquisaDeProduto.resx">
-      <DependentUpon>GSPesquisaDeProduto.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Solucao\UI\ControlesGenericos\GSTextBoxMonetaria.resx">
       <DependentUpon>GSTextBoxMonetaria.cs</DependentUpon>
