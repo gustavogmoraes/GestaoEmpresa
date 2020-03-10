@@ -1,36 +1,49 @@
-﻿// Systems
+﻿#region Usings
+
+#region Core
+
 using System;
 using System.Drawing;
 using System.Windows.Forms;
-//
 
-// Ours
+#endregion
+
+#region Ours
+
 using GS.GestaoEmpresa.Solucao.UI.Base;
 using GS.GestaoEmpresa.Solucao.UI.ControlesGenericos;
 using GS.GestaoEmpresa.Solucao.Utilitarios;
-//
+
+#endregion
+
+#endregion
 
 namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Atendimento
 {
     public partial class FrmOrcamento : GSForm
     {
-        public new OrcamentoPresenter Presenter => (OrcamentoPresenter)base.Presenter; 
+        #region Fields
+
+        private GsTypingAssistant _txtPesquisaTypingAssistant;
+        private string _txtPesquisaPreviousSearch;
+
+        #endregion
+
+        #region Properties
+
+        public new OrcamentoPresenter Presenter => (OrcamentoPresenter)base.Presenter;
+
+        #endregion
+
+        #region Constructors
 
         public FrmOrcamento()
         {
             InitializeComponent();
-
             InicializeAssistentesDigitacao();
         }
 
-        private void InicializeAssistentesDigitacao()
-        {
-            _txtPesquisaTypingAssistant = new GsTypingAssistant();
-            _txtPesquisaTypingAssistant.Idled += _txtPesquisaTypingAssistant_Idle;
-        }
-
-        private GsTypingAssistant _txtPesquisaTypingAssistant;
-        private string _txtPesquisaPreviousSearch;
+        #endregion
 
         #region Events
 
@@ -77,7 +90,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Atendimento
 
         #endregion
 
-        #endregion
+        #region BtnAdicionarProduto
 
         private void BtnAdicionarProduto_Click(object sender, EventArgs e)
         {
@@ -87,16 +100,39 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Atendimento
             txtPesquisa.Focus();
         }
 
+        #endregion
+
+        #region DgvItensPesquisa
+
         private void dgvItensPesquisa_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             var senderGrid = (DataGridView)sender;
 
-            if (senderGrid.Columns[e.ColumnIndex] is DataGridViewButtonColumn && 
+            if (senderGrid.Columns[e.ColumnIndex] is DataGridViewButtonColumn &&
                 e.RowIndex >= 0 &&
                 senderGrid.Columns[e.ColumnIndex] == colunaOrcaSelecionar)
             {
                 Presenter.AdicioneProdutoOrcado(Convert.ToInt32(senderGrid[colunaOrcaCodigo.Index, e.RowIndex].Value));
             }
         }
+
+        #endregion
+
+        #endregion
+
+        #region Private Methods
+
+        private void InicializeAssistentesDigitacao()
+        {
+            _txtPesquisaTypingAssistant = new GsTypingAssistant();
+            _txtPesquisaTypingAssistant.Idled += _txtPesquisaTypingAssistant_Idle;
+        }
+
+        #endregion
+
+        #region Public Methods
+
+
+        #endregion
     }
 }
