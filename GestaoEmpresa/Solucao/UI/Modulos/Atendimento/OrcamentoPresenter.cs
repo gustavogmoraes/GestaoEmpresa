@@ -6,6 +6,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Media.Media3D;
 using GS.GestaoEmpresa.Solucao.Negocio.Objetos;
 using GS.GestaoEmpresa.Solucao.Negocio.Objetos.Orcamento;
 using GS.GestaoEmpresa.Solucao.Negocio.Servicos;
@@ -17,6 +18,8 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Atendimento
 {
     public sealed class OrcamentoPresenter : Presenter<Orcamento, FrmOrcamento>
     {
+        
+
         public OrcamentoPresenter()
         {
             MapeieControle(view => view.Cliente.Nome, view => view.txtNomeCliente);
@@ -37,7 +40,19 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Atendimento
 
         private int ObtenhaNovoSequencial()
         {
-            return 1;
+            if (Model.Itens == null || !Model.Itens.Any())
+            {
+                return 1;
+            }
+
+            var allSequetials = Model.Itens
+                .Select(x => x.Sequencial)
+                .ToList();
+
+            var leapSequencial = allSequetials.EncontreInteirosFaltandoEmUmaSequencia().FirstOrDefault();
+            return leapSequencial != 0
+                ? leapSequencial
+                : allSequetials.Max() + 1;
         }
 
         public void AdicioneProdutoOrcado(int codigo)
@@ -47,18 +62,41 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Atendimento
                 var produto = servicoDeProduto.Consulte(codigo);
                 var sequencial = ObtenhaNovoSequencial();
 
-                View.dgvItensOrcados.Rows.Add(ObtenhaItemGridProdutoOrcado(sequencial, produto));
+                if (Model.Itens == null)
+                {
+                    Model.Itens = new List<ItemOrcamento>();
+                }
+
+                Model.Itens.Add(new ItemOrcamento
+                {
+                    Tipo = TipoDeItemOrcamento.Produto,
+                    Sequencial = sequencial,
+                    Produto = produto,
+                    Quantidade = 1,
+                    ValorUnitario = produto.PrecoDeCompra
+                });
+
+                View.dgvProdutosOrcados.Rows.Add(ObtenhaItemGridProdutoOrcado(sequencial, produto));
             }
+        }
+
+        private void SincronizeItensListaDoModelComGrid()
+        {
+
         }
 
         private static object[] ObtenhaItemGridProdutoOrcado(int sequencial, Produto produto)
         {
+            var quantidade = 1;
+
             return new object[]
             {
+                produto.Codigo,
                 sequencial,
-                1,
+                quantidade,
                 produto.Nome,
                 produto.PrecoDeVenda.ToMonetaryString(),
+                (produto.PrecoDeVenda * quantidade).ToMonetaryString()
             };
         }
 

@@ -1,33 +1,27 @@
-﻿using System;
+﻿// System
+using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Diagnostics;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores;
+//
+
+// Third-party
+using LinqToExcel;
+//
+
+// Ours
+using GS.GestaoEmpresa.Properties;
+using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores.Comuns;
 using GS.GestaoEmpresa.Solucao.Negocio.Objetos;
 using GS.GestaoEmpresa.Solucao.Negocio.Servicos;
-using GS.GestaoEmpresa.Solucao.Utilitarios;
-using System.Globalization;
-using GS.GestaoEmpresa.Solucao.Persistencia.BancoDeDados;
-using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores.Comuns;
-using System.Reflection;
-using GS.GestaoEmpresa.Solucao.Persistencia.Repositorios;
-using GS.GestaoEmpresa.Properties;
-using System.IO;
-using System.Threading;
-using System.Windows.Forms.VisualStyles;
-using WindowsInput;
-using WindowsInput.Native;
-using GS.GestaoEmpresa.Solucao.Negocio.Interfaces;
 using GS.GestaoEmpresa.Solucao.UI.Base;
 using GS.GestaoEmpresa.Solucao.UI.ControlesGenericos;
-using LinqToExcel;
-using Microsoft.VisualBasic.Devices;
+using GS.GestaoEmpresa.Solucao.Utilitarios;
+//
 
 namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 {

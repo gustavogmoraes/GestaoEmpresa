@@ -8,9 +8,9 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Objetos.Orcamento
 {
     public class ItemOrcamento
     {
-        public string Id { get; set; }
-
         public TipoDeItemOrcamento Tipo { get; set; }
+
+        public int Sequencial { get; set; }
 
         public string Descricao { get; set; }
 

@@ -27,7 +27,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
     {
         public string IdInstancia { get; set; }
 
-        public IConceito Model { get; set; }
+        public TModel Model { get; set; }
 
         //TModel IPresenter.Model { get => Model; set => Model = value; }
 
@@ -38,6 +38,12 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
         protected List<MapeamentoDeControle<TModel, TView>> MapeamentoDeControles { get; set; }
 
         public bool CodeFiredChange { get; set; }
+
+        IConceito IPresenter.Model
+        {
+            get => Model; 
+            set => Model = (TModel)value;
+        }
 
         //protected Dictionary<PropertyInfo, string> Mapeamento { get; set; }
 

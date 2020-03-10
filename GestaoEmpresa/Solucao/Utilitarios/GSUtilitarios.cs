@@ -37,7 +37,7 @@ namespace GS.GestaoEmpresa.Solucao.Utilitarios
             var serie = new HashSet<int>(Enumerable.Range(menorValor, maiorValor));
             serie.ExceptWith(sequenciaEnumerada);
 
-            return serie.ToList();
+            return serie.OrderBy(x => x).ToList();
         }
 
         #endregion

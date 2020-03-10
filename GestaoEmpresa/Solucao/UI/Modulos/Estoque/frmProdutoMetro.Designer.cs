@@ -68,6 +68,12 @@
             this.metroLabel4 = new MetroFramework.Controls.MetroLabel();
             this.txtPrecoVendaConsumidorFinal = new MetroFramework.Controls.MetroTextBox();
             this.metroLabel7 = new MetroFramework.Controls.MetroLabel();
+            this.metroLabel8 = new MetroFramework.Controls.MetroLabel();
+            this.metroLabel9 = new MetroFramework.Controls.MetroLabel();
+            this.metroLabel10 = new MetroFramework.Controls.MetroLabel();
+            this.metroLabel11 = new MetroFramework.Controls.MetroLabel();
+            this.metroLabel12 = new MetroFramework.Controls.MetroLabel();
+            this.metroLabel13 = new MetroFramework.Controls.MetroLabel();
             ((System.ComponentModel.ISupportInitialize)(this.btnCancelarExcluir)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnEditarSalvar)).BeginInit();
             this.panelTitulo.SuspendLayout();
@@ -113,7 +119,7 @@
             this.chkAvisarQuantidade.AutoSize = true;
             this.chkAvisarQuantidade.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this.chkAvisarQuantidade.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
-            this.chkAvisarQuantidade.Location = new System.Drawing.Point(21, 661);
+            this.chkAvisarQuantidade.Location = new System.Drawing.Point(41, 647);
             this.chkAvisarQuantidade.Name = "chkAvisarQuantidade";
             this.chkAvisarQuantidade.Size = new System.Drawing.Size(353, 19);
             this.chkAvisarQuantidade.TabIndex = 76;
@@ -128,7 +134,7 @@
             // 
             // 
             this.txtQuantidadeEmEstoque.CustomButton.Image = null;
-            this.txtQuantidadeEmEstoque.CustomButton.Location = new System.Drawing.Point(106, 1);
+            this.txtQuantidadeEmEstoque.CustomButton.Location = new System.Drawing.Point(71, 1);
             this.txtQuantidadeEmEstoque.CustomButton.Name = "";
             this.txtQuantidadeEmEstoque.CustomButton.Size = new System.Drawing.Size(21, 21);
             this.txtQuantidadeEmEstoque.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
@@ -138,7 +144,7 @@
             this.txtQuantidadeEmEstoque.CustomButton.Visible = false;
             this.txtQuantidadeEmEstoque.FontSize = MetroFramework.MetroTextBoxSize.Medium;
             this.txtQuantidadeEmEstoque.Lines = new string[0];
-            this.txtQuantidadeEmEstoque.Location = new System.Drawing.Point(390, 633);
+            this.txtQuantidadeEmEstoque.Location = new System.Drawing.Point(162, 615);
             this.txtQuantidadeEmEstoque.MaxLength = 32767;
             this.txtQuantidadeEmEstoque.Name = "txtQuantidadeEmEstoque";
             this.txtQuantidadeEmEstoque.PasswordChar = '\0';
@@ -147,7 +153,7 @@
             this.txtQuantidadeEmEstoque.SelectionLength = 0;
             this.txtQuantidadeEmEstoque.SelectionStart = 0;
             this.txtQuantidadeEmEstoque.ShortcutsEnabled = true;
-            this.txtQuantidadeEmEstoque.Size = new System.Drawing.Size(128, 23);
+            this.txtQuantidadeEmEstoque.Size = new System.Drawing.Size(93, 23);
             this.txtQuantidadeEmEstoque.TabIndex = 75;
             this.txtQuantidadeEmEstoque.UseCustomBackColor = true;
             this.txtQuantidadeEmEstoque.UseSelectable = true;
@@ -159,11 +165,11 @@
             this.lblQuantidadeEmEstoque.AutoSize = true;
             this.lblQuantidadeEmEstoque.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this.lblQuantidadeEmEstoque.FontSize = MetroFramework.MetroLabelSize.Tall;
-            this.lblQuantidadeEmEstoque.Location = new System.Drawing.Point(374, 605);
+            this.lblQuantidadeEmEstoque.Location = new System.Drawing.Point(149, 587);
             this.lblQuantidadeEmEstoque.Name = "lblQuantidadeEmEstoque";
-            this.lblQuantidadeEmEstoque.Size = new System.Drawing.Size(196, 25);
+            this.lblQuantidadeEmEstoque.Size = new System.Drawing.Size(135, 25);
             this.lblQuantidadeEmEstoque.TabIndex = 74;
-            this.lblQuantidadeEmEstoque.Text = "Quantidade em estoque";
+            this.lblQuantidadeEmEstoque.Text = "Qtd em estoque";
             this.lblQuantidadeEmEstoque.UseCustomBackColor = true;
             // 
             // txtQuantidadeMinima
@@ -173,7 +179,7 @@
             // 
             // 
             this.txtQuantidadeMinima.CustomButton.Image = null;
-            this.txtQuantidadeMinima.CustomButton.Location = new System.Drawing.Point(106, 1);
+            this.txtQuantidadeMinima.CustomButton.Location = new System.Drawing.Point(71, 1);
             this.txtQuantidadeMinima.CustomButton.Name = "";
             this.txtQuantidadeMinima.CustomButton.Size = new System.Drawing.Size(21, 21);
             this.txtQuantidadeMinima.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
@@ -183,7 +189,7 @@
             this.txtQuantidadeMinima.CustomButton.Visible = false;
             this.txtQuantidadeMinima.FontSize = MetroFramework.MetroTextBoxSize.Medium;
             this.txtQuantidadeMinima.Lines = new string[0];
-            this.txtQuantidadeMinima.Location = new System.Drawing.Point(35, 624);
+            this.txtQuantidadeMinima.Location = new System.Drawing.Point(41, 615);
             this.txtQuantidadeMinima.MaxLength = 32767;
             this.txtQuantidadeMinima.Name = "txtQuantidadeMinima";
             this.txtQuantidadeMinima.PasswordChar = '\0';
@@ -192,7 +198,7 @@
             this.txtQuantidadeMinima.SelectionLength = 0;
             this.txtQuantidadeMinima.SelectionStart = 0;
             this.txtQuantidadeMinima.ShortcutsEnabled = true;
-            this.txtQuantidadeMinima.Size = new System.Drawing.Size(128, 23);
+            this.txtQuantidadeMinima.Size = new System.Drawing.Size(93, 23);
             this.txtQuantidadeMinima.TabIndex = 73;
             this.txtQuantidadeMinima.UseCustomBackColor = true;
             this.txtQuantidadeMinima.UseSelectable = true;
@@ -204,11 +210,11 @@
             this.lblQuantidadeMinima.AutoSize = true;
             this.lblQuantidadeMinima.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this.lblQuantidadeMinima.FontSize = MetroFramework.MetroLabelSize.Tall;
-            this.lblQuantidadeMinima.Location = new System.Drawing.Point(19, 596);
+            this.lblQuantidadeMinima.Location = new System.Drawing.Point(38, 587);
             this.lblQuantidadeMinima.Name = "lblQuantidadeMinima";
-            this.lblQuantidadeMinima.Size = new System.Drawing.Size(164, 25);
+            this.lblQuantidadeMinima.Size = new System.Drawing.Size(107, 25);
             this.lblQuantidadeMinima.TabIndex = 72;
-            this.lblQuantidadeMinima.Text = "Quantidade mínima";
+            this.lblQuantidadeMinima.Text = "Qtd. mínima";
             this.lblQuantidadeMinima.UseCustomBackColor = true;
             // 
             // txtPrecoDeVenda
@@ -218,7 +224,7 @@
             // 
             // 
             this.txtPrecoDeVenda.CustomButton.Image = null;
-            this.txtPrecoDeVenda.CustomButton.Location = new System.Drawing.Point(106, 1);
+            this.txtPrecoDeVenda.CustomButton.Location = new System.Drawing.Point(98, 1);
             this.txtPrecoDeVenda.CustomButton.Name = "";
             this.txtPrecoDeVenda.CustomButton.Size = new System.Drawing.Size(21, 21);
             this.txtPrecoDeVenda.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
@@ -228,7 +234,7 @@
             this.txtPrecoDeVenda.CustomButton.Visible = false;
             this.txtPrecoDeVenda.FontSize = MetroFramework.MetroTextBoxSize.Medium;
             this.txtPrecoDeVenda.Lines = new string[0];
-            this.txtPrecoDeVenda.Location = new System.Drawing.Point(443, 471);
+            this.txtPrecoDeVenda.Location = new System.Drawing.Point(463, 482);
             this.txtPrecoDeVenda.MaxLength = 32767;
             this.txtPrecoDeVenda.Name = "txtPrecoDeVenda";
             this.txtPrecoDeVenda.PasswordChar = '\0';
@@ -237,7 +243,7 @@
             this.txtPrecoDeVenda.SelectionLength = 0;
             this.txtPrecoDeVenda.SelectionStart = 0;
             this.txtPrecoDeVenda.ShortcutsEnabled = true;
-            this.txtPrecoDeVenda.Size = new System.Drawing.Size(128, 23);
+            this.txtPrecoDeVenda.Size = new System.Drawing.Size(120, 23);
             this.txtPrecoDeVenda.TabIndex = 71;
             this.txtPrecoDeVenda.UseCustomBackColor = true;
             this.txtPrecoDeVenda.UseSelectable = true;
@@ -249,7 +255,7 @@
             this.lblPrecoVenda.AutoSize = true;
             this.lblPrecoVenda.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this.lblPrecoVenda.FontSize = MetroFramework.MetroLabelSize.Tall;
-            this.lblPrecoVenda.Location = new System.Drawing.Point(437, 443);
+            this.lblPrecoVenda.Location = new System.Drawing.Point(453, 454);
             this.lblPrecoVenda.Name = "lblPrecoVenda";
             this.lblPrecoVenda.Size = new System.Drawing.Size(130, 25);
             this.lblPrecoVenda.TabIndex = 70;
@@ -273,7 +279,7 @@
             this.txtPorcentagemLucro.CustomButton.Visible = false;
             this.txtPorcentagemLucro.FontSize = MetroFramework.MetroTextBoxSize.Medium;
             this.txtPorcentagemLucro.Lines = new string[0];
-            this.txtPorcentagemLucro.Location = new System.Drawing.Point(363, 471);
+            this.txtPorcentagemLucro.Location = new System.Drawing.Point(387, 482);
             this.txtPorcentagemLucro.MaxLength = 32767;
             this.txtPorcentagemLucro.Name = "txtPorcentagemLucro";
             this.txtPorcentagemLucro.PasswordChar = '\0';
@@ -295,7 +301,7 @@
             this.lblPorcentagemLucro.AutoSize = true;
             this.lblPorcentagemLucro.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this.lblPorcentagemLucro.FontSize = MetroFramework.MetroLabelSize.Tall;
-            this.lblPorcentagemLucro.Location = new System.Drawing.Point(345, 443);
+            this.lblPorcentagemLucro.Location = new System.Drawing.Point(371, 454);
             this.lblPorcentagemLucro.Name = "lblPorcentagemLucro";
             this.lblPorcentagemLucro.Size = new System.Drawing.Size(73, 25);
             this.lblPorcentagemLucro.TabIndex = 68;
@@ -319,7 +325,7 @@
             this.txtPrecoDeCompra.CustomButton.Visible = false;
             this.txtPrecoDeCompra.FontSize = MetroFramework.MetroTextBoxSize.Medium;
             this.txtPrecoDeCompra.Lines = new string[0];
-            this.txtPrecoDeCompra.Location = new System.Drawing.Point(206, 471);
+            this.txtPrecoDeCompra.Location = new System.Drawing.Point(238, 482);
             this.txtPrecoDeCompra.MaxLength = 32767;
             this.txtPrecoDeCompra.Name = "txtPrecoDeCompra";
             this.txtPrecoDeCompra.PasswordChar = '\0';
@@ -340,7 +346,7 @@
             this.lblPrecoCompra.AutoSize = true;
             this.lblPrecoCompra.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this.lblPrecoCompra.FontSize = MetroFramework.MetroLabelSize.Tall;
-            this.lblPrecoCompra.Location = new System.Drawing.Point(197, 443);
+            this.lblPrecoCompra.Location = new System.Drawing.Point(228, 454);
             this.lblPrecoCompra.Name = "lblPrecoCompra";
             this.lblPrecoCompra.Size = new System.Drawing.Size(142, 25);
             this.lblPrecoCompra.TabIndex = 66;
@@ -650,7 +656,7 @@
             this.metroLabel2.AutoSize = true;
             this.metroLabel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this.metroLabel2.FontSize = MetroFramework.MetroLabelSize.Tall;
-            this.metroLabel2.Location = new System.Drawing.Point(169, 469);
+            this.metroLabel2.Location = new System.Drawing.Point(182, 480);
             this.metroLabel2.Name = "metroLabel2";
             this.metroLabel2.Size = new System.Drawing.Size(26, 25);
             this.metroLabel2.TabIndex = 83;
@@ -664,7 +670,7 @@
             // 
             // 
             this.txtPorcentagemIpi.CustomButton.Image = null;
-            this.txtPorcentagemIpi.CustomButton.Location = new System.Drawing.Point(8, 1);
+            this.txtPorcentagemIpi.CustomButton.Location = new System.Drawing.Point(23, 1);
             this.txtPorcentagemIpi.CustomButton.Name = "";
             this.txtPorcentagemIpi.CustomButton.Size = new System.Drawing.Size(21, 21);
             this.txtPorcentagemIpi.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
@@ -674,7 +680,7 @@
             this.txtPorcentagemIpi.CustomButton.Visible = false;
             this.txtPorcentagemIpi.FontSize = MetroFramework.MetroTextBoxSize.Medium;
             this.txtPorcentagemIpi.Lines = new string[0];
-            this.txtPorcentagemIpi.Location = new System.Drawing.Point(139, 471);
+            this.txtPorcentagemIpi.Location = new System.Drawing.Point(140, 482);
             this.txtPorcentagemIpi.MaxLength = 32767;
             this.txtPorcentagemIpi.Name = "txtPorcentagemIpi";
             this.txtPorcentagemIpi.PasswordChar = '\0';
@@ -683,7 +689,7 @@
             this.txtPorcentagemIpi.SelectionLength = 0;
             this.txtPorcentagemIpi.SelectionStart = 0;
             this.txtPorcentagemIpi.ShortcutsEnabled = true;
-            this.txtPorcentagemIpi.Size = new System.Drawing.Size(30, 23);
+            this.txtPorcentagemIpi.Size = new System.Drawing.Size(45, 23);
             this.txtPorcentagemIpi.TabIndex = 82;
             this.txtPorcentagemIpi.UseCustomBackColor = true;
             this.txtPorcentagemIpi.UseSelectable = true;
@@ -695,7 +701,7 @@
             this.metroLabel3.AutoSize = true;
             this.metroLabel3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this.metroLabel3.FontSize = MetroFramework.MetroLabelSize.Tall;
-            this.metroLabel3.Location = new System.Drawing.Point(139, 443);
+            this.metroLabel3.Location = new System.Drawing.Point(147, 454);
             this.metroLabel3.Name = "metroLabel3";
             this.metroLabel3.Size = new System.Drawing.Size(30, 25);
             this.metroLabel3.TabIndex = 81;
@@ -719,7 +725,7 @@
             this.txtPrecoNaIntelbras.CustomButton.Visible = false;
             this.txtPrecoNaIntelbras.FontSize = MetroFramework.MetroTextBoxSize.Medium;
             this.txtPrecoNaIntelbras.Lines = new string[0];
-            this.txtPrecoNaIntelbras.Location = new System.Drawing.Point(28, 471);
+            this.txtPrecoNaIntelbras.Location = new System.Drawing.Point(41, 482);
             this.txtPrecoNaIntelbras.MaxLength = 32767;
             this.txtPrecoNaIntelbras.Name = "txtPrecoNaIntelbras";
             this.txtPrecoNaIntelbras.PasswordChar = '\0';
@@ -740,7 +746,7 @@
             this.metroLabel5.AutoSize = true;
             this.metroLabel5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this.metroLabel5.FontSize = MetroFramework.MetroLabelSize.Tall;
-            this.metroLabel5.Location = new System.Drawing.Point(19, 443);
+            this.metroLabel5.Location = new System.Drawing.Point(32, 454);
             this.metroLabel5.Name = "metroLabel5";
             this.metroLabel5.Size = new System.Drawing.Size(102, 25);
             this.metroLabel5.TabIndex = 86;
@@ -764,7 +770,7 @@
             this.txtPrecoSugeridoRevenda.CustomButton.Visible = false;
             this.txtPrecoSugeridoRevenda.FontSize = MetroFramework.MetroTextBoxSize.Medium;
             this.txtPrecoSugeridoRevenda.Lines = new string[0];
-            this.txtPrecoSugeridoRevenda.Location = new System.Drawing.Point(28, 536);
+            this.txtPrecoSugeridoRevenda.Location = new System.Drawing.Point(41, 550);
             this.txtPrecoSugeridoRevenda.MaxLength = 32767;
             this.txtPrecoSugeridoRevenda.Name = "txtPrecoSugeridoRevenda";
             this.txtPrecoSugeridoRevenda.PasswordChar = '\0';
@@ -785,7 +791,7 @@
             this.metroLabel6.AutoSize = true;
             this.metroLabel6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this.metroLabel6.FontSize = MetroFramework.MetroLabelSize.Tall;
-            this.metroLabel6.Location = new System.Drawing.Point(25, 508);
+            this.metroLabel6.Location = new System.Drawing.Point(34, 522);
             this.metroLabel6.Name = "metroLabel6";
             this.metroLabel6.Size = new System.Drawing.Size(112, 25);
             this.metroLabel6.TabIndex = 88;
@@ -809,7 +815,7 @@
             this.txtLucroConsumidorFinal.CustomButton.Visible = false;
             this.txtLucroConsumidorFinal.FontSize = MetroFramework.MetroTextBoxSize.Medium;
             this.txtLucroConsumidorFinal.Lines = new string[0];
-            this.txtLucroConsumidorFinal.Location = new System.Drawing.Point(161, 536);
+            this.txtLucroConsumidorFinal.Location = new System.Drawing.Point(162, 551);
             this.txtLucroConsumidorFinal.MaxLength = 32767;
             this.txtLucroConsumidorFinal.Name = "txtLucroConsumidorFinal";
             this.txtLucroConsumidorFinal.PasswordChar = '\0';
@@ -830,7 +836,7 @@
             this.metroLabel1.AutoSize = true;
             this.metroLabel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this.metroLabel1.FontSize = MetroFramework.MetroLabelSize.Tall;
-            this.metroLabel1.Location = new System.Drawing.Point(143, 508);
+            this.metroLabel1.Location = new System.Drawing.Point(149, 522);
             this.metroLabel1.Name = "metroLabel1";
             this.metroLabel1.Size = new System.Drawing.Size(73, 25);
             this.metroLabel1.TabIndex = 90;
@@ -844,7 +850,7 @@
             // 
             // 
             this.txtPscf.CustomButton.Image = null;
-            this.txtPscf.CustomButton.Location = new System.Drawing.Point(71, 1);
+            this.txtPscf.CustomButton.Location = new System.Drawing.Point(98, 1);
             this.txtPscf.CustomButton.Name = "";
             this.txtPscf.CustomButton.Size = new System.Drawing.Size(21, 21);
             this.txtPscf.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
@@ -854,7 +860,7 @@
             this.txtPscf.CustomButton.Visible = false;
             this.txtPscf.FontSize = MetroFramework.MetroTextBoxSize.Medium;
             this.txtPscf.Lines = new string[0];
-            this.txtPscf.Location = new System.Drawing.Point(446, 536);
+            this.txtPscf.Location = new System.Drawing.Point(463, 550);
             this.txtPscf.MaxLength = 32767;
             this.txtPscf.Name = "txtPscf";
             this.txtPscf.PasswordChar = '\0';
@@ -863,7 +869,7 @@
             this.txtPscf.SelectionLength = 0;
             this.txtPscf.SelectionStart = 0;
             this.txtPscf.ShortcutsEnabled = true;
-            this.txtPscf.Size = new System.Drawing.Size(93, 23);
+            this.txtPscf.Size = new System.Drawing.Size(120, 23);
             this.txtPscf.TabIndex = 93;
             this.txtPscf.UseCustomBackColor = true;
             this.txtPscf.UseSelectable = true;
@@ -875,7 +881,7 @@
             this.metroLabel4.AutoSize = true;
             this.metroLabel4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this.metroLabel4.FontSize = MetroFramework.MetroLabelSize.Tall;
-            this.metroLabel4.Location = new System.Drawing.Point(443, 508);
+            this.metroLabel4.Location = new System.Drawing.Point(453, 521);
             this.metroLabel4.Name = "metroLabel4";
             this.metroLabel4.Size = new System.Drawing.Size(119, 25);
             this.metroLabel4.TabIndex = 92;
@@ -899,7 +905,7 @@
             this.txtPrecoVendaConsumidorFinal.CustomButton.Visible = false;
             this.txtPrecoVendaConsumidorFinal.FontSize = MetroFramework.MetroTextBoxSize.Medium;
             this.txtPrecoVendaConsumidorFinal.Lines = new string[0];
-            this.txtPrecoVendaConsumidorFinal.Location = new System.Drawing.Point(228, 536);
+            this.txtPrecoVendaConsumidorFinal.Location = new System.Drawing.Point(238, 551);
             this.txtPrecoVendaConsumidorFinal.MaxLength = 32767;
             this.txtPrecoVendaConsumidorFinal.Name = "txtPrecoVendaConsumidorFinal";
             this.txtPrecoVendaConsumidorFinal.PasswordChar = '\0';
@@ -920,30 +926,111 @@
             this.metroLabel7.AutoSize = true;
             this.metroLabel7.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this.metroLabel7.FontSize = MetroFramework.MetroLabelSize.Tall;
-            this.metroLabel7.Location = new System.Drawing.Point(222, 508);
+            this.metroLabel7.Location = new System.Drawing.Point(228, 522);
             this.metroLabel7.Name = "metroLabel7";
             this.metroLabel7.Size = new System.Drawing.Size(144, 25);
             this.metroLabel7.TabIndex = 94;
             this.metroLabel7.Text = "Preço venda (CD)";
             this.metroLabel7.UseCustomBackColor = true;
             // 
+            // metroLabel8
+            // 
+            this.metroLabel8.AutoSize = true;
+            this.metroLabel8.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
+            this.metroLabel8.FontSize = MetroFramework.MetroLabelSize.Tall;
+            this.metroLabel8.Location = new System.Drawing.Point(14, 539);
+            this.metroLabel8.Name = "metroLabel8";
+            this.metroLabel8.Size = new System.Drawing.Size(31, 25);
+            this.metroLabel8.TabIndex = 96;
+            this.metroLabel8.Text = "R$";
+            this.metroLabel8.UseCustomBackColor = true;
+            // 
+            // metroLabel9
+            // 
+            this.metroLabel9.AutoSize = true;
+            this.metroLabel9.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
+            this.metroLabel9.FontSize = MetroFramework.MetroLabelSize.Tall;
+            this.metroLabel9.Location = new System.Drawing.Point(14, 481);
+            this.metroLabel9.Name = "metroLabel9";
+            this.metroLabel9.Size = new System.Drawing.Size(31, 25);
+            this.metroLabel9.TabIndex = 97;
+            this.metroLabel9.Text = "R$";
+            this.metroLabel9.UseCustomBackColor = true;
+            // 
+            // metroLabel10
+            // 
+            this.metroLabel10.AutoSize = true;
+            this.metroLabel10.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
+            this.metroLabel10.FontSize = MetroFramework.MetroLabelSize.Tall;
+            this.metroLabel10.Location = new System.Drawing.Point(210, 550);
+            this.metroLabel10.Name = "metroLabel10";
+            this.metroLabel10.Size = new System.Drawing.Size(31, 25);
+            this.metroLabel10.TabIndex = 98;
+            this.metroLabel10.Text = "R$";
+            this.metroLabel10.UseCustomBackColor = true;
+            // 
+            // metroLabel11
+            // 
+            this.metroLabel11.AutoSize = true;
+            this.metroLabel11.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
+            this.metroLabel11.FontSize = MetroFramework.MetroLabelSize.Tall;
+            this.metroLabel11.Location = new System.Drawing.Point(210, 481);
+            this.metroLabel11.Name = "metroLabel11";
+            this.metroLabel11.Size = new System.Drawing.Size(31, 25);
+            this.metroLabel11.TabIndex = 99;
+            this.metroLabel11.Text = "R$";
+            this.metroLabel11.UseCustomBackColor = true;
+            // 
+            // metroLabel12
+            // 
+            this.metroLabel12.AutoSize = true;
+            this.metroLabel12.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
+            this.metroLabel12.FontSize = MetroFramework.MetroLabelSize.Tall;
+            this.metroLabel12.Location = new System.Drawing.Point(437, 480);
+            this.metroLabel12.Name = "metroLabel12";
+            this.metroLabel12.Size = new System.Drawing.Size(31, 25);
+            this.metroLabel12.TabIndex = 100;
+            this.metroLabel12.Text = "R$";
+            this.metroLabel12.UseCustomBackColor = true;
+            // 
+            // metroLabel13
+            // 
+            this.metroLabel13.AutoSize = true;
+            this.metroLabel13.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
+            this.metroLabel13.FontSize = MetroFramework.MetroLabelSize.Tall;
+            this.metroLabel13.Location = new System.Drawing.Point(437, 549);
+            this.metroLabel13.Name = "metroLabel13";
+            this.metroLabel13.Size = new System.Drawing.Size(31, 25);
+            this.metroLabel13.TabIndex = 101;
+            this.metroLabel13.Text = "R$";
+            this.metroLabel13.UseCustomBackColor = true;
+            // 
             // frmProdutoMetro
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BorderStyle = MetroFramework.Forms.MetroFormBorderStyle.FixedSingle;
             this.ClientSize = new System.Drawing.Size(599, 710);
-            this.Controls.Add(this.txtPrecoVendaConsumidorFinal);
-            this.Controls.Add(this.metroLabel7);
+            this.Controls.Add(this.metroLabel6);
             this.Controls.Add(this.txtPscf);
+            this.Controls.Add(this.metroLabel13);
+            this.Controls.Add(this.txtPrecoDeVenda);
+            this.Controls.Add(this.metroLabel12);
+            this.Controls.Add(this.txtPrecoDeCompra);
+            this.Controls.Add(this.metroLabel11);
+            this.Controls.Add(this.txtPrecoVendaConsumidorFinal);
+            this.Controls.Add(this.metroLabel10);
+            this.Controls.Add(this.txtPrecoNaIntelbras);
+            this.Controls.Add(this.metroLabel9);
+            this.Controls.Add(this.txtPrecoSugeridoRevenda);
+            this.Controls.Add(this.metroLabel8);
+            this.Controls.Add(this.txtPorcentagemIpi);
+            this.Controls.Add(this.metroLabel7);
             this.Controls.Add(this.metroLabel4);
             this.Controls.Add(this.txtLucroConsumidorFinal);
             this.Controls.Add(this.metroLabel1);
-            this.Controls.Add(this.txtPrecoSugeridoRevenda);
-            this.Controls.Add(this.metroLabel6);
-            this.Controls.Add(this.txtPrecoNaIntelbras);
             this.Controls.Add(this.metroLabel5);
             this.Controls.Add(this.metroLabel2);
-            this.Controls.Add(this.txtPorcentagemIpi);
             this.Controls.Add(this.metroLabel3);
             this.Controls.Add(this.txtCodigoDeBarras);
             this.Controls.Add(this.lblCodigoDeBarras);
@@ -954,11 +1041,9 @@
             this.Controls.Add(this.lblQuantidadeEmEstoque);
             this.Controls.Add(this.txtQuantidadeMinima);
             this.Controls.Add(this.lblQuantidadeMinima);
-            this.Controls.Add(this.txtPrecoDeVenda);
             this.Controls.Add(this.lblPrecoVenda);
             this.Controls.Add(this.txtPorcentagemLucro);
             this.Controls.Add(this.lblPorcentagemLucro);
-            this.Controls.Add(this.txtPrecoDeCompra);
             this.Controls.Add(this.lblPrecoCompra);
             this.Controls.Add(this.txtObservacoes);
             this.Controls.Add(this.lblObservacoes);
@@ -988,11 +1073,9 @@
             this.Controls.SetChildIndex(this.lblObservacoes, 0);
             this.Controls.SetChildIndex(this.txtObservacoes, 0);
             this.Controls.SetChildIndex(this.lblPrecoCompra, 0);
-            this.Controls.SetChildIndex(this.txtPrecoDeCompra, 0);
             this.Controls.SetChildIndex(this.lblPorcentagemLucro, 0);
             this.Controls.SetChildIndex(this.txtPorcentagemLucro, 0);
             this.Controls.SetChildIndex(this.lblPrecoVenda, 0);
-            this.Controls.SetChildIndex(this.txtPrecoDeVenda, 0);
             this.Controls.SetChildIndex(this.lblQuantidadeMinima, 0);
             this.Controls.SetChildIndex(this.txtQuantidadeMinima, 0);
             this.Controls.SetChildIndex(this.lblQuantidadeEmEstoque, 0);
@@ -1003,18 +1086,26 @@
             this.Controls.SetChildIndex(this.lblCodigoDeBarras, 0);
             this.Controls.SetChildIndex(this.txtCodigoDeBarras, 0);
             this.Controls.SetChildIndex(this.metroLabel3, 0);
-            this.Controls.SetChildIndex(this.txtPorcentagemIpi, 0);
             this.Controls.SetChildIndex(this.metroLabel2, 0);
             this.Controls.SetChildIndex(this.metroLabel5, 0);
-            this.Controls.SetChildIndex(this.txtPrecoNaIntelbras, 0);
-            this.Controls.SetChildIndex(this.metroLabel6, 0);
-            this.Controls.SetChildIndex(this.txtPrecoSugeridoRevenda, 0);
             this.Controls.SetChildIndex(this.metroLabel1, 0);
             this.Controls.SetChildIndex(this.txtLucroConsumidorFinal, 0);
             this.Controls.SetChildIndex(this.metroLabel4, 0);
-            this.Controls.SetChildIndex(this.txtPscf, 0);
             this.Controls.SetChildIndex(this.metroLabel7, 0);
+            this.Controls.SetChildIndex(this.txtPorcentagemIpi, 0);
+            this.Controls.SetChildIndex(this.metroLabel8, 0);
+            this.Controls.SetChildIndex(this.txtPrecoSugeridoRevenda, 0);
+            this.Controls.SetChildIndex(this.metroLabel9, 0);
+            this.Controls.SetChildIndex(this.txtPrecoNaIntelbras, 0);
+            this.Controls.SetChildIndex(this.metroLabel10, 0);
             this.Controls.SetChildIndex(this.txtPrecoVendaConsumidorFinal, 0);
+            this.Controls.SetChildIndex(this.metroLabel11, 0);
+            this.Controls.SetChildIndex(this.txtPrecoDeCompra, 0);
+            this.Controls.SetChildIndex(this.metroLabel12, 0);
+            this.Controls.SetChildIndex(this.txtPrecoDeVenda, 0);
+            this.Controls.SetChildIndex(this.metroLabel13, 0);
+            this.Controls.SetChildIndex(this.txtPscf, 0);
+            this.Controls.SetChildIndex(this.metroLabel6, 0);
             ((System.ComponentModel.ISupportInitialize)(this.btnCancelarExcluir)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnEditarSalvar)).EndInit();
             this.panelTitulo.ResumeLayout(false);
@@ -1065,5 +1156,11 @@
         public MetroFramework.Controls.MetroLabel metroLabel4;
         public MetroFramework.Controls.MetroTextBox txtPrecoVendaConsumidorFinal;
         public MetroFramework.Controls.MetroLabel metroLabel7;
+        public MetroFramework.Controls.MetroLabel metroLabel8;
+        public MetroFramework.Controls.MetroLabel metroLabel9;
+        public MetroFramework.Controls.MetroLabel metroLabel10;
+        public MetroFramework.Controls.MetroLabel metroLabel11;
+        public MetroFramework.Controls.MetroLabel metroLabel12;
+        public MetroFramework.Controls.MetroLabel metroLabel13;
     }
 }
