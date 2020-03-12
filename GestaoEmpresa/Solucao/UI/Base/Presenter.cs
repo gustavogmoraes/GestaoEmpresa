@@ -1,23 +1,34 @@
-﻿using System;
+﻿#region Usings
+
+#region Core
+
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using GS.GestaoEmpresa.Solucao.Negocio.Atributos;
+
+#endregion
+
+#region Ours
+
 using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores.Comuns;
 using GS.GestaoEmpresa.Solucao.Negocio.Interfaces;
-using GS.GestaoEmpresa.Solucao.Negocio.Objetos;
-using GS.GestaoEmpresa.Solucao.Negocio.Servicos;
 using GS.GestaoEmpresa.Solucao.UI.ControlesGenericos;
-using GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque;
 using GS.GestaoEmpresa.Solucao.Utilitarios;
+
+#endregion
+
+#region Third-party
+
 using MetroFramework.Controls;
-using MoreLinq;
-using OfficeOpenXml.FormulaParsing.Utilities;
+
+#endregion
+
+#endregion
 
 namespace GS.GestaoEmpresa.Solucao.UI.Base
 {
@@ -25,45 +36,44 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
         where TModel : class, IConceito, new()
         where TView : Form, IView, new()
     {
+        #region Properties
+
         public string IdInstancia { get; set; }
-
-        public TModel Model { get; set; }
-
-        //TModel IPresenter.Model { get => Model; set => Model = value; }
-
-        public TView View { get; private set; }
-
-        IView IPresenter.View { get => View; set => View = (TView)value; }
-
-        protected List<MapeamentoDeControle<TModel, TView>> MapeamentoDeControles { get; set; }
 
         public bool CodeFiredChange { get; set; }
 
+        #region Generics
+
+        public TModel Model { get; set; }
         IConceito IPresenter.Model
         {
-            get => Model; 
+            get => Model;
             set => Model = (TModel)value;
         }
 
-        //protected Dictionary<PropertyInfo, string> Mapeamento { get; set; }
+        public TView View { get; set; }
+        IView IPresenter.View
+        {
+            get => View;
+            set => View = (TView)value;
+        }
+
+        protected List<MapeamentoDeControle<TModel, TView>> MapeamentoDeControles { get; set; }
+
+        #endregion
+
+        #endregion
+
+        #region Constructor
 
         protected Presenter()
         {
             View = new TView { Presenter = this };
         }
 
-        //protected virtual void MapeieControles(
-        //    params KeyValuePair<Expression<Func<TModel, object>>, Expression<Func<TView, Control>>>[] mapeamentos)
-        //{
-        //    //Model = new TModel();
-        //    //if (mapeamento == null) return;
+        #endregion
 
-        //    //Mapeamento = new Dictionary<PropertyInfo, string>();
-        //    //mapeamento.ForEach(x =>
-        //    //    Mapeamento.Add(
-        //    //        (PropertyInfo)x.Key.GetPropertyFromExpression(),
-        //    //        x.Value.GetPropertyFromExpression().Name));
-        //}
+        #region Protected Methods
 
         protected virtual void MapeieControle(
             Expression<Func<TModel, object>> propriedade,
@@ -73,11 +83,18 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
         {
             if (propriedade == null || controle == null) return;
             if (Model == null) Model = new TModel();
-            if(MapeamentoDeControles == null) MapeamentoDeControles = new List<MapeamentoDeControle<TModel, TView>>();
-            
+            if (MapeamentoDeControles == null) MapeamentoDeControles = new List<MapeamentoDeControle<TModel, TView>>();
+
             MapeamentoDeControles.Add(new MapeamentoDeControle<TModel, TView>(
                 propriedade, controle, conversaoPropriedadeControle, conversaoControlePropriedade));
         }
+
+        #endregion
+
+        #region Public Methods
+
+
+        #endregion
 
         public virtual void CarregueControlesComModel()
         {
@@ -368,7 +385,5 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
 
             // A última vigência é selecionada no delegate do método CarregueControlesComModel
         }
-
-
     }
 }

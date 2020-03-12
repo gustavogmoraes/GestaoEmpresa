@@ -27,12 +27,12 @@ namespace GS.GestaoEmpresa.Solucao.Utilitarios
     {
         public static IList<string> ObtenhaLabels(this IList<PropertyInfo> listaDePropriedades)
         {
-            return listaDePropriedades.Select(x => ((Identificacao)x.GetCustomAttributes(typeof(Identificacao), false).FirstOrDefault()).Descricao).ToList();
+            return listaDePropriedades.Select(x => ((Identificacao)x.GetCustomAttributes(typeof(Identificacao), false).FirstOrDefault())?.Descricao).ToList();
         }
 
         public static Dictionary<PropertyInfo, string> ObtenhaPropriedadesELabels(this IList<PropertyInfo> listaDePropriedades)
         {
-            return listaDePropriedades.ToDictionary(x => x, x => ((Identificacao)x.GetCustomAttributes(typeof(Identificacao), false).FirstOrDefault()).Descricao);
+            return listaDePropriedades.ToDictionary(x => x, x => ((Identificacao)x.GetCustomAttributes(typeof(Identificacao), false).FirstOrDefault())?.Descricao);
         }
 
         public static string FormateParaStringMoedaReal(this decimal valor)
@@ -42,7 +42,7 @@ namespace GS.GestaoEmpresa.Solucao.Utilitarios
 
         public static bool ConvertaValorBooleano(this string valorNoBanco)
         {
-            return valorNoBanco == "S" ? true : false;
+            return valorNoBanco == "S";
         }
 
         public static string ConvertaValorBooleano(this bool booleano)
@@ -300,5 +300,7 @@ namespace GS.GestaoEmpresa.Solucao.Utilitarios
         public static bool IsNullOrEmpty(this string str) => string.IsNullOrEmpty(str);
 
         public static string ToMonetaryString(this decimal value) => GSUtilitarios.FormateDecimalParaStringMoedaReal(value);
+
+        public static int ToInt32(this object value) => Convert.ToInt32(value);
     }
 }

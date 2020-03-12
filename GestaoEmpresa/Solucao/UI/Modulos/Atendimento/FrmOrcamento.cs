@@ -118,6 +118,22 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Atendimento
 
         #endregion
 
+        #region DgvProdutosOrcados
+
+        private void dgvProdutosOrcados_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            var senderGrid = (DataGridView)sender;
+
+            if (e.RowIndex >= 0 &&
+                senderGrid.Columns[e.ColumnIndex] is DataGridViewButtonColumn &&
+                senderGrid.Columns[e.ColumnIndex] == colunaProdutosOrcadosRemover)
+            {
+                Presenter.RemovaProdutoOrcado(senderGrid[colunaProdutosOrcadosSequencial.Index, e.RowIndex].Value.ToInt32());
+            }
+        }
+
+        #endregion
+
         #endregion
 
         #region Private Methods

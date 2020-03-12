@@ -32,12 +32,12 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.txtPesquisa = new System.Windows.Forms.TextBox();
             this.lblItensOrcados = new MetroFramework.Controls.MetroLabel();
@@ -60,25 +60,25 @@
             this.metroButton1 = new MetroFramework.Controls.MetroButton();
             this.lblDivisoria = new System.Windows.Forms.Label();
             this.dgvItensPesquisa = new System.Windows.Forms.DataGridView();
-            this.colunaOrcadosCodigo = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colunaOrcaSequencial = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colunaOrcaNomeDescricao = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewButtonColumn1 = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.colunaOrcaCodigo = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colunaOrcaCodigoFabricante = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colunaOrcaNome = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colunaOrcaValorUnitario = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colunaOrcaValorTotal = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colunaOrcaRemover = new System.Windows.Forms.DataGridViewButtonColumn();
             this.colunaCodigoPesquisa = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colunaCodigoFabricante = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colunaOrcaPrecoCompra = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colunaOrcaPrecoVenda = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colunaOrcaSelecionar = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.colunaOrcaCodigo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colunaOrcaCodigoFabricante = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colunaOrcaNome = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colunaOrcaValorUnitario = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colunaOrcaValorTotal = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colunaOrcaRemover = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.colunaOrcadosCodigo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colunaProdutosOrcadosSequencial = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colunaOrcaNomeDescricao = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colunaProdutosOrcadosRemover = new System.Windows.Forms.DataGridViewButtonColumn();
             ((System.ComponentModel.ISupportInitialize)(this.btnCancelarExcluir)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnEditarSalvar)).BeginInit();
             this.panelTitulo.SuspendLayout();
@@ -453,19 +453,19 @@
             this.dgvProdutosOrcados.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvProdutosOrcados.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colunaOrcadosCodigo,
-            this.colunaOrcaSequencial,
+            this.colunaProdutosOrcadosSequencial,
             this.dataGridViewTextBoxColumn5,
             this.colunaOrcaNomeDescricao,
             this.dataGridViewTextBoxColumn4,
             this.dataGridViewTextBoxColumn6,
-            this.dataGridViewButtonColumn1});
+            this.colunaProdutosOrcadosRemover});
             this.dgvProdutosOrcados.GridColor = System.Drawing.Color.Silver;
             this.dgvProdutosOrcados.Location = new System.Drawing.Point(12, 637);
             this.dgvProdutosOrcados.Name = "dgvProdutosOrcados";
-            this.dgvProdutosOrcados.ReadOnly = true;
             this.dgvProdutosOrcados.RowHeadersVisible = false;
             this.dgvProdutosOrcados.Size = new System.Drawing.Size(1180, 194);
             this.dgvProdutosOrcados.TabIndex = 64;
+            this.dgvProdutosOrcados.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvProdutosOrcados_CellContentClick);
             // 
             // metroLabel5
             // 
@@ -534,107 +534,6 @@
             this.dgvItensPesquisa.TabIndex = 69;
             this.dgvItensPesquisa.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvItensPesquisa_CellContentClick);
             // 
-            // colunaOrcadosCodigo
-            // 
-            this.colunaOrcadosCodigo.HeaderText = "";
-            this.colunaOrcadosCodigo.Name = "colunaOrcadosCodigo";
-            this.colunaOrcadosCodigo.ReadOnly = true;
-            this.colunaOrcadosCodigo.Visible = false;
-            // 
-            // colunaOrcaSequencial
-            // 
-            this.colunaOrcaSequencial.HeaderText = "Sequencial";
-            this.colunaOrcaSequencial.Name = "colunaOrcaSequencial";
-            this.colunaOrcaSequencial.ReadOnly = true;
-            // 
-            // dataGridViewTextBoxColumn5
-            // 
-            this.dataGridViewTextBoxColumn5.HeaderText = "Quantidade";
-            this.dataGridViewTextBoxColumn5.Name = "dataGridViewTextBoxColumn5";
-            this.dataGridViewTextBoxColumn5.ReadOnly = true;
-            // 
-            // colunaOrcaNomeDescricao
-            // 
-            this.colunaOrcaNomeDescricao.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.colunaOrcaNomeDescricao.HeaderText = "Nome / Descricao";
-            this.colunaOrcaNomeDescricao.Name = "colunaOrcaNomeDescricao";
-            this.colunaOrcaNomeDescricao.ReadOnly = true;
-            // 
-            // dataGridViewTextBoxColumn4
-            // 
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.BottomRight;
-            dataGridViewCellStyle5.NullValue = "0.00";
-            this.dataGridViewTextBoxColumn4.DefaultCellStyle = dataGridViewCellStyle5;
-            this.dataGridViewTextBoxColumn4.HeaderText = "Valor Unitário";
-            this.dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
-            this.dataGridViewTextBoxColumn4.ReadOnly = true;
-            this.dataGridViewTextBoxColumn4.Width = 150;
-            // 
-            // dataGridViewTextBoxColumn6
-            // 
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.BottomRight;
-            this.dataGridViewTextBoxColumn6.DefaultCellStyle = dataGridViewCellStyle6;
-            this.dataGridViewTextBoxColumn6.HeaderText = "Valor Total";
-            this.dataGridViewTextBoxColumn6.Name = "dataGridViewTextBoxColumn6";
-            this.dataGridViewTextBoxColumn6.ReadOnly = true;
-            this.dataGridViewTextBoxColumn6.Width = 150;
-            // 
-            // dataGridViewButtonColumn1
-            // 
-            this.dataGridViewButtonColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.dataGridViewButtonColumn1.HeaderText = "";
-            this.dataGridViewButtonColumn1.Name = "dataGridViewButtonColumn1";
-            this.dataGridViewButtonColumn1.ReadOnly = true;
-            this.dataGridViewButtonColumn1.Width = 30;
-            // 
-            // colunaOrcaCodigo
-            // 
-            this.colunaOrcaCodigo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.colunaOrcaCodigo.HeaderText = "Sequencial";
-            this.colunaOrcaCodigo.Name = "colunaOrcaCodigo";
-            this.colunaOrcaCodigo.ReadOnly = true;
-            this.colunaOrcaCodigo.Width = 75;
-            // 
-            // colunaOrcaCodigoFabricante
-            // 
-            this.colunaOrcaCodigoFabricante.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.colunaOrcaCodigoFabricante.HeaderText = "Quantidade";
-            this.colunaOrcaCodigoFabricante.Name = "colunaOrcaCodigoFabricante";
-            this.colunaOrcaCodigoFabricante.ReadOnly = true;
-            this.colunaOrcaCodigoFabricante.Width = 186;
-            // 
-            // colunaOrcaNome
-            // 
-            this.colunaOrcaNome.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.colunaOrcaNome.HeaderText = "Descrição";
-            this.colunaOrcaNome.Name = "colunaOrcaNome";
-            this.colunaOrcaNome.ReadOnly = true;
-            // 
-            // colunaOrcaValorUnitario
-            // 
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.BottomRight;
-            this.colunaOrcaValorUnitario.DefaultCellStyle = dataGridViewCellStyle2;
-            this.colunaOrcaValorUnitario.HeaderText = "Valor Unitário";
-            this.colunaOrcaValorUnitario.Name = "colunaOrcaValorUnitario";
-            this.colunaOrcaValorUnitario.ReadOnly = true;
-            this.colunaOrcaValorUnitario.Width = 150;
-            // 
-            // colunaOrcaValorTotal
-            // 
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.BottomRight;
-            this.colunaOrcaValorTotal.DefaultCellStyle = dataGridViewCellStyle3;
-            this.colunaOrcaValorTotal.HeaderText = "Valor Total";
-            this.colunaOrcaValorTotal.Name = "colunaOrcaValorTotal";
-            this.colunaOrcaValorTotal.ReadOnly = true;
-            // 
-            // colunaOrcaRemover
-            // 
-            this.colunaOrcaRemover.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.colunaOrcaRemover.HeaderText = "";
-            this.colunaOrcaRemover.Name = "colunaOrcaRemover";
-            this.colunaOrcaRemover.ReadOnly = true;
-            this.colunaOrcaRemover.Width = 30;
-            // 
             // colunaCodigoPesquisa
             // 
             this.colunaCodigoPesquisa.HeaderText = "";
@@ -681,6 +580,104 @@
             this.colunaOrcaSelecionar.Name = "colunaOrcaSelecionar";
             this.colunaOrcaSelecionar.ReadOnly = true;
             this.colunaOrcaSelecionar.Width = 30;
+            // 
+            // colunaOrcaCodigo
+            // 
+            this.colunaOrcaCodigo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.colunaOrcaCodigo.HeaderText = "Sequencial";
+            this.colunaOrcaCodigo.Name = "colunaOrcaCodigo";
+            this.colunaOrcaCodigo.ReadOnly = true;
+            this.colunaOrcaCodigo.Width = 75;
+            // 
+            // colunaOrcaCodigoFabricante
+            // 
+            this.colunaOrcaCodigoFabricante.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.colunaOrcaCodigoFabricante.HeaderText = "Qtd.";
+            this.colunaOrcaCodigoFabricante.Name = "colunaOrcaCodigoFabricante";
+            this.colunaOrcaCodigoFabricante.ReadOnly = true;
+            this.colunaOrcaCodigoFabricante.Width = 50;
+            // 
+            // colunaOrcaNome
+            // 
+            this.colunaOrcaNome.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.colunaOrcaNome.HeaderText = "Descrição";
+            this.colunaOrcaNome.Name = "colunaOrcaNome";
+            this.colunaOrcaNome.ReadOnly = true;
+            // 
+            // colunaOrcaValorUnitario
+            // 
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.BottomRight;
+            this.colunaOrcaValorUnitario.DefaultCellStyle = dataGridViewCellStyle2;
+            this.colunaOrcaValorUnitario.HeaderText = "Valor Unitário";
+            this.colunaOrcaValorUnitario.Name = "colunaOrcaValorUnitario";
+            this.colunaOrcaValorUnitario.ReadOnly = true;
+            this.colunaOrcaValorUnitario.Width = 150;
+            // 
+            // colunaOrcaValorTotal
+            // 
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.BottomRight;
+            this.colunaOrcaValorTotal.DefaultCellStyle = dataGridViewCellStyle3;
+            this.colunaOrcaValorTotal.HeaderText = "Valor Total";
+            this.colunaOrcaValorTotal.Name = "colunaOrcaValorTotal";
+            this.colunaOrcaValorTotal.ReadOnly = true;
+            // 
+            // colunaOrcaRemover
+            // 
+            this.colunaOrcaRemover.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.colunaOrcaRemover.HeaderText = "";
+            this.colunaOrcaRemover.Name = "colunaOrcaRemover";
+            this.colunaOrcaRemover.ReadOnly = true;
+            this.colunaOrcaRemover.Width = 30;
+            // 
+            // colunaOrcadosCodigo
+            // 
+            this.colunaOrcadosCodigo.HeaderText = "";
+            this.colunaOrcadosCodigo.Name = "colunaOrcadosCodigo";
+            this.colunaOrcadosCodigo.Visible = false;
+            // 
+            // colunaProdutosOrcadosSequencial
+            // 
+            this.colunaProdutosOrcadosSequencial.HeaderText = "Sequencial";
+            this.colunaProdutosOrcadosSequencial.Name = "colunaProdutosOrcadosSequencial";
+            this.colunaProdutosOrcadosSequencial.ReadOnly = true;
+            // 
+            // dataGridViewTextBoxColumn5
+            // 
+            this.dataGridViewTextBoxColumn5.HeaderText = "Qtd.";
+            this.dataGridViewTextBoxColumn5.Name = "dataGridViewTextBoxColumn5";
+            this.dataGridViewTextBoxColumn5.Width = 50;
+            // 
+            // colunaOrcaNomeDescricao
+            // 
+            this.colunaOrcaNomeDescricao.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.colunaOrcaNomeDescricao.HeaderText = "Nome / Descricao";
+            this.colunaOrcaNomeDescricao.Name = "colunaOrcaNomeDescricao";
+            this.colunaOrcaNomeDescricao.ReadOnly = true;
+            // 
+            // dataGridViewTextBoxColumn4
+            // 
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.BottomRight;
+            dataGridViewCellStyle5.NullValue = "0.00";
+            this.dataGridViewTextBoxColumn4.DefaultCellStyle = dataGridViewCellStyle5;
+            this.dataGridViewTextBoxColumn4.HeaderText = "Valor Unitário";
+            this.dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
+            this.dataGridViewTextBoxColumn4.Width = 150;
+            // 
+            // dataGridViewTextBoxColumn6
+            // 
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.BottomRight;
+            this.dataGridViewTextBoxColumn6.DefaultCellStyle = dataGridViewCellStyle6;
+            this.dataGridViewTextBoxColumn6.HeaderText = "Valor Total";
+            this.dataGridViewTextBoxColumn6.Name = "dataGridViewTextBoxColumn6";
+            this.dataGridViewTextBoxColumn6.Width = 150;
+            // 
+            // colunaProdutosOrcadosRemover
+            // 
+            this.colunaProdutosOrcadosRemover.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.colunaProdutosOrcadosRemover.HeaderText = "";
+            this.colunaProdutosOrcadosRemover.Name = "colunaProdutosOrcadosRemover";
+            this.colunaProdutosOrcadosRemover.ReadOnly = true;
+            this.colunaProdutosOrcadosRemover.Width = 30;
             // 
             // FrmOrcamento
             // 
@@ -749,6 +746,12 @@
         public MetroFramework.Controls.MetroTextBox metroTextBox2;
         private System.Windows.Forms.Label lblDivisoria;
         public System.Windows.Forms.DataGridView dgvItensPesquisa;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colunaCodigoPesquisa;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colunaCodigoFabricante;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colunaOrcaPrecoCompra;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colunaOrcaPrecoVenda;
+        private System.Windows.Forms.DataGridViewButtonColumn colunaOrcaSelecionar;
         private System.Windows.Forms.DataGridViewTextBoxColumn colunaOrcaCodigo;
         private System.Windows.Forms.DataGridViewTextBoxColumn colunaOrcaCodigoFabricante;
         private System.Windows.Forms.DataGridViewTextBoxColumn colunaOrcaNome;
@@ -756,17 +759,11 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colunaOrcaValorTotal;
         private System.Windows.Forms.DataGridViewButtonColumn colunaOrcaRemover;
         private System.Windows.Forms.DataGridViewTextBoxColumn colunaOrcadosCodigo;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colunaOrcaSequencial;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colunaProdutosOrcadosSequencial;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn5;
         private System.Windows.Forms.DataGridViewTextBoxColumn colunaOrcaNomeDescricao;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn6;
-        private System.Windows.Forms.DataGridViewButtonColumn dataGridViewButtonColumn1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colunaCodigoPesquisa;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colunaCodigoFabricante;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colunaOrcaPrecoCompra;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colunaOrcaPrecoVenda;
-        private System.Windows.Forms.DataGridViewButtonColumn colunaOrcaSelecionar;
+        private System.Windows.Forms.DataGridViewButtonColumn colunaProdutosOrcadosRemover;
     }
 }
