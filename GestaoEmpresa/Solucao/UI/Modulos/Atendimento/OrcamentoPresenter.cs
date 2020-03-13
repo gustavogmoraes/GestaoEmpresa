@@ -1,5 +1,7 @@
 ﻿#region Usings
 
+using Remotion.Utilities;
+
 #region Core
 
 using System.Collections.Generic;
@@ -119,6 +121,26 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Atendimento
 
                 View.dgvProdutosOrcados.Rows.Add(ObtenhaItemGridProdutoOrcado(sequencial, produto));
             }
+
+            RefreshGrids();
+        }
+
+        public void RemovaProdutoOrcado(int sequencial)
+        {
+            var rowsEnumerable = View.dgvProdutosOrcados.Rows.OfType<DataGridViewRow>();
+
+            var row = rowsEnumerable.FirstOrDefault(x => x.Cells[0].Value.ToInt32() == sequencial);
+            if (row != null)
+            {
+                View.dgvProdutosOrcados.Rows.RemoveAt(row.Index);
+            }
+
+            RefreshGrids();
+        }
+
+        public void RefreshGrids()
+        {
+
         }
 
         #endregion
