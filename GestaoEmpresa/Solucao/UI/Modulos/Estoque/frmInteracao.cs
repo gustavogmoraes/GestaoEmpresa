@@ -15,9 +15,11 @@ using System.Drawing;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using GS.GestaoEmpresa.Solucao.UI.Base;
+using MoreLinq;
 
 namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 {
@@ -49,18 +51,24 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
             TipoDeForm = EnumTipoDeForm.Detalhamento;
 
+            EstahRenderizando = true;
+
             CarregueControlesComObjeto(interacao);
             DesabiliteControles();
             InicializeBotoes(EnumTipoDeForm.Detalhamento, ref btnEditarSalvar, ref btnCancelarExcluir, ref _switchBotaoEditarSalvar, ref _switchBotaoCancelarExcluir);
             _codigoInteracao = interacao.Codigo;
+
+            EstahRenderizando = false;
         }
 
         private GsTypingAssistant CbProdutoAssistente { get; set; }
 
         private void InicializeAssistentesDigitacao()
         {
+            EstahRenderizando = true;
             CbProdutoAssistente = new GsTypingAssistant();
             CbProdutoAssistente.Idled += CbProdutoAssistant_Idled;
+            EstahRenderizando = false;
         }
 
         #region FormPadrao
@@ -88,12 +96,24 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         protected virtual void HabiliteControles()
         {
-            var controles = (this as Form).Controls;
+            Controls.OfType<Control>().ForEach(x => x.Enabled = true);
 
-            foreach (Control controle in controles)
+            var situacaoEhDiferenteDeDevolvidoParaSaida = cbTipo.SelectedItem.ToString() == "Saída" &&
+                                                          (cbSituacao.SelectedItem == null ||
+                                                           cbSituacao.SelectedItem?.ToString() != "Devolvido");
+
+            if (!situacaoEhDiferenteDeDevolvidoParaSaida)
             {
-                controle.Enabled = true;
+                return;
             }
+
+            DesabiliteControles();
+
+            cbSituacao.Enabled = true;
+            txtLineSituacao.Enabled = true;
+
+            txtObservacoes.Enabled = true;
+            txtLineObservacoes.Enabled = true;
         }
 
         protected virtual void DesabiliteControles()
@@ -138,9 +158,23 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             }
 
             flpNumerosDeSerie.Enabled = true;
+
             btnCancelarExcluir.Enabled = true;
-            btnEditarSalvar.Enabled = false;
-            btnEditarSalvar.Visible = false;
+
+            var situacaoEhDiferenteDeDevolvidoParaSaida = cbTipo.SelectedItem.ToString() == "Saída" && 
+                                                          (cbSituacao.SelectedItem == null || 
+                                                           cbSituacao.SelectedItem?.ToString() != "Devolvido");
+            btnEditarSalvar.Enabled = situacaoEhDiferenteDeDevolvidoParaSaida;
+            btnEditarSalvar.Visible = situacaoEhDiferenteDeDevolvidoParaSaida;
+
+            cbSituacao.Enabled = false;
+            txtLineSituacao.Enabled = false;
+
+            cbFinalidade.Enabled = false;
+            txtLineFinalidade.Enabled = false;
+
+            txtOrdemDeServico.Enabled = false;
+            txtLineOS.Enabled = false;
         }
 
         protected void InicializeBotoes(EnumTipoDeForm tipoDeForm,
@@ -190,6 +224,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         private void frmInteracao_Load(object sender, EventArgs e)
         {
+            
             using (var servicoDeProduto = new ServicoDeProduto())
             {
                 ProdutosParaPesquisa = servicoDeProduto.ConsulteTodos().OrderBy(x => x.Nome).Select(x => new
@@ -232,6 +267,14 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             cbProduto.Text = objeto.Produto?.Nome.Trim();
             chkAtualizar.Checked = objeto.AtualizarValorDoProdutoNoCatalogo;
             txtNumeroDaNotaFiscal.Text = objeto.NumeroDaNota;
+            txtTecnico.Text = objeto.Tecnico;
+            cbFinalidade.SelectedItem = objeto.Finalidade;
+            cbSituacao.SelectedItem = objeto.Situacao;
+            if (objeto.Situacao == "Devolvido")
+            {
+                dtpDevolucao.Value = objeto.HorarioDevolucao.GetValueOrDefault();
+                dtpDevolucao.Value = objeto.HorarioDevolucao.GetValueOrDefault();
+            }
 
             dateData.Value = objeto.HorarioProgramado;
             dateHorario.Value = objeto.HorarioProgramado;
@@ -247,11 +290,10 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                     }
                     else
                     {
-                        flpNumerosDeSerie.Controls.Add(
-                            new GSMultiTextBox()
-                            {
-                                Texto = numero
-                            });
+                        flpNumerosDeSerie.Controls.Add(new GSMultiTextBox
+                        {
+                            Texto = numero
+                        });
                     }
                 }
             }
@@ -263,26 +305,33 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         public Interacao CarregueObjetoComControles()
         {
-            var interacao = new Interacao();
-            interacao.Observacao = txtObservacoes.Text.Trim();
-            interacao.ValorInteracao = GStxtValor.Valor;
-            interacao.AtualizarValorDoProdutoNoCatalogo = chkAtualizar.Checked;
-            interacao.TipoDeInteracao = (EnumTipoDeInteracao)cbTipo.SelectedIndex + 1;
-            interacao.QuantidadeInterada = !string.IsNullOrEmpty(txtQuantidade.Text.Trim())
-                                         ? int.Parse(txtQuantidade.Text.Trim())
-                                         : 0;
-            interacao.QuantidadeAuxiliar = !string.IsNullOrEmpty(txtQuantidadeAux.Text.Trim())
-                                         ? new int?(int.Parse(txtQuantidadeAux.Text.Trim()))
-                                         : new int?();
-            interacao.Origem = txtOrigem.Text.Trim();
-            interacao.Destino = txtDestino.Text.Trim();
-            interacao.NumeroDaNota = txtNumeroDaNotaFiscal.Text.Trim();
-            interacao.HorarioProgramado = GSUtilitarios.ObtenhaDateTimeCompletoDePickers(dateData, dateHorario);
+            var interacao = new Interacao
+            {
+                Observacao = txtObservacoes.Text.Trim(),
+                ValorInteracao = GStxtValor.Valor,
+                AtualizarValorDoProdutoNoCatalogo = chkAtualizar.Checked,
+                TipoDeInteracao = (EnumTipoDeInteracao) cbTipo.SelectedIndex + 1,
+                QuantidadeInterada = !string.IsNullOrEmpty(txtQuantidade.Text.Trim())
+                                   ? int.Parse(txtQuantidade.Text.Trim())
+                                   : 0,
+                QuantidadeAuxiliar = !string.IsNullOrEmpty(txtQuantidadeAux.Text.Trim())
+                                   ? int.Parse(txtQuantidadeAux.Text.Trim())
+                                   : new int?(),
+                Origem = txtOrigem.Text.Trim(),
+                Destino = txtDestino.Text.Trim(),
+                NumeroDaNota = txtNumeroDaNotaFiscal.Text.Trim(),
+                HorarioProgramado = dateData.MergeValue(dateHorario).RemoveMs(),
+                Finalidade = cbFinalidade.SelectedItem?.ToString(),
+                Situacao = cbSituacao.SelectedItem?.ToString(),
+                HorarioDevolucao = cbSituacao.SelectedItem?.ToString() == "Devolvido"
+                                 ? (DateTime?)dtpDevolucao.MergeValue(dtpTimeDevolucao)
+                                 : null
+            };
 
             using (var servicoDeProduto = new ServicoDeProduto())
             {
-                int codigoProduto = Convert.ToInt32(((dynamic)cbProduto.SelectedItem).Codigo);
-                var horarioProgramado = GSUtilitarios.ObtenhaDateTimeCompletoDePickers(dateData, dateHorario).RemovaMs();
+                int codigoProduto = (((dynamic)cbProduto.SelectedItem).Codigo as object).ToInt32();
+                var horarioProgramado = dateData.MergeValue(dateHorario).RemoveMs();
 
                 interacao.Produto = servicoDeProduto.Consulte(codigoProduto, horarioProgramado);
             }
@@ -294,8 +343,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                 //Carregando números de série
                 foreach (var multiTextBox in flpNumerosDeSerie.Controls)
                 {
-                    var valor = (multiTextBox as GSMultiTextBox).Texto;
-
+                    var valor = (multiTextBox as GSMultiTextBox)?.Texto;
                     if (!string.IsNullOrEmpty(valor))
                     {
                         interacao.NumerosDeSerie.Add(valor);
@@ -508,8 +556,8 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                     case "Saída":
                         lblQuantidadeEstoque.Text = "Quantidade";
 
-                        lblValor.Enabled = false;
-                        GStxtValor.Enabled = false;
+                        lblValor.Enabled = true;
+                        GStxtValor.Enabled = true;
                         chkAtualizar.Enabled = false;
 
                         lblQuantidadeAux.Visible = false;
@@ -518,7 +566,10 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
                         // Tem que ser feito pra evitar inconsistencias
                         chkAtualizar.Checked = false;
+                        chkAtualizar.Visible = false;
+
                         AtualizeValorComODoProduto();
+
                         break;
 
                     case "Entrada":
@@ -533,6 +584,8 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                         txtQuantidadeAux.Visible = false;
 
                         chkAtualizar.Checked = true;
+                        chkAtualizar.Visible = true;
+
                         AtualizeValorComODoProduto();
                         break;
 
@@ -540,6 +593,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                         lblValor.Enabled = false;
                         GStxtValor.Enabled = false;
                         chkAtualizar.Enabled = false;
+                        chkAtualizar.Visible = true;
 
                         lblQuantidadeEstoque.Text = "Qtd. Entrada";
 
@@ -571,7 +625,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                 }
 
                 int codigoProduto = Convert.ToInt32(((dynamic)cbProduto.SelectedItem).Codigo);
-                var horarioProgramado = GSUtilitarios.ObtenhaDateTimeCompletoDePickers(dateData, dateHorario).RemovaMs();
+                var horarioProgramado = GSUtilitarios.ObtenhaDateTimeCompletoDePickers(dateData, dateHorario).RemoveMs();
 
                 var produto = servicoDeProduto.Consulte(codigoProduto, horarioProgramado);
                 if (produto == null)
@@ -730,6 +784,39 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
                 cbProduto.SelectionStart = cbProduto.Text.Length;
             }));
+        }
+
+        private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label12_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dateTimePicker2_ValueChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label11_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void cbSituacao_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            switch (cbSituacao.SelectedItem)
+            {
+                case "Devolvido":
+                    panelDevolucao.Visible = true;
+                    break;
+                default:
+                    panelDevolucao.Visible = false;
+                    break;
+            }
         }
     }
 }

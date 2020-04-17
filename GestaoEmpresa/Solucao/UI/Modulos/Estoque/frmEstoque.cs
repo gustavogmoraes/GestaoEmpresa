@@ -192,37 +192,42 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             cbPesquisaHistorico.SelectedIndex = 5;
         }
 
+        private object[] GetInteractionRowObject(Interacao interacao) => new object[]
+        {
+            interacao.Codigo,
+            GSUtilitarios.ConvertaEnumeradorParaString(interacao.TipoDeInteracao),
+            interacao.Tecnico,
+            interacao.Produto.Nome,
+            interacao.QuantidadeInterada,
+            interacao.Origem,
+            interacao.Destino,
+            interacao.Finalidade,
+            interacao.Situacao,
+            GSUtilitarios.FormateDecimalParaStringMoedaReal(interacao.ValorInteracao),
+            interacao.HorarioProgramado.ToString(Cultura).Remove(interacao.Horario.ToString(Cultura).Length - 3, 3),
+        }; 
+
         private void CarregueDataGridInteracoes(List<Interacao> listaDeInteracoes)
         {
             dgvHistorico.Rows.Clear();
 
             foreach (var interacao in listaDeInteracoes)
             {
-                var indice = interacao.Horario.ToString(Cultura).Length - 3;
+                dgvHistorico.Rows.Add(GetInteractionRowObject(interacao));
 
-                dgvHistorico.Rows.Add(interacao.Codigo,
-                                      interacao.HorarioProgramado.ToString(Cultura).Remove(indice, 3),
-                                      GSUtilitarios.ConvertaEnumeradorParaString(interacao.TipoDeInteracao),
-                                      interacao.Produto.Nome,
-                                      interacao.Observacao,
-                                      interacao.QuantidadeInterada,
-                                      GSUtilitarios.FormateDecimalParaStringMoedaReal(interacao.ValorInteracao),
-                                      interacao.Origem,
-                                      interacao.Destino);
-
-                if (interacao.TipoDeInteracao == EnumTipoDeInteracao.ENTRADA)
+                switch (interacao.TipoDeInteracao)
                 {
-                    dgvHistorico.Rows[dgvHistorico.Rows.Count - 1].DefaultCellStyle.BackColor = Color.LightBlue;
-                }
-
-                if (interacao.TipoDeInteracao == EnumTipoDeInteracao.SAIDA)
-                {
-                    dgvHistorico.Rows[dgvHistorico.Rows.Count - 1].DefaultCellStyle.BackColor = Color.LightPink;
-                }
-
-                if (interacao.TipoDeInteracao == EnumTipoDeInteracao.BASE_DE_TROCA)
-                {
-                    dgvHistorico.Rows[dgvHistorico.Rows.Count - 1].DefaultCellStyle.BackColor = Color.LightGreen;
+                    case EnumTipoDeInteracao.ENTRADA:
+                        dgvHistorico.Rows[dgvHistorico.Rows.Count - 1].DefaultCellStyle.BackColor = Color.LightBlue;
+                        break;
+                    case EnumTipoDeInteracao.SAIDA:
+                        dgvHistorico.Rows[dgvHistorico.Rows.Count - 1].DefaultCellStyle.BackColor = Color.LightPink;
+                        break;
+                    case EnumTipoDeInteracao.BASE_DE_TROCA:
+                        dgvHistorico.Rows[dgvHistorico.Rows.Count - 1].DefaultCellStyle.BackColor = Color.LightGreen;
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
                 }
             }
             dgvHistorico.Refresh();
@@ -601,20 +606,20 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         private void dgvHistorico_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
         {
-            if (e.RowIndex < 0) return;
-
-            if (e.ColumnIndex == 9)
+            if (e.RowIndex < 0 || e.ColumnIndex != colunaDetalharHist.Index)
             {
-                e.Paint(e.CellBounds, DataGridViewPaintParts.All);
-
-                var w = Resources.detalhar.Width;
-                var h = Resources.detalhar.Height;
-                var x = e.CellBounds.Left + (e.CellBounds.Width - w) / 2;
-                var y = e.CellBounds.Top + (e.CellBounds.Height - h) / 2;
-
-                e.Graphics.DrawImage(Resources.detalhar, new Rectangle(x, y, w, h));
-                e.Handled = true;
+                return;
             }
+
+            e.Paint(e.CellBounds, DataGridViewPaintParts.All);
+
+            var w = Resources.detalhar.Width;
+            var h = Resources.detalhar.Height;
+            var x = e.CellBounds.Left + (e.CellBounds.Width - w) / 2;
+            var y = e.CellBounds.Top + (e.CellBounds.Height - h) / 2;
+
+            e.Graphics.DrawImage(Resources.detalhar, new Rectangle(x, y, w, h));
+            e.Handled = true;
         }
 
         private void dgvHistorico_CellDoubleClick(object sender, DataGridViewCellEventArgs e)

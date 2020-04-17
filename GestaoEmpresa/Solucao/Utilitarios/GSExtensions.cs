@@ -200,7 +200,7 @@ namespace GS.GestaoEmpresa.Solucao.Utilitarios
             return !target.IsAny<T>(possibleValues);
         }
 
-        public static DateTime RemovaMs(this DateTime dt)
+        public static DateTime RemoveMs(this DateTime dt)
         {
             return new DateTime(dt.Year, dt.Month, dt.Day, dt.Hour, dt.Minute, dt.Second);
         }
@@ -302,5 +302,7 @@ namespace GS.GestaoEmpresa.Solucao.Utilitarios
         public static string ToMonetaryString(this decimal value) => GSUtilitarios.FormateDecimalParaStringMoedaReal(value);
 
         public static int ToInt32(this object value) => Convert.ToInt32(value);
+
+        public static DateTime MergeValue(this DateTimePicker dtpDate, DateTimePicker dtpTime) => GSUtilitarios.ObtenhaDateTimeCompletoDePickers(dtpDate, dtpTime);
     }
 }

@@ -44,6 +44,14 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Objetos
 
         public string NumeroDaNota { get; set; }
 
+        public string  Tecnico { get; set; }
+
+        public string Finalidade { get; set; }
+
+        public string Situacao { get; set; }
+
+        public DateTime? HorarioDevolucao { get; set; }
+
         //public Funcionario FuncionarioResponsavel { get; set; }
 
         //public OrdemServico OrdemDeServico { get; set; }

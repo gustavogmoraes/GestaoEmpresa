@@ -40,15 +40,16 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
             return Repositorio.ConsulteTodos(seletor: x => new Interacao
             {
                 Codigo = x.Codigo,
-                Observacao = x.Observacao,
+                TipoDeInteracao = x.TipoDeInteracao,
+                Produto = new Produto { Nome = x.Produto.Nome },
+                QuantidadeInterada = x.QuantidadeInterada,
                 Origem = x.Origem,
                 Destino = x.Destino,
-                TipoDeInteracao = x.TipoDeInteracao,
+                Finalidade = x.Finalidade,
+                Situacao = x.Situacao,
                 NumerosDeSerie = x.NumerosDeSerie,
                 HorarioProgramado = x.HorarioProgramado,
                 ValorInteracao = x.ValorInteracao,
-                QuantidadeInterada = x.QuantidadeInterada,
-                Produto = new Produto { Nome = x.Produto.Nome }
             })
             .OrderByDescending(x => x.Codigo)
             .ToList();

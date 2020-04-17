@@ -230,48 +230,49 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
 
                 var items = GSExtensions.GetProgressRange(totalItems.Count);
                 //
+                var enumerable = totalItems
+                    .Where(x => !x.AnyPropertyIsNull())
+                    .Distinct();
 
-                totalItems.Where(x => !x.AnyPropertyIsNull())
-                    .Distinct()
-                    .ForEach(item =>
+                Parallel.ForEach(enumerable, item =>
+                {
+                    // Progress bar reactivity
+                    totalAdded++;
+                    caller.Invoke((MethodInvoker)delegate { caller.txtQtyProgresso.Text = $"{totalAdded}/{totalItems.Count}"; });
+
+                    if (totalAdded.IsAny(items))
                     {
-                        // Progress bar reactivity
-                        totalAdded ++;
-                        caller.Invoke((MethodInvoker)delegate { caller.txtQtyProgresso.Text = $"{totalAdded}/{totalItems.Count}"; });
+                        caller.Invoke((MethodInvoker)delegate { caller.metroProgressImportar.Value += 1; });
+                    }
+                    //
 
-                        if (totalAdded.IsAny(items))
-                        {
-                            caller.Invoke((MethodInvoker) delegate {caller.metroProgressImportar.Value += 1;});
-                        }
-                        //
+                    if (item.PrecoDeCompra.IsAny("R$ -", "-") ||
+                        item.PrecoRevenda.IsAny("R$ -", "-"))
+                    {
+                        return;
+                    }
 
-                        if (item.PrecoDeCompra.IsAny("R$ -", "-") || 
-                            item.PrecoRevenda.IsAny("R$ -", "-"))
+                    using (var repositorioDeProduto = new RepositorioDeProduto(RavenHelper.OpenSession()))
+                    {
+                        var produtoPersistido = repositorioDeProduto.Consulte(x => x.CodigoDoFabricante == item.CodigoDoProduto);
+                        if (produtoPersistido != null)
                         {
-                            return;
-                        }
-
-                        using (var repositorioDeProduto = new RepositorioDeProduto(RavenHelper.OpenSession()))
-                        {
-                            var produtoPersistido = repositorioDeProduto.Consulte(x => x.CodigoDoFabricante == item.CodigoDoProduto);
-                            if (produtoPersistido != null)
+                            if (produtoPersistido.PrecoNaIntelbras == item.PrecoDeCompra.ObtenhaMonetario() &&
+                                produtoPersistido.Ipi == Convert.ToDecimal(item.Ipi.Replace("%", string.Empty)) / 100)
                             {
-                                if (produtoPersistido.PrecoNaIntelbras == item.PrecoDeCompra.ObtenhaMonetario() &&
-                                    produtoPersistido.Ipi == Convert.ToDecimal(item.Ipi.Replace("%", string.Empty)) / 100)
-                                {
-                                    return;
-                                }
-
-                                PreenchaProduto(produtoPersistido, item, configuracao);
-                                repositorioDeProduto.Atualize(produtoPersistido);
-
                                 return;
                             }
 
-                            var novoProduto = ObtenhaNovoProduto(item, configuracao/*, allLatest*/);
-                            repositorioDeProduto.Insira(novoProduto);
+                            PreenchaProduto(produtoPersistido, item, configuracao);
+                            repositorioDeProduto.Atualize(produtoPersistido);
+
+                            return;
                         }
-                    });
+
+                        var novoProduto = ObtenhaNovoProduto(item, configuracao/*, allLatest*/);
+                        repositorioDeProduto.Insira(novoProduto);
+                    }
+                });
             }
         }
 

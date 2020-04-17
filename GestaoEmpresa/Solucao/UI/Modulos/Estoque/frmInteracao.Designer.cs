@@ -56,7 +56,6 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.txtLineProduto = new System.Windows.Forms.Label();
             this.cbProduto = new System.Windows.Forms.ComboBox();
             this.chkAtualizar = new System.Windows.Forms.CheckBox();
-            this.flpNumerosDeSerie = new System.Windows.Forms.FlowLayoutPanel();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
@@ -72,12 +71,31 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.txtQuantidadeAux = new System.Windows.Forms.TextBox();
             this.dateData = new System.Windows.Forms.DateTimePicker();
             this.dateHorario = new System.Windows.Forms.DateTimePicker();
+            this.cbSituacao = new System.Windows.Forms.ComboBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.txtLineSituacao = new System.Windows.Forms.Label();
+            this.txtTecnico = new System.Windows.Forms.TextBox();
+            this.lblTecnico = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.cbFinalidade = new System.Windows.Forms.ComboBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.txtLineFinalidade = new System.Windows.Forms.Label();
+            this.flpNumerosDeSerie = new System.Windows.Forms.FlowLayoutPanel();
+            this.txtOrdemDeServico = new System.Windows.Forms.TextBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.txtLineOS = new System.Windows.Forms.Label();
             this.GStxtValor = new GS.GestaoEmpresa.Solucao.UI.ControlesGenericos.GSTextBoxMonetaria();
             this.GSMultiTextBox = new GS.GestaoEmpresa.Solucao.UI.ControlesGenericos.GSMultiTextBox();
+            this.panelDevolucao = new System.Windows.Forms.Panel();
+            this.dtpDevolucao = new System.Windows.Forms.DateTimePicker();
+            this.dtpTimeDevolucao = new System.Windows.Forms.DateTimePicker();
+            this.label11 = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.btnCancelarExcluir)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnEditarSalvar)).BeginInit();
             this.flpNumerosDeSerie.SuspendLayout();
+            this.panelDevolucao.SuspendLayout();
             this.SuspendLayout();
             // 
             // lblVigencia
@@ -85,7 +103,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.lblVigencia.AutoSize = true;
             this.lblVigencia.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblVigencia.ForeColor = System.Drawing.Color.SteelBlue;
-            this.lblVigencia.Location = new System.Drawing.Point(237, 44);
+            this.lblVigencia.Location = new System.Drawing.Point(281, 41);
             this.lblVigencia.Name = "lblVigencia";
             this.lblVigencia.Size = new System.Drawing.Size(72, 24);
             this.lblVigencia.TabIndex = 79;
@@ -100,13 +118,13 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.panel1.Controls.Add(this.btnEditarSalvar);
             this.panel1.Location = new System.Drawing.Point(-1, -2);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(609, 40);
+            this.panel1.Size = new System.Drawing.Size(1009, 40);
             this.panel1.TabIndex = 83;
             // 
             // btnCancelarExcluir
             // 
             this.btnCancelarExcluir.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnCancelarExcluir.Location = new System.Drawing.Point(563, 8);
+            this.btnCancelarExcluir.Location = new System.Drawing.Point(961, 9);
             this.btnCancelarExcluir.Name = "btnCancelarExcluir";
             this.btnCancelarExcluir.Size = new System.Drawing.Size(33, 26);
             this.btnCancelarExcluir.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -131,7 +149,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             // 
             this.btnEditarSalvar.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnEditarSalvar.InitialImage = null;
-            this.btnEditarSalvar.Location = new System.Drawing.Point(525, 4);
+            this.btnEditarSalvar.Location = new System.Drawing.Point(923, 5);
             this.btnEditarSalvar.Name = "btnEditarSalvar";
             this.btnEditarSalvar.Size = new System.Drawing.Size(32, 30);
             this.btnEditarSalvar.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -149,9 +167,9 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             "Entrada",
             "Saída",
             "Base de troca"});
-            this.cbTipo.Location = new System.Drawing.Point(33, 67);
+            this.cbTipo.Location = new System.Drawing.Point(29, 72);
             this.cbTipo.Name = "cbTipo";
-            this.cbTipo.Size = new System.Drawing.Size(144, 32);
+            this.cbTipo.Size = new System.Drawing.Size(209, 32);
             this.cbTipo.TabIndex = 81;
             this.cbTipo.SelectedIndexChanged += new System.EventHandler(this.cbTipo_SelectedIndexChanged);
             // 
@@ -171,7 +189,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.txtQuantidade.BackColor = System.Drawing.Color.Silver;
             this.txtQuantidade.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtQuantidade.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtQuantidade.Location = new System.Drawing.Point(36, 477);
+            this.txtQuantidade.Location = new System.Drawing.Point(34, 224);
             this.txtQuantidade.Name = "txtQuantidade";
             this.txtQuantidade.Size = new System.Drawing.Size(64, 22);
             this.txtQuantidade.TabIndex = 5;
@@ -182,7 +200,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.lblQuantidadeEstoque.AutoSize = true;
             this.lblQuantidadeEstoque.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblQuantidadeEstoque.ForeColor = System.Drawing.Color.SteelBlue;
-            this.lblQuantidadeEstoque.Location = new System.Drawing.Point(15, 455);
+            this.lblQuantidadeEstoque.Location = new System.Drawing.Point(13, 202);
             this.lblQuantidadeEstoque.Name = "lblQuantidadeEstoque";
             this.lblQuantidadeEstoque.Size = new System.Drawing.Size(108, 24);
             this.lblQuantidadeEstoque.TabIndex = 74;
@@ -193,7 +211,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.lblValor.AutoSize = true;
             this.lblValor.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblValor.ForeColor = System.Drawing.Color.SteelBlue;
-            this.lblValor.Location = new System.Drawing.Point(283, 454);
+            this.lblValor.Location = new System.Drawing.Point(281, 201);
             this.lblValor.Name = "lblValor";
             this.lblValor.Size = new System.Drawing.Size(54, 24);
             this.lblValor.TabIndex = 66;
@@ -205,7 +223,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.txtLineHorario.Enabled = false;
             this.txtLineHorario.Font = new System.Drawing.Font("Microsoft Sans Serif", 27.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtLineHorario.ForeColor = System.Drawing.Color.SteelBlue;
-            this.txtLineHorario.Location = new System.Drawing.Point(235, 64);
+            this.txtLineHorario.Location = new System.Drawing.Point(279, 70);
             this.txtLineHorario.Name = "txtLineHorario";
             this.txtLineHorario.Size = new System.Drawing.Size(228, 42);
             this.txtLineHorario.TabIndex = 86;
@@ -216,18 +234,18 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.txtLineTipo.AutoSize = true;
             this.txtLineTipo.Font = new System.Drawing.Font("Microsoft Sans Serif", 27.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtLineTipo.ForeColor = System.Drawing.Color.SteelBlue;
-            this.txtLineTipo.Location = new System.Drawing.Point(11, 64);
+            this.txtLineTipo.Location = new System.Drawing.Point(11, 71);
             this.txtLineTipo.Name = "txtLineTipo";
-            this.txtLineTipo.Size = new System.Drawing.Size(186, 42);
+            this.txtLineTipo.Size = new System.Drawing.Size(249, 42);
             this.txtLineTipo.TabIndex = 87;
-            this.txtLineTipo.Text = "________";
+            this.txtLineTipo.Text = "___________";
             // 
             // txtLineQuantidadeEstoque
             // 
             this.txtLineQuantidadeEstoque.AutoSize = true;
             this.txtLineQuantidadeEstoque.Font = new System.Drawing.Font("Microsoft Sans Serif", 27.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtLineQuantidadeEstoque.ForeColor = System.Drawing.Color.SteelBlue;
-            this.txtLineQuantidadeEstoque.Location = new System.Drawing.Point(14, 463);
+            this.txtLineQuantidadeEstoque.Location = new System.Drawing.Point(12, 210);
             this.txtLineQuantidadeEstoque.Name = "txtLineQuantidadeEstoque";
             this.txtLineQuantidadeEstoque.Size = new System.Drawing.Size(123, 42);
             this.txtLineQuantidadeEstoque.TabIndex = 99;
@@ -239,10 +257,10 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.txtOrigem.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtOrigem.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtOrigem.ForeColor = System.Drawing.Color.Black;
-            this.txtOrigem.Location = new System.Drawing.Point(24, 549);
+            this.txtOrigem.Location = new System.Drawing.Point(23, 650);
             this.txtOrigem.MaxLength = 100;
             this.txtOrigem.Name = "txtOrigem";
-            this.txtOrigem.Size = new System.Drawing.Size(462, 22);
+            this.txtOrigem.Size = new System.Drawing.Size(452, 22);
             this.txtOrigem.TabIndex = 8;
             this.txtOrigem.TextChanged += new System.EventHandler(this.txtOrigem_TextChanged);
             // 
@@ -251,7 +269,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.lblOrigem.AutoSize = true;
             this.lblOrigem.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblOrigem.ForeColor = System.Drawing.Color.SteelBlue;
-            this.lblOrigem.Location = new System.Drawing.Point(19, 516);
+            this.lblOrigem.Location = new System.Drawing.Point(17, 621);
             this.lblOrigem.Name = "lblOrigem";
             this.lblOrigem.Size = new System.Drawing.Size(73, 24);
             this.lblOrigem.TabIndex = 102;
@@ -262,11 +280,11 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.txtLineOrigem.AutoSize = true;
             this.txtLineOrigem.Font = new System.Drawing.Font("Microsoft Sans Serif", 27.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtLineOrigem.ForeColor = System.Drawing.Color.SteelBlue;
-            this.txtLineOrigem.Location = new System.Drawing.Point(16, 536);
+            this.txtLineOrigem.Location = new System.Drawing.Point(16, 642);
             this.txtLineOrigem.Name = "txtLineOrigem";
-            this.txtLineOrigem.Size = new System.Drawing.Size(543, 42);
+            this.txtLineOrigem.Size = new System.Drawing.Size(480, 42);
             this.txtLineOrigem.TabIndex = 7;
-            this.txtLineOrigem.Text = "_________________________";
+            this.txtLineOrigem.Text = "______________________";
             this.txtLineOrigem.Click += new System.EventHandler(this.txtLineOrigem_Click);
             // 
             // txtDestino
@@ -275,7 +293,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.txtDestino.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtDestino.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtDestino.ForeColor = System.Drawing.Color.Black;
-            this.txtDestino.Location = new System.Drawing.Point(25, 627);
+            this.txtDestino.Location = new System.Drawing.Point(536, 654);
             this.txtDestino.MaxLength = 100;
             this.txtDestino.Name = "txtDestino";
             this.txtDestino.Size = new System.Drawing.Size(461, 22);
@@ -286,7 +304,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.lblDestino.AutoSize = true;
             this.lblDestino.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblDestino.ForeColor = System.Drawing.Color.SteelBlue;
-            this.lblDestino.Location = new System.Drawing.Point(20, 594);
+            this.lblDestino.Location = new System.Drawing.Point(531, 621);
             this.lblDestino.Name = "lblDestino";
             this.lblDestino.Size = new System.Drawing.Size(73, 24);
             this.lblDestino.TabIndex = 105;
@@ -297,18 +315,18 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.txtLineDestino.AutoSize = true;
             this.txtLineDestino.Font = new System.Drawing.Font("Microsoft Sans Serif", 27.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtLineDestino.ForeColor = System.Drawing.Color.SteelBlue;
-            this.txtLineDestino.Location = new System.Drawing.Point(17, 614);
+            this.txtLineDestino.Location = new System.Drawing.Point(528, 641);
             this.txtLineDestino.Name = "txtLineDestino";
-            this.txtLineDestino.Size = new System.Drawing.Size(543, 42);
+            this.txtLineDestino.Size = new System.Drawing.Size(480, 42);
             this.txtLineDestino.TabIndex = 106;
-            this.txtLineDestino.Text = "_________________________";
+            this.txtLineDestino.Text = "______________________";
             // 
             // lblProduto
             // 
             this.lblProduto.AutoSize = true;
             this.lblProduto.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblProduto.ForeColor = System.Drawing.Color.SteelBlue;
-            this.lblProduto.Location = new System.Drawing.Point(20, 116);
+            this.lblProduto.Location = new System.Drawing.Point(14, 118);
             this.lblProduto.Name = "lblProduto";
             this.lblProduto.Size = new System.Drawing.Size(76, 24);
             this.lblProduto.TabIndex = 109;
@@ -319,11 +337,11 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.txtLineProduto.AutoSize = true;
             this.txtLineProduto.Font = new System.Drawing.Font("Microsoft Sans Serif", 27.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtLineProduto.ForeColor = System.Drawing.Color.SteelBlue;
-            this.txtLineProduto.Location = new System.Drawing.Point(18, 137);
+            this.txtLineProduto.Location = new System.Drawing.Point(10, 142);
             this.txtLineProduto.Name = "txtLineProduto";
-            this.txtLineProduto.Size = new System.Drawing.Size(564, 42);
+            this.txtLineProduto.Size = new System.Drawing.Size(984, 42);
             this.txtLineProduto.TabIndex = 110;
-            this.txtLineProduto.Text = "__________________________";
+            this.txtLineProduto.Text = "______________________________________________";
             // 
             // cbProduto
             // 
@@ -332,9 +350,9 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.cbProduto.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cbProduto.FormattingEnabled = true;
             this.cbProduto.IntegralHeight = false;
-            this.cbProduto.Location = new System.Drawing.Point(37, 140);
+            this.cbProduto.Location = new System.Drawing.Point(23, 142);
             this.cbProduto.Name = "cbProduto";
-            this.cbProduto.Size = new System.Drawing.Size(467, 32);
+            this.cbProduto.Size = new System.Drawing.Size(956, 32);
             this.cbProduto.TabIndex = 1;
             this.cbProduto.SelectedIndexChanged += new System.EventHandler(this.cbProduto_SelectedIndexChanged);
             this.cbProduto.TextChanged += new System.EventHandler(this.cbProduto_TextChanged);
@@ -344,25 +362,14 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.chkAtualizar.AutoSize = true;
             this.chkAtualizar.Checked = true;
             this.chkAtualizar.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkAtualizar.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chkAtualizar.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.chkAtualizar.ForeColor = System.Drawing.Color.SteelBlue;
-            this.chkAtualizar.Location = new System.Drawing.Point(432, 455);
+            this.chkAtualizar.Location = new System.Drawing.Point(353, 257);
             this.chkAtualizar.Name = "chkAtualizar";
-            this.chkAtualizar.Size = new System.Drawing.Size(181, 76);
+            this.chkAtualizar.Size = new System.Drawing.Size(159, 64);
             this.chkAtualizar.TabIndex = 100;
             this.chkAtualizar.Text = "Atualizar catálogo \r\nde produtos com \r\nnovo preço.\r\n";
             this.chkAtualizar.UseVisualStyleBackColor = true;
-            // 
-            // flpNumerosDeSerie
-            // 
-            this.flpNumerosDeSerie.AutoScroll = true;
-            this.flpNumerosDeSerie.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.flpNumerosDeSerie.Controls.Add(this.GSMultiTextBox);
-            this.flpNumerosDeSerie.Enabled = false;
-            this.flpNumerosDeSerie.Location = new System.Drawing.Point(20, 237);
-            this.flpNumerosDeSerie.Name = "flpNumerosDeSerie";
-            this.flpNumerosDeSerie.Size = new System.Drawing.Size(484, 125);
-            this.flpNumerosDeSerie.TabIndex = 115;
             // 
             // label1
             // 
@@ -370,18 +377,18 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.label1.Enabled = false;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 27.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.SteelBlue;
-            this.label1.Location = new System.Drawing.Point(11, 333);
+            this.label1.Location = new System.Drawing.Point(11, 488);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(564, 42);
+            this.label1.Size = new System.Drawing.Size(501, 42);
             this.label1.TabIndex = 116;
-            this.label1.Text = "__________________________";
+            this.label1.Text = "_______________________";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.Color.SteelBlue;
-            this.label2.Location = new System.Drawing.Point(21, 212);
+            this.label2.Location = new System.Drawing.Point(21, 300);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(164, 24);
             this.label2.TabIndex = 117;
@@ -400,10 +407,10 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.txtNumeroDaNotaFiscal.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtNumeroDaNotaFiscal.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtNumeroDaNotaFiscal.ForeColor = System.Drawing.Color.Black;
-            this.txtNumeroDaNotaFiscal.Location = new System.Drawing.Point(27, 415);
+            this.txtNumeroDaNotaFiscal.Location = new System.Drawing.Point(536, 230);
             this.txtNumeroDaNotaFiscal.MaxLength = 100;
             this.txtNumeroDaNotaFiscal.Name = "txtNumeroDaNotaFiscal";
-            this.txtNumeroDaNotaFiscal.Size = new System.Drawing.Size(462, 22);
+            this.txtNumeroDaNotaFiscal.Size = new System.Drawing.Size(395, 22);
             this.txtNumeroDaNotaFiscal.TabIndex = 4;
             this.txtNumeroDaNotaFiscal.TextChanged += new System.EventHandler(this.txtNumeroDaNotaFiscal_TextChanged);
             // 
@@ -412,7 +419,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.lblNS.AutoSize = true;
             this.lblNS.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblNS.ForeColor = System.Drawing.Color.SteelBlue;
-            this.lblNS.Location = new System.Drawing.Point(22, 384);
+            this.lblNS.Location = new System.Drawing.Point(531, 199);
             this.lblNS.Name = "lblNS";
             this.lblNS.Size = new System.Drawing.Size(203, 24);
             this.lblNS.TabIndex = 118;
@@ -423,18 +430,18 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 27.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.ForeColor = System.Drawing.Color.SteelBlue;
-            this.label4.Location = new System.Drawing.Point(19, 402);
+            this.label4.Location = new System.Drawing.Point(528, 217);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(543, 42);
+            this.label4.Size = new System.Drawing.Size(480, 42);
             this.label4.TabIndex = 119;
-            this.label4.Text = "_________________________";
+            this.label4.Text = "______________________";
             // 
             // chkInformarNumeroDeSerie
             // 
             this.chkInformarNumeroDeSerie.AutoSize = true;
             this.chkInformarNumeroDeSerie.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.chkInformarNumeroDeSerie.ForeColor = System.Drawing.Color.SteelBlue;
-            this.chkInformarNumeroDeSerie.Location = new System.Drawing.Point(23, 186);
+            this.chkInformarNumeroDeSerie.Location = new System.Drawing.Point(23, 274);
             this.chkInformarNumeroDeSerie.Name = "chkInformarNumeroDeSerie";
             this.chkInformarNumeroDeSerie.Size = new System.Drawing.Size(247, 28);
             this.chkInformarNumeroDeSerie.TabIndex = 2;
@@ -446,12 +453,12 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             // 
             this.txtObservacoes.BackColor = System.Drawing.Color.Silver;
             this.txtObservacoes.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtObservacoes.Location = new System.Drawing.Point(30, 693);
+            this.txtObservacoes.Location = new System.Drawing.Point(538, 391);
             this.txtObservacoes.MaxLength = 3000;
             this.txtObservacoes.Multiline = true;
             this.txtObservacoes.Name = "txtObservacoes";
             this.txtObservacoes.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtObservacoes.Size = new System.Drawing.Size(483, 101);
+            this.txtObservacoes.Size = new System.Drawing.Size(454, 122);
             this.txtObservacoes.TabIndex = 10;
             // 
             // lblObservacoes
@@ -459,7 +466,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.lblObservacoes.AutoSize = true;
             this.lblObservacoes.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblObservacoes.ForeColor = System.Drawing.Color.SteelBlue;
-            this.lblObservacoes.Location = new System.Drawing.Point(21, 668);
+            this.lblObservacoes.Location = new System.Drawing.Point(532, 364);
             this.lblObservacoes.Name = "lblObservacoes";
             this.lblObservacoes.Size = new System.Drawing.Size(127, 24);
             this.lblObservacoes.TabIndex = 124;
@@ -470,18 +477,18 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.txtLineObservacoes.AutoSize = true;
             this.txtLineObservacoes.Font = new System.Drawing.Font("Microsoft Sans Serif", 27.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtLineObservacoes.ForeColor = System.Drawing.Color.SteelBlue;
-            this.txtLineObservacoes.Location = new System.Drawing.Point(20, 765);
+            this.txtLineObservacoes.Location = new System.Drawing.Point(530, 488);
             this.txtLineObservacoes.Name = "txtLineObservacoes";
-            this.txtLineObservacoes.Size = new System.Drawing.Size(564, 42);
+            this.txtLineObservacoes.Size = new System.Drawing.Size(480, 42);
             this.txtLineObservacoes.TabIndex = 125;
-            this.txtLineObservacoes.Text = "__________________________";
+            this.txtLineObservacoes.Text = "______________________";
             // 
             // lblQuantidadeAux
             // 
             this.lblQuantidadeAux.AutoSize = true;
             this.lblQuantidadeAux.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblQuantidadeAux.ForeColor = System.Drawing.Color.SteelBlue;
-            this.lblQuantidadeAux.Location = new System.Drawing.Point(143, 455);
+            this.lblQuantidadeAux.Location = new System.Drawing.Point(141, 202);
             this.lblQuantidadeAux.Name = "lblQuantidadeAux";
             this.lblQuantidadeAux.Size = new System.Drawing.Size(97, 24);
             this.lblQuantidadeAux.TabIndex = 127;
@@ -493,7 +500,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.txtLineQuantidadeAux.AutoSize = true;
             this.txtLineQuantidadeAux.Font = new System.Drawing.Font("Microsoft Sans Serif", 27.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtLineQuantidadeAux.ForeColor = System.Drawing.Color.SteelBlue;
-            this.txtLineQuantidadeAux.Location = new System.Drawing.Point(142, 463);
+            this.txtLineQuantidadeAux.Location = new System.Drawing.Point(140, 210);
             this.txtLineQuantidadeAux.Name = "txtLineQuantidadeAux";
             this.txtLineQuantidadeAux.Size = new System.Drawing.Size(123, 42);
             this.txtLineQuantidadeAux.TabIndex = 128;
@@ -505,7 +512,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.txtQuantidadeAux.BackColor = System.Drawing.Color.Silver;
             this.txtQuantidadeAux.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtQuantidadeAux.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtQuantidadeAux.Location = new System.Drawing.Point(161, 477);
+            this.txtQuantidadeAux.Location = new System.Drawing.Point(159, 224);
             this.txtQuantidadeAux.Name = "txtQuantidadeAux";
             this.txtQuantidadeAux.Size = new System.Drawing.Size(64, 22);
             this.txtQuantidadeAux.TabIndex = 6;
@@ -513,11 +520,11 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             // 
             // dateData
             // 
-            this.dateData.CustomFormat = "";
+            this.dateData.CustomFormat = "dd/MM/yyyy";
             this.dateData.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dateData.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.dateData.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.dateData.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.dateData.Location = new System.Drawing.Point(248, 70);
+            this.dateData.Location = new System.Drawing.Point(289, 72);
             this.dateData.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.dateData.Name = "dateData";
             this.dateData.Size = new System.Drawing.Size(123, 29);
@@ -528,7 +535,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.dateHorario.CustomFormat = "HH:mm";
             this.dateHorario.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dateHorario.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dateHorario.Location = new System.Drawing.Point(381, 70);
+            this.dateHorario.Location = new System.Drawing.Point(422, 72);
             this.dateHorario.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.dateHorario.Name = "dateHorario";
             this.dateHorario.ShowUpDown = true;
@@ -536,10 +543,171 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.dateHorario.TabIndex = 131;
             this.dateHorario.Value = new System.DateTime(2018, 8, 24, 0, 0, 0, 0);
             // 
+            // cbSituacao
+            // 
+            this.cbSituacao.BackColor = System.Drawing.Color.Silver;
+            this.cbSituacao.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbSituacao.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbSituacao.FormattingEnabled = true;
+            this.cbSituacao.Items.AddRange(new object[] {
+            "Devolvido",
+            "Vendido",
+            "Trocado",
+            "Emprestado",
+            "Em uso",
+            "Em estoque",
+            "Outros"});
+            this.cbSituacao.Location = new System.Drawing.Point(543, 69);
+            this.cbSituacao.Name = "cbSituacao";
+            this.cbSituacao.Size = new System.Drawing.Size(191, 32);
+            this.cbSituacao.TabIndex = 133;
+            this.cbSituacao.SelectedIndexChanged += new System.EventHandler(this.cbSituacao_SelectedIndexChanged);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.ForeColor = System.Drawing.Color.SteelBlue;
+            this.label3.Location = new System.Drawing.Point(531, 41);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(82, 24);
+            this.label3.TabIndex = 132;
+            this.label3.Text = "Situação";
+            // 
+            // txtLineSituacao
+            // 
+            this.txtLineSituacao.AutoSize = true;
+            this.txtLineSituacao.Font = new System.Drawing.Font("Microsoft Sans Serif", 27.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtLineSituacao.ForeColor = System.Drawing.Color.SteelBlue;
+            this.txtLineSituacao.Location = new System.Drawing.Point(528, 69);
+            this.txtLineSituacao.Name = "txtLineSituacao";
+            this.txtLineSituacao.Size = new System.Drawing.Size(228, 42);
+            this.txtLineSituacao.TabIndex = 134;
+            this.txtLineSituacao.Text = "__________";
+            // 
+            // txtTecnico
+            // 
+            this.txtTecnico.BackColor = System.Drawing.Color.Silver;
+            this.txtTecnico.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtTecnico.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtTecnico.ForeColor = System.Drawing.Color.Black;
+            this.txtTecnico.Location = new System.Drawing.Point(20, 567);
+            this.txtTecnico.MaxLength = 100;
+            this.txtTecnico.Name = "txtTecnico";
+            this.txtTecnico.Size = new System.Drawing.Size(410, 22);
+            this.txtTecnico.TabIndex = 136;
+            // 
+            // lblTecnico
+            // 
+            this.lblTecnico.AutoSize = true;
+            this.lblTecnico.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTecnico.ForeColor = System.Drawing.Color.SteelBlue;
+            this.lblTecnico.Location = new System.Drawing.Point(14, 538);
+            this.lblTecnico.Name = "lblTecnico";
+            this.lblTecnico.Size = new System.Drawing.Size(79, 24);
+            this.lblTecnico.TabIndex = 137;
+            this.lblTecnico.Text = "Técnico";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 27.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.ForeColor = System.Drawing.Color.SteelBlue;
+            this.label7.Location = new System.Drawing.Point(10, 566);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(480, 42);
+            this.label7.TabIndex = 135;
+            this.label7.Text = "______________________";
+            // 
+            // cbFinalidade
+            // 
+            this.cbFinalidade.BackColor = System.Drawing.Color.Silver;
+            this.cbFinalidade.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbFinalidade.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbFinalidade.FormattingEnabled = true;
+            this.cbFinalidade.Items.AddRange(new object[] {
+            "Reposição de estoque",
+            "Venda",
+            "Troca",
+            "Empréstimo",
+            "Uso (Mega)",
+            "Outros"});
+            this.cbFinalidade.Location = new System.Drawing.Point(543, 566);
+            this.cbFinalidade.Name = "cbFinalidade";
+            this.cbFinalidade.Size = new System.Drawing.Size(449, 32);
+            this.cbFinalidade.TabIndex = 139;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.ForeColor = System.Drawing.Color.SteelBlue;
+            this.label6.Location = new System.Drawing.Point(531, 538);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(98, 24);
+            this.label6.TabIndex = 138;
+            this.label6.Text = "Finalidade";
+            // 
+            // txtLineFinalidade
+            // 
+            this.txtLineFinalidade.AutoSize = true;
+            this.txtLineFinalidade.Font = new System.Drawing.Font("Microsoft Sans Serif", 27.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtLineFinalidade.ForeColor = System.Drawing.Color.SteelBlue;
+            this.txtLineFinalidade.Location = new System.Drawing.Point(528, 566);
+            this.txtLineFinalidade.Name = "txtLineFinalidade";
+            this.txtLineFinalidade.Size = new System.Drawing.Size(480, 42);
+            this.txtLineFinalidade.TabIndex = 140;
+            this.txtLineFinalidade.Text = "______________________";
+            // 
+            // flpNumerosDeSerie
+            // 
+            this.flpNumerosDeSerie.AutoScroll = true;
+            this.flpNumerosDeSerie.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.flpNumerosDeSerie.Controls.Add(this.GSMultiTextBox);
+            this.flpNumerosDeSerie.Enabled = false;
+            this.flpNumerosDeSerie.Location = new System.Drawing.Point(20, 325);
+            this.flpNumerosDeSerie.Name = "flpNumerosDeSerie";
+            this.flpNumerosDeSerie.Size = new System.Drawing.Size(478, 188);
+            this.flpNumerosDeSerie.TabIndex = 115;
+            // 
+            // txtOrdemDeServico
+            // 
+            this.txtOrdemDeServico.BackColor = System.Drawing.Color.Silver;
+            this.txtOrdemDeServico.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtOrdemDeServico.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtOrdemDeServico.ForeColor = System.Drawing.Color.Black;
+            this.txtOrdemDeServico.Location = new System.Drawing.Point(536, 324);
+            this.txtOrdemDeServico.MaxLength = 100;
+            this.txtOrdemDeServico.Name = "txtOrdemDeServico";
+            this.txtOrdemDeServico.Size = new System.Drawing.Size(395, 22);
+            this.txtOrdemDeServico.TabIndex = 141;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label9.ForeColor = System.Drawing.Color.SteelBlue;
+            this.label9.Location = new System.Drawing.Point(531, 293);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(264, 24);
+            this.label9.TabIndex = 142;
+            this.label9.Text = "Número da Ordem de Serviço";
+            // 
+            // txtLineOS
+            // 
+            this.txtLineOS.AutoSize = true;
+            this.txtLineOS.Font = new System.Drawing.Font("Microsoft Sans Serif", 27.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtLineOS.ForeColor = System.Drawing.Color.SteelBlue;
+            this.txtLineOS.Location = new System.Drawing.Point(528, 311);
+            this.txtLineOS.Name = "txtLineOS";
+            this.txtLineOS.Size = new System.Drawing.Size(480, 42);
+            this.txtLineOS.TabIndex = 143;
+            this.txtLineOS.Text = "______________________";
+            // 
             // GStxtValor
             // 
             this.GStxtValor.BackColor = System.Drawing.Color.Silver;
-            this.GStxtValor.Location = new System.Drawing.Point(279, 473);
+            this.GStxtValor.Location = new System.Drawing.Point(277, 220);
             this.GStxtValor.Name = "GStxtValor";
             this.GStxtValor.Size = new System.Drawing.Size(153, 36);
             this.GStxtValor.TabIndex = 7;
@@ -558,12 +726,88 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.GSMultiTextBox.TabIndex = 3;
             this.GSMultiTextBox.Texto = "";
             // 
+            // panelDevolucao
+            // 
+            this.panelDevolucao.Controls.Add(this.dtpDevolucao);
+            this.panelDevolucao.Controls.Add(this.label11);
+            this.panelDevolucao.Controls.Add(this.dtpTimeDevolucao);
+            this.panelDevolucao.Controls.Add(this.label12);
+            this.panelDevolucao.Location = new System.Drawing.Point(755, 42);
+            this.panelDevolucao.Name = "panelDevolucao";
+            this.panelDevolucao.Size = new System.Drawing.Size(237, 94);
+            this.panelDevolucao.TabIndex = 144;
+            this.panelDevolucao.Visible = false;
+            // 
+            // dtpDevolucao
+            // 
+            this.dtpDevolucao.CustomFormat = "dd/MM/yyyy";
+            this.dtpDevolucao.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dtpDevolucao.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dtpDevolucao.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.dtpDevolucao.Location = new System.Drawing.Point(18, 29);
+            this.dtpDevolucao.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.dtpDevolucao.Name = "dtpDevolucao";
+            this.dtpDevolucao.Size = new System.Drawing.Size(123, 29);
+            this.dtpDevolucao.TabIndex = 147;
+            this.dtpDevolucao.ValueChanged += new System.EventHandler(this.dateTimePicker1_ValueChanged);
+            // 
+            // dtpTimeDevolucao
+            // 
+            this.dtpTimeDevolucao.CustomFormat = "HH:mm";
+            this.dtpTimeDevolucao.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dtpTimeDevolucao.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dtpTimeDevolucao.Location = new System.Drawing.Point(151, 29);
+            this.dtpTimeDevolucao.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.dtpTimeDevolucao.Name = "dtpTimeDevolucao";
+            this.dtpTimeDevolucao.ShowUpDown = true;
+            this.dtpTimeDevolucao.Size = new System.Drawing.Size(66, 29);
+            this.dtpTimeDevolucao.TabIndex = 148;
+            this.dtpTimeDevolucao.Value = new System.DateTime(2018, 8, 24, 0, 0, 0, 0);
+            this.dtpTimeDevolucao.ValueChanged += new System.EventHandler(this.dateTimePicker2_ValueChanged);
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label11.ForeColor = System.Drawing.Color.SteelBlue;
+            this.label11.Location = new System.Drawing.Point(10, -2);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(165, 24);
+            this.label11.TabIndex = 145;
+            this.label11.Text = "Horário devoluçao";
+            this.label11.Click += new System.EventHandler(this.label11_Click);
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 27.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label12.ForeColor = System.Drawing.Color.SteelBlue;
+            this.label12.Location = new System.Drawing.Point(8, 27);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(228, 42);
+            this.label12.TabIndex = 146;
+            this.label12.Text = "__________";
+            this.label12.Click += new System.EventHandler(this.label12_Click);
+            // 
             // frmInteracao
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Silver;
-            this.ClientSize = new System.Drawing.Size(602, 815);
+            this.ClientSize = new System.Drawing.Size(1004, 708);
+            this.Controls.Add(this.panelDevolucao);
+            this.Controls.Add(this.txtOrdemDeServico);
+            this.Controls.Add(this.label9);
+            this.Controls.Add(this.txtLineOS);
+            this.Controls.Add(this.cbFinalidade);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.txtLineFinalidade);
+            this.Controls.Add(this.txtTecnico);
+            this.Controls.Add(this.lblTecnico);
+            this.Controls.Add(this.label7);
+            this.Controls.Add(this.cbSituacao);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.txtLineSituacao);
             this.Controls.Add(this.dateData);
             this.Controls.Add(this.dateHorario);
             this.Controls.Add(this.lblQuantidadeAux);
@@ -611,6 +855,8 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             ((System.ComponentModel.ISupportInitialize)(this.btnCancelarExcluir)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnEditarSalvar)).EndInit();
             this.flpNumerosDeSerie.ResumeLayout(false);
+            this.panelDevolucao.ResumeLayout(false);
+            this.panelDevolucao.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -638,13 +884,11 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         private System.Windows.Forms.Label lblProduto;
         private System.Windows.Forms.Label txtLineProduto;
         private System.Windows.Forms.ComboBox cbProduto;
-        private FlowLayoutPanel flpNumerosDeSerie;
         private Label label1;
         private Label label2;
         private FlowLayoutPanel flowLayoutPanel1;
         private Label lblNS;
         private Label label4;
-        private ControlesGenericos.GSMultiTextBox GSMultiTextBox;
         private CheckBox chkInformarNumeroDeSerie;
         private TextBox txtObservacoes;
         private Label lblObservacoes;
@@ -658,5 +902,24 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         private DateTimePicker dateData;
         private DateTimePicker dateHorario;
         public TextBox txtNumeroDaNotaFiscal;
+        private ComboBox cbSituacao;
+        private Label label3;
+        private Label txtLineSituacao;
+        private TextBox txtTecnico;
+        private Label lblTecnico;
+        private Label label7;
+        private ComboBox cbFinalidade;
+        private Label label6;
+        private Label txtLineFinalidade;
+        private ControlesGenericos.GSMultiTextBox GSMultiTextBox;
+        private FlowLayoutPanel flpNumerosDeSerie;
+        public TextBox txtOrdemDeServico;
+        private Label label9;
+        private Label txtLineOS;
+        private Panel panelDevolucao;
+        private DateTimePicker dtpDevolucao;
+        private Label label11;
+        private DateTimePicker dtpTimeDevolucao;
+        private Label label12;
     }
 }
