@@ -39,6 +39,17 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
             }
         }
 
+        public void AtualizeUISetting(int codigoUsuario, UISettings setting)
+        {
+            using (var repositorioDeUsuario = new RepositorioDeUsuario())
+            {
+                var usuario = repositorioDeUsuario.Consulte(codigoUsuario);
+                usuario.UISettings = setting;
+
+                repositorioDeUsuario.Atualize(usuario);
+            }
+        }
+
         public Usuario Consulte(int codigo)
         {
             using (var repositorioDeUsuario = new RepositorioDeUsuario())

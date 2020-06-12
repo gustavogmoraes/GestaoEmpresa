@@ -282,6 +282,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Principal
                         //txtPermissaoGrupo.Text = usuario.GrupoUsuario == null ? "---" : usuario.GrupoUsuario.Nome;
 
                         SessaoSistema.VerificarStatusDaConexao = false;
+                        SessaoSistema.UISettings = usuario.UISettings ?? new UISettings();
                         return;
                     }
                 }

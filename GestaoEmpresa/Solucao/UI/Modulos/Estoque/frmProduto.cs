@@ -178,7 +178,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             txtObservacoes.Text = objeto.Observacao ?? string.Empty;
             txtQuantidadeEmEstoque.Text = objeto.QuantidadeEmEstoque.ToString();
             txtQuantidadeMinima.Text = objeto.QuantidadeMinimaParaAviso.ToString();
-            txtPorcentagemDeLucro.Valor = objeto.PorcentagemDeLucro * 100;
+            txtPorcentagemDeLucro.Valor = objeto.PorcentagemDeLucro;
             txtPrecoDeCompra.Valor = objeto.PrecoDeCompra;
             txtPrecoDeVenda.Valor = objeto.PrecoDeVenda;
             cbStatus.SelectedItem = objeto.Status.ToString();
@@ -197,7 +197,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             produto.Observacao = txtObservacoes.Text.Trim();
             produto.PrecoDeCompra = txtPrecoDeCompra.Valor;
             produto.PrecoDeVenda = txtPrecoDeVenda.Valor;
-            produto.PorcentagemDeLucro = Math.Round(txtPorcentagemDeLucro.Valor / 100, 2);
+            produto.PorcentagemDeLucro = txtPorcentagemDeLucro.Valor;
             produto.Status = cbStatus.SelectedIndex != -1
                            ? (EnumStatusToggle)cbStatus.SelectedIndex + 1
                            : EnumStatusToggle.Ativo;

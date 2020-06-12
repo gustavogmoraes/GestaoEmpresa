@@ -89,7 +89,7 @@
             // 
             // gsTopBorder1
             // 
-            this.gsTopBorder1.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            this.gsTopBorder1.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
             this.gsTopBorder1.Location = new System.Drawing.Point(3, -1);
             this.gsTopBorder1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.gsTopBorder1.Name = "gsTopBorder1";

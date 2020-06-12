@@ -7,11 +7,15 @@ using GS.GestaoEmpresa.Solucao.Negocio.Atributos;
 using System;
 using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores.Seguros.UnidadeIntelbras;
 using GS.GestaoEmpresa.Solucao.Negocio.Objetos.Base;
+using GS.GestaoEmpresa.Solucao.Persistencia.Repositorios;
+using GS.GestaoEmpresa.Solucao.Persistencia.Interfaces;
 
 namespace GS.GestaoEmpresa.Solucao.Negocio.Objetos
 {
-	public class Produto : ObjetoComHistorico
+	public class Produto : ObjetoComHistorico, IRavenDbDocument
 	{
+        public string Id { get; set; }
+
         [Identificacao(Descricao = "Status")]
         public EnumStatusToggle Status { get; set; }
 
@@ -57,26 +61,33 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Objetos
 
         public decimal PrecoSugeridoRevenda { get; set; }
 
-        public decimal Lucro2 { get; set; }
+        public decimal PorcentagemDeLucroConsumidorFinal { get; set; }
 
         public decimal PrecoSugeridoConsumidorFinal { get; set; }
-
 
         public Produto(Produto modelo) : base (modelo) { }
 
         public Produto() { }
 
-        public void CalculePrecoDeVenda()
+        public decimal CalculePrecoDeVenda()
         {
             PrecoDeVenda = PrecoDeCompra + 
-                           PrecoDeCompra * PorcentagemDeLucro;
+                           PrecoDeCompra * (PorcentagemDeLucro == 0
+                                                ? new RepositorioDeConfiguracao().ObtenhaUnica().PorcentagemDeLucroPadrao
+                                                : PorcentagemDeLucro);
+
+            PrecoDeVenda = Math.Round(PrecoDeVenda, 2);
+
+            return PrecoDeVenda;
         }
 
         public void CalculePrecoDeVendaConsumidor()
         {
-            PrecoVendaConsumidorFinal = PrecoSugeridoConsumidorFinal + PrecoSugeridoConsumidorFinal * Lucro2;
+            PrecoVendaConsumidorFinal = PrecoSugeridoConsumidorFinal + PrecoSugeridoConsumidorFinal * PorcentagemDeLucroConsumidorFinal;
+            PrecoVendaConsumidorFinal = Math.Round(PrecoVendaConsumidorFinal, 2);
         }
 
         public decimal PrecoVendaConsumidorFinal { get; set; }
+       
     }
 }

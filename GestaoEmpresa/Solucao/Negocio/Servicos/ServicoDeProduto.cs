@@ -115,21 +115,13 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
         public override Produto Consulte(int codigo)
         {
             var produto = base.Consulte(codigo);
-            produto.PorcentagemDeLucro *= 100;
-            produto.Ipi *= 100;
 
             return produto;
         }
 
         public override IList<Inconsistencia> Salve(Produto item, EnumTipoDeForm tipoDeForm)
         {
-            item.PorcentagemDeLucro /= 100;
-            item.Ipi /= 100;
-
             var inconsistencias = base.Salve(item, tipoDeForm);
-
-            item.PorcentagemDeLucro *= 100;
-            item.Ipi *= 100;
 
             return inconsistencias;
         }
@@ -291,7 +283,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
 
             produtoPersistido.PrecoSugeridoRevenda = GSExtensions.ObtenhaMonetario(item.PrecoRevenda);
             produtoPersistido.PrecoSugeridoConsumidorFinal = GSExtensions.ObtenhaMonetario(item.Pscf);
-            produtoPersistido.Lucro2 = Convert.ToDecimal(0.30);
+            produtoPersistido.PorcentagemDeLucroConsumidorFinal = Convert.ToDecimal(30);
         }
 
         private static decimal CalculeValorDoProtege(decimal ipi)
@@ -330,7 +322,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
                                         novoProduto.PrecoNaIntelbras * CalculeValorDoProtege(novoProduto.Ipi);
 
             novoProduto.PrecoSugeridoConsumidorFinal = GSExtensions.ObtenhaMonetario(item.Pscf);
-            novoProduto.Lucro2 = Convert.ToDecimal(0.30);
+            novoProduto.PorcentagemDeLucroConsumidorFinal = Convert.ToDecimal(30);
 
             novoProduto.CalculePrecoDeVenda();
 

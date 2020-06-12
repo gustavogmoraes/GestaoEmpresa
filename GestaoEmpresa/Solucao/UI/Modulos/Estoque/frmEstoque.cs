@@ -21,6 +21,9 @@ using GS.GestaoEmpresa.Solucao.Negocio.Servicos;
 using GS.GestaoEmpresa.Solucao.UI.Base;
 using GS.GestaoEmpresa.Solucao.UI.ControlesGenericos;
 using GS.GestaoEmpresa.Solucao.Utilitarios;
+using GS.GestaoEmpresa.Solucao.Persistencia.BancoDeDados;
+using Raven.Client.Documents.Commands.Batches;
+using Raven.Client.Documents.Operations;
 //
 
 namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
@@ -35,6 +38,8 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         private readonly GsTypingAssistant _cbPesquisaPorProdutoTypingAssistant;
         private string _cbPesquisaPorProdutoPreviousSearch;
 
+        
+
         #endregion
 
         #region Propriedades
@@ -46,6 +51,8 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         private List<Interacao> ListaDeInteracoes { get; set; }
 
         private static int AssistandMsWindupTime => Convert.ToInt32(TimeSpan.FromSeconds(1.2).TotalMilliseconds);
+
+        private UISettings UISettings { get; set; }
 
 
         #endregion
@@ -110,6 +117,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         private void frmEstoque_Load(object sender, EventArgs e)
         {
+
             #region Migração de dados ClientesAntigos ---> RavenDB
 
             //var dialogResult = MessageBox.Show(" Migração de dados ClientesAntigos ---> RavenDB", "Confirmação", MessageBoxButtons.YesNo);
@@ -166,6 +174,9 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             //}
 
             #endregion
+
+            UISettings = SessaoSistema.UISettings.GetUISettings(typeof(FrmEstoque));
+            
 
             //Módulo - Estoque
             //ucSessaoSistema1.DefinaModulo("Estoque", Resources.WhiteBox);
@@ -939,6 +950,30 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
                 ChamadaImportarPlanilha(fileDialog.FileName);
             }
+        }
+
+        private void FrmEstoque_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            SessaoSistema.UISettings.SaveUISettings(typeof(FrmEstoque), UISettings);
+        }
+
+        private void dgvProdutos_ColumnWidthChanged(object sender, DataGridViewColumnEventArgs e)
+        {
+            var uiSett = SessaoSistema.UISettings;
+
+            var gridProdutos = ((Dictionary<string, int>)uiSett.GridProdutos);
+            if (gridProdutos == null)
+            {
+                gridProdutos = new Dictionary<string, int>();
+            }
+
+            if(gridProdutos.ContainsKey(e.Column.Name))
+            {
+                gridProdutos[e.Column.Name] = e.Column.Width;
+                return;
+            }
+
+            gridProdutos.Add(e.Column.Name, e.Column.Width);
         }
     }
 }

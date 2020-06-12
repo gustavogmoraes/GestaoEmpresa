@@ -20,6 +20,9 @@ using Raven.Client.Documents.Operations;
 using Raven.Client.Documents.Operations.Indexes;
 using Raven.Client.ServerWide;
 using Raven.Client.ServerWide.Operations;
+using Remotion.Mixins.Definitions;
+using Raven.Client.Documents.Session;
+using Raven.Client.Documents.Commands.Batches;
 
 namespace GS.GestaoEmpresa.Solucao.Utilitarios
 {
@@ -304,5 +307,17 @@ namespace GS.GestaoEmpresa.Solucao.Utilitarios
         public static int ToInt32(this object value) => Convert.ToInt32(value);
 
         public static DateTime MergeValue(this DateTimePicker dtpDate, DateTimePicker dtpTime) => GSUtilitarios.ObtenhaDateTimeCompletoDePickers(dtpDate, dtpTime);
+
+        public static void RemovePropertyFromDatabaseDocument(this IDocumentSession session, string documentId, string propertyToDelete)
+        {
+            session.Advanced.Defer(new PatchCommandData(
+                id: documentId,
+                changeVector: null,
+                patch: new PatchRequest
+                {
+                    Script = $@"delete this.{propertyToDelete}"
+                },
+                patchIfMissing: null));
+        }
     }
 }

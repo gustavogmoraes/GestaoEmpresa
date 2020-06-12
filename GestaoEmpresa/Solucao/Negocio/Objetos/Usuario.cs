@@ -17,5 +17,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Objetos
         public int Senha { get; set; }
 
         public Colaborador Funcionario { get; set; }
+
+        public UISettings UISettings { get; set; }
     }
 }

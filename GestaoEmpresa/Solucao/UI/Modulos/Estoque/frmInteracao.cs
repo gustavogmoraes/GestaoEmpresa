@@ -20,6 +20,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using GS.GestaoEmpresa.Solucao.UI.Base;
 using MoreLinq;
+using GS.GestaoEmpresa.Solucao.Persistencia.BancoDeDados;
 
 namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 {
