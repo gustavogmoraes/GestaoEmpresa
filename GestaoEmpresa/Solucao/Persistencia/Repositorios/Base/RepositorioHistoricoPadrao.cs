@@ -175,6 +175,7 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios.Base
             itemAnterior.Atual = false;
             item.Atual = true;
 
+            item.Id = null;
             item.Vigencia = DateTime.Now;
 
             sessaoRaven.Store(item);

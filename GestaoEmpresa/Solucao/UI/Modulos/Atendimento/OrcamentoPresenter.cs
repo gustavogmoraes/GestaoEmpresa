@@ -17,6 +17,7 @@ using GS.GestaoEmpresa.Solucao.Negocio.Objetos.Orcamento;
 using GS.GestaoEmpresa.Solucao.Negocio.Servicos;
 using GS.GestaoEmpresa.Solucao.UI.Base;
 using GS.GestaoEmpresa.Solucao.Utilitarios;
+using System;
 
 #endregion
 
@@ -92,6 +93,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Atendimento
                 var produtosPesquisados = servicoDeProduto.ConsulteTodosParaAterrissagem(searchTerm, model => model.Nome, model => model.CodigoDoFabricante, model => model.Codigo);
                 View.Invoke((MethodInvoker)delegate
                 {
+                    View.dgvItensPesquisa.Rows.Clear();
                     produtosPesquisados.ForEach(x => View.dgvItensPesquisa.Rows.Add(ObtenhaItemGridProdutoPesquisa(x)));
                 });
 
@@ -110,14 +112,14 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Atendimento
                     Model.Itens = new List<ItemOrcamento>();
                 }
 
-                Model.Itens.Add(new ItemOrcamento
-                {
-                    Tipo = TipoDeItemOrcamento.Produto,
-                    Sequencial = sequencial,
-                    Produto = produto,
-                    Quantidade = 1,
-                    ValorUnitario = produto.PrecoDeCompra
-                });
+                //Model.Itens.Add(new ItemOrcamento
+                //{
+                //    Tipo = TipoDeItemOrcamento.Produto,
+                //    Sequencial = sequencial,
+                //    Produto = produto,
+                //    Quantidade = 1,
+                //    ValorUnitario = produto.PrecoDeVenda
+                //});
 
                 View.dgvProdutosOrcados.Rows.Add(ObtenhaItemGridProdutoOrcado(sequencial, produto));
             }
@@ -141,6 +143,11 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Atendimento
         public void RefreshGrids()
         {
 
+        }
+
+        public void RecalculeProdutoOrcado(int rowIndex)
+        {
+            //View.dgvProdutosOrcados.Rows[rowIndex].
         }
 
         #endregion

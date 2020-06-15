@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GS.GestaoEmpresa.Solucao.Persistencia.Interfaces
 {
-    interface IRavenDbDocument
+    public interface IRavenDbDocument
     {
         string Id { get; set; }
     }

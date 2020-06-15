@@ -1,6 +1,8 @@
-﻿namespace GS.GestaoEmpresa.Solucao.Negocio.Interfaces
+﻿using GS.GestaoEmpresa.Solucao.Persistencia.Interfaces;
+
+namespace GS.GestaoEmpresa.Solucao.Negocio.Interfaces
 {
-    public interface IConceito 
+    public interface IConceito : IRavenDbDocument
     {
         int Codigo { get; set; }
     }

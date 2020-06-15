@@ -4,6 +4,8 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Objetos
 {
     public class SolicitacaoDeAtendimento : IConceito
     {
+        public string Id { get; set; }
+
         public int Codigo { get; set; }
 
         public string Descricao { get; set; }

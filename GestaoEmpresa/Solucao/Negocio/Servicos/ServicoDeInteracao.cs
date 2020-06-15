@@ -163,9 +163,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
                             if (interacao.TipoDeInteracao == EnumTipoDeInteracao.ENTRADA)
                             {
                                 produtoConsultado.PrecoDeCompra = interacao.ValorInteracao;
-
-                                produtoConsultado.PrecoDeVenda = Math.Round(
-                                    produtoConsultado.PrecoDeCompra * (1 + produtoConsultado.PorcentagemDeLucro), 2);
+                                produtoConsultado.CalculePrecoDeVenda();
                             }
                             else
                             {

@@ -250,7 +250,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
                         if (produtoPersistido != null)
                         {
                             if (produtoPersistido.PrecoNaIntelbras == item.PrecoDeCompra.ObtenhaMonetario() &&
-                                produtoPersistido.Ipi == Convert.ToDecimal(item.Ipi.Replace("%", string.Empty)) / 100)
+                                produtoPersistido.Ipi == Convert.ToDecimal(item.Ipi.Replace("%", string.Empty)))
                             {
                                 return;
                             }
@@ -274,32 +274,13 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
             produtoPersistido.Fabricante = "Intelbras";
             produtoPersistido.Unidade = UnidadeIntelbras.ObtenhaPorNome(item.Unidade);
             produtoPersistido.PrecoNaIntelbras = GSExtensions.ObtenhaMonetario(item.PrecoDeCompra);
-            produtoPersistido.Ipi = ((string)item.Ipi).Replace("%", string.Empty).ToDecimal().DivideBy(100);
-            produtoPersistido.PrecoDeCompra = produtoPersistido.PrecoNaIntelbras +
-                                                produtoPersistido.PrecoNaIntelbras * produtoPersistido.Ipi +
-                                              produtoPersistido.PrecoNaIntelbras * CalculeValorDoProtege(produtoPersistido.Ipi);
-
+            produtoPersistido.Ipi = ((string)item.Ipi).Replace("%", string.Empty).ToDecimal();
+            produtoPersistido.CalculePrecoDeCompraIntelbras();
             produtoPersistido.CalculePrecoDeVenda();
 
             produtoPersistido.PrecoSugeridoRevenda = GSExtensions.ObtenhaMonetario(item.PrecoRevenda);
             produtoPersistido.PrecoSugeridoConsumidorFinal = GSExtensions.ObtenhaMonetario(item.Pscf);
             produtoPersistido.PorcentagemDeLucroConsumidorFinal = Convert.ToDecimal(30);
-        }
-
-        private static decimal CalculeValorDoProtege(decimal ipi)
-        {
-            switch (ipi)
-            {
-                case 4 / 100M:
-                    return 7.87M / 100M;
-
-                case 7 / 100M:
-                case 12 / 100M:
-                    return 4.49M / 100M;
-
-                default:
-                    return 4.49M / 100M;
-            }
         }
 
         private static Produto ObtenhaNovoProduto(dynamic item, Configuracoes configuracao/*, List<Produto> latestProducts*/)
@@ -316,18 +297,15 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
                 PrecoSugeridoRevenda = GSExtensions.ObtenhaMonetario(item.PrecoRevenda),
                 PorcentagemDeLucro = configuracao.PorcentagemDeLucroPadrao
             };
-            
-            novoProduto.PrecoDeCompra = novoProduto.PrecoNaIntelbras +
-                                        novoProduto.PrecoNaIntelbras * novoProduto.Ipi +
-                                        novoProduto.PrecoNaIntelbras * CalculeValorDoProtege(novoProduto.Ipi);
+
+            novoProduto.CalculePrecoDeCompraIntelbras();
+            novoProduto.CalculePrecoDeVenda();
+            novoProduto.CalculePrecoDeVendaConsumidor();
 
             novoProduto.PrecoSugeridoConsumidorFinal = GSExtensions.ObtenhaMonetario(item.Pscf);
             novoProduto.PorcentagemDeLucroConsumidorFinal = Convert.ToDecimal(30);
 
-            novoProduto.CalculePrecoDeVenda();
-
-            novoProduto.CalculePrecoDeVendaConsumidor();
-
+            
             //novoProduto.Atual = true;
             //var latestThis = latestProducts.FirstOrDefault(x => x.CodigoDoFabricante == novoProduto.CodigoDoFabricante);
 

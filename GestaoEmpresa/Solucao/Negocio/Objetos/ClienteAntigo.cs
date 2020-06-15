@@ -10,6 +10,8 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Objetos
 {
     class ClienteAntigo : IConceito
     {
+        public string Id { get; set; }
+
         public int Codigo { get; set; }
 
         public string DataDoAntigoCadastro { get; set; }

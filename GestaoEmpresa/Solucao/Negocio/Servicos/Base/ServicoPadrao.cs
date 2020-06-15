@@ -6,11 +6,12 @@ using System.Collections.Generic;
 using System.Linq;
 using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores.Comuns;
 using GS.GestaoEmpresa.Solucao.Negocio.Objetos;
+using GS.GestaoEmpresa.Solucao.Persistencia.Interfaces;
 
 namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos.Base
 {
     public abstract class ServicoPadrao<TConceito, TValidador, TRepositorio> : IServicoPadrao, IDisposable
-        where TConceito : class, IConceito, new()
+        where TConceito : class, IConceito, IRavenDbDocument, new()
         where TValidador : ValidadorPadrao<TConceito>, IDisposable, new()
         where TRepositorio : RepositorioPadrao<TConceito>, IDisposable, new()
     {

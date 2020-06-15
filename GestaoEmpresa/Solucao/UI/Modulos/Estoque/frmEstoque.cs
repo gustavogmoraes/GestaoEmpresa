@@ -101,7 +101,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                         _txtPesquisaDeProdutoPreviousSearch = pesquisa;
                         using (var servicoDeProduto = new ServicoDeProduto())
                         {
-                            listaFiltrada = servicoDeProduto.ConsulteTodosParaAterrissagem(pesquisa, x => x.Nome, x => x.CodigoDoFabricante, x => x.Codigo, x => x.Observacao);
+                            listaFiltrada = servicoDeProduto.ConsulteTodosParaAterrissagem(pesquisa, x => x.Nome, x => x.CodigoDoFabricante, x => x.Codigo);
                             processou = true;
                         }
                     },
@@ -273,10 +273,10 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             {
                 dgvProdutos.Rows.Add(produto.Codigo,
                                      produto.CodigoDoFabricante,
-                                     produto.Status,
                                      produto.Nome,
                                      produto.Observacao,
                                      GSUtilitarios.FormateDecimalParaStringMoedaReal(produto.PrecoDeCompra),
+                                     GSUtilitarios.FormateDecimalParaStringMoedaReal(produto.PrecoSugeridoRevenda),
                                      GSUtilitarios.FormateDecimalParaStringMoedaReal(produto.PrecoDeVenda),
                                      produto.QuantidadeEmEstoque);
             }

@@ -83,8 +83,18 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         private void txtPorcentagemLucro_Leave(object sender, EventArgs e)
         {
-            if(!string.IsNullOrEmpty(txtPrecoDeCompra.Text) &&
-               !string.IsNullOrEmpty(txtPorcentagemLucro.Text))
+            CalculeEPreenchaPrecoDeCompra();
+        }
+
+        private void txtPrecoDeCompra_Leave(object sender, EventArgs e)
+        {
+            CalculeEPreenchaPrecoDeCompra();
+        }
+
+        private void CalculeEPreenchaPrecoDeCompra()
+        {
+            if (!string.IsNullOrEmpty(txtPrecoDeCompra.Text) &&
+                !string.IsNullOrEmpty(txtPorcentagemLucro.Text))
             {
                 var precoCompra = Convert.ToDecimal(txtPrecoDeCompra.Text);
                 txtPrecoDeVenda.Text = ((precoCompra * Convert.ToDecimal(txtPorcentagemLucro.Text) / 100) + precoCompra).ToString();

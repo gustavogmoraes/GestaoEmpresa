@@ -10,8 +10,6 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Objetos.Orcamento
 {
     public class Orcamento : ObjetoComHistorico
     {
-        public string Id { get; set; }
-
         public int Sequencial { get; set; }
 
         public string Descricao { get; set; }

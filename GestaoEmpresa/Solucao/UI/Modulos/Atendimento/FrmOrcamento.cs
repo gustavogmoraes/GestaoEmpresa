@@ -5,6 +5,7 @@
 using System;
 using System.Drawing;
 using System.Windows.Forms;
+using GS.GestaoEmpresa.Solucao.Negocio.Objetos;
 
 #endregion
 
@@ -150,5 +151,13 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Atendimento
 
 
         #endregion
+
+        private void dgvProdutosOrcados_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            if(e.ColumnIndex.IsAny(colunaProdutosOrcadosSequencial.Index, colunaOrcaValorUnitario.Index))
+            {
+                Presenter.RecalculeProdutoOrcado(e.RowIndex);
+            }
+        }
     }
 }

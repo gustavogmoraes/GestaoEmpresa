@@ -7,6 +7,8 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Objetos.Base
 {
     public class ObjetoComHistorico : IConceitoComHistorico
     {
+        public string Id { get; set; }
+
         [Identificacao(Descricao = "Código")]
         public int Codigo { get; set; }
 

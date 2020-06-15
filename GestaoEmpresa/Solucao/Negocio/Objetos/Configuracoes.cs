@@ -9,6 +9,8 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Objetos
 {
     public class Configuracoes : IConceito
     {
+        public string Id { get; set; }
+
         public int Codigo { get; set; }
 
         public decimal PorcentagemImpostoProtege { get; set; }

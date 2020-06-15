@@ -51,6 +51,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Objetos
         public string Situacao { get; set; }
 
         public DateTime? HorarioDevolucao { get; set; }
+        public string Id { get; set; }
 
         //public Funcionario FuncionarioResponsavel { get; set; }
 

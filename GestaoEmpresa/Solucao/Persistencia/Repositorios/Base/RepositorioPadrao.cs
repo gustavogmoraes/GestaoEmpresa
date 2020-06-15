@@ -7,11 +7,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using Raven.Client.Documents.Session;
+using GS.GestaoEmpresa.Solucao.Persistencia.Interfaces;
 
 namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios.Base
 {
     public abstract class RepositorioPadrao<T> : IDisposable
-        where T : class, IConceito, new()
+        where T : class, IConceito, IRavenDbDocument, new()
     {
         /// <summary>
         /// A document store, conexão
@@ -87,7 +88,7 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios.Base
         public void Atualize(T item)
         {
             var sessaoRaven = GetSession();
-            var itemConsultado = sessaoRaven.Load<T>(ObtenhaIdRaven(item.Codigo));
+            var itemConsultado = sessaoRaven.Load<T>(item.Id);
 
             itemConsultado.GetType().GetProperties().ToList().ForEach(prop => prop.SetValue(itemConsultado, prop.GetValue(item)));
 
@@ -98,7 +99,10 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios.Base
         {
             var sessaoRaven = GetSession();
 
-            sessaoRaven.Delete(ObtenhaIdRaven(codigo));
+            sessaoRaven.Query<T>()
+                .Where(x => x.Codigo == codigo)
+                .ToList().ForEach(x => sessaoRaven.Delete(x.Id));
+
             sessaoRaven.SaveChanges();
         }
 

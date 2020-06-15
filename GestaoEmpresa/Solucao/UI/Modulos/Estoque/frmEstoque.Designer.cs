@@ -46,15 +46,6 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.txtPesquisa = new System.Windows.Forms.TextBox();
             this.btnNovoProduto = new System.Windows.Forms.Button();
             this.dgvProdutos = new System.Windows.Forms.DataGridView();
-            this.colunaCodigo = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colunaCodigoFabricante = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colunaStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colunaNome = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colunaDescricao = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colunaPrecoCompra = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colunaPrecoVenda = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colunaQuantidade = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colunaDetalhar = new System.Windows.Forms.DataGridViewButtonColumn();
             this.tabHistorico = new System.Windows.Forms.TabPage();
             this.cbPesquisaPorProduto = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
@@ -84,6 +75,16 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.btnCatalogo = new System.Windows.Forms.Button();
             this.ucSessaoSistema2 = new GS.GestaoEmpresa.Solucao.Persistencia.BancoDeDados.UCSessaoSistema();
+            this.colunaCodigo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colunaCodigoFabricante = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colunaStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colunaNome = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colunaDescricao = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colunaPrecoCompra = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colunaPrecoDistribuidor = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colunaPrecoVenda = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colunaQuantidade = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colunaDetalhar = new System.Windows.Forms.DataGridViewButtonColumn();
             this.tabControl1.SuspendLayout();
             this.tabProdutos.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
@@ -103,7 +104,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.tabControl1.Controls.Add(this.tabProdutos);
             this.tabControl1.Controls.Add(this.tabHistorico);
             this.tabControl1.Location = new System.Drawing.Point(-16, 104);
-            this.tabControl1.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.tabControl1.Margin = new System.Windows.Forms.Padding(6);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(2366, 1227);
@@ -124,9 +125,9 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.tabProdutos.Controls.Add(this.btnNovoProduto);
             this.tabProdutos.Controls.Add(this.dgvProdutos);
             this.tabProdutos.Location = new System.Drawing.Point(8, 39);
-            this.tabProdutos.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.tabProdutos.Margin = new System.Windows.Forms.Padding(6);
             this.tabProdutos.Name = "tabProdutos";
-            this.tabProdutos.Padding = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.tabProdutos.Padding = new System.Windows.Forms.Padding(6);
             this.tabProdutos.Size = new System.Drawing.Size(2350, 1180);
             this.tabProdutos.TabIndex = 0;
             this.tabProdutos.Text = "tabProdutos";
@@ -163,7 +164,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             // 
             this.metroProgressImportar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.metroProgressImportar.Location = new System.Drawing.Point(1296, 19);
-            this.metroProgressImportar.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.metroProgressImportar.Margin = new System.Windows.Forms.Padding(6);
             this.metroProgressImportar.Name = "metroProgressImportar";
             this.metroProgressImportar.Size = new System.Drawing.Size(378, 44);
             this.metroProgressImportar.TabIndex = 13;
@@ -176,7 +177,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.button1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button1.Location = new System.Drawing.Point(1966, 12);
-            this.button1.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.button1.Margin = new System.Windows.Forms.Padding(6);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(64, 62);
             this.button1.TabIndex = 12;
@@ -190,7 +191,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.btnExportarExcel.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.btnExportarExcel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnExportarExcel.Location = new System.Drawing.Point(2046, 12);
-            this.btnExportarExcel.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.btnExportarExcel.Margin = new System.Windows.Forms.Padding(6);
             this.btnExportarExcel.Name = "btnExportarExcel";
             this.btnExportarExcel.Size = new System.Drawing.Size(64, 62);
             this.btnExportarExcel.TabIndex = 11;
@@ -204,7 +205,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.btnRefresh.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.btnRefresh.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnRefresh.Location = new System.Drawing.Point(2140, 12);
-            this.btnRefresh.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.btnRefresh.Margin = new System.Windows.Forms.Padding(6);
             this.btnRefresh.Name = "btnRefresh";
             this.btnRefresh.Size = new System.Drawing.Size(64, 62);
             this.btnRefresh.TabIndex = 10;
@@ -216,7 +217,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.pictureBox3.BackColor = System.Drawing.Color.Silver;
             this.pictureBox3.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox3.Image")));
             this.pictureBox3.Location = new System.Drawing.Point(16, 21);
-            this.pictureBox3.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.pictureBox3.Margin = new System.Windows.Forms.Padding(6);
             this.pictureBox3.Name = "pictureBox3";
             this.pictureBox3.Size = new System.Drawing.Size(64, 46);
             this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -229,7 +230,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.txtPesquisa.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtPesquisa.ForeColor = System.Drawing.Color.Silver;
             this.txtPesquisa.Location = new System.Drawing.Point(92, 17);
-            this.txtPesquisa.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.txtPesquisa.Margin = new System.Windows.Forms.Padding(6);
             this.txtPesquisa.Name = "txtPesquisa";
             this.txtPesquisa.Size = new System.Drawing.Size(1014, 44);
             this.txtPesquisa.TabIndex = 6;
@@ -245,7 +246,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.btnNovoProduto.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.btnNovoProduto.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnNovoProduto.Location = new System.Drawing.Point(2216, 12);
-            this.btnNovoProduto.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.btnNovoProduto.Margin = new System.Windows.Forms.Padding(6);
             this.btnNovoProduto.Name = "btnNovoProduto";
             this.btnNovoProduto.Size = new System.Drawing.Size(64, 62);
             this.btnNovoProduto.TabIndex = 5;
@@ -277,6 +278,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.colunaNome,
             this.colunaDescricao,
             this.colunaPrecoCompra,
+            this.colunaPrecoDistribuidor,
             this.colunaPrecoVenda,
             this.colunaQuantidade,
             this.colunaDetalhar});
@@ -290,7 +292,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.dgvProdutos.DefaultCellStyle = dataGridViewCellStyle2;
             this.dgvProdutos.GridColor = System.Drawing.Color.Silver;
             this.dgvProdutos.Location = new System.Drawing.Point(-72, 75);
-            this.dgvProdutos.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.dgvProdutos.Margin = new System.Windows.Forms.Padding(6);
             this.dgvProdutos.Name = "dgvProdutos";
             this.dgvProdutos.ReadOnly = true;
             this.dgvProdutos.RowHeadersWidth = 82;
@@ -300,85 +302,6 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.dgvProdutos.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvProdutos_CellDoubleClick);
             this.dgvProdutos.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.dgvProdutos_CellPainting);
             this.dgvProdutos.ColumnWidthChanged += new System.Windows.Forms.DataGridViewColumnEventHandler(this.dgvProdutos_ColumnWidthChanged);
-            // 
-            // colunaCodigo
-            // 
-            this.colunaCodigo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.colunaCodigo.HeaderText = "Código";
-            this.colunaCodigo.MinimumWidth = 10;
-            this.colunaCodigo.Name = "colunaCodigo";
-            this.colunaCodigo.ReadOnly = true;
-            this.colunaCodigo.Width = 75;
-            // 
-            // colunaCodigoFabricante
-            // 
-            this.colunaCodigoFabricante.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.colunaCodigoFabricante.HeaderText = "Código do fabricante";
-            this.colunaCodigoFabricante.MinimumWidth = 10;
-            this.colunaCodigoFabricante.Name = "colunaCodigoFabricante";
-            this.colunaCodigoFabricante.ReadOnly = true;
-            this.colunaCodigoFabricante.Width = 186;
-            // 
-            // colunaStatus
-            // 
-            this.colunaStatus.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
-            this.colunaStatus.HeaderText = "Status";
-            this.colunaStatus.MinimumWidth = 10;
-            this.colunaStatus.Name = "colunaStatus";
-            this.colunaStatus.ReadOnly = true;
-            this.colunaStatus.Width = 153;
-            // 
-            // colunaNome
-            // 
-            this.colunaNome.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.colunaNome.HeaderText = "Nome";
-            this.colunaNome.MinimumWidth = 10;
-            this.colunaNome.Name = "colunaNome";
-            this.colunaNome.ReadOnly = true;
-            // 
-            // colunaDescricao
-            // 
-            this.colunaDescricao.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.colunaDescricao.HeaderText = "Observaçoes";
-            this.colunaDescricao.MinimumWidth = 10;
-            this.colunaDescricao.Name = "colunaDescricao";
-            this.colunaDescricao.ReadOnly = true;
-            // 
-            // colunaPrecoCompra
-            // 
-            this.colunaPrecoCompra.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.colunaPrecoCompra.HeaderText = "Preço de Compra";
-            this.colunaPrecoCompra.MinimumWidth = 10;
-            this.colunaPrecoCompra.Name = "colunaPrecoCompra";
-            this.colunaPrecoCompra.ReadOnly = true;
-            this.colunaPrecoCompra.Width = 120;
-            // 
-            // colunaPrecoVenda
-            // 
-            this.colunaPrecoVenda.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.colunaPrecoVenda.HeaderText = "Preço de Venda";
-            this.colunaPrecoVenda.MinimumWidth = 10;
-            this.colunaPrecoVenda.Name = "colunaPrecoVenda";
-            this.colunaPrecoVenda.ReadOnly = true;
-            this.colunaPrecoVenda.Width = 115;
-            // 
-            // colunaQuantidade
-            // 
-            this.colunaQuantidade.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.colunaQuantidade.HeaderText = "Qtd. em estoque";
-            this.colunaQuantidade.MinimumWidth = 10;
-            this.colunaQuantidade.Name = "colunaQuantidade";
-            this.colunaQuantidade.ReadOnly = true;
-            this.colunaQuantidade.Width = 125;
-            // 
-            // colunaDetalhar
-            // 
-            this.colunaDetalhar.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.colunaDetalhar.HeaderText = "";
-            this.colunaDetalhar.MinimumWidth = 10;
-            this.colunaDetalhar.Name = "colunaDetalhar";
-            this.colunaDetalhar.ReadOnly = true;
-            this.colunaDetalhar.Width = 30;
             // 
             // tabHistorico
             // 
@@ -392,9 +315,9 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.tabHistorico.Controls.Add(this.pictureBox1);
             this.tabHistorico.Controls.Add(this.btnNovaInteracao);
             this.tabHistorico.Location = new System.Drawing.Point(8, 39);
-            this.tabHistorico.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.tabHistorico.Margin = new System.Windows.Forms.Padding(6);
             this.tabHistorico.Name = "tabHistorico";
-            this.tabHistorico.Padding = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.tabHistorico.Padding = new System.Windows.Forms.Padding(6);
             this.tabHistorico.Size = new System.Drawing.Size(2350, 1180);
             this.tabHistorico.TabIndex = 1;
             this.tabHistorico.Text = "tabHistorico";
@@ -407,7 +330,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.cbPesquisaPorProduto.ForeColor = System.Drawing.Color.Silver;
             this.cbPesquisaPorProduto.FormattingEnabled = true;
             this.cbPesquisaPorProduto.Location = new System.Drawing.Point(1828, 13);
-            this.cbPesquisaPorProduto.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.cbPesquisaPorProduto.Margin = new System.Windows.Forms.Padding(6);
             this.cbPesquisaPorProduto.Name = "cbPesquisaPorProduto";
             this.cbPesquisaPorProduto.Size = new System.Drawing.Size(286, 45);
             this.cbPesquisaPorProduto.TabIndex = 17;
@@ -444,7 +367,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             "Número de Série",
             "Produto"});
             this.cbPesquisaHistorico.Location = new System.Drawing.Point(1374, 13);
-            this.cbPesquisaHistorico.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.cbPesquisaHistorico.Margin = new System.Windows.Forms.Padding(6);
             this.cbPesquisaHistorico.Name = "cbPesquisaHistorico";
             this.cbPesquisaHistorico.Size = new System.Drawing.Size(400, 45);
             this.cbPesquisaHistorico.TabIndex = 14;
@@ -455,7 +378,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.txtPesquisaHistorico.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtPesquisaHistorico.ForeColor = System.Drawing.Color.Silver;
             this.txtPesquisaHistorico.Location = new System.Drawing.Point(92, 17);
-            this.txtPesquisaHistorico.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.txtPesquisaHistorico.Margin = new System.Windows.Forms.Padding(6);
             this.txtPesquisaHistorico.Name = "txtPesquisaHistorico";
             this.txtPesquisaHistorico.Size = new System.Drawing.Size(1014, 44);
             this.txtPesquisaHistorico.TabIndex = 12;
@@ -505,7 +428,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.dgvHistorico.DefaultCellStyle = dataGridViewCellStyle4;
             this.dgvHistorico.GridColor = System.Drawing.Color.Silver;
             this.dgvHistorico.Location = new System.Drawing.Point(-74, 75);
-            this.dgvHistorico.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.dgvHistorico.Margin = new System.Windows.Forms.Padding(6);
             this.dgvHistorico.Name = "dgvHistorico";
             this.dgvHistorico.ReadOnly = true;
             dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
@@ -629,7 +552,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.btnRefreshHist.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.btnRefreshHist.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnRefreshHist.Location = new System.Drawing.Point(2140, 12);
-            this.btnRefreshHist.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.btnRefreshHist.Margin = new System.Windows.Forms.Padding(6);
             this.btnRefreshHist.Name = "btnRefreshHist";
             this.btnRefreshHist.Size = new System.Drawing.Size(64, 62);
             this.btnRefreshHist.TabIndex = 16;
@@ -641,7 +564,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.pictureBox1.BackColor = System.Drawing.Color.Silver;
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
             this.pictureBox1.Location = new System.Drawing.Point(16, 21);
-            this.pictureBox1.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(6);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(64, 46);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -656,7 +579,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.btnNovaInteracao.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.btnNovaInteracao.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnNovaInteracao.Location = new System.Drawing.Point(2216, 12);
-            this.btnNovaInteracao.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.btnNovaInteracao.Margin = new System.Windows.Forms.Padding(6);
             this.btnNovaInteracao.Name = "btnNovaInteracao";
             this.btnNovaInteracao.Size = new System.Drawing.Size(64, 62);
             this.btnNovaInteracao.TabIndex = 11;
@@ -675,7 +598,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.panel1.Controls.Add(this.label1);
             this.panel1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.panel1.Location = new System.Drawing.Point(2290, 104);
-            this.panel1.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.panel1.Margin = new System.Windows.Forms.Padding(6);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(278, 1242);
             this.panel1.TabIndex = 4;
@@ -687,7 +610,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.ScrollSelecao.BackColor = System.Drawing.Color.SteelBlue;
             this.ScrollSelecao.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.ScrollSelecao.Location = new System.Drawing.Point(14, 19);
-            this.ScrollSelecao.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.ScrollSelecao.Margin = new System.Windows.Forms.Padding(6);
             this.ScrollSelecao.Name = "ScrollSelecao";
             this.ScrollSelecao.Size = new System.Drawing.Size(20, 202);
             this.ScrollSelecao.TabIndex = 0;
@@ -703,7 +626,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.btnHistorico.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnHistorico.ForeColor = System.Drawing.Color.DimGray;
             this.btnHistorico.Location = new System.Drawing.Point(36, 265);
-            this.btnHistorico.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.btnHistorico.Margin = new System.Windows.Forms.Padding(6);
             this.btnHistorico.Name = "btnHistorico";
             this.btnHistorico.Size = new System.Drawing.Size(236, 204);
             this.btnHistorico.TabIndex = 1;
@@ -746,7 +669,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.pictureBox2.Image = global::GS.GestaoEmpresa.Properties.Resources.BoxBlueShort;
             this.pictureBox2.InitialImage = global::GS.GestaoEmpresa.Properties.Resources.BoxBlueShort;
             this.pictureBox2.Location = new System.Drawing.Point(8, 15);
-            this.pictureBox2.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.pictureBox2.Margin = new System.Windows.Forms.Padding(6);
             this.pictureBox2.Name = "pictureBox2";
             this.pictureBox2.Size = new System.Drawing.Size(136, 96);
             this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -765,7 +688,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.btnCatalogo.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnCatalogo.ForeColor = System.Drawing.Color.DimGray;
             this.btnCatalogo.Location = new System.Drawing.Point(2332, 137);
-            this.btnCatalogo.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.btnCatalogo.Margin = new System.Windows.Forms.Padding(6);
             this.btnCatalogo.Name = "btnCatalogo";
             this.btnCatalogo.Size = new System.Drawing.Size(236, 206);
             this.btnCatalogo.TabIndex = 0;
@@ -785,6 +708,93 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.ucSessaoSistema2.TabIndex = 5;
             this.ucSessaoSistema2.Load += new System.EventHandler(this.ucSessaoSistema2_Load);
             // 
+            // colunaCodigo
+            // 
+            this.colunaCodigo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.colunaCodigo.HeaderText = "Código";
+            this.colunaCodigo.MinimumWidth = 10;
+            this.colunaCodigo.Name = "colunaCodigo";
+            this.colunaCodigo.ReadOnly = true;
+            this.colunaCodigo.Width = 75;
+            // 
+            // colunaCodigoFabricante
+            // 
+            this.colunaCodigoFabricante.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.colunaCodigoFabricante.HeaderText = "Código do fabricante";
+            this.colunaCodigoFabricante.MinimumWidth = 10;
+            this.colunaCodigoFabricante.Name = "colunaCodigoFabricante";
+            this.colunaCodigoFabricante.ReadOnly = true;
+            this.colunaCodigoFabricante.Width = 186;
+            // 
+            // colunaStatus
+            // 
+            this.colunaStatus.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
+            this.colunaStatus.HeaderText = "Status";
+            this.colunaStatus.MinimumWidth = 10;
+            this.colunaStatus.Name = "colunaStatus";
+            this.colunaStatus.ReadOnly = true;
+            this.colunaStatus.Width = 153;
+            // 
+            // colunaNome
+            // 
+            this.colunaNome.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.colunaNome.HeaderText = "Nome";
+            this.colunaNome.MinimumWidth = 10;
+            this.colunaNome.Name = "colunaNome";
+            this.colunaNome.ReadOnly = true;
+            // 
+            // colunaDescricao
+            // 
+            this.colunaDescricao.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.colunaDescricao.HeaderText = "Observaçoes";
+            this.colunaDescricao.MinimumWidth = 10;
+            this.colunaDescricao.Name = "colunaDescricao";
+            this.colunaDescricao.ReadOnly = true;
+            // 
+            // colunaPrecoCompra
+            // 
+            this.colunaPrecoCompra.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.colunaPrecoCompra.HeaderText = "Preço de Compra";
+            this.colunaPrecoCompra.MinimumWidth = 10;
+            this.colunaPrecoCompra.Name = "colunaPrecoCompra";
+            this.colunaPrecoCompra.ReadOnly = true;
+            this.colunaPrecoCompra.Width = 120;
+            // 
+            // colunaPrecoDistribuidor
+            // 
+            this.colunaPrecoDistribuidor.HeaderText = "Preço Distribuidor";
+            this.colunaPrecoDistribuidor.MinimumWidth = 10;
+            this.colunaPrecoDistribuidor.Name = "colunaPrecoDistribuidor";
+            this.colunaPrecoDistribuidor.ReadOnly = true;
+            this.colunaPrecoDistribuidor.Width = 200;
+            // 
+            // colunaPrecoVenda
+            // 
+            this.colunaPrecoVenda.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.colunaPrecoVenda.HeaderText = "Preço de Venda";
+            this.colunaPrecoVenda.MinimumWidth = 10;
+            this.colunaPrecoVenda.Name = "colunaPrecoVenda";
+            this.colunaPrecoVenda.ReadOnly = true;
+            this.colunaPrecoVenda.Width = 115;
+            // 
+            // colunaQuantidade
+            // 
+            this.colunaQuantidade.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.colunaQuantidade.HeaderText = "Qtd. em estoque";
+            this.colunaQuantidade.MinimumWidth = 10;
+            this.colunaQuantidade.Name = "colunaQuantidade";
+            this.colunaQuantidade.ReadOnly = true;
+            this.colunaQuantidade.Width = 125;
+            // 
+            // colunaDetalhar
+            // 
+            this.colunaDetalhar.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.colunaDetalhar.HeaderText = "";
+            this.colunaDetalhar.MinimumWidth = 10;
+            this.colunaDetalhar.Name = "colunaDetalhar";
+            this.colunaDetalhar.ReadOnly = true;
+            this.colunaDetalhar.Width = 30;
+            // 
             // FrmEstoque
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
@@ -796,7 +806,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.Controls.Add(this.btnCatalogo);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.tabControl1);
-            this.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.Margin = new System.Windows.Forms.Padding(6);
             this.Name = "FrmEstoque";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Estoque";
@@ -851,15 +861,6 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         public MetroFramework.Controls.MetroProgressBar metroProgressImportar;
         public System.Windows.Forms.Button button1;
         public MetroFramework.Controls.MetroLabel txtQtyProgresso;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colunaCodigo;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colunaCodigoFabricante;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colunaStatus;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colunaNome;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colunaDescricao;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colunaPrecoCompra;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colunaPrecoVenda;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colunaQuantidade;
-        private System.Windows.Forms.DataGridViewButtonColumn colunaDetalhar;
         private System.Windows.Forms.DataGridViewTextBoxColumn colunaCodigoInteracao;
         private System.Windows.Forms.DataGridViewTextBoxColumn colunaTipo;
         private System.Windows.Forms.DataGridViewTextBoxColumn colunaTecnico;
@@ -872,5 +873,15 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         private System.Windows.Forms.DataGridViewTextBoxColumn colunaValor;
         private System.Windows.Forms.DataGridViewTextBoxColumn colunaHorario;
         private System.Windows.Forms.DataGridViewButtonColumn colunaDetalharHist;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colunaCodigo;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colunaCodigoFabricante;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colunaStatus;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colunaNome;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colunaDescricao;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colunaPrecoCompra;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colunaPrecoDistribuidor;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colunaPrecoVenda;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colunaQuantidade;
+        private System.Windows.Forms.DataGridViewButtonColumn colunaDetalhar;
     }
 }

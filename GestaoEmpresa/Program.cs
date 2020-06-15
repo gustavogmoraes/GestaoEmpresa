@@ -3,6 +3,7 @@ using System.IO;
 using System.Windows.Forms;
 using GS.GestaoEmpresa.Solucao.Persistencia.BancoDeDados;
 using GS.GestaoEmpresa.Solucao.UI;
+using GS.GestaoEmpresa.Solucao.UI.ControlesGenericos;
 
 namespace GestaoEmpresa
 {

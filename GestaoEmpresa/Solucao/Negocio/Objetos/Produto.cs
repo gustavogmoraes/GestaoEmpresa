@@ -12,10 +12,8 @@ using GS.GestaoEmpresa.Solucao.Persistencia.Interfaces;
 
 namespace GS.GestaoEmpresa.Solucao.Negocio.Objetos
 {
-	public class Produto : ObjetoComHistorico, IRavenDbDocument
+	public class Produto : ObjetoComHistorico
 	{
-        public string Id { get; set; }
-
         [Identificacao(Descricao = "Status")]
         public EnumStatusToggle Status { get; set; }
 
@@ -69,25 +67,49 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Objetos
 
         public Produto() { }
 
+        public decimal PrecoVendaConsumidorFinal { get; set; }
+
+        public void CalculePrecoDeCompraIntelbras()
+        {
+            PrecoDeCompra = PrecoNaIntelbras +
+                            PrecoNaIntelbras * (Ipi / 100) +
+                            PrecoNaIntelbras * ObtenhaValorDoProtege(Ipi);
+        }
+
         public decimal CalculePrecoDeVenda()
         {
-            PrecoDeVenda = PrecoDeCompra + 
+            PrecoDeVenda = PrecoDeCompra +
                            PrecoDeCompra * (PorcentagemDeLucro == 0
                                                 ? new RepositorioDeConfiguracao().ObtenhaUnica().PorcentagemDeLucroPadrao
-                                                : PorcentagemDeLucro);
+                                                : PorcentagemDeLucro / 100);
 
             PrecoDeVenda = Math.Round(PrecoDeVenda, 2);
 
             return PrecoDeVenda;
         }
 
-        public void CalculePrecoDeVendaConsumidor()
+        public decimal CalculePrecoDeVendaConsumidor()
         {
-            PrecoVendaConsumidorFinal = PrecoSugeridoConsumidorFinal + PrecoSugeridoConsumidorFinal * PorcentagemDeLucroConsumidorFinal;
+            PrecoVendaConsumidorFinal = PrecoSugeridoConsumidorFinal + PrecoSugeridoConsumidorFinal * (PorcentagemDeLucroConsumidorFinal / 100);
             PrecoVendaConsumidorFinal = Math.Round(PrecoVendaConsumidorFinal, 2);
+
+            return PrecoSugeridoConsumidorFinal;
         }
 
-        public decimal PrecoVendaConsumidorFinal { get; set; }
-       
+        private static decimal ObtenhaValorDoProtege(decimal ipi)
+        {
+            switch (ipi)
+            {
+                case 4:
+                    return 7.87M / 100M;
+
+                case 7:
+                case 12:
+                    return 4.49M / 100M;
+
+                default:
+                    return 4.49M / 100M;
+            }
+        }
     }
 }

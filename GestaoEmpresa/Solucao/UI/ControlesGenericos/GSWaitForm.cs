@@ -21,45 +21,35 @@ namespace GS.GestaoEmpresa.Solucao.UI.ControlesGenericos
             InitializeComponent();
         }
 
-        public static void Mostrar(Form caller, [Optional]Action processamento, [Optional]Action posProcessamento)
+        static GSWaitForm()
         {
-            var form = new GSWaitForm
+            _form = new GSWaitForm
             {
                 TopMost = true,
                 WindowState = FormWindowState.Normal
             };
+        }
 
-            caller.Invoke((MethodInvoker) delegate { form.Show(); });
+        private static GSWaitForm _form { get; set; }
 
-            if (processamento == null)
-            {
-                processamento = () => { };
-            }
+        public static void Mostrar(Form caller, [Optional]Action processamento, [Optional]Action posProcessamento)
+        {
+            caller.Invoke((MethodInvoker) delegate { _form.Show(); });
 
-            if (posProcessamento == null)
-            {
-                posProcessamento = () => { };
-            }
+            if (processamento == null) { processamento = () => { }; }
+            if (posProcessamento == null) { posProcessamento = () => { }; }
 
-            var task = Task.Run(processamento);
+            _ = Task.Run(processamento).ContinueWith(x =>
+              {
+                  Thread.Sleep(TimeSpan.FromMilliseconds(700));
+                  _ = caller.Invoke((MethodInvoker)delegate
+                  {
+                      posProcessamento();
 
-            Task.WhenAll(task).ContinueWith(x =>
-                {
-                    Thread.Sleep(TimeSpan.FromMilliseconds(700));
-
-                    caller.Invoke((MethodInvoker) delegate
-                    {
-                        posProcessamento();
-
-                        //Thread.Sleep(TimeSpan.FromMilliseconds(700));
-
-                        form.Hide();
-                        form.Close();
-                        form.Dispose();
-                    });
-                },
-                //TaskScheduler.FromCurrentSynchronizationContext());
-                TaskContinuationOptions.RunContinuationsAsynchronously);
+                      _form.Hide();
+                  });
+              },
+              TaskContinuationOptions.RunContinuationsAsynchronously);
         }
     }
 }
