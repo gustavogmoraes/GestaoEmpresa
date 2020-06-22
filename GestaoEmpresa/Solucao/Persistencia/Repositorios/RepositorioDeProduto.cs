@@ -9,17 +9,15 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios
 {
     public class RepositorioDeProduto : RepositorioHistoricoPadrao<Produto>
     {
-        public RepositorioDeProduto() { }
-        public RepositorioDeProduto(IDocumentSession traverseSession) : base(traverseSession) { }
-
         public int? ConsulteQuantidade(int codigo)
         {
-            using (var sessaoRaven = DocumentStore.OpenSession())
+            using (var sessaoRaven = RavenHelper.OpenSession())
             {
                 return sessaoRaven.Query<Produto>().FirstOrDefault(_filtroAtualComCodigo(codigo))?.QuantidadeEmEstoque;
             }
@@ -27,7 +25,7 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios
 
         public void AltereQuantidadeDeProduto(int codigoDoProduto, int novaQuantidade)
         {
-            using (var sessaoRaven = DocumentStore.OpenSession())
+            using (var sessaoRaven = RavenHelper.OpenSession())
             {
                 var produto = sessaoRaven.Query<Produto>().FirstOrDefault(_filtroAtualComCodigo(codigoDoProduto));
                 if (produto == null) return;
@@ -36,18 +34,18 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios
                 sessaoRaven.SaveChanges();
             }
         }
-
-        public Produto Consulte(Expression<Func<Produto, bool>> filtro, IDocumentSession traverseSession = null)
+        
+        public Produto Consulte(Expression<Func<Produto, bool>> filtro)
         {
-            using (var sessaoRaven = traverseSession ?? DocumentStore.OpenSession())
-            {
-                return Consulte(sessaoRaven, filtro);
-            }
+            return RavenHelper.OpenSession().Query<Produto>().FirstOrDefault(filtro);
         }
 
-        public static Produto Consulte(IDocumentSession traverseSession, Expression<Func<Produto, bool>> filtro)
+        public async Task<Produto> ConsulteAsync(Expression<Func<Produto, bool>> filtro)
         {
-            return traverseSession.Query<Produto>().FirstOrDefault(filtro);
+            using (var session = RavenHelper.OpenAsyncSession())
+            {
+                return await session.Query<Produto>().FirstOrDefaultAsync(filtro);
+            }
         }
     }
 }

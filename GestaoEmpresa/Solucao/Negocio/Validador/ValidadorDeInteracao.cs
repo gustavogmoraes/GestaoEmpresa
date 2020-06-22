@@ -208,7 +208,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Validador
 
         private void ValideRegraQuantidades()
         {
-            var quantidadeAtual = RepositorioDeProduto().Consulte(_interacao.Produto.Codigo).QuantidadeEmEstoque;
+            var quantidadeAtual = RepositorioDeProduto().Consulte(_interacao.Produto.Codigo)?.QuantidadeEmEstoque;
             var quantidadeInterada = _interacao.TipoDeInteracao == EnumTipoDeInteracao.SAIDA ? _interacao.QuantidadeInterada * -1 : _interacao.QuantidadeInterada;
             var quantidadeAuxiliar = (_interacao.QuantidadeAuxiliar ?? 0) * -1;
 

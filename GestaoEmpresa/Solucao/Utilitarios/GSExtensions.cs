@@ -15,6 +15,7 @@ using GS.GestaoEmpresa.Solucao.UI;
 using GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque;
 using LinqToExcel;
 using MoreLinq;
+using Newtonsoft.Json;
 using Raven.Client.Documents;
 using Raven.Client.Documents.Operations;
 using Raven.Client.Documents.Operations.Indexes;
@@ -318,6 +319,25 @@ namespace GS.GestaoEmpresa.Solucao.Utilitarios
                     Script = $@"delete this.{propertyToDelete}"
                 },
                 patchIfMissing: null));
+        }
+
+        public static IEnumerable<bool> IterateUntilFalse(Func<bool> condition)
+        {
+            while (condition()) yield return true;
+        }
+
+        public static ParallelLoopResult ParallelWhile(Func<bool> condition, Action body, ParallelOptions parallelOptions = null) =>
+            Parallel.ForEach(IterateUntilFalse(condition), parallelOptions ?? new ParallelOptions(), ignored => body());
+
+        public static ParallelLoopResult ParallelWhile(bool condition, Action body, ParallelOptions parallelOptions = null) =>
+            ParallelWhile(() => condition, body, parallelOptions);
+        
+        public static Dictionary<string, TValue> ToDictionary<TValue>(this object obj)
+        {       
+            var json = JsonConvert.SerializeObject(obj);
+            var dictionary = JsonConvert.DeserializeObject<Dictionary<string, TValue>>(json);   
+            
+            return dictionary;
         }
     }
 }

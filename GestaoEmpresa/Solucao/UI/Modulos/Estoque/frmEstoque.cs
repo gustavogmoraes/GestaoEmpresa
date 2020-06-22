@@ -22,8 +22,7 @@ using GS.GestaoEmpresa.Solucao.UI.Base;
 using GS.GestaoEmpresa.Solucao.UI.ControlesGenericos;
 using GS.GestaoEmpresa.Solucao.Utilitarios;
 using GS.GestaoEmpresa.Solucao.Persistencia.BancoDeDados;
-using Raven.Client.Documents.Commands.Batches;
-using Raven.Client.Documents.Operations;
+using MoreLinq;
 //
 
 namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
@@ -32,30 +31,37 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
     {
         #region Fields
 
-        private readonly GsTypingAssistant _txtPesquisaDeProdutoTypingAssistant;
-        private string _txtPesquisaDeProdutoPreviousSearch;
-
         private readonly GsTypingAssistant _cbPesquisaPorProdutoTypingAssistant;
+        private readonly GsTypingAssistant _txtPesquisaDeProdutoTypingAssistant;
         private string _cbPesquisaPorProdutoPreviousSearch;
-
-        
-
+        private string _txtPesquisaDeProdutoPreviousSearch;
         #endregion
 
-        #region Propriedades
+        #region Properties
 
         public CultureInfo Cultura => CultureInfo.GetCultureInfo("pt-BR");
 
-        private List<Produto> ListaDeProdutos { get; set; }
+        public bool EstahRenderizando { get; set; }
 
-        private List<Interacao> ListaDeInteracoes { get; set; }
+        public string IdInstancia { get; set; }
+
+        public IPresenter Presenter { get; set; }
+
+        public EnumTipoDeForm TipoDeForm { get; set; }
 
         private static int AssistandMsWindupTime => Convert.ToInt32(TimeSpan.FromSeconds(1.2).TotalMilliseconds);
 
+        private List<Interacao> ListaDeInteracoes { get; set; }
+
+        private List<Produto> ListaDeProdutos { get; set; }
+
         private UISettings UISettings { get; set; }
 
-
         #endregion
+
+        #region Methods
+
+        #region Public
 
         public FrmEstoque()
         {
@@ -69,55 +75,153 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             _cbPesquisaPorProdutoTypingAssistant.Idled += CbPesquisaPorProdutoAssistente_Idled;
         }
 
-        private void TxtPesquisaDeProdutoAssistant_Idled(object sender, EventArgs e)
+        public void AdicioneNovoProdutoNaGrid(Produto produto)
         {
-            Invoke(new MethodInvoker(() =>
+            // Mantendo a seleção e scroll presente na tela
+            var index = dgvProdutos.CurrentRow.Index;
+
+            dgvProdutos.Rows.Add(produto.Codigo,
+                produto.CodigoDoFabricante,
+                produto.Status,
+                produto.Nome,
+                produto.Observacao,
+                produto.PrecoDeCompra.FormateParaStringMoedaReal(),
+                produto.PrecoDeVenda.FormateParaStringMoedaReal(),
+                produto.QuantidadeEmEstoque);
+
+            dgvProdutos.Refresh();
+
+            dgvProdutos.FirstDisplayedScrollingRowIndex = index;
+        }
+
+        public void ChamadaFecharForm(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void ChamadaMinimizarForm(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RecarregueProdutoEspecifico(Produto produto)
+        {
+            // Mantendo a seleção e scroll presente na tela
+            var index = dgvProdutos.CurrentRow.Index;
+
+            var indice = dgvProdutos.EncontreIndiceNaGrid("colunaCodigo", produto.Codigo.ToString());
+            if (indice.HasValue)
             {
-                var pesquisa = txtPesquisa.Text.ToLowerInvariant().Trim();
-                var listaFiltrada = new List<Produto>();
-                var processou = false;
+                dgvProdutos.Rows[indice.Value].Cells[1].Value = produto.CodigoDoFabricante;
+                dgvProdutos.Rows[indice.Value].Cells[2].Value = produto.Status;
+                dgvProdutos.Rows[indice.Value].Cells[3].Value = produto.Nome;
+                dgvProdutos.Rows[indice.Value].Cells[4].Value = produto.Observacao;
+                dgvProdutos.Rows[indice.Value].Cells[5].Value = produto.PrecoDeCompra.FormateParaStringMoedaReal();
+                dgvProdutos.Rows[indice.Value].Cells[6].Value = produto.PrecoDeVenda.FormateParaStringMoedaReal();
+                dgvProdutos.Rows[indice.Value].Cells[7].Value = produto.QuantidadeEmEstoque;
+            }
 
-                if (string.IsNullOrEmpty(pesquisa))
+            dgvProdutos.Refresh();
+
+            dgvProdutos.FirstDisplayedScrollingRowIndex = index;
+        }
+
+        #endregion
+
+        #region Private
+
+        private void EscondaHeadersTabControl(TabControl tabControl)
+        {
+            tabControl.Appearance = TabAppearance.FlatButtons;
+            tabControl.ItemSize = new Size(0, 1);
+            tabControl.SizeMode = TabSizeMode.Fixed;
+        }
+
+        private object[] GetInteractionRowObject(Interacao interacao) => new object[]
+                                                                                                                                                                                                                                                                                                        {
+            interacao.Codigo,
+            GSUtilitarios.ConvertaEnumeradorParaString(interacao.TipoDeInteracao),
+            interacao.Tecnico,
+            interacao.Produto.Nome,
+            interacao.QuantidadeInterada,
+            interacao.Origem,
+            interacao.Destino,
+            interacao.Finalidade,
+            interacao.Situacao,
+            GSUtilitarios.FormateDecimalParaStringMoedaReal(interacao.ValorInteracao),
+            interacao.HorarioProgramado.ToString(Cultura).Remove(interacao.Horario.ToString(Cultura).Length - 3, 3),
+        };
+
+        private void PreenchaComboBoxPesquisaComProdutos(List<Produto> produtos)
+        {
+            cbPesquisaPorProduto.Items.Clear();
+
+            foreach (var produto in produtos)
+            {
+                cbPesquisaPorProduto.Items.Add(produto.Nome);
+            }
+        }
+
+        private void CarregueDataGridInteracoes(List<Interacao> listaDeInteracoes)
+        {
+            dgvHistorico.Rows.Clear();
+
+            foreach (var interacao in listaDeInteracoes)
+            {
+                dgvHistorico.Rows.Add(GetInteractionRowObject(interacao));
+
+                switch (interacao.TipoDeInteracao)
                 {
-                    if (string.IsNullOrEmpty(_txtPesquisaDeProdutoPreviousSearch) || _txtPesquisaDeProdutoPreviousSearch == pesquisa)
-                    {
-                        processou = false;
-                        return;
-                    }
+                    case EnumTipoDeInteracao.ENTRADA:
+                        dgvHistorico.Rows[dgvHistorico.Rows.Count - 1].DefaultCellStyle.BackColor = Color.LightBlue;
+                        break;
+                    case EnumTipoDeInteracao.SAIDA:
+                        dgvHistorico.Rows[dgvHistorico.Rows.Count - 1].DefaultCellStyle.BackColor = Color.LightPink;
+                        break;
+                    case EnumTipoDeInteracao.BASE_DE_TROCA:
+                        dgvHistorico.Rows[dgvHistorico.Rows.Count - 1].DefaultCellStyle.BackColor = Color.LightGreen;
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
                 }
+            }
+            dgvHistorico.Refresh();
+        }
 
-                if (string.IsNullOrEmpty(pesquisa))
-                {
-                    listaFiltrada = ListaDeProdutos;
-                    CarregueDataGridProdutos(listaFiltrada);
-                    processou = false;
-                    return;
-                }
+        private void CarregueDataGridProdutos(List<Produto> listaDeProdutos)
+        {
+            dgvProdutos.Rows.Clear();
 
-                GSWaitForm.Mostrar(
-                    this,
-                    () =>
-                    {
-                        _txtPesquisaDeProdutoPreviousSearch = pesquisa;
-                        using (var servicoDeProduto = new ServicoDeProduto())
-                        {
-                            listaFiltrada = servicoDeProduto.ConsulteTodosParaAterrissagem(pesquisa, x => x.Nome, x => x.CodigoDoFabricante, x => x.Codigo);
-                            processou = true;
-                        }
-                    },
-                    () =>
-                    {
-                        if (processou)
-                        {
-                            CarregueDataGridProdutos(listaFiltrada);
-                        }
-                    });
-            }));
+            foreach (var produto in listaDeProdutos)
+            {
+                dgvProdutos.Rows.Add(produto.Codigo,
+                                     produto.CodigoDoFabricante,
+                                     produto.Nome,
+                                     produto.Observacao,
+                                     GSUtilitarios.FormateDecimalParaStringMoedaReal(produto.PrecoDeCompra),
+                                     GSUtilitarios.FormateDecimalParaStringMoedaReal(produto.PrecoSugeridoRevenda),
+                                     GSUtilitarios.FormateDecimalParaStringMoedaReal(produto.PrecoDeVenda),
+                                     produto.QuantidadeEmEstoque);
+            }
+
+            dgvProdutos.Refresh();
+        }
+
+        #endregion
+
+        #endregion
+
+        #region Events
+
+        #region frmEstoque
+
+        private void FrmEstoque_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            SessaoSistema.UISettings.SaveUISettings(typeof(FrmEstoque), UISettings);
         }
 
         private void frmEstoque_Load(object sender, EventArgs e)
         {
-
             #region Migração de dados ClientesAntigos ---> RavenDB
 
             //var dialogResult = MessageBox.Show(" Migração de dados ClientesAntigos ---> RavenDB", "Confirmação", MessageBoxButtons.YesNo);
@@ -176,7 +280,6 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             #endregion
 
             UISettings = SessaoSistema.UISettings.GetUISettings(typeof(FrmEstoque));
-            
 
             //Módulo - Estoque
             //ucSessaoSistema1.DefinaModulo("Estoque", Resources.WhiteBox);
@@ -203,93 +306,55 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             cbPesquisaHistorico.SelectedIndex = 5;
         }
 
-        private object[] GetInteractionRowObject(Interacao interacao) => new object[]
+        protected override void OnLoad(EventArgs e)
         {
-            interacao.Codigo,
-            GSUtilitarios.ConvertaEnumeradorParaString(interacao.TipoDeInteracao),
-            interacao.Tecnico,
-            interacao.Produto.Nome,
-            interacao.QuantidadeInterada,
-            interacao.Origem,
-            interacao.Destino,
-            interacao.Finalidade,
-            interacao.Situacao,
-            GSUtilitarios.FormateDecimalParaStringMoedaReal(interacao.ValorInteracao),
-            interacao.HorarioProgramado.ToString(Cultura).Remove(interacao.Horario.ToString(Cultura).Length - 3, 3),
-        }; 
-
-        private void CarregueDataGridInteracoes(List<Interacao> listaDeInteracoes)
-        {
-            dgvHistorico.Rows.Clear();
-
-            foreach (var interacao in listaDeInteracoes)
-            {
-                dgvHistorico.Rows.Add(GetInteractionRowObject(interacao));
-
-                switch (interacao.TipoDeInteracao)
-                {
-                    case EnumTipoDeInteracao.ENTRADA:
-                        dgvHistorico.Rows[dgvHistorico.Rows.Count - 1].DefaultCellStyle.BackColor = Color.LightBlue;
-                        break;
-                    case EnumTipoDeInteracao.SAIDA:
-                        dgvHistorico.Rows[dgvHistorico.Rows.Count - 1].DefaultCellStyle.BackColor = Color.LightPink;
-                        break;
-                    case EnumTipoDeInteracao.BASE_DE_TROCA:
-                        dgvHistorico.Rows[dgvHistorico.Rows.Count - 1].DefaultCellStyle.BackColor = Color.LightGreen;
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException();
-                }
-            }
-            dgvHistorico.Refresh();
+            base.OnLoad(e);
+            //SetStyle(ControlStyles.UserPaint, true);
+            //SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
+            //SetStyle(ControlStyles.AllPaintingInWmPaint, true);
         }
 
-        private void EscondaHeadersTabControl(TabControl tabControl)
+        protected override void OnShown(EventArgs e)
         {
-            tabControl.Appearance = TabAppearance.FlatButtons;
-            tabControl.ItemSize = new Size(0, 1);
-            tabControl.SizeMode = TabSizeMode.Fixed;
+            base.OnShown(e);
+
+            //if (SessaoSistema.WorkTestMode)
+            //{
+            //    //Opacity = 0;
+            //    WindowState = FormWindowState.Normal;
+
+            //    var simulator = new InputSimulator();
+
+            //    Task.Run(() => simulator.Keyboard.KeyDown(VirtualKeyCode.LWIN));
+            //    var task = Task.Run(() =>
+            //    {
+            //        simulator.Keyboard
+            //                 .KeyPress(VirtualKeyCode.RIGHT)
+            //                 .Sleep(TimeSpan.FromMilliseconds(80))
+            //                 .KeyPress(VirtualKeyCode.DOWN);
+            //    });
+
+            //    task.ContinueWith(x =>
+            //    {
+            //        Invoke((MethodInvoker)delegate
+            //       {
+            //           Opacity = 100;
+            //           simulator.Keyboard.KeyUp(VirtualKeyCode.LWIN);
+            //       });
+            //    });
+            //}
         }
 
-        private void btnCatalogo_Click(object sender, EventArgs e)
-        {
-            tabControl1.SelectedTab = tabProdutos;
-            ScrollSelecao.Height = btnCatalogo.Height;
-            ScrollSelecao.Top = 10;
-        }
+        #endregion
 
-        private void btnHistorico_Click(object sender, EventArgs e)
-        {
-            tabControl1.SelectedTab = tabHistorico;
-            ScrollSelecao.Height = btnHistorico.Height;
-            ScrollSelecao.Top = 138;
-        }
-
-        private void CarregueDataGridProdutos(List<Produto> listaDeProdutos)
-        {
-            dgvProdutos.Rows.Clear();
-
-            foreach (var produto in listaDeProdutos)
-            {
-                dgvProdutos.Rows.Add(produto.Codigo,
-                                     produto.CodigoDoFabricante,
-                                     produto.Nome,
-                                     produto.Observacao,
-                                     GSUtilitarios.FormateDecimalParaStringMoedaReal(produto.PrecoDeCompra),
-                                     GSUtilitarios.FormateDecimalParaStringMoedaReal(produto.PrecoSugeridoRevenda),
-                                     GSUtilitarios.FormateDecimalParaStringMoedaReal(produto.PrecoDeVenda),
-                                     produto.QuantidadeEmEstoque);
-            }
-
-            dgvProdutos.Refresh();
-        }
+        #region dgvProdutos
 
         private void dgvProdutos_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             var senderGrid = (DataGridView)sender;
 
             if (senderGrid.Columns[e.ColumnIndex] is DataGridViewButtonColumn &&
-                senderGrid.Columns[e.ColumnIndex] == colunaDetalhar &&
+                e.ColumnIndex == colunaDetalhar.Index &&
                 e.RowIndex >= 0)
             {
                 var codigoProduto = (int)senderGrid["colunaCodigo", e.RowIndex].Value;
@@ -309,93 +374,6 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                     {
                         presenter.View.Show();
                     });
-            }
-        }
-
-        private void btnNovoProduto_Click(object sender, EventArgs e)
-        {
-            IPresenter presenter = null;
-            GSWaitForm.Mostrar(
-                this,
-                () =>
-                {
-                    presenter = GerenciadorDeViews.Crie<ProdutoPresenter>();
-                },
-                () =>
-                {
-                    presenter.View.Show();
-                });
-        }
-
-        private void btnRefresh_Click(object sender, EventArgs e)
-        {
-            txtPesquisa.ForeColor = Color.Silver;
-            txtPesquisa.Text = "Pesquisar...";
-
-            using (var servicoDeProduto = new ServicoDeProduto())
-            {
-                ListaDeProdutos = servicoDeProduto.ConsulteTodosParaAterrissagem().ToList();
-            }
-
-            CarregueDataGridProdutos(ListaDeProdutos);
-        }
-
-        private void pictureBox1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void dgvProdutos_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
-        {
-            if (e.RowIndex < 0)
-                return;
-
-            if (e.ColumnIndex == 8)
-            {
-                e.Paint(e.CellBounds, DataGridViewPaintParts.All);
-
-                var w = Resources.detalhar.Width;
-                var h = Resources.detalhar.Height;
-                var x = e.CellBounds.Left + (e.CellBounds.Width - w) / 2;
-                var y = e.CellBounds.Top + (e.CellBounds.Height - h) / 2;
-
-                e.Graphics.DrawImage(Resources.detalhar, new Rectangle(x, y, w, h));
-                e.Handled = true;
-            }
-        }
-
-        private void panel1_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void txtPesquisa_Click(object sender, EventArgs e)
-        {
-            if (txtPesquisa.Text == "Pesquisar...")
-            {
-                txtPesquisa.Text = string.Empty;
-                txtPesquisa.ForeColor = Color.Black;
-            }
-        }
-
-        private void txtPesquisa_TextChanged(object sender, EventArgs e)
-        {
-            if (EstahRenderizando)
-            {
-                return;
-            }
-
-            _txtPesquisaDeProdutoTypingAssistant.TextChanged();
-        }
-
-        private void txtPesquisa_Leave(object sender, EventArgs e)
-        {
-            if (txtPesquisa.Text == string.Empty)
-            {
-                txtPesquisa.ForeColor = Color.Silver;
-                txtPesquisa.SetTextWithoutFiringEvents("Pesquisar...");
-
-                //CarregueDataGridProdutos(_listaDeProdutos);
             }
         }
 
@@ -421,57 +399,135 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                 });
         }
 
-        private void dgvHistorico_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        private void dgvProdutos_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
         {
-            var senderGrid = (DataGridView)sender;
+            if (e.RowIndex < 0) return;
+            if (e.ColumnIndex != colunaDetalhar.Index) return;
 
-            if (senderGrid.Columns[e.ColumnIndex] is DataGridViewButtonColumn && e.RowIndex >= 0)
+            e.Paint(e.CellBounds, DataGridViewPaintParts.All);
+
+            var w = Resources.detalhar.Width;
+            var h = Resources.detalhar.Height;
+            var x = e.CellBounds.Left + (e.CellBounds.Width - w) / 2;
+            var y = e.CellBounds.Top + (e.CellBounds.Height - h) / 2;
+
+            e.Graphics.DrawImage(Resources.detalhar, new Rectangle(x, y, w, h));
+            e.Handled = true;
+        }
+
+        private void dgvProdutos_ColumnWidthChanged(object sender, DataGridViewColumnEventArgs e)
+        {
+            var uiSett = SessaoSistema.UISettings;
+
+            var gridProdutos = ((Dictionary<string, int>)uiSett.GridProdutos);
+            if (gridProdutos == null)
             {
-                if (senderGrid.Columns[e.ColumnIndex] == colunaDetalharHist)
-                {
-                    var codigoInteracao = (int)senderGrid["colunaCodigoInteracao", e.RowIndex].Value;
-                    Interacao interacao;
+                gridProdutos = new Dictionary<string, int>();
+            }
 
-                    using (var servicoDeInteracao = new ServicoDeInteracao())
-                    {
-                        interacao = servicoDeInteracao.Consulte(codigoInteracao);
-                    }
+            if (gridProdutos.ContainsKey(e.Column.Name))
+            {
+                gridProdutos[e.Column.Name] = e.Column.Width;
+                return;
+            }
 
-                    if (interacao != null)
-                    {
-                        new frmInteracao(interacao).Show();
-                    }
-                }
+            gridProdutos.Add(e.Column.Name, e.Column.Width);
+        }
+
+        #endregion
+
+        #region txtPesquisa
+
+        private void txtPesquisa_Click(object sender, EventArgs e)
+        {
+            if (txtPesquisa.Text == "Pesquisar...")
+            {
+                txtPesquisa.Text = string.Empty;
+                txtPesquisa.ForeColor = Color.Black;
             }
         }
 
-        private void cbPesquisaHistorico_SelectedIndexChanged(object sender, EventArgs e)
+        private void txtPesquisa_Leave(object sender, EventArgs e)
         {
-            if (cbPesquisaHistorico.SelectedItem.ToString() == "Produto")
+            if (txtPesquisa.Text == string.Empty)
             {
-                txtPesquisaHistorico.Text = string.Empty;
-                txtPesquisaHistorico.Enabled = false;
-                txtPesquisaHistorico.Visible = false;
+                txtPesquisa.ForeColor = Color.Silver;
+                txtPesquisa.SetTextWithoutFiringEvents("Pesquisar...");
 
-                cbPesquisaPorProduto.Enabled = true;
-                cbPesquisaPorProduto.Visible = true;
-                cbPesquisaPorProduto.Size = txtPesquisaHistorico.Size;
-                cbPesquisaPorProduto.Location = txtPesquisaHistorico.Location;
-                cbPesquisaPorProduto.ForeColor = Color.Silver;
-                cbPesquisaPorProduto.Text = "Pesquisar por produto...";
-
-                PreenchaComboBoxPesquisaComProdutos(ListaDeProdutos);
-
+                //CarregueDataGridProdutos(_listaDeProdutos);
             }
-            else
-            {
-                cbPesquisaPorProduto.Enabled = false;
-                cbPesquisaPorProduto.Visible = false;
+        }
 
+        private void txtPesquisa_TextChanged(object sender, EventArgs e)
+        {
+            if (EstahRenderizando) return;
+
+            _txtPesquisaDeProdutoTypingAssistant.TextChanged();
+        }
+
+        private void TxtPesquisaDeProdutoAssistant_Idled(object sender, EventArgs e)
+        {
+            Invoke(new MethodInvoker(() =>
+            {
+                var pesquisa = txtPesquisa.Text.ToLowerInvariant().Trim();
+                var listaFiltrada = new List<Produto>();
+                var processou = false;
+
+                if (string.IsNullOrEmpty(pesquisa))
+                {
+                    if (string.IsNullOrEmpty(_txtPesquisaDeProdutoPreviousSearch) || _txtPesquisaDeProdutoPreviousSearch == pesquisa)
+                    {
+                        processou = false;
+                        return;
+                    }
+                }
+
+                if (string.IsNullOrEmpty(pesquisa))
+                {
+                    listaFiltrada = ListaDeProdutos;
+                    CarregueDataGridProdutos(listaFiltrada);
+                    processou = false;
+                    return;
+                }
+
+                GSWaitForm.Mostrar(
+                    this,
+                    () =>
+                    {
+                        _txtPesquisaDeProdutoPreviousSearch = pesquisa;
+                        using (var servicoDeProduto = new ServicoDeProduto())
+                        {
+                            listaFiltrada = servicoDeProduto.ConsulteTodosParaAterrissagem(pesquisa, x => x.Nome, x => x.CodigoDoFabricante, x => x.Codigo);
+                            processou = true;
+                        }
+                    },
+                    () =>
+                    {
+                        if (processou)
+                        {
+                            CarregueDataGridProdutos(listaFiltrada);
+                        }
+                    });
+            }));
+        }
+
+        #endregion
+
+        #region txtPesquisaHistorico
+
+        private void txtPesquisaHistorico_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtPesquisaHistorico_Leave(object sender, EventArgs e)
+        {
+            if (txtPesquisaHistorico.Text == string.Empty)
+            {
                 txtPesquisaHistorico.ForeColor = Color.Silver;
-                txtPesquisaHistorico.Text = "Pesquisar...";
-                txtPesquisaHistorico.Enabled = true;
-                txtPesquisaHistorico.Visible = true;
+                txtPesquisaHistorico.SetTextWithoutFiringEvents("Pesquisar...");
+
+                CarregueDataGridInteracoes(ListaDeInteracoes);
             }
         }
 
@@ -514,37 +570,127 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
             CarregueDataGridInteracoes(listaFiltrada);
         }
+        
+        #endregion
 
-        private void cbPesquisaPorProduto_DropDown(object sender, EventArgs e)
+        #endregion
+
+        private void btnCatalogo_Click(object sender, EventArgs e)
         {
-            //using (var servicoDeProduto = new ServicoDeProdutoRaven())
-            //{
-            //    _listaDeProdutos = servicoDeProduto.ConsulteTodosOsProdutos();
-            //}
-
-            //var pesquisa = cbPesquisaPorProduto.Text.Trim();
-
-            //if (pesquisa == string.Empty || pesquisa == "Pesquisar por produto...")
-            //{
-            //    PreenchaComboBoxPesquisaComProdutos(_listaDeProdutos);
-            //}
-            //else
-            //{
-            //    var listaFiltrada = new List<Produto>();
-            //    listaFiltrada = _listaDeProdutos.FindAll(x => x.Nome.ToUpper()
-            //                                                   .Contains(pesquisa.ToUpper()));
-
-            //    PreenchaComboBoxPesquisaComProdutos(listaFiltrada);
-            //}
+            tabControl1.SelectedTab = tabProdutos;
+            ScrollSelecao.Height = btnCatalogo.Height;
+            ScrollSelecao.Top = 10;
         }
 
-        private void PreenchaComboBoxPesquisaComProdutos(List<Produto> produtos)
+        private void btnExportarExcel_Click(object sender, EventArgs e)
         {
-            cbPesquisaPorProduto.Items.Clear();
+            new frmExportarProdutos().Show();
+        }
 
-            foreach (var produto in produtos)
+        private void btnHistorico_Click(object sender, EventArgs e)
+        {
+            tabControl1.SelectedTab = tabHistorico;
+            ScrollSelecao.Height = btnHistorico.Height;
+            ScrollSelecao.Top = 138;
+        }
+
+        private void btnNovaInteracao_Click(object sender, EventArgs e)
+        {
+            GSWaitForm.Mostrar(this, posProcessamento: () => { new frmInteracao().Show(); });
+        }
+
+        private void btnNovoProduto_Click(object sender, EventArgs e)
+        {
+            IPresenter presenter = null;
+            GSWaitForm.Mostrar(
+                this,
+                () =>
+                {
+                    presenter = GerenciadorDeViews.Crie<ProdutoPresenter>();
+                },
+                () =>
+                {
+                    presenter.View.Show();
+                });
+        }
+
+        private void btnRefresh_Click(object sender, EventArgs e)
+        {
+            txtPesquisa.ForeColor = Color.Silver;
+            txtPesquisa.Text = "Pesquisar...";
+
+            using (var servicoDeProduto = new ServicoDeProduto())
             {
-                cbPesquisaPorProduto.Items.Add(produto.Nome);
+                ListaDeProdutos = servicoDeProduto.ConsulteTodosParaAterrissagem().ToList();
+            }
+
+            CarregueDataGridProdutos(ListaDeProdutos);
+        }
+
+        private void btnRefreshHist_Click(object sender, EventArgs e)
+        {
+            using (var servicoDeInteracao = new ServicoDeInteracao())
+            {
+                ListaDeInteracoes = servicoDeInteracao.ConsulteTodasParaAterrissagem();
+            }
+
+            txtPesquisaHistorico.ForeColor = Color.Silver;
+            txtPesquisaHistorico.Text = "Pesquisar...";
+            CarregueDataGridInteracoes(ListaDeInteracoes);
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            var fileDialog = new OpenFileDialog { Filter = "Excel Files|*.xls;*.xlsx;*.xlsb" };
+
+            var dialogResult = fileDialog.ShowDialog();
+            if (dialogResult != DialogResult.OK || !fileDialog.CheckFileExists)
+            {
+                return;
+            }
+
+            using (var excelQueryFactory = new ExcelQueryFactory(fileDialog.FileName))
+            {
+                if (!excelQueryFactory.GetWorksheetNames().Contains("Tabela de Preços"))
+                {
+                    MessageBox.Show(
+                        "O xls informado não contém uma planilha chamada Tabela de Preços",
+                        "Arquivo inválido");
+
+                    return;
+                }
+
+                ChamadaImportarPlanilha(fileDialog.FileName);
+            }
+        }
+
+        private void cbPesquisaHistorico_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cbPesquisaHistorico.SelectedItem.ToString() == "Produto")
+            {
+                txtPesquisaHistorico.Text = string.Empty;
+                txtPesquisaHistorico.Enabled = false;
+                txtPesquisaHistorico.Visible = false;
+
+                cbPesquisaPorProduto.Enabled = true;
+                cbPesquisaPorProduto.Visible = true;
+                cbPesquisaPorProduto.Size = txtPesquisaHistorico.Size;
+                cbPesquisaPorProduto.Location = txtPesquisaHistorico.Location;
+                cbPesquisaPorProduto.ForeColor = Color.Silver;
+                cbPesquisaPorProduto.Text = "Pesquisar por produto...";
+
+                PreenchaComboBoxPesquisaComProdutos(ListaDeProdutos);
+
+            }
+            else
+            {
+                cbPesquisaPorProduto.Enabled = false;
+                cbPesquisaPorProduto.Visible = false;
+
+                txtPesquisaHistorico.ForeColor = Color.Silver;
+                txtPesquisaHistorico.Text = "Pesquisar...";
+                txtPesquisaHistorico.Enabled = true;
+                txtPesquisaHistorico.Visible = true;
             }
         }
 
@@ -578,59 +724,114 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             }
         }
 
-        private void txtPesquisaHistorico_Leave(object sender, EventArgs e)
+        private void cbPesquisaPorProduto_TextChanged(object sender, EventArgs e)
         {
-            if (txtPesquisaHistorico.Text == string.Empty)
+            if (cbPesquisaPorProduto.SelectedIndex < 0)
             {
-                txtPesquisaHistorico.ForeColor = Color.Silver;
-                txtPesquisaHistorico.SetTextWithoutFiringEvents("Pesquisar...");
-
-                CarregueDataGridInteracoes(ListaDeInteracoes);
+                _cbPesquisaPorProdutoTypingAssistant.TextChanged();
             }
         }
 
-        private void btnRefreshHist_Click(object sender, EventArgs e)
+        private void CbPesquisaPorProdutoAssistente_Idled(object sender, EventArgs e)
         {
-            using (var servicoDeInteracao = new ServicoDeInteracao())
+            Invoke(new MethodInvoker(() =>
             {
-                ListaDeInteracoes = servicoDeInteracao.ConsulteTodasParaAterrissagem();
-            }
+                using (var servicoDeProduto = new ServicoDeProduto())
+                {
+                    var textoParaPesquisar = cbPesquisaPorProduto.Text.Trim().ToLowerInvariant();
 
-            txtPesquisaHistorico.ForeColor = Color.Silver;
-            txtPesquisaHistorico.Text = "Pesquisar...";
-            CarregueDataGridInteracoes(ListaDeInteracoes);
+                    if (string.IsNullOrEmpty(textoParaPesquisar))
+                    {
+                        if (string.IsNullOrEmpty(_cbPesquisaPorProdutoPreviousSearch) || _cbPesquisaPorProdutoPreviousSearch == textoParaPesquisar)
+                        {
+                            return;
+                        }
+                    }
+
+                    _cbPesquisaPorProdutoPreviousSearch = textoParaPesquisar;
+
+                    if (string.IsNullOrEmpty(textoParaPesquisar))
+                    {
+                        cbPesquisaPorProduto.Items.Clear();
+                        cbPesquisaPorProduto.Items.AddRange(ListaDeProdutos.Select(x => new { x.Codigo, x.Nome }).ToArray<object>());
+                        cbPesquisaPorProduto.SelectionStart = cbPesquisaPorProduto.Text.Length;
+
+                        return;
+                    }
+
+                    cbPesquisaPorProduto.Items.Clear();
+
+                    var produtosPesquisados = servicoDeProduto.ConsulteTodosParaAterrissagem(x => x.Nome, cbPesquisaPorProduto.Text);
+                    if (produtosPesquisados.Any())
+                    {
+                        cbPesquisaPorProduto.Items.AddRange(produtosPesquisados.Select(x => new { x.Codigo, x.Nome }).ToArray<object>());
+                        cbPesquisaPorProduto.Focus();
+                        cbPesquisaPorProduto.DroppedDown = true;
+                        cbPesquisaPorProduto.Cursor = Cursors.Default;
+                    }
+
+                    cbPesquisaPorProduto.SelectionStart = cbPesquisaPorProduto.Text.Length;
+                }
+            }));
         }
 
-        private void txtPesquisaHistorico_Click(object sender, EventArgs e)
+        private void ChamadaImportarPlanilha(string caminhoArquivo)
         {
-            if (txtPesquisaHistorico.Text == "Pesquisar...")
+            var stpWatch = new Stopwatch();
+            stpWatch.Start();
+
+            Task.Run(() => ServicoDeProduto.KeepTimeRunning(stpWatch, this, txtCronometroImportar));
+
+            Task.Run(() =>
             {
-                txtPesquisaHistorico.Text = string.Empty;
-                txtPesquisaHistorico.ForeColor = Color.Black;
-            }
+                return new ServicoDeProduto().ImportePlanilhaIntelbras(caminhoArquivo, this);
+            }).ContinueWith(taskResult =>
+            {
+                stpWatch.Stop();
+
+                Invoke((MethodInvoker)delegate
+                {
+                    MessageBox.Show(
+                        $"Importação realizada com sucesso\n" +
+                        $"{taskResult.Result.Item1} produtos atualizados\n" +
+                        $"{taskResult.Result.Item2} produtos adicionados\n" +
+                        $"Tempo de execução {txtCronometroImportar.Text}", "Sucesso");
+
+                    txtQtyProgresso.Text = "?/?";
+                    txtCronometroImportar.Text = "00:00";
+                    txtCronometroImportar.Visible = false;
+                    txtQtyProgresso.Visible = false;
+                    metroProgressImportar.Visible = false;
+
+                    button1.Enabled = true;
+                });
+            }, TaskScheduler.FromCurrentSynchronizationContext());
+
+            GC.Collect();
         }
 
-        private void btnNovaInteracao_Click(object sender, EventArgs e)
+        private void dgvHistorico_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            GSWaitForm.Mostrar(this, posProcessamento: () => { new frmInteracao().Show(); });
-        }
+            var senderGrid = (DataGridView)sender;
 
-        private void dgvHistorico_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
-        {
-            if (e.RowIndex < 0 || e.ColumnIndex != colunaDetalharHist.Index)
+            if (senderGrid.Columns[e.ColumnIndex] is DataGridViewButtonColumn && e.RowIndex >= 0)
             {
-                return;
+                if (senderGrid.Columns[e.ColumnIndex] == colunaDetalharHist)
+                {
+                    var codigoInteracao = (int)senderGrid["colunaCodigoInteracao", e.RowIndex].Value;
+                    Interacao interacao;
+
+                    using (var servicoDeInteracao = new ServicoDeInteracao())
+                    {
+                        interacao = servicoDeInteracao.Consulte(codigoInteracao);
+                    }
+
+                    if (interacao != null)
+                    {
+                        new frmInteracao(interacao).Show();
+                    }
+                }
             }
-
-            e.Paint(e.CellBounds, DataGridViewPaintParts.All);
-
-            var w = Resources.detalhar.Width;
-            var h = Resources.detalhar.Height;
-            var x = e.CellBounds.Left + (e.CellBounds.Width - w) / 2;
-            var y = e.CellBounds.Top + (e.CellBounds.Height - h) / 2;
-
-            e.Graphics.DrawImage(Resources.detalhar, new Rectangle(x, y, w, h));
-            e.Handled = true;
         }
 
         private void dgvHistorico_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
@@ -654,326 +855,22 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             }
         }
 
-        private void btnExportarExcel_Click(object sender, EventArgs e)
+        private void dgvHistorico_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
         {
-            new frmExportarProdutos().Show();
-        }
-
-        private void cbFiltro_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void tabProdutos_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void lblPesquisarPor_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void pictureBox3_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void tabHistorico_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label3_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void pictureBox1_Click_1(object sender, EventArgs e)
-        {
-
-        }
-
-        private void ScrollSelecao_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void label2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void pictureBox2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void ucSessaoSistema2_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        public void RecarregueProdutos()
-        {
-            // Mantendo a seleção e scroll presente na tela
-            var index = dgvProdutos.CurrentRow.Index;
-
-            using (var servicoDeProduto = new ServicoDeProduto())
-            {
-                ListaDeProdutos = servicoDeProduto.ConsulteTodosParaAterrissagem();
-            }
-
-            CarregueDataGridProdutos(ListaDeProdutos);
-            dgvProdutos.Refresh();
-
-            dgvProdutos.FirstDisplayedScrollingRowIndex = index;
-        }
-
-        public void RecarregueProdutoEspecifico(Produto produto)
-        {
-            // Mantendo a seleção e scroll presente na tela
-            var index = dgvProdutos.CurrentRow.Index;
-
-            var indice = dgvProdutos.EncontreIndiceNaGrid("colunaCodigo", produto.Codigo.ToString());
-            if (indice.HasValue)
-            {
-                dgvProdutos.Rows[indice.Value].Cells[1].Value = produto.CodigoDoFabricante;
-                dgvProdutos.Rows[indice.Value].Cells[2].Value = produto.Status;
-                dgvProdutos.Rows[indice.Value].Cells[3].Value = produto.Nome;
-                dgvProdutos.Rows[indice.Value].Cells[4].Value = produto.Observacao;
-                dgvProdutos.Rows[indice.Value].Cells[5].Value = produto.PrecoDeCompra.FormateParaStringMoedaReal();
-                dgvProdutos.Rows[indice.Value].Cells[6].Value = produto.PrecoDeVenda.FormateParaStringMoedaReal();
-                dgvProdutos.Rows[indice.Value].Cells[7].Value = produto.QuantidadeEmEstoque;
-            }
-
-            dgvProdutos.Refresh();
-
-            dgvProdutos.FirstDisplayedScrollingRowIndex = index;
-        }
-
-        public void AdicioneNovoProdutoNaGrid(Produto produto)
-        {
-            // Mantendo a seleção e scroll presente na tela
-            var index = dgvProdutos.CurrentRow.Index;
-
-            dgvProdutos.Rows.Add(produto.Codigo,
-                produto.CodigoDoFabricante,
-                produto.Status,
-                produto.Nome,
-                produto.Observacao,
-                produto.PrecoDeCompra.FormateParaStringMoedaReal(),
-                produto.PrecoDeVenda.FormateParaStringMoedaReal(),
-                produto.QuantidadeEmEstoque);
-
-            dgvProdutos.Refresh();
-
-            dgvProdutos.FirstDisplayedScrollingRowIndex = index;
-        }
-
-        public string IdInstancia { get; set; }
-
-        public void ApagueInstancia()
-        {
-            //GerenciadorDeViews.Exclua<frmEstoque>(IdInstancia);
-        }
-
-        public EnumTipoDeForm TipoDeForm { get; set; }
-
-        public IPresenter Presenter { get; set; }
-        public bool EstahRenderizando { get; set; }
-
-        public void ChamadaMinimizarForm(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void ChamadaFecharForm(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override void OnLoad(EventArgs e)
-        {
-            base.OnLoad(e);
-            //SetStyle(ControlStyles.UserPaint, true);
-            //SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
-            //SetStyle(ControlStyles.AllPaintingInWmPaint, true);
-        }
-
-        protected override void OnShown(EventArgs e)
-        {
-            base.OnShown(e);
-
-            //if (SessaoSistema.WorkTestMode)
-            //{
-            //    //Opacity = 0;
-            //    WindowState = FormWindowState.Normal;
-
-            //    var simulator = new InputSimulator();
-
-            //    Task.Run(() => simulator.Keyboard.KeyDown(VirtualKeyCode.LWIN));
-            //    var task = Task.Run(() =>
-            //    {
-            //        simulator.Keyboard
-            //                 .KeyPress(VirtualKeyCode.RIGHT)
-            //                 .Sleep(TimeSpan.FromMilliseconds(80))
-            //                 .KeyPress(VirtualKeyCode.DOWN);
-            //    });
-
-            //    task.ContinueWith(x =>
-            //    {
-            //        Invoke((MethodInvoker)delegate
-            //       {
-            //           Opacity = 100;
-            //           simulator.Keyboard.KeyUp(VirtualKeyCode.LWIN);
-            //       });
-            //    });
-            //}
-        }
-
-        private void cbPesquisaPorProduto_TextChanged(object sender, EventArgs e)
-        {
-            if (cbPesquisaPorProduto.SelectedIndex < 0)
-            {
-                _cbPesquisaPorProdutoTypingAssistant.TextChanged();
-            }
-        }
-
-        private void CbPesquisaPorProdutoAssistente_Idled(object sender, EventArgs e)
-        {
-            Invoke(new MethodInvoker(() =>
-            {
-                using(var servicoDeProduto = new ServicoDeProduto())
-                {
-                    var textoParaPesquisar = cbPesquisaPorProduto.Text.Trim().ToLowerInvariant();
-
-                    if (string.IsNullOrEmpty(textoParaPesquisar))
-                    {
-                        if (string.IsNullOrEmpty(_cbPesquisaPorProdutoPreviousSearch) || _cbPesquisaPorProdutoPreviousSearch == textoParaPesquisar)
-                        {
-                            return;
-                        }
-                    }
-
-                    _cbPesquisaPorProdutoPreviousSearch = textoParaPesquisar;
-
-                    if (string.IsNullOrEmpty(textoParaPesquisar))
-                    {
-                        cbPesquisaPorProduto.Items.Clear();
-                        cbPesquisaPorProduto.Items.AddRange(ListaDeProdutos.Select(x => new { x.Codigo, x.Nome}).ToArray<object>());
-                        cbPesquisaPorProduto.SelectionStart = cbPesquisaPorProduto.Text.Length;
-
-                        return;
-                    }
-
-                    cbPesquisaPorProduto.Items.Clear();
-
-                    var produtosPesquisados = servicoDeProduto.ConsulteTodosParaAterrissagem(x => x.Nome, cbPesquisaPorProduto.Text);
-                    if (produtosPesquisados.Any())
-                    {
-                        cbPesquisaPorProduto.Items.AddRange(produtosPesquisados.Select(x => new { x.Codigo, x.Nome }).ToArray<object>());
-                        cbPesquisaPorProduto.Focus();
-                        cbPesquisaPorProduto.DroppedDown = true;
-                        cbPesquisaPorProduto.Cursor = Cursors.Default;
-                    }
-
-                    cbPesquisaPorProduto.SelectionStart = cbPesquisaPorProduto.Text.Length;
-                }
-            }));
-        }
-
-        public void UpdateProgress(int count)
-        {
-
-        }
-
-        private void ChamadaImportarPlanilha(string caminhoArquivo)
-        {
-            var stpWatch = new Stopwatch();
-            stpWatch.Start();
-
-            Task.Run(() => ServicoDeProduto.KeepTimeRunning(stpWatch, this, txtCronometroImportar));
-
-            Task.Run(() =>
-            {
-                new ServicoDeProduto().ImportePlanilhaIntelbras(caminhoArquivo, this);
-            }).ContinueWith(result =>
-            {
-                stpWatch.Stop();
-
-                Invoke((MethodInvoker)delegate
-                {
-                    MessageBox.Show($"Importação realizada com sucesso\nTempo de execução {txtCronometroImportar.Text}", "Sucesso");
-
-                    txtQtyProgresso.Text = "?/?";
-                    txtCronometroImportar.Text = "00:00";
-                    txtCronometroImportar.Visible = false;
-                    txtQtyProgresso.Visible = false;
-                    metroProgressImportar.Visible = false;
-
-                    button1.Enabled = true;
-                });
-            }, TaskScheduler.FromCurrentSynchronizationContext());
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            var fileDialog = new OpenFileDialog { Filter = "Excel Files|*.xls;*.xlsx;*.xlsb" };
-
-            var dialogResult = fileDialog.ShowDialog();
-            if (dialogResult != DialogResult.OK || !fileDialog.CheckFileExists)
+            if (e.RowIndex < 0 || e.ColumnIndex != colunaDetalharHist.Index)
             {
                 return;
             }
 
-            using (var excelQueryFactory = new ExcelQueryFactory(fileDialog.FileName))
-            {
-                if (!excelQueryFactory.GetWorksheetNames().Contains("Tabela de Preços"))
-                {
-                    MessageBox.Show(
-                        "O xls informado não contém uma planilha chamada Tabela de Preços",
-                        "Arquivo inválido");
+            e.Paint(e.CellBounds, DataGridViewPaintParts.All);
 
-                    return;
-                }
+            var w = Resources.detalhar.Width;
+            var h = Resources.detalhar.Height;
+            var x = e.CellBounds.Left + (e.CellBounds.Width - w) / 2;
+            var y = e.CellBounds.Top + (e.CellBounds.Height - h) / 2;
 
-                ChamadaImportarPlanilha(fileDialog.FileName);
-            }
-        }
-
-        private void FrmEstoque_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            SessaoSistema.UISettings.SaveUISettings(typeof(FrmEstoque), UISettings);
-        }
-
-        private void dgvProdutos_ColumnWidthChanged(object sender, DataGridViewColumnEventArgs e)
-        {
-            var uiSett = SessaoSistema.UISettings;
-
-            var gridProdutos = ((Dictionary<string, int>)uiSett.GridProdutos);
-            if (gridProdutos == null)
-            {
-                gridProdutos = new Dictionary<string, int>();
-            }
-
-            if(gridProdutos.ContainsKey(e.Column.Name))
-            {
-                gridProdutos[e.Column.Name] = e.Column.Width;
-                return;
-            }
-
-            gridProdutos.Add(e.Column.Name, e.Column.Width);
+            e.Graphics.DrawImage(Resources.detalhar, new Rectangle(x, y, w, h));
+            e.Handled = true;
         }
     }
 }

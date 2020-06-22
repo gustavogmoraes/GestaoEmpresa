@@ -14,101 +14,87 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios.Base
     public abstract class RepositorioPadrao<T> : IDisposable
         where T : class, IConceito, IRavenDbDocument, new()
     {
-        /// <summary>
-        /// A document store, conexão
-        /// </summary>
-        protected GSDocumentStore DocumentStore { get; set; }
-
-        protected IDocumentSession TraverseSession { get; set; }
-
-        protected IDocumentSession GetSession()
-        {
-            if (TraverseSession != null)
-            {
-                return TraverseSession;
-            }
-
-            var newSession = RavenHelper.OpenSession();
-            return newSession;
-        }
-
-        /// <summary>
-        /// Nomenclatura do node principal.
-        /// Ainda não entendi muito bem como funciona, mas faz parte dos ids.
-        /// </summary>
-        protected string MainNodeClusterTag => "A";
-
-        protected RepositorioPadrao()
-        {
-            DocumentStore = new GSDocumentStore();
-            DocumentStore.Initialize();
-        }
-
-        protected RepositorioPadrao(IDocumentSession traverseSession)
-        {
-            DocumentStore = new GSDocumentStore();
-            DocumentStore.Initialize();
-
-            TraverseSession = traverseSession;
-        }
-
-        protected string ObtenhaIdRaven(int codigo)
-        {
-            var collectionName =DocumentStore.Conventions.GetCollectionName(typeof(T));
-            var idPrefix = DocumentStore.Conventions.TransformTypeCollectionNameToDocumentIdPrefix(collectionName);
-
-            return $"{idPrefix}/{codigo}-{MainNodeClusterTag}";
-        }
-
         public int Insira(T item)
         {
-            if (item.Codigo == 0) item.Codigo = ObtenhaProximoCodigoDisponivel();
+            if (item.Codigo == 0)
+            {
+                item.Codigo = ObtenhaProximoCodigoDisponivel();
+            }
 
-            var sessaoRaven = GetSession();
-
-            sessaoRaven.Store(item);
-            sessaoRaven.SaveChanges();
+            using (var sessaoRaven = RavenHelper.OpenSession())
+            {
+                sessaoRaven.Store(item);
+                sessaoRaven.SaveChanges();
+            }
 
             return item.Codigo;
         }
 
-        public T Consulte(int codigo) => GetSession().Query<T>().FirstOrDefault(x => x.Codigo == codigo);
+        public T Consulte(int codigo)
+        {
+            using (var session = RavenHelper.OpenSession())
+            {
+                return session.Query<T>().FirstOrDefault(x => x.Codigo == codigo);
+            }
+        }
 
-        public IList<T> Consulte(Func<T, bool> filtro) => GetSession().Query<T>().Where(filtro).ToList();
+        public IList<T> Consulte(Func<T, bool> filtro)
+        {
+            using (var session = RavenHelper.OpenSession())
+            {
+                return session.Query<T>().Where(filtro).ToList();
+            }
+        }
 
-        public IList<T> ConsulteTodos() => GetSession().Query<T>().ToList();
+        public IList<T> ConsulteTodos()
+        {
+            using (var session = RavenHelper.OpenSession())
+            {
+                return session.Query<T>().ToList();
+            }
+        }
 
-        public IList<T> ConsulteTodos(Expression<Func<T, object>> seletor) => 
-            GetSession().Query<T>()
-                .Select(seletor)
-                .ToList()
-                .Cast<T>()
-                .ToList();
+        public IList<T> ConsulteTodos(Expression<Func<T, object>> seletor)
+        {
+            using (var session = RavenHelper.OpenSession())
+            {
+                return session.Query<T>()
+                    .Select(seletor)
+                    .ToList()
+                    .Cast<T>()
+                    .ToList();
+            }
+        }
 
         public void Atualize(T item)
         {
-            var sessaoRaven = GetSession();
-            var itemConsultado = sessaoRaven.Load<T>(item.Id);
+            using (var sessaoRaven = RavenHelper.OpenSession())
+            {
+                var itemConsultado = sessaoRaven.Load<T>(item.Id);
+                
+                itemConsultado.GetType().GetProperties().ToList().ForEach(prop => 
+                    prop.SetValue(itemConsultado, prop.GetValue(item)));
 
-            itemConsultado.GetType().GetProperties().ToList().ForEach(prop => prop.SetValue(itemConsultado, prop.GetValue(item)));
-
-            sessaoRaven.SaveChanges();
+                sessaoRaven.SaveChanges();
+            }
         }
 
         public void Exclua(int codigo)
         {
-            var sessaoRaven = GetSession();
+            using (var sessaoRaven = RavenHelper.OpenSession())
+            {
+                sessaoRaven.Query<T>()
+                    .Where(x => x.Codigo == codigo)
+                    .ToList()
+                    .ForEach(x => sessaoRaven.Delete(x.Id));
 
-            sessaoRaven.Query<T>()
-                .Where(x => x.Codigo == codigo)
-                .ToList().ForEach(x => sessaoRaven.Delete(x.Id));
-
-            sessaoRaven.SaveChanges();
+                sessaoRaven.SaveChanges();
+            }
         }
 
         public int ObtenhaProximoCodigoDisponivel()
         {
-            using (var session = DocumentStore.OpenSession())
+            using (var session = RavenHelper.OpenSession())
             {
                 var listaDeCodigos = session.Query<T>()
                     .Select(x => x.Codigo)
@@ -130,13 +116,8 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios.Base
             }
         }
 
-
-
         public void Dispose()
         {
-            TraverseSession?.SaveChanges();
-            TraverseSession?.Dispose();
-            DocumentStore.Dispose();
         }
     }
 }

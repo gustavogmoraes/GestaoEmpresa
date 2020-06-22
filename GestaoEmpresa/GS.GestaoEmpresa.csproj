@@ -180,7 +180,6 @@
     <Compile Include="Solucao\Negocio\Validador\Base\ValidadorPadrao.cs" />
     <Compile Include="Solucao\Persistencia\BancoDeDados\EnumTipoDeBanco.cs" />
     <Compile Include="Solucao\Persistencia\BancoDeDados\GSBancoDeDados.cs" />
-    <Compile Include="Solucao\Persistencia\BancoDeDados\GSDocumentStore.cs" />
     <Compile Include="Solucao\Persistencia\BancoDeDados\RavenHelper.cs" />
     <Compile Include="Solucao\Persistencia\BancoDeDados\UCSessaoSistema.cs">
       <SubType>UserControl</SubType>

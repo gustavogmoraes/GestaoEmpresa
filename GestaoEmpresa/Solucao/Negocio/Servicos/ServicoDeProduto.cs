@@ -1,28 +1,24 @@
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.OleDb;
 using System.Diagnostics;
-using System.IO;
-using GS.GestaoEmpresa.Solucao.Negocio.Objetos;
-using GS.GestaoEmpresa.Solucao.Negocio.Validador;
-using GS.GestaoEmpresa.Solucao.Persistencia.Repositorios;
-using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores.Comuns;
-using GS.GestaoEmpresa.Solucao.Negocio.Servicos.Base;
-using GS.GestaoEmpresa.Solucao.UI;
-using GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores.Seguros.UnidadeIntelbras;
-using GS.GestaoEmpresa.Solucao.Persistencia.BancoDeDados;
-using GS.GestaoEmpresa.Solucao.Utilitarios;
 using LinqToExcel;
-using LinqToExcel.Domain;
-using MoreLinq;
-using OfficeOpenXml;
+using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores.Comuns;
+using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores.Seguros.UnidadeIntelbras;
+using GS.GestaoEmpresa.Solucao.Negocio.Objetos;
+using GS.GestaoEmpresa.Solucao.Negocio.Servicos.Base;
+using GS.GestaoEmpresa.Solucao.Negocio.Validador;
+using GS.GestaoEmpresa.Solucao.Persistencia.BancoDeDados;
+using GS.GestaoEmpresa.Solucao.Persistencia.Repositorios;
+using GS.GestaoEmpresa.Solucao.UI;
+using GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque;
+using GS.GestaoEmpresa.Solucao.Utilitarios;
 
 namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
 {
@@ -150,40 +146,8 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
             });
         }
 
-        public void ImportePlanilhaIntelbras(string caminhoArquivo, FrmEstoque caller)
+        private List<dynamic> LeiaItensDoXls(string caminhoArquivo)
         {
-            //var allLatest = new List<Produto>();
-            //using (var session = RavenHelper.OpenSession())
-            //{
-            //    var allLatestProducts =
-            //        session.Query<Produto>().Where(x =>
-            //            x.Atual &&
-            //            x.Fabricante == "Intelbras" &&
-            //            !string.IsNullOrEmpty(x.CodigoDoFabricante)).ToList();
-
-            //    allLatest.AddRange(allLatestProducts);
-
-            //    session.Query<Produto>().Where(x =>
-            //        x.Fabricante == "Intelbras" &&
-            //            !string.IsNullOrEmpty(x.CodigoDoFabricante)).ToList().ForEach(y =>
-            //            session.Delete(y));
-            //    session.SaveChanges();
-            //}
-
-            caller.Invoke((MethodInvoker) delegate
-            {
-                caller.button1.Enabled = false;
-
-                caller.metroProgressImportar.Visible = true;
-                caller.metroProgressImportar.Value = 1;
-
-                caller.txtQtyProgresso.Visible = true;
-                caller.txtCronometroImportar.Visible = true;
-
-                caller.txtQtyProgresso.Text = "Lendo planilha";
-            });
-            //
-
             const string nomeWorksheet = "Tabela de Preços";
             const int indexLinhaDoCabecalho = 7;
             const int indexUnidade = 1;
@@ -197,76 +161,127 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
 
             using (var excelQueryFactory = new ExcelQueryFactory(caminhoArquivo))
             {
-                var configuracao = new RepositorioDeConfiguracao().ObtenhaUnica();
+                return excelQueryFactory.Worksheet(nomeWorksheet)
+                        .Skip(indexLinhaDoCabecalho)
+                        .Select(linha => (dynamic)new
+                        {
+                            Unidade = linha[indexUnidade].ToString().Trim(),
+                            CodigoDoProduto = linha[indexCodigoDoProduto].ToString().Trim(),
+                            Nome = linha[indexNome].ToString().Trim(),
+                            UF = linha[indexUf].ToString().Trim(),
+                            Ipi = linha[indexIpi].ToString().Trim(),
+                            PrecoDeCompra = linha[indexPrecoCompra].ToString().Trim(),
+                            PrecoRevenda = linha[indexPrecoRevenda].ToString().Trim(),
+                            Pscf = linha[indexPscf].ToString().Trim()
+                        })
+                        .ToList() // Execute query on EQF and enumerate results
+                        .Where(x => x.UF.ToString() == "GO") // Get only those from Goi�s
+                        .ToList();
+            }
+        }
 
-                var totalItems =
-                excelQueryFactory.Worksheet(nomeWorksheet)
-                    .Skip(indexLinhaDoCabecalho)
-                    .Select(linha => new
-                    {
-                        Unidade = linha[indexUnidade].ToString().Trim(),
-                        CodigoDoProduto = linha[indexCodigoDoProduto].ToString().Trim(),
-                        Nome = linha[indexNome].ToString().Trim(),
-                        UF = linha[indexUf].ToString().Trim(),
-                        Ipi = linha[indexIpi].ToString().Trim(),
-                        PrecoDeCompra = linha[indexPrecoCompra].ToString().Trim(),
-                        PrecoRevenda = linha[indexPrecoRevenda].ToString().Trim(),
-                        Pscf = linha[indexPscf].ToString().Trim()
-                    })
-                    .ToList() // Execute query on EQF and enumerate results
-                    .Where(x => x.UF.ToString() == "GO") // Get only those from Goi�s
-                    .ToList();
+        private void SetupProgressBar(FrmEstoque caller)
+        {
+            caller.Invoke((MethodInvoker)delegate
+            {
+                caller.button1.Enabled = false;
 
-                // Progress bar
-                var totalAdded = 0;
+                caller.metroProgressImportar.Visible = true;
+                caller.metroProgressImportar.Value = 1;
 
-                var items = GSExtensions.GetProgressRange(totalItems.Count);
-                //
-                var enumerable = totalItems
-                    .Where(x => !x.AnyPropertyIsNull())
-                    .Distinct();
+                caller.txtQtyProgresso.Visible = true;
+                caller.txtCronometroImportar.Visible = true;
 
-                Parallel.ForEach(enumerable, item =>
+                caller.txtQtyProgresso.Text = "Lendo planilha";
+            });
+        }
+
+        private void UpdateProgressBar(ref int totalAdded, int[] items, List<dynamic> totalItems, FrmEstoque caller)
+        {
+            totalAdded++;
+
+            var text = $"{totalAdded}/{totalItems.Count}";
+            caller.Invoke((MethodInvoker)delegate { caller.txtQtyProgresso.Text = text; });
+
+            if (totalAdded.IsAny(items))
+            {
+                caller.Invoke((MethodInvoker)delegate { caller.metroProgressImportar.Value += 1; });
+            }
+        }
+
+        public Tuple<int, int> ImportePlanilhaIntelbras(string caminhoArquivo, FrmEstoque caller)
+        {
+            var repositorioDeProduto = new RepositorioDeProduto();
+
+            SetupProgressBar(caller);
+
+            var configuracao = new RepositorioDeConfiguracao().ObtenhaUnica();
+
+            var importedItems = LeiaItensDoXls(caminhoArquivo);
+            var progressRange = GSExtensions.GetProgressRange(importedItems.Count);
+            var persistedItems = repositorioDeProduto.ConsulteTodos();
+
+            var totalAdded = 0;
+
+            var concurrentQueue = new ConcurrentQueue<dynamic>(importedItems
+                .Where(x => !((object)x).AnyPropertyIsNull())
+                .Distinct()
+                .ToList());
+
+            var itemsToAdd = new ConcurrentBag<Produto>();
+            var itemsToUpdate = new ConcurrentBag<Produto>();
+            
+            var KeepRunningTask = true;
+            GSExtensions.ParallelWhile(() => KeepRunningTask, () =>
+            {
+                KeepRunningTask = concurrentQueue.TryDequeue(out var item);
+                if(!KeepRunningTask)
                 {
-                    // Progress bar reactivity
-                    totalAdded++;
-                    caller.Invoke((MethodInvoker)delegate { caller.txtQtyProgresso.Text = $"{totalAdded}/{totalItems.Count}"; });
+                    return;
+                }
 
-                    if (totalAdded.IsAny(items))
-                    {
-                        caller.Invoke((MethodInvoker)delegate { caller.metroProgressImportar.Value += 1; });
-                    }
-                    //
+                UpdateProgressBar(ref totalAdded, progressRange, importedItems, caller);
 
-                    if (item.PrecoDeCompra.IsAny("R$ -", "-") ||
-                        item.PrecoRevenda.IsAny("R$ -", "-"))
+                if (((string)item.PrecoDeCompra).IsAny("R$ -", "-") ||
+                    ((string)item.PrecoRevenda).IsAny("R$ -", "-"))
+                {
+                    return;
+                }
+
+                var codigoDoProdutoIntelbras = (string)item.CodigoDoProduto;
+                
+                var produtoPersistido = persistedItems.FirstOrDefault(x => x.CodigoDoFabricante == codigoDoProdutoIntelbras.Trim());
+                if (produtoPersistido != null)
+                {
+                    if (produtoPersistido.PrecoNaIntelbras == ((string)item.PrecoDeCompra).ObtenhaMonetario() &&
+                        produtoPersistido.Ipi == Convert.ToDecimal(((string)item.Ipi).Replace("%", string.Empty)))
                     {
                         return;
                     }
 
-                    using (var repositorioDeProduto = new RepositorioDeProduto(RavenHelper.OpenSession()))
-                    {
-                        var produtoPersistido = repositorioDeProduto.Consulte(x => x.CodigoDoFabricante == item.CodigoDoProduto);
-                        if (produtoPersistido != null)
-                        {
-                            if (produtoPersistido.PrecoNaIntelbras == item.PrecoDeCompra.ObtenhaMonetario() &&
-                                produtoPersistido.Ipi == Convert.ToDecimal(item.Ipi.Replace("%", string.Empty)))
-                            {
-                                return;
-                            }
+                    PreenchaProduto(produtoPersistido, item, configuracao);
+                    itemsToUpdate.Add(produtoPersistido);
 
-                            PreenchaProduto(produtoPersistido, item, configuracao);
-                            repositorioDeProduto.Atualize(produtoPersistido);
+                    return;
+                }
 
-                            return;
-                        }
+                itemsToAdd.Add(ObtenhaNovoProduto(item, configuracao));
+            });
 
-                        var novoProduto = ObtenhaNovoProduto(item, configuracao/*, allLatest*/);
-                        repositorioDeProduto.Insira(novoProduto);
-                    }
-                });
+            if(itemsToAdd.Any())
+            {
+                repositorioDeProduto.MassInsert(itemsToAdd.ToList());
             }
+
+            if (itemsToUpdate.Any())
+            {
+                repositorioDeProduto.MassUpdate(itemsToUpdate.ToList());
+            }
+
+            return new Tuple<int, int>(itemsToUpdate.Count, itemsToAdd.Count);
         }
+        
+        private bool KeepRunningTask { get; set; }
 
         private static void PreenchaProduto(Produto produtoPersistido, dynamic item, Configuracoes configuracao)
         {
@@ -283,14 +298,14 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
             produtoPersistido.PorcentagemDeLucroConsumidorFinal = Convert.ToDecimal(30);
         }
 
-        private static Produto ObtenhaNovoProduto(dynamic item, Configuracoes configuracao/*, List<Produto> latestProducts*/)
+        private static Produto ObtenhaNovoProduto(dynamic item, Configuracoes configuracao)
         {
             var novoProduto = new Produto
             {
                 Nome = ((string)item.Nome).ToCustomTitleCase(),
                 Fabricante = "Intelbras",
                 Status = EnumStatusToggle.Ativo,
-                CodigoDoFabricante = item.CodigoDoProduto,
+                CodigoDoFabricante = ((string)item.CodigoDoProduto).Trim(),
                 Unidade = UnidadeIntelbras.ObtenhaPorNome(item.Unidade),
                 PrecoNaIntelbras = GSExtensions.ObtenhaMonetario(item.PrecoDeCompra),
                 Ipi = ((string)item.Ipi).Replace("%", string.Empty).ToDecimal().DivideBy(100),

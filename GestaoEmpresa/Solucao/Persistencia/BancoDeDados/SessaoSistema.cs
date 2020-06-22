@@ -95,10 +95,7 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.BancoDeDados
                                 break;
 
                             case EnumTipoDeBanco.RAVENDB:
-                                using (var documentStore = new GSDocumentStore())
-                                {
-                                    ConexaoAtiva = documentStore.VerifiqueSeServidorEstahOnline();
-                                }
+                                ConexaoAtiva = RavenHelper.VerifiqueSeServidorEstahOnline();
                                 break;
                         }
                     }

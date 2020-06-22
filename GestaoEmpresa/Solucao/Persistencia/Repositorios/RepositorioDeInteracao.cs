@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using GS.GestaoEmpresa.Solucao.Persistencia.BancoDeDados;
 
 namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios
 {
@@ -12,7 +13,7 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios
     {
         public bool VerifiqueSeNumeroDeSerieExisteNoBanco(string numeroDeSerie)
         {
-            using (var sessaoRaven = DocumentStore.OpenSession())
+            using (var sessaoRaven = RavenHelper.OpenSession())
             {
                 return sessaoRaven.Query<Interacao>()
                     .Where(x => x.InformaNumeroDeSerie && x.NumerosDeSerie.Any())

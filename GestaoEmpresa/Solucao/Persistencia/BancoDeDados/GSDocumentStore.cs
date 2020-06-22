@@ -29,9 +29,9 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.BancoDeDados
             Initialize();
         }
 
-        private void SobrescrevaConventions()
+        private void SobrescrevaConventions(IDocumentStore documentStore)
         {
-            base.Conventions.FindCollectionName = type => 
+            documentStore.Conventions.FindCollectionName = type => 
                 NomenclaturaDeColecaoCustomizada.ContainsKey(type) 
                     ? NomenclaturaDeColecaoCustomizada[type] 
                     : DocumentConventions.DefaultGetCollectionName(type);
