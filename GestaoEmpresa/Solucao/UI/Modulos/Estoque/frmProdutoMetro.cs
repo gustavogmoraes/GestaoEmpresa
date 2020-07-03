@@ -78,7 +78,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             }
 
             var dataVigencia = DateTime.ParseExact((string)cbVigencia.SelectedItem, "dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture);
-            (Presenter as ProdutoPresenter).RecarregueVigencia(dataVigencia);
+            ((ProdutoPresenter) Presenter).RecarregueVigencia(dataVigencia);
         }
 
         private void txtPorcentagemLucro_Leave(object sender, EventArgs e)
@@ -96,8 +96,9 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             if (!string.IsNullOrEmpty(txtPrecoDeCompra.Text) &&
                 !string.IsNullOrEmpty(txtPorcentagemLucro.Text))
             {
-                var precoCompra = Convert.ToDecimal(txtPrecoDeCompra.Text);
-                txtPrecoDeVenda.Text = ((precoCompra * Convert.ToDecimal(txtPorcentagemLucro.Text) / 100) + precoCompra).ToString();
+                var precoCompra = Math.Round(Convert.ToDecimal(txtPrecoDeCompra.Text), 2);
+                txtPrecoDeCompra.Text = precoCompra.ToString(CultureInfo.InvariantCulture);
+                txtPrecoDeVenda.Text = Math.Round((precoCompra * Convert.ToDecimal(txtPorcentagemLucro.Text) / 100) + precoCompra, 2).ToString(CultureInfo.InvariantCulture);
             }
         }
     }

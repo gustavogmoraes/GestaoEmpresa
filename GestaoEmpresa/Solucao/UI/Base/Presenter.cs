@@ -108,6 +108,11 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
 
             MapeamentoDeControles.ForEach(mapeamento =>
             {
+                if (mapeamento.PropriedadeObjeto.GetValue(Model) == null)
+                {
+                    return;
+                }
+
                 var controle = View.Controls.Find(mapeamento.NomeControle, true).FirstOrDefault();
                 var tipoDoControle = controle?.GetType();
 
@@ -257,7 +262,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
                         (controle, propriedade, model, presenter) =>
                         {
                             var valor = propriedade.GetValue(model, null);
-                            if (propriedade.PropertyType == typeof(decimal))
+                            if (propriedade.PropertyType.IsAny(typeof(decimal), typeof(decimal?)))
                             {
                                 valor = Math.Round(Convert.ToDecimal(valor), 2);
                             }
@@ -274,7 +279,11 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
                                 valor = 0.ToString();
                             }
 
-                            propriedade.SetValue(model, Convert.ChangeType((string.IsNullOrEmpty(valor) ? null : valor), propriedade.PropertyType));
+                            // This worksaround nullable types
+                            var safeType = Nullable.GetUnderlyingType(propriedade.PropertyType) ?? propriedade.PropertyType;
+                            var safeValue = string.IsNullOrEmpty(valor) ? null : Convert.ChangeType(valor, safeType);
+
+                            propriedade.SetValue(model, safeValue);
                         })
                 },
                 {
@@ -358,7 +367,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
                     new Tuple<Action<Control, PropertyInfo, object, IPresenter>, Action<Control, PropertyInfo, object, IPresenter>>(
                         (controle, propriedade, model, presenter) =>
                         {
-                            ((GSTextBoxMonetaria)controle).Valor = (decimal)propriedade.GetValue(model, null);
+                            ((GSTextBoxMonetaria)controle).Valor = Math.Round((decimal)propriedade.GetValue(model, null), 2);
                         },
                         (controle, propriedade, model, presenter) =>
                         {

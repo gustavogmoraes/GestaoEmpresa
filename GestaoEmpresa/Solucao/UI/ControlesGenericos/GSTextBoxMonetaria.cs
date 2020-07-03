@@ -23,11 +23,11 @@ namespace GS.GestaoEmpresa.Solucao.UI.ControlesGenericos
 
         //private List<Inconsistencia> _listaDeInconsistencias;
 
-        public decimal Valor
+        public decimal? Valor
         {
-            get { return decimal.Parse(string.IsNullOrEmpty(txtValor.Text) ? 0.ToString() : txtValor.Text, _cultura); }
+            get => string.IsNullOrEmpty(txtValor.Text) ? (decimal?) null : decimal.Parse(txtValor.Text, _cultura);
 
-            set { this.txtValor.Text = GSUtilitarios.FormateDecimalParaStringMoedaReal(value); }
+            set => this.txtValor.Text = value.HasValue ? GSUtilitarios.FormateDecimalParaStringMoedaReal(value.GetValueOrDefault()) : string.Empty;
         }
 
         private void txtValor_TextChanged(object sender, EventArgs e)
@@ -37,33 +37,31 @@ namespace GS.GestaoEmpresa.Solucao.UI.ControlesGenericos
 
         public static void AjusteTextBoxMonetaria(ref TextBox textBox)
         {
-            if (!textBox.Text.All(x => GSUtilitarios.EhDigitoOuPonto(x)))
+            if (!textBox.Text.All(GSUtilitarios.EhDigitoOuPonto))
             {
                 textBox.Text = string.Empty;
                 return;
             }
 
-            string numero = string.Empty;
-            double valor = 0;
-
             try
             {
-                numero = textBox.Text.Replace(",", string.Empty)
-                                     .Replace(".", string.Empty);
+                var numero = textBox.Text
+                    .Replace(",", string.Empty)
+                    .Replace(".", string.Empty);
 
                 if (numero == string.Empty)
                 {
                     return;
                 }
 
-                numero.PadLeft(3, '0');
+                numero = numero.PadLeft(3, '0');
 
                 if (numero.Length > 3 && numero.Substring(0, 1) == "0")
                 {
                     numero = numero.Substring(1, numero.Length - 1);
                 }
 
-                valor = Convert.ToDouble(numero) / 100;
+                var valor = Convert.ToDouble(numero) / 100;
                 textBox.Text = string.Format(CultureInfo.GetCultureInfo("pt-BR"), "{0:N}", valor);
                 textBox.SelectionStart = textBox.Text.Length;
             }

@@ -54,7 +54,23 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios.Base
             }
         }
 
-        public IList<T> ConsulteTodos(Expression<Func<T, object>> seletor)
+        public IList<T> ConsulteTodos(Expression<Func<T, object>> seletor, string pesquisa, int takeQty = 500, params Expression<Func<T, object>>[] propriedades)
+        {
+            var rQuery = RavenHelper.OpenSession().Query<T>();
+            if (!pesquisa.IsNullOrEmpty())
+            {
+                rQuery = rQuery.SearchMultiple(pesquisa, propriedades);
+            }
+            
+            return rQuery
+                .Take(takeQty) // best option alternative to .ToList().Contains();
+                .Select(seletor)
+                .ToList()
+                .Cast<T>()
+                .ToList();
+        }
+
+        public IList<T> ConsulteTodosExpensive(Expression<Func<T, object>> seletor)
         {
             using (var session = RavenHelper.OpenSession())
             {
@@ -113,6 +129,62 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios.Base
                 return numerosFaltando != null && numerosFaltando.Any()
                     ? numerosFaltando.Min()
                     : listaDeCodigos.Max() + 1;
+            }
+        }
+
+        public IList<int> MassGetAvailableCodes(int numberOfNeededCodes)
+        {
+            var listaDeCodigos = RavenHelper.OpenSession().Query<T>()
+                .Select(x => x.Codigo)
+                .ToList() // Raven query
+                .Distinct()
+                .OrderBy(x => x)
+                .ToList(); // On memory query
+
+            var returnList = new List<int>();
+
+            if (listaDeCodigos.Any())
+            {
+                var missingNumbers = listaDeCodigos.EncontreInteirosFaltandoEmUmaSequencia().ToList();
+                missingNumbers.ForEach(x => returnList.Add(x));
+
+                numberOfNeededCodes -= returnList.Count;
+            }
+
+            var startingNumber = listaDeCodigos.Any() ? listaDeCodigos.Last() : 1;
+
+            for (int i = 0; i < numberOfNeededCodes; i++)
+            {
+                returnList.Add(startingNumber += 1);
+            }
+
+            return returnList;
+        }
+
+        public void MassInsert(IList<T> list, bool processLoopOnDatabase = false)
+        {
+            var newCodes = MassGetAvailableCodes(list.Count);
+            for (var index = 0; index < list.Count; index++)
+            {
+                var item = list[index];
+                item.Id = null;
+
+                if (item.Codigo == 0)
+                {
+                    item.Codigo = newCodes[index];
+                }
+            }
+
+            if (processLoopOnDatabase)
+            {
+                RavenHelper.DocumentStore.BulkInsert(list);
+                return;
+            }
+
+            using (var session = RavenHelper.OpenSession())
+            {
+                list.ToList().ForEach(item => session.Store(item));
+                session.SaveChanges();
             }
         }
 

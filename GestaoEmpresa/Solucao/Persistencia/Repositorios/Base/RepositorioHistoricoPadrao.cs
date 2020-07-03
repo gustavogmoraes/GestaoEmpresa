@@ -55,17 +55,48 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios.Base
             return item.Codigo;
         }
 
+        public IList<int> MassGetAvailableCodes(int numberOfNeededCodes)
+        {
+            var listaDeCodigos = RavenHelper.OpenSession().Query<T>()
+                .Select(x => x.Codigo)
+                .ToList() // Raven query
+                .Distinct()
+                .OrderBy(x => x)
+                .ToList(); // On memory query
+
+            var returnList = new List<int>();
+
+            if (listaDeCodigos.Any())
+            {
+                var missingNumbers = listaDeCodigos.EncontreInteirosFaltandoEmUmaSequencia().ToList();
+                missingNumbers.ForEach(x => returnList.Add(x));
+
+                numberOfNeededCodes -= returnList.Count;
+            }
+
+            var startingNumber = listaDeCodigos.Any() ? listaDeCodigos.Last() : 1;
+
+            for (int i = 0; i < numberOfNeededCodes; i++)
+            {
+                returnList.Add(startingNumber += 1);
+            }
+
+            return returnList;
+        }
+
         public void MassInsert(IList<T> list, bool processLoopOnDatabase = false)
         {
-            foreach (var item in list)
+            var newCodes = MassGetAvailableCodes(list.Count);
+            for (var index = 0; index < list.Count; index++)
             {
+                var item = list[index];
                 item.Id = null;
                 item.Atual = true;
                 item.Vigencia = DateTime.Now;
 
                 if (item.Codigo == 0)
                 {
-                    item.Codigo = ObtenhaProximoCodigoDisponivel();
+                    item.Codigo = newCodes[index];
                 }
             }
 
@@ -92,32 +123,73 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios.Base
 
         public int ObtenhaQuantidadeDeRegistros() => RavenHelper.OpenSession().Query<T>().Count(x => x.Atual);
 
-        public IList<T> ConsulteTodos(Expression<Func<T, object>> seletor = null, Expression<Func<T, bool>> filtro = null)
+        //public IList<T> ConsulteTodos(Expression<Func<T, object>> seletor = null, Expression<Func<T, bool>> filtro = null, int takeQty = 500)
+        //{
+        //    var sessaoRaven = RavenHelper.OpenSession();
+        //    filtro = filtro?.AndAlso(_filtroAtual());
+
+        //    var queryable = filtro != null
+        //        ? sessaoRaven.Query<T>().Where(filtro)
+        //        : sessaoRaven.Query<T>().Where(_filtroAtual());
+
+        //    return seletor == null
+        //        ? queryable.Take(takeQty).ToList().ToList()
+        //        : queryable.Take(takeQty).Select(seletor).ToList().Cast<T>().ToList();
+        //}
+
+        public IList<T> ConsulteTodos(
+            Expression<Func<T, bool>> whereFilter = null,
+            Expression<Func<T, object>> resultSelector = null,
+            int takeQuantity = 500,
+            string searchTerm = null,
+            bool forceContains = false,
+            params Expression<Func<T, object>>[] propertiesToSearch)
         {
-            var sessaoRaven = RavenHelper.OpenSession();
-            filtro = filtro?.AndAlso(_filtroAtual());
+            if (!searchTerm.IsNullOrEmpty() && forceContains)
+            {
+                return ConsulteTodosExpensive(resultSelector, searchTerm, takeQuantity, propertiesToSearch);
+            }
 
-            var queryable = filtro != null
-                ? sessaoRaven.Query<T>().Where(filtro)
-                : sessaoRaven.Query<T>().Where(_filtroAtual());
+            var rQuery = RavenHelper.OpenSession()
+                .Query<T>()
+                .Where(_filtroAtual());
 
-            return seletor == null
-                ? queryable.ToList().ToList()
-                : queryable.Select(seletor).ToList().Cast<T>().ToList();
+            if (whereFilter != null)
+            {
+                rQuery = rQuery.Where(whereFilter);
+            }
+
+            if (!searchTerm.IsNullOrEmpty() && propertiesToSearch.Any())
+            {
+                rQuery = rQuery.SearchMultiple($"{searchTerm}", propertiesToSearch);
+            }
+
+            rQuery = rQuery.Take(takeQuantity);
+
+            if (resultSelector != null)
+            {
+                return rQuery
+                    .Select(resultSelector)
+                    .OfType<T>()
+                    .ToList();
+            }
+
+            return rQuery
+                .OfType<T>()
+                .ToList();
         }
 
-        public IList<T> ConsulteTodos(Expression<Func<T, object>> seletor, Expression<Func<T, object>> propriedade, string pesquisa)
+        public IList<T> ConsulteTodosExpensive(Expression<Func<T, object>> seletor, Expression<Func<T, object>> propriedade, string pesquisa, int takeQty = 500)
         {
             var queryRaven = RavenHelper.OpenSession().Query<T>()
                 .Where(_filtroAtual())
-                //.Search(propriedade, pesquisa)
                 .Select(seletor)
                 .ToList();
 
             return queryRaven
                 .Cast<T>()
                 .Where(x =>
-                { 
+                {
                     var prop = (PropertyInfo)propriedade.GetPropertyFromExpression();
                     var val = prop.GetValue(x, null);
 
@@ -126,7 +198,7 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios.Base
                 .ToList();
         }
 
-        public IList<T> ConsulteTodos(Expression<Func<T, object>> seletor, string pesquisa, params Expression<Func<T, object>>[] propriedades)
+        public IList<T> ConsulteTodosExpensive(Expression<Func<T, object>> seletor, string pesquisa, int takeQty = 500, params Expression<Func<T, object>>[] propriedades)
         {
             var queryRaven = RavenHelper.OpenSession().Query<T>()
                 .Where(_filtroAtual())
@@ -143,7 +215,7 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios.Base
                     {
                         var prop = (PropertyInfo)propriedade.GetPropertyFromExpression();
                         var val = prop.GetValue(x, null);
-                        if (val == null || !val.ToString().ToLowerInvariant().Contains(pesquisa)) continue;
+                        if (val == null || !val.ToString().ToLowerInvariant().Contains(pesquisa.ToLowerInvariant())) continue;
 
                         foundProp = propriedade.Compile();
                         return true;
@@ -159,8 +231,8 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios.Base
             }
 
             var query = foundResults.OrderBy(foundProp);
-            return (propNome == null 
-                ? query 
+            return (propNome == null
+                ? query
                 : query.ThenBy(propNome)).ToList();
         }
 

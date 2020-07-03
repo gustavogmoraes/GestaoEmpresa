@@ -14,6 +14,7 @@ using System.Data;
 using System.Drawing;
 using System.Globalization;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -21,6 +22,7 @@ using System.Windows.Forms;
 using GS.GestaoEmpresa.Solucao.UI.Base;
 using MoreLinq;
 using GS.GestaoEmpresa.Solucao.Persistencia.BancoDeDados;
+using GS.GestaoEmpresa.Solucao.Persistencia.Repositorios;
 
 namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 {
@@ -221,22 +223,8 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         #endregion
 
-        private List<dynamic> ProdutosParaPesquisa { get; set; }
-
         private void frmInteracao_Load(object sender, EventArgs e)
         {
-            
-            using (var servicoDeProduto = new ServicoDeProduto())
-            {
-                ProdutosParaPesquisa = servicoDeProduto.ConsulteTodos().OrderBy(x => x.Nome).Select(x => new
-                {
-                    x.Codigo,
-                    x.Nome
-                }).ToList<dynamic>();
-
-                PreenchaComboBoxPesquisaComProdutos(ProdutosParaPesquisa);
-            }
-
             switch(TipoDeForm)
             {
                 case EnumTipoDeForm.Cadastro:
@@ -309,7 +297,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             var interacao = new Interacao
             {
                 Observacao = txtObservacoes.Text.Trim(),
-                ValorInteracao = GStxtValor.Valor,
+                ValorInteracao = GStxtValor.Valor.GetValueOrDefault(),
                 AtualizarValorDoProdutoNoCatalogo = chkAtualizar.Checked,
                 TipoDeInteracao = (EnumTipoDeInteracao) cbTipo.SelectedIndex + 1,
                 QuantidadeInterada = !string.IsNullOrEmpty(txtQuantidade.Text.Trim())
@@ -638,11 +626,11 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                 switch ((EnumTipoDeInteracao)cbTipo.SelectedIndex + 1)
                 {
                     case EnumTipoDeInteracao.ENTRADA:
-                        valorASerAtribuido = produto.PrecoDeCompra;
+                        valorASerAtribuido = produto.PrecoDeCompra.GetValueOrDefault();
                         break;
 
                     case EnumTipoDeInteracao.SAIDA:
-                        valorASerAtribuido = produto.PrecoDeVenda;
+                        valorASerAtribuido = produto.PrecoDeVenda.GetValueOrDefault();
                         break;
                 }
 
@@ -761,7 +749,14 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                 if(string.IsNullOrEmpty(textoParaPesquisar))
                 {
                     cbProduto.Items.Clear();
-                    cbProduto.Items.AddRange(ProdutosParaPesquisa.ToArray());
+                    cbProduto.DisplayMember = "Nome";
+
+                    var produtos = ConsulteProdutos(textoParaPesquisar);
+                    if (produtos != null && produtos.Any())
+                    {
+                        cbProduto.Items.AddRange(produtos.Cast<object>().ToArray());
+                    }
+
                     cbProduto.SelectionStart = cbProduto.Text.Length;
 
                     return;
@@ -769,23 +764,38 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
                 cbProduto.Items.Clear();
 
-                var produtosPesquisados = ProdutosParaPesquisa.Where(x => x.Nome.ToLowerInvariant().Contains(textoParaPesquisar)).ToArray();
-                if(produtosPesquisados.Any())
+                var produtosPes = ConsulteProdutos(textoParaPesquisar);
+                if (produtosPes.Any())
                 {
-                    
-                    cbProduto.Items.AddRange(produtosPesquisados);
+                    cbProduto.Items.AddRange(produtosPes.Cast<object>().ToArray());
+                    cbProduto.DisplayMember = "Nome";
                     cbProduto.Focus();
                     cbProduto.DroppedDown = true;
                     EstahRenderizando = true;
-                        cbProduto.SelectedIndex = -1;
-                        cbProduto.Text = textoParaPesquisar;
+                    cbProduto.SelectedIndex = -1;
+                    cbProduto.Text = textoParaPesquisar;
                     EstahRenderizando = false;
                     cbProduto.Cursor = Cursors.Default;
                 }
-
                 cbProduto.SelectionStart = cbProduto.Text.Length;
             }));
         }
+
+        private static List<Produto> ConsulteProdutos(string textoParaPesquisar)
+        {
+            var servicoDeProduto = new ServicoDeProduto();
+
+            var produtos = servicoDeProduto.ConsulteTodosParaAterrissagem(resultSelector: SeletorCombo, searchTerm: textoParaPesquisar)
+                .OrderBy(x => x.Nome)
+                .ToList();
+            return produtos;
+        }
+
+        private static Expression<Func<Produto, object>> SeletorCombo => x => new Produto
+        {
+            Codigo = x.Codigo,
+            Nome = x.Nome
+        };
 
         private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
         {

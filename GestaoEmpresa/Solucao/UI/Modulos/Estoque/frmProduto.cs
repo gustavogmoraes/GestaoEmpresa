@@ -103,7 +103,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                     return;
                 }
 
-                txtPorcentagemDeLucro.Valor = Math.Round(porcentagemDeLucro * 100, 2);
+                //txtPorcentagemDeLucro.Valor = Math.Round(porcentagemDeLucro * 100, 2);
             }
 
             if (controleGatilho == txtPorcentagemDeLucro)

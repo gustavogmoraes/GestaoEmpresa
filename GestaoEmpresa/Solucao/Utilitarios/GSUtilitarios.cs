@@ -186,9 +186,14 @@ namespace GS.GestaoEmpresa.Solucao.Utilitarios
             return data;
         }
 
-        public static string FormateDecimalParaStringMoedaReal(decimal valor)
+        public static string FormateDecimalParaStringMoedaReal(decimal valor, bool castToEmptyIf0 = false)
         {
-            return string.Format(CultureInfo.GetCultureInfo("pt-BR"), "{0:C}", valor).Replace("R$ ", String.Empty);
+            if (castToEmptyIf0 && valor == 0)
+            {
+                return string.Empty;
+            }
+
+            return string.Format(CultureInfo.GetCultureInfo("pt-BR"), "{0:C}", Math.Round(valor, 2)).Replace("R$ ", String.Empty);
         }
         #endregion
 

@@ -14,6 +14,7 @@ using Raven.Client.Documents;
 using Raven.Client.Documents.BulkInsert;
 using Raven.Client.Documents.Commands.Batches;
 using Raven.Client.Documents.Conventions;
+using Raven.Client.Documents.Linq;
 using Raven.Client.Documents.Operations.Indexes;
 using Raven.Client.Documents.Session;
 using Raven.Client.ServerWide;
@@ -66,16 +67,62 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.BancoDeDados
         public static void BulkUpdate<T>(this IDocumentSession session, IList<T> items)
             where T : class, IRavenDbDocument, new()
         {
-            var batchCommand = new BatchCommand(
-                DocumentStore.Conventions,
-                JsonOperationContext.ShortTermSingleUse(),
-                items.Select(x => new PutCommandData(
-                        x.Id,
-                        null,
-                        DynamicJsonValue.Convert(x.ToDictionary<object>())))
-                    .OfType<ICommandData>().ToList());
-            
-            session.Advanced.RequestExecutor.Execute(batchCommand, session.Advanced.Context);
+            var ids = items.Select(x => x.Id).ToList();
+            var persistedItems = session.Query<T>().ToList().Where(x => ids.Contains(x.Id)).ToList();
+
+            var props = typeof(T).GetProperties().ToList();
+            persistedItems.ForEach(persistedItem =>
+            {
+                props.ForEach(prop => prop.SetValue(persistedItem, prop.GetValue(items.FirstOrDefault(x => x.Id == persistedItem.Id))));
+            });
+
+            session.SaveChanges();
+        }
+
+        public static void BulkUpdateAdvancedN<T>(this IDocumentSession session, IList<T> items, bool useBatchCommand = false)
+            where T : class, IRavenDbDocument, new()
+        {
+            throw new NotImplementedException();
+            if (useBatchCommand)
+            {
+                
+                var batchCommand = new BatchCommand(
+                    DocumentStore.Conventions,
+                    JsonOperationContext.ShortTermSingleUse(),
+                    items.Select(x => new PutCommandData(
+                            x.Id,
+                            null,
+                            DynamicJsonValue.Convert(x.ToDictionary<object>())))
+                        .OfType<ICommandData>().ToList());
+
+                session.Advanced.RequestExecutor.Execute(batchCommand, session.Advanced.Context);
+                session.SaveChanges();
+
+                return;
+            }
+
+            var ids = items.Select(x => x.Id);
+            var patchDictionary = Queryable.Where(session.Query<T>(), x => ids.Contains(x.Id)).ToDictionary(x => x.Id, GetPatchDictionary);
+        }
+
+        private static Dictionary<Expression<Func<T, object>>, object> GetPatchDictionary<T>(T item)
+        {
+            var patch = new Dictionary<Expression<Func<T, object>>, object>();
+
+            return patch;
+        }
+
+
+        public static void BulkUpdateAdvanced<T>(this IDocumentSession session, Dictionary<string, Dictionary<Expression<Func<T, object>>, object>> valuesToPatch)
+            where T : class, IRavenDbDocument, new()
+        {
+            valuesToPatch.ForEach(item =>
+            {
+                item.Value.ForEach(props =>
+                    session.Advanced.Patch(item.Key, props.Key, props.Value));
+            });
+
+            session.SaveChanges();
         }
 
         private static bool ObtenhaVersaoDoServidor(out BuildNumber buildNumber, int timeoutMilliseconds = 5000)
@@ -148,5 +195,16 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.BancoDeDados
             {
                 { typeof(Interacao), "Interacoes" }
             };
+
+        public static IRavenQueryable<T> SearchMultiple<T>(this IRavenQueryable<T> queryable, string searchTerm, params Expression<Func<T, object>>[] properties)
+            where T: class, IRavenDbDocument, new()
+        {
+            var queryToReturn = queryable;
+            var propertyCount = properties.Length + 1;
+
+            properties.ForEach(x => queryToReturn = queryToReturn.Search(x, new [] { searchTerm }, propertyCount--));
+
+            return queryToReturn;
+        }
     }
 }

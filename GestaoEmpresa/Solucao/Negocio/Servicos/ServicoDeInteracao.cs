@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using GS.GestaoEmpresa.Solucao.Negocio.Objetos;
@@ -9,11 +10,36 @@ using GS.GestaoEmpresa.Solucao.Negocio.Validador;
 using GS.GestaoEmpresa.Solucao.Persistencia.Repositorios;
 using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores.Comuns;
 using GS.GestaoEmpresa.Solucao.Negocio.Servicos.Base;
+using GS.GestaoEmpresa.Solucao.Utilitarios;
 
 namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
 {
     public class ServicoDeInteracao : ServicoPadrao<Interacao, ValidadorDeInteracao, RepositorioDeInteracao>, IDisposable
     {
+        private static Expression<Func<Interacao, object>> SeletorInteracaoAterrissagem => x => new Interacao
+        {
+            Codigo = x.Codigo,
+            TipoDeInteracao = x.TipoDeInteracao,
+            Produto = new Produto
+            {
+                Codigo = x.Codigo, Nome = x.Produto.Nome
+            },
+            QuantidadeInterada = x.QuantidadeInterada,
+            Origem = x.Origem,
+            Destino = x.Destino,
+            Finalidade = x.Finalidade,
+            Situacao = x.Situacao,
+            NumerosDeSerie = x.NumerosDeSerie,
+            HorarioProgramado = x.HorarioProgramado,
+            ValorInteracao = x.ValorInteracao,
+        };
+
+        private static Expression<Func<Interacao, object>>[] PropriedadesParaPesquisa => new Expression<Func<Interacao, object>>[] 
+        {
+            x => x.Produto.Nome, x => x.Produto.CodigoDoFabricante, x => x.Produto.Codigo, x => x.Produto.CodigoDeBarras,
+            x => x.Destino, x => x.Origem, x => x.NumerosDeSerie
+        };
+
         public List<Interacao> ConsulteTodasAsInteracoes()
         {
             return Repositorio.ConsulteTodos().OrderByDescending(x => x.HorarioProgramado).ToList();
@@ -35,24 +61,18 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
             }
         }
 
-        public List<Interacao> ConsulteTodasParaAterrissagem()
+        public List<Interacao> ConsulteTodasParaAterrissagem(string pesquisa = null)
         {
-            return Repositorio.ConsulteTodos(seletor: x => new Interacao
+            if (pesquisa.IsNullOrEmpty())
             {
-                Codigo = x.Codigo,
-                TipoDeInteracao = x.TipoDeInteracao,
-                Produto = new Produto { Nome = x.Produto.Nome },
-                QuantidadeInterada = x.QuantidadeInterada,
-                Origem = x.Origem,
-                Destino = x.Destino,
-                Finalidade = x.Finalidade,
-                Situacao = x.Situacao,
-                NumerosDeSerie = x.NumerosDeSerie,
-                HorarioProgramado = x.HorarioProgramado,
-                ValorInteracao = x.ValorInteracao,
-            })
-            .OrderByDescending(x => x.Codigo)
-            .ToList();
+                return Repositorio.ConsulteTodos(SeletorInteracaoAterrissagem, pesquisa, int.MaxValue)
+                    .OrderByDescending(x => x.Codigo)
+                    .ToList();
+            }
+
+            return Repositorio.ConsulteTodos(SeletorInteracaoAterrissagem, pesquisa, 500, PropriedadesParaPesquisa)
+                .OrderByDescending(x => x.Codigo)
+                .ToList();
         }
 
         private List<Interacao> ConsultePorNumeroDeSerie(string numeroDeSerie)
@@ -158,7 +178,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
                             : produtoConsultado.PrecoDeVenda;
 
                         // Só devemos criar uma nova vigência, caso o valor seja diferente, senão é desnecessário
-                        if (interacao.ValorInteracao != valorDoProduto)
+                        if (interacao.ValorInteracao != valorDoProduto.GetValueOrDefault())
                         {
                             if (interacao.TipoDeInteracao == EnumTipoDeInteracao.ENTRADA)
                             {

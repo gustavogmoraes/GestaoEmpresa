@@ -1,14 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Windows.Forms;
-using System.Data;
-using GS.GestaoEmpresa.Solucao.Negocio.Interfaces;
+﻿using System;
 using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores.Comuns;
 using GS.GestaoEmpresa.Solucao.Negocio.Atributos;
-using System;
 using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores.Seguros.UnidadeIntelbras;
 using GS.GestaoEmpresa.Solucao.Negocio.Objetos.Base;
 using GS.GestaoEmpresa.Solucao.Persistencia.Repositorios;
-using GS.GestaoEmpresa.Solucao.Persistencia.Interfaces;
 
 namespace GS.GestaoEmpresa.Solucao.Negocio.Objetos
 {
@@ -27,13 +22,13 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Objetos
         public string CodigoDoFabricante { get; set; }
 
         [Identificacao(Descricao = "Preço de compra")]
-        public decimal PrecoDeCompra { get; set; }
+        public decimal? PrecoDeCompra { get; set; }
 
         [Identificacao(Descricao = "Preço de venda")]
-        public decimal PrecoDeVenda { get; set; }
+        public decimal? PrecoDeVenda { get; set; }
 
         [Identificacao(Descricao = "Porcentagem de lucro")]
-        public decimal PorcentagemDeLucro { get; set; }
+        public decimal? PorcentagemDeLucro { get; set; }
 
         [Identificacao(Descricao = "Quantidade em estoque")]
         public int QuantidadeEmEstoque { get; set; }
@@ -51,49 +46,100 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Objetos
         public string CodigoDeBarras { get; set; }
 
         [Identificacao(Descricao = "Porcentagem de Ipi")]
-        public decimal Ipi { get; set; }
+        public decimal? Ipi { get; set; }
 
-        public decimal PrecoNaIntelbras { get; set; }
+        public decimal? PrecoNaIntelbras { get; set; }
 
         public UnidadeIntelbras Unidade { get; set; }
 
-        public decimal PrecoSugeridoRevenda { get; set; }
+        // Compra
+        public decimal? PrecoDistribuidor { get; set; }
 
-        public decimal PorcentagemDeLucroConsumidorFinal { get; set; }
+        // Lucro estimado
+        public decimal? PorcentagemDeLucroDistribuidor { get; set; }
 
-        public decimal PrecoSugeridoConsumidorFinal { get; set; }
+        // Venda
+        public decimal? PrecoDeVendaDoDistribuidor { get; set; }
+
+        // Consumidor Final estipulado pela Intelbras
+        public decimal? PrecoSugeridoConsumidorFinal { get; set; }
+
+        public bool ImportadoViaPlanilha { get; set; }
 
         public Produto(Produto modelo) : base (modelo) { }
 
         public Produto() { }
 
-        public decimal PrecoVendaConsumidorFinal { get; set; }
-
-        public void CalculePrecoDeCompraIntelbras()
+        public decimal CalculePrecoDeCompraComBaseNoPrecoDaIntelbras(bool setOwnProperty = true)
         {
-            PrecoDeCompra = PrecoNaIntelbras +
-                            PrecoNaIntelbras * (Ipi / 100) +
-                            PrecoNaIntelbras * ObtenhaValorDoProtege(Ipi);
+            var precoDeCompra = PrecoNaIntelbras.GetValueOrDefault() +
+                                      PrecoNaIntelbras.GetValueOrDefault() * (Ipi.GetValueOrDefault() / 100) +
+                                      PrecoNaIntelbras.GetValueOrDefault() * ObtenhaValorDoProtege(Ipi.GetValueOrDefault());
+
+            if (setOwnProperty)
+            {
+                PrecoDeCompra = precoDeCompra;
+            }
+
+            return precoDeCompra;
         }
 
-        public decimal CalculePrecoDeVenda()
+        public decimal CalculePrecoDeVenda(bool setOwnProperty = true)
         {
-            PrecoDeVenda = PrecoDeCompra +
-                           PrecoDeCompra * (PorcentagemDeLucro == 0
-                                                ? new RepositorioDeConfiguracao().ObtenhaUnica().PorcentagemDeLucroPadrao
-                                                : PorcentagemDeLucro / 100);
+            var porcentagemDeLucroPadrao = new RepositorioDeConfiguracao().ObtenhaUnica()?.PorcentagemDeLucroPadrao ?? 40.0M;
 
-            PrecoDeVenda = Math.Round(PrecoDeVenda, 2);
+            var precoDeVenda = PrecoDeCompra + PrecoDeCompra *
+                                     (PorcentagemDeLucro == 0
+                                         ? porcentagemDeLucroPadrao
+                                         : PorcentagemDeLucro / 100);
 
-            return PrecoDeVenda;
+            precoDeVenda = Math.Round(precoDeVenda.GetValueOrDefault(), 2);
+
+            if (setOwnProperty)
+            {
+                PrecoDeVenda = precoDeVenda;
+            }
+
+            return precoDeVenda.GetValueOrDefault();
         }
 
-        public decimal CalculePrecoDeVendaConsumidor()
+        public decimal CalculePorcentagemDeLucroVenda(bool setOwnProperty = true)
         {
-            PrecoVendaConsumidorFinal = PrecoSugeridoConsumidorFinal + PrecoSugeridoConsumidorFinal * (PorcentagemDeLucroConsumidorFinal / 100);
-            PrecoVendaConsumidorFinal = Math.Round(PrecoVendaConsumidorFinal, 2);
+            var porcentagemDeLucro = ((PrecoDeVenda - PrecoDeCompra) / PrecoDeCompra) * 100;
+            porcentagemDeLucro = Math.Round(porcentagemDeLucro.GetValueOrDefault(), 2);
 
-            return PrecoSugeridoConsumidorFinal;
+            if (setOwnProperty)
+            {
+                PorcentagemDeLucro = porcentagemDeLucro;
+            }
+
+            return porcentagemDeLucro.GetValueOrDefault();
+        }
+
+        public decimal CalculePrecoDeVendaDistribuidor(bool setOwnProperty = true)
+        {
+            var precoVendaDistribuidor = 
+                Math.Round(PrecoDistribuidor.GetValueOrDefault() + 
+                           PrecoDistribuidor.GetValueOrDefault() * (PorcentagemDeLucroDistribuidor ?? 30.0M / 100),
+                    2);
+
+            if (setOwnProperty)
+            {
+                PrecoDeVendaDoDistribuidor = precoVendaDistribuidor;
+            }
+
+            return precoVendaDistribuidor;
+        }
+
+        public decimal CalculePorcentagemDeLucroVendaDistribuidor(bool setOwnProperty = true)
+        {
+            var porcentagemDeLucro = Math.Round(((PrecoDistribuidor.GetValueOrDefault() - PrecoDistribuidor.GetValueOrDefault()) / PrecoDistribuidor.GetValueOrDefault()) * 100, 2);
+            if (setOwnProperty)
+            {
+                PorcentagemDeLucroDistribuidor = porcentagemDeLucro;
+            }
+
+            return porcentagemDeLucro;
         }
 
         private static decimal ObtenhaValorDoProtege(decimal ipi)

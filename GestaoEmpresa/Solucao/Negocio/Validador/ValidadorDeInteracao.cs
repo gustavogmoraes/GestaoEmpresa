@@ -7,6 +7,7 @@ using GS.GestaoEmpresa.Solucao.Negocio.Servicos;
 using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores.Comuns;
 using GS.GestaoEmpresa.Solucao.Negocio.Validador.Base;
 using GS.GestaoEmpresa.Solucao.Persistencia.Repositorios;
+using MoreLinq;
 
 namespace GS.GestaoEmpresa.Solucao.Negocio.Validador
 {
@@ -59,7 +60,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Validador
             var interacao = RepositorioDeInteracao().Consulte(codigo);
 
             var listaDeInteracoes = RepositorioDeInteracao().Consulte(x => x.Produto.Codigo == interacao.Produto.Codigo);
-            var ultimaInteracaoComEsseProduto = listaDeInteracoes.FirstOrDefault(x => x.Horario == listaDeInteracoes.Max(y => x.Horario));
+            var ultimaInteracaoComEsseProduto = listaDeInteracoes.MaxBy(x => x.Horario);
 
             var listaDeInconsistencias = new List<Inconsistencia>();
             if (codigo != ultimaInteracaoComEsseProduto.Codigo)

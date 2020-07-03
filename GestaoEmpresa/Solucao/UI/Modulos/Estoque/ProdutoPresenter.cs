@@ -30,17 +30,16 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             MapeieControle(model => model.PorcentagemDeLucro, view => view.txtPorcentagemLucro);
             MapeieControle(model => model.Ipi, view => view.txtPorcentagemIpi);
             MapeieControle(model => model.PrecoNaIntelbras, view => view.txtPrecoNaIntelbras);
-            MapeieControle(model => model.PrecoSugeridoRevenda, view => view.txtPrecoSugeridoRevenda);
+            MapeieControle(model => model.PrecoDistribuidor, view => view.txtPrecoSugeridoRevenda);
             MapeieControle(model => model.PrecoSugeridoConsumidorFinal, view => view.txtPscf);
-            MapeieControle(model => model.PorcentagemDeLucroConsumidorFinal, view => view.txtLucroConsumidorFinal);
-            //MapeieControle(model => model.PrecoVendaConsumidorFinal, view => view.txtPrecoVendaConsumidorFinal);
+            MapeieControle(model => model.PorcentagemDeLucroDistribuidor, view => view.txtLucroConsumidorFinal);
         }
 
         public IList<Inconsistencia> Salve()
         {
             using (var servicoDeProduto = new ServicoDeProduto())
             {
-                return servicoDeProduto.Salve((Produto)Model, View.TipoDeForm);
+                return servicoDeProduto.Salve(Model, View.TipoDeForm);
             }
         }
 

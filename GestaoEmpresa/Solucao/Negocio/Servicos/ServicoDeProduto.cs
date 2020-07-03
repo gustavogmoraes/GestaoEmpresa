@@ -77,35 +77,25 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
             PrecoDeCompra = x.PrecoDeCompra,
             PrecoDeVenda = x.PrecoDeVenda,
             PrecoNaIntelbras =  x.PrecoNaIntelbras,
-            PrecoSugeridoRevenda = x.PrecoSugeridoRevenda,
+            PrecoDistribuidor = x.PrecoDistribuidor,
+            PrecoSugeridoConsumidorFinal = x.PrecoSugeridoConsumidorFinal,
             QuantidadeEmEstoque = x.QuantidadeEmEstoque,
             Status = x.Status
         };
 
-        public List<Produto> ConsulteTodosParaAterrissagem()
-        {
-            return Repositorio.ConsulteTodos(SeletorProdutoAterrissagem)
-                .OrderBy(x => x.Nome)
-                .ToList();
-        }
+        private static readonly Expression<Func<Produto, object>>[] DefaultPropertiesToSearch =
+            { x => x.Nome, x => x.Codigo, x => x.CodigoDoFabricante, x => x.Fabricante };
 
-        public List<Produto> ConsulteTodosParaAterrissagem(Expression<Func<Produto, bool>> filtro)
+        public List<Produto> ConsulteTodosParaAterrissagem(
+            Expression<Func<Produto, bool>> whereFilter = null,
+            Expression<Func<Produto, object>> resultSelector = null,
+            int takeQuantity = 500,
+            string searchTerm = null,
+            Expression<Func<Produto, object>>[] propertiesToSearch = null) 
         {
-            return Repositorio.ConsulteTodos(SeletorProdutoAterrissagem, filtro)
-                .OrderBy(x => x.Nome)
+            return Repositorio.ConsulteTodos(whereFilter, resultSelector ?? SeletorProdutoAterrissagem, takeQuantity, searchTerm, propertiesToSearch: propertiesToSearch ?? DefaultPropertiesToSearch)
+                //.OrderBy(x  => x.Nome)
                 .ToList();
-        }
-
-        public List<Produto> ConsulteTodosParaAterrissagem(Expression<Func<Produto, object>> propriedade, string pesquisa)
-        {
-            return Repositorio.ConsulteTodos(SeletorProdutoAterrissagem, propriedade, pesquisa)
-                .OrderBy(x => x.Nome)
-                .ToList();
-        }
-
-        public List<Produto> ConsulteTodosParaAterrissagem(string pesquisa, params Expression<Func<Produto, object>>[] propriedades) 
-        {
-            return Repositorio.ConsulteTodos(SeletorProdutoAterrissagem, pesquisa, propriedades).ToList();
         }
 
         public override Produto Consulte(int codigo)
@@ -156,7 +146,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
             const int indexUf = 7;
             const int indexIpi = 8;
             const int indexPrecoCompra = 10;
-            const int indexPrecoRevenda = 12;
+            const int indexPrecoDistribuidor = 12;
             const int indexPscf = 13;
 
             using (var excelQueryFactory = new ExcelQueryFactory(caminhoArquivo))
@@ -171,7 +161,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
                             UF = linha[indexUf].ToString().Trim(),
                             Ipi = linha[indexIpi].ToString().Trim(),
                             PrecoDeCompra = linha[indexPrecoCompra].ToString().Trim(),
-                            PrecoRevenda = linha[indexPrecoRevenda].ToString().Trim(),
+                            PrecoDistribuidor = linha[indexPrecoDistribuidor].ToString().Trim(),
                             Pscf = linha[indexPscf].ToString().Trim()
                         })
                         .ToList() // Execute query on EQF and enumerate results
@@ -243,7 +233,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
                 UpdateProgressBar(ref totalAdded, progressRange, importedItems, caller);
 
                 if (((string)item.PrecoDeCompra).IsAny("R$ -", "-") ||
-                    ((string)item.PrecoRevenda).IsAny("R$ -", "-"))
+                    ((string)item.PrecoDistribuidor).IsAny("R$ -", "-"))
                 {
                     return;
                 }
@@ -280,8 +270,6 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
 
             return new Tuple<int, int>(itemsToUpdate.Count, itemsToAdd.Count);
         }
-        
-        private bool KeepRunningTask { get; set; }
 
         private static void PreenchaProduto(Produto produtoPersistido, dynamic item, Configuracoes configuracao)
         {
@@ -290,12 +278,11 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
             produtoPersistido.Unidade = UnidadeIntelbras.ObtenhaPorNome(item.Unidade);
             produtoPersistido.PrecoNaIntelbras = GSExtensions.ObtenhaMonetario(item.PrecoDeCompra);
             produtoPersistido.Ipi = ((string)item.Ipi).Replace("%", string.Empty).ToDecimal();
-            produtoPersistido.CalculePrecoDeCompraIntelbras();
+            produtoPersistido.CalculePrecoDeCompraComBaseNoPrecoDaIntelbras();
             produtoPersistido.CalculePrecoDeVenda();
-
-            produtoPersistido.PrecoSugeridoRevenda = GSExtensions.ObtenhaMonetario(item.PrecoRevenda);
+            produtoPersistido.CalculePrecoDeVendaDistribuidor();
+            produtoPersistido.PrecoDistribuidor = GSExtensions.ObtenhaMonetario(item.PrecoDistribuidor);
             produtoPersistido.PrecoSugeridoConsumidorFinal = GSExtensions.ObtenhaMonetario(item.Pscf);
-            produtoPersistido.PorcentagemDeLucroConsumidorFinal = Convert.ToDecimal(30);
         }
 
         private static Produto ObtenhaNovoProduto(dynamic item, Configuracoes configuracao)
@@ -308,26 +295,16 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
                 CodigoDoFabricante = ((string)item.CodigoDoProduto).Trim(),
                 Unidade = UnidadeIntelbras.ObtenhaPorNome(item.Unidade),
                 PrecoNaIntelbras = GSExtensions.ObtenhaMonetario(item.PrecoDeCompra),
-                Ipi = ((string)item.Ipi).Replace("%", string.Empty).ToDecimal().DivideBy(100),
-                PrecoSugeridoRevenda = GSExtensions.ObtenhaMonetario(item.PrecoRevenda),
-                PorcentagemDeLucro = configuracao.PorcentagemDeLucroPadrao
-            };
+                Ipi = ((string)item.Ipi).Replace("%", string.Empty).ToDecimal(),
+                PrecoDistribuidor = GSExtensions.ObtenhaMonetario(item.PrecoDistribuidor),
+                PorcentagemDeLucro = configuracao.PorcentagemDeLucroPadrao,
+                PrecoSugeridoConsumidorFinal = GSExtensions.ObtenhaMonetario(item.Pscf),
+                PorcentagemDeLucroDistribuidor = 30.0M
+        };
 
-            novoProduto.CalculePrecoDeCompraIntelbras();
+            novoProduto.CalculePrecoDeCompraComBaseNoPrecoDaIntelbras();
             novoProduto.CalculePrecoDeVenda();
-            novoProduto.CalculePrecoDeVendaConsumidor();
-
-            novoProduto.PrecoSugeridoConsumidorFinal = GSExtensions.ObtenhaMonetario(item.Pscf);
-            novoProduto.PorcentagemDeLucroConsumidorFinal = Convert.ToDecimal(30);
-
-            
-            //novoProduto.Atual = true;
-            //var latestThis = latestProducts.FirstOrDefault(x => x.CodigoDoFabricante == novoProduto.CodigoDoFabricante);
-
-            //novoProduto.QuantidadeEmEstoque = latestThis.QuantidadeEmEstoque;
-            //novoProduto.QuantidadeMinimaParaAviso = latestThis.QuantidadeMinimaParaAviso;
-            //novoProduto.Observacao = latestThis.Observacao;
-            //novoProduto.Vigencia = DateTime.Now;
+            novoProduto.CalculePrecoDeVendaDistribuidor();
 
             return novoProduto;
         }

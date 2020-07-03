@@ -1,5 +1,6 @@
 ﻿#region Usings
 
+using System.Linq.Expressions;
 using Remotion.Utilities;
 
 #region Core
@@ -65,8 +66,8 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Atendimento
                 sequencial,
                 quantidade,
                 produto.Nome,
-                produto.PrecoDeVenda.ToMonetaryString(),
-                (produto.PrecoDeVenda * quantidade).ToMonetaryString()
+                produto.PrecoDeVenda.HasValue ? produto.PrecoDeVenda.GetValueOrDefault().ToMonetaryString() : string.Empty,
+                produto.PrecoDeVenda.HasValue ? (produto.PrecoDeVenda.GetValueOrDefault() * quantidade).ToMonetaryString() : string.Empty
             };
         }
 
@@ -77,8 +78,8 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Atendimento
                 produto.Codigo,
                 produto.Nome,
                 produto.CodigoDoFabricante,
-                produto.PrecoDeCompra.ToMonetaryString(),
-                produto.PrecoDeVenda.ToMonetaryString(),
+                produto.PrecoDeCompra.HasValue ? produto.PrecoDeCompra.GetValueOrDefault().ToMonetaryString() : string.Empty,
+                produto.PrecoDeVenda.HasValue ? produto.PrecoDeVenda.GetValueOrDefault().ToMonetaryString() : string.Empty,
             };
         }
 
@@ -90,7 +91,9 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Atendimento
         {
             using (var servicoDeProduto = new ServicoDeProduto())
             {
-                var produtosPesquisados = servicoDeProduto.ConsulteTodosParaAterrissagem(searchTerm, model => model.Nome, model => model.CodigoDoFabricante, model => model.Codigo);
+                var produtosPesquisados = servicoDeProduto.ConsulteTodosParaAterrissagem(
+                    searchTerm: searchTerm, 
+                    propertiesToSearch: new Expression<Func<Produto, object>>[] { model => model.Nome, model => model.CodigoDoFabricante, model => model.Codigo});
                 View.Invoke((MethodInvoker)delegate
                 {
                     View.dgvItensPesquisa.Rows.Clear();
