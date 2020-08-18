@@ -8,9 +8,7 @@ using GS.GestaoEmpresa.Solucao.Negocio.Interfaces;
 using GS.GestaoEmpresa.Solucao.Negocio.Objetos.Base;
 using GS.GestaoEmpresa.Solucao.Persistencia.BancoDeDados;
 using GS.GestaoEmpresa.Solucao.Utilitarios;
-using Raven.Client.Documents;
 using Raven.Client.Documents.Linq;
-using Raven.Client.Documents.Session;
 
 namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios.Base
 {

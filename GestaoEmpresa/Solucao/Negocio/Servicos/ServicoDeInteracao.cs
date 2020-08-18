@@ -2,14 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 using GS.GestaoEmpresa.Solucao.Negocio.Objetos;
-using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores;
 using GS.GestaoEmpresa.Solucao.Negocio.Validador;
 using GS.GestaoEmpresa.Solucao.Persistencia.Repositorios;
 using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores.Comuns;
 using GS.GestaoEmpresa.Solucao.Negocio.Servicos.Base;
+using GS.GestaoEmpresa.Solucao.UI;
+using GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque;
 using GS.GestaoEmpresa.Solucao.Utilitarios;
 
 namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
@@ -79,9 +78,10 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
         {
             using (var repositorioDeInteracao = new RepositorioDeInteracao())
             {
-                return repositorioDeInteracao.Consulte(x => x.InformaNumeroDeSerie && 
-                                                            x.NumerosDeSerie.Contains(numeroDeSerie))
-                                             .ToList();
+                return repositorioDeInteracao.Consulte(x =>
+                    x.InformaNumeroDeSerie &&
+                    x.NumerosDeSerie.Contains(numeroDeSerie))
+                .ToList();
             }
         }
         
@@ -194,8 +194,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
                         }
                     }
 
-                    servicoDeProduto.AltereQuantidadeDeProduto(produtoConsultado.Codigo,
-                        produtoConsultado.QuantidadeEmEstoque + quantidadeInterada + quantidadeInteradaAux);
+                    servicoDeProduto.AltereQuantidadeDeProduto(produtoConsultado.Codigo, produtoConsultado.QuantidadeEmEstoque + quantidadeInterada + quantidadeInteradaAux);
                 }
             };
         }

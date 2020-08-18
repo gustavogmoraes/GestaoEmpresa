@@ -63,7 +63,7 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios.Base
             }
             
             return rQuery
-                .Take(takeQty) // best option alternative to .ToList().Contains();
+                .Take(takeQty)
                 .Select(seletor)
                 .ToList()
                 .Cast<T>()

@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
-using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
@@ -24,14 +23,6 @@ using GS.GestaoEmpresa.Solucao.UI.Base;
 using GS.GestaoEmpresa.Solucao.UI.ControlesGenericos;
 using GS.GestaoEmpresa.Solucao.Utilitarios;
 using GS.GestaoEmpresa.Solucao.Persistencia.BancoDeDados;
-using GS.GestaoEmpresa.Solucao.Persistencia.Repositorios;
-using GS.GestaoEmpresa.Solucao.UI;
-using GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque;
-using MoreLinq;
-using Newtonsoft.Json;
-using Raven.Client.Documents;
-using Raven.Client.Documents.Conventions;
-
 //
 
 namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
@@ -111,23 +102,38 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         public void RecarregueProdutoEspecifico(Produto produto)
         {
             // Mantendo a seleção e scroll presente na tela
-            var index = dgvProdutos.CurrentRow.Index;
+            var currentIndex = dgvProdutos.CurrentRow?.Index;
+            var didUpdate = false;
 
             var indice = dgvProdutos.EncontreIndiceNaGrid("colunaCodigo", produto.Codigo.ToString());
             if (indice.HasValue)
             {
-                dgvProdutos.Rows[indice.Value].Cells[1].Value = produto.CodigoDoFabricante;
-                dgvProdutos.Rows[indice.Value].Cells[2].Value = produto.Status;
-                dgvProdutos.Rows[indice.Value].Cells[3].Value = produto.Nome;
-                dgvProdutos.Rows[indice.Value].Cells[4].Value = produto.Observacao;
-                dgvProdutos.Rows[indice.Value].Cells[5].Value = produto.PrecoDeCompra.HasValue ? produto.PrecoDeCompra.GetValueOrDefault().FormateParaStringMoedaReal() : string.Empty;
-                dgvProdutos.Rows[indice.Value].Cells[6].Value = produto.PrecoDeVenda.HasValue ? produto.PrecoDeVenda.GetValueOrDefault().FormateParaStringMoedaReal() : string.Empty;
-                dgvProdutos.Rows[indice.Value].Cells[7].Value = produto.QuantidadeEmEstoque;
+                UpdateProductOnGrid(produto, indice);
+                didUpdate = true;
             }
 
-            dgvProdutos.Refresh();
+            if (didUpdate && currentIndex.HasValue)
+            {
+                dgvProdutos.FirstDisplayedScrollingRowIndex = currentIndex.GetValueOrDefault();
+            }
+        }
 
-            dgvProdutos.FirstDisplayedScrollingRowIndex = index;
+        private void UpdateProductOnGrid(Produto produto, int? indice)
+        {
+            var rowIndex = indice.GetValueOrDefault();
+
+            dgvProdutos[colunaCodigoFabricante.Index, rowIndex].Value = produto.CodigoDoFabricante;
+            dgvProdutos[colunaNome.Index, rowIndex].Value = produto.Nome;
+            dgvProdutos[colunaDescricao.Index, rowIndex].Value = produto.Observacao;
+            dgvProdutos[colunaPrecoCompra.Index, rowIndex].Value = produto.PrecoDeCompra.HasValue
+                                                                 ? produto.PrecoDeCompra.GetValueOrDefault().FormateParaStringMoedaReal()
+                                                                 : string.Empty;
+            dgvProdutos[colunaPrecoVenda.Index, rowIndex].Value = produto.PrecoDeVenda.HasValue
+                                                                ? produto.PrecoDeVenda.GetValueOrDefault().FormateParaStringMoedaReal()
+                                                                : string.Empty;
+            dgvProdutos[colunaQuantidade.Index, rowIndex].Value = produto.QuantidadeEmEstoque;
+
+            dgvProdutos.Refresh();
         }
 
         #endregion
@@ -153,7 +159,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             interacao.Finalidade,
             interacao.Situacao,
             GSUtilitarios.FormateDecimalParaStringMoedaReal(interacao.ValorInteracao),
-            interacao.HorarioProgramado.ToString(Cultura).Remove(interacao.Horario.ToString(Cultura).Length - 3, 3),
+            interacao.HorarioProgramado.ToString(Cultura).Remove(interacao.Horario.ToString(Cultura).Length - 3, 3)
         };
 
         private void CarregueDataGridInteracoes(List<Interacao> listaDeInteracoes)
@@ -622,7 +628,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             }
         }
 
-        private void btnRefreshHist_Click(object sender, EventArgs e)
+        public void btnRefreshHist_Click(object sender, EventArgs e)
         {
             using (var servicoDeInteracao = new ServicoDeInteracao())
             {
@@ -631,6 +637,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
             txtPesquisaHistorico.ForeColor = Color.Silver;
             txtPesquisaHistorico.Text = "Pesquisar...";
+            dgvHistorico.Refresh();
         }
 
         private void button1_Click(object sender, EventArgs e)

@@ -484,6 +484,9 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                         InicializeBotoes(EnumTipoDeForm.Detalhamento, ref btnEditarSalvar, ref btnCancelarExcluir, ref _switchBotaoEditarSalvar, ref _switchBotaoCancelarExcluir);
                         TipoDeForm = EnumTipoDeForm.Edicao;
                         DesabiliteControles();
+
+                        var formEstoque = GerenciadorDeViews.ObtenhaIndependente<FrmEstoque>();
+                        formEstoque.btnRefreshHist_Click(null, null);
                         return;
                     }
 
@@ -528,10 +531,13 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                             else
                             {
                                 MessageBox.Show("Interação excluída com sucesso!");
-                                this.Close();
+                                Close();
+                                var formEstoque = GerenciadorDeViews.ObtenhaIndependente<FrmEstoque>();
+                                formEstoque.btnRefreshHist_Click(null, null);
                             }
                         }
                     }
+
                     break;
             }
         }

@@ -24,7 +24,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
 {
     public class ServicoDeProduto : ServicoHistoricoPadrao<Produto, ValidadorDeProduto, RepositorioDeProduto>, IDisposable
     {
-        #region Implementa��o padr�o
+        #region Default Implementation
 
         protected override Action AcaoSucessoValidacaoDeCadastro(Produto produto)
         {
@@ -165,7 +165,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
                             Pscf = linha[indexPscf].ToString().Trim()
                         })
                         .ToList() // Execute query on EQF and enumerate results
-                        .Where(x => x.UF.ToString() == "GO") // Get only those from Goi�s
+                        .Where(x => x.UF.ToString() == "GO") // Get only those from Goias
                         .ToList();
             }
         }
