@@ -115,6 +115,9 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             cbSituacao.Enabled = true;
             txtLineSituacao.Enabled = true;
 
+            dtpDevolucao.Enabled = true;
+            dtpTimeDevolucao.Enabled = true;
+
             txtObservacoes.Enabled = true;
             txtLineObservacoes.Enabled = true;
         }
@@ -253,6 +256,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         public void CarregueControlesComObjeto(Interacao objeto)
         {
             IdInteracao = objeto?.Id;
+            _codigoInteracao = objeto.Codigo;
             CodigoProdutoCarregado = objeto?.Produto.Codigo;
             cbTipo.SelectedIndex = (int)objeto.TipoDeInteracao - 1;
             txtObservacoes.Text = objeto.Observacao ?? string.Empty;
@@ -306,6 +310,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         {
             var interacao = new Interacao
             {
+                Codigo = _codigoInteracao,
                 Id = IdInteracao,
                 Observacao = txtObservacoes.Text.Trim(),
                 ValorInteracao = GStxtValor.Valor.GetValueOrDefault(),

@@ -209,6 +209,8 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
                     var produtoConsultado = servicoDeProduto.Consulte(item.Produto.Codigo);
                     servicoDeProduto.AltereQuantidadeDeProduto(produtoConsultado.Codigo, produtoConsultado.QuantidadeEmEstoque + item.QuantidadeInterada);
                     servicoDeProduto.Dispose();
+
+                    item.TipoDeInteracao = EnumTipoDeInteracao.BASE_DE_TROCA;
                 }
             };
         }
