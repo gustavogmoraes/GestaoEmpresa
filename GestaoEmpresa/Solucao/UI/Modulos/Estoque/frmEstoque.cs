@@ -684,9 +684,9 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
                 if (string.IsNullOrEmpty(pesquisa))
                 {
-                    using (var servicoDeProduto = new ServicoDeInteracao())
+                    using (var servicoDeInteracao = new ServicoDeInteracao())
                     {
-                        CarregueDataGridInteracoes(servicoDeProduto.ConsulteTodasParaAterrissagem());
+                        CarregueDataGridInteracoes(servicoDeInteracao.ConsulteTodasParaAterrissagem());
                     }
                     
                     processou = false;

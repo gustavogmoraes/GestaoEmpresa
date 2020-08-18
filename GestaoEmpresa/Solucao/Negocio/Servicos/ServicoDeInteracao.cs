@@ -65,12 +65,12 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
             if (pesquisa.IsNullOrEmpty())
             {
                 return Repositorio.ConsulteTodos(SeletorInteracaoAterrissagem, pesquisa, int.MaxValue)
-                    .OrderByDescending(x => x.Codigo)
+                    .OrderByDescending(x => x.HorarioProgramado)
                     .ToList();
             }
 
             return Repositorio.ConsulteTodos(SeletorInteracaoAterrissagem, pesquisa, 500, PropriedadesParaPesquisa)
-                .OrderByDescending(x => x.Codigo)
+                .OrderByDescending(x => x.HorarioProgramado)
                 .ToList();
         }
 
@@ -201,7 +201,16 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
 
         protected override Action AcaoSucessoValidacaoDeEdicao(Interacao item)
         {
-            return () => { };
+            return () => 
+            {
+                if(item.Situacao == "Devolvido")
+                {
+                    var servicoDeProduto = new ServicoDeProduto();
+                    var produtoConsultado = servicoDeProduto.Consulte(item.Produto.Codigo);
+                    servicoDeProduto.AltereQuantidadeDeProduto(produtoConsultado.Codigo, produtoConsultado.QuantidadeEmEstoque + item.QuantidadeInterada);
+                    servicoDeProduto.Dispose();
+                }
+            };
         }
 
         protected override Action AcaoSucessoValidacaoDeExclusao(int codigo)
