@@ -178,6 +178,10 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
             txtOrdemDeServico.Enabled = false;
             txtLineOS.Enabled = false;
+
+            label12.Enabled = false;
+            dtpDevolucao.Enabled = false;
+            dtpTimeDevolucao.Enabled = false;
         }
 
         protected void InicializeBotoes(EnumTipoDeForm tipoDeForm,
@@ -243,9 +247,13 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
             InicializeInconsistencias();
         }
+
+        private int? CodigoProdutoCarregado { get; set; }
         
         public void CarregueControlesComObjeto(Interacao objeto)
         {
+            IdInteracao = objeto?.Id;
+            CodigoProdutoCarregado = objeto?.Produto.Codigo;
             cbTipo.SelectedIndex = (int)objeto.TipoDeInteracao - 1;
             txtObservacoes.Text = objeto.Observacao ?? string.Empty;
             txtQuantidade.Text = objeto.QuantidadeInterada.ToString();
@@ -292,10 +300,13 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             }
         }
 
+        private string IdInteracao { get; set; }
+
         public Interacao CarregueObjetoComControles()
         {
             var interacao = new Interacao
             {
+                Id = IdInteracao,
                 Observacao = txtObservacoes.Text.Trim(),
                 ValorInteracao = GStxtValor.Valor.GetValueOrDefault(),
                 AtualizarValorDoProdutoNoCatalogo = chkAtualizar.Checked,
@@ -319,7 +330,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
             using (var servicoDeProduto = new ServicoDeProduto())
             {
-                int codigoProduto = (((dynamic)cbProduto.SelectedItem).Codigo as object).ToInt32();
+                int codigoProduto = CodigoProdutoCarregado.GetValueOrDefault();
                 var horarioProgramado = dateData.MergeValue(dateHorario).RemoveMs();
 
                 interacao.Produto = servicoDeProduto.Consulte(codigoProduto, horarioProgramado) ?? servicoDeProduto.Consulte(codigoProduto);
@@ -620,6 +631,8 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                 }
 
                 int codigoProduto = Convert.ToInt32(((dynamic)cbProduto.SelectedItem).Codigo);
+                CodigoProdutoCarregado = codigoProduto;
+
                 var horarioProgramado = GSUtilitarios.ObtenhaDateTimeCompletoDePickers(dateData, dateHorario).RemoveMs();
 
                 var produto = servicoDeProduto.Consulte(codigoProduto, horarioProgramado);
