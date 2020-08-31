@@ -23,6 +23,7 @@ using GS.GestaoEmpresa.Solucao.UI.Base;
 using GS.GestaoEmpresa.Solucao.UI.ControlesGenericos;
 using GS.GestaoEmpresa.Solucao.Utilitarios;
 using GS.GestaoEmpresa.Solucao.Persistencia.BancoDeDados;
+using GS.GestaoEmpresa.Solucao.Persistencia.Repositorios;
 //
 
 namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
@@ -255,62 +256,94 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             //var x = repoProd.ConsulteTodos(searchTerm: searchTerm, resultSelector: SeletorProdutoAterrissagem, propertiesToSearch: DefaultPropertiesToSearch).OrderBy(z => z.Nome).ToList();
             //var y = repoProd.ConsulteTodosExpensive(pesquisa: searchTerm, seletor: SeletorProdutoAterrissagem, propriedades: DefaultPropertiesToSearch).OrderBy(z => z.Nome).ToList();
 
-            #region Migração de dados ClientesAntigos ---> RavenDB
-
-            //var dialogResult = MessageBox.Show(" Migração de dados ClientesAntigos ---> RavenDB", "Confirmação", MessageBoxButtons.YesNo);
-            //if (dialogResult == DialogResult.Yes)
+            //var prodsList = new List<string>();
+            //using (var session = RavenHelper.OpenSession())
             //{
-            //    var caminho = Directory.GetCurrentDirectory();
-            //    const string NOME_DO_ARQUIVO_IMPORTADO_FILTRADO = @"ImportadoFiltrado.json";
-            //    Console.WriteLine("Recuperando lista salva.");
-            //    var arquivo = File.ReadAllText(caminho + "/" + NOME_DO_ARQUIVO_IMPORTADO_FILTRADO);
+            //    var prods = (from o in session.Query<Produto>()
+            //                 group o by o.CodigoDoFabricante
+            //                 into g
+            //                 select new
+            //                 {
+            //                     CodigoDoFabricante = g.Key,
+            //                     Count = g.Count()
+            //                 })
+            //                 .Where(x => x.Count > 1 && !string.IsNullOrEmpty(x.CodigoDoFabricante))
+            //                 .ToList();
 
-            //    if (arquivo != null)
+            //    prodsList.AddRange(prods.Select(x => x.CodigoDoFabricante));
+            //}
+
+            //foreach(var prod in prodsList)
+            //{
+            //    using(var session = RavenHelper.OpenSession())
             //    {
-            //        MessageBox.Show("Lista recuperada com sucesso.");
-            //        var jsonSerializer = new JsonSerializer();
-            //        var ListaClienteAntigo = JsonConvert.DeserializeObject<List<ClienteAntigo>>(arquivo);
-            //        var ListaCliente = ListaClienteAntigo.
-            //            Select(x => new Cliente
-            //            {
-            //                Codigo = x.Codigo,
-            //                Nome = x.Nome,
-            //                Atual = true,
-            //                CadastroPendente = true,
-            //                Vigencia = (string.IsNullOrEmpty(x.DataDoAntigoCadastro) 
-            //                                ? "27/02/2019" 
-            //                                : x.DataDoAntigoCadastro).ConvertaParaDateTime(EnumFormatacaoDateTime.DD_MM_YYYY, '/')
-
-            //            }).ToList();
-
-            //        Task.Run(() =>
+            //        var all = session.Query<Produto>().Where(x => x.CodigoDoFabricante == prod).ToList();
+            //        var max = all.Max(x => x.Codigo);
+            //        foreach(var each in all.Where(x => x.Codigo != max))
             //        {
+            //            each.Atual = false;
+            //        }
 
-            //            using (var repositorioDeCliente = new RepositorioDeCliente())
-            //            using (var repositorioDeClienteAntigo = new RepositorioDeClienteAntigo())
-            //            {
-
-            //                foreach (var item in ListaClienteAntigo)
-            //                {
-            //                    repositorioDeClienteAntigo.Insira(item);
-
-            //                }
-            //                foreach (var item in ListaCliente)
-            //                {
-            //                    repositorioDeCliente.Insira(item);
-            //                }
-            //            }
-            //            MessageBox.Show("Finalizado importaçao.");
-            //        });
-
-            //    }
-            //    else
-            //    {
-            //        MessageBox.Show("Falha na recuperacao.");
+            //        session.SaveChanges();
             //    }
             //}
 
-            #endregion
+            #region Migração de dados ClientesAntigos ---> RavenDB
+
+                //var dialogResult = MessageBox.Show(" Migração de dados ClientesAntigos ---> RavenDB", "Confirmação", MessageBoxButtons.YesNo);
+                //if (dialogResult == DialogResult.Yes)
+                //{
+                //    var caminho = Directory.GetCurrentDirectory();
+                //    const string NOME_DO_ARQUIVO_IMPORTADO_FILTRADO = @"ImportadoFiltrado.json";
+                //    Console.WriteLine("Recuperando lista salva.");
+                //    var arquivo = File.ReadAllText(caminho + "/" + NOME_DO_ARQUIVO_IMPORTADO_FILTRADO);
+
+                //    if (arquivo != null)
+                //    {
+                //        MessageBox.Show("Lista recuperada com sucesso.");
+                //        var jsonSerializer = new JsonSerializer();
+                //        var ListaClienteAntigo = JsonConvert.DeserializeObject<List<ClienteAntigo>>(arquivo);
+                //        var ListaCliente = ListaClienteAntigo.
+                //            Select(x => new Cliente
+                //            {
+                //                Codigo = x.Codigo,
+                //                Nome = x.Nome,
+                //                Atual = true,
+                //                CadastroPendente = true,
+                //                Vigencia = (string.IsNullOrEmpty(x.DataDoAntigoCadastro) 
+                //                                ? "27/02/2019" 
+                //                                : x.DataDoAntigoCadastro).ConvertaParaDateTime(EnumFormatacaoDateTime.DD_MM_YYYY, '/')
+
+                //            }).ToList();
+
+                //        Task.Run(() =>
+                //        {
+
+                //            using (var repositorioDeCliente = new RepositorioDeCliente())
+                //            using (var repositorioDeClienteAntigo = new RepositorioDeClienteAntigo())
+                //            {
+
+                //                foreach (var item in ListaClienteAntigo)
+                //                {
+                //                    repositorioDeClienteAntigo.Insira(item);
+
+                //                }
+                //                foreach (var item in ListaCliente)
+                //                {
+                //                    repositorioDeCliente.Insira(item);
+                //                }
+                //            }
+                //            MessageBox.Show("Finalizado importaçao.");
+                //        });
+
+                //    }
+                //    else
+                //    {
+                //        MessageBox.Show("Falha na recuperacao.");
+                //    }
+                //}
+
+                #endregion
 
             UISettings = SessaoSistema.UISettings.GetUISettings(typeof(FrmEstoque));
 

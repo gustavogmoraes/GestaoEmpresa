@@ -27,6 +27,8 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             lblTitulo.BackColor = Color.Empty;
         }
 
+        private CultureInfo _culture = new CultureInfo("pt-BR");
+
         protected override void ChamadaSalvar(object sender, EventArgs e)
         {
             var result = (Presenter as ProdutoPresenter)?.Salve();
@@ -73,7 +75,6 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         {
             if(EstahRenderizando)
             {
-                EstahRenderizando = false;
                 return;
             }
 
@@ -83,23 +84,33 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         private void txtPorcentagemLucro_Leave(object sender, EventArgs e)
         {
-            CalculeEPreenchaPrecoDeCompra();
+            CalculeEPreenchaPrecoDeVenda();
+        }
+
+        private void CalculeEPreenchaPrecoDeVenda()
+        {
+            if (txtMPrecoDeCompra.Value != 0 &&
+                txtMLucro.Value != 0)
+            {
+                var precoCompra = txtMPrecoDeCompra.Value.GetValueOrDefault();
+                txtMPrecoDeCompra.Value = precoCompra;
+
+                var y = txtMLucro.Value.GetValueOrDefault() / 100;
+                var k = precoCompra * y;
+                var z = precoCompra + k;
+
+                txtMPrecoDeVenda.Value = Math.Round(z, 2);
+            }
         }
 
         private void txtPrecoDeCompra_Leave(object sender, EventArgs e)
         {
-            CalculeEPreenchaPrecoDeCompra();
+            CalculeEPreenchaPrecoDeVenda();
         }
 
-        private void CalculeEPreenchaPrecoDeCompra()
+        private void txtMLucro_Leave(object sender, EventArgs e)
         {
-            if (!string.IsNullOrEmpty(txtPrecoDeCompra.Text) &&
-                !string.IsNullOrEmpty(txtPorcentagemLucro.Text))
-            {
-                var precoCompra = Math.Round(Convert.ToDecimal(txtPrecoDeCompra.Text), 2);
-                txtPrecoDeCompra.Text = precoCompra.ToString(CultureInfo.InvariantCulture);
-                txtPrecoDeVenda.Text = Math.Round((precoCompra * Convert.ToDecimal(txtPorcentagemLucro.Text) / 100) + precoCompra, 2).ToString(CultureInfo.InvariantCulture);
-            }
+            CalculeEPreenchaPrecoDeVenda();
         }
     }
 }

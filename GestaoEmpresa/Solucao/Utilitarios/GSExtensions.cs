@@ -24,6 +24,7 @@ using Raven.Client.ServerWide.Operations;
 using Remotion.Mixins.Definitions;
 using Raven.Client.Documents.Session;
 using Raven.Client.Documents.Commands.Batches;
+using MetroFramework.Controls;
 
 namespace GS.GestaoEmpresa.Solucao.Utilitarios
 {
@@ -338,6 +339,78 @@ namespace GS.GestaoEmpresa.Solucao.Utilitarios
             var dictionary = JsonConvert.DeserializeObject<Dictionary<string, TValue>>(json);   
             
             return dictionary;
+        }
+
+        public static void TriggerMonetaryFormat(this TextBox textBox)
+        {
+            if (!textBox.Text.All(GSUtilitarios.EhDigitoOuPonto))
+            {
+                textBox.Text = string.Empty;
+                return;
+            }
+
+            try
+            {
+                var numero = textBox.Text
+                    .Replace(",", string.Empty)
+                    .Replace(".", string.Empty);
+
+                if (numero == string.Empty)
+                {
+                    return;
+                }
+
+                numero = numero.PadLeft(3, '0');
+
+                if (numero.Length > 3 && numero.Substring(0, 1) == "0")
+                {
+                    numero = numero.Substring(1, numero.Length - 1);
+                }
+
+                var valor = Convert.ToDouble(numero) / 100;
+                textBox.Text = string.Format(CultureInfo.GetCultureInfo("pt-BR"), "{0:N}", valor);
+                textBox.SelectionStart = textBox.Text.Length;
+            }
+            catch (Exception)
+            {
+                throw new Exception("Ocorreu um erro na formatação monetária.");
+            }
+        }
+
+        public static void TriggerMonetaryFormat(this MetroTextBox textBox)
+        {
+            if (!textBox.Text.All(GSUtilitarios.EhDigitoOuPonto))
+            {
+                textBox.Text = string.Empty;
+                return;
+            }
+
+            try
+            {
+                var numero = textBox.Text
+                    .Replace(",", string.Empty)
+                    .Replace(".", string.Empty);
+
+                if (numero == string.Empty)
+                {
+                    return;
+                }
+
+                numero = numero.PadLeft(3, '0');
+
+                if (numero.Length > 3 && numero.Substring(0, 1) == "0")
+                {
+                    numero = numero.Substring(1, numero.Length - 1);
+                }
+
+                var valor = Convert.ToDouble(numero) / 100;
+                textBox.Text = string.Format(CultureInfo.GetCultureInfo("pt-BR"), "{0:N}", valor);
+                textBox.SelectionStart = textBox.Text.Length;
+            }
+            catch (Exception)
+            {
+                throw new Exception("Ocorreu um erro na formatação monetária.");
+            }
         }
     }
 }

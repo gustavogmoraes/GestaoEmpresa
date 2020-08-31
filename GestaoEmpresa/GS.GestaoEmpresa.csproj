@@ -26,6 +26,8 @@
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -37,7 +39,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <UseVSHostingProcess>true</UseVSHostingProcess>
-    <LangVersion>7.3</LangVersion>
+    <LangVersion>default</LangVersion>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -243,6 +245,12 @@
     <Compile Include="Solucao\UI\Base\IPresenter.cs" />
     <Compile Include="Solucao\UI\Base\MapeamentoDeControle.cs" />
     <Compile Include="Solucao\UI\Base\Presenter.cs" />
+    <Compile Include="Solucao\UI\ControlesGenericos\GSMetroMonetary.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Solucao\UI\ControlesGenericos\GSMetroMonetary.Designer.cs">
+      <DependentUpon>GSMetroMonetary.cs</DependentUpon>
+    </Compile>
     <Compile Include="Solucao\UI\ControlesGenericos\GSMetroToggle.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -361,6 +369,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Solucao\UI\Base\GSForm.resx">
       <DependentUpon>GSForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Solucao\UI\ControlesGenericos\GSMetroMonetary.resx">
+      <DependentUpon>GSMetroMonetary.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Solucao\UI\ControlesGenericos\GSMetroToggle.resx">
       <DependentUpon>GSMetroToggle.cs</DependentUpon>

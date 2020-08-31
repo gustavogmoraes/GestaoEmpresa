@@ -35,11 +35,8 @@
             this.lblQuantidadeEmEstoque = new MetroFramework.Controls.MetroLabel();
             this.txtQuantidadeMinima = new MetroFramework.Controls.MetroTextBox();
             this.lblQuantidadeMinima = new MetroFramework.Controls.MetroLabel();
-            this.txtPrecoDeVenda = new MetroFramework.Controls.MetroTextBox();
             this.lblPrecoVenda = new MetroFramework.Controls.MetroLabel();
-            this.txtPorcentagemLucro = new MetroFramework.Controls.MetroTextBox();
             this.lblPorcentagemLucro = new MetroFramework.Controls.MetroLabel();
-            this.txtPrecoDeCompra = new MetroFramework.Controls.MetroTextBox();
             this.lblPrecoCompra = new MetroFramework.Controls.MetroLabel();
             this.txtObservacoes = new MetroFramework.Controls.MetroTextBox();
             this.lblObservacoes = new MetroFramework.Controls.MetroLabel();
@@ -55,22 +52,24 @@
             this.lblCodigo = new MetroFramework.Controls.MetroLabel();
             this.txtCodigoDeBarras = new MetroFramework.Controls.MetroTextBox();
             this.lblCodigoDeBarras = new MetroFramework.Controls.MetroLabel();
-            this.metroLabel2 = new MetroFramework.Controls.MetroLabel();
-            this.txtPorcentagemIpi = new MetroFramework.Controls.MetroTextBox();
             this.metroLabel3 = new MetroFramework.Controls.MetroLabel();
-            this.txtPrecoNaIntelbras = new MetroFramework.Controls.MetroTextBox();
             this.metroLabel5 = new MetroFramework.Controls.MetroLabel();
-            this.txtPrecoSugeridoRevenda = new MetroFramework.Controls.MetroTextBox();
             this.metroLabel6 = new MetroFramework.Controls.MetroLabel();
-            this.txtLucroConsumidorFinal = new MetroFramework.Controls.MetroTextBox();
             this.metroLabel1 = new MetroFramework.Controls.MetroLabel();
-            this.txtPscf = new MetroFramework.Controls.MetroTextBox();
             this.metroLabel4 = new MetroFramework.Controls.MetroLabel();
             this.metroLabel8 = new MetroFramework.Controls.MetroLabel();
             this.metroLabel9 = new MetroFramework.Controls.MetroLabel();
-            this.metroLabel11 = new MetroFramework.Controls.MetroLabel();
             this.metroLabel12 = new MetroFramework.Controls.MetroLabel();
             this.metroLabel13 = new MetroFramework.Controls.MetroLabel();
+            this.txtMPrecoDeCompra = new GS.GestaoEmpresa.Solucao.UI.ControlesGenericos.GSMetroMonetary();
+            this.metroLabel7 = new MetroFramework.Controls.MetroLabel();
+            this.txtMLucro = new GS.GestaoEmpresa.Solucao.UI.ControlesGenericos.GSMetroMonetary();
+            this.txtMPrecoDeVenda = new GS.GestaoEmpresa.Solucao.UI.ControlesGenericos.GSMetroMonetary();
+            this.txtMPorcentagemIpi = new GS.GestaoEmpresa.Solucao.UI.ControlesGenericos.GSMetroMonetary();
+            this.txtMPrecoNaIntelbras = new GS.GestaoEmpresa.Solucao.UI.ControlesGenericos.GSMetroMonetary();
+            this.txtMPrecoSugeridoRevenda = new GS.GestaoEmpresa.Solucao.UI.ControlesGenericos.GSMetroMonetary();
+            this.txtMPorcentagemDeLucroConsumidorFinal = new GS.GestaoEmpresa.Solucao.UI.ControlesGenericos.GSMetroMonetary();
+            this.txtMPscf = new GS.GestaoEmpresa.Solucao.UI.ControlesGenericos.GSMetroMonetary();
             ((System.ComponentModel.ISupportInitialize)(this.btnCancelarExcluir)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnEditarSalvar)).BeginInit();
             this.panelTitulo.SuspendLayout();
@@ -214,39 +213,6 @@
             this.lblQuantidadeMinima.Text = "Qtd. mínima";
             this.lblQuantidadeMinima.UseCustomBackColor = true;
             // 
-            // txtPrecoDeVenda
-            // 
-            this.txtPrecoDeVenda.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
-            // 
-            // 
-            // 
-            this.txtPrecoDeVenda.CustomButton.Image = null;
-            this.txtPrecoDeVenda.CustomButton.Location = new System.Drawing.Point(98, 1);
-            this.txtPrecoDeVenda.CustomButton.Name = "";
-            this.txtPrecoDeVenda.CustomButton.Size = new System.Drawing.Size(21, 21);
-            this.txtPrecoDeVenda.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
-            this.txtPrecoDeVenda.CustomButton.TabIndex = 1;
-            this.txtPrecoDeVenda.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
-            this.txtPrecoDeVenda.CustomButton.UseSelectable = true;
-            this.txtPrecoDeVenda.CustomButton.Visible = false;
-            this.txtPrecoDeVenda.FontSize = MetroFramework.MetroTextBoxSize.Medium;
-            this.txtPrecoDeVenda.Lines = new string[0];
-            this.txtPrecoDeVenda.Location = new System.Drawing.Point(463, 482);
-            this.txtPrecoDeVenda.MaxLength = 32767;
-            this.txtPrecoDeVenda.Name = "txtPrecoDeVenda";
-            this.txtPrecoDeVenda.PasswordChar = '\0';
-            this.txtPrecoDeVenda.ScrollBars = System.Windows.Forms.ScrollBars.None;
-            this.txtPrecoDeVenda.SelectedText = "";
-            this.txtPrecoDeVenda.SelectionLength = 0;
-            this.txtPrecoDeVenda.SelectionStart = 0;
-            this.txtPrecoDeVenda.ShortcutsEnabled = true;
-            this.txtPrecoDeVenda.Size = new System.Drawing.Size(120, 23);
-            this.txtPrecoDeVenda.TabIndex = 71;
-            this.txtPrecoDeVenda.UseCustomBackColor = true;
-            this.txtPrecoDeVenda.UseSelectable = true;
-            this.txtPrecoDeVenda.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
-            this.txtPrecoDeVenda.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
-            // 
             // lblPrecoVenda
             // 
             this.lblPrecoVenda.AutoSize = true;
@@ -259,40 +225,6 @@
             this.lblPrecoVenda.Text = "Preço de venda";
             this.lblPrecoVenda.UseCustomBackColor = true;
             // 
-            // txtPorcentagemLucro
-            // 
-            this.txtPorcentagemLucro.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
-            // 
-            // 
-            // 
-            this.txtPorcentagemLucro.CustomButton.Image = null;
-            this.txtPorcentagemLucro.CustomButton.Location = new System.Drawing.Point(24, 1);
-            this.txtPorcentagemLucro.CustomButton.Name = "";
-            this.txtPorcentagemLucro.CustomButton.Size = new System.Drawing.Size(21, 21);
-            this.txtPorcentagemLucro.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
-            this.txtPorcentagemLucro.CustomButton.TabIndex = 1;
-            this.txtPorcentagemLucro.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
-            this.txtPorcentagemLucro.CustomButton.UseSelectable = true;
-            this.txtPorcentagemLucro.CustomButton.Visible = false;
-            this.txtPorcentagemLucro.FontSize = MetroFramework.MetroTextBoxSize.Medium;
-            this.txtPorcentagemLucro.Lines = new string[0];
-            this.txtPorcentagemLucro.Location = new System.Drawing.Point(387, 482);
-            this.txtPorcentagemLucro.MaxLength = 32767;
-            this.txtPorcentagemLucro.Name = "txtPorcentagemLucro";
-            this.txtPorcentagemLucro.PasswordChar = '\0';
-            this.txtPorcentagemLucro.ScrollBars = System.Windows.Forms.ScrollBars.None;
-            this.txtPorcentagemLucro.SelectedText = "";
-            this.txtPorcentagemLucro.SelectionLength = 0;
-            this.txtPorcentagemLucro.SelectionStart = 0;
-            this.txtPorcentagemLucro.ShortcutsEnabled = true;
-            this.txtPorcentagemLucro.Size = new System.Drawing.Size(46, 23);
-            this.txtPorcentagemLucro.TabIndex = 69;
-            this.txtPorcentagemLucro.UseCustomBackColor = true;
-            this.txtPorcentagemLucro.UseSelectable = true;
-            this.txtPorcentagemLucro.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
-            this.txtPorcentagemLucro.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
-            this.txtPorcentagemLucro.Leave += new System.EventHandler(this.txtPorcentagemLucro_Leave);
-            // 
             // lblPorcentagemLucro
             // 
             this.lblPorcentagemLucro.AutoSize = true;
@@ -304,39 +236,6 @@
             this.lblPorcentagemLucro.TabIndex = 68;
             this.lblPorcentagemLucro.Text = "% Lucro";
             this.lblPorcentagemLucro.UseCustomBackColor = true;
-            // 
-            // txtPrecoDeCompra
-            // 
-            this.txtPrecoDeCompra.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
-            // 
-            // 
-            // 
-            this.txtPrecoDeCompra.CustomButton.Image = null;
-            this.txtPrecoDeCompra.CustomButton.Location = new System.Drawing.Point(106, 1);
-            this.txtPrecoDeCompra.CustomButton.Name = "";
-            this.txtPrecoDeCompra.CustomButton.Size = new System.Drawing.Size(21, 21);
-            this.txtPrecoDeCompra.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
-            this.txtPrecoDeCompra.CustomButton.TabIndex = 1;
-            this.txtPrecoDeCompra.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
-            this.txtPrecoDeCompra.CustomButton.UseSelectable = true;
-            this.txtPrecoDeCompra.CustomButton.Visible = false;
-            this.txtPrecoDeCompra.FontSize = MetroFramework.MetroTextBoxSize.Medium;
-            this.txtPrecoDeCompra.Lines = new string[0];
-            this.txtPrecoDeCompra.Location = new System.Drawing.Point(238, 482);
-            this.txtPrecoDeCompra.MaxLength = 32767;
-            this.txtPrecoDeCompra.Name = "txtPrecoDeCompra";
-            this.txtPrecoDeCompra.PasswordChar = '\0';
-            this.txtPrecoDeCompra.ScrollBars = System.Windows.Forms.ScrollBars.None;
-            this.txtPrecoDeCompra.SelectedText = "";
-            this.txtPrecoDeCompra.SelectionLength = 0;
-            this.txtPrecoDeCompra.SelectionStart = 0;
-            this.txtPrecoDeCompra.ShortcutsEnabled = true;
-            this.txtPrecoDeCompra.Size = new System.Drawing.Size(128, 23);
-            this.txtPrecoDeCompra.TabIndex = 67;
-            this.txtPrecoDeCompra.UseCustomBackColor = true;
-            this.txtPrecoDeCompra.UseSelectable = true;
-            this.txtPrecoDeCompra.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
-            this.txtPrecoDeCompra.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
             // 
             // lblPrecoCompra
             // 
@@ -648,95 +547,17 @@
             this.lblCodigoDeBarras.Text = "Código de barras";
             this.lblCodigoDeBarras.UseCustomBackColor = true;
             // 
-            // metroLabel2
-            // 
-            this.metroLabel2.AutoSize = true;
-            this.metroLabel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
-            this.metroLabel2.FontSize = MetroFramework.MetroLabelSize.Tall;
-            this.metroLabel2.Location = new System.Drawing.Point(182, 480);
-            this.metroLabel2.Name = "metroLabel2";
-            this.metroLabel2.Size = new System.Drawing.Size(26, 25);
-            this.metroLabel2.TabIndex = 83;
-            this.metroLabel2.Text = "%";
-            this.metroLabel2.UseCustomBackColor = true;
-            // 
-            // txtPorcentagemIpi
-            // 
-            this.txtPorcentagemIpi.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
-            // 
-            // 
-            // 
-            this.txtPorcentagemIpi.CustomButton.Image = null;
-            this.txtPorcentagemIpi.CustomButton.Location = new System.Drawing.Point(23, 1);
-            this.txtPorcentagemIpi.CustomButton.Name = "";
-            this.txtPorcentagemIpi.CustomButton.Size = new System.Drawing.Size(21, 21);
-            this.txtPorcentagemIpi.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
-            this.txtPorcentagemIpi.CustomButton.TabIndex = 1;
-            this.txtPorcentagemIpi.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
-            this.txtPorcentagemIpi.CustomButton.UseSelectable = true;
-            this.txtPorcentagemIpi.CustomButton.Visible = false;
-            this.txtPorcentagemIpi.FontSize = MetroFramework.MetroTextBoxSize.Medium;
-            this.txtPorcentagemIpi.Lines = new string[0];
-            this.txtPorcentagemIpi.Location = new System.Drawing.Point(140, 482);
-            this.txtPorcentagemIpi.MaxLength = 32767;
-            this.txtPorcentagemIpi.Name = "txtPorcentagemIpi";
-            this.txtPorcentagemIpi.PasswordChar = '\0';
-            this.txtPorcentagemIpi.ScrollBars = System.Windows.Forms.ScrollBars.None;
-            this.txtPorcentagemIpi.SelectedText = "";
-            this.txtPorcentagemIpi.SelectionLength = 0;
-            this.txtPorcentagemIpi.SelectionStart = 0;
-            this.txtPorcentagemIpi.ShortcutsEnabled = true;
-            this.txtPorcentagemIpi.Size = new System.Drawing.Size(45, 23);
-            this.txtPorcentagemIpi.TabIndex = 82;
-            this.txtPorcentagemIpi.UseCustomBackColor = true;
-            this.txtPorcentagemIpi.UseSelectable = true;
-            this.txtPorcentagemIpi.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
-            this.txtPorcentagemIpi.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
-            // 
             // metroLabel3
             // 
             this.metroLabel3.AutoSize = true;
             this.metroLabel3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this.metroLabel3.FontSize = MetroFramework.MetroLabelSize.Tall;
-            this.metroLabel3.Location = new System.Drawing.Point(147, 454);
+            this.metroLabel3.Location = new System.Drawing.Point(137, 454);
             this.metroLabel3.Name = "metroLabel3";
-            this.metroLabel3.Size = new System.Drawing.Size(30, 25);
+            this.metroLabel3.Size = new System.Drawing.Size(49, 25);
             this.metroLabel3.TabIndex = 81;
-            this.metroLabel3.Text = "IPI";
+            this.metroLabel3.Text = "% IPI";
             this.metroLabel3.UseCustomBackColor = true;
-            // 
-            // txtPrecoNaIntelbras
-            // 
-            this.txtPrecoNaIntelbras.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
-            // 
-            // 
-            // 
-            this.txtPrecoNaIntelbras.CustomButton.Image = null;
-            this.txtPrecoNaIntelbras.CustomButton.Location = new System.Drawing.Point(71, 1);
-            this.txtPrecoNaIntelbras.CustomButton.Name = "";
-            this.txtPrecoNaIntelbras.CustomButton.Size = new System.Drawing.Size(21, 21);
-            this.txtPrecoNaIntelbras.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
-            this.txtPrecoNaIntelbras.CustomButton.TabIndex = 1;
-            this.txtPrecoNaIntelbras.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
-            this.txtPrecoNaIntelbras.CustomButton.UseSelectable = true;
-            this.txtPrecoNaIntelbras.CustomButton.Visible = false;
-            this.txtPrecoNaIntelbras.FontSize = MetroFramework.MetroTextBoxSize.Medium;
-            this.txtPrecoNaIntelbras.Lines = new string[0];
-            this.txtPrecoNaIntelbras.Location = new System.Drawing.Point(41, 482);
-            this.txtPrecoNaIntelbras.MaxLength = 32767;
-            this.txtPrecoNaIntelbras.Name = "txtPrecoNaIntelbras";
-            this.txtPrecoNaIntelbras.PasswordChar = '\0';
-            this.txtPrecoNaIntelbras.ScrollBars = System.Windows.Forms.ScrollBars.None;
-            this.txtPrecoNaIntelbras.SelectedText = "";
-            this.txtPrecoNaIntelbras.SelectionLength = 0;
-            this.txtPrecoNaIntelbras.SelectionStart = 0;
-            this.txtPrecoNaIntelbras.ShortcutsEnabled = true;
-            this.txtPrecoNaIntelbras.Size = new System.Drawing.Size(93, 23);
-            this.txtPrecoNaIntelbras.TabIndex = 87;
-            this.txtPrecoNaIntelbras.UseCustomBackColor = true;
-            this.txtPrecoNaIntelbras.UseSelectable = true;
-            this.txtPrecoNaIntelbras.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
-            this.txtPrecoNaIntelbras.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
             // 
             // metroLabel5
             // 
@@ -750,135 +571,36 @@
             this.metroLabel5.Text = "PV";
             this.metroLabel5.UseCustomBackColor = true;
             // 
-            // txtPrecoSugeridoRevenda
-            // 
-            this.txtPrecoSugeridoRevenda.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
-            // 
-            // 
-            // 
-            this.txtPrecoSugeridoRevenda.CustomButton.Image = null;
-            this.txtPrecoSugeridoRevenda.CustomButton.Location = new System.Drawing.Point(71, 1);
-            this.txtPrecoSugeridoRevenda.CustomButton.Name = "";
-            this.txtPrecoSugeridoRevenda.CustomButton.Size = new System.Drawing.Size(21, 21);
-            this.txtPrecoSugeridoRevenda.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
-            this.txtPrecoSugeridoRevenda.CustomButton.TabIndex = 1;
-            this.txtPrecoSugeridoRevenda.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
-            this.txtPrecoSugeridoRevenda.CustomButton.UseSelectable = true;
-            this.txtPrecoSugeridoRevenda.CustomButton.Visible = false;
-            this.txtPrecoSugeridoRevenda.FontSize = MetroFramework.MetroTextBoxSize.Medium;
-            this.txtPrecoSugeridoRevenda.Lines = new string[0];
-            this.txtPrecoSugeridoRevenda.Location = new System.Drawing.Point(41, 550);
-            this.txtPrecoSugeridoRevenda.MaxLength = 32767;
-            this.txtPrecoSugeridoRevenda.Name = "txtPrecoSugeridoRevenda";
-            this.txtPrecoSugeridoRevenda.PasswordChar = '\0';
-            this.txtPrecoSugeridoRevenda.ScrollBars = System.Windows.Forms.ScrollBars.None;
-            this.txtPrecoSugeridoRevenda.SelectedText = "";
-            this.txtPrecoSugeridoRevenda.SelectionLength = 0;
-            this.txtPrecoSugeridoRevenda.SelectionStart = 0;
-            this.txtPrecoSugeridoRevenda.ShortcutsEnabled = true;
-            this.txtPrecoSugeridoRevenda.Size = new System.Drawing.Size(93, 23);
-            this.txtPrecoSugeridoRevenda.TabIndex = 89;
-            this.txtPrecoSugeridoRevenda.UseCustomBackColor = true;
-            this.txtPrecoSugeridoRevenda.UseSelectable = true;
-            this.txtPrecoSugeridoRevenda.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
-            this.txtPrecoSugeridoRevenda.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
-            // 
             // metroLabel6
             // 
             this.metroLabel6.AutoSize = true;
             this.metroLabel6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this.metroLabel6.FontSize = MetroFramework.MetroLabelSize.Tall;
-            this.metroLabel6.Location = new System.Drawing.Point(59, 522);
+            this.metroLabel6.Location = new System.Drawing.Point(69, 522);
             this.metroLabel6.Name = "metroLabel6";
             this.metroLabel6.Size = new System.Drawing.Size(43, 25);
             this.metroLabel6.TabIndex = 88;
             this.metroLabel6.Text = "PSD";
             this.metroLabel6.UseCustomBackColor = true;
             // 
-            // txtLucroConsumidorFinal
-            // 
-            this.txtLucroConsumidorFinal.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
-            // 
-            // 
-            // 
-            this.txtLucroConsumidorFinal.CustomButton.Image = null;
-            this.txtLucroConsumidorFinal.CustomButton.Location = new System.Drawing.Point(24, 1);
-            this.txtLucroConsumidorFinal.CustomButton.Name = "";
-            this.txtLucroConsumidorFinal.CustomButton.Size = new System.Drawing.Size(21, 21);
-            this.txtLucroConsumidorFinal.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
-            this.txtLucroConsumidorFinal.CustomButton.TabIndex = 1;
-            this.txtLucroConsumidorFinal.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
-            this.txtLucroConsumidorFinal.CustomButton.UseSelectable = true;
-            this.txtLucroConsumidorFinal.CustomButton.Visible = false;
-            this.txtLucroConsumidorFinal.FontSize = MetroFramework.MetroTextBoxSize.Medium;
-            this.txtLucroConsumidorFinal.Lines = new string[0];
-            this.txtLucroConsumidorFinal.Location = new System.Drawing.Point(162, 551);
-            this.txtLucroConsumidorFinal.MaxLength = 32767;
-            this.txtLucroConsumidorFinal.Name = "txtLucroConsumidorFinal";
-            this.txtLucroConsumidorFinal.PasswordChar = '\0';
-            this.txtLucroConsumidorFinal.ScrollBars = System.Windows.Forms.ScrollBars.None;
-            this.txtLucroConsumidorFinal.SelectedText = "";
-            this.txtLucroConsumidorFinal.SelectionLength = 0;
-            this.txtLucroConsumidorFinal.SelectionStart = 0;
-            this.txtLucroConsumidorFinal.ShortcutsEnabled = true;
-            this.txtLucroConsumidorFinal.Size = new System.Drawing.Size(46, 23);
-            this.txtLucroConsumidorFinal.TabIndex = 91;
-            this.txtLucroConsumidorFinal.UseCustomBackColor = true;
-            this.txtLucroConsumidorFinal.UseSelectable = true;
-            this.txtLucroConsumidorFinal.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
-            this.txtLucroConsumidorFinal.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
-            // 
             // metroLabel1
             // 
             this.metroLabel1.AutoSize = true;
             this.metroLabel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this.metroLabel1.FontSize = MetroFramework.MetroLabelSize.Tall;
-            this.metroLabel1.Location = new System.Drawing.Point(149, 522);
+            this.metroLabel1.Location = new System.Drawing.Point(124, 522);
             this.metroLabel1.Name = "metroLabel1";
             this.metroLabel1.Size = new System.Drawing.Size(73, 25);
             this.metroLabel1.TabIndex = 90;
             this.metroLabel1.Text = "% Lucro";
             this.metroLabel1.UseCustomBackColor = true;
             // 
-            // txtPscf
-            // 
-            this.txtPscf.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
-            // 
-            // 
-            // 
-            this.txtPscf.CustomButton.Image = null;
-            this.txtPscf.CustomButton.Location = new System.Drawing.Point(98, 1);
-            this.txtPscf.CustomButton.Name = "";
-            this.txtPscf.CustomButton.Size = new System.Drawing.Size(21, 21);
-            this.txtPscf.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
-            this.txtPscf.CustomButton.TabIndex = 1;
-            this.txtPscf.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
-            this.txtPscf.CustomButton.UseSelectable = true;
-            this.txtPscf.CustomButton.Visible = false;
-            this.txtPscf.FontSize = MetroFramework.MetroTextBoxSize.Medium;
-            this.txtPscf.Lines = new string[0];
-            this.txtPscf.Location = new System.Drawing.Point(248, 551);
-            this.txtPscf.MaxLength = 32767;
-            this.txtPscf.Name = "txtPscf";
-            this.txtPscf.PasswordChar = '\0';
-            this.txtPscf.ScrollBars = System.Windows.Forms.ScrollBars.None;
-            this.txtPscf.SelectedText = "";
-            this.txtPscf.SelectionLength = 0;
-            this.txtPscf.SelectionStart = 0;
-            this.txtPscf.ShortcutsEnabled = true;
-            this.txtPscf.Size = new System.Drawing.Size(120, 23);
-            this.txtPscf.TabIndex = 93;
-            this.txtPscf.UseCustomBackColor = true;
-            this.txtPscf.UseSelectable = true;
-            this.txtPscf.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
-            this.txtPscf.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
-            // 
             // metroLabel4
             // 
             this.metroLabel4.AutoSize = true;
             this.metroLabel4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this.metroLabel4.FontSize = MetroFramework.MetroLabelSize.Tall;
-            this.metroLabel4.Location = new System.Drawing.Point(281, 523);
+            this.metroLabel4.Location = new System.Drawing.Point(268, 522);
             this.metroLabel4.Name = "metroLabel4";
             this.metroLabel4.Size = new System.Drawing.Size(50, 25);
             this.metroLabel4.TabIndex = 92;
@@ -890,7 +612,7 @@
             this.metroLabel8.AutoSize = true;
             this.metroLabel8.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this.metroLabel8.FontSize = MetroFramework.MetroLabelSize.Tall;
-            this.metroLabel8.Location = new System.Drawing.Point(14, 539);
+            this.metroLabel8.Location = new System.Drawing.Point(13, 549);
             this.metroLabel8.Name = "metroLabel8";
             this.metroLabel8.Size = new System.Drawing.Size(31, 25);
             this.metroLabel8.TabIndex = 96;
@@ -909,24 +631,12 @@
             this.metroLabel9.Text = "R$";
             this.metroLabel9.UseCustomBackColor = true;
             // 
-            // metroLabel11
-            // 
-            this.metroLabel11.AutoSize = true;
-            this.metroLabel11.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
-            this.metroLabel11.FontSize = MetroFramework.MetroLabelSize.Tall;
-            this.metroLabel11.Location = new System.Drawing.Point(210, 481);
-            this.metroLabel11.Name = "metroLabel11";
-            this.metroLabel11.Size = new System.Drawing.Size(31, 25);
-            this.metroLabel11.TabIndex = 99;
-            this.metroLabel11.Text = "R$";
-            this.metroLabel11.UseCustomBackColor = true;
-            // 
             // metroLabel12
             // 
             this.metroLabel12.AutoSize = true;
             this.metroLabel12.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this.metroLabel12.FontSize = MetroFramework.MetroLabelSize.Tall;
-            this.metroLabel12.Location = new System.Drawing.Point(437, 480);
+            this.metroLabel12.Location = new System.Drawing.Point(436, 480);
             this.metroLabel12.Name = "metroLabel12";
             this.metroLabel12.Size = new System.Drawing.Size(31, 25);
             this.metroLabel12.TabIndex = 100;
@@ -938,12 +648,130 @@
             this.metroLabel13.AutoSize = true;
             this.metroLabel13.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this.metroLabel13.FontSize = MetroFramework.MetroLabelSize.Tall;
-            this.metroLabel13.Location = new System.Drawing.Point(222, 550);
+            this.metroLabel13.Location = new System.Drawing.Point(209, 549);
             this.metroLabel13.Name = "metroLabel13";
             this.metroLabel13.Size = new System.Drawing.Size(31, 25);
             this.metroLabel13.TabIndex = 101;
             this.metroLabel13.Text = "R$";
             this.metroLabel13.UseCustomBackColor = true;
+            // 
+            // txtMPrecoDeCompra
+            // 
+            this.txtMPrecoDeCompra.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
+            this.txtMPrecoDeCompra.BoxWidth = 128;
+            this.txtMPrecoDeCompra.Location = new System.Drawing.Point(233, 478);
+            this.txtMPrecoDeCompra.Name = "txtMPrecoDeCompra";
+            this.txtMPrecoDeCompra.Size = new System.Drawing.Size(135, 30);
+            this.txtMPrecoDeCompra.TabIndex = 102;
+            this.txtMPrecoDeCompra.UseCustomBackColor = true;
+            this.txtMPrecoDeCompra.UseCustomForeColor = true;
+            this.txtMPrecoDeCompra.UseSelectable = true;
+            this.txtMPrecoDeCompra.Value = null;
+            this.txtMPrecoDeCompra.Leave += new System.EventHandler(this.txtPrecoDeCompra_Leave);
+            // 
+            // metroLabel7
+            // 
+            this.metroLabel7.AutoSize = true;
+            this.metroLabel7.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
+            this.metroLabel7.FontSize = MetroFramework.MetroLabelSize.Tall;
+            this.metroLabel7.Location = new System.Drawing.Point(209, 481);
+            this.metroLabel7.Name = "metroLabel7";
+            this.metroLabel7.Size = new System.Drawing.Size(31, 25);
+            this.metroLabel7.TabIndex = 103;
+            this.metroLabel7.Text = "R$";
+            this.metroLabel7.UseCustomBackColor = true;
+            // 
+            // txtMLucro
+            // 
+            this.txtMLucro.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
+            this.txtMLucro.BoxWidth = 50;
+            this.txtMLucro.Location = new System.Drawing.Point(380, 478);
+            this.txtMLucro.Name = "txtMLucro";
+            this.txtMLucro.Size = new System.Drawing.Size(57, 30);
+            this.txtMLucro.TabIndex = 104;
+            this.txtMLucro.UseCustomBackColor = true;
+            this.txtMLucro.UseCustomForeColor = true;
+            this.txtMLucro.UseSelectable = true;
+            this.txtMLucro.Value = null;
+            this.txtMLucro.Leave += new System.EventHandler(this.txtMLucro_Leave);
+            // 
+            // txtMPrecoDeVenda
+            // 
+            this.txtMPrecoDeVenda.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
+            this.txtMPrecoDeVenda.BoxWidth = 110;
+            this.txtMPrecoDeVenda.Location = new System.Drawing.Point(460, 477);
+            this.txtMPrecoDeVenda.Name = "txtMPrecoDeVenda";
+            this.txtMPrecoDeVenda.Size = new System.Drawing.Size(117, 30);
+            this.txtMPrecoDeVenda.TabIndex = 105;
+            this.txtMPrecoDeVenda.UseCustomBackColor = true;
+            this.txtMPrecoDeVenda.UseCustomForeColor = true;
+            this.txtMPrecoDeVenda.UseSelectable = true;
+            this.txtMPrecoDeVenda.Value = null;
+            // 
+            // txtMPorcentagemIpi
+            // 
+            this.txtMPorcentagemIpi.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
+            this.txtMPorcentagemIpi.BoxWidth = 45;
+            this.txtMPorcentagemIpi.Location = new System.Drawing.Point(137, 478);
+            this.txtMPorcentagemIpi.Name = "txtMPorcentagemIpi";
+            this.txtMPorcentagemIpi.Size = new System.Drawing.Size(52, 30);
+            this.txtMPorcentagemIpi.TabIndex = 106;
+            this.txtMPorcentagemIpi.UseCustomBackColor = true;
+            this.txtMPorcentagemIpi.UseCustomForeColor = true;
+            this.txtMPorcentagemIpi.UseSelectable = true;
+            this.txtMPorcentagemIpi.Value = null;
+            // 
+            // txtMPrecoNaIntelbras
+            // 
+            this.txtMPrecoNaIntelbras.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
+            this.txtMPrecoNaIntelbras.BoxWidth = 90;
+            this.txtMPrecoNaIntelbras.Location = new System.Drawing.Point(38, 478);
+            this.txtMPrecoNaIntelbras.Name = "txtMPrecoNaIntelbras";
+            this.txtMPrecoNaIntelbras.Size = new System.Drawing.Size(97, 30);
+            this.txtMPrecoNaIntelbras.TabIndex = 107;
+            this.txtMPrecoNaIntelbras.UseCustomBackColor = true;
+            this.txtMPrecoNaIntelbras.UseCustomForeColor = true;
+            this.txtMPrecoNaIntelbras.UseSelectable = true;
+            this.txtMPrecoNaIntelbras.Value = null;
+            // 
+            // txtMPrecoSugeridoRevenda
+            // 
+            this.txtMPrecoSugeridoRevenda.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
+            this.txtMPrecoSugeridoRevenda.BoxWidth = 90;
+            this.txtMPrecoSugeridoRevenda.Location = new System.Drawing.Point(37, 546);
+            this.txtMPrecoSugeridoRevenda.Name = "txtMPrecoSugeridoRevenda";
+            this.txtMPrecoSugeridoRevenda.Size = new System.Drawing.Size(97, 30);
+            this.txtMPrecoSugeridoRevenda.TabIndex = 108;
+            this.txtMPrecoSugeridoRevenda.UseCustomBackColor = true;
+            this.txtMPrecoSugeridoRevenda.UseCustomForeColor = true;
+            this.txtMPrecoSugeridoRevenda.UseSelectable = true;
+            this.txtMPrecoSugeridoRevenda.Value = null;
+            // 
+            // txtMPorcentagemDeLucroConsumidorFinal
+            // 
+            this.txtMPorcentagemDeLucroConsumidorFinal.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
+            this.txtMPorcentagemDeLucroConsumidorFinal.BoxWidth = 45;
+            this.txtMPorcentagemDeLucroConsumidorFinal.Location = new System.Drawing.Point(137, 546);
+            this.txtMPorcentagemDeLucroConsumidorFinal.Name = "txtMPorcentagemDeLucroConsumidorFinal";
+            this.txtMPorcentagemDeLucroConsumidorFinal.Size = new System.Drawing.Size(52, 30);
+            this.txtMPorcentagemDeLucroConsumidorFinal.TabIndex = 109;
+            this.txtMPorcentagemDeLucroConsumidorFinal.UseCustomBackColor = true;
+            this.txtMPorcentagemDeLucroConsumidorFinal.UseCustomForeColor = true;
+            this.txtMPorcentagemDeLucroConsumidorFinal.UseSelectable = true;
+            this.txtMPorcentagemDeLucroConsumidorFinal.Value = null;
+            // 
+            // txtMPscf
+            // 
+            this.txtMPscf.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
+            this.txtMPscf.BoxWidth = 128;
+            this.txtMPscf.Location = new System.Drawing.Point(233, 544);
+            this.txtMPscf.Name = "txtMPscf";
+            this.txtMPscf.Size = new System.Drawing.Size(135, 30);
+            this.txtMPscf.TabIndex = 110;
+            this.txtMPscf.UseCustomBackColor = true;
+            this.txtMPscf.UseCustomForeColor = true;
+            this.txtMPscf.UseSelectable = true;
+            this.txtMPscf.Value = null;
             // 
             // frmProdutoMetro
             // 
@@ -951,23 +779,24 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BorderStyle = MetroFramework.Forms.MetroFormBorderStyle.FixedSingle;
             this.ClientSize = new System.Drawing.Size(599, 710);
+            this.Controls.Add(this.txtMPscf);
+            this.Controls.Add(this.txtMPorcentagemDeLucroConsumidorFinal);
             this.Controls.Add(this.metroLabel6);
-            this.Controls.Add(this.txtPscf);
+            this.Controls.Add(this.txtMPrecoSugeridoRevenda);
+            this.Controls.Add(this.txtMPrecoNaIntelbras);
+            this.Controls.Add(this.txtMPorcentagemIpi);
+            this.Controls.Add(this.txtMPrecoDeVenda);
+            this.Controls.Add(this.txtMLucro);
+            this.Controls.Add(this.txtMPrecoDeCompra);
+            this.Controls.Add(this.metroLabel7);
+            this.Controls.Add(this.lblPrecoCompra);
             this.Controls.Add(this.metroLabel13);
-            this.Controls.Add(this.txtPrecoDeVenda);
             this.Controls.Add(this.metroLabel12);
-            this.Controls.Add(this.txtPrecoDeCompra);
-            this.Controls.Add(this.metroLabel11);
-            this.Controls.Add(this.txtPrecoNaIntelbras);
             this.Controls.Add(this.metroLabel9);
-            this.Controls.Add(this.txtPrecoSugeridoRevenda);
             this.Controls.Add(this.metroLabel8);
-            this.Controls.Add(this.txtPorcentagemIpi);
             this.Controls.Add(this.metroLabel4);
-            this.Controls.Add(this.txtLucroConsumidorFinal);
             this.Controls.Add(this.metroLabel1);
             this.Controls.Add(this.metroLabel5);
-            this.Controls.Add(this.metroLabel2);
             this.Controls.Add(this.metroLabel3);
             this.Controls.Add(this.txtCodigoDeBarras);
             this.Controls.Add(this.lblCodigoDeBarras);
@@ -979,9 +808,7 @@
             this.Controls.Add(this.txtQuantidadeMinima);
             this.Controls.Add(this.lblQuantidadeMinima);
             this.Controls.Add(this.lblPrecoVenda);
-            this.Controls.Add(this.txtPorcentagemLucro);
             this.Controls.Add(this.lblPorcentagemLucro);
-            this.Controls.Add(this.lblPrecoCompra);
             this.Controls.Add(this.txtObservacoes);
             this.Controls.Add(this.lblObservacoes);
             this.Controls.Add(this.txtNome);
@@ -996,7 +823,6 @@
             this.Controls.Add(this.lblCodigo);
             this.Name = "frmProdutoMetro";
             this.Text = "frmProdutoMetroT";
-            this.Controls.SetChildIndex(this.panelTitulo, 0);
             this.Controls.SetChildIndex(this.lblCodigo, 0);
             this.Controls.SetChildIndex(this.txtCodigo, 0);
             this.Controls.SetChildIndex(this.lblVigencia, 0);
@@ -1009,9 +835,7 @@
             this.Controls.SetChildIndex(this.txtNome, 0);
             this.Controls.SetChildIndex(this.lblObservacoes, 0);
             this.Controls.SetChildIndex(this.txtObservacoes, 0);
-            this.Controls.SetChildIndex(this.lblPrecoCompra, 0);
             this.Controls.SetChildIndex(this.lblPorcentagemLucro, 0);
-            this.Controls.SetChildIndex(this.txtPorcentagemLucro, 0);
             this.Controls.SetChildIndex(this.lblPrecoVenda, 0);
             this.Controls.SetChildIndex(this.lblQuantidadeMinima, 0);
             this.Controls.SetChildIndex(this.txtQuantidadeMinima, 0);
@@ -1023,23 +847,25 @@
             this.Controls.SetChildIndex(this.lblCodigoDeBarras, 0);
             this.Controls.SetChildIndex(this.txtCodigoDeBarras, 0);
             this.Controls.SetChildIndex(this.metroLabel3, 0);
-            this.Controls.SetChildIndex(this.metroLabel2, 0);
             this.Controls.SetChildIndex(this.metroLabel5, 0);
             this.Controls.SetChildIndex(this.metroLabel1, 0);
-            this.Controls.SetChildIndex(this.txtLucroConsumidorFinal, 0);
             this.Controls.SetChildIndex(this.metroLabel4, 0);
-            this.Controls.SetChildIndex(this.txtPorcentagemIpi, 0);
             this.Controls.SetChildIndex(this.metroLabel8, 0);
-            this.Controls.SetChildIndex(this.txtPrecoSugeridoRevenda, 0);
             this.Controls.SetChildIndex(this.metroLabel9, 0);
-            this.Controls.SetChildIndex(this.txtPrecoNaIntelbras, 0);
-            this.Controls.SetChildIndex(this.metroLabel11, 0);
-            this.Controls.SetChildIndex(this.txtPrecoDeCompra, 0);
             this.Controls.SetChildIndex(this.metroLabel12, 0);
-            this.Controls.SetChildIndex(this.txtPrecoDeVenda, 0);
             this.Controls.SetChildIndex(this.metroLabel13, 0);
-            this.Controls.SetChildIndex(this.txtPscf, 0);
+            this.Controls.SetChildIndex(this.panelTitulo, 0);
+            this.Controls.SetChildIndex(this.lblPrecoCompra, 0);
+            this.Controls.SetChildIndex(this.metroLabel7, 0);
+            this.Controls.SetChildIndex(this.txtMPrecoDeCompra, 0);
+            this.Controls.SetChildIndex(this.txtMLucro, 0);
+            this.Controls.SetChildIndex(this.txtMPrecoDeVenda, 0);
+            this.Controls.SetChildIndex(this.txtMPorcentagemIpi, 0);
+            this.Controls.SetChildIndex(this.txtMPrecoNaIntelbras, 0);
+            this.Controls.SetChildIndex(this.txtMPrecoSugeridoRevenda, 0);
             this.Controls.SetChildIndex(this.metroLabel6, 0);
+            this.Controls.SetChildIndex(this.txtMPorcentagemDeLucroConsumidorFinal, 0);
+            this.Controls.SetChildIndex(this.txtMPscf, 0);
             ((System.ComponentModel.ISupportInitialize)(this.btnCancelarExcluir)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnEditarSalvar)).EndInit();
             this.panelTitulo.ResumeLayout(false);
@@ -1067,31 +893,30 @@
         public MetroFramework.Controls.MetroLabel lblQuantidadeEmEstoque;
         public MetroFramework.Controls.MetroTextBox txtQuantidadeMinima;
         public MetroFramework.Controls.MetroLabel lblQuantidadeMinima;
-        public MetroFramework.Controls.MetroTextBox txtPrecoDeVenda;
         public MetroFramework.Controls.MetroLabel lblPrecoVenda;
-        public MetroFramework.Controls.MetroTextBox txtPorcentagemLucro;
         public MetroFramework.Controls.MetroLabel lblPorcentagemLucro;
-        public MetroFramework.Controls.MetroTextBox txtPrecoDeCompra;
         public MetroFramework.Controls.MetroLabel lblPrecoCompra;
         public MetroFramework.Controls.MetroTextBox txtObservacoes;
         public MetroFramework.Controls.MetroLabel lblObservacoes;
         public MetroFramework.Controls.MetroTextBox txtCodigoDeBarras;
         public MetroFramework.Controls.MetroLabel lblCodigoDeBarras;
-        public MetroFramework.Controls.MetroLabel metroLabel2;
-        public MetroFramework.Controls.MetroTextBox txtPorcentagemIpi;
         public MetroFramework.Controls.MetroLabel metroLabel3;
-        public MetroFramework.Controls.MetroTextBox txtPrecoNaIntelbras;
         public MetroFramework.Controls.MetroLabel metroLabel5;
-        public MetroFramework.Controls.MetroTextBox txtPrecoSugeridoRevenda;
         public MetroFramework.Controls.MetroLabel metroLabel6;
-        public MetroFramework.Controls.MetroTextBox txtLucroConsumidorFinal;
         public MetroFramework.Controls.MetroLabel metroLabel1;
-        public MetroFramework.Controls.MetroTextBox txtPscf;
         public MetroFramework.Controls.MetroLabel metroLabel4;
         public MetroFramework.Controls.MetroLabel metroLabel8;
         public MetroFramework.Controls.MetroLabel metroLabel9;
-        public MetroFramework.Controls.MetroLabel metroLabel11;
         public MetroFramework.Controls.MetroLabel metroLabel12;
         public MetroFramework.Controls.MetroLabel metroLabel13;
+        public ControlesGenericos.GSMetroMonetary txtMPrecoDeCompra;
+        public MetroFramework.Controls.MetroLabel metroLabel7;
+        public ControlesGenericos.GSMetroMonetary txtMLucro;
+        public ControlesGenericos.GSMetroMonetary txtMPrecoDeVenda;
+        public ControlesGenericos.GSMetroMonetary txtMPorcentagemIpi;
+        public ControlesGenericos.GSMetroMonetary txtMPrecoNaIntelbras;
+        public ControlesGenericos.GSMetroMonetary txtMPrecoSugeridoRevenda;
+        public ControlesGenericos.GSMetroMonetary txtMPorcentagemDeLucroConsumidorFinal;
+        public ControlesGenericos.GSMetroMonetary txtMPscf;
     }
 }

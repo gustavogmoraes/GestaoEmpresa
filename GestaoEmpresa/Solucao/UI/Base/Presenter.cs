@@ -98,6 +98,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
 
         public virtual void CarregueControlesComModel()
         {
+            View.EstahRenderizando = true;
             if (Model == null || MapeamentoDeControles == null || MapeamentoDeControles.Count == 0) return;
 
             if (MapeamentoDeControles.Any(x => x.PropriedadeObjeto.Name.ToLowerInvariant().Contains("vigencia")))
@@ -122,6 +123,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
                 }
             });
 
+            View.EstahRenderizando = false;
             View.Refresh();
         }
 
@@ -363,15 +365,15 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
                         })
                 },
                 {
-                    typeof(GSTextBoxMonetaria),
+                    typeof(GSMetroMonetary),
                     new Tuple<Action<Control, PropertyInfo, object, IPresenter>, Action<Control, PropertyInfo, object, IPresenter>>(
                         (controle, propriedade, model, presenter) =>
                         {
-                            ((GSTextBoxMonetaria)controle).Valor = Math.Round((decimal)propriedade.GetValue(model, null), 2);
+                            ((GSMetroMonetary)controle).Value = Math.Round((decimal)propriedade.GetValue(model, null), 2);
                         },
                         (controle, propriedade, model, presenter) =>
                         {
-                            propriedade.SetValue(model, ((GSTextBoxMonetaria)controle).Valor);
+                            propriedade.SetValue(model, ((GSMetroMonetary)controle).Value);
                         })
                 },
             };

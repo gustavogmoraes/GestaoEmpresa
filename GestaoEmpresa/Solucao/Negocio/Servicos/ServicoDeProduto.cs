@@ -209,7 +209,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
 
             var importedItems = LeiaItensDoXls(caminhoArquivo);
             var progressRange = GSExtensions.GetProgressRange(importedItems.Count);
-            var persistedItems = repositorioDeProduto.ConsulteTodos();
+            var persistedItems = repositorioDeProduto.ConsulteTodos(takeQuantity: int.MaxValue);
 
             var totalAdded = 0;
 

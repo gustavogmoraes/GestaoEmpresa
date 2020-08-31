@@ -117,7 +117,6 @@ namespace GS.GestaoEmpresa.Solucao.UI
             {
                 instanciaPresenter.Model = conceito;
                 //instanciaPresenter.IdInstancia = conceito.Codigo.ToString();
-
                 instanciaPresenter.CarregueControlesComModel();
                 instanciaPresenter.View.TipoDeForm = EnumTipoDeForm.Detalhamento;
             });

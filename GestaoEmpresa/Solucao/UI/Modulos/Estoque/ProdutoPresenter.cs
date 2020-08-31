@@ -25,14 +25,14 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             MapeieControle(model => model.QuantidadeEmEstoque, view => view.txtQuantidadeEmEstoque);
             MapeieControle(model => model.AvisarQuantidade, view => view.chkAvisarQuantidade);
             MapeieControle(model => model.CodigoDeBarras, view => view.txtCodigoDeBarras);
-            MapeieControle(model => model.PrecoDeCompra, view => view.txtPrecoDeCompra);
-            MapeieControle(model => model.PrecoDeVenda, view => view.txtPrecoDeVenda);
-            MapeieControle(model => model.PorcentagemDeLucro, view => view.txtPorcentagemLucro);
-            MapeieControle(model => model.Ipi, view => view.txtPorcentagemIpi);
-            MapeieControle(model => model.PrecoNaIntelbras, view => view.txtPrecoNaIntelbras);
-            MapeieControle(model => model.PrecoDistribuidor, view => view.txtPrecoSugeridoRevenda);
-            MapeieControle(model => model.PrecoSugeridoConsumidorFinal, view => view.txtPscf);
-            MapeieControle(model => model.PorcentagemDeLucroDistribuidor, view => view.txtLucroConsumidorFinal);
+            MapeieControle(model => model.PrecoDeCompra, view => view.txtMPrecoDeCompra);
+            MapeieControle(model => model.PrecoDeVenda, view => view.txtMPrecoDeVenda);
+            MapeieControle(model => model.PorcentagemDeLucro, view => view.txtMLucro);
+            MapeieControle(model => model.Ipi, view => view.txtMPorcentagemIpi);
+            MapeieControle(model => model.PrecoNaIntelbras, view => view.txtMPrecoNaIntelbras);
+            MapeieControle(model => model.PrecoDistribuidor, view => view.txtMPrecoSugeridoRevenda);
+            MapeieControle(model => model.PrecoSugeridoConsumidorFinal, view => view.txtMPscf);
+            MapeieControle(model => model.PorcentagemDeLucroDistribuidor, view => view.txtMPorcentagemDeLucroConsumidorFinal);
         }
 
         public IList<Inconsistencia> Salve()
@@ -64,9 +64,9 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
                         View.Invoke((MethodInvoker)delegate
                         {
+                            View.EstahRenderizando = true;
                             CarregueControlesComModel();
 
-                            View.EstahRenderizando = true;
                             View.cbVigencia.SelectedItem = dataVigencia.ToString("dd/MM/yyyy HH:mm:ss");
                         });
                     }
