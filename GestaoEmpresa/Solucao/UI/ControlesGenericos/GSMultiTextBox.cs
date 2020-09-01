@@ -22,7 +22,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.ControlesGenericos
         {
             get => this.txtTexto.Text;
 
-            set { this.txtTexto.Text = value; }
+            set { this.txtTexto.Text = value.ToUpperInvariant(); }
         }
 
         private void btnAdicionar_Click(object sender, EventArgs e)
@@ -77,7 +77,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.ControlesGenericos
 
         private void TxtTexto_KeyDown(object sender, KeyEventArgs e)
         {
-            if (new[] {Keys.Return, Keys.Enter}.Contains(e.KeyCode))
+            if (new[] { Keys.Return, Keys.Enter }.Contains(e.KeyCode))
             {
                 btnAdicionar_Click(e, null);
 

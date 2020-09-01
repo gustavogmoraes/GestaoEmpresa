@@ -185,7 +185,9 @@ namespace GS.GestaoEmpresa.Solucao.UI
             var instanciaServico = (IServicoHistoricoPadrao)Activator.CreateInstance(servico);
 
             if (instanciaServico == null)
+            {
                 throw new Exception("Não foi possível encontrar um serviço implementado que contemple o model informado");
+            }
 
             return instanciaServico;
         }
@@ -199,7 +201,9 @@ namespace GS.GestaoEmpresa.Solucao.UI
             var instanciaServico = (IServicoPadrao)Activator.CreateInstance(servico);
 
             if (instanciaServico == null)
+            {
                 throw new Exception("Não foi possível encontrar um serviço implementado que contemple o model informado");
+            }
 
             return instanciaServico;
         }

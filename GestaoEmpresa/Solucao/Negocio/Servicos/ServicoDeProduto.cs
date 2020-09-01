@@ -107,6 +107,11 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
 
         public override IList<Inconsistencia> Salve(Produto item, EnumTipoDeForm tipoDeForm)
         {
+            if(tipoDeForm == EnumTipoDeForm.Edicao)
+            {
+                item.QuantidadeEmEstoque = ConsulteQuantidade(item.Codigo).GetValueOrDefault();
+            }
+
             var inconsistencias = base.Salve(item, tipoDeForm);
 
             return inconsistencias;

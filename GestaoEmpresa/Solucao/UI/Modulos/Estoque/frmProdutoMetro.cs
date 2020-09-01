@@ -57,10 +57,16 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             if (result.Any())
             {
                 result.ToList().ForEach(x => MessageBox.Show(x.Mensagem, "Inconsistência"));
+
             }
 
             MessageBox.Show("Excluído com sucesso!", "Resultado");
             Presenter.FecharView(sender, e);
+        }
+        protected override void ChamadaEditarOnClick(object sender, EventArgs e)
+        {
+            TipoDeForm = EnumTipoDeForm.Edicao;
+            Presenter.HabiliteControles(new[] { txtQuantidadeEmEstoque.Name });
         }
 
         private void TxtCodigoDeBarras_KeyDown(object sender, KeyEventArgs e)

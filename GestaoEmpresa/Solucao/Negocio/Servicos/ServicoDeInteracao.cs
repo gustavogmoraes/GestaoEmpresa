@@ -21,7 +21,8 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
             TipoDeInteracao = x.TipoDeInteracao,
             Produto = new Produto
             {
-                Codigo = x.Codigo, Nome = x.Produto.Nome
+                Codigo = x.Codigo, 
+                Nome = x.Produto.Nome
             },
             QuantidadeInterada = x.QuantidadeInterada,
             Origem = x.Origem,

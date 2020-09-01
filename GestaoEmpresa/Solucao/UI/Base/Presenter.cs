@@ -164,7 +164,10 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
             SwitchControles(true, excecoes);
 
             var comboVigencia = View.Controls.OfType<Control>().FirstOrDefault(x => x.Name == "cbVigencia");
-            if (comboVigencia == null) return;
+            if (comboVigencia == null)
+            {
+                return;
+            }
 
             switch (View.TipoDeForm)
             {
@@ -200,7 +203,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
             }
         }
 
-        public void ViewCarregada()
+        public virtual void ViewCarregada()
         {
             switch (View.TipoDeForm)
             {

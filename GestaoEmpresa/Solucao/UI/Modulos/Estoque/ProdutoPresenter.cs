@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Windows.Forms;
+using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores.Comuns;
 using GS.GestaoEmpresa.Solucao.Negocio.Interfaces;
 using GS.GestaoEmpresa.Solucao.Negocio.Objetos;
 using GS.GestaoEmpresa.Solucao.Negocio.Servicos;
