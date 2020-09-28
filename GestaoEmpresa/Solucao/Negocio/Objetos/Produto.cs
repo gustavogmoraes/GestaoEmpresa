@@ -4,10 +4,14 @@ using GS.GestaoEmpresa.Solucao.Negocio.Atributos;
 using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores.Seguros.UnidadeIntelbras;
 using GS.GestaoEmpresa.Solucao.Negocio.Objetos.Base;
 using GS.GestaoEmpresa.Solucao.Persistencia.Repositorios;
+using System.Collections.Generic;
+using System.Drawing;
+using Newtonsoft.Json;
+using GS.GestaoEmpresa.Solucao.Negocio.Interfaces;
 
 namespace GS.GestaoEmpresa.Solucao.Negocio.Objetos
 {
-	public class Produto : ObjetoComHistorico
+	public class Produto : ObjetoComHistorico, IObjectWithRavenAttachments
 	{
         [Identificacao(Descricao = "Status")]
         public EnumStatusToggle Status { get; set; }
@@ -65,6 +69,8 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Objetos
         public decimal? PrecoSugeridoConsumidorFinal { get; set; }
 
         public bool ImportadoViaPlanilha { get; set; }
+
+        public RavenAttachments RavenAttachments { get; set; }
 
         public Produto(Produto modelo) : base (modelo) { }
 

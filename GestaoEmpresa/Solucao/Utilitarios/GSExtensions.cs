@@ -25,6 +25,9 @@ using Remotion.Mixins.Definitions;
 using Raven.Client.Documents.Session;
 using Raven.Client.Documents.Commands.Batches;
 using MetroFramework.Controls;
+using System.IO;
+using System.Drawing;
+using System.Drawing.Imaging;
 
 namespace GS.GestaoEmpresa.Solucao.Utilitarios
 {
@@ -410,6 +413,42 @@ namespace GS.GestaoEmpresa.Solucao.Utilitarios
             catch (Exception)
             {
                 throw new Exception("Ocorreu um erro na formatação monetária.");
+            }
+        }
+
+        public static Stream ToStream(this Image image, ImageFormat imageFormat)
+        {
+            var stream = new MemoryStream();
+            image.Save(stream, imageFormat);
+            stream.Position = 0;
+            return stream;
+        }
+
+        public static void SaveAs(this Stream stream, string path)
+        {
+            var directoryInfo = new DirectoryInfo(Path.GetDirectoryName(path));
+            if (!directoryInfo.Exists)
+            {
+                directoryInfo.Create();
+            }
+
+            using (var outputFileStream = new FileStream(path, FileMode.OpenOrCreate))
+            {
+                stream.CopyTo(outputFileStream);
+            }
+        }
+
+        public static byte[] ReadFully(Stream input)
+        {
+            byte[] buffer = new byte[16 * 1024];
+            using (MemoryStream ms = new MemoryStream())
+            {
+                int read;
+                while ((read = input.Read(buffer, 0, buffer.Length)) > 0)
+                {
+                    ms.Write(buffer, 0, read);
+                }
+                return ms.ToArray();
             }
         }
     }

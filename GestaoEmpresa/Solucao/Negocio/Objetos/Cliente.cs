@@ -8,7 +8,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Objetos
     {
 		public bool Status {get; set;}
 
-		public string NomeFantasia { get; set; }
+		public string RazaoSocial { get; set; }
 
         public string Descricao { get; set; }
 
@@ -17,14 +17,14 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Objetos
         public string InscricaoEstadual {get; set;}
 
         public string InscricaoMunicipal { get; set; }
-		
-        public int Grupo {get; set;}
 
         public bool Contrato {get; set;}
 
         public string Observacao { get; set; }
 
         public List<Email> Emails { get; set; }
+
+        public List<string> Contatos { get; set; }
 
         public bool CadastroPendente { get; set; }
     }

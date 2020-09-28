@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmProdutoMetro));
             this.lblStatus = new MetroFramework.Controls.MetroLabel();
             this.toggleStatus = new GS.GestaoEmpresa.Solucao.UI.ControlesGenericos.GSMetroToggle();
             this.chkAvisarQuantidade = new MetroFramework.Controls.MetroCheckBox();
@@ -70,6 +71,7 @@
             this.txtMPrecoSugeridoRevenda = new GS.GestaoEmpresa.Solucao.UI.ControlesGenericos.GSMetroMonetary();
             this.txtMPorcentagemDeLucroConsumidorFinal = new GS.GestaoEmpresa.Solucao.UI.ControlesGenericos.GSMetroMonetary();
             this.txtMPscf = new GS.GestaoEmpresa.Solucao.UI.ControlesGenericos.GSMetroMonetary();
+            this.gsImageAttacher1 = new GS.GestaoEmpresa.Solucao.UI.ControlesGenericos.GSImageAttacher();
             ((System.ComponentModel.ISupportInitialize)(this.btnCancelarExcluir)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnEditarSalvar)).BeginInit();
             this.panelTitulo.SuspendLayout();
@@ -115,11 +117,11 @@
             this.chkAvisarQuantidade.AutoSize = true;
             this.chkAvisarQuantidade.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this.chkAvisarQuantidade.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
-            this.chkAvisarQuantidade.Location = new System.Drawing.Point(41, 647);
+            this.chkAvisarQuantidade.Location = new System.Drawing.Point(20, 666);
             this.chkAvisarQuantidade.Name = "chkAvisarQuantidade";
-            this.chkAvisarQuantidade.Size = new System.Drawing.Size(353, 19);
+            this.chkAvisarQuantidade.Size = new System.Drawing.Size(308, 19);
             this.chkAvisarQuantidade.TabIndex = 76;
-            this.chkAvisarQuantidade.Text = "Avisar quando produto chegar na quantidade mínima";
+            this.chkAvisarQuantidade.Text = "Avisar quando produto chegar na qtd. mínima";
             this.chkAvisarQuantidade.UseCustomBackColor = true;
             this.chkAvisarQuantidade.UseSelectable = true;
             // 
@@ -773,12 +775,25 @@
             this.txtMPscf.UseSelectable = true;
             this.txtMPscf.Value = null;
             // 
+            // gsImageAttacher1
+            // 
+            this.gsImageAttacher1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("gsImageAttacher1.BackgroundImage")));
+            this.gsImageAttacher1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.gsImageAttacher1.ForeColor = System.Drawing.Color.LightGray;
+            this.gsImageAttacher1.Location = new System.Drawing.Point(380, 522);
+            this.gsImageAttacher1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.gsImageAttacher1.Name = "gsImageAttacher1";
+            this.gsImageAttacher1.Size = new System.Drawing.Size(200, 163);
+            this.gsImageAttacher1.TabIndex = 111;
+            // 
             // frmProdutoMetro
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackImage = ((System.Drawing.Image)(resources.GetObject("$this.BackImage")));
             this.BorderStyle = MetroFramework.Forms.MetroFormBorderStyle.FixedSingle;
             this.ClientSize = new System.Drawing.Size(599, 710);
+            this.Controls.Add(this.gsImageAttacher1);
             this.Controls.Add(this.txtMPscf);
             this.Controls.Add(this.txtMPorcentagemDeLucroConsumidorFinal);
             this.Controls.Add(this.metroLabel6);
@@ -866,6 +881,7 @@
             this.Controls.SetChildIndex(this.metroLabel6, 0);
             this.Controls.SetChildIndex(this.txtMPorcentagemDeLucroConsumidorFinal, 0);
             this.Controls.SetChildIndex(this.txtMPscf, 0);
+            this.Controls.SetChildIndex(this.gsImageAttacher1, 0);
             ((System.ComponentModel.ISupportInitialize)(this.btnCancelarExcluir)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnEditarSalvar)).EndInit();
             this.panelTitulo.ResumeLayout(false);
@@ -918,5 +934,6 @@
         public ControlesGenericos.GSMetroMonetary txtMPrecoSugeridoRevenda;
         public ControlesGenericos.GSMetroMonetary txtMPorcentagemDeLucroConsumidorFinal;
         public ControlesGenericos.GSMetroMonetary txtMPscf;
+        public ControlesGenericos.GSImageAttacher gsImageAttacher1;
     }
 }

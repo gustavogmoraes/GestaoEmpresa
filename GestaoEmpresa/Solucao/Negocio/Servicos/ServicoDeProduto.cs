@@ -245,11 +245,13 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
 
                 var codigoDoProdutoIntelbras = (string)item.CodigoDoProduto;
                 
-                var produtoPersistido = persistedItems.FirstOrDefault(x => x.CodigoDoFabricante == codigoDoProdutoIntelbras.Trim());
+                var produtoPersistido = persistedItems.FirstOrDefault(x => x.CodigoDoFabricante?.Trim() == codigoDoProdutoIntelbras.Trim());
                 if (produtoPersistido != null)
                 {
-                    if (produtoPersistido.PrecoNaIntelbras == ((string)item.PrecoDeCompra).ObtenhaMonetario() &&
-                        produtoPersistido.Ipi == Convert.ToDecimal(((string)item.Ipi).Replace("%", string.Empty)))
+                    var precoPlanilha = ((string)item.PrecoDeCompra).ObtenhaMonetario();
+                    var ipiPlanilha = Convert.ToDecimal(((string)item.Ipi).Replace("%", string.Empty));
+
+                    if (produtoPersistido.PrecoNaIntelbras == precoPlanilha && produtoPersistido.Ipi == ipiPlanilha)
                     {
                         return;
                     }

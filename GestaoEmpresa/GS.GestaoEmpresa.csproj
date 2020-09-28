@@ -175,10 +175,12 @@
     <Compile Include="Solucao\Negocio\Enumeradores\Seguros\UnidadeIntelbras\EnumUnidadeIntelbras.cs" />
     <Compile Include="Solucao\Negocio\Enumeradores\Seguros\UnidadeIntelbras\UnidadeIntelbras.cs" />
     <Compile Include="Solucao\Negocio\Interfaces\IConceitoComPendencia.cs" />
+    <Compile Include="Solucao\Negocio\Interfaces\IObjectWithRavenAttachments.cs" />
     <Compile Include="Solucao\Negocio\Interfaces\IServicoHistoricoPadrao.cs" />
     <Compile Include="Solucao\Negocio\Interfaces\IServicoPadrao.cs" />
     <Compile Include="Solucao\Negocio\Objetos\Base\ObjetoComHistorico.cs" />
     <Compile Include="Solucao\Negocio\Objetos\Base\Pessoa.cs" />
+    <Compile Include="Solucao\Negocio\Objetos\Base\RavenAttachments.cs" />
     <Compile Include="Solucao\Negocio\Objetos\ClienteAntigo.cs" />
     <Compile Include="Solucao\Negocio\Objetos\Configuracoes.cs" />
     <Compile Include="Solucao\Negocio\Objetos\Orcamento\ItemOrcamento.cs" />
@@ -245,6 +247,24 @@
     <Compile Include="Solucao\UI\Base\IPresenter.cs" />
     <Compile Include="Solucao\UI\Base\MapeamentoDeControle.cs" />
     <Compile Include="Solucao\UI\Base\Presenter.cs" />
+    <Compile Include="Solucao\UI\Base\Temp.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Solucao\UI\Base\Temp.Designer.cs">
+      <DependentUpon>Temp.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Solucao\UI\ControlesGenericos\GSImageAttacher.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Solucao\UI\ControlesGenericos\GSImageAttacher.Designer.cs">
+      <DependentUpon>GSImageAttacher.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Solucao\UI\ControlesGenericos\GSImageVisualizer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Solucao\UI\ControlesGenericos\GSImageVisualizer.Designer.cs">
+      <DependentUpon>GSImageVisualizer.cs</DependentUpon>
+    </Compile>
     <Compile Include="Solucao\UI\ControlesGenericos\GSMetroMonetary.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -369,6 +389,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Solucao\UI\Base\GSForm.resx">
       <DependentUpon>GSForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Solucao\UI\Base\Temp.resx">
+      <DependentUpon>Temp.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Solucao\UI\ControlesGenericos\GSImageAttacher.resx">
+      <DependentUpon>GSImageAttacher.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Solucao\UI\ControlesGenericos\GSImageVisualizer.resx">
+      <DependentUpon>GSImageVisualizer.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Solucao\UI\ControlesGenericos\GSMetroMonetary.resx">
       <DependentUpon>GSMetroMonetary.cs</DependentUpon>
@@ -537,6 +566,8 @@
   <ItemGroup>
     <None Include="Resources\ImportFromExcel.jpg" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Resources\Background.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

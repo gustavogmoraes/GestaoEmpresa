@@ -4,7 +4,10 @@
 
 using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Imaging;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -17,6 +20,9 @@ using System.Windows.Forms;
 
 using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores.Comuns;
 using GS.GestaoEmpresa.Solucao.Negocio.Interfaces;
+using GS.GestaoEmpresa.Solucao.Negocio.Objetos.Base;
+using GS.GestaoEmpresa.Solucao.Persistencia.BancoDeDados;
+using GS.GestaoEmpresa.Solucao.Persistencia.Interfaces;
 using GS.GestaoEmpresa.Solucao.UI.ControlesGenericos;
 using GS.GestaoEmpresa.Solucao.Utilitarios;
 
@@ -163,6 +169,15 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
         {
             SwitchControles(true, excecoes);
 
+            if(View.EstahRenderizando)
+            {
+                var imageAttachers = View.Controls.OfType<GSImageAttacher>().ToList();
+                foreach (var attacher in imageAttachers)
+                {
+                    attacher.Switch(true);
+                }
+            }
+
             var comboVigencia = View.Controls.OfType<Control>().FirstOrDefault(x => x.Name == "cbVigencia");
             if (comboVigencia == null)
             {
@@ -186,19 +201,40 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
         {
             SwitchControles(false, excecoes);
 
+            var imageAttachers = View.Controls.OfType<GSImageAttacher>().ToList();
+            foreach(var attacher in imageAttachers)
+            {
+                attacher.Switch(false);
+            }
+
             var comboVigencia = View.Controls.OfType<Control>().FirstOrDefault(x => x.Name == "cbVigencia");
             if (comboVigencia == null) return;
 
             switch (View.TipoDeForm)
             {
                 case EnumTipoDeForm.Cadastro:
-                    ExecuteAcaoNaView(() => comboVigencia.Enabled = false);
+                    ExecuteAcaoNaView(() =>
+                    {
+                        comboVigencia.Enabled = false;
+                    });
                     break;
                 case EnumTipoDeForm.Detalhamento:
-                    ExecuteAcaoNaView(() => comboVigencia.Enabled = true);
+                    ExecuteAcaoNaView(() => 
+                    {
+                        comboVigencia.Enabled = true;
+                        foreach(var attacher in imageAttachers)
+                        {
+                            attacher.Enabled = true;
+                            attacher.tabControl.Enabled = true;
+                        }
+                    }
+                    );
                     break;
                 case EnumTipoDeForm.Edicao:
-                    ExecuteAcaoNaView(() => comboVigencia.Enabled = true);
+                    ExecuteAcaoNaView(() =>
+                    {
+                        comboVigencia.Enabled = true;
+                    });
                     break;
             }
         }
@@ -256,7 +292,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
             return result;
         }
 
-        private static Dictionary<Type, Tuple<Action<Control, PropertyInfo, object, IPresenter>, Action<Control, PropertyInfo, object, IPresenter>>> ConversoesControlePropriedade = 
+        private static Dictionary<Type, Tuple<Action<Control, PropertyInfo, object, IPresenter>, Action<Control, PropertyInfo, object, IPresenter>>> ConversoesControlePropriedade =
             new Dictionary<Type, Tuple<Action<Control, PropertyInfo, object, IPresenter>, Action<Control, PropertyInfo, object, IPresenter>>>
             {
                 {
@@ -317,7 +353,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
                             if (valorControle == string.Empty)
                                 valorControle = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
 
-                            propriedade.SetValue(model, ehCbVigencia 
+                            propriedade.SetValue(model, ehCbVigencia
                                                             ? (object)valorControle.ConvertaParaDateTime(EnumFormatacaoDateTime.DD_MM_YYYY_HH_MM_SS, '/')
                                                             : valorControle);
                         })
@@ -379,6 +415,61 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
                             propriedade.SetValue(model, ((GSMetroMonetary)controle).Value);
                         })
                 },
+                {
+                    typeof(GSImageAttacher),
+                    new Tuple<Action<Control, PropertyInfo, object, IPresenter>, Action<Control, PropertyInfo, object, IPresenter>>(
+                        // Object --> Control
+                        (controle, propriedade, model, presenter) =>
+                        {
+                            var imageAttacher = ((GSImageAttacher)controle);
+                            imageAttacher.tabControl.TabPages.Clear();
+
+                            var attachments = (RavenAttachments)propriedade.GetValue(model);
+                            foreach(var attachment in attachments.FileStreams)
+                            {
+                                var tabPage = imageAttacher.AddTabPageExternal(
+                                    imageAttacher.tabControl,
+                                    imageAttacher.tabControl.SelectedTab, 
+                                    Image.FromStream(attachment.Value),
+                                    addInsteadOfInsert: true);
+                            }
+
+                            if (imageAttacher.tabControl.TabPages.OfType<TabPage>().Any())
+                            {
+                                imageAttacher.tabControl.SelectedTab = imageAttacher.tabControl.TabPages.OfType<TabPage>().FirstOrDefault();
+                            }
+                        },
+                        // Control --> Object
+                        (controle, propriedade, model, presenter) =>
+                        {
+                            var imageAttacher = ((GSImageAttacher)controle);
+                            var imageList = imageAttacher.tabControl.TabPages.OfType<TabPage>()
+                                .Where(x => x.Name != "tabAdd")
+                                .Select(x => x.BackgroundImage)
+                                .ToList();
+
+                            var count = 1;
+                            var dictionary = new Dictionary<string, Stream>();
+
+                            foreach(var image in imageList)
+                            {
+                                if(image != null)
+                                {
+                                    dictionary.Add(count.ToString(), image.ToStream(ImageFormat.Png));
+                                }
+
+                                count++;
+                            }
+
+                            var ravenAttachments = new RavenAttachments 
+                            { 
+                                FileStreams = dictionary,
+                                AttachmentsNames = dictionary.Keys.ToList() 
+                            };
+
+                            propriedade.SetValue(model, ravenAttachments);
+                        })
+                }
             };
 
         protected void CarregueComboDeVigencias(MetroComboBox cbVigencia, int codigo)

@@ -1,14 +1,20 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Threading.Tasks;
+using GS.GestaoEmpresa.Solucao.Negocio.Atributos;
 using GS.GestaoEmpresa.Solucao.Negocio.Interfaces;
 using GS.GestaoEmpresa.Solucao.Negocio.Objetos.Base;
 using GS.GestaoEmpresa.Solucao.Persistencia.BancoDeDados;
 using GS.GestaoEmpresa.Solucao.Utilitarios;
 using Raven.Client.Documents.Linq;
+using Raven.Client.Documents.Session;
 
 namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios.Base
 {
@@ -18,7 +24,43 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios.Base
         protected static Expression<Func<T, bool>> _filtroAtualComCodigo(int codigo) => (x => x.Atual && x.Codigo == codigo);
 
         protected Expression<Func<T, bool>> _filtroAtual() => (x => x.Atual);
-        
+
+        protected void StoreAttachments(IDocumentSession session, T item)
+        {
+            var attachmentProp = typeof(T).GetProperties().FirstOrDefault(x => x.PropertyType == typeof(RavenAttachments));
+            var value = (RavenAttachments)attachmentProp.GetValue(item);
+
+            if (value == null)
+            {
+                return;
+            }
+
+            foreach(var attachment in value.FileStreams)
+            {
+                session.Advanced.Attachments.Store(item.Id, attachment.Key, attachment.Value);
+            }
+        }
+
+        protected void RetrieveAttachments(IDocumentSession session, T item)
+        {
+            var attachmentProp = typeof(T).GetProperties().FirstOrDefault(x => x.PropertyType == typeof(RavenAttachments));
+            var value = (RavenAttachments)attachmentProp.GetValue(item);
+            if (value == null)
+            {
+                return;
+            }
+
+            var attachmentDictionary = new Dictionary<string, Stream>();
+            foreach (var attachment in value.AttachmentsNames)
+            {
+                var attachmentResult = session.Advanced.Attachments.Get(item.Id, attachment);
+                attachmentDictionary.Add(attachmentResult.Details.Name, attachmentResult.Stream);
+            }
+
+            value.FileStreams = attachmentDictionary;
+            value.AttachmentsNames = attachmentDictionary.Keys.ToList();
+        }
+
         public int Insira(T item)
         {
             if (item.Codigo == 0)
@@ -29,8 +71,8 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios.Base
             item.Atual = true;
 
             var sessao = RavenHelper.OpenSession();
-
             sessao.Store(item);
+            StoreAttachments(sessao, item);
             sessao.SaveChanges();
 
             return item.Codigo;
@@ -111,13 +153,28 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios.Base
             }
         }
 
-        public T Consulte(int codigo) => RavenHelper.OpenSession().Query<T>().FirstOrDefault(x => x.Codigo == codigo && x.Atual);
+        public T Consulte(int codigo)
+        {
+            using var session = RavenHelper.OpenSession();
+            var item = session.Query<T>().FirstOrDefault(x => x.Codigo == codigo && x.Atual);
 
-        public T Consulte(int codigo, DateTime data) =>
-            RavenHelper.OpenSession().Query<T>()
+            RetrieveAttachments(session, item);
+
+            return item;
+        }
+
+        public T Consulte(int codigo, DateTime data)
+        {
+            using var session = RavenHelper.OpenSession();
+            var item = session.Query<T>()
                 .Where(x => x.Codigo == codigo && x.Vigencia <= data)
                 .OrderByDescending(x => x.Vigencia)
                 .FirstOrDefault();
+
+            RetrieveAttachments(session, item);
+
+            return item;
+        }
 
         public int ObtenhaQuantidadeDeRegistros() => RavenHelper.OpenSession().Query<T>().Count(x => x.Atual);
 
@@ -264,6 +321,7 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios.Base
             item.Vigencia = DateTime.Now;
 
             sessaoRaven.Store(item);
+            StoreAttachments(sessaoRaven, item);
             sessaoRaven.SaveChanges();
         }
 

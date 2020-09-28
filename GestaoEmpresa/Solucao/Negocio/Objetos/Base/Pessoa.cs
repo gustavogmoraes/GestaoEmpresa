@@ -1,4 +1,5 @@
 ﻿using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores.Seguros.TipoDePessoa;
+using GS.GestaoEmpresa.Solucao.Negocio.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace GS.GestaoEmpresa.Solucao.Negocio.Objetos.Base
 {
-    public class Pessoa : ObjetoComHistorico
+    public class Pessoa : ObjetoComHistorico, IConceitoComHistorico
     {
         public string Nome { get; set; }
 
@@ -15,7 +16,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Objetos.Base
 
         public TipoDePessoa TipoDePessoa { get; set; }
 
-        public Endereco Enderecos { get; set; }
+        public List<Endereco> Enderecos { get; set; }
 
         public List<Telefone> Telefones { get; set; }
     }

@@ -16,6 +16,7 @@ using Raven.Client.Documents.Commands.Batches;
 using Raven.Client.Documents.Conventions;
 using Raven.Client.Documents.Linq;
 using Raven.Client.Documents.Operations.Indexes;
+using Raven.Client.Documents.Queries;
 using Raven.Client.Documents.Session;
 using Raven.Client.ServerWide;
 using Raven.Client.ServerWide.Operations;
@@ -202,9 +203,16 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.BancoDeDados
             var queryToReturn = queryable;
             var propertyCount = properties.Length + 1;
 
-            properties.ForEach(x => queryToReturn = queryToReturn.Search(x, new [] { searchTerm }, propertyCount--));
+            properties.ForEach(x => queryToReturn = queryToReturn.Search(x, $"{TreatSearchTerm(searchTerm)}", @operator: SearchOperator.And, boost: propertyCount--));
 
             return queryToReturn;
+        }
+
+        private static string TreatSearchTerm(string searchTerm)
+        {
+            var splitted = searchTerm.Split(new[] { " " }, StringSplitOptions.None);
+
+            return string.Concat(splitted.Select(x => $"*{x}* "));
         }
     }
 }

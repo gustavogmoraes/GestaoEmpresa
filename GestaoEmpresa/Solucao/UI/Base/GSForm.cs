@@ -102,8 +102,10 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
 
         protected virtual void ChamadaEditarOnClick(object sender, EventArgs e)
         {
+            EstahRenderizando = true;
             TipoDeForm = EnumTipoDeForm.Edicao;
             Presenter.HabiliteControles();
+            EstahRenderizando = false;
         }
 
         protected virtual void ChamadaSalvarOnClick(object sender, EventArgs e)

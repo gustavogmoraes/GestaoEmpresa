@@ -65,8 +65,10 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         }
         protected override void ChamadaEditarOnClick(object sender, EventArgs e)
         {
+            EstahRenderizando = true;
             TipoDeForm = EnumTipoDeForm.Edicao;
             Presenter.HabiliteControles(new[] { txtQuantidadeEmEstoque.Name });
+            EstahRenderizando = false;
         }
 
         private void TxtCodigoDeBarras_KeyDown(object sender, KeyEventArgs e)

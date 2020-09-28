@@ -34,6 +34,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             MapeieControle(model => model.PrecoDistribuidor, view => view.txtMPrecoSugeridoRevenda);
             MapeieControle(model => model.PrecoSugeridoConsumidorFinal, view => view.txtMPscf);
             MapeieControle(model => model.PorcentagemDeLucroDistribuidor, view => view.txtMPorcentagemDeLucroConsumidorFinal);
+            MapeieControle(model => model.RavenAttachments, view => view.gsImageAttacher1);
         }
 
         public IList<Inconsistencia> Salve()
@@ -66,9 +67,13 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                         View.Invoke((MethodInvoker)delegate
                         {
                             View.EstahRenderizando = true;
-                            CarregueControlesComModel();
 
-                            View.cbVigencia.SelectedItem = dataVigencia.ToString("dd/MM/yyyy HH:mm:ss");
+                            View.Presenter?.ViewCarregada();
+                            //CarregueControlesComModel();
+
+                            //View.cbVigencia.SelectedItem = dataVigencia.ToString("dd/MM/yyyy HH:mm:ss");
+
+                            View.EstahRenderizando = false;
                         });
                     }
                 });
