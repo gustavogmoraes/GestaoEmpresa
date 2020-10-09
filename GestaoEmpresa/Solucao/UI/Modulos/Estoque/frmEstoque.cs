@@ -250,6 +250,45 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         private void frmEstoque_Load(object sender, EventArgs e)
         {
+            //using var session = RavenHelper.OpenSession();
+            //var listaDePossiveisBixados = session.Query<Produto>().Where(x => x.Vigencia >= new DateTime(2020, 10, 06)).ToList();
+            //foreach (var group in listaDePossiveisBixados.GroupBy(x => x.Codigo))
+            //{
+            //    using var repoProduto = new RepositorioDeProduto();
+            //    var todasVigencias = repoProduto.ConsulteTodos(
+            //        whereFilter: x => x.Codigo == group.Key,
+            //        useCurrentFilter: false,
+            //        withAttachments: true)
+            //        .OrderBy(x => x.Vigencia)
+            //        .ToList();
+
+            //    var lastRevWithAttachments = todasVigencias.Where(x => x.RavenAttachments != null && x.RavenAttachments.FileStreams != null && x.RavenAttachments.FileStreams.Any())
+            //        .OrderBy(X => X.Vigencia)
+            //        .LastOrDefault();
+
+            //    if (lastRevWithAttachments != null &&
+            //       (todasVigencias.LastOrDefault().RavenAttachments != null &&
+            //        (todasVigencias.LastOrDefault().RavenAttachments.FileStreams == null ||
+            //            !todasVigencias.LastOrDefault().RavenAttachments.FileStreams.Any())))
+            //    {
+            //        var vigenciasAfter = todasVigencias.Where(x => x.Vigencia >= lastRevWithAttachments.Vigencia).ToList();
+
+            //        var fixedRev = todasVigencias.LastOrDefault(x => x.Atual);
+            //        fixedRev.RavenAttachments = lastRevWithAttachments.RavenAttachments;
+
+            //        using var session2 = RavenHelper.OpenSession();
+            //        foreach (var vig in vigenciasAfter)
+            //        {
+            //            var prd = session2.Load<Produto>(vig.Id);
+            //            prd.RavenAttachments = null;
+
+            //            session2.SaveChanges();
+
+            //            repoProduto.Insira(fixedRev);
+            //        }
+            //    }
+            //}
+
             // Teste de consultas
             //var repoProd = new RepositorioDeProduto();
             //var searchTerm = "Condulete de 1/2 pt";
@@ -290,60 +329,60 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
             #region Migração de dados ClientesAntigos ---> RavenDB
 
-                //var dialogResult = MessageBox.Show(" Migração de dados ClientesAntigos ---> RavenDB", "Confirmação", MessageBoxButtons.YesNo);
-                //if (dialogResult == DialogResult.Yes)
-                //{
-                //    var caminho = Directory.GetCurrentDirectory();
-                //    const string NOME_DO_ARQUIVO_IMPORTADO_FILTRADO = @"ImportadoFiltrado.json";
-                //    Console.WriteLine("Recuperando lista salva.");
-                //    var arquivo = File.ReadAllText(caminho + "/" + NOME_DO_ARQUIVO_IMPORTADO_FILTRADO);
+            //var dialogResult = MessageBox.Show(" Migração de dados ClientesAntigos ---> RavenDB", "Confirmação", MessageBoxButtons.YesNo);
+            //if (dialogResult == DialogResult.Yes)
+            //{
+            //    var caminho = Directory.GetCurrentDirectory();
+            //    const string NOME_DO_ARQUIVO_IMPORTADO_FILTRADO = @"ImportadoFiltrado.json";
+            //    Console.WriteLine("Recuperando lista salva.");
+            //    var arquivo = File.ReadAllText(caminho + "/" + NOME_DO_ARQUIVO_IMPORTADO_FILTRADO);
 
-                //    if (arquivo != null)
-                //    {
-                //        MessageBox.Show("Lista recuperada com sucesso.");
-                //        var jsonSerializer = new JsonSerializer();
-                //        var ListaClienteAntigo = JsonConvert.DeserializeObject<List<ClienteAntigo>>(arquivo);
-                //        var ListaCliente = ListaClienteAntigo.
-                //            Select(x => new Cliente
-                //            {
-                //                Codigo = x.Codigo,
-                //                Nome = x.Nome,
-                //                Atual = true,
-                //                CadastroPendente = true,
-                //                Vigencia = (string.IsNullOrEmpty(x.DataDoAntigoCadastro) 
-                //                                ? "27/02/2019" 
-                //                                : x.DataDoAntigoCadastro).ConvertaParaDateTime(EnumFormatacaoDateTime.DD_MM_YYYY, '/')
+            //    if (arquivo != null)
+            //    {
+            //        MessageBox.Show("Lista recuperada com sucesso.");
+            //        var jsonSerializer = new JsonSerializer();
+            //        var ListaClienteAntigo = JsonConvert.DeserializeObject<List<ClienteAntigo>>(arquivo);
+            //        var ListaCliente = ListaClienteAntigo.
+            //            Select(x => new Cliente
+            //            {
+            //                Codigo = x.Codigo,
+            //                Nome = x.Nome,
+            //                Atual = true,
+            //                CadastroPendente = true,
+            //                Vigencia = (string.IsNullOrEmpty(x.DataDoAntigoCadastro) 
+            //                                ? "27/02/2019" 
+            //                                : x.DataDoAntigoCadastro).ConvertaParaDateTime(EnumFormatacaoDateTime.DD_MM_YYYY, '/')
 
-                //            }).ToList();
+            //            }).ToList();
 
-                //        Task.Run(() =>
-                //        {
+            //        Task.Run(() =>
+            //        {
 
-                //            using (var repositorioDeCliente = new RepositorioDeCliente())
-                //            using (var repositorioDeClienteAntigo = new RepositorioDeClienteAntigo())
-                //            {
+            //            using (var repositorioDeCliente = new RepositorioDeCliente())
+            //            using (var repositorioDeClienteAntigo = new RepositorioDeClienteAntigo())
+            //            {
 
-                //                foreach (var item in ListaClienteAntigo)
-                //                {
-                //                    repositorioDeClienteAntigo.Insira(item);
+            //                foreach (var item in ListaClienteAntigo)
+            //                {
+            //                    repositorioDeClienteAntigo.Insira(item);
 
-                //                }
-                //                foreach (var item in ListaCliente)
-                //                {
-                //                    repositorioDeCliente.Insira(item);
-                //                }
-                //            }
-                //            MessageBox.Show("Finalizado importaçao.");
-                //        });
+            //                }
+            //                foreach (var item in ListaCliente)
+            //                {
+            //                    repositorioDeCliente.Insira(item);
+            //                }
+            //            }
+            //            MessageBox.Show("Finalizado importaçao.");
+            //        });
 
-                //    }
-                //    else
-                //    {
-                //        MessageBox.Show("Falha na recuperacao.");
-                //    }
-                //}
+            //    }
+            //    else
+            //    {
+            //        MessageBox.Show("Falha na recuperacao.");
+            //    }
+            //}
 
-                #endregion
+            #endregion
 
             UISettings = SessaoSistema.UISettings.GetUISettings(typeof(FrmEstoque));
 
@@ -356,7 +395,6 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             {
                 CarregueDataGridProdutos(servicoDeProduto.ConsulteTodosParaAterrissagem());
             }
-
 
             //Histórico de Produtos
             using (var servicoDeInteracao = new ServicoDeInteracao())

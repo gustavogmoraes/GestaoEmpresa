@@ -169,7 +169,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
                             break;
                     }
 
-                    var produtoConsultado = servicoDeProduto.Consulte(interacao.Produto.Codigo);
+                    var produtoConsultado = servicoDeProduto.Consulte(interacao.Produto.Codigo, false);
 
                     // Nesse caso atualizamos o produto com o novo valor
                     if (interacao.AtualizarValorDoProdutoNoCatalogo)

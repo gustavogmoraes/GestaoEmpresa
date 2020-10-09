@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Threading.Tasks;
-using GS.GestaoEmpresa.Solucao.Negocio.Atributos;
 using GS.GestaoEmpresa.Solucao.Negocio.Interfaces;
 using GS.GestaoEmpresa.Solucao.Negocio.Objetos.Base;
 using GS.GestaoEmpresa.Solucao.Persistencia.BancoDeDados;
@@ -28,21 +24,37 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios.Base
         protected void StoreAttachments(IDocumentSession session, T item)
         {
             var attachmentProp = typeof(T).GetProperties().FirstOrDefault(x => x.PropertyType == typeof(RavenAttachments));
-            var value = (RavenAttachments)attachmentProp.GetValue(item);
 
-            if (value == null)
+            var value = (RavenAttachments)attachmentProp.GetValue(item);
+            if (value == null || value.FileStreams == null)
             {
                 return;
             }
 
-            foreach(var attachment in value.FileStreams)
+            foreach (var attachment in value.FileStreams)
             {
+                attachment.Value.Position = 0;
                 session.Advanced.Attachments.Store(item.Id, attachment.Key, attachment.Value);
+                // If steam was already read at some point, it will be at the last position
+                // so we return it to the begining by copying it to another memory stream
+                // to make it readable again ;D
+                //using (var ms = new MemoryStream())
+                //{
+                //    attachment.Value.CopyTo(ms);
+                //    ms.Position = 0;
+
+                    
+                //}
             }
         }
 
         protected void RetrieveAttachments(IDocumentSession session, T item)
         {
+            if(item == null)
+            {
+                return;
+            }
+
             var attachmentProp = typeof(T).GetProperties().FirstOrDefault(x => x.PropertyType == typeof(RavenAttachments));
             var value = (RavenAttachments)attachmentProp.GetValue(item);
             if (value == null)
@@ -54,7 +66,15 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios.Base
             foreach (var attachment in value.AttachmentsNames)
             {
                 var attachmentResult = session.Advanced.Attachments.Get(item.Id, attachment);
-                attachmentDictionary.Add(attachmentResult.Details.Name, attachmentResult.Stream);
+                if(attachmentResult == null)
+                {
+                    continue;
+                }
+
+                var memoryStream = new MemoryStream();
+                attachmentResult.Stream.CopyTo(memoryStream);
+
+                attachmentDictionary.Add(attachmentResult.Details.Name, memoryStream);
             }
 
             value.FileStreams = attachmentDictionary;
@@ -148,22 +168,29 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios.Base
 
             using (var session = RavenHelper.OpenSession())
             {
-                list.ToList().ForEach(item => session.Store(item));
+                list.ToList().ForEach(item =>
+                {
+                    session.Store(item);
+                    StoreAttachments(session, item);
+                });
                 session.SaveChanges();
             }
         }
 
-        public T Consulte(int codigo)
+        public T Consulte(int codigo, bool withAttachments = true)
         {
             using var session = RavenHelper.OpenSession();
             var item = session.Query<T>().FirstOrDefault(x => x.Codigo == codigo && x.Atual);
 
-            RetrieveAttachments(session, item);
-
+            if(withAttachments)
+            {
+                RetrieveAttachments(session, item);
+            }
+            
             return item;
         }
 
-        public T Consulte(int codigo, DateTime data)
+        public T Consulte(int codigo, DateTime data, bool withAttachments = true)
         {
             using var session = RavenHelper.OpenSession();
             var item = session.Query<T>()
@@ -171,7 +198,10 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios.Base
                 .OrderByDescending(x => x.Vigencia)
                 .FirstOrDefault();
 
-            RetrieveAttachments(session, item);
+            if (withAttachments)
+            {
+                RetrieveAttachments(session, item);
+            }
 
             return item;
         }
@@ -198,16 +228,24 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios.Base
             int takeQuantity = 500,
             string searchTerm = null,
             bool forceContains = false,
+            bool useCurrentFilter = true,
+            bool withAttachments = false,
             params Expression<Func<T, object>>[] propertiesToSearch)
         {
+            IList<T> returnList;
+
             if (!searchTerm.IsNullOrEmpty() && forceContains)
             {
-                return ConsulteTodosExpensive(resultSelector, searchTerm, takeQuantity, propertiesToSearch);
+                returnList = ConsulteTodosExpensive(resultSelector, searchTerm, takeQuantity, propertiesToSearch);
             }
 
             var rQuery = RavenHelper.OpenSession()
-                .Query<T>()
-                .Where(_filtroAtual());
+                .Query<T>();
+
+            if(useCurrentFilter)
+            {
+                rQuery = rQuery.Where(_filtroAtual());
+            }
 
             if (whereFilter != null)
             {
@@ -223,15 +261,25 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios.Base
 
             if (resultSelector != null)
             {
-                return rQuery
+                returnList = rQuery
                     .Select(resultSelector)
                     .OfType<T>()
                     .ToList();
             }
 
-            return rQuery
+            returnList = rQuery
                 .OfType<T>()
                 .ToList();
+
+            if(withAttachments)
+            {
+                foreach (var item in returnList)
+                {
+                    RetrieveAttachments(RavenHelper.OpenSession(), item);
+                }
+            }
+
+            return returnList;
         }
 
         public IList<T> ConsulteTodosExpensive(Expression<Func<T, object>> seletor, Expression<Func<T, object>> propriedade, string pesquisa, int takeQty = 500)

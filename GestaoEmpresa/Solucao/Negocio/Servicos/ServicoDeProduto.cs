@@ -93,14 +93,15 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
             string searchTerm = null,
             Expression<Func<Produto, object>>[] propertiesToSearch = null) 
         {
-            return Repositorio.ConsulteTodos(whereFilter, resultSelector ?? SeletorProdutoAterrissagem, takeQuantity, searchTerm, propertiesToSearch: propertiesToSearch ?? DefaultPropertiesToSearch)
+            return Repositorio.ConsulteTodos(
+                whereFilter, resultSelector ?? SeletorProdutoAterrissagem, takeQuantity, searchTerm, propertiesToSearch: propertiesToSearch ?? DefaultPropertiesToSearch)
                 //.OrderBy(x  => x.Nome)
                 .ToList();
         }
 
-        public override Produto Consulte(int codigo)
+        public override Produto Consulte(int codigo, bool withAttachments = true)
         {
-            var produto = base.Consulte(codigo);
+            var produto = base.Consulte(codigo, withAttachments);
 
             return produto;
         }
@@ -214,7 +215,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
 
             var importedItems = LeiaItensDoXls(caminhoArquivo);
             var progressRange = GSExtensions.GetProgressRange(importedItems.Count);
-            var persistedItems = repositorioDeProduto.ConsulteTodos(takeQuantity: int.MaxValue);
+            var persistedItems = repositorioDeProduto.ConsulteTodos(takeQuantity: int.MaxValue, withAttachments: true);
 
             var totalAdded = 0;
 

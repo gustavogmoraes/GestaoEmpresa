@@ -30,14 +30,14 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos.Base
             set => _repositorio = value;
         }
 
-        public virtual TConceito Consulte(int codigo)
+        public virtual TConceito Consulte(int codigo, bool withAttachments = true)
         {
-            return Repositorio.Consulte(codigo);
+            return Repositorio.Consulte(codigo, withAttachments);
         }
 
-        public virtual TConceito Consulte(int codigo, DateTime data)
+        public virtual TConceito Consulte(int codigo, DateTime data, bool withAttachments = true)
         {
-            return Repositorio.Consulte(codigo, data);
+            return Repositorio.Consulte(codigo, data, withAttachments);
         }
 
         public IList<TConceito> ConsulteTodos()

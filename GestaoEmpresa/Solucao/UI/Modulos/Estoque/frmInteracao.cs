@@ -338,7 +338,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                 int codigoProduto = CodigoProdutoCarregado.GetValueOrDefault();
                 var horarioProgramado = dateData.MergeValue(dateHorario).RemoveMs();
 
-                interacao.Produto = servicoDeProduto.Consulte(codigoProduto, horarioProgramado) ?? servicoDeProduto.Consulte(codigoProduto);
+                interacao.Produto = servicoDeProduto.Consulte(codigoProduto, horarioProgramado, false) ?? servicoDeProduto.Consulte(codigoProduto, false);
             }
 
             if (chkInformarNumeroDeSerie.Checked)

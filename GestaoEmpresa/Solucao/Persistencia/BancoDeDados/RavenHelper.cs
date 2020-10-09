@@ -210,7 +210,7 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.BancoDeDados
 
         private static string TreatSearchTerm(string searchTerm)
         {
-            var splitted = searchTerm.Split(new[] { " " }, StringSplitOptions.None);
+            var splitted = searchTerm.ToLowerInvariant().Split(new[] { " " }, StringSplitOptions.None);
 
             return string.Concat(splitted.Select(x => $"*{x}* "));
         }
