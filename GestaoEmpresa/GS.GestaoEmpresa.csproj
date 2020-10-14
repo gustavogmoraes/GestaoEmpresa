@@ -253,6 +253,12 @@
     <Compile Include="Solucao\UI\Base\Temp.Designer.cs">
       <DependentUpon>Temp.cs</DependentUpon>
     </Compile>
+    <Compile Include="Solucao\UI\ControlesGenericos\GSFileAttacher.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Solucao\UI\ControlesGenericos\GSFileAttacher.Designer.cs">
+      <DependentUpon>GSFileAttacher.cs</DependentUpon>
+    </Compile>
     <Compile Include="Solucao\UI\ControlesGenericos\GSImageAttacher.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -392,6 +398,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Solucao\UI\Base\Temp.resx">
       <DependentUpon>Temp.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Solucao\UI\ControlesGenericos\GSFileAttacher.resx">
+      <DependentUpon>GSFileAttacher.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Solucao\UI\ControlesGenericos\GSImageAttacher.resx">
       <DependentUpon>GSImageAttacher.cs</DependentUpon>
