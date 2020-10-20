@@ -451,5 +451,15 @@ namespace GS.GestaoEmpresa.Solucao.Utilitarios
                 return ms.ToArray();
             }
         }
+
+        public static FileStream GetFileStream(this string filePath)
+        {
+            return File.OpenRead(filePath);
+        }
+
+        public static Point GetCenter(this Control control)
+        {
+            return new Point(control.Size.Width / 2, control.Size.Height / 2);
+        }
     }
 }

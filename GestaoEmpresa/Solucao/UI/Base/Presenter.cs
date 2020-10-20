@@ -425,7 +425,12 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
                             imageAttacher.tabControl.TabPages.Clear();
 
                             var attachments = (RavenAttachments)propriedade.GetValue(model);
-                            foreach(var attachment in attachments.FileStreams)
+                            if(attachments == null)
+                            {
+                                return;
+                            }
+
+                            foreach(var attachment in attachments.FileStreams.Where(x => x.Key.StartsWith("Image")))
                             {
                                 var tabPage = imageAttacher.AddTabPageExternal(
                                     imageAttacher.tabControl,
@@ -455,7 +460,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
                             {
                                 if(image != null)
                                 {
-                                    dictionary.Add(count.ToString(), image.ToStream(ImageFormat.Png));
+                                    dictionary.Add("Image-" + count.ToString(), image.ToStream(ImageFormat.Png));
                                 }
 
                                 count++;

@@ -46,7 +46,7 @@
             this.tabControl.Location = new System.Drawing.Point(3, 3);
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
-            this.tabControl.Size = new System.Drawing.Size(353, 101);
+            this.tabControl.Size = new System.Drawing.Size(353, 139);
             this.tabControl.TabIndex = 1;
             this.tabControl.UseCustomBackColor = true;
             this.tabControl.UseSelectable = true;
@@ -57,7 +57,7 @@
             this.tabAdd.Controls.Add(this.metroLabel1);
             this.tabAdd.Location = new System.Drawing.Point(4, 24);
             this.tabAdd.Name = "tabAdd";
-            this.tabAdd.Size = new System.Drawing.Size(345, 73);
+            this.tabAdd.Size = new System.Drawing.Size(345, 111);
             this.tabAdd.TabIndex = 0;
             this.tabAdd.Tag = "tabAdd";
             this.tabAdd.Text = "+";
@@ -75,7 +75,7 @@
             // 
             // openFileDialog
             // 
-            this.openFileDialog.Filter = "Images (*.BMP;*.JPG;*.GIF,*.PNG,*.TIFF)|*.BMP;*.JPG;*.GIF;*.PNG;*.TIFF";
+            this.openFileDialog.Filter = "All files (*.*)|*.*";
             this.openFileDialog.RestoreDirectory = true;
             // 
             // GSFileAttacher
@@ -84,7 +84,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.tabControl);
             this.Name = "GSFileAttacher";
-            this.Size = new System.Drawing.Size(362, 108);
+            this.Size = new System.Drawing.Size(362, 147);
             this.tabControl.ResumeLayout(false);
             this.tabAdd.ResumeLayout(false);
             this.tabAdd.PerformLayout();

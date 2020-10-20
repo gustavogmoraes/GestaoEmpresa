@@ -10,6 +10,8 @@ using System.Windows.Forms;
 using MetroFramework.Controls;
 using System.Security;
 using MetroFramework;
+using System.IO;
+using GS.GestaoEmpresa.Solucao.Utilitarios;
 
 namespace GS.GestaoEmpresa.Solucao.UI.ControlesGenericos
 {
@@ -113,14 +115,30 @@ namespace GS.GestaoEmpresa.Solucao.UI.ControlesGenericos
                 {
                     try
                     {
-                        var image = Image.FromFile(fileName);
+                        if (Path.GetFileName(fileName).Length > 64)
+                        {
+                            MessageBox.Show(
+                                "O nome do arquivo é muito grande\n" +
+                                "O tamanho máximo permitido é de 60 caracteres", 
+                                "Erro");
+
+                            return;
+                        }
+
+                        var fileStream = fileName.GetFileStream();
                         var btnAttach = (MetroButton)sender;
 
-                        btnAttach.Location = new Point(116, 115); //To Do: Make this dynamic for each screen size
+                        btnAttach.Location = _btnAttachDefaultPoint;
                         var tabPage = (TabPage)btnAttach.Parent;
 
-                        tabPage.BackgroundImageLayout = ImageLayout.Zoom;
-                        tabPage.BackgroundImage = image;
+                        tabPage.Controls.Add(new MetroLabel
+                        {
+                            Name = "lblFileName",
+                            Text = Path.GetFileName(fileStream.Name),
+                            WrapToLine = true,
+                            Size = new Size(277, 38),
+                            Location = new Point(8, 8)
+                        });
 
                         tabPage.Focus();
                         tabPage.DoubleClick += (sender, e) => tabPage_DoubleClick(sender, e);
@@ -153,15 +171,15 @@ namespace GS.GestaoEmpresa.Solucao.UI.ControlesGenericos
         }
 
         private Size _btnDeleteDefaultSize = new Size(21, 23);
-        private Point _btnDeleteDefaultPoint = new Point(168, 4);
+        private Point _btnDeleteDefaultPoint = new Point(320, 4);
         private string _btnDeleteDefaultText = "x";
 
         private Size _btnDownloadDefaultSize = new Size(21, 23);
-        private Point _btnDownloadDefaultPoint = new Point(168, 40);
+        private Point _btnDownloadDefaultPoint = new Point(320, 40);
         private string _btnDownloadDefaultText = char.ConvertFromUtf32(0x2193); // Arrow-down key
 
         private Size _btnAttachDefaultSize = new Size(74, 23);
-        private Point _btnAttachDefaultPoint = new Point(54, 58);
+        private Point _btnAttachDefaultPoint = new Point(230, 55);
         private string _btnAttachDefaultText = "Anexar";
 
         private void tabControl_Click(object sender, EventArgs e)
@@ -226,6 +244,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.ControlesGenericos
             {
                 Size = _btnDownloadDefaultSize,
                 Location = _btnDownloadDefaultPoint,
+                TextAlign = ContentAlignment.MiddleCenter,
                 Text = _btnDownloadDefaultText,
                 FontSize = MetroButtonSize.Tall,
                 Name = "btnDownload"
