@@ -4,6 +4,7 @@ using System.Windows.Forms;
 using GS.GestaoEmpresa.Solucao.Persistencia.BancoDeDados;
 using GS.GestaoEmpresa.Solucao.UI;
 using GS.GestaoEmpresa.Solucao.UI.ControlesGenericos;
+using GS.GestaoEmpresa.Solucao.UI.Modulos.Atendimento;
 
 namespace GestaoEmpresa
 {
@@ -22,7 +23,9 @@ namespace GestaoEmpresa
             SessaoSistema.IsMain = File.Exists(isMainFilePath);
             //SessaoSistema.WorkTestMode = true;
 
-            Application.Run(GerenciadorDeViews.ObtenhaPrincipal());
+            Application.Run(new FrmCliente());
+
+            //Application.Run(GerenciadorDeViews.ObtenhaPrincipal());
         }
 
         // Remove and reinstall all references

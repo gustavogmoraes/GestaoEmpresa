@@ -179,31 +179,35 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios.Base
 
         public T Consulte(int codigo, bool withAttachments = true)
         {
-            using var session = RavenHelper.OpenSession();
-            var item = session.Query<T>().FirstOrDefault(x => x.Codigo == codigo && x.Atual);
-
-            if(withAttachments)
+            using (var session = RavenHelper.OpenSession())
             {
-                RetrieveAttachments(session, item);
+                var item = session.Query<T>().FirstOrDefault(x => x.Codigo == codigo && x.Atual);
+
+                if (withAttachments)
+                {
+                    RetrieveAttachments(session, item);
+                }
+
+                return item;
             }
-            
-            return item;
         }
 
         public T Consulte(int codigo, DateTime data, bool withAttachments = true)
         {
-            using var session = RavenHelper.OpenSession();
-            var item = session.Query<T>()
+            using (var session = RavenHelper.OpenSession())
+            {
+                var item = session.Query<T>()
                 .Where(x => x.Codigo == codigo && x.Vigencia <= data)
                 .OrderByDescending(x => x.Vigencia)
                 .FirstOrDefault();
 
-            if (withAttachments)
-            {
-                RetrieveAttachments(session, item);
-            }
+                if (withAttachments)
+                {
+                    RetrieveAttachments(session, item);
+                }
 
-            return item;
+                return item;
+            }
         }
 
         public int ObtenhaQuantidadeDeRegistros() => RavenHelper.OpenSession().Query<T>().Count(x => x.Atual);

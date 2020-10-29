@@ -22,9 +22,9 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Objetos
 
         public string Observacao { get; set; }
 
-        public List<Email> Emails { get; set; }
+        public Dictionary<string, string> Emails { get; set; }
 
-        public List<string> Contatos { get; set; }
+        public Dictionary<string, string> Contatos { get; set; }
 
         public bool CadastroPendente { get; set; }
     }
