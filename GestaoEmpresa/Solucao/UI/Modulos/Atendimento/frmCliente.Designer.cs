@@ -72,10 +72,6 @@
             this.tabAdd = new System.Windows.Forms.TabPage();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.metroGrid1 = new MetroFramework.Controls.MetroGrid();
-            this.colunaDescrição = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colunaNumero = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colunaRangeDDR = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colunaWhatsApp = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.metroComboBox3 = new MetroFramework.Controls.MetroComboBox();
             this.metroLabel21 = new MetroFramework.Controls.MetroLabel();
@@ -94,6 +90,10 @@
             this.tabContratos = new System.Windows.Forms.TabPage();
             this.metroLabel8 = new MetroFramework.Controls.MetroLabel();
             this.gsMetroToggle1 = new GS.GestaoEmpresa.Solucao.UI.ControlesGenericos.GSMetroToggle();
+            this.colunaDescrição = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colunaNumero = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colunaRangeDDR = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colunaWhatsApp = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.btnCancelarExcluir)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnEditarSalvar)).BeginInit();
             this.panelTitulo.SuspendLayout();
@@ -917,7 +917,6 @@
             // 
             // metroGrid1
             // 
-            this.metroGrid1.AllowUserToOrderColumns = true;
             this.metroGrid1.AllowUserToResizeRows = false;
             this.metroGrid1.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.metroGrid1.BorderStyle = System.Windows.Forms.BorderStyle.None;
@@ -964,29 +963,6 @@
             this.metroGrid1.Size = new System.Drawing.Size(789, 119);
             this.metroGrid1.TabIndex = 0;
             // 
-            // colunaDescrição
-            // 
-            this.colunaDescrição.HeaderText = "Descrição";
-            this.colunaDescrição.Name = "colunaDescrição";
-            this.colunaDescrição.Width = 180;
-            // 
-            // colunaNumero
-            // 
-            this.colunaNumero.HeaderText = "Número";
-            this.colunaNumero.Name = "colunaNumero";
-            this.colunaNumero.Width = 160;
-            // 
-            // colunaRangeDDR
-            // 
-            this.colunaRangeDDR.HeaderText = "Range DDR";
-            this.colunaRangeDDR.Name = "colunaRangeDDR";
-            this.colunaRangeDDR.Width = 200;
-            // 
-            // colunaWhatsApp
-            // 
-            this.colunaWhatsApp.HeaderText = "WhatsApp";
-            this.colunaWhatsApp.Name = "colunaWhatsApp";
-            // 
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.metroComboBox3);
@@ -1005,7 +981,7 @@
             this.groupBox1.Controls.Add(this.metroLabel15);
             this.groupBox1.Location = new System.Drawing.Point(12, 5);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(801, 206);
+            this.groupBox1.Size = new System.Drawing.Size(801, 235);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Endereço";
@@ -1338,6 +1314,29 @@
             this.gsMetroToggle1.TextoOn = null;
             this.gsMetroToggle1.UseCustomBackColor = true;
             this.gsMetroToggle1.UseSelectable = true;
+            // 
+            // colunaDescrição
+            // 
+            this.colunaDescrição.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.colunaDescrição.HeaderText = "Descrição";
+            this.colunaDescrição.Name = "colunaDescrição";
+            // 
+            // colunaNumero
+            // 
+            this.colunaNumero.HeaderText = "Número";
+            this.colunaNumero.Name = "colunaNumero";
+            this.colunaNumero.Width = 160;
+            // 
+            // colunaRangeDDR
+            // 
+            this.colunaRangeDDR.HeaderText = "Range DDR";
+            this.colunaRangeDDR.Name = "colunaRangeDDR";
+            this.colunaRangeDDR.Width = 200;
+            // 
+            // colunaWhatsApp
+            // 
+            this.colunaWhatsApp.HeaderText = "WhatsApp";
+            this.colunaWhatsApp.Name = "colunaWhatsApp";
             // 
             // FrmCliente
             // 

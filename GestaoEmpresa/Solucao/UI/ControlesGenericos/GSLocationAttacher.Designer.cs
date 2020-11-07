@@ -48,6 +48,7 @@
             // 
             // button1
             // 
+            this.button1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.button1.Location = new System.Drawing.Point(68, 13);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(51, 36);
@@ -57,6 +58,7 @@
             // 
             // button2
             // 
+            this.button2.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.button2.Location = new System.Drawing.Point(125, 13);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(51, 36);
@@ -66,6 +68,7 @@
             // 
             // button3
             // 
+            this.button3.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.button3.Location = new System.Drawing.Point(182, 13);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(63, 36);
