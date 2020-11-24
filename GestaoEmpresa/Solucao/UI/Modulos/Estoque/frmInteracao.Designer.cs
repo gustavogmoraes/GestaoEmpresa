@@ -127,7 +127,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             // btnCancelarExcluir
             // 
             this.btnCancelarExcluir.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnCancelarExcluir.Location = new System.Drawing.Point(1324, 9);
+            this.btnCancelarExcluir.Location = new System.Drawing.Point(1097, 9);
             this.btnCancelarExcluir.Name = "btnCancelarExcluir";
             this.btnCancelarExcluir.Size = new System.Drawing.Size(33, 26);
             this.btnCancelarExcluir.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -152,7 +152,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             // 
             this.btnEditarSalvar.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnEditarSalvar.InitialImage = null;
-            this.btnEditarSalvar.Location = new System.Drawing.Point(1286, 5);
+            this.btnEditarSalvar.Location = new System.Drawing.Point(1136, 4);
             this.btnEditarSalvar.Name = "btnEditarSalvar";
             this.btnEditarSalvar.Size = new System.Drawing.Size(32, 30);
             this.btnEditarSalvar.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -299,7 +299,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.txtDestino.Location = new System.Drawing.Point(536, 654);
             this.txtDestino.MaxLength = 100;
             this.txtDestino.Name = "txtDestino";
-            this.txtDestino.Size = new System.Drawing.Size(461, 22);
+            this.txtDestino.Size = new System.Drawing.Size(374, 22);
             this.txtDestino.TabIndex = 9;
             // 
             // lblDestino
@@ -355,7 +355,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.cbProduto.IntegralHeight = false;
             this.cbProduto.Location = new System.Drawing.Point(23, 142);
             this.cbProduto.Name = "cbProduto";
-            this.cbProduto.Size = new System.Drawing.Size(956, 32);
+            this.cbProduto.Size = new System.Drawing.Size(733, 32);
             this.cbProduto.TabIndex = 1;
             this.cbProduto.SelectedIndexChanged += new System.EventHandler(this.cbProduto_SelectedIndexChanged);
             this.cbProduto.TextChanged += new System.EventHandler(this.cbProduto_TextChanged);
@@ -637,7 +637,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             "Outros"});
             this.cbFinalidade.Location = new System.Drawing.Point(543, 566);
             this.cbFinalidade.Name = "cbFinalidade";
-            this.cbFinalidade.Size = new System.Drawing.Size(449, 32);
+            this.cbFinalidade.Size = new System.Drawing.Size(367, 32);
             this.cbFinalidade.TabIndex = 139;
             // 
             // label6
@@ -781,7 +781,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             // 
             // gsFileAttacher1
             // 
-            this.gsFileAttacher1.Location = new System.Drawing.Point(1013, 69);
+            this.gsFileAttacher1.Location = new System.Drawing.Point(829, 175);
             this.gsFileAttacher1.Name = "gsFileAttacher1";
             this.gsFileAttacher1.Size = new System.Drawing.Size(362, 108);
             this.gsFileAttacher1.TabIndex = 145;
@@ -804,7 +804,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.ForeColor = System.Drawing.Color.SteelBlue;
-            this.label5.Location = new System.Drawing.Point(1009, 44);
+            this.label5.Location = new System.Drawing.Point(825, 150);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(75, 24);
             this.label5.TabIndex = 146;
@@ -815,7 +815,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 27.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label8.ForeColor = System.Drawing.Color.SteelBlue;
-            this.label8.Location = new System.Drawing.Point(1006, 142);
+            this.label8.Location = new System.Drawing.Point(822, 248);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(375, 42);
             this.label8.TabIndex = 147;
@@ -826,7 +826,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Silver;
-            this.ClientSize = new System.Drawing.Size(1377, 708);
+            this.ClientSize = new System.Drawing.Size(1191, 708);
             this.Controls.Add(this.gsFileAttacher1);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.label5);

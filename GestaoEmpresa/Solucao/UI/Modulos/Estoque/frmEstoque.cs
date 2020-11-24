@@ -195,26 +195,41 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
             foreach (var produto in listaDeProdutos)
             {
-                dgvProdutos.Rows.Add(produto.Codigo,
-                                     produto.CodigoDoFabricante,
-                                     produto.Nome,
-                                     produto.Observacao,
-                                     produto.PrecoDeCompra.HasValue 
-                                         ? GSUtilitarios.FormateDecimalParaStringMoedaReal(produto.PrecoDeCompra.GetValueOrDefault()) 
-                                         : string.Empty,
-                                     produto.PrecoDistribuidor.HasValue 
-                                         ? GSUtilitarios.FormateDecimalParaStringMoedaReal(produto.PrecoDistribuidor.GetValueOrDefault())
-                                         : string.Empty,
-                                     produto.PrecoSugeridoConsumidorFinal.HasValue
-                                        ? GSUtilitarios.FormateDecimalParaStringMoedaReal(produto.PrecoSugeridoConsumidorFinal.GetValueOrDefault(), true)
-                                        : string.Empty,
-                                     produto.PrecoDeVenda.HasValue 
-                                         ? GSUtilitarios.FormateDecimalParaStringMoedaReal(produto.PrecoDeVenda.GetValueOrDefault())
-                                         : string.Empty,
-                                     produto.QuantidadeEmEstoque);
+                var rowIndex = dgvProdutos.Rows.Add(SelecaoProdutoParaGrid(produto));
+                var color = rowIndex.IsEven()
+                    ? Color.White
+                    : ColorTranslator.FromHtml("#e6f2ff");
+
+                // https://www.w3schools.com/colors/colors_picker.asp
+                dgvProdutos.Rows[rowIndex].DefaultCellStyle.BackColor = color;
+
             }
 
             dgvProdutos.Refresh();
+        }
+
+        private object[] SelecaoProdutoParaGrid(Produto produto)
+        {
+            return new object[]
+            {
+                produto.Codigo,
+                    produto.CodigoDoFabricante,
+                    produto.Nome,
+                    produto.Observacao,
+                    produto.PrecoDeCompra.HasValue
+                        ? GSUtilitarios.FormateDecimalParaStringMoedaReal(produto.PrecoDeCompra.GetValueOrDefault())
+                        : string.Empty,
+                    produto.PrecoDistribuidor.HasValue
+                        ? GSUtilitarios.FormateDecimalParaStringMoedaReal(produto.PrecoDistribuidor.GetValueOrDefault())
+                        : string.Empty,
+                    produto.PrecoSugeridoConsumidorFinal.HasValue
+                    ? GSUtilitarios.FormateDecimalParaStringMoedaReal(produto.PrecoSugeridoConsumidorFinal.GetValueOrDefault(), true)
+                    : string.Empty,
+                    produto.PrecoDeVenda.HasValue
+                        ? GSUtilitarios.FormateDecimalParaStringMoedaReal(produto.PrecoDeVenda.GetValueOrDefault())
+                        : string.Empty,
+                    produto.QuantidadeEmEstoque
+            };
         }
 
         #endregion

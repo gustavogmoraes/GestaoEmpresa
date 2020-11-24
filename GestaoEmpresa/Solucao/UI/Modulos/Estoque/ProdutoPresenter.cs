@@ -69,9 +69,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                             View.EstahRenderizando = true;
 
                             View.Presenter?.ViewCarregada();
-                            //CarregueControlesComModel();
-
-                            //View.cbVigencia.SelectedItem = dataVigencia.ToString("dd/MM/yyyy HH:mm:ss");
+                            View.cbVigencia.SelectedItem = dataVigencia.ToString("dd/MM/yyyy HH:mm:ss");
 
                             View.EstahRenderizando = false;
                         });

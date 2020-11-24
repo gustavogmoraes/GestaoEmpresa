@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using CSharpVerbalExpressions;
 using GS.GestaoEmpresa.Solucao.Negocio.Objetos;
 using GS.GestaoEmpresa.Solucao.Persistencia.Interfaces;
 using GS.GestaoEmpresa.Solucao.Utilitarios;
@@ -84,23 +86,23 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.BancoDeDados
             where T : class, IRavenDbDocument, new()
         {
             throw new NotImplementedException();
-            if (useBatchCommand)
-            {
+            //if (useBatchCommand)
+            //{
                 
-                var batchCommand = new BatchCommand(
-                    DocumentStore.Conventions,
-                    JsonOperationContext.ShortTermSingleUse(),
-                    items.Select(x => new PutCommandData(
-                            x.Id,
-                            null,
-                            DynamicJsonValue.Convert(x.ToDictionary<object>())))
-                        .OfType<ICommandData>().ToList());
+            //    var batchCommand = new BatchCommand(
+            //        DocumentStore.Conventions,
+            //        JsonOperationContext.ShortTermSingleUse(),
+            //        items.Select(x => new PutCommandData(
+            //                x.Id,
+            //                null,
+            //                DynamicJsonValue.Convert(x.ToDictionary<object>())))
+            //            .OfType<ICommandData>().ToList());
 
-                session.Advanced.RequestExecutor.Execute(batchCommand, session.Advanced.Context);
-                session.SaveChanges();
+            //    session.Advanced.RequestExecutor.Execute(batchCommand, session.Advanced.Context);
+            //    session.SaveChanges();
 
-                return;
-            }
+            //    return;
+            //}
 
             var ids = items.Select(x => x.Id);
             var patchDictionary = Queryable.Where(session.Query<T>(), x => ids.Contains(x.Id)).ToDictionary(x => x.Id, GetPatchDictionary);
@@ -210,9 +212,21 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.BancoDeDados
 
         private static string TreatSearchTerm(string searchTerm)
         {
-            var splitted = searchTerm.ToLowerInvariant().Split(new[] { " " }, StringSplitOptions.None);
+            var lowered = searchTerm.ToLowerInvariant();
+            var splittedList = lowered
+                .Split(new[] { " " }, StringSplitOptions.None)
+                .ToList();
 
-            return string.Concat(splitted.Select(x => $"*{x}* "));
+            //if(splittedList.Count > 1)
+            //{
+            //    var match = Regex.Match(lowered, "/[A-Z] [0-9]/i", RegexOptions.IgnoreCase);
+            //    if (match.Success)
+            //    {
+            //        splittedList.Add()
+            //    }
+            //}
+
+            return string.Concat(splittedList.Select(x => $"*{x}* "));
         }
     }
 }

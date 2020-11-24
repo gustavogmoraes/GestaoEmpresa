@@ -90,6 +90,10 @@ namespace GS.GestaoEmpresa.Solucao.UI.Principal
         private void CarregueChamador()
         {
             tabControl1.SelectTab("tabChamador");
+            btnTecnico.Enabled = false;
+
+            btnCorporativo.Enabled = false;
+            btnAuditoria.Enabled = false;
 
             using (var servicoMapeadorUsuario = new RepositorioDeUsuario())
             {
@@ -176,9 +180,13 @@ namespace GS.GestaoEmpresa.Solucao.UI.Principal
             AjustePosicaoControlsDinamicamente();
 
             if (SessaoSistema.Iniciada)
+            {
                 CarregueChamador();
+            }
             else
+            {
                 CarregueLogin();
+            }
 
             txtUsuario.Select();
 

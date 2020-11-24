@@ -70,7 +70,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
                     .ToList();
             }
 
-            return Repositorio.ConsulteTodos(SeletorInteracaoAterrissagem, pesquisa, 500, PropriedadesParaPesquisa)
+            return Repositorio.ConsulteTodos(SeletorInteracaoAterrissagem, pesquisa, 500, false, PropriedadesParaPesquisa)
                 .OrderByDescending(x => x.HorarioProgramado)
                 .ToList();
         }

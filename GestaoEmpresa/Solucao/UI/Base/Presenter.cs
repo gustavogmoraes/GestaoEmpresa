@@ -104,6 +104,11 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
 
         public virtual void CarregueControlesComModel()
         {
+            if(View.EstahRenderizando)
+            {
+                return;
+            }
+
             View.EstahRenderizando = true;
             if (Model == null || MapeamentoDeControles == null || MapeamentoDeControles.Count == 0) return;
 

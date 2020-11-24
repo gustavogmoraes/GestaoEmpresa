@@ -33,6 +33,11 @@ namespace GS.GestaoEmpresa.Solucao.Utilitarios
 {
     public static class GSExtensions
     {
+        public static bool IsEven(this int number)
+        {
+            return number % 2 == 0; 
+        }
+
         public static IList<string> ObtenhaLabels(this IList<PropertyInfo> listaDePropriedades)
         {
             return listaDePropriedades.Select(x => ((Identificacao)x.GetCustomAttributes(typeof(Identificacao), false).FirstOrDefault())?.Descricao).ToList();
