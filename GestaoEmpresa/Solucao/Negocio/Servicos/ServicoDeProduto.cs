@@ -26,27 +26,30 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
     {
         #region Default Implementation
 
-        protected override Action AcaoSucessoValidacaoDeCadastro(Produto produto)
+        protected override Action AcaoSucessoValidacaoDeCadastro(Produto produto) => () =>
         {
-            return () => 
-            { 
-                using(var session = RavenHelper.OpenSession())
-                {
-                    session.Store(new ProdutoQuantidade { Codigo = produto.Codigo, Quantidade = 0 });
-                    session.SaveChanges();
-                }
-            };
-        }
+            using (var session = RavenHelper.OpenSession())
+            {
+                session.Store(new ProdutoQuantidade { Codigo = produto.Codigo, Quantidade = 0 });
+                session.SaveChanges();
+            }
+        };
 
         protected override Action AcaoSucessoValidacaoDeEdicao(Produto item)
         {
             return null;
         }
 
-        protected override Action AcaoSucessoValidacaoDeExclusao(int codigo)
+        protected override Action AcaoSucessoValidacaoDeExclusao(int codigo) => () =>
         {
-            return null;
-        }
+            using (var session = RavenHelper.OpenSession())
+            {
+                var produtoQtd = session.Query<ProdutoQuantidade>().FirstOrDefault(x => x.Codigo == codigo);
+
+                session.Delete(produtoQtd);
+                session.SaveChanges();
+            }
+        };
 
         #endregion
 

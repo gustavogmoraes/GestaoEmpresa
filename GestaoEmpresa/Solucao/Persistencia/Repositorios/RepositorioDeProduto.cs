@@ -16,6 +16,7 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios
 {
     public class RepositorioDeProduto : RepositorioHistoricoPadrao<Produto>
     {
+
         public int ConsulteQuantidade(int codigo)
         {
             using (var sessaoRaven = RavenHelper.OpenSession())

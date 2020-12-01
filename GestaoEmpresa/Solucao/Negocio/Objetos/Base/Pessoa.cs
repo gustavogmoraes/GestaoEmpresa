@@ -12,6 +12,8 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Objetos.Base
     {
         public string Nome { get; set; }
 
+        public DateTime? DataDeNascimentoCriacao { get; set; }
+
         public string Cpfcnpj { get; set; }
 
         public TipoDePessoa TipoDePessoa { get; set; }

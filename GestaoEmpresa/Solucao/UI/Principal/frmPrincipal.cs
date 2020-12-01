@@ -733,8 +733,6 @@ namespace GS.GestaoEmpresa.Solucao.UI.Principal
 
         protected override void OnLoad(EventArgs e)
         {
-            
-
             base.OnLoad(e);
 
             if (SessaoSistema.IsMain)
@@ -756,7 +754,8 @@ namespace GS.GestaoEmpresa.Solucao.UI.Principal
 
                 btnEntrar_Click_1(btnEntrar, e);
 
-                GerenciadorDeViews.Crie<ClientePresenter>();
+                GerenciadorDeViews.ObtenhaPrincipal().WindowState = FormWindowState.Minimized;
+                GerenciadorDeViews.Crie<ClientePresenter>().View.Show();
 
                 #region Usable
 

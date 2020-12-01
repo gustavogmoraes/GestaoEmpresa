@@ -23,7 +23,7 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios.Base
 
         protected Expression<Func<T, bool>> _filtroAtual() => (x => x.Atual);
 
-        public int Insira(T item)
+        public virtual int Insira(T item)
         {
             if (item.Codigo == 0)
             {
@@ -40,7 +40,7 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios.Base
             return item.Codigo;
         }
 
-        public async Task<int> InsiraAsync(T item)
+        public virtual async Task<int> InsiraAsync(T item)
         {
             if (item.Codigo == 0)
             {

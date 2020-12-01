@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Globalization;
@@ -93,6 +94,20 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
 
             MapeamentoDeControles.Add(new MapeamentoDeControle<TModel, TView>(
                 propriedade, controle, conversaoPropriedadeControle, conversaoControlePropriedade));
+        }
+
+        protected virtual void MapeieControle(
+            Expression<Func<TModel, object>> propriedade,
+            Expression<Func<TView, IComponent>> controle,
+            Action<object, Control> conversaoPropriedadeControle = null,
+            Action<Control, object> conversaoControlePropriedade = null)
+        {
+            if (propriedade == null || controle == null) return;
+            if (Model == null) Model = new TModel();
+            if (MapeamentoDeControles == null) MapeamentoDeControles = new List<MapeamentoDeControle<TModel, TView>>();
+
+            //MapeamentoDeControles.Add(new MapeamentoDeControle<TModel, TView>(
+            //    propriedade, controle, conversaoPropriedadeControle, conversaoControlePropriedade));
         }
 
         #endregion

@@ -39,7 +39,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Catalogos
             $"Tem certeza que deseja excluir esse {valor}?";
 
         public static string X_NAO_PODE_SER_EXCLUIDO(string valor) => 
-            $"Esse {valor} não pode ser excluído.";
+            $"Esse {valor} não pode ser excluído pois existem entradas/saídas cadastradas com ele.";
 
         public static string O_X_FOI_EXCLUIDO_COM_SUCESSO(string valor) => 
             $"O {valor} foi excluído com sucesso.";

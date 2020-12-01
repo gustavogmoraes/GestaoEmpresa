@@ -71,12 +71,25 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Atendimento
 
         private void FrmCliente_Load(object sender, EventArgs e)
         {
-            
+            tabControl.SelectedTab = tabDadosCadastrais;
         }
 
         private void PictureBox1_Click(object sender, EventArgs e)
         {
             Process.Start("https://goo.gl/maps/whuXchW9SUKgWhSa9");
+        }
+
+        private void CbTipoDePessoa_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if(cbTipoDePessoa.SelectedText == "Física")
+            {
+                txtRazaoSocial.Text = string.Empty;
+                txtRazaoSocial.Enabled = false;
+            }
+            else if(cbTipoDePessoa.SelectedText == "Jurídica")
+            {
+                txtRazaoSocial.Enabled = true;
+            }
         }
     }
 }
