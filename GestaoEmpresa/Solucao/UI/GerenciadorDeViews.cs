@@ -62,7 +62,8 @@ namespace GS.GestaoEmpresa.Solucao.UI
             TelaMVP.Of<frmProdutoMetro, ProdutoPresenter>(),
             TelaMVP.Of<frmInteracao, object>(true),
             TelaMVP.Of<FrmAtendimento, object>(true),
-            TelaMVP.Of<FrmOrcamento, OrcamentoPresenter>()
+            TelaMVP.Of<FrmOrcamento, OrcamentoPresenter>(),
+            TelaMVP.Of<FrmCliente, ClientePresenter>()
         });
 
         private static Form _instanciaPrincipal;

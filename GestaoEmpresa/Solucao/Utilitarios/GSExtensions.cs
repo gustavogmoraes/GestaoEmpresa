@@ -466,5 +466,37 @@ namespace GS.GestaoEmpresa.Solucao.Utilitarios
         {
             return new Point(control.Size.Width / 2, control.Size.Height / 2);
         }
+
+        public static void LoadDataGrid<T>(
+            this DataGridView dataGrid,
+            IList<T> dataList,
+            Expression<Func<T, object[]>> objectSelector,
+            bool useRowColorIntercalation = true,
+            Tuple<Color, Color> colors = null)
+            where T : new()
+        {
+            dataGrid.Rows.Clear();
+
+            var selector = objectSelector.Compile();
+            foreach (T item in dataList)
+            {
+                var evenColor = colors?.Item1 ?? Color.White;
+                var oddColor = colors?.Item2 ?? ColorTranslator.FromHtml("#e6f2ff");
+
+                var rowIndex = dataGrid.Rows.Add(selector.Invoke(item));
+                var color = useRowColorIntercalation
+                    ? (rowIndex.IsEven()
+                        ? evenColor
+                        : oddColor)
+                    : Color.White;
+
+                //// https://www.w3schools.com/colors/colors_picker.asp
+
+                //dataGrid.Rows[rowIndex].HeaderCell.Style.ForeColor = color;
+                dataGrid.Rows[rowIndex].DefaultCellStyle.BackColor = color;
+            }
+
+            dataGrid.Refresh();
+        }
     }
 }

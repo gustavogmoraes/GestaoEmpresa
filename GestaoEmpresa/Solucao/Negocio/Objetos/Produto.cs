@@ -34,9 +34,6 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Objetos
         [Identificacao(Descricao = "Porcentagem de lucro")]
         public decimal? PorcentagemDeLucro { get; set; }
 
-        [Identificacao(Descricao = "Quantidade em estoque")]
-        public int QuantidadeEmEstoque { get; set; }
-
         [Identificacao(Descricao = "Avisar quando atingir quantidade mínima")]
         public bool AvisarQuantidade { get; set; }
 

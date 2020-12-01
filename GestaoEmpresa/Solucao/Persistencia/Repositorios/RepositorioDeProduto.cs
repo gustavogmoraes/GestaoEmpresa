@@ -3,6 +3,7 @@ using GS.GestaoEmpresa.Solucao.Persistencia.BancoDeDados;
 using GS.GestaoEmpresa.Solucao.Persistencia.Repositorios.Base;
 using Raven.Client;
 using Raven.Client.Documents;
+using Raven.Client.Documents.Linq;
 using Raven.Client.Documents.Session;
 using System;
 using System.Collections.Generic;
@@ -15,11 +16,21 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios
 {
     public class RepositorioDeProduto : RepositorioHistoricoPadrao<Produto>
     {
-        public int? ConsulteQuantidade(int codigo)
+        public int ConsulteQuantidade(int codigo)
         {
             using (var sessaoRaven = RavenHelper.OpenSession())
             {
-                return sessaoRaven.Query<Produto>().FirstOrDefault(_filtroAtualComCodigo(codigo))?.QuantidadeEmEstoque;
+                return sessaoRaven.Query<ProdutoQuantidade>().FirstOrDefault(x => x.Codigo == codigo).Quantidade;
+            }
+        }
+
+        public Dictionary<int, int> ConsulteQuantidade(IList<int> codigos)
+        {
+            using (var sessaoRaven = RavenHelper.OpenSession())
+            {
+                return sessaoRaven.Query<ProdutoQuantidade>()
+                    .Where(x => x.Codigo.In(codigos)) //.Search(x => x.Codigo, string.Join(" ", codigos), options: SearchOptions.Or)
+                    .ToDictionary(x => x.Codigo, x => x.Quantidade);
             }
         }
 
@@ -27,10 +38,9 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios
         {
             using (var sessaoRaven = RavenHelper.OpenSession())
             {
-                var produto = sessaoRaven.Query<Produto>().FirstOrDefault(_filtroAtualComCodigo(codigoDoProduto));
-                if (produto == null) return;
+                var produtoQtd = sessaoRaven.Query<ProdutoQuantidade>().FirstOrDefault(x => x.Codigo == codigoDoProduto);
 
-                produto.QuantidadeEmEstoque = novaQuantidade;
+                produtoQtd.Quantidade = novaQuantidade;
                 sessaoRaven.SaveChanges();
             }
         }

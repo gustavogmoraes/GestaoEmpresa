@@ -809,7 +809,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         {
             var servicoDeProduto = new ServicoDeProduto();
 
-            var produtos = servicoDeProduto.ConsulteTodosParaAterrissagem(resultSelector: SeletorCombo, searchTerm: textoParaPesquisar)
+            var produtos = servicoDeProduto.ConsulteTodosParaAterrissagem(out var quantidades, resultSelector: SeletorCombo, searchTerm: textoParaPesquisar)
                 .OrderBy(x => x.Nome)
                 .ToList();
             return produtos;

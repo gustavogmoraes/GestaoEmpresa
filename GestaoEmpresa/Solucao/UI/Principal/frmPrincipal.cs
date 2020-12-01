@@ -471,9 +471,9 @@ namespace GS.GestaoEmpresa.Solucao.UI.Principal
             retorno.PrecoDeCompra = decimal.Parse(tabela.Rows[linha]["PRECOCOMPRA"].ToString());
             retorno.PrecoDeVenda = decimal.Parse(tabela.Rows[linha]["PRECOVENDA"].ToString());
             retorno.PorcentagemDeLucro = decimal.Parse(tabela.Rows[linha]["PORCENTAGEMLUCRO"].ToString());
-            retorno.QuantidadeEmEstoque = tabela.Rows[linha]["QUANTIDADEESTOQUE"] != DBNull.Value
-                                        ? int.Parse(tabela.Rows[linha]["QUANTIDADEESTOQUE"].ToString())
-                                        : 0;
+            //retorno.QuantidadeEmEstoque = tabela.Rows[linha]["QUANTIDADEESTOQUE"] != DBNull.Value
+            //                            ? int.Parse(tabela.Rows[linha]["QUANTIDADEESTOQUE"].ToString())
+            //                            : 0;
             retorno.AvisarQuantidade = GSUtilitarios.ConvertaValorBooleano(tabela.Rows[linha]["AVISARQUANTIDADE"].ToString());
             retorno.QuantidadeMinimaParaAviso = int.Parse(tabela.Rows[linha]["QUANTIDADEMINIMAAVISO"].ToString());
             retorno.Observacao = tabela.Rows[linha]["OBSERVACAO"] != DBNull.Value
@@ -751,13 +751,12 @@ namespace GS.GestaoEmpresa.Solucao.UI.Principal
             }
             else if (SessaoSistema.WorkTestMode)
             {
-                ChamadaMinimizarForm(this, EventArgs.Empty);
-                var view = GerenciadorDeViews.Crie<OrcamentoPresenter>().View;
-                view.Show();
+                txtUsuario.Text = "admin";
+                txtSenha.Text = "admin";
 
-                //view.txtPesquisa.Text = "Impacta";
-                //var form = GerenciadorDeViews.CrieIndependente<FrmAtendimento>(out var idInstancia);
-                //form.btnNovoProduto_Click(this, EventArgs.Empty);
+                btnEntrar_Click_1(btnEntrar, e);
+
+                GerenciadorDeViews.Crie<ClientePresenter>();
 
                 #region Usable
 

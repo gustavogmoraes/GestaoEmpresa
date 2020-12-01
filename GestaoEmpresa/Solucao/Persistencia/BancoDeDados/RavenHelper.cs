@@ -104,8 +104,8 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.BancoDeDados
             //    return;
             //}
 
-            var ids = items.Select(x => x.Id);
-            var patchDictionary = Queryable.Where(session.Query<T>(), x => ids.Contains(x.Id)).ToDictionary(x => x.Id, GetPatchDictionary);
+            //var ids = items.Select(x => x.Id);
+            //var patchDictionary = Queryable.Where(session.Query<T>(), x => ids.Contains(x.Id)).ToDictionary(x => x.Id, GetPatchDictionary);
         }
 
         private static Dictionary<Expression<Func<T, object>>, object> GetPatchDictionary<T>(T item)
@@ -196,7 +196,8 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.BancoDeDados
         private static Dictionary<Type, string> NomenclaturaDeColecaoCustomizada =>
             new Dictionary<Type, string>
             {
-                { typeof(Interacao), "Interacoes" }
+                { typeof(Interacao), "Interacoes" },
+                { typeof(ProdutoQuantidade), "ProdutosQuantidades" }
             };
 
         public static IRavenQueryable<T> SearchMultiple<T>(this IRavenQueryable<T> queryable, string searchTerm, params Expression<Func<T, object>>[] properties)

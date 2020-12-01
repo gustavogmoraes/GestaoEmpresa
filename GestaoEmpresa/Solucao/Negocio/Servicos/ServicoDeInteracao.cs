@@ -103,7 +103,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
             using (var repositorioDeInteracao = new RepositorioDeInteracao())
             {
                 var interacao = Consulte(codigoDaInteracao);
-                var quantidadeDeProduto = servicoDeProduto.ConsulteQuantidade(interacao.Produto.Codigo).GetValueOrDefault();
+                var quantidadeDeProduto = servicoDeProduto.ConsulteQuantidade(interacao.Produto.Codigo);
 
                 var inconsistencias = validador.ValideExclusao(codigoDaInteracao).ToList();
                 if (inconsistencias.Count > 0)
@@ -194,8 +194,9 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
                             servicoDeProduto.Salve(produtoConsultado, EnumTipoDeForm.Edicao);
                         }
                     }
+                    var quantidadeEmEstoque = servicoDeProduto.ConsulteQuantidade(produtoConsultado.Codigo);
 
-                    servicoDeProduto.AltereQuantidadeDeProduto(produtoConsultado.Codigo, produtoConsultado.QuantidadeEmEstoque + quantidadeInterada + quantidadeInteradaAux);
+                    servicoDeProduto.AltereQuantidadeDeProduto(produtoConsultado.Codigo, quantidadeEmEstoque + quantidadeInterada + quantidadeInteradaAux);
                 }
             };
         }
@@ -206,10 +207,14 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
             {
                 if(item.Situacao == "Devolvido")
                 {
-                    var servicoDeProduto = new ServicoDeProduto();
-                    var produtoConsultado = servicoDeProduto.Consulte(item.Produto.Codigo);
-                    servicoDeProduto.AltereQuantidadeDeProduto(produtoConsultado.Codigo, produtoConsultado.QuantidadeEmEstoque + item.QuantidadeInterada);
-                    servicoDeProduto.Dispose();
+                    using (var servicoDeProduto = new ServicoDeProduto())
+                    {
+                        var produtoConsultado = servicoDeProduto.Consulte(item.Produto.Codigo);
+                        var quantidade = servicoDeProduto.ConsulteQuantidade(produtoConsultado.Codigo);
+
+                        servicoDeProduto.AltereQuantidadeDeProduto(produtoConsultado.Codigo, quantidade + item.QuantidadeInterada);
+                        servicoDeProduto.Dispose();
+                    }
 
                     item.TipoDeInteracao = EnumTipoDeInteracao.BASE_DE_TROCA;
                 }

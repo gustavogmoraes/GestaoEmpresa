@@ -30,7 +30,11 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
         {
             return () => 
             { 
-                produto.QuantidadeEmEstoque = 0;
+                using(var session = RavenHelper.OpenSession())
+                {
+                    session.Store(new ProdutoQuantidade { Codigo = produto.Codigo, Quantidade = 0 });
+                    session.SaveChanges();
+                }
             };
         }
 
@@ -46,11 +50,19 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
 
         #endregion
 
-        public int? ConsulteQuantidade(int codigo)
+        public int ConsulteQuantidade(int codigo)
         {
             using (var repositorioDeProduto = new RepositorioDeProduto())
             {
                 return repositorioDeProduto.ConsulteQuantidade(codigo);
+            }
+        }
+
+        public Dictionary<int, int> ConsulteQuantidade(IList<int> codigos)
+        {
+            using (var repositorioDeProduto = new RepositorioDeProduto())
+            {
+                return repositorioDeProduto.ConsulteQuantidade(codigos);
             }
         }
 
@@ -64,7 +76,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
                 if (formEstoque == null) return;
 
                 var produto = Consulte(codigoDoProduto);
-                formEstoque.RecarregueProdutoEspecifico(produto);
+                formEstoque.RecarregueProdutoEspecifico(produto, ConsulteQuantidade(codigoDoProduto));
             }
         }
 
@@ -79,7 +91,6 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
             PrecoNaIntelbras =  x.PrecoNaIntelbras,
             PrecoDistribuidor = x.PrecoDistribuidor,
             PrecoSugeridoConsumidorFinal = x.PrecoSugeridoConsumidorFinal,
-            QuantidadeEmEstoque = x.QuantidadeEmEstoque,
             Status = x.Status
         };
 
@@ -87,16 +98,24 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
             { x => x.Nome, x => x.Codigo, x => x.CodigoDoFabricante, x => x.Fabricante };
 
         public List<Produto> ConsulteTodosParaAterrissagem(
+            out Dictionary<int, int> quantidades,
             Expression<Func<Produto, bool>> whereFilter = null,
             Expression<Func<Produto, object>> resultSelector = null,
             int takeQuantity = 500,
             string searchTerm = null,
             Expression<Func<Produto, object>>[] propertiesToSearch = null) 
         {
-            return Repositorio.ConsulteTodos(
-                whereFilter, resultSelector ?? SeletorProdutoAterrissagem, takeQuantity, searchTerm, propertiesToSearch: propertiesToSearch ?? DefaultPropertiesToSearch)
-                //.OrderBy(x  => x.Nome)
+            var properties2Search = propertiesToSearch ?? DefaultPropertiesToSearch;
+            var selector = resultSelector ?? SeletorProdutoAterrissagem;
+
+            var produtos = Repositorio.ConsulteTodos(
+                whereFilter, selector, takeQuantity, searchTerm, propertiesToSearch: properties2Search)
                 .ToList();
+
+            var codigosProdutos = produtos.Select(x => x.Codigo).ToList();
+            quantidades = Repositorio.ConsulteQuantidade(codigosProdutos);
+
+            return produtos;
         }
 
         public override Produto Consulte(int codigo, bool withAttachments = true)
@@ -110,7 +129,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
         {
             if(tipoDeForm == EnumTipoDeForm.Edicao)
             {
-                item.QuantidadeEmEstoque = ConsulteQuantidade(item.Codigo).GetValueOrDefault();
+                //item.QuantidadeEmEstoque = ConsulteQuantidade(item.Codigo).GetValueOrDefault();
             }
 
             var inconsistencias = base.Salve(item, tipoDeForm);

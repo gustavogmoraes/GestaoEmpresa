@@ -8,7 +8,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores.Comuns;
 using GS.GestaoEmpresa.Solucao.UI.Base;
+using GS.GestaoEmpresa.Solucao.UI.ControlesGenericos;
 
 namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Atendimento
 {
@@ -17,6 +19,49 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Atendimento
         public FrmCliente()
         {
             InitializeComponent();
+        }
+
+        protected override void ChamadaSalvar(object sender, EventArgs e)
+        {
+            //var result = (Presenter as ClientePresenter)?.Salve();
+            //if (result.Any())
+            //{
+            //    result.ToList().ForEach(x => MessageBox.Show(x.Mensagem, "Inconsistência"));
+            //    return;
+            //}
+
+            var cadastroOuAtualizacao = TipoDeForm == EnumTipoDeForm.Cadastro ? "Cadastrado" : "Atualizado";
+            MessageBox.Show($"{cadastroOuAtualizacao} com sucesso!", "Resultado");
+
+            GSWaitForm.Mostrar(this, () =>
+            {
+                Invoke((MethodInvoker)delegate
+                {
+                    TipoDeForm = EnumTipoDeForm.Detalhamento;
+                    Presenter.ViewCarregada();
+                });
+            });
+        }
+
+        protected override void ChamadaExclusao(object sender, EventArgs e)
+        {
+            //var result = (Presenter as ClientePresenter)?.Exclua(Presenter.Model.Codigo);
+            //if (result.Any())
+            //{
+            //    result.ToList().ForEach(x => MessageBox.Show(x.Mensagem, "Inconsistência"));
+
+            //}
+
+            MessageBox.Show("Excluído com sucesso!", "Resultado");
+            Presenter.FecharView(sender, e);
+        }
+
+        protected override void ChamadaEditarOnClick(object sender, EventArgs e)
+        {
+            EstahRenderizando = true;
+            TipoDeForm = EnumTipoDeForm.Edicao;
+            Presenter.HabiliteControles();
+            EstahRenderizando = false;
         }
 
         private void TabPage3_Click(object sender, EventArgs e)

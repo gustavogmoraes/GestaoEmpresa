@@ -60,6 +60,8 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
                 listaProdutos.Sort((x, y) => x.Codigo.CompareTo(y.Codigo));
 
+                var quantidades = servicoDeProduto.ConsulteQuantidade(listaProdutos.Select(x => x.Codigo).ToList());
+
                 listaProdutos.ForEach(x =>
                     gridExportacao.Rows.Add(
                         x.Codigo,
@@ -70,7 +72,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                         x.PrecoDeCompra.HasValue ? x.PrecoDeCompra.GetValueOrDefault().FormateParaStringMoedaReal() : string.Empty,
                         x.PrecoDeVenda.HasValue ? x.PrecoDeVenda.GetValueOrDefault().FormateParaStringMoedaReal() : string.Empty,
                         x.PorcentagemDeLucro,
-                        x.QuantidadeEmEstoque,
+                        quantidades[x.Codigo],
                         x.AvisarQuantidade.ConvertaValorBooleano(),
                         x.QuantidadeMinimaParaAviso,
                         x.Observacao));

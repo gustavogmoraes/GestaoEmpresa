@@ -63,17 +63,23 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             txtLineVigencia.Enabled = false;
         }
 
-        public frmProduto(Produto produto)
+        public frmProduto(Produto produto, int quantidade)
         {
             InitializeComponent();
 
             InicializeBotoes(EnumTipoDeForm.Detalhamento);
             TipoDeForm = EnumTipoDeForm.Detalhamento;
 
-            CarregueControlesComObjeto(produto);
+            CarregueControlesProduto(produto, quantidade);
             CarregueComboDeVigencias(produto.Codigo);
             SelecioneUltimaVigencia();
             DesabiliteControles();
+        }
+
+        private void CarregueControlesProduto(Produto produto, int quantidade)
+        {
+            CarregueControlesComObjeto(produto);
+            txtLineQuantidadeEstoque.Text = quantidade.ToString();
         }
 
         private void frmProduto_Load(object sender, EventArgs e)
@@ -176,7 +182,6 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             txtMarca.Text = objeto.Fabricante ?? string.Empty;
             txtNome.Text = objeto.Nome ?? string.Empty;
             txtObservacoes.Text = objeto.Observacao ?? string.Empty;
-            txtQuantidadeEmEstoque.Text = objeto.QuantidadeEmEstoque.ToString();
             txtQuantidadeMinima.Text = objeto.QuantidadeMinimaParaAviso.ToString();
             txtPorcentagemDeLucro.Valor = objeto.PorcentagemDeLucro;
             txtPrecoDeCompra.Valor = objeto.PrecoDeCompra;
@@ -202,9 +207,6 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                            ? (EnumStatusToggle)cbStatus.SelectedIndex + 1
                            : EnumStatusToggle.Ativo;
 
-            produto.QuantidadeEmEstoque = ! string.IsNullOrEmpty(txtQuantidadeEmEstoque.Text)
-                                        ? Convert.ToInt32(txtQuantidadeEmEstoque.Text)
-                                        : 0;
             produto.QuantidadeMinimaParaAviso = !string.IsNullOrEmpty(txtQuantidadeMinima.Text.Trim())
                                               ? int.Parse(txtQuantidadeMinima.Text.Trim())
                                               : 0;
@@ -360,20 +362,25 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                     var produto = CarregueObjetoComControles();
 
                     var listaDeInconsistencias = new List<Inconsistencia>();
+                    var quantidade = 0;
 
                     using (var servicoDeProduto = new ServicoDeProduto())
+                    {
                         listaDeInconsistencias = servicoDeProduto.Salve(produto, TipoDeForm).ToList();
+
+                        quantidade = servicoDeProduto.ConsulteQuantidade(produto.Codigo);
+                    }
 
                     if (listaDeInconsistencias.Count == 0)
                     {
                         if (TipoDeForm == EnumTipoDeForm.Cadastro)
                         {
-                            GerenciadorDeViews.ObtenhaIndependente<FrmEstoque>().AdicioneNovoProdutoNaGrid(produto);
+                            GerenciadorDeViews.ObtenhaIndependente<FrmEstoque>().AdicioneNovoProdutoNaGrid(produto, 0);
                             MessageBox.Show(Mensagens.X_FOI_CADASTRADO_COM_SUCESSO("Produto"));
                         }
                         else
                         {
-                            GerenciadorDeViews.ObtenhaIndependente<FrmEstoque>().RecarregueProdutoEspecifico(produto);
+                            GerenciadorDeViews.ObtenhaIndependente<FrmEstoque>().RecarregueProdutoEspecifico(produto, quantidade);
                             MessageBox.Show(Mensagens.X_FOI_ATUALIZADO_COM_SUCESSO("Produto"));
                         }
 

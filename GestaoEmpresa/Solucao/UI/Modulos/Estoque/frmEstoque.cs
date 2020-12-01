@@ -71,7 +71,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             _txtPesquisaDeInteracoesTypingAssistant.Idled += PesquisaDeInteracoesAssistent_Idled;
         }
 
-        public void AdicioneNovoProdutoNaGrid(Produto produto)
+        public void AdicioneNovoProdutoNaGrid(Produto produto, int quantidade)
         {
             // Mantendo a seleção e scroll presente na tela
             var index = dgvProdutos.CurrentRow.Index;
@@ -83,7 +83,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                 produto.Observacao,
                 produto.PrecoDeCompra.HasValue ? produto.PrecoDeCompra.GetValueOrDefault().FormateParaStringMoedaReal() : string.Empty,
                 produto.PrecoDeVenda.HasValue ? produto.PrecoDeVenda.GetValueOrDefault().FormateParaStringMoedaReal() : string.Empty,
-                produto.QuantidadeEmEstoque);
+                quantidade);
 
             dgvProdutos.Refresh();
 
@@ -100,7 +100,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             throw new NotImplementedException();
         }
 
-        public void RecarregueProdutoEspecifico(Produto produto)
+        public void RecarregueProdutoEspecifico(Produto produto, int quantidade)
         {
             // Mantendo a seleção e scroll presente na tela
             var currentIndex = dgvProdutos.CurrentRow?.Index;
@@ -109,7 +109,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             var indice = dgvProdutos.EncontreIndiceNaGrid("colunaCodigo", produto.Codigo.ToString());
             if (indice.HasValue)
             {
-                UpdateProductOnGrid(produto, indice);
+                UpdateProductOnGrid(produto, quantidade, indice);
                 didUpdate = true;
             }
 
@@ -119,7 +119,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             }
         }
 
-        private void UpdateProductOnGrid(Produto produto, int? indice)
+        private void UpdateProductOnGrid(Produto produto, int quantidade, int? indice)
         {
             var rowIndex = indice.GetValueOrDefault();
 
@@ -132,7 +132,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             dgvProdutos[colunaPrecoVenda.Index, rowIndex].Value = produto.PrecoDeVenda.HasValue
                                                                 ? produto.PrecoDeVenda.GetValueOrDefault().FormateParaStringMoedaReal()
                                                                 : string.Empty;
-            dgvProdutos[colunaQuantidade.Index, rowIndex].Value = produto.QuantidadeEmEstoque;
+            dgvProdutos[colunaQuantidade.Index, rowIndex].Value = quantidade;
 
             dgvProdutos.Refresh();
         }
@@ -189,48 +189,31 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             dgvHistorico.Refresh();
         }
 
-        private void CarregueDataGridProdutos(List<Produto> listaDeProdutos)
+        private void CarregueDataGridProdutos(List<Produto> listaDeProdutos, Dictionary<int, int> quantidades)
         {
-            dgvProdutos.Rows.Clear();
-
-            foreach (var produto in listaDeProdutos)
-            {
-                var rowIndex = dgvProdutos.Rows.Add(SelecaoProdutoParaGrid(produto));
-                var color = rowIndex.IsEven()
-                    ? Color.White
-                    : ColorTranslator.FromHtml("#e6f2ff");
-
-                // https://www.w3schools.com/colors/colors_picker.asp
-                dgvProdutos.Rows[rowIndex].DefaultCellStyle.BackColor = color;
-
-            }
-
-            dgvProdutos.Refresh();
+            dgvProdutos.LoadDataGrid(listaDeProdutos, SelecaoProdutoParaGrid(quantidades));
         }
 
-        private object[] SelecaoProdutoParaGrid(Produto produto)
+        private Expression<Func<Produto, object[]>> SelecaoProdutoParaGrid(Dictionary<int, int> quantidades) => produto => new object[]
         {
-            return new object[]
-            {
-                produto.Codigo,
-                    produto.CodigoDoFabricante,
-                    produto.Nome,
-                    produto.Observacao,
-                    produto.PrecoDeCompra.HasValue
-                        ? GSUtilitarios.FormateDecimalParaStringMoedaReal(produto.PrecoDeCompra.GetValueOrDefault())
-                        : string.Empty,
-                    produto.PrecoDistribuidor.HasValue
-                        ? GSUtilitarios.FormateDecimalParaStringMoedaReal(produto.PrecoDistribuidor.GetValueOrDefault())
-                        : string.Empty,
-                    produto.PrecoSugeridoConsumidorFinal.HasValue
-                    ? GSUtilitarios.FormateDecimalParaStringMoedaReal(produto.PrecoSugeridoConsumidorFinal.GetValueOrDefault(), true)
-                    : string.Empty,
-                    produto.PrecoDeVenda.HasValue
-                        ? GSUtilitarios.FormateDecimalParaStringMoedaReal(produto.PrecoDeVenda.GetValueOrDefault())
-                        : string.Empty,
-                    produto.QuantidadeEmEstoque
-            };
-        }
+            produto.Codigo,
+            produto.CodigoDoFabricante,
+            produto.Nome,
+            produto.Observacao,
+            produto.PrecoDeCompra.HasValue
+                ? GSUtilitarios.FormateDecimalParaStringMoedaReal(produto.PrecoDeCompra.GetValueOrDefault(), false)
+                : string.Empty,
+            produto.PrecoDistribuidor.HasValue
+                ? GSUtilitarios.FormateDecimalParaStringMoedaReal(produto.PrecoDistribuidor.GetValueOrDefault(), false)
+                : string.Empty,
+            produto.PrecoSugeridoConsumidorFinal.HasValue
+                ? GSUtilitarios.FormateDecimalParaStringMoedaReal(produto.PrecoSugeridoConsumidorFinal.GetValueOrDefault(), true)
+                : string.Empty,
+            produto.PrecoDeVenda.HasValue
+                ? GSUtilitarios.FormateDecimalParaStringMoedaReal(produto.PrecoDeVenda.GetValueOrDefault(), false)
+                : string.Empty,
+            quantidades[produto.Codigo]
+        };
 
         #endregion
 
@@ -256,7 +239,6 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             PrecoNaIntelbras = x.PrecoNaIntelbras,
             PrecoDistribuidor = x.PrecoDistribuidor,
             PrecoSugeridoConsumidorFinal = x.PrecoSugeridoConsumidorFinal,
-            QuantidadeEmEstoque = x.QuantidadeEmEstoque,
             Status = x.Status
         };
 
@@ -265,6 +247,40 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         private void frmEstoque_Load(object sender, EventArgs e)
         {
+            //var produtos = new RepositorioDeProduto().ConsulteTodos(takeQuantity: int.MaxValue);
+            //foreach (var produto in produtos)
+            //{
+            //    var interacoes = new ServicoDeInteracao().ConsulteTodasAsInteracoesPorProduto(produto.Codigo);
+            //    interacoes = interacoes.OrderBy(x => x.Horario).ToList();
+
+            //    var qtd = 0;
+
+            //    foreach (var interacao in interacoes)
+            //    {
+            //        if (interacao.TipoDeInteracao == EnumTipoDeInteracao.ENTRADA)
+            //        {
+            //            qtd += interacao.QuantidadeInterada;
+            //        }
+            //        else if (interacao.TipoDeInteracao == EnumTipoDeInteracao.SAIDA)
+            //        {
+            //            qtd -= interacao.QuantidadeInterada;
+            //        }
+            //        else if (interacao.TipoDeInteracao == EnumTipoDeInteracao.BASE_DE_TROCA)
+            //        {
+            //            qtd -= interacao.QuantidadeInterada;
+            //            qtd += interacao.QuantidadeAuxiliar.GetValueOrDefault();
+            //        }
+            //    }
+
+            //    using (var session = RavenHelper.OpenSession())
+            //    {
+            //        session.Store(new ProdutoQuantidade { Codigo = produto.Codigo, Quantidade = qtd });
+            //        session.SaveChanges();
+            //    }
+            //}
+
+            //var breakHere = true;
+
             //using var session = RavenHelper.OpenSession();
             //var listaDePossiveisBixados = session.Query<Produto>().Where(x => x.Vigencia >= new DateTime(2020, 10, 06)).ToList();
             //foreach (var group in listaDePossiveisBixados.GroupBy(x => x.Codigo))
@@ -408,7 +424,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             //Catálogo de Produtos
             using (var servicoDeProduto = new ServicoDeProduto())
             {
-                CarregueDataGridProdutos(servicoDeProduto.ConsulteTodosParaAterrissagem());
+                CarregueDataGridProdutos(servicoDeProduto.ConsulteTodosParaAterrissagem(out var quantidades), quantidades);
             }
 
             //Histórico de Produtos
@@ -598,12 +614,13 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                 {
                     using (var servicoDeProduto = new ServicoDeProduto())
                     {
-                        CarregueDataGridProdutos(servicoDeProduto.ConsulteTodosParaAterrissagem());
+                        CarregueDataGridProdutos(servicoDeProduto.ConsulteTodosParaAterrissagem(out var quantidades), quantidades);
                     }
                     processou = false;
                     return;
                 }
 
+                Dictionary<int, int> qtds = null;
                 GSWaitForm.Mostrar(
                     this,
                     () =>
@@ -611,7 +628,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                         _txtPesquisaDeProdutoPreviousSearch = pesquisa;
                         using (var servicoDeProduto = new ServicoDeProduto())
                         {
-                            listaFiltrada = servicoDeProduto.ConsulteTodosParaAterrissagem(searchTerm: pesquisa);
+                            listaFiltrada = servicoDeProduto.ConsulteTodosParaAterrissagem(out qtds, searchTerm: pesquisa);
                             processou = true;
                         }
                     },
@@ -619,7 +636,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                     {
                         if (processou)
                         {
-                            CarregueDataGridProdutos(listaFiltrada);
+                            CarregueDataGridProdutos(listaFiltrada, qtds);
                         }
                     });
             }));
@@ -710,7 +727,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
             using (var servicoDeProduto = new ServicoDeProduto())
             {
-                CarregueDataGridProdutos(servicoDeProduto.ConsulteTodosParaAterrissagem());
+                CarregueDataGridProdutos(servicoDeProduto.ConsulteTodosParaAterrissagem(out var quantidades), quantidades);
             }
         }
 
