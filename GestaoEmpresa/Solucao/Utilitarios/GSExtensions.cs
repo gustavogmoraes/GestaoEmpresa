@@ -498,5 +498,17 @@ namespace GS.GestaoEmpresa.Solucao.Utilitarios
 
             dataGrid.Refresh();
         }
+
+        public static bool IsDigit(this char caracter)
+        {
+            if (char.IsDigit(caracter))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 }

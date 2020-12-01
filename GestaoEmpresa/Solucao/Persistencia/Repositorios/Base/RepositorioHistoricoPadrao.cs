@@ -4,7 +4,9 @@ using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using CSharpVerbalExpressions;
 using GS.GestaoEmpresa.Solucao.Negocio.Interfaces;
 using GS.GestaoEmpresa.Solucao.Negocio.Objetos.Base;
 using GS.GestaoEmpresa.Solucao.Persistencia.BancoDeDados;
@@ -196,9 +198,23 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios.Base
                 rQuery = rQuery.Where(whereFilter);
             }
 
-            if (!searchTerm.IsNullOrEmpty() && propertiesToSearch.Any())
+            if (!searchTerm.IsNullOrEmpty())
             {
-                rQuery = rQuery.SearchMultiple($"{searchTerm}", propertiesToSearch);
+                var match = Regex.Match(searchTerm, @"\S*\d+\S*");
+                if (match.Success && !match.Value.All(x => x.IsDigit()))
+                {
+                    var idx = match.Value.IndexOfAny(new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' });
+
+                    var firstChopp = match.Value.Substring(0, idx);
+                    var secondChopp = match.Value.Substring(idx, match.Value.Length - idx);
+
+                    searchTerm = $"{firstChopp} {secondChopp}";
+                }
+
+                if (propertiesToSearch.Any())
+                {
+                    rQuery = rQuery.SearchMultiple($"{searchTerm}", propertiesToSearch);
+                }
             }
 
             rQuery = rQuery.Take(takeQuantity);
