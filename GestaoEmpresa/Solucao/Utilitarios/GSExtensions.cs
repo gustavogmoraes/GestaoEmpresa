@@ -28,6 +28,8 @@ using MetroFramework.Controls;
 using System.IO;
 using System.Drawing;
 using System.Drawing.Imaging;
+using OfficeOpenXml;
+using System.Data;
 
 namespace GS.GestaoEmpresa.Solucao.Utilitarios
 {
@@ -509,6 +511,54 @@ namespace GS.GestaoEmpresa.Solucao.Utilitarios
             {
                 return false;
             }
+        }
+
+        public static bool IsFileLocked(FileInfo file)
+        {
+            try
+            {
+                using (FileStream stream = file.Open(FileMode.Open, FileAccess.Read, FileShare.None))
+                {
+                    stream.Close();
+                }
+            }
+            catch (IOException)
+            {
+                //the file is unavailable because it is:
+                //still being written to
+                //or being processed by another thread
+                //or does not exist (has already been processed)
+                return true;
+            }
+
+            //file is not locked
+            return false;
+        }
+
+        public static DataTable GetDataTableFromExcel(ExcelWorksheet ws, bool hasHeader = true)
+        {
+            var tbl = new DataTable();
+            foreach (var firstRowCell in ws.Cells[1, 1, 1, ws.Dimension.End.Column])
+            {
+                tbl.Columns.Add(hasHeader ? firstRowCell.Text : string.Format("Column {0}", firstRowCell.Start.Column));
+            }
+
+            var startRow = hasHeader ? 2 : 1;
+            for (int rowNum = startRow; rowNum <= ws.Dimension.End.Row; rowNum++)
+            {
+                var wsRow = ws.Cells[rowNum, 1, rowNum, ws.Dimension.End.Column];
+                DataRow row = tbl.Rows.Add();
+                foreach (var cell in wsRow)
+                {
+                    row[cell.Start.Column - 1] = cell.Text;
+                }
+            }
+            return tbl;
+        }
+
+        public static Color ColorFromHexCode(string hexCode)
+        {
+            return (Color)new ColorConverter().ConvertFromString($"#{hexCode}");
         }
     }
 }

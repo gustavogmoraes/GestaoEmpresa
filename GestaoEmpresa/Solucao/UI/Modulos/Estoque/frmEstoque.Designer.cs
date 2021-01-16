@@ -53,6 +53,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.txtPesquisa = new System.Windows.Forms.TextBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabProdutos = new System.Windows.Forms.TabPage();
+            this.button2 = new System.Windows.Forms.Button();
             this.txtQtyProgresso = new MetroFramework.Controls.MetroLabel();
             this.txtCronometroImportar = new MetroFramework.Controls.MetroLabel();
             this.metroProgressImportar = new MetroFramework.Controls.MetroProgressBar();
@@ -91,6 +92,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.btnNovaInteracao = new System.Windows.Forms.Button();
             this.ucSessaoSistema2 = new GS.GestaoEmpresa.Solucao.Persistencia.BancoDeDados.UCSessaoSistema();
+            this.lblDescricaoBotoes = new MetroFramework.Controls.MetroLabel();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.tabControl1.SuspendLayout();
@@ -229,6 +231,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             // tabProdutos
             // 
             this.tabProdutos.BackColor = System.Drawing.Color.Silver;
+            this.tabProdutos.Controls.Add(this.button2);
             this.tabProdutos.Controls.Add(this.txtQtyProgresso);
             this.tabProdutos.Controls.Add(this.txtCronometroImportar);
             this.tabProdutos.Controls.Add(this.metroProgressImportar);
@@ -246,12 +249,24 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.tabProdutos.TabIndex = 0;
             this.tabProdutos.Text = "tabProdutos";
             // 
+            // button2
+            // 
+            this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.button2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.button2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button2.Location = new System.Drawing.Point(945, 6);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(32, 32);
+            this.button2.TabIndex = 16;
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
             // txtQtyProgresso
             // 
             this.txtQtyProgresso.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.txtQtyProgresso.AutoSize = true;
             this.txtQtyProgresso.BackColor = System.Drawing.Color.Silver;
-            this.txtQtyProgresso.Location = new System.Drawing.Point(847, 2);
+            this.txtQtyProgresso.Location = new System.Drawing.Point(777, 2);
             this.txtQtyProgresso.Name = "txtQtyProgresso";
             this.txtQtyProgresso.Size = new System.Drawing.Size(26, 19);
             this.txtQtyProgresso.TabIndex = 15;
@@ -263,7 +278,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             // 
             this.txtCronometroImportar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.txtCronometroImportar.AutoSize = true;
-            this.txtCronometroImportar.Location = new System.Drawing.Point(847, 20);
+            this.txtCronometroImportar.Location = new System.Drawing.Point(777, 20);
             this.txtCronometroImportar.Name = "txtCronometroImportar";
             this.txtCronometroImportar.Size = new System.Drawing.Size(40, 19);
             this.txtCronometroImportar.TabIndex = 14;
@@ -274,7 +289,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             // metroProgressImportar
             // 
             this.metroProgressImportar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.metroProgressImportar.Location = new System.Drawing.Point(648, 10);
+            this.metroProgressImportar.Location = new System.Drawing.Point(578, 10);
             this.metroProgressImportar.Name = "metroProgressImportar";
             this.metroProgressImportar.Size = new System.Drawing.Size(189, 23);
             this.metroProgressImportar.TabIndex = 13;
@@ -286,7 +301,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.button1.BackgroundImage = global::GS.GestaoEmpresa.Properties.Resources.ImportFromExcel;
             this.button1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.Location = new System.Drawing.Point(983, 6);
+            this.button1.Location = new System.Drawing.Point(984, 6);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(32, 32);
             this.button1.TabIndex = 12;
@@ -736,12 +751,22 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.ucSessaoSistema2.Size = new System.Drawing.Size(1289, 66);
             this.ucSessaoSistema2.TabIndex = 10;
             // 
+            // lblDescricaoBotoes
+            // 
+            this.lblDescricaoBotoes.AutoSize = true;
+            this.lblDescricaoBotoes.BackColor = System.Drawing.Color.DodgerBlue;
+            this.lblDescricaoBotoes.Location = new System.Drawing.Point(883, 18);
+            this.lblDescricaoBotoes.Name = "lblDescricaoBotoes";
+            this.lblDescricaoBotoes.Size = new System.Drawing.Size(0, 0);
+            this.lblDescricaoBotoes.TabIndex = 12;
+            // 
             // FrmEstoque
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Gray;
             this.ClientSize = new System.Drawing.Size(1264, 681);
+            this.Controls.Add(this.lblDescricaoBotoes);
             this.Controls.Add(this.pictureBox2);
             this.Controls.Add(this.ucSessaoSistema2);
             this.Controls.Add(this.btnCatalogo);
@@ -767,6 +792,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             ((System.ComponentModel.ISupportInitialize)(this.dgvHistorico)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -820,5 +846,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         private System.Windows.Forms.DataGridViewTextBoxColumn colunaPrecoVenda;
         private System.Windows.Forms.DataGridViewTextBoxColumn colunaQuantidade;
         private System.Windows.Forms.DataGridViewButtonColumn colunaDetalhar;
+        public System.Windows.Forms.Button button2;
+        private MetroFramework.Controls.MetroLabel lblDescricaoBotoes;
     }
 }

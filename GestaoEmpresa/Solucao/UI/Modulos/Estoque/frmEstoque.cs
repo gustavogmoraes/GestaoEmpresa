@@ -24,6 +24,10 @@ using GS.GestaoEmpresa.Solucao.UI.ControlesGenericos;
 using GS.GestaoEmpresa.Solucao.Utilitarios;
 using GS.GestaoEmpresa.Solucao.Persistencia.BancoDeDados;
 using GS.GestaoEmpresa.Solucao.Persistencia.Repositorios;
+using OfficeOpenXml;
+using System.Data;
+using System.IO;
+using OfficeOpenXml.Style;
 //
 
 namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
@@ -913,6 +917,86 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
             e.Graphics.DrawImage(Resources.detalhar, new Rectangle(x, y, w, h));
             e.Handled = true;
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            const string CODIGO_COR_VERMELHA = "FF0000";
+            const int NUMERO_COLUNA_PRECO_DE_COMPRA = 5;
+            const int NUMERO_COLUNA_PRECO_DISTRIBUIDOR = 6;
+
+            var fileDialog = new OpenFileDialog { Filter = "Excel Files|*.xls;*.xlsx;*.xlsb" };
+
+            var dialogResult = fileDialog.ShowDialog();
+            if (dialogResult != DialogResult.OK || !fileDialog.CheckFileExists)
+            {
+                MessageBox.Show("Falha ao pegar o arquivo", "Erro");
+                return;
+            }
+
+            var fileInfo = new FileInfo(fileDialog.FileName);
+            if (GSExtensions.IsFileLocked(fileInfo))
+            {
+                MessageBox.Show("O arquivo está em uso, feche o primeiro", "Erro");
+                return;
+            }
+
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+            using var excelPackage = new ExcelPackage(fileInfo);
+            foreach (var planilha in excelPackage.Workbook.Worksheets)
+            {
+                // 4320010
+                // var corDoTexto = celula.Style.Font.Color;
+
+                var celula = planilha.Cells["A3"];
+                var texto = celula.Text.Trim();
+                
+                if (texto.Length != 7)
+                {
+                    continue;
+                }
+
+                // Daqui pra baixo, só roda se o texto for maior que 7 caracteres
+
+                // Loop pra cada linha
+                for(int i = 3; i < planilha.Cells.Rows; i++)
+                {
+                    // Passa pra próxima linha se o texto celula A for vermelho
+                    var celulaA = planilha.Cells[i, 1];
+                    if (string.IsNullOrEmpty(celulaA.Text))
+                    {
+                        break;
+                    }
+
+                    if(celulaA.Style.Font.Color.Rgb == CODIGO_COR_VERMELHA)
+                    {
+                        continue;
+                    }
+
+                    var celulaC = planilha.Cells[i, 1];
+                    var codIntelbras = celulaC.Text.Trim();
+                    using var servicoDeProduto = new ServicoDeProduto();
+
+                    // Se não encontrar o produto dentro do sistema da Mega, 
+                    // muda o texto da celula A pra vermelho e passa pra próxima linha
+                    var produto = servicoDeProduto.Consulte(produto => produto.CodigoDoFabricante == codIntelbras);
+                    if (produto == null)
+                    {
+                        var corVermelha = GSExtensions.ColorFromHexCode(CODIGO_COR_VERMELHA);
+                        celulaC.Style.Font.Color.SetColor(corVermelha);
+                        continue;
+                    }
+
+                    planilha.Cells[i, NUMERO_COLUNA_PRECO_DE_COMPRA].Value = 
+                        Math.Round(produto.PrecoDeCompra.GetValueOrDefault(), 2);
+                    planilha.Cells[i, NUMERO_COLUNA_PRECO_DISTRIBUIDOR].Value =
+                        Math.Round(produto.PrecoDistribuidor.GetValueOrDefault(), 2);
+                }
+                
+            }
+
+            excelPackage.Save();
+            MessageBox.Show("Falha ao pegar o arquivo", "Sucesso :D");
         }
     }
 }
