@@ -918,15 +918,12 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             e.Graphics.DrawImage(Resources.detalhar, new Rectangle(x, y, w, h));
         }
 
+        public const string CODIGO_COR_VERMELHA = "FF0000";
+        public const int NUMERO_COLUNA_PRECO_DE_COMPRA = 5;
+        public const int NUMERO_COLUNA_PRECO_DISTRIBUIDOR = 6;
+
         private void button2_Click(object sender, EventArgs e)
         {
-            var stpWatch = new Stopwatch();
-            stpWatch.Start();
-            
-            const string CODIGO_COR_VERMELHA = "FF0000";
-            const int NUMERO_COLUNA_PRECO_DE_COMPRA = 5;
-            const int NUMERO_COLUNA_PRECO_DISTRIBUIDOR = 6;
-
             var fileDialog = new OpenFileDialog { Filter = "Excel Files|*.xls;*.xlsx;*.xlsb" };
 
             var dialogResult = fileDialog.ShowDialog();
@@ -943,68 +940,93 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                 return;
             }
 
+            var stpWatch = new Stopwatch();
+            stpWatch.Start();
+
+            Task.Run(() => ServicoDeProduto.KeepTimeRunning(stpWatch, this, txtCronometroImportar));
+
+            Task.Run(() => ExporteParaPlanilhasCentrais(fileInfo)).ContinueWith(taskResult =>
+            {
+                stpWatch.Stop();
+
+                Invoke((MethodInvoker)delegate
+                {
+                    MessageBox.Show($"Atualizado {DateTime.Now.ToString("dd/MM/yyyy")}", "Sucesso :D");
+
+                    txtQtyProgresso.Text = "?/?";
+                    txtCronometroImportar.Text = "00:00";
+                    txtCronometroImportar.Visible = false;
+                    txtQtyProgresso.Visible = false;
+                    metroProgressImportar.Visible = false;
+
+                    button2.Enabled = true;
+                });
+            }, TaskScheduler.FromCurrentSynchronizationContext());
+
+            GC.Collect();
+        }
+
+        private void ExporteParaPlanilhasCentrais(FileInfo fileInfo)
+        {
             var dataDeHoje = DateTime.Now.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
 
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-            using var excelPackage = new ExcelPackage(fileInfo);
-            foreach (var planilha in excelPackage.Workbook.Worksheets)
+            using (var excelPackage = new ExcelPackage(fileInfo))
             {
-                // 4320010
-                // var corDoTexto = celula.Style.Font.Color;
-
-                var celula = planilha.Cells["A3"];
-                var texto = celula.Text.Trim();
-                
-                if (texto.Length != 7)
+                foreach (var planilha in excelPackage.Workbook.Worksheets)
                 {
-                    continue;
-                }
+                    var celula = planilha.Cells["A3"];
+                    var texto = celula.Text.Trim();
 
-                // Daqui pra baixo, só roda se o texto for maior que 7 caracteres
-
-                // Loop pra cada linha
-                for(int i = 3; i < planilha.Cells.Rows; i++)
-                {
-                    // Passa pra próxima linha se o texto celula A for vermelho
-                    var celulaA = planilha.Cells[i, 1];
-                    if (string.IsNullOrEmpty(celulaA.Text))
-                    {
-                        break;
-                    }
-
-                    if(celulaA.Style.Font.Color.Rgb == CODIGO_COR_VERMELHA)
+                    if (texto.Length != 7)
                     {
                         continue;
                     }
 
-                    var celulaC = planilha.Cells[i, 1];
-                    var codIntelbras = celulaC.Text.Trim();
-                    using var servicoDeProduto = new ServicoDeProduto();
+                    // Daqui pra baixo, só roda se o texto for maior que 7 caracteres
 
-                    // Se não encontrar o produto dentro do sistema da Mega, 
-                    // muda o texto da celula A pra vermelho e passa pra próxima linha
-                    var produto = servicoDeProduto.Consulte(produto => produto.CodigoDoFabricante == codIntelbras);
-                    if (produto == null)
+                    // Loop pra cada linha
+                    for (int i = 3; i < planilha.Cells.Rows; i++)
                     {
-                        var corVermelha = GSExtensions.ColorFromHexCode(CODIGO_COR_VERMELHA);
-                        celulaC.Style.Font.Color.SetColor(corVermelha);
-                        continue;
+                        // Passa pra próxima linha se o texto celula A for vermelho
+                        var celulaA = planilha.Cells[i, 1];
+                        if (string.IsNullOrEmpty(celulaA.Text))
+                        {
+                            break;
+                        }
+
+                        if (celulaA.Style.Font.Color.Rgb == CODIGO_COR_VERMELHA)
+                        {
+                            continue;
+                        }
+
+                        var celulaC = planilha.Cells[i, 1];
+                        var codIntelbras = celulaC.Text.Trim();
+                        using (var servicoDeProduto = new ServicoDeProduto())
+                        {
+                            // Se não encontrar o produto dentro do sistema da Mega, 
+                            // muda o texto da celula A pra vermelho e passa pra próxima linha
+                            var produto = servicoDeProduto.Consulte(x => x.CodigoDoFabricante == codIntelbras);
+                            if (produto == null)
+                            {
+                                var corVermelha = GSExtensions.ColorFromHexCode(CODIGO_COR_VERMELHA);
+                                celulaC.Style.Font.Color.SetColor(corVermelha);
+                                continue;
+                            }
+
+                            planilha.Cells[i, NUMERO_COLUNA_PRECO_DE_COMPRA].Value =
+                                Math.Round(produto.PrecoDeCompra.GetValueOrDefault(), 2);
+                            planilha.Cells[i, NUMERO_COLUNA_PRECO_DISTRIBUIDOR].Value =
+                                Math.Round(produto.PrecoDistribuidor.GetValueOrDefault(), 2);
+                        }
                     }
-
-                    planilha.Cells[i, NUMERO_COLUNA_PRECO_DE_COMPRA].Value = 
-                        Math.Round(produto.PrecoDeCompra.GetValueOrDefault(), 2);
-                    planilha.Cells[i, NUMERO_COLUNA_PRECO_DISTRIBUIDOR].Value =
-                        Math.Round(produto.PrecoDistribuidor.GetValueOrDefault(), 2);
+                    var mensagem = planilha.Cells["A1"];
+                    mensagem.Value = $"Atualizado {dataDeHoje}";
                 }
-                var mensagem = planilha.Cells["A1"];
-                mensagem.Value = $"Atualizado {dataDeHoje}";
 
+                excelPackage.Save();
             }
-
-            excelPackage.Save();
-            stpWatch.Stop();
-            MessageBox.Show($"Atualizado {dataDeHoje}", "Sucesso :D");
-
+            
         }
     }
 }
