@@ -916,11 +916,13 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             var y = e.CellBounds.Top + (e.CellBounds.Height - h) / 2;
 
             e.Graphics.DrawImage(Resources.detalhar, new Rectangle(x, y, w, h));
-            e.Handled = true;
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
+            var stpWatch = new Stopwatch();
+            stpWatch.Start();
+            
             const string CODIGO_COR_VERMELHA = "FF0000";
             const int NUMERO_COLUNA_PRECO_DE_COMPRA = 5;
             const int NUMERO_COLUNA_PRECO_DISTRIBUIDOR = 6;
@@ -940,6 +942,8 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                 MessageBox.Show("O arquivo está em uso, feche o primeiro", "Erro");
                 return;
             }
+
+            var dataDeHoje = DateTime.Now.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
 
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
             using var excelPackage = new ExcelPackage(fileInfo);
@@ -992,11 +996,15 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                     planilha.Cells[i, NUMERO_COLUNA_PRECO_DISTRIBUIDOR].Value =
                         Math.Round(produto.PrecoDistribuidor.GetValueOrDefault(), 2);
                 }
-                
+                var mensagem = planilha.Cells["A1"];
+                mensagem.Value = $"Atualizado {dataDeHoje}";
+
             }
 
             excelPackage.Save();
-            MessageBox.Show("Falha ao pegar o arquivo", "Sucesso :D");
+            stpWatch.Stop();
+            MessageBox.Show($"Atualizado {dataDeHoje}", "Sucesso :D");
+
         }
     }
 }
