@@ -202,7 +202,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
         {
             caller.Invoke((MethodInvoker)delegate
             {
-                caller.button1.Enabled = false;
+                caller.btnImportarTabelaPrecosIntelbras.Enabled = false;
 
                 caller.metroProgressImportar.Visible = true;
                 caller.metroProgressImportar.Value = 1;

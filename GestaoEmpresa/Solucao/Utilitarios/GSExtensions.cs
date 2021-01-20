@@ -312,6 +312,23 @@ namespace GS.GestaoEmpresa.Solucao.Utilitarios
             return values.Distinct().ToArray();
         }
 
+        public static int CountRows(this ExcelWorksheet sheet)
+        {
+            if (sheet.Dimension == null) { return 0; } // In case of a blank sheet
+            var row = sheet.Dimension.End.Row;
+            while (row >= 1)
+            {
+                var range = sheet.Cells[row, 1, row, sheet.Dimension.End.Column];
+                if (range.Any(c => !string.IsNullOrEmpty(c.Text)))
+                {
+                    break;
+                }
+                row--;
+            }
+
+            return row;
+        }
+
         public static bool IsNullOrEmpty(this string str) => string.IsNullOrEmpty(str);
 
         public static string ToMonetaryString(this decimal value) => GSUtilitarios.FormateDecimalParaStringMoedaReal(value);

@@ -849,7 +849,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                     txtQtyProgresso.Visible = false;
                     metroProgressImportar.Visible = false;
 
-                    button1.Enabled = true;
+                    btnImportarTabelaPrecosIntelbras.Enabled = true;
                 });
             }, TaskScheduler.FromCurrentSynchronizationContext());
 
@@ -959,20 +959,55 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                     txtQtyProgresso.Visible = false;
                     metroProgressImportar.Visible = false;
 
-                    button2.Enabled = true;
+                    btnAtualizarPlanilhaDeCentrais.Enabled = true;
                 });
             }, TaskScheduler.FromCurrentSynchronizationContext());
 
             GC.Collect();
         }
 
+        private void SetupProgressBar(Control forControl, string text)
+        {
+            Invoke((MethodInvoker)delegate
+            {
+                forControl.Enabled = false;
+
+                metroProgressImportar.Visible = true;
+                metroProgressImportar.Value = 1;
+
+                txtQtyProgresso.Visible = true;
+                txtCronometroImportar.Visible = true;
+
+                txtQtyProgresso.Text = text;
+            });
+        }
+
+        private void UpdateProgressBar(ref int totalAdded, int[] items, int totalCount)
+        {
+            totalAdded++;
+
+            var text = $"{totalAdded}/{totalCount}";
+            Invoke((MethodInvoker)delegate { txtQtyProgresso.Text = text; });
+
+            if (totalAdded.IsAny(items))
+            {
+                Invoke((MethodInvoker)delegate { metroProgressImportar.Value += 1; });
+            }
+        }
+
         private void ExporteParaPlanilhasCentrais(FileInfo fileInfo)
         {
+            SetupProgressBar(btnAtualizarPlanilhaDeCentrais, "Lendo arquivo");
             var dataDeHoje = DateTime.Now.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
 
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
             using (var excelPackage = new ExcelPackage(fileInfo))
             {
+                var totalUpdated = 0;
+                var totalAdded = 0;
+                var totalQty = excelPackage.Workbook.Worksheets.Sum(x => x.CountRows());
+                var progressRange = GSExtensions.GetProgressRange(totalQty);
+
                 foreach (var planilha in excelPackage.Workbook.Worksheets)
                 {
                     var celula = planilha.Cells["A3"];
@@ -988,6 +1023,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                     // Loop pra cada linha
                     for (int i = 3; i < planilha.Cells.Rows; i++)
                     {
+                        UpdateProgressBar(ref totalAdded, progressRange, totalQty);
                         // Passa pra próxima linha se o texto celula A for vermelho
                         var celulaA = planilha.Cells[i, 1];
                         if (string.IsNullOrEmpty(celulaA.Text))
@@ -1026,7 +1062,63 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
                 excelPackage.Save();
             }
-            
+        }
+
+        private void ToggleButtonDescriptor(Button button)
+        {
+            if(lblButtonDescriptor.Visible)
+            {
+                lblButtonDescriptor.Text = "Button Descriptor";
+                lblButtonDescriptor.Visible = false;
+                return;
+            }
+
+            switch (button.Name)
+            {
+                case "btnImportarTabelaPrecosIntelbras":
+                    lblButtonDescriptor.Text = "Importa a tabela de preços da Intelbras para o sistema";
+                    break;
+
+                case "btnExportarProdutos":
+                    lblButtonDescriptor.Text = "Exporta os produtos cadastrados no sistema para um Excel";
+                    break;
+
+                case "btnAtualizarPlanilhaDeCentrais":
+                    lblButtonDescriptor.Text = "Atualiza uma planilha de centrais com os preços do sistema";
+                    break;
+            }
+
+            lblButtonDescriptor.Visible = true;
+        }
+
+        private void BtnImportarTabelaPrecosIntelbras_MouseEnter(object sender, EventArgs e)
+        {
+            ToggleButtonDescriptor(btnImportarTabelaPrecosIntelbras);
+        }
+
+        private void BtnImportarTabelaPrecosIntelbras_MouseLeave(object sender, EventArgs e)
+        {
+            ToggleButtonDescriptor(btnImportarTabelaPrecosIntelbras);
+        }
+
+        private void BtnAtualizarPlanilhaDeCentrais_MouseEnter_1(object sender, EventArgs e)
+        {
+            ToggleButtonDescriptor(btnAtualizarPlanilhaDeCentrais);
+        }
+
+        private void BtnAtualizarPlanilhaDeCentrais_MouseLeave(object sender, EventArgs e)
+        {
+            ToggleButtonDescriptor(btnAtualizarPlanilhaDeCentrais);
+        }
+
+        private void BtnExportarProdutos_MouseLeave(object sender, EventArgs e)
+        {
+            ToggleButtonDescriptor(btnExportarProdutos);
+        }
+
+        private void BtnExportarProdutos_MouseEnter(object sender, EventArgs e)
+        {
+            ToggleButtonDescriptor(btnExportarProdutos);
         }
     }
 }
