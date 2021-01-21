@@ -29,6 +29,7 @@ using System.Data;
 using System.IO;
 using OfficeOpenXml.Style;
 using MoreLinq;
+using System.Collections.Concurrent;
 //
 
 namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
@@ -998,21 +999,19 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             }
         }
 
-        private Func<ExcelWorksheet, bool> WorksheetFilter = x => 
+        private readonly Func<ExcelWorksheet, bool> WorksheetFilter = x => 
+            x.Cells["A3"]?.Text?.Trim()?.Length == 7;
+
+        private Dictionary<ExcelWorksheet, List<int>> GetRowsToProcessByWorksheet(
+            List<ExcelWorksheet> worksheets, out List<string> listOfIntelbrasCodes)
         {
-            var celula = x.Cells["A3"];
-            var texto = celula.Text.Trim();
+            const int startingRow = 3;
+            var dictionary = new ConcurrentDictionary<ExcelWorksheet, List<int>>();
+            var list = new ConcurrentBag<string>();
 
-            return texto.Length == 7;
-        };
-
-        private Dictionary<ExcelWorksheet, List<int>> GetRowsToProcessByWorksheet(List<ExcelWorksheet> worksheets)
-        {
-            var dictionary = new Dictionary<ExcelWorksheet, List<int>>();
-
-            foreach(var worksheet in worksheets)
+            Parallel.ForEach(worksheets, worksheet =>
             {
-                for (int i = 3; i < worksheet.Cells.Rows; i++)
+                for (int i = startingRow; i < worksheet.Cells.Rows; i++)
                 {
                     // Passa pra próxima linha se o texto celula A for vermelho
                     var celulaA = worksheet.Cells[i, 1];
@@ -1021,16 +1020,19 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                         continue;
                     }
 
-                    if(!dictionary.ContainsKey(worksheet))
+                    if (!dictionary.ContainsKey(worksheet))
                     {
-                        dictionary.Add(worksheet, new List<int>());
+                        dictionary.TryAdd(worksheet, new List<int>());
                     }
 
                     dictionary[worksheet].Add(i);
+                    list.Add(celulaA.Text.Trim());
                 }
-            }
+            });
 
-            return dictionary;
+            listOfIntelbrasCodes = list.ToList();
+
+            return dictionary.ToDictionary(x => x.Key, x => x.Value);
         }
 
         private int ExporteParaPlanilhasCentrais(FileInfo fileInfo)
@@ -1047,15 +1049,21 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                 var totalAdded = 0;
 
                 var workSheetsToProcess = excelPackage.Workbook.Worksheets.Where(WorksheetFilter).ToList();
-                var rowGrouping = GetRowsToProcessByWorksheet(workSheetsToProcess);
+                var rowGrouping = GetRowsToProcessByWorksheet(workSheetsToProcess, out var listOfIntelbrasCodes);
 
                 var totalItemsToProcess = rowGrouping.Sum(x => x.Value.Count);
                 var progressRange = GSExtensions.GetProgressRange(totalItemsToProcess);
 
-                rowGrouping.ForEach(group =>
+                //var listOfProductsToUpdate = servicoDeProduto.ConsulteTodosParaAterrissagem(
+                //    out var qts,
+                //    resultSelector: x => new { x.CodigoDoFabricante, x.PrecoDeCompra, x.PrecoDistribuidor },
+                //    searchTerm:
+                //    propertiesToSearch: x => x.CodigoDoFabricante, 
+                //    takeQuantity: int.MaxValue);
+
+                Parallel.ForEach(rowGrouping, group =>
                 {
                     var planilha = group.Key;
-
                     group.Value.ForEach(linha =>
                     {
                         UpdateProgressBar(ref totalAdded, progressRange, totalItemsToProcess);
