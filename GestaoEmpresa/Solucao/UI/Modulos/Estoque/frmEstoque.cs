@@ -28,6 +28,7 @@ using OfficeOpenXml;
 using System.Data;
 using System.IO;
 using OfficeOpenXml.Style;
+using MoreLinq;
 //
 
 namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
@@ -944,14 +945,16 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             stpWatch.Start();
 
             Task.Run(() => ServicoDeProduto.KeepTimeRunning(stpWatch, this, txtCronometroImportar));
-
             Task.Run(() => ExporteParaPlanilhasCentrais(fileInfo)).ContinueWith(taskResult =>
             {
                 stpWatch.Stop();
 
                 Invoke((MethodInvoker)delegate
                 {
-                    MessageBox.Show($"Atualizado {DateTime.Now.ToString("dd/MM/yyyy")}", "Sucesso :D");
+                    MessageBox.Show(
+                    $"Concluído com sucesso em {txtCronometroImportar.Text}\n" +
+                    $"{taskResult.Result} produtos atualizados",
+                    $"Sucesso");
 
                     txtQtyProgresso.Text = "?/?";
                     txtCronometroImportar.Text = "00:00";
@@ -995,72 +998,94 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             }
         }
 
-        private void ExporteParaPlanilhasCentrais(FileInfo fileInfo)
+        private Func<ExcelWorksheet, bool> WorksheetFilter = x => 
+        {
+            var celula = x.Cells["A3"];
+            var texto = celula.Text.Trim();
+
+            return texto.Length == 7;
+        };
+
+        private Dictionary<ExcelWorksheet, List<int>> GetRowsToProcessByWorksheet(List<ExcelWorksheet> worksheets)
+        {
+            var dictionary = new Dictionary<ExcelWorksheet, List<int>>();
+
+            foreach(var worksheet in worksheets)
+            {
+                for (int i = 3; i < worksheet.Cells.Rows; i++)
+                {
+                    // Passa pra próxima linha se o texto celula A for vermelho
+                    var celulaA = worksheet.Cells[i, 1];
+                    if (string.IsNullOrEmpty(celulaA.Text) || celulaA.Style.Font.Color.Rgb == CODIGO_COR_VERMELHA)
+                    {
+                        continue;
+                    }
+
+                    if(!dictionary.ContainsKey(worksheet))
+                    {
+                        dictionary.Add(worksheet, new List<int>());
+                    }
+
+                    dictionary[worksheet].Add(i);
+                }
+            }
+
+            return dictionary;
+        }
+
+        private int ExporteParaPlanilhasCentrais(FileInfo fileInfo)
         {
             SetupProgressBar(btnAtualizarPlanilhaDeCentrais, "Lendo arquivo");
             var dataDeHoje = DateTime.Now.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
 
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
             using (var excelPackage = new ExcelPackage(fileInfo))
+            using (var servicoDeProduto = new ServicoDeProduto())
             {
-                var totalUpdated = 0;
+                var quantidadeDeProdutosAtualizados = 0;
+
                 var totalAdded = 0;
-                var totalQty = excelPackage.Workbook.Worksheets.Sum(x => x.CountRows());
-                var progressRange = GSExtensions.GetProgressRange(totalQty);
 
-                foreach (var planilha in excelPackage.Workbook.Worksheets)
+                var workSheetsToProcess = excelPackage.Workbook.Worksheets.Where(WorksheetFilter).ToList();
+                var rowGrouping = GetRowsToProcessByWorksheet(workSheetsToProcess);
+
+                var totalItemsToProcess = rowGrouping.Sum(x => x.Value.Count);
+                var progressRange = GSExtensions.GetProgressRange(totalItemsToProcess);
+
+                rowGrouping.ForEach(group =>
                 {
-                    var celula = planilha.Cells["A3"];
-                    var texto = celula.Text.Trim();
+                    var planilha = group.Key;
 
-                    if (texto.Length != 7)
+                    group.Value.ForEach(linha =>
                     {
-                        continue;
-                    }
+                        UpdateProgressBar(ref totalAdded, progressRange, totalItemsToProcess);
 
-                    // Daqui pra baixo, só roda se o texto for maior que 7 caracteres
+                        var codeCell = planilha.Cells[linha, 1];
+                        var codigoIntelbras = codeCell.Text.Trim();
 
-                    // Loop pra cada linha
-                    for (int i = 3; i < planilha.Cells.Rows; i++)
-                    {
-                        UpdateProgressBar(ref totalAdded, progressRange, totalQty);
-                        // Passa pra próxima linha se o texto celula A for vermelho
-                        var celulaA = planilha.Cells[i, 1];
-                        if (string.IsNullOrEmpty(celulaA.Text))
+                        // Se não encontrar o produto dentro do sistema da Mega, 
+                        // muda o texto da celula A pra vermelho e passa pra próxima linha
+                        var produto = servicoDeProduto.Consulte(x => x.CodigoDoFabricante == codigoIntelbras);
+                        if (produto == null)
                         {
-                            break;
+                            var corVermelha = GSExtensions.ColorFromHexCode(CODIGO_COR_VERMELHA);
+                            codeCell.Style.Font.Color.SetColor(corVermelha);
+                            return;
                         }
 
-                        if (celulaA.Style.Font.Color.Rgb == CODIGO_COR_VERMELHA)
-                        {
-                            continue;
-                        }
+                        planilha.Cells[linha, NUMERO_COLUNA_PRECO_DE_COMPRA].Value = Math.Round(produto.PrecoDeCompra.GetValueOrDefault(), 2);
+                        planilha.Cells[linha, NUMERO_COLUNA_PRECO_DISTRIBUIDOR].Value = Math.Round(produto.PrecoDistribuidor.GetValueOrDefault(), 2);
 
-                        var celulaC = planilha.Cells[i, 1];
-                        var codIntelbras = celulaC.Text.Trim();
-                        using (var servicoDeProduto = new ServicoDeProduto())
-                        {
-                            // Se não encontrar o produto dentro do sistema da Mega, 
-                            // muda o texto da celula A pra vermelho e passa pra próxima linha
-                            var produto = servicoDeProduto.Consulte(x => x.CodigoDoFabricante == codIntelbras);
-                            if (produto == null)
-                            {
-                                var corVermelha = GSExtensions.ColorFromHexCode(CODIGO_COR_VERMELHA);
-                                celulaC.Style.Font.Color.SetColor(corVermelha);
-                                continue;
-                            }
+                        quantidadeDeProdutosAtualizados++;
+                    });
 
-                            planilha.Cells[i, NUMERO_COLUNA_PRECO_DE_COMPRA].Value =
-                                Math.Round(produto.PrecoDeCompra.GetValueOrDefault(), 2);
-                            planilha.Cells[i, NUMERO_COLUNA_PRECO_DISTRIBUIDOR].Value =
-                                Math.Round(produto.PrecoDistribuidor.GetValueOrDefault(), 2);
-                        }
-                    }
-                    var mensagem = planilha.Cells["A1"];
-                    mensagem.Value = $"Atualizado {dataDeHoje}";
-                }
+                    var titleCell = planilha.Cells["A1"];
+                    titleCell.Value = $"Atualizado {dataDeHoje}";
+                });
 
                 excelPackage.Save();
+
+                return quantidadeDeProdutosAtualizados;
             }
         }
 
