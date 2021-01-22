@@ -30,6 +30,8 @@ using System.IO;
 using OfficeOpenXml.Style;
 using MoreLinq;
 using System.Collections.Concurrent;
+using Raven.Client.Documents.Linq;
+using System.Threading;
 //
 
 namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
@@ -999,6 +1001,15 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             }
         }
 
+        private void UpdateProgressBar(string message)
+        {
+            Invoke((MethodInvoker)delegate 
+            {
+                txtQtyProgresso.Text = message;
+                metroProgressImportar.Value += 1;
+            });
+        }
+
         private readonly Func<ExcelWorksheet, bool> WorksheetFilter = x => 
             x.Cells["A3"]?.Text?.Trim()?.Length == 7;
 
@@ -1038,6 +1049,8 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         private int ExporteParaPlanilhasCentrais(FileInfo fileInfo)
         {
             SetupProgressBar(btnAtualizarPlanilhaDeCentrais, "Lendo arquivo");
+            Thread.Sleep(TimeSpan.FromSeconds(1.5));
+            UpdateProgressBar("Filtrando itens...");
             var dataDeHoje = DateTime.Now.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
 
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
@@ -1054,14 +1067,9 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                 var totalItemsToProcess = rowGrouping.Sum(x => x.Value.Count);
                 var progressRange = GSExtensions.GetProgressRange(totalItemsToProcess);
 
-                //var listOfProductsToUpdate = servicoDeProduto.ConsulteTodosParaAterrissagem(
-                //    out var qts,
-                //    resultSelector: x => new { x.CodigoDoFabricante, x.PrecoDeCompra, x.PrecoDistribuidor },
-                //    searchTerm:
-                //    propertiesToSearch: x => x.CodigoDoFabricante, 
-                //    takeQuantity: int.MaxValue);
+                var listOfProductsToUpdate = GetListOfProductsToUpdate(listOfIntelbrasCodes);
 
-                Parallel.ForEach(rowGrouping, group =>
+                rowGrouping.ForEach(group =>
                 {
                     var planilha = group.Key;
                     group.Value.ForEach(linha =>
@@ -1071,9 +1079,8 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                         var codeCell = planilha.Cells[linha, 1];
                         var codigoIntelbras = codeCell.Text.Trim();
 
-                        // Se não encontrar o produto dentro do sistema da Mega, 
-                        // muda o texto da celula A pra vermelho e passa pra próxima linha
-                        var produto = servicoDeProduto.Consulte(x => x.CodigoDoFabricante == codigoIntelbras);
+                        // Se não encontrar o produto muda o texto da celula A pra vermelho e passa pra próxima linha
+                        var produto = listOfProductsToUpdate.FirstOrDefault(x => x.CodigoDoFabricante == codigoIntelbras);
                         if (produto == null)
                         {
                             var corVermelha = GSExtensions.ColorFromHexCode(CODIGO_COR_VERMELHA);
@@ -1081,10 +1088,30 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                             return;
                         }
 
-                        planilha.Cells[linha, NUMERO_COLUNA_PRECO_DE_COMPRA].Value = Math.Round(produto.PrecoDeCompra.GetValueOrDefault(), 2);
-                        planilha.Cells[linha, NUMERO_COLUNA_PRECO_DISTRIBUIDOR].Value = Math.Round(produto.PrecoDistribuidor.GetValueOrDefault(), 2);
+                        var precoDeCompraPlanilha = planilha.Cells[linha, NUMERO_COLUNA_PRECO_DE_COMPRA].Value;
+                        var precoDeCompraSistema = Math.Round(produto.PrecoDeCompra.GetValueOrDefault(), 2);
 
-                        quantidadeDeProdutosAtualizados++;
+                        var precoDistribuidorPlanilha = planilha.Cells[linha, NUMERO_COLUNA_PRECO_DISTRIBUIDOR].Value;
+                        var precoDistribuidorSistema = Math.Round(produto.PrecoDistribuidor.GetValueOrDefault(), 2);
+
+                        var atualizou = false;
+
+                        if(Convert.ToDecimal(precoDeCompraPlanilha) != precoDeCompraSistema)
+                        {
+                            precoDeCompraPlanilha = precoDeCompraSistema;
+                            atualizou = true;
+                        }
+
+                        if (Convert.ToDecimal(precoDistribuidorPlanilha) != precoDistribuidorSistema)
+                        {
+                            precoDistribuidorPlanilha = precoDistribuidorSistema;
+                            atualizou = true;
+                        }
+
+                        if(atualizou)
+                        {
+                            quantidadeDeProdutosAtualizados++;
+                        }
                     });
 
                     var titleCell = planilha.Cells["A1"];
@@ -1094,6 +1121,24 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                 excelPackage.Save();
 
                 return quantidadeDeProdutosAtualizados;
+            }
+        }
+
+        private List<Produto> GetListOfProductsToUpdate(List<string> listOfIntelbrasCodes)
+        {
+            using (var ravenSession = RavenHelper.OpenSession())
+            {
+                return ravenSession
+                .Query<Produto>()
+                .Where(x => x.Atual && x.CodigoDoFabricante.In(listOfIntelbrasCodes))
+                .Select(x => new Produto
+                {
+                    Codigo = x.Codigo,
+                    CodigoDoFabricante = x.CodigoDoFabricante,
+                    PrecoDeCompra = x.PrecoDeCompra,
+                    PrecoDistribuidor = x.PrecoDistribuidor
+                })
+                .ToList();
             }
         }
 

@@ -18,14 +18,13 @@ using GS.GestaoEmpresa.Solucao.UI.Modulos.Atendimento;
 using GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque;
 using GS.GestaoEmpresa.Solucao.UI.Modulos.Tecnico;
 using GS.GestaoEmpresa.Solucao.Utilitarios;
+using MetroFramework.Forms;
 using Microsoft.VisualBasic;
-using MoreLinq;
 using Raven.Client.Documents.Linq;
-using Raven.Client.Extensions;
 
 namespace GS.GestaoEmpresa.Solucao.UI.Principal
 {
-    public partial class frmPrincipal : Form, IView
+    public partial class frmPrincipal : MetroForm, IView
     {
         public IPresenter Presenter { get; set; }
 
@@ -60,15 +59,16 @@ namespace GS.GestaoEmpresa.Solucao.UI.Principal
         private void AjustePosicaoControlsDinamicamente()
         {
             // Fazemos os ajustes
-            //lblConfiguracoesBasicas.Location = new Point(this.ClientSize.Width - 80, 15);
-            EscondaHeadersTabControl(tabControl1);
+            // lblConfiguracoesBasicas.Location = new Point(this.ClientSize.Width - 80, 15);
+            // EscondaHeadersTabControl(tabControl1);
             CentralizeTabControl(tabControl1);
 
             // Habilitamos a visibilidade
             tabControl1.Visible = true;
             if (!SessaoSistema.Iniciada)
+            {
                 lblConfiguracoesBasicas.Visible = true;
-
+            }
         }
 
         private void CarregueConfiguracoesConexaoBanco()
@@ -81,10 +81,8 @@ namespace GS.GestaoEmpresa.Solucao.UI.Principal
                 return;
             }
 
-            txtServidorConfiguracao.Text = SessaoSistema.InformacoesConexao.Servidor;
-            txtNomeBancoConfiguracoes.Text = SessaoSistema.InformacoesConexao.NomeBanco;
-            txtUsuarioConfiguracao.Text = SessaoSistema.InformacoesConexao.Usuario;
-            txtSenhaConfiguracao.Text = SessaoSistema.InformacoesConexao.Senha;
+            txtConfigServer.Text = SessaoSistema.InformacoesConexao.Servidor;
+            txtConfigDatabaseName.Text = SessaoSistema.InformacoesConexao.NomeBanco;
         }
 
         private void CarregueChamador()
@@ -112,8 +110,8 @@ namespace GS.GestaoEmpresa.Solucao.UI.Principal
 
         private void CentralizeTabControl(TabControl tabControl)
         {
-            tabControl.Left = (this.ClientSize.Width - tabControl1.Width) / 2;
-            tabControl.Top = (this.ClientSize.Height - tabControl1.Height) / 2;
+            tabControl.Left = (ClientSize.Width - tabControl1.Width) / 2;
+            tabControl.Top = ((ClientSize.Height - tabControl1.Height) / 2) + ((gsTopBorder1.Height / 2) - 2)  ;
         }
 
         private void EscondaHeadersTabControl(TabControl tabControl)
@@ -196,7 +194,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Principal
             InicieVerificacaoParaAtualizarStatusDeConexao();
         }
 
-        //Creio eu que esses não são mais usados, confirmar e excluir
+        // TODO: Creio eu que esses não são mais usados, confirmar e excluir
         private void label13_Click(object sender, EventArgs e)
         {
             lblConfiguracoesBasicas.Visible = true;
@@ -204,25 +202,22 @@ namespace GS.GestaoEmpresa.Solucao.UI.Principal
 
             panelConexao.Location = new Point(557, 22);
 
-            this.CarregueConfiguracoesConexaoBanco();
+            CarregueConfiguracoesConexaoBanco();
         }
 
         private void btnSalvarConfiguracaoBasica_Click(object sender, EventArgs e)
         {
             var informacoesConexaoBanco = new InformacoesConexaoBanco()
             {
-                Servidor = txtServidorConfiguracao.Text.Trim(),
-                NomeBanco = txtNomeBancoConfiguracoes.Text.Trim(),
-                Usuario = txtUsuarioConfiguracao.Text.Trim(),
-                Senha = txtSenhaConfiguracao.Text.Trim()
+                Servidor = txtConfigServer.Text.Trim(),
+                NomeBanco = txtConfigDatabaseName.Text.Trim()
             };
 
 
-            SessaoSistema.SalveConfiguracoesConexaoNoArquivo(informacoesConexaoBanco,
-                                                                  DIRETORIO_LOCAL,
-                                                                  NOME_ARQUIVO_CONFIGURACOES_BANCO);
+            SessaoSistema.SalveConfiguracoesConexaoNoArquivo(
+                informacoesConexaoBanco, DIRETORIO_LOCAL, NOME_ARQUIVO_CONFIGURACOES_BANCO);
 
-            this.CarregueConfiguracoesConexaoBanco();
+            CarregueConfiguracoesConexaoBanco();
             DefinaLabelsIPs();
         }
 

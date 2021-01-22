@@ -1,4 +1,6 @@
-﻿namespace GS.GestaoEmpresa.Solucao.UI.Principal
+﻿using MetroFramework.Controls;
+
+namespace GS.GestaoEmpresa.Solucao.UI.Principal
 {
     partial class frmPrincipal
     {
@@ -31,18 +33,13 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmPrincipal));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabLogin = new System.Windows.Forms.TabPage();
-            this.label15 = new System.Windows.Forms.Label();
             this.gbConfiguracoesBasicas = new System.Windows.Forms.GroupBox();
-            this.label10 = new System.Windows.Forms.Label();
-            this.label14 = new System.Windows.Forms.Label();
-            this.txtNomeBancoConfiguracoes = new System.Windows.Forms.TextBox();
+            this.lblServer = new System.Windows.Forms.Label();
+            this.lblDatabaseName = new System.Windows.Forms.Label();
+            this.txtConfigDatabaseName = new MetroFramework.Controls.MetroTextBox();
             this.label13 = new System.Windows.Forms.Label();
-            this.txtSenhaConfiguracao = new System.Windows.Forms.TextBox();
-            this.txtUsuarioConfiguracao = new System.Windows.Forms.TextBox();
-            this.btnSalvarConfiguracaoBasica = new System.Windows.Forms.Button();
-            this.label12 = new System.Windows.Forms.Label();
-            this.label11 = new System.Windows.Forms.Label();
-            this.txtServidorConfiguracao = new System.Windows.Forms.TextBox();
+            this.btnSalvarConfiguracaoBasica = new MetroFramework.Controls.MetroButton();
+            this.txtConfigServer = new MetroFramework.Controls.MetroTextBox();
             this.panelConexao = new System.Windows.Forms.Panel();
             this.pictureBox5 = new System.Windows.Forms.PictureBox();
             this.lblIpApp = new System.Windows.Forms.Label();
@@ -56,7 +53,7 @@
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
+            this.lblTitle = new System.Windows.Forms.Label();
             this.btnEntrar = new System.Windows.Forms.Button();
             this.tabChamador = new System.Windows.Forms.TabPage();
             this.label5 = new System.Windows.Forms.Label();
@@ -76,6 +73,7 @@
             this.btnConfiguracoes = new System.Windows.Forms.Button();
             this.btnEstoque = new System.Windows.Forms.Button();
             this.pictureBox4 = new System.Windows.Forms.PictureBox();
+            this.gsTopBorder1 = new GS.GestaoEmpresa.Solucao.UI.ControlesGenericos.GSTopBorder();
             this.tabControl1.SuspendLayout();
             this.tabLogin.SuspendLayout();
             this.gbConfiguracoesBasicas.SuspendLayout();
@@ -96,7 +94,7 @@
             this.tabControl1.Controls.Add(this.tabLogin);
             this.tabControl1.Controls.Add(this.tabChamador);
             this.tabControl1.Font = new System.Drawing.Font("Microsoft Tai Le", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tabControl1.Location = new System.Drawing.Point(-3, -13);
+            this.tabControl1.Location = new System.Drawing.Point(-3, 17);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(798, 496);
@@ -107,8 +105,6 @@
             // 
             this.tabLogin.BackColor = System.Drawing.Color.Gainsboro;
             this.tabLogin.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("tabLogin.BackgroundImage")));
-            this.tabLogin.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tabLogin.Controls.Add(this.label15);
             this.tabLogin.Controls.Add(this.gbConfiguracoesBasicas);
             this.tabLogin.Controls.Add(this.panelConexao);
             this.tabLogin.Controls.Add(this.lblConfiguracoesBasicas);
@@ -120,7 +116,7 @@
             this.tabLogin.Controls.Add(this.pictureBox2);
             this.tabLogin.Controls.Add(this.label2);
             this.tabLogin.Controls.Add(this.label1);
-            this.tabLogin.Controls.Add(this.label3);
+            this.tabLogin.Controls.Add(this.lblTitle);
             this.tabLogin.Controls.Add(this.btnEntrar);
             this.tabLogin.Location = new System.Drawing.Point(4, 23);
             this.tabLogin.Name = "tabLogin";
@@ -130,132 +126,123 @@
             this.tabLogin.Text = "Login";
             this.tabLogin.Click += new System.EventHandler(this.tabLogin_Click);
             // 
-            // label15
-            // 
-            this.label15.AutoSize = true;
-            this.label15.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label15.Location = new System.Drawing.Point(10, 3);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(98, 13);
-            this.label15.TabIndex = 57;
-            this.label15.Text = "Migração de dados";
-            this.label15.Visible = false;
-            this.label15.Click += new System.EventHandler(this.Label15_Click);
-            // 
             // gbConfiguracoesBasicas
             // 
-            this.gbConfiguracoesBasicas.Controls.Add(this.label10);
-            this.gbConfiguracoesBasicas.Controls.Add(this.label14);
-            this.gbConfiguracoesBasicas.Controls.Add(this.txtNomeBancoConfiguracoes);
+            this.gbConfiguracoesBasicas.Controls.Add(this.lblServer);
+            this.gbConfiguracoesBasicas.Controls.Add(this.lblDatabaseName);
+            this.gbConfiguracoesBasicas.Controls.Add(this.txtConfigDatabaseName);
             this.gbConfiguracoesBasicas.Controls.Add(this.label13);
-            this.gbConfiguracoesBasicas.Controls.Add(this.txtSenhaConfiguracao);
-            this.gbConfiguracoesBasicas.Controls.Add(this.txtUsuarioConfiguracao);
             this.gbConfiguracoesBasicas.Controls.Add(this.btnSalvarConfiguracaoBasica);
-            this.gbConfiguracoesBasicas.Controls.Add(this.label12);
-            this.gbConfiguracoesBasicas.Controls.Add(this.label11);
-            this.gbConfiguracoesBasicas.Controls.Add(this.txtServidorConfiguracao);
-            this.gbConfiguracoesBasicas.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.gbConfiguracoesBasicas.Controls.Add(this.txtConfigServer);
+            this.gbConfiguracoesBasicas.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.gbConfiguracoesBasicas.Location = new System.Drawing.Point(557, 143);
             this.gbConfiguracoesBasicas.Name = "gbConfiguracoesBasicas";
-            this.gbConfiguracoesBasicas.Size = new System.Drawing.Size(225, 273);
+            this.gbConfiguracoesBasicas.Size = new System.Drawing.Size(225, 166);
             this.gbConfiguracoesBasicas.TabIndex = 47;
             this.gbConfiguracoesBasicas.TabStop = false;
             this.gbConfiguracoesBasicas.Text = "Configurações básicas";
             this.gbConfiguracoesBasicas.Visible = false;
             // 
-            // label10
+            // lblServer
             // 
-            this.label10.AutoSize = true;
-            this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label10.Location = new System.Drawing.Point(6, 22);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(59, 16);
-            this.label10.TabIndex = 49;
-            this.label10.Text = "Servidor";
+            this.lblServer.AutoSize = true;
+            this.lblServer.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblServer.Location = new System.Drawing.Point(6, 22);
+            this.lblServer.Name = "lblServer";
+            this.lblServer.Size = new System.Drawing.Size(57, 17);
+            this.lblServer.TabIndex = 49;
+            this.lblServer.Text = "Servidor";
             // 
-            // label14
+            // lblDatabaseName
             // 
-            this.label14.AutoSize = true;
-            this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label14.Location = new System.Drawing.Point(3, 70);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(106, 16);
-            this.label14.TabIndex = 48;
-            this.label14.Text = "Nome do Banco";
+            this.lblDatabaseName.AutoSize = true;
+            this.lblDatabaseName.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblDatabaseName.Location = new System.Drawing.Point(6, 70);
+            this.lblDatabaseName.Name = "lblDatabaseName";
+            this.lblDatabaseName.Size = new System.Drawing.Size(103, 17);
+            this.lblDatabaseName.TabIndex = 48;
+            this.lblDatabaseName.Text = "Nome do Banco";
             // 
-            // txtNomeBancoConfiguracoes
+            // txtConfigDatabaseName
             // 
-            this.txtNomeBancoConfiguracoes.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtNomeBancoConfiguracoes.Location = new System.Drawing.Point(6, 89);
-            this.txtNomeBancoConfiguracoes.Name = "txtNomeBancoConfiguracoes";
-            this.txtNomeBancoConfiguracoes.Size = new System.Drawing.Size(210, 26);
-            this.txtNomeBancoConfiguracoes.TabIndex = 47;
+            // 
+            // 
+            // 
+            this.txtConfigDatabaseName.CustomButton.Image = null;
+            this.txtConfigDatabaseName.CustomButton.Location = new System.Drawing.Point(186, 2);
+            this.txtConfigDatabaseName.CustomButton.Name = "";
+            this.txtConfigDatabaseName.CustomButton.Size = new System.Drawing.Size(21, 21);
+            this.txtConfigDatabaseName.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
+            this.txtConfigDatabaseName.CustomButton.TabIndex = 1;
+            this.txtConfigDatabaseName.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
+            this.txtConfigDatabaseName.CustomButton.UseSelectable = true;
+            this.txtConfigDatabaseName.CustomButton.Visible = false;
+            this.txtConfigDatabaseName.Lines = new string[0];
+            this.txtConfigDatabaseName.Location = new System.Drawing.Point(6, 90);
+            this.txtConfigDatabaseName.MaxLength = 32767;
+            this.txtConfigDatabaseName.Name = "txtConfigDatabaseName";
+            this.txtConfigDatabaseName.PasswordChar = '\0';
+            this.txtConfigDatabaseName.ScrollBars = System.Windows.Forms.ScrollBars.None;
+            this.txtConfigDatabaseName.SelectedText = "";
+            this.txtConfigDatabaseName.SelectionLength = 0;
+            this.txtConfigDatabaseName.SelectionStart = 0;
+            this.txtConfigDatabaseName.ShortcutsEnabled = true;
+            this.txtConfigDatabaseName.Size = new System.Drawing.Size(210, 26);
+            this.txtConfigDatabaseName.TabIndex = 47;
+            this.txtConfigDatabaseName.UseSelectable = true;
+            this.txtConfigDatabaseName.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
+            this.txtConfigDatabaseName.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
             // 
             // label13
             // 
             this.label13.AutoSize = true;
             this.label13.Location = new System.Drawing.Point(206, 10);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(17, 20);
+            this.label13.Size = new System.Drawing.Size(17, 21);
             this.label13.TabIndex = 46;
             this.label13.Text = "x";
             this.label13.Click += new System.EventHandler(this.label13_Click);
             // 
-            // txtSenhaConfiguracao
-            // 
-            this.txtSenhaConfiguracao.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtSenhaConfiguracao.Location = new System.Drawing.Point(6, 188);
-            this.txtSenhaConfiguracao.Name = "txtSenhaConfiguracao";
-            this.txtSenhaConfiguracao.PasswordChar = '*';
-            this.txtSenhaConfiguracao.Size = new System.Drawing.Size(210, 26);
-            this.txtSenhaConfiguracao.TabIndex = 45;
-            // 
-            // txtUsuarioConfiguracao
-            // 
-            this.txtUsuarioConfiguracao.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtUsuarioConfiguracao.Location = new System.Drawing.Point(6, 138);
-            this.txtUsuarioConfiguracao.Name = "txtUsuarioConfiguracao";
-            this.txtUsuarioConfiguracao.Size = new System.Drawing.Size(210, 26);
-            this.txtUsuarioConfiguracao.TabIndex = 44;
-            // 
             // btnSalvarConfiguracaoBasica
             // 
-            this.btnSalvarConfiguracaoBasica.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSalvarConfiguracaoBasica.Location = new System.Drawing.Point(56, 225);
+            this.btnSalvarConfiguracaoBasica.FontSize = MetroFramework.MetroButtonSize.Medium;
+            this.btnSalvarConfiguracaoBasica.Location = new System.Drawing.Point(57, 123);
             this.btnSalvarConfiguracaoBasica.Name = "btnSalvarConfiguracaoBasica";
             this.btnSalvarConfiguracaoBasica.Size = new System.Drawing.Size(107, 34);
             this.btnSalvarConfiguracaoBasica.TabIndex = 42;
             this.btnSalvarConfiguracaoBasica.Text = "Salvar";
-            this.btnSalvarConfiguracaoBasica.UseVisualStyleBackColor = true;
+            this.btnSalvarConfiguracaoBasica.UseSelectable = true;
             this.btnSalvarConfiguracaoBasica.Click += new System.EventHandler(this.btnSalvarConfiguracaoBasica_Click);
             // 
-            // label12
+            // txtConfigServer
             // 
-            this.label12.AutoSize = true;
-            this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label12.Location = new System.Drawing.Point(6, 167);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(47, 16);
-            this.label12.TabIndex = 41;
-            this.label12.Text = "Senha";
             // 
-            // label11
             // 
-            this.label11.AutoSize = true;
-            this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label11.Location = new System.Drawing.Point(3, 117);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(55, 16);
-            this.label11.TabIndex = 39;
-            this.label11.Text = "Usuário";
             // 
-            // txtServidorConfiguracao
-            // 
-            this.txtServidorConfiguracao.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtServidorConfiguracao.Location = new System.Drawing.Point(6, 43);
-            this.txtServidorConfiguracao.Name = "txtServidorConfiguracao";
-            this.txtServidorConfiguracao.Size = new System.Drawing.Size(210, 26);
-            this.txtServidorConfiguracao.TabIndex = 0;
+            this.txtConfigServer.CustomButton.Image = null;
+            this.txtConfigServer.CustomButton.Location = new System.Drawing.Point(186, 2);
+            this.txtConfigServer.CustomButton.Name = "";
+            this.txtConfigServer.CustomButton.Size = new System.Drawing.Size(21, 21);
+            this.txtConfigServer.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
+            this.txtConfigServer.CustomButton.TabIndex = 1;
+            this.txtConfigServer.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
+            this.txtConfigServer.CustomButton.UseSelectable = true;
+            this.txtConfigServer.CustomButton.Visible = false;
+            this.txtConfigServer.Lines = new string[0];
+            this.txtConfigServer.Location = new System.Drawing.Point(6, 43);
+            this.txtConfigServer.MaxLength = 32767;
+            this.txtConfigServer.Name = "txtConfigServer";
+            this.txtConfigServer.PasswordChar = '\0';
+            this.txtConfigServer.ScrollBars = System.Windows.Forms.ScrollBars.None;
+            this.txtConfigServer.SelectedText = "";
+            this.txtConfigServer.SelectionLength = 0;
+            this.txtConfigServer.SelectionStart = 0;
+            this.txtConfigServer.ShortcutsEnabled = true;
+            this.txtConfigServer.Size = new System.Drawing.Size(210, 26);
+            this.txtConfigServer.TabIndex = 0;
+            this.txtConfigServer.UseSelectable = true;
+            this.txtConfigServer.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
+            this.txtConfigServer.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
             // 
             // panelConexao
             // 
@@ -263,7 +250,7 @@
             this.panelConexao.Controls.Add(this.pictureBox5);
             this.panelConexao.Controls.Add(this.lblIpApp);
             this.panelConexao.Controls.Add(this.lblIpBanco);
-            this.panelConexao.Location = new System.Drawing.Point(522, 22);
+            this.panelConexao.Location = new System.Drawing.Point(522, 23);
             this.panelConexao.Name = "panelConexao";
             this.panelConexao.Size = new System.Drawing.Size(260, 100);
             this.panelConexao.TabIndex = 56;
@@ -300,10 +287,10 @@
             // lblConfiguracoesBasicas
             // 
             this.lblConfiguracoesBasicas.AutoSize = true;
-            this.lblConfiguracoesBasicas.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblConfiguracoesBasicas.Location = new System.Drawing.Point(657, 3);
+            this.lblConfiguracoesBasicas.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblConfiguracoesBasicas.Location = new System.Drawing.Point(658, 3);
             this.lblConfiguracoesBasicas.Name = "lblConfiguracoesBasicas";
-            this.lblConfiguracoesBasicas.Size = new System.Drawing.Size(75, 13);
+            this.lblConfiguracoesBasicas.Size = new System.Drawing.Size(92, 17);
             this.lblConfiguracoesBasicas.TabIndex = 48;
             this.lblConfiguracoesBasicas.Text = "Configurações";
             this.lblConfiguracoesBasicas.Visible = false;
@@ -397,15 +384,15 @@
             this.label1.TabIndex = 37;
             this.label1.Text = "________________________";
             // 
-            // label3
+            // lblTitle
             // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(277, 195);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(234, 33);
-            this.label3.TabIndex = 36;
-            this.label3.Text = "Gestão Empresa";
+            this.lblTitle.AutoSize = true;
+            this.lblTitle.Font = new System.Drawing.Font("Segoe UI Light", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTitle.Location = new System.Drawing.Point(288, 195);
+            this.lblTitle.Name = "lblTitle";
+            this.lblTitle.Size = new System.Drawing.Size(214, 40);
+            this.lblTitle.TabIndex = 36;
+            this.lblTitle.Text = "Gestão Empresa";
             // 
             // btnEntrar
             // 
@@ -656,17 +643,23 @@
             this.pictureBox4.TabIndex = 23;
             this.pictureBox4.TabStop = false;
             // 
+            // gsTopBorder1
+            // 
+            this.gsTopBorder1.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            this.gsTopBorder1.Location = new System.Drawing.Point(0, 0);
+            this.gsTopBorder1.Name = "gsTopBorder1";
+            this.gsTopBorder1.Size = new System.Drawing.Size(788, 26);
+            this.gsTopBorder1.TabIndex = 48;
+            // 
             // frmPrincipal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.SlateGray;
             this.ClientSize = new System.Drawing.Size(788, 478);
+            this.Controls.Add(this.gsTopBorder1);
             this.Controls.Add(this.tabControl1);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.Name = "frmPrincipal";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "GestaoEmpresa";
             this.Load += new System.EventHandler(this.GestaoEmpresa_Load);
             this.tabControl1.ResumeLayout(false);
@@ -695,12 +688,12 @@
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabLogin;
         private System.Windows.Forms.GroupBox gbConfiguracoesBasicas;
-        private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.Label label14;
-        private System.Windows.Forms.TextBox txtNomeBancoConfiguracoes;
+        private System.Windows.Forms.Label lblServer;
+        private System.Windows.Forms.Label lblDatabaseName;
+        private MetroTextBox txtConfigDatabaseName;
         private System.Windows.Forms.Label label13;
-        private System.Windows.Forms.Button btnSalvarConfiguracaoBasica;
-        private System.Windows.Forms.TextBox txtServidorConfiguracao;
+        private MetroButton btnSalvarConfiguracaoBasica;
+        private MetroTextBox txtConfigServer;
         private System.Windows.Forms.Label lblConfiguracoesBasicas;
         private System.Windows.Forms.TextBox txtSenha;
         private System.Windows.Forms.TextBox txtUsuario;
@@ -710,7 +703,7 @@
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label lblTitle;
         private System.Windows.Forms.Button btnEntrar;
         private System.Windows.Forms.TabPage tabChamador;
         private System.Windows.Forms.Label label5;
@@ -734,10 +727,6 @@
         private System.Windows.Forms.Label lblIpApp;
         private System.Windows.Forms.PictureBox pictureBox5;
         private System.Windows.Forms.Panel panelConexao;
-        private System.Windows.Forms.TextBox txtSenhaConfiguracao;
-        private System.Windows.Forms.TextBox txtUsuarioConfiguracao;
-        private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.Label label15;
+        private ControlesGenericos.GSTopBorder gsTopBorder1;
     }
 }
