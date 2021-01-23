@@ -3,15 +3,22 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
+using System.Data;
+using System.IO;
 using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Collections.Concurrent;
+using System.Threading;
 //
 
 // Third-party
 using LinqToExcel;
+using MoreLinq;
+using OfficeOpenXml;
+using Raven.Client.Documents.Linq;
 //
 
 // Ours
@@ -23,20 +30,12 @@ using GS.GestaoEmpresa.Solucao.UI.Base;
 using GS.GestaoEmpresa.Solucao.UI.ControlesGenericos;
 using GS.GestaoEmpresa.Solucao.Utilitarios;
 using GS.GestaoEmpresa.Solucao.Persistencia.BancoDeDados;
-using GS.GestaoEmpresa.Solucao.Persistencia.Repositorios;
-using OfficeOpenXml;
-using System.Data;
-using System.IO;
-using OfficeOpenXml.Style;
-using MoreLinq;
-using System.Collections.Concurrent;
-using Raven.Client.Documents.Linq;
-using System.Threading;
+using MetroFramework.Forms;
 //
 
 namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 {
-    public partial class FrmEstoque : Form, IView
+    public partial class FrmEstoque : MetroForm, IView
     {
         #region Fields
 

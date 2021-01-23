@@ -45,16 +45,15 @@ namespace GS.GestaoEmpresa.Solucao.UI.Principal
             this.lblIpApp = new System.Windows.Forms.Label();
             this.lblIpBanco = new System.Windows.Forms.Label();
             this.lblConfiguracoesBasicas = new System.Windows.Forms.Label();
-            this.txtSenha = new System.Windows.Forms.TextBox();
-            this.txtUsuario = new System.Windows.Forms.TextBox();
+            this.txtSenha = new MetroFramework.Controls.MetroTextBox();
+            this.txtUsuario = new MetroFramework.Controls.MetroTextBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.label4 = new System.Windows.Forms.Label();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.lblTitle = new System.Windows.Forms.Label();
-            this.btnEntrar = new System.Windows.Forms.Button();
+            this.btnEntrar = new MetroFramework.Controls.MetroButton();
             this.tabChamador = new System.Windows.Forms.TabPage();
             this.label5 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -66,12 +65,12 @@ namespace GS.GestaoEmpresa.Solucao.UI.Principal
             this.label8 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.btnAtendimento = new System.Windows.Forms.Button();
-            this.btnTecnico = new System.Windows.Forms.Button();
-            this.btnAuditoria = new System.Windows.Forms.Button();
-            this.btnCorporativo = new System.Windows.Forms.Button();
-            this.btnConfiguracoes = new System.Windows.Forms.Button();
-            this.btnEstoque = new System.Windows.Forms.Button();
+            this.btnAtendimento = new MetroFramework.Controls.MetroButton();
+            this.btnTecnico = new MetroFramework.Controls.MetroButton();
+            this.btnAuditoria = new MetroFramework.Controls.MetroButton();
+            this.btnCorporativo = new MetroFramework.Controls.MetroButton();
+            this.btnConfiguracoes = new MetroFramework.Controls.MetroButton();
+            this.btnEstoque = new MetroFramework.Controls.MetroButton();
             this.pictureBox4 = new System.Windows.Forms.PictureBox();
             this.gsTopBorder1 = new GS.GestaoEmpresa.Solucao.UI.ControlesGenericos.GSTopBorder();
             this.tabControl1.SuspendLayout();
@@ -111,7 +110,6 @@ namespace GS.GestaoEmpresa.Solucao.UI.Principal
             this.tabLogin.Controls.Add(this.txtSenha);
             this.tabLogin.Controls.Add(this.txtUsuario);
             this.tabLogin.Controls.Add(this.pictureBox1);
-            this.tabLogin.Controls.Add(this.label4);
             this.tabLogin.Controls.Add(this.pictureBox3);
             this.tabLogin.Controls.Add(this.pictureBox2);
             this.tabLogin.Controls.Add(this.label2);
@@ -299,24 +297,67 @@ namespace GS.GestaoEmpresa.Solucao.UI.Principal
             // txtSenha
             // 
             this.txtSenha.BackColor = System.Drawing.Color.SteelBlue;
-            this.txtSenha.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtSenha.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            // 
+            // 
+            // 
+            this.txtSenha.CustomButton.Image = null;
+            this.txtSenha.CustomButton.Location = new System.Drawing.Point(130, 2);
+            this.txtSenha.CustomButton.Name = "";
+            this.txtSenha.CustomButton.Size = new System.Drawing.Size(19, 19);
+            this.txtSenha.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
+            this.txtSenha.CustomButton.TabIndex = 1;
+            this.txtSenha.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
+            this.txtSenha.CustomButton.UseSelectable = true;
+            this.txtSenha.CustomButton.Visible = false;
+            this.txtSenha.Lines = new string[0];
             this.txtSenha.Location = new System.Drawing.Point(325, 316);
+            this.txtSenha.MaxLength = 32767;
             this.txtSenha.Name = "txtSenha";
             this.txtSenha.PasswordChar = '*';
+            this.txtSenha.ScrollBars = System.Windows.Forms.ScrollBars.None;
+            this.txtSenha.SelectedText = "";
+            this.txtSenha.SelectionLength = 0;
+            this.txtSenha.SelectionStart = 0;
+            this.txtSenha.ShortcutsEnabled = true;
             this.txtSenha.Size = new System.Drawing.Size(152, 24);
             this.txtSenha.TabIndex = 44;
+            this.txtSenha.UseCustomBackColor = true;
+            this.txtSenha.UseSelectable = true;
+            this.txtSenha.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
+            this.txtSenha.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
             this.txtSenha.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtSenha_KeyPress);
             // 
             // txtUsuario
             // 
             this.txtUsuario.BackColor = System.Drawing.Color.SteelBlue;
-            this.txtUsuario.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtUsuario.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            // 
+            // 
+            // 
+            this.txtUsuario.CustomButton.Image = null;
+            this.txtUsuario.CustomButton.Location = new System.Drawing.Point(130, 2);
+            this.txtUsuario.CustomButton.Name = "";
+            this.txtUsuario.CustomButton.Size = new System.Drawing.Size(19, 19);
+            this.txtUsuario.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
+            this.txtUsuario.CustomButton.TabIndex = 1;
+            this.txtUsuario.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
+            this.txtUsuario.CustomButton.UseSelectable = true;
+            this.txtUsuario.CustomButton.Visible = false;
+            this.txtUsuario.Lines = new string[0];
             this.txtUsuario.Location = new System.Drawing.Point(324, 274);
+            this.txtUsuario.MaxLength = 32767;
             this.txtUsuario.Name = "txtUsuario";
+            this.txtUsuario.PasswordChar = '\0';
+            this.txtUsuario.ScrollBars = System.Windows.Forms.ScrollBars.None;
+            this.txtUsuario.SelectedText = "";
+            this.txtUsuario.SelectionLength = 0;
+            this.txtUsuario.SelectionStart = 0;
+            this.txtUsuario.ShortcutsEnabled = true;
             this.txtUsuario.Size = new System.Drawing.Size(152, 24);
             this.txtUsuario.TabIndex = 43;
+            this.txtUsuario.UseCustomBackColor = true;
+            this.txtUsuario.UseSelectable = true;
+            this.txtUsuario.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
+            this.txtUsuario.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
             // 
             // pictureBox1
             // 
@@ -327,18 +368,6 @@ namespace GS.GestaoEmpresa.Solucao.UI.Principal
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.pictureBox1.TabIndex = 42;
             this.pictureBox1.TabStop = false;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.BackColor = System.Drawing.Color.SteelBlue;
-            this.label4.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(310, 394);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(154, 18);
-            this.label4.TabIndex = 41;
-            this.label4.Text = "Esqueceu sua senha?";
             // 
             // pictureBox3
             // 
@@ -399,16 +428,14 @@ namespace GS.GestaoEmpresa.Solucao.UI.Principal
             this.btnEntrar.BackColor = System.Drawing.Color.Gainsboro;
             this.btnEntrar.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnEntrar.Enabled = false;
-            this.btnEntrar.FlatAppearance.BorderColor = System.Drawing.Color.SteelBlue;
-            this.btnEntrar.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnEntrar.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnEntrar.FontSize = MetroFramework.MetroButtonSize.Medium;
             this.btnEntrar.ForeColor = System.Drawing.Color.SteelBlue;
             this.btnEntrar.Location = new System.Drawing.Point(327, 352);
             this.btnEntrar.Name = "btnEntrar";
             this.btnEntrar.Size = new System.Drawing.Size(119, 35);
             this.btnEntrar.TabIndex = 45;
             this.btnEntrar.Text = "Entrar";
-            this.btnEntrar.UseVisualStyleBackColor = false;
+            this.btnEntrar.UseSelectable = true;
             this.btnEntrar.Click += new System.EventHandler(this.btnEntrar_Click_1);
             // 
             // tabChamador
@@ -436,7 +463,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Principal
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(59, 25);
             this.label5.TabIndex = 25;
-            this.label5.Text = "v 1.0";
+            this.label5.Text = "v 1.?";
             // 
             // groupBox1
             // 
@@ -532,7 +559,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Principal
             this.groupBox2.Controls.Add(this.btnConfiguracoes);
             this.groupBox2.Controls.Add(this.btnEstoque);
             this.groupBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox2.Location = new System.Drawing.Point(41, 130);
+            this.groupBox2.Location = new System.Drawing.Point(41, 99);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(717, 334);
             this.groupBox2.TabIndex = 21;
@@ -544,14 +571,14 @@ namespace GS.GestaoEmpresa.Solucao.UI.Principal
             this.btnAtendimento.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnAtendimento.BackgroundImage")));
             this.btnAtendimento.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.btnAtendimento.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnAtendimento.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnAtendimento.FontSize = MetroFramework.MetroButtonSize.Tall;
             this.btnAtendimento.Location = new System.Drawing.Point(361, 21);
             this.btnAtendimento.Name = "btnAtendimento";
             this.btnAtendimento.Size = new System.Drawing.Size(170, 150);
             this.btnAtendimento.TabIndex = 7;
             this.btnAtendimento.Text = "Atendimento";
             this.btnAtendimento.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.btnAtendimento.UseVisualStyleBackColor = true;
+            this.btnAtendimento.UseSelectable = true;
             this.btnAtendimento.Click += new System.EventHandler(this.btnAtendimento_Click);
             // 
             // btnTecnico
@@ -559,14 +586,14 @@ namespace GS.GestaoEmpresa.Solucao.UI.Principal
             this.btnTecnico.BackgroundImage = global::GS.GestaoEmpresa.Properties.Resources.TenicoBlueCerto2;
             this.btnTecnico.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.btnTecnico.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnTecnico.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnTecnico.FontSize = MetroFramework.MetroButtonSize.Tall;
             this.btnTecnico.Location = new System.Drawing.Point(537, 21);
             this.btnTecnico.Name = "btnTecnico";
             this.btnTecnico.Size = new System.Drawing.Size(170, 150);
             this.btnTecnico.TabIndex = 13;
             this.btnTecnico.Text = "Técnico";
             this.btnTecnico.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.btnTecnico.UseVisualStyleBackColor = true;
+            this.btnTecnico.UseSelectable = true;
             this.btnTecnico.Click += new System.EventHandler(this.btnTecnico_Click);
             // 
             // btnAuditoria
@@ -575,14 +602,14 @@ namespace GS.GestaoEmpresa.Solucao.UI.Principal
             this.btnAuditoria.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.btnAuditoria.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnAuditoria.Enabled = false;
-            this.btnAuditoria.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnAuditoria.FontSize = MetroFramework.MetroButtonSize.Tall;
             this.btnAuditoria.Location = new System.Drawing.Point(185, 177);
             this.btnAuditoria.Name = "btnAuditoria";
             this.btnAuditoria.Size = new System.Drawing.Size(170, 150);
             this.btnAuditoria.TabIndex = 15;
             this.btnAuditoria.Text = "Auditoria";
             this.btnAuditoria.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.btnAuditoria.UseVisualStyleBackColor = true;
+            this.btnAuditoria.UseSelectable = true;
             // 
             // btnCorporativo
             // 
@@ -590,29 +617,30 @@ namespace GS.GestaoEmpresa.Solucao.UI.Principal
             this.btnCorporativo.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.btnCorporativo.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnCorporativo.Enabled = false;
-            this.btnCorporativo.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnCorporativo.FontSize = MetroFramework.MetroButtonSize.Tall;
             this.btnCorporativo.Location = new System.Drawing.Point(9, 177);
             this.btnCorporativo.Name = "btnCorporativo";
             this.btnCorporativo.Size = new System.Drawing.Size(170, 150);
             this.btnCorporativo.TabIndex = 14;
             this.btnCorporativo.Text = "Corporativo";
             this.btnCorporativo.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.btnCorporativo.UseVisualStyleBackColor = true;
+            this.btnCorporativo.UseSelectable = true;
             // 
             // btnConfiguracoes
             // 
+            this.btnConfiguracoes.BackColor = System.Drawing.Color.Transparent;
             this.btnConfiguracoes.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnConfiguracoes.BackgroundImage")));
             this.btnConfiguracoes.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.btnConfiguracoes.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnConfiguracoes.Enabled = false;
-            this.btnConfiguracoes.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnConfiguracoes.FontSize = MetroFramework.MetroButtonSize.Tall;
             this.btnConfiguracoes.Location = new System.Drawing.Point(9, 21);
             this.btnConfiguracoes.Name = "btnConfiguracoes";
             this.btnConfiguracoes.Size = new System.Drawing.Size(170, 150);
             this.btnConfiguracoes.TabIndex = 12;
             this.btnConfiguracoes.Text = "Configurações";
             this.btnConfiguracoes.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.btnConfiguracoes.UseVisualStyleBackColor = true;
+            this.btnConfiguracoes.UseSelectable = true;
             this.btnConfiguracoes.Click += new System.EventHandler(this.btnConfiguracoes_Click_1);
             // 
             // btnEstoque
@@ -620,7 +648,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Principal
             this.btnEstoque.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnEstoque.BackgroundImage")));
             this.btnEstoque.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.btnEstoque.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnEstoque.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnEstoque.FontSize = MetroFramework.MetroButtonSize.Tall;
             this.btnEstoque.Location = new System.Drawing.Point(185, 21);
             this.btnEstoque.Name = "btnEstoque";
             this.btnEstoque.Size = new System.Drawing.Size(170, 150);
@@ -628,7 +656,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Principal
             this.btnEstoque.Text = "Estoque";
             this.btnEstoque.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.btnEstoque.UseMnemonic = false;
-            this.btnEstoque.UseVisualStyleBackColor = true;
+            this.btnEstoque.UseSelectable = true;
             this.btnEstoque.Click += new System.EventHandler(this.btnEstoque_Click_1);
             // 
             // pictureBox4
@@ -636,9 +664,9 @@ namespace GS.GestaoEmpresa.Solucao.UI.Principal
             this.pictureBox4.BackColor = System.Drawing.Color.Transparent;
             this.pictureBox4.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pictureBox4.BackgroundImage")));
             this.pictureBox4.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.pictureBox4.Location = new System.Drawing.Point(539, -23);
+            this.pictureBox4.Location = new System.Drawing.Point(546, -23);
             this.pictureBox4.Name = "pictureBox4";
-            this.pictureBox4.Size = new System.Drawing.Size(252, 176);
+            this.pictureBox4.Size = new System.Drawing.Size(213, 147);
             this.pictureBox4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox4.TabIndex = 23;
             this.pictureBox4.TabStop = false;
@@ -658,8 +686,10 @@ namespace GS.GestaoEmpresa.Solucao.UI.Principal
             this.ClientSize = new System.Drawing.Size(788, 478);
             this.Controls.Add(this.gsTopBorder1);
             this.Controls.Add(this.tabControl1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "frmPrincipal";
+            this.ShadowType = MetroFramework.Forms.MetroFormShadowType.None;
             this.Text = "GestaoEmpresa";
             this.Load += new System.EventHandler(this.GestaoEmpresa_Load);
             this.tabControl1.ResumeLayout(false);
@@ -695,16 +725,15 @@ namespace GS.GestaoEmpresa.Solucao.UI.Principal
         private MetroButton btnSalvarConfiguracaoBasica;
         private MetroTextBox txtConfigServer;
         private System.Windows.Forms.Label lblConfiguracoesBasicas;
-        private System.Windows.Forms.TextBox txtSenha;
-        private System.Windows.Forms.TextBox txtUsuario;
+        private MetroTextBox txtSenha;
+        private MetroTextBox txtUsuario;
         private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.Label label4;
         private System.Windows.Forms.PictureBox pictureBox3;
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label lblTitle;
-        private System.Windows.Forms.Button btnEntrar;
+        private MetroButton btnEntrar;
         private System.Windows.Forms.TabPage tabChamador;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.GroupBox groupBox1;
@@ -717,12 +746,12 @@ namespace GS.GestaoEmpresa.Solucao.UI.Principal
         private System.Windows.Forms.PictureBox pictureBox4;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.Button btnAuditoria;
-        private System.Windows.Forms.Button btnCorporativo;
-        private System.Windows.Forms.Button btnTecnico;
-        private System.Windows.Forms.Button btnConfiguracoes;
-        private System.Windows.Forms.Button btnEstoque;
-        private System.Windows.Forms.Button btnAtendimento;
+        private MetroButton btnAuditoria;
+        private MetroButton btnCorporativo;
+        private MetroButton btnTecnico;
+        private MetroButton btnConfiguracoes;
+        private MetroButton btnEstoque;
+        private MetroButton btnAtendimento;
         private System.Windows.Forms.Label lblIpBanco;
         private System.Windows.Forms.Label lblIpApp;
         private System.Windows.Forms.PictureBox pictureBox5;
