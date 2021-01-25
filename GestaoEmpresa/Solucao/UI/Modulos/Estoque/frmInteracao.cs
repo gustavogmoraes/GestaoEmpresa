@@ -596,7 +596,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                         txtLineQuantidadeAux.Visible = false;
                         txtQuantidadeAux.Visible = false;
 
-                        chkAtualizar.Checked = true;
+                        //chkAtualizar.Checked = true;
                         chkAtualizar.Visible = true;
 
                         AtualizeValorComODoProduto();

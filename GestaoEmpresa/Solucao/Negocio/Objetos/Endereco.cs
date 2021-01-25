@@ -19,5 +19,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Objetos
         public string Estado { get; set; }
 
         public string Pais { get; set; }
+        public string Numero { get; internal set; }
+        public string Localizacao { get; internal set; }
     }
 }

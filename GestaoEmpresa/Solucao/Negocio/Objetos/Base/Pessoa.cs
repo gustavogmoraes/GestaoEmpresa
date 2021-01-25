@@ -12,14 +12,8 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Objetos.Base
     {
         public string Nome { get; set; }
 
-        public DateTime? DataDeNascimentoCriacao { get; set; }
-
         public string Cpfcnpj { get; set; }
 
-        public TipoDePessoa TipoDePessoa { get; set; }
-
-        public List<Endereco> Enderecos { get; set; }
-
-        public List<Telefone> Telefones { get; set; }
+        public EnumTiposDePessoa TipoDePessoa { get; set; }
     }
 }

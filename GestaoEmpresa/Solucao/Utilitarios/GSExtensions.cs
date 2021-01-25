@@ -37,7 +37,7 @@ namespace GS.GestaoEmpresa.Solucao.Utilitarios
     {
         public static bool IsEven(this int number)
         {
-            return number % 2 == 0; 
+            return number % 2 == 0;
         }
 
         public static IList<string> ObtenhaLabels(this IList<PropertyInfo> listaDePropriedades)
@@ -274,7 +274,7 @@ namespace GS.GestaoEmpresa.Solucao.Utilitarios
             var tempText = textInfo.ToTitleCase(text);
 
             CustomTitleCaseReplacements.ForEach(x => tempText = tempText.Replace(x.Key, x.Value));
-            
+
             return tempText;
         }
 
@@ -283,7 +283,7 @@ namespace GS.GestaoEmpresa.Solucao.Utilitarios
             return Convert.ToDecimal(value.Replace("R$ ", string.Empty));
         }
 
-        public static bool AnyPropertyIsNull(this object obj) => 
+        public static bool AnyPropertyIsNull(this object obj) =>
             obj.GetType().GetProperties().ToList().All(prop => string.IsNullOrEmpty(prop.GetValue(obj).ToString()));
 
         public static decimal ToDecimal(this string value) => Convert.ToDecimal(value);
@@ -342,12 +342,12 @@ namespace GS.GestaoEmpresa.Solucao.Utilitarios
 
         public static ParallelLoopResult ParallelWhile(bool condition, Action body, ParallelOptions parallelOptions = null) =>
             ParallelWhile(() => condition, body, parallelOptions);
-        
+
         public static Dictionary<string, TValue> ToDictionary<TValue>(this object obj)
-        {       
+        {
             var json = JsonConvert.SerializeObject(obj);
-            var dictionary = JsonConvert.DeserializeObject<Dictionary<string, TValue>>(json);   
-            
+            var dictionary = JsonConvert.DeserializeObject<Dictionary<string, TValue>>(json);
+
             return dictionary;
         }
 
@@ -511,6 +511,47 @@ namespace GS.GestaoEmpresa.Solucao.Utilitarios
             {
                 return false;
             }
+        }
+
+        public static bool IsNullable(this Type type)
+        {
+            var isIt = Nullable.GetUnderlyingType(type);
+
+            return isIt == null;
+        }
+
+        public static string RemoveDiacritics(this string text)
+        {
+            var normalizedString = text.Normalize(NormalizationForm.FormD);
+            var stringBuilder = new StringBuilder();
+
+            foreach (var c in normalizedString)
+            {
+                var unicodeCategory = CharUnicodeInfo.GetUnicodeCategory(c);
+                if (unicodeCategory != UnicodeCategory.NonSpacingMark)
+                {
+                    stringBuilder.Append(c);
+                }
+            }
+
+            return stringBuilder.ToString().Normalize(NormalizationForm.FormC);
+        }
+
+        public static string GetValueOrNull(this string str)
+        {
+            if (string.IsNullOrEmpty(str))
+            {
+                return null;
+            }
+
+            return str;
+        }
+
+        public static Control GetControl(this Control control, string controlName)
+        {
+            return control.Controls.ContainsKey(controlName)
+                ? control.Controls[controlName]
+                : null;
         }
 
         public static bool IsFileLocked(FileInfo file)

@@ -23,12 +23,12 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Atendimento
 
         protected override void ChamadaSalvar(object sender, EventArgs e)
         {
-            //var result = (Presenter as ClientePresenter)?.Salve();
-            //if (result.Any())
-            //{
-            //    result.ToList().ForEach(x => MessageBox.Show(x.Mensagem, "Inconsistência"));
-            //    return;
-            //}
+            var result = (Presenter as ClientePresenter)?.Salve();
+            if (result.Any())
+            {
+                result.ToList().ForEach(x => MessageBox.Show(x.Mensagem, "Inconsistência"));
+                return;
+            }
 
             var cadastroOuAtualizacao = TipoDeForm == EnumTipoDeForm.Cadastro ? "Cadastrado" : "Atualizado";
             MessageBox.Show($"{cadastroOuAtualizacao} com sucesso!", "Resultado");
@@ -71,7 +71,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Atendimento
 
         private void FrmCliente_Load(object sender, EventArgs e)
         {
-            tabControl.SelectedTab = tabDadosCadastrais;
+            ((ClientePresenter)Presenter).Load();
         }
 
         private void PictureBox1_Click(object sender, EventArgs e)

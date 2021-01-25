@@ -119,6 +119,7 @@
       <HintPath>..\packages\OleDB_dotNET.1.2.0\lib\net40\OleDB.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
     <Reference Include="Raven.Client, Version=5.0.4.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
       <HintPath>..\packages\RavenDB.Client.5.0.4\lib\netstandard2.0\Raven.Client.dll</HintPath>
     </Reference>

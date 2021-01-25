@@ -1,12 +1,13 @@
 ﻿using GS.GestaoEmpresa.Solucao.Negocio.Objetos.Base;
 using System.Collections.Generic;
 using GS.GestaoEmpresa.Solucao.Negocio.Interfaces;
+using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores.Comuns;
 
 namespace GS.GestaoEmpresa.Solucao.Negocio.Objetos
 {
     public class Cliente : Pessoa, IConceitoComPendencia
     {
-        public bool Status { get; set; }
+        public EnumStatusToggle Status { get; set; }
 
         public string RazaoSocial { get; set; }
 

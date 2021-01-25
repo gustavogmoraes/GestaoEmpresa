@@ -125,6 +125,11 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         private void UpdateProductOnGrid(Produto produto, int quantidade, int? indice)
         {
+            if(!dgvProdutos.HasChildren && !dgvProdutos.Rows.OfType<DataGridViewRow>().Any())
+            {
+                return;
+            }
+
             var rowIndex = indice.GetValueOrDefault();
 
             dgvProdutos[colunaCodigoFabricante.Index, rowIndex].Value = produto.CodigoDoFabricante;
