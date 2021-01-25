@@ -103,6 +103,16 @@ namespace GS.GestaoEmpresa.Properties {
         /// <summary>
         ///   Consulta um recurso localizado do tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Centrais {
+            get {
+                object obj = ResourceManager.GetObject("Centrais", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta um recurso localizado do tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Conexao {
             get {
                 object obj = ResourceManager.GetObject("Conexao", resourceCulture);
@@ -196,6 +206,16 @@ namespace GS.GestaoEmpresa.Properties {
         internal static string FrmEstoque_ChamadaImportarPlanilha_Tempo_de_execução___0_ {
             get {
                 return ResourceManager.GetString("FrmEstoque_ChamadaImportarPlanilha_Tempo_de_execução___0_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta um recurso localizado do tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap impactas {
+            get {
+                object obj = ResourceManager.GetObject("impactas", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         

@@ -3,15 +3,22 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
+using System.Data;
+using System.IO;
 using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Collections.Concurrent;
+using System.Threading;
 //
 
 // Third-party
 using LinqToExcel;
+using MoreLinq;
+using OfficeOpenXml;
+using Raven.Client.Documents.Linq;
 //
 
 // Ours
@@ -23,16 +30,12 @@ using GS.GestaoEmpresa.Solucao.UI.Base;
 using GS.GestaoEmpresa.Solucao.UI.ControlesGenericos;
 using GS.GestaoEmpresa.Solucao.Utilitarios;
 using GS.GestaoEmpresa.Solucao.Persistencia.BancoDeDados;
-using GS.GestaoEmpresa.Solucao.Persistencia.Repositorios;
-using OfficeOpenXml;
-using System.Data;
-using System.IO;
-using OfficeOpenXml.Style;
+using MetroFramework.Forms;
 //
 
 namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 {
-    public partial class FrmEstoque : Form, IView
+    public partial class FrmEstoque : MetroForm, IView
     {
         #region Fields
 
@@ -854,7 +857,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                     txtQtyProgresso.Visible = false;
                     metroProgressImportar.Visible = false;
 
-                    button1.Enabled = true;
+                    btnImportarTabelaPrecosIntelbras.Enabled = true;
                 });
             }, TaskScheduler.FromCurrentSynchronizationContext());
 
@@ -921,15 +924,14 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             var y = e.CellBounds.Top + (e.CellBounds.Height - h) / 2;
 
             e.Graphics.DrawImage(Resources.detalhar, new Rectangle(x, y, w, h));
-            e.Handled = true;
         }
+
+        public const string CODIGO_COR_VERMELHA = "FF0000";
+        public const int NUMERO_COLUNA_PRECO_DE_COMPRA = 5;
+        public const int NUMERO_COLUNA_PRECO_DISTRIBUIDOR = 6;
 
         private void button2_Click(object sender, EventArgs e)
         {
-            const string CODIGO_COR_VERMELHA = "FF0000";
-            const int NUMERO_COLUNA_PRECO_DE_COMPRA = 5;
-            const int NUMERO_COLUNA_PRECO_DISTRIBUIDOR = 6;
-
             var fileDialog = new OpenFileDialog { Filter = "Excel Files|*.xls;*.xlsx;*.xlsb" };
 
             var dialogResult = fileDialog.ShowDialog();
@@ -946,62 +948,259 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                 return;
             }
 
-            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-            using var excelPackage = new ExcelPackage(fileInfo);
-            foreach (var planilha in excelPackage.Workbook.Worksheets)
+            var stpWatch = new Stopwatch();
+            stpWatch.Start();
+
+            Task.Run(() => ServicoDeProduto.KeepTimeRunning(stpWatch, this, txtCronometroImportar));
+            Task.Run(() => ExporteParaPlanilhasCentrais(fileInfo)).ContinueWith(taskResult =>
             {
-                // 4320010
-                // var corDoTexto = celula.Style.Font.Color;
+                stpWatch.Stop();
 
-                var celula = planilha.Cells["A3"];
-                var texto = celula.Text.Trim();
-                
-                if (texto.Length != 7)
+                Invoke((MethodInvoker)delegate
                 {
-                    continue;
-                }
+                    MessageBox.Show(
+                    $"Concluído com sucesso em {txtCronometroImportar.Text}\n" +
+                    $"{taskResult.Result} produtos atualizados",
+                    $"Sucesso");
 
-                // Daqui pra baixo, só roda se o texto for maior que 7 caracteres
+                    txtQtyProgresso.Text = "?/?";
+                    txtCronometroImportar.Text = "00:00";
+                    txtCronometroImportar.Visible = false;
+                    txtQtyProgresso.Visible = false;
+                    metroProgressImportar.Visible = false;
 
-                // Loop pra cada linha
-                for(int i = 3; i < planilha.Cells.Rows; i++)
+                    btnAtualizarPlanilhaDeCentrais.Enabled = true;
+                });
+            }, TaskScheduler.FromCurrentSynchronizationContext());
+
+            GC.Collect();
+        }
+
+        private void SetupProgressBar(Control forControl, string text)
+        {
+            Invoke((MethodInvoker)delegate
+            {
+                forControl.Enabled = false;
+
+                metroProgressImportar.Visible = true;
+                metroProgressImportar.Value = 1;
+
+                txtQtyProgresso.Visible = true;
+                txtCronometroImportar.Visible = true;
+
+                txtQtyProgresso.Text = text;
+            });
+        }
+
+        private void UpdateProgressBar(ref int totalAdded, int[] items, int totalCount)
+        {
+            totalAdded++;
+
+            var text = $"{totalAdded}/{totalCount}";
+            Invoke((MethodInvoker)delegate { txtQtyProgresso.Text = text; });
+
+            if (totalAdded.IsAny(items))
+            {
+                Invoke((MethodInvoker)delegate { metroProgressImportar.Value += 1; });
+            }
+        }
+
+        private void UpdateProgressBar(string message)
+        {
+            Invoke((MethodInvoker)delegate 
+            {
+                txtQtyProgresso.Text = message;
+                metroProgressImportar.Value += 1;
+            });
+        }
+
+        private readonly Func<ExcelWorksheet, bool> WorksheetFilter = x => 
+            x.Cells["A3"]?.Text?.Trim()?.Length == 7;
+
+        private Dictionary<ExcelWorksheet, List<int>> GetRowsToProcessByWorksheet(
+            List<ExcelWorksheet> worksheets, out List<string> listOfIntelbrasCodes)
+        {
+            const int startingRow = 3;
+            var dictionary = new ConcurrentDictionary<ExcelWorksheet, List<int>>();
+            var list = new ConcurrentBag<string>();
+
+            Parallel.ForEach(worksheets, worksheet =>
+            {
+                for (int i = startingRow; i < worksheet.Cells.Rows; i++)
                 {
                     // Passa pra próxima linha se o texto celula A for vermelho
-                    var celulaA = planilha.Cells[i, 1];
-                    if (string.IsNullOrEmpty(celulaA.Text))
-                    {
-                        break;
-                    }
-
-                    if(celulaA.Style.Font.Color.Rgb == CODIGO_COR_VERMELHA)
+                    var celulaA = worksheet.Cells[i, 1];
+                    if (string.IsNullOrEmpty(celulaA.Text) || celulaA.Style.Font.Color.Rgb == CODIGO_COR_VERMELHA)
                     {
                         continue;
                     }
 
-                    var celulaC = planilha.Cells[i, 1];
-                    var codIntelbras = celulaC.Text.Trim();
-                    using var servicoDeProduto = new ServicoDeProduto();
-
-                    // Se não encontrar o produto dentro do sistema da Mega, 
-                    // muda o texto da celula A pra vermelho e passa pra próxima linha
-                    var produto = servicoDeProduto.Consulte(produto => produto.CodigoDoFabricante == codIntelbras);
-                    if (produto == null)
+                    if (!dictionary.ContainsKey(worksheet))
                     {
-                        var corVermelha = GSExtensions.ColorFromHexCode(CODIGO_COR_VERMELHA);
-                        celulaC.Style.Font.Color.SetColor(corVermelha);
-                        continue;
+                        dictionary.TryAdd(worksheet, new List<int>());
                     }
 
-                    planilha.Cells[i, NUMERO_COLUNA_PRECO_DE_COMPRA].Value = 
-                        Math.Round(produto.PrecoDeCompra.GetValueOrDefault(), 2);
-                    planilha.Cells[i, NUMERO_COLUNA_PRECO_DISTRIBUIDOR].Value =
-                        Math.Round(produto.PrecoDistribuidor.GetValueOrDefault(), 2);
+                    dictionary[worksheet].Add(i);
+                    list.Add(celulaA.Text.Trim());
                 }
-                
+            });
+
+            listOfIntelbrasCodes = list.ToList();
+
+            return dictionary.ToDictionary(x => x.Key, x => x.Value);
+        }
+
+        private int ExporteParaPlanilhasCentrais(FileInfo fileInfo)
+        {
+            SetupProgressBar(btnAtualizarPlanilhaDeCentrais, "Lendo arquivo");
+            Thread.Sleep(TimeSpan.FromSeconds(1.5));
+            UpdateProgressBar("Filtrando itens...");
+            var dataDeHoje = DateTime.Now.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
+
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+            using (var excelPackage = new ExcelPackage(fileInfo))
+            using (var servicoDeProduto = new ServicoDeProduto())
+            {
+                var quantidadeDeProdutosAtualizados = 0;
+
+                var totalAdded = 0;
+
+                var workSheetsToProcess = excelPackage.Workbook.Worksheets.Where(WorksheetFilter).ToList();
+                var rowGrouping = GetRowsToProcessByWorksheet(workSheetsToProcess, out var listOfIntelbrasCodes);
+
+                var totalItemsToProcess = rowGrouping.Sum(x => x.Value.Count);
+                var progressRange = GSExtensions.GetProgressRange(totalItemsToProcess);
+
+                var listOfProductsToUpdate = GetListOfProductsToUpdate(listOfIntelbrasCodes);
+
+                rowGrouping.ForEach(group =>
+                {
+                    var planilha = group.Key;
+                    group.Value.ForEach(linha =>
+                    {
+                        UpdateProgressBar(ref totalAdded, progressRange, totalItemsToProcess);
+
+                        var codeCell = planilha.Cells[linha, 1];
+                        var codigoIntelbras = codeCell.Text.Trim();
+
+                        // Se não encontrar o produto muda o texto da celula A pra vermelho e passa pra próxima linha
+                        var produto = listOfProductsToUpdate.FirstOrDefault(x => x.CodigoDoFabricante == codigoIntelbras);
+                        if (produto == null)
+                        {
+                            var corVermelha = GSExtensions.ColorFromHexCode(CODIGO_COR_VERMELHA);
+                            codeCell.Style.Font.Color.SetColor(corVermelha);
+                            return;
+                        }
+
+                        var precoDeCompraPlanilha = planilha.Cells[linha, NUMERO_COLUNA_PRECO_DE_COMPRA].Value;
+                        var precoDeCompraSistema = Math.Round(produto.PrecoDeCompra.GetValueOrDefault(), 2);
+
+                        var precoDistribuidorPlanilha = planilha.Cells[linha, NUMERO_COLUNA_PRECO_DISTRIBUIDOR].Value;
+                        var precoDistribuidorSistema = Math.Round(produto.PrecoDistribuidor.GetValueOrDefault(), 2);
+
+                        var atualizou = false;
+
+                        if(Convert.ToDecimal(precoDeCompraPlanilha) != precoDeCompraSistema)
+                        {
+                            precoDeCompraPlanilha = precoDeCompraSistema;
+                            atualizou = true;
+                        }
+
+                        if (Convert.ToDecimal(precoDistribuidorPlanilha) != precoDistribuidorSistema)
+                        {
+                            precoDistribuidorPlanilha = precoDistribuidorSistema;
+                            atualizou = true;
+                        }
+
+                        if(atualizou)
+                        {
+                            quantidadeDeProdutosAtualizados++;
+                        }
+                    });
+
+                    var titleCell = planilha.Cells["A1"];
+                    titleCell.Value = $"Atualizado {dataDeHoje}";
+                });
+
+                excelPackage.Save();
+
+                return quantidadeDeProdutosAtualizados;
+            }
+        }
+
+        private List<Produto> GetListOfProductsToUpdate(List<string> listOfIntelbrasCodes)
+        {
+            using (var ravenSession = RavenHelper.OpenSession())
+            {
+                return ravenSession
+                .Query<Produto>()
+                .Where(x => x.Atual && x.CodigoDoFabricante.In(listOfIntelbrasCodes))
+                .Select(x => new Produto
+                {
+                    Codigo = x.Codigo,
+                    CodigoDoFabricante = x.CodigoDoFabricante,
+                    PrecoDeCompra = x.PrecoDeCompra,
+                    PrecoDistribuidor = x.PrecoDistribuidor
+                })
+                .ToList();
+            }
+        }
+
+        private void ToggleButtonDescriptor(Button button)
+        {
+            if(lblButtonDescriptor.Visible)
+            {
+                lblButtonDescriptor.Text = "Button Descriptor";
+                lblButtonDescriptor.Visible = false;
+                return;
             }
 
-            excelPackage.Save();
-            MessageBox.Show("Falha ao pegar o arquivo", "Sucesso :D");
+            switch (button.Name)
+            {
+                case "btnImportarTabelaPrecosIntelbras":
+                    lblButtonDescriptor.Text = "Importa a tabela de preços da Intelbras para o sistema";
+                    break;
+
+                case "btnExportarProdutos":
+                    lblButtonDescriptor.Text = "Exporta os produtos cadastrados no sistema para um Excel";
+                    break;
+
+                case "btnAtualizarPlanilhaDeCentrais":
+                    lblButtonDescriptor.Text = "Atualiza uma planilha de centrais com os preços do sistema";
+                    break;
+            }
+
+            lblButtonDescriptor.Visible = true;
+        }
+
+        private void BtnImportarTabelaPrecosIntelbras_MouseEnter(object sender, EventArgs e)
+        {
+            ToggleButtonDescriptor(btnImportarTabelaPrecosIntelbras);
+        }
+
+        private void BtnImportarTabelaPrecosIntelbras_MouseLeave(object sender, EventArgs e)
+        {
+            ToggleButtonDescriptor(btnImportarTabelaPrecosIntelbras);
+        }
+
+        private void BtnAtualizarPlanilhaDeCentrais_MouseEnter_1(object sender, EventArgs e)
+        {
+            ToggleButtonDescriptor(btnAtualizarPlanilhaDeCentrais);
+        }
+
+        private void BtnAtualizarPlanilhaDeCentrais_MouseLeave(object sender, EventArgs e)
+        {
+            ToggleButtonDescriptor(btnAtualizarPlanilhaDeCentrais);
+        }
+
+        private void BtnExportarProdutos_MouseLeave(object sender, EventArgs e)
+        {
+            ToggleButtonDescriptor(btnExportarProdutos);
+        }
+
+        private void BtnExportarProdutos_MouseEnter(object sender, EventArgs e)
+        {
+            ToggleButtonDescriptor(btnExportarProdutos);
         }
     }
 }
