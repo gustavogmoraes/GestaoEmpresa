@@ -1030,13 +1030,15 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
                         if(Convert.ToDecimal(precoDeCompraPlanilha) != precoDeCompraSistema)
                         {
-                            precoDeCompraPlanilha = precoDeCompraSistema;
+                            planilha.Cells[linha, NUMERO_COLUNA_PRECO_DE_COMPRA].Value = precoDeCompraSistema;
+                            //precoDeCompraPlanilha = precoDeCompraSistema;
                             atualizou = true;
                         }
 
                         if (Convert.ToDecimal(precoDistribuidorPlanilha) != precoDistribuidorSistema)
                         {
-                            precoDistribuidorPlanilha = precoDistribuidorSistema;
+                            planilha.Cells[linha, NUMERO_COLUNA_PRECO_DISTRIBUIDOR].Value = precoDistribuidorSistema;
+                            //precoDistribuidorPlanilha = precoDistribuidorSistema;
                             atualizou = true;
                         }
 

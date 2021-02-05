@@ -1,6 +1,8 @@
 ﻿using GS.GestaoEmpresa.Solucao.Negocio.Atributos;
 using GS.GestaoEmpresa.Solucao.Negocio.Objetos;
 using GS.GestaoEmpresa.Solucao.Negocio.Servicos;
+using GS.GestaoEmpresa.Solucao.Persistencia.BancoDeDados;
+using GS.GestaoEmpresa.Solucao.Persistencia.Repositorios;
 using GS.GestaoEmpresa.Solucao.Utilitarios;
 using OfficeOpenXml;
 using System;
@@ -10,6 +12,7 @@ using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -32,51 +35,65 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         private void CarregueGrid()
         {
-            using (var servicoDeProduto = new ServicoDeProduto())
+            using var servicoDeProduto = new ServicoDeProduto();
+            var propriedades = GSUtilitarios.EncontrePropriedadeMarcadaComAtributo(typeof(Produto), typeof(Identificacao));
+            var propCodigo = propriedades.FirstOrDefault(x => x.Name == "Codigo");
+            propriedades.RemoveAll(x => x.Name == "Codigo");
+
+            propriedades.Insert(0, propCodigo);
+
+            var propsAndLabels = propriedades.ObtenhaPropriedadesELabels().ToList();
+
+            propsAndLabels.ForEach(x => gridExportacao.Columns.Add(x.Key.Name, x.Value));
+            gridExportacao.Columns.Add("Quantidade", "Quantidade");
+
+            foreach (DataGridViewColumn column in gridExportacao.Columns)
             {
-                var propriedades = GSUtilitarios.EncontrePropriedadeMarcadaComAtributo(typeof(Produto), typeof(Identificacao))
-                                                .ObtenhaPropriedadesELabels().ToList();
-
-                propriedades.ForEach(x => gridExportacao.Columns.Add(x.Key.Name, x.Value));
-                
-                foreach(DataGridViewColumn column in gridExportacao.Columns)
-                {
-                    column.SortMode = DataGridViewColumnSortMode.NotSortable;
-                }
-
-                AjusteEstilo();
-                AjusteContextMenu();
-
-                var quantidadeDeRegistros = servicoDeProduto.ObtenhaQuantidadeDeRegistros();
-
-                var rng = new Random();
-                var listaProdutos = new List<Produto>();
-
-                for (int i = 0; i < 3; i++)
-                {
-                    int numeroAleatorio = rng.Next(1, quantidadeDeRegistros);
-                    listaProdutos.Add(servicoDeProduto.Consulte(numeroAleatorio));
-                }
-
-                listaProdutos.Sort((x, y) => x.Codigo.CompareTo(y.Codigo));
-
-                var quantidades = servicoDeProduto.ConsulteQuantidade(listaProdutos.Select(x => x.Codigo).ToList());
-
-                listaProdutos.ForEach(x =>
-                    gridExportacao.Rows.Add(
-                        x.Codigo,
-                        x.Status,
-                        x.Nome,
-                        x.Fabricante,
-                        x.CodigoDoFabricante,
-                        x.PrecoDeCompra.HasValue ? x.PrecoDeCompra.GetValueOrDefault().FormateParaStringMoedaReal() : string.Empty,
-                        x.PrecoDeVenda.HasValue ? x.PrecoDeVenda.GetValueOrDefault().FormateParaStringMoedaReal() : string.Empty,
-                        x.PorcentagemDeLucro,
-                        quantidades[x.Codigo],
-                        x.AvisarQuantidade.ConvertaValorBooleano(),
-                        x.QuantidadeMinimaParaAviso,
-                        x.Observacao));
+                column.SortMode = DataGridViewColumnSortMode.NotSortable;
             }
+
+            AjusteEstilo();
+            AjusteContextMenu();
+
+            var allCodes = RavenHelper.OpenSession().Query<Produto>()
+                .Where(x => x.Atual &&
+                            x.PrecoDeCompra != null &&
+                            x.PrecoDeVenda != null)
+                .OrderBy(x => x.Codigo)
+                .Select(x => x.Codigo)
+                .ToList();
+
+            var rng = new Random();
+            var listaProdutos = new List<Produto>();
+
+            for (int i = 0; i < 3; i++)
+            {
+                int numeroAleatorio = rng.Next(1, allCodes.Count);
+                var productCode = allCodes[numeroAleatorio];
+
+                listaProdutos.Add(servicoDeProduto.Consulte(productCode));
+            }
+
+            listaProdutos.Sort((x, y) => x.Codigo.CompareTo(y.Codigo));
+
+            var quantidades = servicoDeProduto.ConsulteQuantidade(listaProdutos.Select(x => x.Codigo).ToList());
+
+            listaProdutos.ForEach(x => gridExportacao.Rows.Add(GetValues(propsAndLabels, x, quantidades)));
+        }
+
+        private object[] GetValues(
+            List<KeyValuePair<PropertyInfo, string>> propsAndLabels, Produto produto, Dictionary<int, int> quantidades)
+        {
+            var valueList = new List<object>();
+
+            propsAndLabels.Where(x => x.Key.Name != "Quantidade")
+                .Select(x => x.Key.GetValue(produto) ?? string.Empty)
+                .ToList()
+                .ForEach(x => valueList.Add(x));
+
+            valueList.Add(quantidades[produto.Codigo]);
+
+            return valueList.ToArray();
         }
 
         private void InicieForm()
@@ -199,8 +216,9 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         private Task Exporte(string caminho)
         {
             var colunas = 
-                gridExportacao.Columns.Cast<DataGridViewColumn>().ToDictionary(
-                    x => typeof(Produto).GetProperty(x.Name), x => x.HeaderText);
+                gridExportacao.Columns.Cast<DataGridViewColumn>()
+                .Where(x => x.HeaderText != "Quantidade")
+                .ToDictionary( x => typeof(Produto).GetProperty(x.Name), x => x.HeaderText);
 
             var dataSet = new DataSet();
             dataSet.Tables.Add("Produtos");
@@ -212,9 +230,12 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             }
 
             var listaDeProdutos = new List<Produto>();
-            using (var servicoDeProduto = new ServicoDeProduto())
+            using (var repositorioDeProduto = new RepositorioDeProduto())
             {
-                listaDeProdutos = servicoDeProduto.ConsulteTodos().ToList();
+                listaDeProdutos = repositorioDeProduto.ConsulteTodos(
+                    takeQuantity: int.MaxValue,
+                    resultSelector: 
+                    ).ToList();
             }
 
             if (listaDeProdutos.Count > 0)
@@ -356,7 +377,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         {
             if(e.Column.Name == "Nome")
             {
-                //e.Column.Width = 500;
+                e.Column.Width = 200;
             }
         }
     }

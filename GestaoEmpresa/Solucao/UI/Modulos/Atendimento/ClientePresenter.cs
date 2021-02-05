@@ -95,7 +95,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Atendimento
                 var selectedTab = View.tabControl.SelectedTab;
                 if (selectedTab.Text == "+")
                 {
-                    _ = AddTabPageExternal(View.tabControlUnidades, selectedTab);
+                    //_ = AddTabPageExternal(View.tabControlUnidades, selectedTab);
                 }
             };
 
@@ -111,27 +111,27 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Atendimento
             }
         }
 
-        public TabPage AddTabPageExternal(TabControl tabControl, TabPage selectedTab, Image image = null, bool addInsteadOfInsert = false)
-        {
-            var tabName = GetTabName(tabControl);
-            var tabPage = GetTabPage(tabName);
+        //public TabPage AddTabPageExternal(TabControl tabControl, TabPage selectedTab, Image image = null, bool addInsteadOfInsert = false)
+        //{
+        //    var tabName = GetTabName(tabControl);
+        //    var tabPage = GetTabPage(tabName);
 
-            AddAttachButton(tabPage);
-            AddDeleteButton(tabPage);
-            AddDownloadButton(tabPage);
+        //    AddAttachButton(tabPage);
+        //    AddDeleteButton(tabPage);
+        //    AddDownloadButton(tabPage);
 
-            AddOrInsertTabPageIntoTabControl(tabControl, selectedTab, tabPage, addInsteadOfInsert);
+        //    AddOrInsertTabPageIntoTabControl(tabControl, selectedTab, tabPage, addInsteadOfInsert);
 
-            tabControl.SelectTab(tabPage);
-            tabPage.Focus();
+        //    tabControl.SelectTab(tabPage);
+        //    tabPage.Focus();
 
-            if (image != null)
-            {
-                AttachImageToTabPage(tabPage, image);
-            }
+        //    if (image != null)
+        //    {
+        //        AttachImageToTabPage(tabPage, image);
+        //    }
 
-            return tabPage;
-        }
+        //    return tabPage;
+        //}
 
         private List<Telefone> GetPhones(MetroGrid metroGrid)
         {
