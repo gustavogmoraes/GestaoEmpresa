@@ -12,16 +12,20 @@ using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using LicenseContext = OfficeOpenXml.LicenseContext;
 
 namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 {
     public partial class frmExportarProdutos : Form
     {
         private int? _columnIndex = null;
+
+        private List<PropertyInfo> _properties { get; set; }
 
         public frmExportarProdutos()
         {
@@ -79,6 +83,10 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             var quantidades = servicoDeProduto.ConsulteQuantidade(listaProdutos.Select(x => x.Codigo).ToList());
 
             listaProdutos.ForEach(x => gridExportacao.Rows.Add(GetValues(propsAndLabels, x, quantidades)));
+            _properties = propsAndLabels
+                .Select(x => x.Key)
+                .Where(x => x.Name != "Quantidade")
+                .ToList();
         }
 
         private object[] GetValues(
@@ -210,6 +218,8 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             if (!string.IsNullOrEmpty(saveFileDialog.FileName))
             {
                 Exporte(saveFileDialog.FileName);
+                MessageBox.Show("Exportado com sucesso", "Sucesso!");
+                this.Dispose();
             }
         }
 
@@ -225,35 +235,38 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
             foreach(var coluna in colunas)
             {
-                dataSet.Tables["Produtos"].Columns.Add(coluna.Value);
-                dataSet.Tables["Produtos"].Columns.Cast<DataColumn>().LastOrDefault().DataType = coluna.Key.PropertyType;
+                var column = dataSet.Tables["Produtos"].Columns.Add(coluna.Value);
+                column.DataType = coluna.Key.PropertyType.IsNullable()
+                    ? coluna.Key.PropertyType.GenericTypeArguments.First()
+                    : coluna.Key.PropertyType;
             }
 
-            var listaDeProdutos = new List<Produto>();
-            using (var repositorioDeProduto = new RepositorioDeProduto())
+            dataSet.Tables["Produtos"].Columns.Add("Quantidade");
+            dataSet.Tables["Produtos"].Columns.Cast<DataColumn>().LastOrDefault().DataType = typeof(int);
+
+            using var repositorioDeProduto = new RepositorioDeProduto();
+            var listaDeProdutos = repositorioDeProduto.ConsulteTodos(takeQuantity: int.MaxValue).ToList();
+            var quantidades = repositorioDeProduto.ConsulteQuantidade(listaDeProdutos.Select(x => x.Codigo).ToList());
+
+            if (listaDeProdutos.Count <= 0)
             {
-                listaDeProdutos = repositorioDeProduto.ConsulteTodos(
-                    takeQuantity: int.MaxValue,
-                    resultSelector: 
-                    ).ToList();
+                return null;
             }
 
-            if (listaDeProdutos.Count > 0)
+            foreach (var produto in listaDeProdutos)
             {
-                foreach(var produto in listaDeProdutos)
+                var linha = dataSet.Tables["Produtos"].NewRow();
+                foreach (var propriedade in colunas)
                 {
-                    var linha = dataSet.Tables["Produtos"].NewRow();
-
-                    foreach(var propriedade in colunas)
-                    {
-                        linha[propriedade.Value] = propriedade.Key.GetValue(produto);
-                    }
-
-                    dataSet.Tables["Produtos"].Rows.Add(linha);
+                    linha[propriedade.Value] = propriedade.Key.GetValue(produto) ?? DBNull.Value;
                 }
 
-                ExportarDataSetParaExcelEPPlus(dataSet, caminho);
+                linha["Quantidade"] = quantidades[produto.Codigo];
+
+                dataSet.Tables["Produtos"].Rows.Add(linha);
             }
+
+            ExportarDataSetParaExcelEPPlus(dataSet, caminho);
 
             return null;
         }
@@ -324,53 +337,52 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
             #endregion
 
-            using (var pacoteExcel = new ExcelPackage())
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+            using var pacoteExcel = new ExcelPackage();
+            foreach (DataTable tabela in dataSet.Tables)
             {
-                foreach(DataTable tabela in dataSet.Tables)
+                var planilha = pacoteExcel.Workbook.Worksheets.Add(tabela.TableName);
+
+                // Setta as colunas
+                for (int i = 1; i < tabela.Columns.Count + 1; i++)
                 {
-                    var planilha = pacoteExcel.Workbook.Worksheets.Add(tabela.TableName);
+                    planilha.Cells[1, i].Value = tabela.Columns[i - 1].ColumnName;
+                    planilha.Cells[1, i].Style.Font.Bold = true;
 
-                    // Setta as colunas
-                    for (int i = 1; i < tabela.Columns.Count + 1; i++)
+                    var dataType = tabela.Columns[i - 1].DataType;
+                    if (dataType.IsNumericType())
                     {
-                        planilha.Cells[1, i].Value = tabela.Columns[i - 1].ColumnName;
-                        planilha.Cells[1, i].Style.Font.Bold = true;
-
-                        var dataType = tabela.Columns[i - 1].DataType;
-                        if (dataType.IsNumericType())
-                        {
-                            planilha.Column(i).Style.Numberformat.Format = "#,##0";
-                        }
-
-                        var valorCelula = planilha.Cells[1, i].Value.ToString();
-                        if (valorCelula.Contains("nome") || valorCelula.Contains("NOME") || valorCelula.Contains("Nome"))
-                        {
-                            planilha.Column(i).Width = 35;
-                        }
-                        else if (valorCelula.Contains("bservações") || valorCelula.Contains("bservação"))
-                        {
-                            planilha.Column(i).Width = 40;
-                        }
-                        else
-                        {
-                            planilha.Column(i).AutoFit();
-                        }
+                        planilha.Column(i).Style.Numberformat.Format = "#,##0";
                     }
 
-                    // Setta as linhas
-                    for (int j = 0; j < tabela.Rows.Count; j++)
+                    var valorCelula = planilha.Cells[1, i].Value.ToString();
+                    if (valorCelula.Contains("nome") || valorCelula.Contains("NOME") || valorCelula.Contains("Nome"))
                     {
-                        for (int k = 0; k < tabela.Columns.Count; k++)
-                        {
-                            planilha.Cells[j + 2, k + 1].Value = tabela.Columns[k].DataType == typeof(bool)
-                                                               ? Convert.ToBoolean(tabela.Rows[j].ItemArray[k]).ConvertaValorBooleanoDescritivo()
-                                                               : tabela.Rows[j].ItemArray[k];
-                        }
+                        planilha.Column(i).Width = 35;
+                    }
+                    else if (valorCelula.Contains("bservações") || valorCelula.Contains("bservação"))
+                    {
+                        planilha.Column(i).Width = 40;
+                    }
+                    else
+                    {
+                        planilha.Column(i).AutoFit();
                     }
                 }
 
-                pacoteExcel.SaveAs(new FileInfo(caminho));
+                // Setta as linhas
+                for (int j = 0; j < tabela.Rows.Count; j++)
+                {
+                    for (int k = 0; k < tabela.Columns.Count; k++)
+                    {
+                        planilha.Cells[j + 2, k + 1].Value = tabela.Columns[k].DataType == typeof(bool)
+                                                           ? Convert.ToBoolean(tabela.Rows[j].ItemArray[k]).ConvertaValorBooleanoDescritivo()
+                                                           : tabela.Rows[j].ItemArray[k];
+                    }
+                }
             }
+
+            pacoteExcel.SaveAs(new FileInfo(caminho));
         }
 
         private void gridExportacao_ColumnAdded(object sender, DataGridViewColumnEventArgs e)

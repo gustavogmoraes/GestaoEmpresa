@@ -259,6 +259,23 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         private void frmEstoque_Load(object sender, EventArgs e)
         {
+            //using var session = RavenHelper.OpenSession();
+            //var prodsQtd = session.Query<ProdutoQuantidade>().ToList();
+            //var prods = session.Query<Produto>().Where(x => x.Atual).Select(x => x.Codigo);
+
+            //foreach(var prod in prods)
+            //{
+            //    if(!prodsQtd.Any(x => x.Codigo == prod))
+            //    {
+            //        session.Store(new ProdutoQuantidade
+            //        {
+            //            Codigo = prod,
+            //            Quantidade = 0
+            //        });
+            //    }
+            //}
+
+            //session.SaveChanges();
 
             // Teste de consultas
             //var repoProd = new RepositorioDeProduto();

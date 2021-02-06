@@ -534,7 +534,7 @@ namespace GS.GestaoEmpresa.Solucao.Utilitarios
         {
             var isIt = Nullable.GetUnderlyingType(type);
 
-            return isIt == null;
+            return isIt != null;
         }
 
         public static string RemoveDiacritics(this string text)

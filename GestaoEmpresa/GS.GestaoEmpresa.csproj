@@ -450,6 +450,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Solucao\Utilitarios\GSAssistenteDeDigitacao.cs" />
+    <Compile Include="Solucao\Utilitarios\LambdaExtensions.cs" />
     <EmbeddedResource Include="Solucao\Persistencia\BancoDeDados\UCSessaoSistema.resx">
       <DependentUpon>UCSessaoSistema.cs</DependentUpon>
     </EmbeddedResource>
