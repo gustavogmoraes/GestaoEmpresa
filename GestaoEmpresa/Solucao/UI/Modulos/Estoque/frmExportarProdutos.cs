@@ -210,9 +210,12 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         private void btnExportar_Click(object sender, EventArgs e)
         {
-            saveFileDialog = new SaveFileDialog();
-            saveFileDialog.Filter = "Planilha do Excel|*.xlsx";
-            saveFileDialog.Title = "Escolha o caminho";
+            saveFileDialog = new SaveFileDialog
+            {
+                Filter = "Planilha do Excel|*.xlsx",
+                Title = "Escolha o caminho",
+                FileName = $"Produtos sistema Mega {DateTime.Now.ToString("dd MM yyyy hh mm")}"
+            };
             saveFileDialog.ShowDialog();
 
             if (!string.IsNullOrEmpty(saveFileDialog.FileName))
@@ -259,6 +262,21 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                 foreach (var propriedade in colunas)
                 {
                     linha[propriedade.Value] = propriedade.Key.GetValue(produto) ?? DBNull.Value;
+                }
+
+                if(!quantidades.ContainsKey(produto.Codigo))
+                {
+                    using var session = RavenHelper.OpenSession();
+                    var prdQty = new ProdutoQuantidade
+                    {
+                        Codigo = produto.Codigo,
+                        Quantidade = 0
+                    };
+
+                    session.Store(prdQty);
+                    session.SaveChanges();
+
+                    quantidades.Add(produto.Codigo, 0);
                 }
 
                 linha["Quantidade"] = quantidades[produto.Codigo];
