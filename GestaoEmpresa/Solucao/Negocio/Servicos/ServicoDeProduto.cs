@@ -102,17 +102,22 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
 
         public List<Produto> ConsulteTodosParaAterrissagem(
             out Dictionary<int, int> quantidades,
+            bool onlyActives = true,
             Expression<Func<Produto, bool>> whereFilter = null,
             Expression<Func<Produto, object>> resultSelector = null,
             int takeQuantity = 500,
             string searchTerm = null,
             Expression<Func<Produto, object>>[] propertiesToSearch = null) 
         {
-            var properties2Search = propertiesToSearch ?? DefaultPropertiesToSearch;
             var selector = resultSelector ?? SeletorProdutoAterrissagem;
 
             var produtos = Repositorio.ConsulteTodos(
-                whereFilter, selector, takeQuantity, searchTerm, propertiesToSearch: properties2Search)
+                onlyActives,
+                whereFilter, 
+                selector, 
+                takeQuantity, 
+                searchTerm, 
+                propertiesToSearch: propertiesToSearch ?? DefaultPropertiesToSearch)
                 .ToList();
 
             var codigosProdutos = produtos.Select(x => x.Codigo).ToList();

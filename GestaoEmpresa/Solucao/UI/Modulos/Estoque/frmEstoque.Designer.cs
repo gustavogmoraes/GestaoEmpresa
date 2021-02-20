@@ -93,6 +93,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.btnNovaInteracao = new System.Windows.Forms.Button();
             this.lblDescricaoBotoes = new MetroFramework.Controls.MetroLabel();
+            this.chkQueryOnlyActive = new MetroFramework.Controls.MetroCheckBox();
             this.ucSessaoSistema2 = new GS.GestaoEmpresa.Solucao.Persistencia.BancoDeDados.UCSessaoSistema();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
@@ -207,7 +208,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             // 
             this.txtPesquisa.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtPesquisa.ForeColor = System.Drawing.Color.Silver;
-            this.txtPesquisa.Location = new System.Drawing.Point(46, 9);
+            this.txtPesquisa.Location = new System.Drawing.Point(46, 7);
             this.txtPesquisa.Name = "txtPesquisa";
             this.txtPesquisa.Size = new System.Drawing.Size(509, 26);
             this.txtPesquisa.TabIndex = 6;
@@ -232,6 +233,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             // tabProdutos
             // 
             this.tabProdutos.BackColor = System.Drawing.Color.Silver;
+            this.tabProdutos.Controls.Add(this.chkQueryOnlyActive);
             this.tabProdutos.Controls.Add(this.lblButtonDescriptor);
             this.tabProdutos.Controls.Add(this.btnAtualizarPlanilhaDeCentrais);
             this.tabProdutos.Controls.Add(this.txtQtyProgresso);
@@ -256,9 +258,9 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.lblButtonDescriptor.BackColor = System.Drawing.Color.Silver;
             this.lblButtonDescriptor.FontWeight = MetroFramework.MetroLabelWeight.Regular;
             this.lblButtonDescriptor.ForeColor = System.Drawing.SystemColors.Control;
-            this.lblButtonDescriptor.Location = new System.Drawing.Point(558, 4);
+            this.lblButtonDescriptor.Location = new System.Drawing.Point(677, 4);
             this.lblButtonDescriptor.Name = "lblButtonDescriptor";
-            this.lblButtonDescriptor.Size = new System.Drawing.Size(381, 34);
+            this.lblButtonDescriptor.Size = new System.Drawing.Size(262, 34);
             this.lblButtonDescriptor.Style = MetroFramework.MetroColorStyle.Black;
             this.lblButtonDescriptor.TabIndex = 17;
             this.lblButtonDescriptor.Text = "Button Descriptor";
@@ -310,7 +312,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             // metroProgressImportar
             // 
             this.metroProgressImportar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.metroProgressImportar.Location = new System.Drawing.Point(578, 10);
+            this.metroProgressImportar.Location = new System.Drawing.Point(642, 10);
             this.metroProgressImportar.Name = "metroProgressImportar";
             this.metroProgressImportar.Size = new System.Drawing.Size(189, 23);
             this.metroProgressImportar.TabIndex = 13;
@@ -363,7 +365,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             // 
             this.pictureBox3.BackColor = System.Drawing.Color.Silver;
             this.pictureBox3.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox3.Image")));
-            this.pictureBox3.Location = new System.Drawing.Point(8, 11);
+            this.pictureBox3.Location = new System.Drawing.Point(8, 9);
             this.pictureBox3.Name = "pictureBox3";
             this.pictureBox3.Size = new System.Drawing.Size(32, 24);
             this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -774,6 +776,19 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.lblDescricaoBotoes.Size = new System.Drawing.Size(0, 0);
             this.lblDescricaoBotoes.TabIndex = 12;
             // 
+            // chkQueryOnlyActive
+            // 
+            this.chkQueryOnlyActive.AutoSize = true;
+            this.chkQueryOnlyActive.Checked = true;
+            this.chkQueryOnlyActive.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkQueryOnlyActive.Location = new System.Drawing.Point(561, 6);
+            this.chkQueryOnlyActive.Name = "chkQueryOnlyActive";
+            this.chkQueryOnlyActive.Size = new System.Drawing.Size(104, 15);
+            this.chkQueryOnlyActive.TabIndex = 18;
+            this.chkQueryOnlyActive.Text = "Somente ativos";
+            this.chkQueryOnlyActive.UseCustomBackColor = true;
+            this.chkQueryOnlyActive.UseSelectable = true;
+            // 
             // ucSessaoSistema2
             // 
             this.ucSessaoSistema2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -789,7 +804,6 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.Gray;
             this.ClientSize = new System.Drawing.Size(1264, 681);
             this.Controls.Add(this.lblDescricaoBotoes);
             this.Controls.Add(this.pictureBox2);
@@ -797,11 +811,8 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.Controls.Add(this.btnCatalogo);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.tabControl1);
-            this.DoubleBuffered = true;
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "FrmEstoque";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Estoque";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmEstoque_FormClosing);
@@ -876,5 +887,6 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         public System.Windows.Forms.Button btnAtualizarPlanilhaDeCentrais;
         private MetroFramework.Controls.MetroLabel lblDescricaoBotoes;
         private MetroFramework.Controls.MetroLabel lblButtonDescriptor;
+        private MetroFramework.Controls.MetroCheckBox chkQueryOnlyActive;
     }
 }

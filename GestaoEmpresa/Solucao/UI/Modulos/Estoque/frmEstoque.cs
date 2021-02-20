@@ -381,7 +381,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             //Catálogo de Produtos
             using (var servicoDeProduto = new ServicoDeProduto())
             {
-                CarregueDataGridProdutos(servicoDeProduto.ConsulteTodosParaAterrissagem(out var quantidades), quantidades);
+                CarregueDataGridProdutos(servicoDeProduto.ConsulteTodosParaAterrissagem(out var quantidades, onlyActives: chkQueryOnlyActive.Checked), quantidades);
             }
 
             //Histórico de Produtos
@@ -449,11 +449,9 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                     this,
                     () =>
                     {
-                        using (var servicoDeProduto = new ServicoDeProduto())
-                        {
-                            var produto = servicoDeProduto.Consulte(codigoProduto);
-                            presenter = GerenciadorDeViews.Crie<ProdutoPresenter>(produto);
-                        }
+                        using var servicoDeProduto = new ServicoDeProduto();
+                        var produto = servicoDeProduto.Consulte(codigoProduto);
+                        presenter = GerenciadorDeViews.Crie<ProdutoPresenter>(produto);
                     },
                     () =>
                     {
@@ -472,11 +470,9 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                 this,
                 () =>
                 {
-                    using (var servicoDeProduto = new ServicoDeProduto())
-                    {
-                        var produto = servicoDeProduto.Consulte(codigoProduto);
-                        presenter = GerenciadorDeViews.Crie<ProdutoPresenter>(produto);
-                    }
+                    using var servicoDeProduto = new ServicoDeProduto();
+                    var produto = servicoDeProduto.Consulte(codigoProduto);
+                    presenter = GerenciadorDeViews.Crie<ProdutoPresenter>(produto);
                 },
                 () =>
                 {
@@ -570,9 +566,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                 if (string.IsNullOrEmpty(pesquisa))
                 {
                     using (var servicoDeProduto = new ServicoDeProduto())
-                    {
-                        CarregueDataGridProdutos(servicoDeProduto.ConsulteTodosParaAterrissagem(out var quantidades), quantidades);
-                    }
+                    CarregueDataGridProdutos(servicoDeProduto.ConsulteTodosParaAterrissagem(out var quantidades, onlyActives: chkQueryOnlyActive.Checked), quantidades);
                     processou = false;
                     return;
                 }
@@ -585,7 +579,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                         _txtPesquisaDeProdutoPreviousSearch = pesquisa;
                         using (var servicoDeProduto = new ServicoDeProduto())
                         {
-                            listaFiltrada = servicoDeProduto.ConsulteTodosParaAterrissagem(out qtds, searchTerm: pesquisa);
+                            listaFiltrada = servicoDeProduto.ConsulteTodosParaAterrissagem(out qtds, searchTerm: pesquisa, onlyActives: chkQueryOnlyActive.Checked);
                             processou = true;
                         }
                     },
@@ -682,10 +676,8 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             txtPesquisa.ForeColor = Color.Silver;
             txtPesquisa.Text = "Pesquisar...";
 
-            using (var servicoDeProduto = new ServicoDeProduto())
-            {
-                CarregueDataGridProdutos(servicoDeProduto.ConsulteTodosParaAterrissagem(out var quantidades), quantidades);
-            }
+            using var servicoDeProduto = new ServicoDeProduto();
+            CarregueDataGridProdutos(servicoDeProduto.ConsulteTodosParaAterrissagem(out var quantidades, onlyActives: chkQueryOnlyActive.Checked), quantidades);
         }
 
         public void btnRefreshHist_Click(object sender, EventArgs e)
@@ -710,45 +702,42 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                 return;
             }
 
-            using (var excelQueryFactory = new ExcelQueryFactory(fileDialog.FileName))
+            using var excelQueryFactory = new ExcelQueryFactory(fileDialog.FileName);
+            if (!excelQueryFactory.GetWorksheetNames().Contains("Tabela de Preços"))
             {
-                if (!excelQueryFactory.GetWorksheetNames().Contains("Tabela de Preços"))
-                {
-                    MessageBox.Show(
-                        "O xls informado não contém uma planilha chamada Tabela de Preços",
-                        "Arquivo inválido");
+                MessageBox.Show(
+                    "O xls informado não contém uma planilha chamada Tabela de Preços",
+                    "Arquivo inválido");
 
-                    return;
-                }
-
-                ChamadaImportarPlanilha(fileDialog.FileName);
+                return;
             }
+
+            ChamadaImportarPlanilha(fileDialog.FileName);
         }
 
         private void PesquisaDeInteracoesAssistent_Idled(object sender, EventArgs e)
         {
             Invoke(new MethodInvoker(() =>
             {
-                var pesquisa = txtPesquisaHistorico.Text.ToLowerInvariant().Trim();
+                var searchTerm = txtPesquisaHistorico.Text.ToLowerInvariant().Trim();
                 var listaFiltrada = new List<Interacao>();
                 var processou = false;
 
-                if (string.IsNullOrEmpty(pesquisa))
+                if (searchTerm.IsNullOrEmpty())
                 {
-                    if (string.IsNullOrEmpty(_cbPesquisaPorProdutoPreviousSearch) || _cbPesquisaPorProdutoPreviousSearch == pesquisa)
+                    if (_cbPesquisaPorProdutoPreviousSearch.IsNullOrEmpty() || 
+                        _cbPesquisaPorProdutoPreviousSearch == searchTerm)
                     {
                         processou = false;
                         return;
                     }
                 }
 
-                if (string.IsNullOrEmpty(pesquisa))
+                if (searchTerm.IsNullOrEmpty())
                 {
                     using (var servicoDeInteracao = new ServicoDeInteracao())
-                    {
-                        CarregueDataGridInteracoes(servicoDeInteracao.ConsulteTodasParaAterrissagem());
-                    }
-                    
+                    CarregueDataGridInteracoes(servicoDeInteracao.ConsulteTodasParaAterrissagem());
+
                     processou = false;
                     return;
                 }
@@ -757,12 +746,10 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                     this,
                     () =>
                     {
-                        _cbPesquisaPorProdutoPreviousSearch = pesquisa;
-                        using (var servicoDeProduto = new ServicoDeInteracao())
-                        {
-                            listaFiltrada = servicoDeProduto.ConsulteTodasParaAterrissagem(pesquisa);
-                            processou = true;
-                        }
+                        _cbPesquisaPorProdutoPreviousSearch = searchTerm;
+                        using var servicoDeInteracao = new ServicoDeInteracao();
+                        listaFiltrada = servicoDeInteracao.ConsulteTodasParaAterrissagem(searchTerm);
+                        processou = true;
                     },
                     () =>
                     {
@@ -1003,76 +990,73 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             var dataDeHoje = DateTime.Now.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
 
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-            using (var excelPackage = new ExcelPackage(fileInfo))
-            using (var servicoDeProduto = new ServicoDeProduto())
+            using var excelPackage = new ExcelPackage(fileInfo);
+            var quantidadeDeProdutosAtualizados = 0;
+
+            var totalAdded = 0;
+
+            var workSheetsToProcess = excelPackage.Workbook.Worksheets.Where(WorksheetFilter).ToList();
+            var rowGrouping = GetRowsToProcessByWorksheet(workSheetsToProcess, out var listOfIntelbrasCodes);
+
+            var totalItemsToProcess = rowGrouping.Sum(x => x.Value.Count);
+            var progressRange = GSExtensions.GetProgressRange(totalItemsToProcess);
+
+            var listOfProductsToUpdate = GetListOfProductsToUpdate(listOfIntelbrasCodes);
+
+            rowGrouping.ForEach(group =>
             {
-                var quantidadeDeProdutosAtualizados = 0;
-
-                var totalAdded = 0;
-
-                var workSheetsToProcess = excelPackage.Workbook.Worksheets.Where(WorksheetFilter).ToList();
-                var rowGrouping = GetRowsToProcessByWorksheet(workSheetsToProcess, out var listOfIntelbrasCodes);
-
-                var totalItemsToProcess = rowGrouping.Sum(x => x.Value.Count);
-                var progressRange = GSExtensions.GetProgressRange(totalItemsToProcess);
-
-                var listOfProductsToUpdate = GetListOfProductsToUpdate(listOfIntelbrasCodes);
-
-                rowGrouping.ForEach(group =>
+                var planilha = group.Key;
+                group.Value.ForEach(linha =>
                 {
-                    var planilha = group.Key;
-                    group.Value.ForEach(linha =>
-                    {
-                        UpdateProgressBar(ref totalAdded, progressRange, totalItemsToProcess);
+                    UpdateProgressBar(ref totalAdded, progressRange, totalItemsToProcess);
 
-                        var codeCell = planilha.Cells[linha, 1];
-                        var codigoIntelbras = codeCell.Text.Trim();
+                    var codeCell = planilha.Cells[linha, 1];
+                    var codigoIntelbras = codeCell.Text.Trim();
 
                         // Se não encontrar o produto muda o texto da celula A pra vermelho e passa pra próxima linha
                         var produto = listOfProductsToUpdate.FirstOrDefault(x => x.CodigoDoFabricante == codigoIntelbras);
-                        if (produto == null)
-                        {
-                            var corVermelha = GSExtensions.ColorFromHexCode(CODIGO_COR_VERMELHA);
-                            codeCell.Style.Font.Color.SetColor(corVermelha);
-                            return;
-                        }
+                    if (produto == null)
+                    {
+                        var corVermelha = GSExtensions.ColorFromHexCode(CODIGO_COR_VERMELHA);
+                        codeCell.Style.Font.Color.SetColor(corVermelha);
+                        return;
+                    }
 
-                        var precoDeCompraPlanilha = planilha.Cells[linha, NUMERO_COLUNA_PRECO_DE_COMPRA].Value;
-                        var precoDeCompraSistema = Math.Round(produto.PrecoDeCompra.GetValueOrDefault(), 2);
+                    var precoDeCompraPlanilha = planilha.Cells[linha, NUMERO_COLUNA_PRECO_DE_COMPRA].Value;
+                    var precoDeCompraSistema = Math.Round(produto.PrecoDeCompra.GetValueOrDefault(), 2);
 
-                        var precoDistribuidorPlanilha = planilha.Cells[linha, NUMERO_COLUNA_PRECO_DISTRIBUIDOR].Value;
-                        var precoDistribuidorSistema = Math.Round(produto.PrecoDistribuidor.GetValueOrDefault(), 2);
+                    var precoDistribuidorPlanilha = planilha.Cells[linha, NUMERO_COLUNA_PRECO_DISTRIBUIDOR].Value;
+                    var precoDistribuidorSistema = Math.Round(produto.PrecoDistribuidor.GetValueOrDefault(), 2);
 
-                        var atualizou = false;
+                    var atualizou = false;
 
-                        if(Convert.ToDecimal(precoDeCompraPlanilha) != precoDeCompraSistema)
-                        {
-                            planilha.Cells[linha, NUMERO_COLUNA_PRECO_DE_COMPRA].Value = precoDeCompraSistema;
+                    if (Convert.ToDecimal(precoDeCompraPlanilha) != precoDeCompraSistema)
+                    {
+                        planilha.Cells[linha, NUMERO_COLUNA_PRECO_DE_COMPRA].Value = precoDeCompraSistema;
                             //precoDeCompraPlanilha = precoDeCompraSistema;
                             atualizou = true;
-                        }
+                    }
 
-                        if (Convert.ToDecimal(precoDistribuidorPlanilha) != precoDistribuidorSistema)
-                        {
-                            planilha.Cells[linha, NUMERO_COLUNA_PRECO_DISTRIBUIDOR].Value = precoDistribuidorSistema;
+                    if (Convert.ToDecimal(precoDistribuidorPlanilha) != precoDistribuidorSistema)
+                    {
+                        planilha.Cells[linha, NUMERO_COLUNA_PRECO_DISTRIBUIDOR].Value = precoDistribuidorSistema;
                             //precoDistribuidorPlanilha = precoDistribuidorSistema;
                             atualizou = true;
-                        }
+                    }
 
-                        if(atualizou)
-                        {
-                            quantidadeDeProdutosAtualizados++;
-                        }
-                    });
-
-                    var titleCell = planilha.Cells["A1"];
-                    titleCell.Value = $"Atualizado {dataDeHoje}";
+                    if (atualizou)
+                    {
+                        quantidadeDeProdutosAtualizados++;
+                    }
                 });
 
-                excelPackage.Save();
+                var titleCell = planilha.Cells["A1"];
+                titleCell.Value = $"Atualizado {dataDeHoje}";
+            });
 
-                return quantidadeDeProdutosAtualizados;
-            }
+            excelPackage.Save();
+
+            return quantidadeDeProdutosAtualizados;
         }
 
         private List<Produto> GetListOfProductsToUpdate(List<string> listOfIntelbrasCodes)

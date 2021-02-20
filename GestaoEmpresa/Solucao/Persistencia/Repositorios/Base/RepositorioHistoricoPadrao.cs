@@ -7,6 +7,7 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using CSharpVerbalExpressions;
+using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores.Comuns;
 using GS.GestaoEmpresa.Solucao.Negocio.Interfaces;
 using GS.GestaoEmpresa.Solucao.Negocio.Objetos.Base;
 using GS.GestaoEmpresa.Solucao.Persistencia.BancoDeDados;
@@ -154,21 +155,8 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios.Base
 
         public int ObtenhaQuantidadeDeRegistros() => RavenHelper.OpenSession().Query<T>().Count(x => x.Atual);
 
-        //public IList<T> ConsulteTodos(Expression<Func<T, object>> seletor = null, Expression<Func<T, bool>> filtro = null, int takeQty = 500)
-        //{
-        //    var sessaoRaven = RavenHelper.OpenSession();
-        //    filtro = filtro?.AndAlso(_filtroAtual());
-
-        //    var queryable = filtro != null
-        //        ? sessaoRaven.Query<T>().Where(filtro)
-        //        : sessaoRaven.Query<T>().Where(_filtroAtual());
-
-        //    return seletor == null
-        //        ? queryable.Take(takeQty).ToList().ToList()
-        //        : queryable.Take(takeQty).Select(seletor).ToList().Cast<T>().ToList();
-        //}
-
         public IList<T> ConsulteTodos(
+            bool onlyActives = false,
             Expression<Func<T, bool>> whereFilter = null,
             Expression<Func<T, object>> resultSelector = null,
             int takeQuantity = 500,
@@ -187,6 +175,11 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios.Base
 
             var rQuery = RavenHelper.OpenSession()
                 .Query<T>();
+
+            if(onlyActives)
+            {
+                rQuery = rQuery.Where(x => x.Status == EnumStatusToggle.Ativo);
+            }
 
             if(useCurrentFilter)
             {

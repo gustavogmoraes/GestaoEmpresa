@@ -1,4 +1,5 @@
 ﻿using GS.GestaoEmpresa.Solucao.Negocio.Atributos;
+using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores.Comuns;
 using GS.GestaoEmpresa.Solucao.Negocio.Interfaces;
 using System;
 using System.Linq;
@@ -13,6 +14,8 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Objetos.Base
         public int Codigo { get; set; }
 
         public bool Atual { get; set; }
+
+        public EnumStatusToggle Status { get; set; }
 
         private DateTime _vigencia;
 
