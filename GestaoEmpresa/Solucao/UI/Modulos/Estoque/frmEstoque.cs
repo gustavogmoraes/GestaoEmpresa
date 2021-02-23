@@ -99,12 +99,14 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         public void ChamadaFecharForm(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            Dispose();
+            //GerenciadorDeViews.Exclua<FrmEstoque>();
         }
 
         public void ChamadaMinimizarForm(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            WindowState = FormWindowState.Minimized;
+            //GerenciadorDeViews.ObtenhaIndependente<FrmEstoque>(new Guid(IdInstancia)).WindowState = FormWindowState.Minimized;
         }
 
         public void RecarregueProdutoEspecifico(Produto produto, int quantidade)
@@ -376,7 +378,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
             //Módulo - Estoque
             //ucSessaoSistema1.DefinaModulo("Estoque", Resources.WhiteBox);
-            EscondaHeadersTabControl(tabControl1);
+            //EscondaHeadersTabControl(tabControl1);
 
             //Catálogo de Produtos
             using (var servicoDeProduto = new ServicoDeProduto())
@@ -636,7 +638,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         {
             tabControl1.SelectedTab = tabProdutos;
             ScrollSelecao.Height = btnCatalogo.Height;
-            ScrollSelecao.Top = 10;
+            ScrollSelecao.Top = btnCatalogo.Location.Y;
         }
 
         private void btnExportarExcel_Click(object sender, EventArgs e)
@@ -648,7 +650,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         {
             tabControl1.SelectedTab = tabHistorico;
             ScrollSelecao.Height = btnHistorico.Height;
-            ScrollSelecao.Top = 138;
+            ScrollSelecao.Top = btnHistorico.Location.Y;
         }
 
         private void btnNovaInteracao_Click(object sender, EventArgs e)

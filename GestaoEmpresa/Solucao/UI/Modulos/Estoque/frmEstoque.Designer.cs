@@ -29,30 +29,30 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmEstoque));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle22 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle23 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle19 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle20 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle21 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle24 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle27 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle28 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle25 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle26 = new System.Windows.Forms.DataGridViewCellStyle();
             this.btnCatalogo = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
             this.ScrollSelecao = new System.Windows.Forms.Panel();
             this.btnHistorico = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.txtPesquisa = new System.Windows.Forms.TextBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabProdutos = new System.Windows.Forms.TabPage();
+            this.chkQueryOnlyActive = new MetroFramework.Controls.MetroCheckBox();
             this.lblButtonDescriptor = new MetroFramework.Controls.MetroLabel();
             this.btnAtualizarPlanilhaDeCentrais = new System.Windows.Forms.Button();
             this.txtQtyProgresso = new MetroFramework.Controls.MetroLabel();
@@ -93,10 +93,8 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.btnNovaInteracao = new System.Windows.Forms.Button();
             this.lblDescricaoBotoes = new MetroFramework.Controls.MetroLabel();
-            this.chkQueryOnlyActive = new MetroFramework.Controls.MetroCheckBox();
-            this.ucSessaoSistema2 = new GS.GestaoEmpresa.Solucao.Persistencia.BancoDeDados.UCSessaoSistema();
+            this.gsTopBorder1 = new GS.GestaoEmpresa.Solucao.UI.ControlesGenericos.GSTopBorder();
             this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tabProdutos.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
@@ -116,9 +114,9 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.btnCatalogo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCatalogo.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnCatalogo.ForeColor = System.Drawing.Color.DimGray;
-            this.btnCatalogo.Location = new System.Drawing.Point(1149, 63);
+            this.btnCatalogo.Location = new System.Drawing.Point(11, 6);
             this.btnCatalogo.Name = "btnCatalogo";
-            this.btnCatalogo.Size = new System.Drawing.Size(118, 107);
+            this.btnCatalogo.Size = new System.Drawing.Size(114, 107);
             this.btnCatalogo.TabIndex = 7;
             this.btnCatalogo.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.btnCatalogo.UseVisualStyleBackColor = false;
@@ -132,12 +130,13 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel1.Controls.Add(this.ScrollSelecao);
             this.panel1.Controls.Add(this.btnHistorico);
+            this.panel1.Controls.Add(this.btnCatalogo);
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.panel1.Location = new System.Drawing.Point(1139, 46);
+            this.panel1.Location = new System.Drawing.Point(1139, 25);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(140, 647);
+            this.panel1.Size = new System.Drawing.Size(140, 656);
             this.panel1.TabIndex = 9;
             // 
             // ScrollSelecao
@@ -145,9 +144,9 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.ScrollSelecao.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.ScrollSelecao.BackColor = System.Drawing.Color.SteelBlue;
             this.ScrollSelecao.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.ScrollSelecao.Location = new System.Drawing.Point(1, 16);
+            this.ScrollSelecao.Location = new System.Drawing.Point(1, 10);
             this.ScrollSelecao.Name = "ScrollSelecao";
-            this.ScrollSelecao.Size = new System.Drawing.Size(11, 106);
+            this.ScrollSelecao.Size = new System.Drawing.Size(9, 106);
             this.ScrollSelecao.TabIndex = 0;
             // 
             // btnHistorico
@@ -159,7 +158,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.btnHistorico.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnHistorico.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnHistorico.ForeColor = System.Drawing.Color.DimGray;
-            this.btnHistorico.Location = new System.Drawing.Point(7, 138);
+            this.btnHistorico.Location = new System.Drawing.Point(7, 125);
             this.btnHistorico.Name = "btnHistorico";
             this.btnHistorico.Size = new System.Drawing.Size(118, 106);
             this.btnHistorico.TabIndex = 1;
@@ -173,7 +172,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.label2.BackColor = System.Drawing.Color.Transparent;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 26.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.Color.White;
-            this.label2.Location = new System.Drawing.Point(6, 214);
+            this.label2.Location = new System.Drawing.Point(6, 204);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(357, 39);
             this.label2.TabIndex = 3;
@@ -185,24 +184,11 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.label1.BackColor = System.Drawing.Color.Transparent;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 26.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(6, 96);
+            this.label1.Location = new System.Drawing.Point(6, 81);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(357, 39);
             this.label1.TabIndex = 2;
             this.label1.Text = "_________________";
-            // 
-            // pictureBox2
-            // 
-            this.pictureBox2.BackColor = System.Drawing.Color.SteelBlue;
-            this.pictureBox2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.pictureBox2.Image = global::GS.GestaoEmpresa.Properties.Resources.BoxBlueShort;
-            this.pictureBox2.InitialImage = global::GS.GestaoEmpresa.Properties.Resources.BoxBlueShort;
-            this.pictureBox2.Location = new System.Drawing.Point(-2, 0);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(68, 50);
-            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox2.TabIndex = 11;
-            this.pictureBox2.TabStop = false;
             // 
             // txtPesquisa
             // 
@@ -224,10 +210,10 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl1.Controls.Add(this.tabProdutos);
             this.tabControl1.Controls.Add(this.tabHistorico);
-            this.tabControl1.Location = new System.Drawing.Point(-14, 46);
+            this.tabControl1.Location = new System.Drawing.Point(-14, 4);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1183, 638);
+            this.tabControl1.Size = new System.Drawing.Size(1183, 685);
             this.tabControl1.TabIndex = 8;
             // 
             // tabProdutos
@@ -249,9 +235,22 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.tabProdutos.Location = new System.Drawing.Point(4, 22);
             this.tabProdutos.Name = "tabProdutos";
             this.tabProdutos.Padding = new System.Windows.Forms.Padding(3);
-            this.tabProdutos.Size = new System.Drawing.Size(1175, 612);
+            this.tabProdutos.Size = new System.Drawing.Size(1175, 659);
             this.tabProdutos.TabIndex = 0;
             this.tabProdutos.Text = "tabProdutos";
+            // 
+            // chkQueryOnlyActive
+            // 
+            this.chkQueryOnlyActive.AutoSize = true;
+            this.chkQueryOnlyActive.Checked = true;
+            this.chkQueryOnlyActive.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkQueryOnlyActive.Location = new System.Drawing.Point(561, 6);
+            this.chkQueryOnlyActive.Name = "chkQueryOnlyActive";
+            this.chkQueryOnlyActive.Size = new System.Drawing.Size(104, 15);
+            this.chkQueryOnlyActive.TabIndex = 18;
+            this.chkQueryOnlyActive.Text = "Somente ativos";
+            this.chkQueryOnlyActive.UseCustomBackColor = true;
+            this.chkQueryOnlyActive.UseSelectable = true;
             // 
             // lblButtonDescriptor
             // 
@@ -394,14 +393,14 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvProdutos.BackgroundColor = System.Drawing.Color.Silver;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.Silver;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.ControlDark;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvProdutos.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle15.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle15.BackColor = System.Drawing.Color.Silver;
+            dataGridViewCellStyle15.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle15.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle15.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle15.SelectionForeColor = System.Drawing.SystemColors.ControlDark;
+            dataGridViewCellStyle15.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvProdutos.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle15;
             this.dgvProdutos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvProdutos.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colunaCodigo,
@@ -414,30 +413,30 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.colunaPrecoVenda,
             this.colunaQuantidade,
             this.colunaDetalhar});
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle8.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvProdutos.DefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle22.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle22.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle22.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle22.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle22.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle22.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle22.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvProdutos.DefaultCellStyle = dataGridViewCellStyle22;
             this.dgvProdutos.GridColor = System.Drawing.Color.Silver;
             this.dgvProdutos.Location = new System.Drawing.Point(10, 41);
             this.dgvProdutos.Name = "dgvProdutos";
             this.dgvProdutos.ReadOnly = true;
-            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle9.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle9.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle9.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle9.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle9.SelectionForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvProdutos.RowHeadersDefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle23.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle23.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle23.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle23.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle23.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle23.SelectionForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle23.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvProdutos.RowHeadersDefaultCellStyle = dataGridViewCellStyle23;
             this.dgvProdutos.RowHeadersWidth = 25;
             this.dgvProdutos.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.dgvProdutos.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvProdutos.Size = new System.Drawing.Size(1135, 567);
+            this.dgvProdutos.Size = new System.Drawing.Size(1135, 614);
             this.dgvProdutos.TabIndex = 0;
             this.dgvProdutos.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvProdutos_CellContentClick);
             this.dgvProdutos.CellContentDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvProdutos_CellDoubleClick);
@@ -446,8 +445,8 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             // colunaCodigo
             // 
             this.colunaCodigo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.BottomRight;
-            this.colunaCodigo.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle16.Alignment = System.Windows.Forms.DataGridViewContentAlignment.BottomRight;
+            this.colunaCodigo.DefaultCellStyle = dataGridViewCellStyle16;
             this.colunaCodigo.HeaderText = "Código";
             this.colunaCodigo.MinimumWidth = 10;
             this.colunaCodigo.Name = "colunaCodigo";
@@ -482,8 +481,8 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             // colunaPrecoCompra
             // 
             this.colunaPrecoCompra.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.BottomRight;
-            this.colunaPrecoCompra.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle17.Alignment = System.Windows.Forms.DataGridViewContentAlignment.BottomRight;
+            this.colunaPrecoCompra.DefaultCellStyle = dataGridViewCellStyle17;
             this.colunaPrecoCompra.HeaderText = "Preço de Compra";
             this.colunaPrecoCompra.MinimumWidth = 10;
             this.colunaPrecoCompra.Name = "colunaPrecoCompra";
@@ -491,8 +490,8 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             // 
             // colunaPrecoDistribuidor
             // 
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.BottomRight;
-            this.colunaPrecoDistribuidor.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle18.Alignment = System.Windows.Forms.DataGridViewContentAlignment.BottomRight;
+            this.colunaPrecoDistribuidor.DefaultCellStyle = dataGridViewCellStyle18;
             this.colunaPrecoDistribuidor.HeaderText = "Preço Distribuidor";
             this.colunaPrecoDistribuidor.MinimumWidth = 10;
             this.colunaPrecoDistribuidor.Name = "colunaPrecoDistribuidor";
@@ -501,8 +500,8 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             // 
             // colunaPscf
             // 
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.BottomRight;
-            this.colunaPscf.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle19.Alignment = System.Windows.Forms.DataGridViewContentAlignment.BottomRight;
+            this.colunaPscf.DefaultCellStyle = dataGridViewCellStyle19;
             this.colunaPscf.HeaderText = "PSCF";
             this.colunaPscf.Name = "colunaPscf";
             this.colunaPscf.ReadOnly = true;
@@ -510,8 +509,8 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             // colunaPrecoVenda
             // 
             this.colunaPrecoVenda.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.BottomRight;
-            this.colunaPrecoVenda.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle20.Alignment = System.Windows.Forms.DataGridViewContentAlignment.BottomRight;
+            this.colunaPrecoVenda.DefaultCellStyle = dataGridViewCellStyle20;
             this.colunaPrecoVenda.HeaderText = "Preço de Venda";
             this.colunaPrecoVenda.MinimumWidth = 10;
             this.colunaPrecoVenda.Name = "colunaPrecoVenda";
@@ -520,8 +519,8 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             // colunaQuantidade
             // 
             this.colunaQuantidade.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.BottomRight;
-            this.colunaQuantidade.DefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle21.Alignment = System.Windows.Forms.DataGridViewContentAlignment.BottomRight;
+            this.colunaQuantidade.DefaultCellStyle = dataGridViewCellStyle21;
             this.colunaQuantidade.HeaderText = "Qtd. em estoque";
             this.colunaQuantidade.MinimumWidth = 10;
             this.colunaQuantidade.Name = "colunaQuantidade";
@@ -574,14 +573,14 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvHistorico.BackgroundColor = System.Drawing.Color.Silver;
-            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle10.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle10.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle10.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle10.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle10.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle10.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvHistorico.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle10;
+            dataGridViewCellStyle24.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle24.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle24.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle24.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle24.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle24.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle24.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvHistorico.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle24;
             this.dgvHistorico.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvHistorico.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colunaCodigoInteracao,
@@ -596,26 +595,26 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.colunaValor,
             this.colunaHorario,
             this.colunaDetalharHist});
-            dataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle13.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle13.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle13.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle13.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle13.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle13.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvHistorico.DefaultCellStyle = dataGridViewCellStyle13;
+            dataGridViewCellStyle27.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle27.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle27.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle27.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle27.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle27.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle27.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvHistorico.DefaultCellStyle = dataGridViewCellStyle27;
             this.dgvHistorico.GridColor = System.Drawing.Color.Silver;
             this.dgvHistorico.Location = new System.Drawing.Point(11, 42);
             this.dgvHistorico.Name = "dgvHistorico";
             this.dgvHistorico.ReadOnly = true;
-            dataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle14.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle14.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle14.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle14.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle14.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle14.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvHistorico.RowHeadersDefaultCellStyle = dataGridViewCellStyle14;
+            dataGridViewCellStyle28.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle28.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle28.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle28.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle28.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle28.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle28.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvHistorico.RowHeadersDefaultCellStyle = dataGridViewCellStyle28;
             this.dgvHistorico.RowHeadersWidth = 25;
             this.dgvHistorico.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.dgvHistorico.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
@@ -701,10 +700,10 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             // 
             // colunaValor
             // 
-            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.BottomRight;
-            dataGridViewCellStyle11.Format = "R$ 0";
-            dataGridViewCellStyle11.NullValue = "R$ 0,00";
-            this.colunaValor.DefaultCellStyle = dataGridViewCellStyle11;
+            dataGridViewCellStyle25.Alignment = System.Windows.Forms.DataGridViewContentAlignment.BottomRight;
+            dataGridViewCellStyle25.Format = "R$ 0";
+            dataGridViewCellStyle25.NullValue = "R$ 0,00";
+            this.colunaValor.DefaultCellStyle = dataGridViewCellStyle25;
             this.colunaValor.HeaderText = "Valor";
             this.colunaValor.MinimumWidth = 10;
             this.colunaValor.Name = "colunaValor";
@@ -713,8 +712,8 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             // 
             // colunaHorario
             // 
-            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.BottomRight;
-            this.colunaHorario.DefaultCellStyle = dataGridViewCellStyle12;
+            dataGridViewCellStyle26.Alignment = System.Windows.Forms.DataGridViewContentAlignment.BottomRight;
+            this.colunaHorario.DefaultCellStyle = dataGridViewCellStyle26;
             this.colunaHorario.HeaderText = "Horário";
             this.colunaHorario.MinimumWidth = 10;
             this.colunaHorario.Name = "colunaHorario";
@@ -776,50 +775,32 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.lblDescricaoBotoes.Size = new System.Drawing.Size(0, 0);
             this.lblDescricaoBotoes.TabIndex = 12;
             // 
-            // chkQueryOnlyActive
+            // gsTopBorder1
             // 
-            this.chkQueryOnlyActive.AutoSize = true;
-            this.chkQueryOnlyActive.Checked = true;
-            this.chkQueryOnlyActive.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkQueryOnlyActive.Location = new System.Drawing.Point(561, 6);
-            this.chkQueryOnlyActive.Name = "chkQueryOnlyActive";
-            this.chkQueryOnlyActive.Size = new System.Drawing.Size(104, 15);
-            this.chkQueryOnlyActive.TabIndex = 18;
-            this.chkQueryOnlyActive.Text = "Somente ativos";
-            this.chkQueryOnlyActive.UseCustomBackColor = true;
-            this.chkQueryOnlyActive.UseSelectable = true;
-            // 
-            // ucSessaoSistema2
-            // 
-            this.ucSessaoSistema2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.gsTopBorder1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.ucSessaoSistema2.BackColor = System.Drawing.Color.SteelBlue;
-            this.ucSessaoSistema2.Location = new System.Drawing.Point(-10, -12);
-            this.ucSessaoSistema2.Margin = new System.Windows.Forms.Padding(6);
-            this.ucSessaoSistema2.Name = "ucSessaoSistema2";
-            this.ucSessaoSistema2.Size = new System.Drawing.Size(1289, 66);
-            this.ucSessaoSistema2.TabIndex = 10;
+            this.gsTopBorder1.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            this.gsTopBorder1.Location = new System.Drawing.Point(0, 0);
+            this.gsTopBorder1.Name = "gsTopBorder1";
+            this.gsTopBorder1.Size = new System.Drawing.Size(1265, 26);
+            this.gsTopBorder1.TabIndex = 19;
             // 
             // FrmEstoque
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1264, 681);
+            this.Controls.Add(this.gsTopBorder1);
             this.Controls.Add(this.lblDescricaoBotoes);
-            this.Controls.Add(this.pictureBox2);
-            this.Controls.Add(this.ucSessaoSistema2);
-            this.Controls.Add(this.btnCatalogo);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.tabControl1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "FrmEstoque";
-            this.Text = "Estoque";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmEstoque_FormClosing);
             this.Load += new System.EventHandler(this.frmEstoque_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.tabControl1.ResumeLayout(false);
             this.tabProdutos.ResumeLayout(false);
             this.tabProdutos.PerformLayout();
@@ -842,8 +823,6 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         private System.Windows.Forms.Button btnHistorico;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.PictureBox pictureBox2;
-        private Persistencia.BancoDeDados.UCSessaoSistema ucSessaoSistema2;
         private System.Windows.Forms.TextBox txtPesquisa;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabProdutos;
@@ -888,5 +867,6 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         private MetroFramework.Controls.MetroLabel lblDescricaoBotoes;
         private MetroFramework.Controls.MetroLabel lblButtonDescriptor;
         private MetroFramework.Controls.MetroCheckBox chkQueryOnlyActive;
+        private ControlesGenericos.GSTopBorder gsTopBorder1;
     }
 }
