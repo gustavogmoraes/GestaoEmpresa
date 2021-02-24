@@ -1,12 +1,7 @@
 ﻿using GS.GestaoEmpresa.Solucao.Utilitarios;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
-using Raven.Client.Documents.Operations;
 using GS.GestaoEmpresa.Solucao.Negocio.Objetos;
 
 namespace GS.GestaoEmpresa.Solucao.Persistencia.BancoDeDados
@@ -38,12 +33,10 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.BancoDeDados
 
                 var textoDividido = texto.Split('|');
 
-                return new InformacoesConexaoBanco()
+                return new InformacoesConexaoBanco
                 {
                     Servidor = textoDividido[0],
-                    NomeBanco = textoDividido[1].ApliqueCriptografiaBasica(EnumCriptografiaBasica.Desencriptar),
-                    Usuario = textoDividido[2].ApliqueCriptografiaBasica(EnumCriptografiaBasica.Desencriptar),
-                    Senha = textoDividido[3].ApliqueCriptografiaBasica(EnumCriptografiaBasica.Desencriptar)
+                    NomeBanco = textoDividido[1]
                 };
             }
 
@@ -55,19 +48,13 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.BancoDeDados
         /// </summary>
         public static void SalveConfiguracoesConexaoNoArquivo(InformacoesConexaoBanco informacoesConexaoBanco, string diretorio, string nomeArquivo)
         {
-            //diretorio = diretorio.Remove(diretorio.Length - 1);
-
             if (File.Exists(diretorio + nomeArquivo))
-                File.Delete(diretorio + nomeArquivo);
-
-            using (var writer = new StreamWriter(diretorio + nomeArquivo, true))
             {
-                writer.WriteLine(
-                    $"{informacoesConexaoBanco.Servidor}|" +
-                    $"{informacoesConexaoBanco.NomeBanco.ApliqueCriptografiaBasica(EnumCriptografiaBasica.Encriptar)}|" +
-                    $"{informacoesConexaoBanco.Usuario.ApliqueCriptografiaBasica(EnumCriptografiaBasica.Encriptar)}|" +
-                    $"{informacoesConexaoBanco.Senha.ApliqueCriptografiaBasica(EnumCriptografiaBasica.Encriptar)}");
+                File.Delete(diretorio + nomeArquivo);
             }
+
+            using var writer = new StreamWriter(diretorio + nomeArquivo, true);
+            writer.WriteLine($"{informacoesConexaoBanco.Servidor}|{informacoesConexaoBanco.NomeBanco}");
         }
 
         public static bool VerificarStatusDaConexao { get; set; }
