@@ -38,6 +38,8 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             throw new NotImplementedException();
         }
 
+
+
         public EnumTipoDeForm TipoDeForm { get; set; }
 
         private enum EnumBotoesForm
@@ -518,6 +520,11 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         private void frmProduto_FormClosed(object sender, FormClosedEventArgs e)
         {
             ApagueInstancia();
+        }
+
+        public void ChamadaMaximizarForm(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
         }
     }
 }

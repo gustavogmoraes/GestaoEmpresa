@@ -99,14 +99,23 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         public void ChamadaFecharForm(object sender, EventArgs e)
         {
-            Dispose();
-            //GerenciadorDeViews.Exclua<FrmEstoque>();
+            GerenciadorDeViews.Exclua<FrmEstoque>(); GerenciadorDeViews.Exclua<FrmEstoque>();
         }
 
         public void ChamadaMinimizarForm(object sender, EventArgs e)
         {
             WindowState = FormWindowState.Minimized;
-            //GerenciadorDeViews.ObtenhaIndependente<FrmEstoque>(new Guid(IdInstancia)).WindowState = FormWindowState.Minimized;
+        }
+
+        public void ChamadaMaximizarForm(object sender, EventArgs e)
+        {
+            if(WindowState == FormWindowState.Maximized)
+            {
+                WindowState = FormWindowState.Normal;
+                return;
+            }
+
+            WindowState = FormWindowState.Maximized;
         }
 
         public void RecarregueProdutoEspecifico(Produto produto, int quantidade)

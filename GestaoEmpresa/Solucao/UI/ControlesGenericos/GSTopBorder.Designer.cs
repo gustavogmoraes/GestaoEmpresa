@@ -30,6 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GSTopBorder));
             this.btnClose = new System.Windows.Forms.Label();
+            this.btnMaximize = new System.Windows.Forms.Label();
             this.btnMinimize = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
@@ -40,12 +41,19 @@
             this.btnClose.Name = "btnClose";
             this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
             // 
+            // btnMaximize
+            // 
+            this.btnMaximize.Cursor = System.Windows.Forms.Cursors.Hand;
+            resources.ApplyResources(this.btnMaximize, "btnMaximize");
+            this.btnMaximize.Name = "btnMaximize";
+            this.btnMaximize.Click += new System.EventHandler(this.btnMaximize_Click);
+            // 
             // btnMinimize
             // 
             this.btnMinimize.Cursor = System.Windows.Forms.Cursors.Hand;
             resources.ApplyResources(this.btnMinimize, "btnMinimize");
             this.btnMinimize.Name = "btnMinimize";
-            this.btnMinimize.Click += new System.EventHandler(this.btnMinimize_Click_1);
+            this.btnMinimize.Click += new System.EventHandler(this.btnMinimize_Click);
             // 
             // GSTopBorder
             // 
@@ -53,6 +61,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
             this.Controls.Add(this.btnMinimize);
+            this.Controls.Add(this.btnMaximize);
             this.Controls.Add(this.btnClose);
             this.Name = "GSTopBorder";
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.GSTopBorder_MouseDown);
@@ -62,6 +71,7 @@
 
         #endregion
         private System.Windows.Forms.Label btnClose;
+        private System.Windows.Forms.Label btnMaximize;
         private System.Windows.Forms.Label btnMinimize;
     }
 }

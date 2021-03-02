@@ -79,12 +79,23 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         public IPresenter Presenter { get; set; }
         public void ChamadaMinimizarForm(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            WindowState = FormWindowState.Minimized;
         }
 
         public void ChamadaFecharForm(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            GerenciadorDeViews.Exclua(typeof(frmInteracao), IdInstancia);
+        }
+
+        public void ChamadaMaximizarForm(object sender, EventArgs e)
+        {
+            if (WindowState == FormWindowState.Maximized)
+            {
+                WindowState = FormWindowState.Normal;
+                return;
+            }
+
+            WindowState = FormWindowState.Maximized;
         }
 
         protected CultureInfo Cultura = new CultureInfo("pt-BR");

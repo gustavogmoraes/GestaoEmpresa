@@ -149,9 +149,23 @@ namespace GS.GestaoEmpresa.Solucao.UI
             return null;
         }
 
-        public static void Exclua<T>()
+        public static void Exclua<T>(string idDaInstancia = null)
             where T : Form, IView
         {
+            if(idDaInstancia.IsNullOrEmpty())
+            {
+                if(ControladorDeInstanciasIndependentes.ContainsKey(typeof(T)))
+                {
+                    ControladorDeInstanciasIndependentes[typeof(T)].ForEach(x =>
+                    {
+                        x.Value.Close();
+                        x.Value.Dispose();
+                    });
+                    ControladorDeInstanciasIndependentes[typeof(T)].Clear();
+                }
+                return;
+            }
+
             var instancias = ControladorDeInstancias.Find(x => x.TipoDaView == typeof(T)).Instancias.Values;
             if (instancias != null && instancias.Count > 0)
             {

@@ -38,6 +38,17 @@ namespace GS.GestaoEmpresa.Solucao.UI.Principal
             Close();
         }
 
+        public void ChamadaMaximizarForm(object sender, EventArgs e)
+        {
+            if (WindowState == FormWindowState.Maximized)
+            {
+                WindowState = FormWindowState.Normal;
+                return;
+            }
+
+            WindowState = FormWindowState.Maximized;
+        }
+
         public EnumTipoDeForm TipoDeForm { get; set; }
 
 

@@ -136,6 +136,17 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
             
         }
 
+        public void ChamadaMaximizarForm(object sender, EventArgs e)
+        {
+            if (WindowState == FormWindowState.Maximized)
+            {
+                WindowState = FormWindowState.Normal;
+                return;
+            }
+
+            WindowState = FormWindowState.Maximized;
+        }
+
         #endregion
 
         #region Eventos
