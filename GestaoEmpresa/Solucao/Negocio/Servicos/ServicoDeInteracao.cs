@@ -77,13 +77,11 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
 
         private List<Interacao> ConsultePorNumeroDeSerie(string numeroDeSerie)
         {
-            using (var repositorioDeInteracao = new RepositorioDeInteracao())
-            {
-                return repositorioDeInteracao.Consulte(x =>
-                    x.InformaNumeroDeSerie &&
-                    x.NumerosDeSerie.Contains(numeroDeSerie))
+            using var repositorioDeInteracao = new RepositorioDeInteracao();
+            return repositorioDeInteracao.Consulte(x => x.InformaNumeroDeSerie)
+                .Where(x => x.NumerosDeSerie.Select(x => x.ToLowerInvariant())
+                    .Contains(numeroDeSerie.ToLowerInvariant()))
                 .ToList();
-            }
         }
         
         public bool VerifiqueSeNumeroDeSerieEstahEmEstoque(string numeroDeSerie)
