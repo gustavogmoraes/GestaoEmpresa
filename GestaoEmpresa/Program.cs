@@ -5,6 +5,7 @@ using GS.GestaoEmpresa.Solucao.Persistencia.BancoDeDados;
 using GS.GestaoEmpresa.Solucao.UI;
 using GS.GestaoEmpresa.Solucao.UI.ControlesGenericos;
 using GS.GestaoEmpresa.Solucao.UI.Modulos.Atendimento;
+using GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque;
 
 namespace GestaoEmpresa
 {
@@ -23,7 +24,9 @@ namespace GestaoEmpresa
             SessaoSistema.IsMain = File.Exists(isMainFilePath);
             //SessaoSistema.WorkTestMode = true;
 
-            Application.Run(GerenciadorDeViews.ObtenhaPrincipal());
+            Application.Run(new FrmInteracaoMetro());
+
+            //Application.Run(GerenciadorDeViews.ObtenhaPrincipal());
         }
 
         // Remove and reinstall all references

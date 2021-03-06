@@ -62,6 +62,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.btnExportarProdutos = new System.Windows.Forms.Button();
             this.btnRefresh = new System.Windows.Forms.Button();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
+            this.txtPesquisa = new System.Windows.Forms.TextBox();
             this.btnNovoProduto = new System.Windows.Forms.Button();
             this.dgvProdutos = new System.Windows.Forms.DataGridView();
             this.colunaCodigo = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -128,6 +129,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.BackColor = System.Drawing.Color.DimGray;
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Controls.Add(this.label1);
             this.panel1.Controls.Add(this.ScrollSelecao);
             this.panel1.Controls.Add(this.btnHistorico);
             this.panel1.Controls.Add(this.btnCatalogo);
@@ -274,7 +276,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.btnAtualizarPlanilhaDeCentrais.BackgroundImage = global::GS.GestaoEmpresa.Properties.Resources.impactas;
             this.btnAtualizarPlanilhaDeCentrais.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.btnAtualizarPlanilhaDeCentrais.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAtualizarPlanilhaDeCentrais.Location = new System.Drawing.Point(945, 6);
+            this.btnAtualizarPlanilhaDeCentrais.Location = new System.Drawing.Point(945, 1);
             this.btnAtualizarPlanilhaDeCentrais.Name = "btnAtualizarPlanilhaDeCentrais";
             this.btnAtualizarPlanilhaDeCentrais.Size = new System.Drawing.Size(32, 32);
             this.btnAtualizarPlanilhaDeCentrais.TabIndex = 16;
@@ -288,7 +290,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.txtQtyProgresso.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.txtQtyProgresso.AutoSize = true;
             this.txtQtyProgresso.BackColor = System.Drawing.Color.Silver;
-            this.txtQtyProgresso.Location = new System.Drawing.Point(777, 2);
+            this.txtQtyProgresso.Location = new System.Drawing.Point(777, -3);
             this.txtQtyProgresso.Name = "txtQtyProgresso";
             this.txtQtyProgresso.Size = new System.Drawing.Size(26, 19);
             this.txtQtyProgresso.TabIndex = 15;
@@ -300,7 +302,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             // 
             this.txtCronometroImportar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.txtCronometroImportar.AutoSize = true;
-            this.txtCronometroImportar.Location = new System.Drawing.Point(777, 20);
+            this.txtCronometroImportar.Location = new System.Drawing.Point(777, 15);
             this.txtCronometroImportar.Name = "txtCronometroImportar";
             this.txtCronometroImportar.Size = new System.Drawing.Size(40, 19);
             this.txtCronometroImportar.TabIndex = 14;
@@ -323,7 +325,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.btnImportarTabelaPrecosIntelbras.BackgroundImage = global::GS.GestaoEmpresa.Properties.Resources.ImportFromExcel;
             this.btnImportarTabelaPrecosIntelbras.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.btnImportarTabelaPrecosIntelbras.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnImportarTabelaPrecosIntelbras.Location = new System.Drawing.Point(984, 6);
+            this.btnImportarTabelaPrecosIntelbras.Location = new System.Drawing.Point(984, 1);
             this.btnImportarTabelaPrecosIntelbras.Name = "btnImportarTabelaPrecosIntelbras";
             this.btnImportarTabelaPrecosIntelbras.Size = new System.Drawing.Size(32, 32);
             this.btnImportarTabelaPrecosIntelbras.TabIndex = 12;
@@ -338,7 +340,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.btnExportarProdutos.BackgroundImage = global::GS.GestaoEmpresa.Properties.Resources.export_spreadsheet_512;
             this.btnExportarProdutos.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.btnExportarProdutos.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnExportarProdutos.Location = new System.Drawing.Point(1023, 6);
+            this.btnExportarProdutos.Location = new System.Drawing.Point(1023, 1);
             this.btnExportarProdutos.Name = "btnExportarProdutos";
             this.btnExportarProdutos.Size = new System.Drawing.Size(32, 32);
             this.btnExportarProdutos.TabIndex = 11;
@@ -353,7 +355,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.btnRefresh.BackgroundImage = global::GS.GestaoEmpresa.Properties.Resources.refresh;
             this.btnRefresh.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.btnRefresh.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnRefresh.Location = new System.Drawing.Point(1070, 6);
+            this.btnRefresh.Location = new System.Drawing.Point(1070, 1);
             this.btnRefresh.Name = "btnRefresh";
             this.btnRefresh.Size = new System.Drawing.Size(32, 32);
             this.btnRefresh.TabIndex = 10;
@@ -371,13 +373,26 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.pictureBox3.TabIndex = 7;
             this.pictureBox3.TabStop = false;
             // 
+            // txtPesquisa
+            // 
+            this.txtPesquisa.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtPesquisa.ForeColor = System.Drawing.Color.Silver;
+            this.txtPesquisa.Location = new System.Drawing.Point(46, 4);
+            this.txtPesquisa.Name = "txtPesquisa";
+            this.txtPesquisa.Size = new System.Drawing.Size(509, 26);
+            this.txtPesquisa.TabIndex = 6;
+            this.txtPesquisa.Text = "Pesquisar...";
+            this.txtPesquisa.Click += new System.EventHandler(this.txtPesquisa_Click);
+            this.txtPesquisa.TextChanged += new System.EventHandler(this.txtPesquisa_TextChanged);
+            this.txtPesquisa.Leave += new System.EventHandler(this.txtPesquisa_Leave);
+            // 
             // btnNovoProduto
             // 
             this.btnNovoProduto.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnNovoProduto.BackgroundImage = global::GS.GestaoEmpresa.Properties.Resources.add;
             this.btnNovoProduto.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.btnNovoProduto.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnNovoProduto.Location = new System.Drawing.Point(1108, 6);
+            this.btnNovoProduto.Location = new System.Drawing.Point(1108, 1);
             this.btnNovoProduto.Name = "btnNovoProduto";
             this.btnNovoProduto.Size = new System.Drawing.Size(32, 32);
             this.btnNovoProduto.TabIndex = 5;
@@ -422,7 +437,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dgvProdutos.DefaultCellStyle = dataGridViewCellStyle8;
             this.dgvProdutos.GridColor = System.Drawing.Color.Silver;
-            this.dgvProdutos.Location = new System.Drawing.Point(10, 41);
+            this.dgvProdutos.Location = new System.Drawing.Point(10, 36);
             this.dgvProdutos.Name = "dgvProdutos";
             this.dgvProdutos.ReadOnly = true;
             dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
@@ -555,7 +570,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             // 
             this.txtPesquisaHistorico.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtPesquisaHistorico.ForeColor = System.Drawing.Color.Silver;
-            this.txtPesquisaHistorico.Location = new System.Drawing.Point(46, 9);
+            this.txtPesquisaHistorico.Location = new System.Drawing.Point(46, 4);
             this.txtPesquisaHistorico.Name = "txtPesquisaHistorico";
             this.txtPesquisaHistorico.Size = new System.Drawing.Size(509, 26);
             this.txtPesquisaHistorico.TabIndex = 12;
@@ -604,7 +619,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             dataGridViewCellStyle13.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dgvHistorico.DefaultCellStyle = dataGridViewCellStyle13;
             this.dgvHistorico.GridColor = System.Drawing.Color.Silver;
-            this.dgvHistorico.Location = new System.Drawing.Point(11, 42);
+            this.dgvHistorico.Location = new System.Drawing.Point(11, 37);
             this.dgvHistorico.Name = "dgvHistorico";
             this.dgvHistorico.ReadOnly = true;
             dataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
@@ -735,7 +750,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.btnRefreshHist.BackgroundImage = global::GS.GestaoEmpresa.Properties.Resources.refresh;
             this.btnRefreshHist.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.btnRefreshHist.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnRefreshHist.Location = new System.Drawing.Point(1070, 6);
+            this.btnRefreshHist.Location = new System.Drawing.Point(1070, 1);
             this.btnRefreshHist.Name = "btnRefreshHist";
             this.btnRefreshHist.Size = new System.Drawing.Size(32, 32);
             this.btnRefreshHist.TabIndex = 16;
@@ -746,7 +761,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             // 
             this.pictureBox1.BackColor = System.Drawing.Color.Silver;
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(8, 11);
+            this.pictureBox1.Location = new System.Drawing.Point(8, 6);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(32, 24);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -759,7 +774,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.btnNovaInteracao.BackgroundImage = global::GS.GestaoEmpresa.Properties.Resources.add;
             this.btnNovaInteracao.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.btnNovaInteracao.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnNovaInteracao.Location = new System.Drawing.Point(1108, 6);
+            this.btnNovaInteracao.Location = new System.Drawing.Point(1108, 1);
             this.btnNovaInteracao.Name = "btnNovaInteracao";
             this.btnNovaInteracao.Size = new System.Drawing.Size(32, 32);
             this.btnNovaInteracao.TabIndex = 11;
@@ -770,7 +785,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             // 
             this.lblDescricaoBotoes.AutoSize = true;
             this.lblDescricaoBotoes.BackColor = System.Drawing.Color.DodgerBlue;
-            this.lblDescricaoBotoes.Location = new System.Drawing.Point(883, 18);
+            this.lblDescricaoBotoes.Location = new System.Drawing.Point(883, 13);
             this.lblDescricaoBotoes.Name = "lblDescricaoBotoes";
             this.lblDescricaoBotoes.Size = new System.Drawing.Size(0, 0);
             this.lblDescricaoBotoes.TabIndex = 12;
@@ -785,6 +800,18 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.gsTopBorder1.Name = "gsTopBorder1";
             this.gsTopBorder1.Size = new System.Drawing.Size(1265, 26);
             this.gsTopBorder1.TabIndex = 19;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.BackColor = System.Drawing.Color.Transparent;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 26.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.ForeColor = System.Drawing.Color.White;
+            this.label1.Location = new System.Drawing.Point(8, 111);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(357, 39);
+            this.label1.TabIndex = 3;
+            this.label1.Text = "_________________";
             // 
             // FrmEstoque
             // 
@@ -817,7 +844,6 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         }
 
         #endregion
-        private Persistencia.BancoDeDados.UCSessaoSistema ucSessaoSistema1;
         private System.Windows.Forms.Button btnCatalogo;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel ScrollSelecao;
@@ -826,22 +852,12 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox txtPesquisa;
         private System.Windows.Forms.TabControl tabControl1;
-        private System.Windows.Forms.TabPage tabProdutos;
-        public MetroFramework.Controls.MetroLabel txtQtyProgresso;
-        public MetroFramework.Controls.MetroLabel txtCronometroImportar;
-        public MetroFramework.Controls.MetroProgressBar metroProgressImportar;
-        public System.Windows.Forms.Button btnImportarTabelaPrecosIntelbras;
-        private System.Windows.Forms.Button btnExportarProdutos;
-        private System.Windows.Forms.Button btnRefresh;
-        private System.Windows.Forms.PictureBox pictureBox3;
-        private System.Windows.Forms.Button btnNovoProduto;
         private System.Windows.Forms.TabPage tabHistorico;
         private System.Windows.Forms.TextBox txtPesquisaHistorico;
         private System.Windows.Forms.DataGridView dgvHistorico;
         private System.Windows.Forms.Button btnRefreshHist;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Button btnNovaInteracao;
-        private System.Windows.Forms.DataGridView dgvProdutos;
         private System.Windows.Forms.DataGridViewTextBoxColumn colunaCodigoInteracao;
         private System.Windows.Forms.DataGridViewTextBoxColumn colunaTipo;
         private System.Windows.Forms.DataGridViewTextBoxColumn colunaTecnico;
@@ -854,6 +870,19 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         private System.Windows.Forms.DataGridViewTextBoxColumn colunaValor;
         private System.Windows.Forms.DataGridViewTextBoxColumn colunaHorario;
         private System.Windows.Forms.DataGridViewButtonColumn colunaDetalharHist;
+        private MetroFramework.Controls.MetroLabel lblDescricaoBotoes;
+        private System.Windows.Forms.TabPage tabProdutos;
+        private MetroFramework.Controls.MetroLabel lblButtonDescriptor;
+        public System.Windows.Forms.Button btnAtualizarPlanilhaDeCentrais;
+        public MetroFramework.Controls.MetroLabel txtQtyProgresso;
+        public MetroFramework.Controls.MetroLabel txtCronometroImportar;
+        public MetroFramework.Controls.MetroProgressBar metroProgressImportar;
+        public System.Windows.Forms.Button btnImportarTabelaPrecosIntelbras;
+        private System.Windows.Forms.Button btnExportarProdutos;
+        private System.Windows.Forms.Button btnRefresh;
+        private System.Windows.Forms.PictureBox pictureBox3;
+        private System.Windows.Forms.Button btnNovoProduto;
+        private System.Windows.Forms.DataGridView dgvProdutos;
         private System.Windows.Forms.DataGridViewTextBoxColumn colunaCodigo;
         private System.Windows.Forms.DataGridViewTextBoxColumn colunaCodigoFabricante;
         private System.Windows.Forms.DataGridViewTextBoxColumn colunaNome;
@@ -864,9 +893,6 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         private System.Windows.Forms.DataGridViewTextBoxColumn colunaPrecoVenda;
         private System.Windows.Forms.DataGridViewTextBoxColumn colunaQuantidade;
         private System.Windows.Forms.DataGridViewButtonColumn colunaDetalhar;
-        public System.Windows.Forms.Button btnAtualizarPlanilhaDeCentrais;
-        private MetroFramework.Controls.MetroLabel lblDescricaoBotoes;
-        private MetroFramework.Controls.MetroLabel lblButtonDescriptor;
         private MetroFramework.Controls.MetroCheckBox chkQueryOnlyActive;
         private ControlesGenericos.GSTopBorder gsTopBorder1;
     }

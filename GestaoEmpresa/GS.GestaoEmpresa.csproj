@@ -282,6 +282,12 @@
     <Compile Include="Solucao\UI\Base\Temp.Designer.cs">
       <DependentUpon>Temp.cs</DependentUpon>
     </Compile>
+    <Compile Include="Solucao\UI\ControlesGenericos\GSDateTimePicker.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Solucao\UI\ControlesGenericos\GSDateTimePicker.Designer.cs">
+      <DependentUpon>GSDateTimePicker.cs</DependentUpon>
+    </Compile>
     <Compile Include="Solucao\UI\ControlesGenericos\GSFileAttacher.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -370,6 +376,12 @@
     <Compile Include="Solucao\UI\Modulos\Atendimento\testMap.Designer.cs">
       <DependentUpon>testMap.cs</DependentUpon>
     </Compile>
+    <Compile Include="Solucao\UI\Modulos\Estoque\FrmInteracaoMetro.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Solucao\UI\Modulos\Estoque\FrmInteracaoMetro.Designer.cs">
+      <DependentUpon>FrmInteracaoMetro.cs</DependentUpon>
+    </Compile>
     <Compile Include="Solucao\UI\Modulos\Estoque\frmEstoque.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -442,6 +454,9 @@
     <EmbeddedResource Include="Solucao\UI\Base\Temp.resx">
       <DependentUpon>Temp.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Solucao\UI\ControlesGenericos\GSDateTimePicker.resx">
+      <DependentUpon>GSDateTimePicker.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Solucao\UI\ControlesGenericos\GSFileAttacher.resx">
       <DependentUpon>GSFileAttacher.cs</DependentUpon>
     </EmbeddedResource>
@@ -492,6 +507,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Solucao\UI\Modulos\Estoque\frmInteracao.resx">
       <DependentUpon>frmInteracao.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Solucao\UI\Modulos\Estoque\FrmInteracaoMetro.resx">
+      <DependentUpon>FrmInteracaoMetro.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Solucao\UI\Modulos\Estoque\frmProduto.resx">
       <DependentUpon>frmProduto.cs</DependentUpon>

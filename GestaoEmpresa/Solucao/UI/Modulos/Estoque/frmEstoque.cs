@@ -99,7 +99,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         public void ChamadaFecharForm(object sender, EventArgs e)
         {
-            GerenciadorDeViews.Exclua<FrmEstoque>(); GerenciadorDeViews.Exclua<FrmEstoque>();
+            GerenciadorDeViews.ObtenhaIndependente<FrmEstoque>(new Guid(IdInstancia)).Dispose();
         }
 
         public void ChamadaMinimizarForm(object sender, EventArgs e)
@@ -388,6 +388,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             //Módulo - Estoque
             //ucSessaoSistema1.DefinaModulo("Estoque", Resources.WhiteBox);
             //EscondaHeadersTabControl(tabControl1);
+
 
             //Catálogo de Produtos
             using (var servicoDeProduto = new ServicoDeProduto())
