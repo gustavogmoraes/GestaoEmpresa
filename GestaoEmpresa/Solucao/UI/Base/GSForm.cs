@@ -174,7 +174,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
         {
             Presenter.MinimizarView(sender, e);
         }
-
+        
         public virtual void ChamadaFecharForm(object sender, EventArgs e)
         {
             Presenter.FecharView(sender, e);

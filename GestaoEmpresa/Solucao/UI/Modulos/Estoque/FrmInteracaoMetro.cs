@@ -13,6 +13,7 @@ using GS.GestaoEmpresa.Solucao.Negocio.Servicos;
 using GS.GestaoEmpresa.Solucao.UI.Base;
 using GS.GestaoEmpresa.Solucao.UI.ControlesGenericos;
 using GS.GestaoEmpresa.Solucao.Utilitarios;
+using FormWindowState = System.Windows.Forms.FormWindowState;
 
 namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 {
@@ -20,14 +21,14 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
     {
         private string _txtPesquisaDeProdutoPreviousSearch;
 
-        private static int AssistandMsWindupTime => Convert.ToInt32(TimeSpan.FromSeconds(1.2).TotalMilliseconds);
-
         public FrmInteracaoMetro()
         {
             InitializeComponent();
 
             dtpHorarioDate.Value = DateTime.Now;
             dtpHorarioTime.Text = DateTime.Now.ToString("HH:mm");
+
+            WindowState = FormWindowState.Maximized;
         }
 
         private void CarregueDataGridProdutos(List<Produto> listaDeProdutos, Dictionary<int, int> quantidades)
@@ -41,21 +42,11 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             produto.Fabricante,
             produto.CodigoDoFabricante,
             produto.Nome,
-            produto.PrecoDeCompra.HasValue
-                ? GSUtilitarios.FormateDecimalParaStringMoedaReal(produto.PrecoDeCompra.GetValueOrDefault(), false)
-                : string.Empty,
-            produto.PrecoDistribuidor.HasValue
-                ? GSUtilitarios.FormateDecimalParaStringMoedaReal(produto.PrecoDistribuidor.GetValueOrDefault(), false)
-                : string.Empty,
-            produto.PrecoSugeridoConsumidorFinal.HasValue
-                ? GSUtilitarios.FormateDecimalParaStringMoedaReal(produto.PrecoSugeridoConsumidorFinal.GetValueOrDefault(), true)
-                : string.Empty,
-            produto.PorcentagemDeLucro.HasValue
-                ? produto.PorcentagemDeLucro.ToString()
-                : string.Empty,
-            produto.PrecoDeVenda.HasValue
-                ? GSUtilitarios.FormateDecimalParaStringMoedaReal(produto.PrecoDeVenda.GetValueOrDefault(), false)
-                : string.Empty,
+            produto.PrecoDeCompra.ToRealMonetaryString(false, true, 2, null, null),
+            produto.PrecoDistribuidor.ToRealMonetaryString(false, true, 2, null, null),
+            produto.PrecoSugeridoConsumidorFinal.ToRealMonetaryString(false, true, 2, null, null),
+            produto.PorcentagemDeLucro.ToRealMonetaryString(false, true, 2, null, null),
+            produto.PrecoDeVenda.ToRealMonetaryString(false, true, 2, null, null),
             qtds[produto.Codigo]
         };
 
@@ -114,6 +105,8 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                         }
                     });
             }));
+
+            gridPesquisaProduto.Focus();
         }
 
         private void metroLabel1_Click(object sender, EventArgs e)
@@ -197,6 +190,11 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                 e.Handled = true;
                 AddProduct(gridPesquisaProduto.SelectedRows[0].Index);
             }
+        }
+
+        private void panelTitulo_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 }

@@ -29,12 +29,18 @@
         private void InitializeComponent()
         {
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmInteracaoMetro));
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmInteracaoMetro));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
             this.metroLabel1 = new MetroFramework.Controls.MetroLabel();
             this.cbTipo = new MetroFramework.Controls.MetroComboBox();
             this.metroLabel2 = new MetroFramework.Controls.MetroLabel();
@@ -64,16 +70,6 @@
             this.metroLabel9 = new MetroFramework.Controls.MetroLabel();
             this.panelProdutos = new MetroFramework.Controls.MetroPanel();
             this.gridPesquisaProduto = new MetroFramework.Controls.MetroGrid();
-            this.colunaPesquisaCodigo = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colunaPesquisaFabricante = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colunaPesquisaCodigoDistribuidor = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colunaPesquisaNome = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colunaPesquisaCompra = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colunaPesquisaDistribuidor = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colunaPesquisaPSCF = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colunaPesquisaLucro = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colunaPesquisaVenda = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colunaPesquisaQuantidade = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.txtPesquisa = new MetroFramework.Controls.MetroTextBox();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.gridProdutos = new MetroFramework.Controls.MetroGrid();
@@ -84,6 +80,16 @@
             this.colunaValor = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colunaQuantidade = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colunaTotal = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colunaPesquisaCodigo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colunaPesquisaFabricante = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colunaPesquisaCodigoDistribuidor = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colunaPesquisaNome = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colunaPesquisaCompra = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colunaPesquisaDistribuidor = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colunaPesquisaPSCF = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colunaPesquisaLucro = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colunaPesquisaVenda = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colunaPesquisaQuantidade = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.btnCancelarExcluir)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnEditarSalvar)).BeginInit();
             this.panelTitulo.SuspendLayout();
@@ -95,16 +101,21 @@
             // 
             // btnCancelarExcluir
             // 
+            this.btnCancelarExcluir.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancelarExcluir.Location = new System.Drawing.Point(1160, 31);
             // 
             // btnEditarSalvar
             // 
+            this.btnEditarSalvar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnEditarSalvar.Location = new System.Drawing.Point(1118, 29);
             // 
             // panelTitulo
             // 
+            this.panelTitulo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.panelTitulo.Controls.Add(this.metroLabel1);
             this.panelTitulo.Size = new System.Drawing.Size(1210, 62);
+            this.panelTitulo.Paint += new System.Windows.Forms.PaintEventHandler(this.panelTitulo_Paint);
             this.panelTitulo.Controls.SetChildIndex(this.metroLabel1, 0);
             this.panelTitulo.Controls.SetChildIndex(this.btnCancelarExcluir, 0);
             this.panelTitulo.Controls.SetChildIndex(this.btnEditarSalvar, 0);
@@ -113,6 +124,9 @@
             // 
             // gsTopBorder1
             // 
+            this.gsTopBorder1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.gsTopBorder1.DisplayMaximize = true;
             this.gsTopBorder1.Size = new System.Drawing.Size(1207, 26);
             // 
             // metroLabel1
@@ -576,6 +590,9 @@
             // 
             // panelProdutos
             // 
+            this.panelProdutos.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.panelProdutos.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this.panelProdutos.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panelProdutos.Controls.Add(this.gridPesquisaProduto);
@@ -599,12 +616,15 @@
             this.gridPesquisaProduto.AllowUserToAddRows = false;
             this.gridPesquisaProduto.AllowUserToDeleteRows = false;
             this.gridPesquisaProduto.AllowUserToResizeRows = false;
+            this.gridPesquisaProduto.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.gridPesquisaProduto.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this.gridPesquisaProduto.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.gridPesquisaProduto.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
             this.gridPesquisaProduto.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Black;
             dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.GradientActiveCaption;
             dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
@@ -623,29 +643,29 @@
             this.colunaPesquisaVenda,
             this.colunaPesquisaQuantidade});
             this.gridPesquisaProduto.Cursor = System.Windows.Forms.Cursors.Hand;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.gridPesquisaProduto.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle8.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle8.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle8.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
+            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.gridPesquisaProduto.DefaultCellStyle = dataGridViewCellStyle8;
             this.gridPesquisaProduto.EnableHeadersVisualStyles = false;
             this.gridPesquisaProduto.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.gridPesquisaProduto.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.gridPesquisaProduto.Location = new System.Drawing.Point(31, 115);
+            this.gridPesquisaProduto.Location = new System.Drawing.Point(32, 109);
             this.gridPesquisaProduto.Name = "gridPesquisaProduto";
             this.gridPesquisaProduto.ReadOnly = true;
             this.gridPesquisaProduto.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(198)))), ((int)(((byte)(247)))));
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.gridPesquisaProduto.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle9.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
+            dataGridViewCellStyle9.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            dataGridViewCellStyle9.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle9.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(198)))), ((int)(((byte)(247)))));
+            dataGridViewCellStyle9.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
+            dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.gridPesquisaProduto.RowHeadersDefaultCellStyle = dataGridViewCellStyle9;
             this.gridPesquisaProduto.RowHeadersVisible = false;
             this.gridPesquisaProduto.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.gridPesquisaProduto.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
@@ -655,80 +675,10 @@
             this.gridPesquisaProduto.CellContentDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridPesquisaProduto_CellContentDoubleClick);
             this.gridPesquisaProduto.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.gridPesquisaProduto_KeyPress);
             // 
-            // colunaPesquisaCodigo
-            // 
-            this.colunaPesquisaCodigo.HeaderText = "Cód. Mega";
-            this.colunaPesquisaCodigo.Name = "colunaPesquisaCodigo";
-            this.colunaPesquisaCodigo.ReadOnly = true;
-            this.colunaPesquisaCodigo.Width = 110;
-            // 
-            // colunaPesquisaFabricante
-            // 
-            this.colunaPesquisaFabricante.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
-            this.colunaPesquisaFabricante.HeaderText = "Fabricante";
-            this.colunaPesquisaFabricante.Name = "colunaPesquisaFabricante";
-            this.colunaPesquisaFabricante.ReadOnly = true;
-            this.colunaPesquisaFabricante.Width = 101;
-            // 
-            // colunaPesquisaCodigoDistribuidor
-            // 
-            this.colunaPesquisaCodigoDistribuidor.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
-            this.colunaPesquisaCodigoDistribuidor.HeaderText = "Cód. Fabricante";
-            this.colunaPesquisaCodigoDistribuidor.Name = "colunaPesquisaCodigoDistribuidor";
-            this.colunaPesquisaCodigoDistribuidor.ReadOnly = true;
-            this.colunaPesquisaCodigoDistribuidor.Width = 123;
-            // 
-            // colunaPesquisaNome
-            // 
-            this.colunaPesquisaNome.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.colunaPesquisaNome.HeaderText = "Nome";
-            this.colunaPesquisaNome.Name = "colunaPesquisaNome";
-            this.colunaPesquisaNome.ReadOnly = true;
-            // 
-            // colunaPesquisaCompra
-            // 
-            this.colunaPesquisaCompra.HeaderText = "PC";
-            this.colunaPesquisaCompra.Name = "colunaPesquisaCompra";
-            this.colunaPesquisaCompra.ReadOnly = true;
-            this.colunaPesquisaCompra.Width = 80;
-            // 
-            // colunaPesquisaDistribuidor
-            // 
-            this.colunaPesquisaDistribuidor.HeaderText = "PD";
-            this.colunaPesquisaDistribuidor.Name = "colunaPesquisaDistribuidor";
-            this.colunaPesquisaDistribuidor.ReadOnly = true;
-            this.colunaPesquisaDistribuidor.Width = 80;
-            // 
-            // colunaPesquisaPSCF
-            // 
-            this.colunaPesquisaPSCF.HeaderText = "PSCF";
-            this.colunaPesquisaPSCF.Name = "colunaPesquisaPSCF";
-            this.colunaPesquisaPSCF.ReadOnly = true;
-            this.colunaPesquisaPSCF.Width = 80;
-            // 
-            // colunaPesquisaLucro
-            // 
-            this.colunaPesquisaLucro.HeaderText = "L";
-            this.colunaPesquisaLucro.Name = "colunaPesquisaLucro";
-            this.colunaPesquisaLucro.ReadOnly = true;
-            this.colunaPesquisaLucro.Width = 35;
-            // 
-            // colunaPesquisaVenda
-            // 
-            this.colunaPesquisaVenda.HeaderText = "PV";
-            this.colunaPesquisaVenda.Name = "colunaPesquisaVenda";
-            this.colunaPesquisaVenda.ReadOnly = true;
-            this.colunaPesquisaVenda.Width = 80;
-            // 
-            // colunaPesquisaQuantidade
-            // 
-            this.colunaPesquisaQuantidade.HeaderText = "Qtd.";
-            this.colunaPesquisaQuantidade.Name = "colunaPesquisaQuantidade";
-            this.colunaPesquisaQuantidade.ReadOnly = true;
-            this.colunaPesquisaQuantidade.Width = 50;
-            // 
             // txtPesquisa
             // 
+            this.txtPesquisa.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             // 
             // 
             // 
@@ -777,16 +727,20 @@
             // 
             this.gridProdutos.AllowUserToAddRows = false;
             this.gridProdutos.AllowUserToResizeRows = false;
+            this.gridProdutos.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.gridProdutos.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
+            this.gridProdutos.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.gridProdutos.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
             this.gridProdutos.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle4.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.gridProdutos.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle10.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            dataGridViewCellStyle10.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle10.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle10.SelectionBackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            dataGridViewCellStyle10.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
+            dataGridViewCellStyle10.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.gridProdutos.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle10;
             this.gridProdutos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.gridProdutos.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colunaCodigo,
@@ -796,28 +750,28 @@
             this.colunaValor,
             this.colunaQuantidade,
             this.colunaTotal});
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(136)))), ((int)(((byte)(136)))), ((int)(((byte)(136)))));
-            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
-            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.gridProdutos.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle11.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle11.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle11.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(136)))), ((int)(((byte)(136)))), ((int)(((byte)(136)))));
+            dataGridViewCellStyle11.SelectionBackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            dataGridViewCellStyle11.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
+            dataGridViewCellStyle11.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.gridProdutos.DefaultCellStyle = dataGridViewCellStyle11;
             this.gridProdutos.EnableHeadersVisualStyles = false;
             this.gridProdutos.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.gridProdutos.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.gridProdutos.Location = new System.Drawing.Point(7, 53);
             this.gridProdutos.Name = "gridProdutos";
             this.gridProdutos.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            dataGridViewCellStyle6.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(198)))), ((int)(((byte)(247)))));
-            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
-            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.gridProdutos.RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle12.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
+            dataGridViewCellStyle12.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            dataGridViewCellStyle12.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle12.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(198)))), ((int)(((byte)(247)))));
+            dataGridViewCellStyle12.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
+            dataGridViewCellStyle12.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.gridProdutos.RowHeadersDefaultCellStyle = dataGridViewCellStyle12;
             this.gridProdutos.RowHeadersVisible = false;
             this.gridProdutos.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.gridProdutos.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
@@ -865,11 +819,98 @@
             this.colunaTotal.HeaderText = "Total";
             this.colunaTotal.Name = "colunaTotal";
             // 
+            // colunaPesquisaCodigo
+            // 
+            this.colunaPesquisaCodigo.HeaderText = "Cód. Mega";
+            this.colunaPesquisaCodigo.Name = "colunaPesquisaCodigo";
+            this.colunaPesquisaCodigo.ReadOnly = true;
+            this.colunaPesquisaCodigo.Width = 110;
+            // 
+            // colunaPesquisaFabricante
+            // 
+            this.colunaPesquisaFabricante.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
+            this.colunaPesquisaFabricante.HeaderText = "Fabricante";
+            this.colunaPesquisaFabricante.Name = "colunaPesquisaFabricante";
+            this.colunaPesquisaFabricante.ReadOnly = true;
+            this.colunaPesquisaFabricante.Width = 92;
+            // 
+            // colunaPesquisaCodigoDistribuidor
+            // 
+            this.colunaPesquisaCodigoDistribuidor.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
+            this.colunaPesquisaCodigoDistribuidor.HeaderText = "Cód. Fabricante";
+            this.colunaPesquisaCodigoDistribuidor.Name = "colunaPesquisaCodigoDistribuidor";
+            this.colunaPesquisaCodigoDistribuidor.ReadOnly = true;
+            this.colunaPesquisaCodigoDistribuidor.Width = 123;
+            // 
+            // colunaPesquisaNome
+            // 
+            this.colunaPesquisaNome.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.colunaPesquisaNome.HeaderText = "Nome";
+            this.colunaPesquisaNome.Name = "colunaPesquisaNome";
+            this.colunaPesquisaNome.ReadOnly = true;
+            // 
+            // colunaPesquisaCompra
+            // 
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.BottomRight;
+            this.colunaPesquisaCompra.DefaultCellStyle = dataGridViewCellStyle2;
+            this.colunaPesquisaCompra.HeaderText = "PC";
+            this.colunaPesquisaCompra.Name = "colunaPesquisaCompra";
+            this.colunaPesquisaCompra.ReadOnly = true;
+            this.colunaPesquisaCompra.Width = 80;
+            // 
+            // colunaPesquisaDistribuidor
+            // 
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.BottomRight;
+            this.colunaPesquisaDistribuidor.DefaultCellStyle = dataGridViewCellStyle3;
+            this.colunaPesquisaDistribuidor.HeaderText = "PD";
+            this.colunaPesquisaDistribuidor.Name = "colunaPesquisaDistribuidor";
+            this.colunaPesquisaDistribuidor.ReadOnly = true;
+            this.colunaPesquisaDistribuidor.Width = 80;
+            // 
+            // colunaPesquisaPSCF
+            // 
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.BottomRight;
+            this.colunaPesquisaPSCF.DefaultCellStyle = dataGridViewCellStyle4;
+            this.colunaPesquisaPSCF.HeaderText = "PSCF";
+            this.colunaPesquisaPSCF.Name = "colunaPesquisaPSCF";
+            this.colunaPesquisaPSCF.ReadOnly = true;
+            this.colunaPesquisaPSCF.Width = 80;
+            // 
+            // colunaPesquisaLucro
+            // 
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.BottomRight;
+            this.colunaPesquisaLucro.DefaultCellStyle = dataGridViewCellStyle5;
+            this.colunaPesquisaLucro.HeaderText = "L";
+            this.colunaPesquisaLucro.Name = "colunaPesquisaLucro";
+            this.colunaPesquisaLucro.ReadOnly = true;
+            this.colunaPesquisaLucro.Width = 35;
+            // 
+            // colunaPesquisaVenda
+            // 
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.BottomRight;
+            this.colunaPesquisaVenda.DefaultCellStyle = dataGridViewCellStyle6;
+            this.colunaPesquisaVenda.HeaderText = "PV";
+            this.colunaPesquisaVenda.Name = "colunaPesquisaVenda";
+            this.colunaPesquisaVenda.ReadOnly = true;
+            this.colunaPesquisaVenda.Width = 80;
+            // 
+            // colunaPesquisaQuantidade
+            // 
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.BottomRight;
+            this.colunaPesquisaQuantidade.DefaultCellStyle = dataGridViewCellStyle7;
+            this.colunaPesquisaQuantidade.HeaderText = "Qtd.";
+            this.colunaPesquisaQuantidade.Name = "colunaPesquisaQuantidade";
+            this.colunaPesquisaQuantidade.ReadOnly = true;
+            this.colunaPesquisaQuantidade.Width = 50;
+            // 
             // FrmInteracaoMetro
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1207, 747);
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.BackImage = global::GS.GestaoEmpresa.Properties.Resources.Background;
+            this.BorderStyle = MetroFramework.Forms.MetroFormBorderStyle.FixedSingle;
+            this.ClientSize = new System.Drawing.Size(1207, 740);
             this.Controls.Add(this.panelProdutos);
             this.Controls.Add(this.metroLabel9);
             this.Controls.Add(this.metroTextBox3);

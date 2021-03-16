@@ -629,5 +629,36 @@ namespace GS.GestaoEmpresa.Solucao.Utilitarios
         {
             return (Color)new ColorConverter().ConvertFromString($"#{hexCode}");
         }
+
+        public static string ToRealMonetaryString(
+            this decimal? value,
+            bool returnEmptyIf0 = false,
+            bool useSymbol = true,
+            int decimalPrecision = 2,
+            int? padLeftQty = null,
+            char? paddingChar = null)
+        {
+            if (!value.HasValue)
+            {
+                return returnEmptyIf0
+                    ? string.Empty
+                    : "0";
+            }
+
+            var roundedDecimal = Math.Round(value.Value, decimalPrecision);
+            var val = string.Format(CultureInfo.GetCultureInfo("pt-BR"), "{0:C}", roundedDecimal);
+
+            if (padLeftQty.HasValue && paddingChar.HasValue)
+            {
+                val = val.Replace("R$", string.Empty).Trim().PadLeft(padLeftQty.Value, paddingChar.Value);
+            }
+
+            if (!useSymbol)
+            {
+                val = val.Replace("R$", string.Empty).Trim();
+            }
+
+            return val;
+        }
     }
 }
