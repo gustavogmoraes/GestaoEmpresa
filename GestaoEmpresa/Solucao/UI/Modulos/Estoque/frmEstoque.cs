@@ -665,7 +665,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         private void btnNovaInteracao_Click(object sender, EventArgs e)
         {
-            GSWaitForm.Mostrar(this, posProcessamento: () => { new frmInteracao().Show(); });
+            GSWaitForm.Mostrar(this, posProcessamento: () => { new FrmInteracaoMetro().Show(); });
         }
 
         private void btnNovoProduto_Click(object sender, EventArgs e)

@@ -86,6 +86,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
         private static Expression<Func<Produto, object>> SeletorProdutoAterrissagem => x => new Produto
         {
             Codigo = x.Codigo,
+            Fabricante = x.Fabricante,
             CodigoDoFabricante = x.CodigoDoFabricante,
             Nome = x.Nome,
             Observacao = x.Observacao,
@@ -94,6 +95,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
             PrecoNaIntelbras =  x.PrecoNaIntelbras,
             PrecoDistribuidor = x.PrecoDistribuidor,
             PrecoSugeridoConsumidorFinal = x.PrecoSugeridoConsumidorFinal,
+            PorcentagemDeLucro = x.PorcentagemDeLucro,
             Status = x.Status
         };
 

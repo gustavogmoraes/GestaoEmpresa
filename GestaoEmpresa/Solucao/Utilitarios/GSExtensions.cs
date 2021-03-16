@@ -240,6 +240,17 @@ namespace GS.GestaoEmpresa.Solucao.Utilitarios
             view.EstahRenderizando = false;
         }
 
+        public static void SetTextWithoutFiringEvents(this MetroTextBox textBox, string text)
+        {
+            var view = (IView)textBox.FindForm();
+
+            view.EstahRenderizando = true;
+
+            textBox.Text = text;
+
+            view.EstahRenderizando = false;
+        }
+
         public static int GetDeterministicHashCode(this string str)
         {
             unchecked

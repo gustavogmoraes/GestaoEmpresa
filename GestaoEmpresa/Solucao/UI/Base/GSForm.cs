@@ -1,21 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Reflection;
-using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using GS.GestaoEmpresa.Properties;
-using GS.GestaoEmpresa.Solucao.Negocio.Atributos;
 using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores.Comuns;
-using GS.GestaoEmpresa.Solucao.Negocio.Interfaces;
-using GS.GestaoEmpresa.Solucao.Negocio.Objetos;
-using GS.GestaoEmpresa.Solucao.UI.ControlesGenericos;
-using GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque;
-using GS.GestaoEmpresa.Solucao.Utilitarios;
-using MetroFramework.Controls;
 using MetroFramework.Forms;
-using MoreLinq;
 
 namespace GS.GestaoEmpresa.Solucao.UI.Base
 {

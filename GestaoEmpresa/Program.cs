@@ -24,9 +24,7 @@ namespace GestaoEmpresa
             SessaoSistema.IsMain = File.Exists(isMainFilePath);
             //SessaoSistema.WorkTestMode = true;
 
-            Application.Run(new FrmInteracaoMetro());
-
-            //Application.Run(GerenciadorDeViews.ObtenhaPrincipal());
+            Application.Run(GerenciadorDeViews.ObtenhaPrincipal());
         }
 
         // Remove and reinstall all references
