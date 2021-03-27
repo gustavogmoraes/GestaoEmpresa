@@ -45,7 +45,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             produto.PrecoDeCompra.ToRealMonetaryString(false, true, 2, null, null),
             produto.PrecoDistribuidor.ToRealMonetaryString(false, true, 2, null, null),
             produto.PrecoSugeridoConsumidorFinal.ToRealMonetaryString(false, true, 2, null, null),
-            produto.PorcentagemDeLucro.ToRealMonetaryString(false, true, 2, null, null),
+            produto.PorcentagemDeLucro.TreatPercentage(),
             produto.PrecoDeVenda.ToRealMonetaryString(false, true, 2, null, null),
             qtds[produto.Codigo]
         };

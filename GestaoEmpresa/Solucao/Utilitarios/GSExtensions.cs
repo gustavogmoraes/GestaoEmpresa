@@ -630,6 +630,11 @@ namespace GS.GestaoEmpresa.Solucao.Utilitarios
             return (Color)new ColorConverter().ConvertFromString($"#{hexCode}");
         }
 
+        public static string TreatPercentage(this decimal? value)
+        {
+            return " %";
+        }
+
         public static string ToRealMonetaryString(
             this decimal? value,
             bool returnEmptyIf0 = false,

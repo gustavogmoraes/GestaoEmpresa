@@ -784,7 +784,7 @@
             this.colunaCodigo.HeaderText = "Cód. Mega";
             this.colunaCodigo.Name = "colunaCodigo";
             this.colunaCodigo.ReadOnly = true;
-            this.colunaCodigo.Width = 150;
+            this.colunaCodigo.Width = 80;
             // 
             // colunaFabricante
             // 
@@ -824,7 +824,7 @@
             this.colunaPesquisaCodigo.HeaderText = "Cód. Mega";
             this.colunaPesquisaCodigo.Name = "colunaPesquisaCodigo";
             this.colunaPesquisaCodigo.ReadOnly = true;
-            this.colunaPesquisaCodigo.Width = 110;
+            this.colunaPesquisaCodigo.Width = 60;
             // 
             // colunaPesquisaFabricante
             // 
@@ -840,7 +840,7 @@
             this.colunaPesquisaCodigoDistribuidor.HeaderText = "Cód. Fabricante";
             this.colunaPesquisaCodigoDistribuidor.Name = "colunaPesquisaCodigoDistribuidor";
             this.colunaPesquisaCodigoDistribuidor.ReadOnly = true;
-            this.colunaPesquisaCodigoDistribuidor.Width = 123;
+            this.colunaPesquisaCodigoDistribuidor.Width = 113;
             // 
             // colunaPesquisaNome
             // 
@@ -883,7 +883,7 @@
             this.colunaPesquisaLucro.HeaderText = "L";
             this.colunaPesquisaLucro.Name = "colunaPesquisaLucro";
             this.colunaPesquisaLucro.ReadOnly = true;
-            this.colunaPesquisaLucro.Width = 35;
+            this.colunaPesquisaLucro.Width = 55;
             // 
             // colunaPesquisaVenda
             // 
