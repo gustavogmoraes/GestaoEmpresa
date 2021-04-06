@@ -194,7 +194,8 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.BancoDeDados
         private static Dictionary<Type, string> NomenclaturaDeColecaoCustomizada =>
             new Dictionary<Type, string>
             {
-                { typeof(Interacao), "Interacoes" }
+                { typeof(Interacao), "Interacoes" },
+                { typeof(ProdutoQuantidade), "ProdutosQuantidades" }
             };
 
         public static IRavenQueryable<T> SearchMultiple<T>(this IRavenQueryable<T> queryable, string searchTerm, params Expression<Func<T, object>>[] properties)
