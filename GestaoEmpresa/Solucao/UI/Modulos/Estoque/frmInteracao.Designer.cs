@@ -84,13 +84,16 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.txtOrdemDeServico = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
             this.txtLineOS = new System.Windows.Forms.Label();
-            this.GStxtValor = new GS.GestaoEmpresa.Solucao.UI.ControlesGenericos.GSTextBoxMonetaria();
-            this.GSMultiTextBox = new GS.GestaoEmpresa.Solucao.UI.ControlesGenericos.GSMultiTextBox();
             this.panelDevolucao = new System.Windows.Forms.Panel();
             this.dtpDevolucao = new System.Windows.Forms.DateTimePicker();
-            this.dtpTimeDevolucao = new System.Windows.Forms.DateTimePicker();
             this.label11 = new System.Windows.Forms.Label();
+            this.dtpTimeDevolucao = new System.Windows.Forms.DateTimePicker();
             this.label12 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.gsFileAttacher1 = new GS.GestaoEmpresa.Solucao.UI.ControlesGenericos.GSFileAttacher();
+            this.GStxtValor = new GS.GestaoEmpresa.Solucao.UI.ControlesGenericos.GSTextBoxMonetaria();
+            this.GSMultiTextBox = new GS.GestaoEmpresa.Solucao.UI.ControlesGenericos.GSMultiTextBox();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.btnCancelarExcluir)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnEditarSalvar)).BeginInit();
@@ -118,13 +121,13 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.panel1.Controls.Add(this.btnEditarSalvar);
             this.panel1.Location = new System.Drawing.Point(-1, -2);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1009, 40);
+            this.panel1.Size = new System.Drawing.Size(1414, 40);
             this.panel1.TabIndex = 83;
             // 
             // btnCancelarExcluir
             // 
             this.btnCancelarExcluir.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnCancelarExcluir.Location = new System.Drawing.Point(961, 9);
+            this.btnCancelarExcluir.Location = new System.Drawing.Point(1097, 9);
             this.btnCancelarExcluir.Name = "btnCancelarExcluir";
             this.btnCancelarExcluir.Size = new System.Drawing.Size(33, 26);
             this.btnCancelarExcluir.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -149,7 +152,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             // 
             this.btnEditarSalvar.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnEditarSalvar.InitialImage = null;
-            this.btnEditarSalvar.Location = new System.Drawing.Point(923, 5);
+            this.btnEditarSalvar.Location = new System.Drawing.Point(1136, 4);
             this.btnEditarSalvar.Name = "btnEditarSalvar";
             this.btnEditarSalvar.Size = new System.Drawing.Size(32, 30);
             this.btnEditarSalvar.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -296,7 +299,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.txtDestino.Location = new System.Drawing.Point(536, 654);
             this.txtDestino.MaxLength = 100;
             this.txtDestino.Name = "txtDestino";
-            this.txtDestino.Size = new System.Drawing.Size(461, 22);
+            this.txtDestino.Size = new System.Drawing.Size(374, 22);
             this.txtDestino.TabIndex = 9;
             // 
             // lblDestino
@@ -339,9 +342,9 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.txtLineProduto.ForeColor = System.Drawing.Color.SteelBlue;
             this.txtLineProduto.Location = new System.Drawing.Point(10, 142);
             this.txtLineProduto.Name = "txtLineProduto";
-            this.txtLineProduto.Size = new System.Drawing.Size(984, 42);
+            this.txtLineProduto.Size = new System.Drawing.Size(774, 42);
             this.txtLineProduto.TabIndex = 110;
-            this.txtLineProduto.Text = "______________________________________________";
+            this.txtLineProduto.Text = "____________________________________";
             // 
             // cbProduto
             // 
@@ -352,7 +355,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.cbProduto.IntegralHeight = false;
             this.cbProduto.Location = new System.Drawing.Point(23, 142);
             this.cbProduto.Name = "cbProduto";
-            this.cbProduto.Size = new System.Drawing.Size(956, 32);
+            this.cbProduto.Size = new System.Drawing.Size(733, 32);
             this.cbProduto.TabIndex = 1;
             this.cbProduto.SelectedIndexChanged += new System.EventHandler(this.cbProduto_SelectedIndexChanged);
             this.cbProduto.TextChanged += new System.EventHandler(this.cbProduto_TextChanged);
@@ -360,8 +363,6 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             // chkAtualizar
             // 
             this.chkAtualizar.AutoSize = true;
-            this.chkAtualizar.Checked = true;
-            this.chkAtualizar.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkAtualizar.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.chkAtualizar.ForeColor = System.Drawing.Color.SteelBlue;
             this.chkAtualizar.Location = new System.Drawing.Point(353, 257);
@@ -410,7 +411,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.txtNumeroDaNotaFiscal.Location = new System.Drawing.Point(536, 230);
             this.txtNumeroDaNotaFiscal.MaxLength = 100;
             this.txtNumeroDaNotaFiscal.Name = "txtNumeroDaNotaFiscal";
-            this.txtNumeroDaNotaFiscal.Size = new System.Drawing.Size(395, 22);
+            this.txtNumeroDaNotaFiscal.Size = new System.Drawing.Size(280, 22);
             this.txtNumeroDaNotaFiscal.TabIndex = 4;
             this.txtNumeroDaNotaFiscal.TextChanged += new System.EventHandler(this.txtNumeroDaNotaFiscal_TextChanged);
             // 
@@ -432,9 +433,9 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.label4.ForeColor = System.Drawing.Color.SteelBlue;
             this.label4.Location = new System.Drawing.Point(528, 217);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(480, 42);
+            this.label4.Size = new System.Drawing.Size(312, 42);
             this.label4.TabIndex = 119;
-            this.label4.Text = "______________________";
+            this.label4.Text = "______________";
             // 
             // chkInformarNumeroDeSerie
             // 
@@ -634,7 +635,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             "Outros"});
             this.cbFinalidade.Location = new System.Drawing.Point(543, 566);
             this.cbFinalidade.Name = "cbFinalidade";
-            this.cbFinalidade.Size = new System.Drawing.Size(449, 32);
+            this.cbFinalidade.Size = new System.Drawing.Size(367, 32);
             this.cbFinalidade.TabIndex = 139;
             // 
             // label6
@@ -704,28 +705,6 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.txtLineOS.TabIndex = 143;
             this.txtLineOS.Text = "______________________";
             // 
-            // GStxtValor
-            // 
-            this.GStxtValor.BackColor = System.Drawing.Color.Silver;
-            this.GStxtValor.Location = new System.Drawing.Point(277, 220);
-            this.GStxtValor.Name = "GStxtValor";
-            this.GStxtValor.Size = new System.Drawing.Size(153, 36);
-            this.GStxtValor.TabIndex = 7;
-            this.GStxtValor.Valor = new decimal(new int[] {
-            0,
-            0,
-            0,
-            131072});
-            // 
-            // GSMultiTextBox
-            // 
-            this.GSMultiTextBox.BackColor = System.Drawing.Color.Silver;
-            this.GSMultiTextBox.Location = new System.Drawing.Point(3, 3);
-            this.GSMultiTextBox.Name = "GSMultiTextBox";
-            this.GSMultiTextBox.Size = new System.Drawing.Size(451, 32);
-            this.GSMultiTextBox.TabIndex = 3;
-            this.GSMultiTextBox.Texto = "";
-            // 
             // panelDevolucao
             // 
             this.panelDevolucao.Controls.Add(this.dtpDevolucao);
@@ -751,6 +730,18 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.dtpDevolucao.TabIndex = 147;
             this.dtpDevolucao.ValueChanged += new System.EventHandler(this.dateTimePicker1_ValueChanged);
             // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label11.ForeColor = System.Drawing.Color.SteelBlue;
+            this.label11.Location = new System.Drawing.Point(10, -2);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(165, 24);
+            this.label11.TabIndex = 145;
+            this.label11.Text = "Horário devoluçao";
+            this.label11.Click += new System.EventHandler(this.label11_Click);
+            // 
             // dtpTimeDevolucao
             // 
             this.dtpTimeDevolucao.CustomFormat = "HH:mm";
@@ -765,18 +756,6 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.dtpTimeDevolucao.Value = new System.DateTime(2018, 8, 24, 0, 0, 0, 0);
             this.dtpTimeDevolucao.ValueChanged += new System.EventHandler(this.dateTimePicker2_ValueChanged);
             // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label11.ForeColor = System.Drawing.Color.SteelBlue;
-            this.label11.Location = new System.Drawing.Point(10, -2);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(165, 24);
-            this.label11.TabIndex = 145;
-            this.label11.Text = "Horário devoluçao";
-            this.label11.Click += new System.EventHandler(this.label11_Click);
-            // 
             // label12
             // 
             this.label12.AutoSize = true;
@@ -789,12 +768,66 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.label12.Text = "__________";
             this.label12.Click += new System.EventHandler(this.label12_Click);
             // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.ForeColor = System.Drawing.Color.SteelBlue;
+            this.label5.Location = new System.Drawing.Point(828, 150);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(75, 24);
+            this.label5.TabIndex = 146;
+            this.label5.Text = "Anexos";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 27.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label8.ForeColor = System.Drawing.Color.SteelBlue;
+            this.label8.Location = new System.Drawing.Point(825, 248);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(375, 42);
+            this.label8.TabIndex = 147;
+            this.label8.Text = "_________________";
+            // 
+            // gsFileAttacher1
+            // 
+            this.gsFileAttacher1.Location = new System.Drawing.Point(832, 175);
+            this.gsFileAttacher1.Name = "gsFileAttacher1";
+            this.gsFileAttacher1.Size = new System.Drawing.Size(362, 108);
+            this.gsFileAttacher1.TabIndex = 145;
+            // 
+            // GStxtValor
+            // 
+            this.GStxtValor.BackColor = System.Drawing.Color.Silver;
+            this.GStxtValor.Location = new System.Drawing.Point(277, 220);
+            this.GStxtValor.Name = "GStxtValor";
+            this.GStxtValor.Size = new System.Drawing.Size(153, 36);
+            this.GStxtValor.TabIndex = 7;
+            this.GStxtValor.Valor = new decimal(new int[] {
+            0,
+            0,
+            0,
+            131072});
+            // 
+            // GSMultiTextBox
+            // 
+            this.GSMultiTextBox.BackColor = System.Drawing.Color.Silver;
+            this.GSMultiTextBox.Location = new System.Drawing.Point(3, 3);
+            this.GSMultiTextBox.Name = "GSMultiTextBox";
+            this.GSMultiTextBox.Size = new System.Drawing.Size(451, 32);
+            this.GSMultiTextBox.TabIndex = 3;
+            this.GSMultiTextBox.Texto = "";
+            // 
             // frmInteracao
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Silver;
-            this.ClientSize = new System.Drawing.Size(1004, 708);
+            this.ClientSize = new System.Drawing.Size(1191, 708);
+            this.Controls.Add(this.gsFileAttacher1);
+            this.Controls.Add(this.label8);
+            this.Controls.Add(this.label5);
             this.Controls.Add(this.panelDevolucao);
             this.Controls.Add(this.txtOrdemDeServico);
             this.Controls.Add(this.label9);
@@ -921,5 +954,8 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         private Label label11;
         private DateTimePicker dtpTimeDevolucao;
         private Label label12;
+        private ControlesGenericos.GSFileAttacher gsFileAttacher1;
+        private Label label5;
+        private Label label8;
     }
 }

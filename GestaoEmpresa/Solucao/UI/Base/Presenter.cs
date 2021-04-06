@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Globalization;
@@ -19,6 +20,7 @@ using System.Windows.Forms;
 #region Ours
 
 using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores.Comuns;
+using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores.Seguros.TipoDePessoa;
 using GS.GestaoEmpresa.Solucao.Negocio.Interfaces;
 using GS.GestaoEmpresa.Solucao.Negocio.Objetos.Base;
 using GS.GestaoEmpresa.Solucao.Persistencia.BancoDeDados;
@@ -84,8 +86,8 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
         protected virtual void MapeieControle(
             Expression<Func<TModel, object>> propriedade,
             Expression<Func<TView, Control>> controle,
-            Action<object, Control> conversaoPropriedadeControle = null,
-            Action<Control, object> conversaoControlePropriedade = null)
+            Action<object, Control, PropertyInfo, object> conversaoPropriedadeControle = null,
+            Action<Control, PropertyInfo, object, IPresenter> conversaoControlePropriedade = null)
         {
             if (propriedade == null || controle == null) return;
             if (Model == null) Model = new TModel();
@@ -93,6 +95,20 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
 
             MapeamentoDeControles.Add(new MapeamentoDeControle<TModel, TView>(
                 propriedade, controle, conversaoPropriedadeControle, conversaoControlePropriedade));
+        }
+
+        protected virtual void MapeieControle(
+            Expression<Func<TModel, object>> propriedade,
+            Expression<Func<TView, IComponent>> controle,
+            Action<object, Control> conversaoPropriedadeControle = null,
+            Action<Control, object> conversaoControlePropriedade = null)
+        {
+            if (propriedade == null || controle == null) return;
+            if (Model == null) Model = new TModel();
+            if (MapeamentoDeControles == null) MapeamentoDeControles = new List<MapeamentoDeControle<TModel, TView>>();
+
+            //MapeamentoDeControles.Add(new MapeamentoDeControle<TModel, TView>(
+            //    propriedade, controle, conversaoPropriedadeControle, conversaoControlePropriedade));
         }
 
         #endregion
@@ -104,6 +120,11 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
 
         public virtual void CarregueControlesComModel()
         {
+            if(View.EstahRenderizando)
+            {
+                return;
+            }
+
             View.EstahRenderizando = true;
             if (Model == null || MapeamentoDeControles == null || MapeamentoDeControles.Count == 0) return;
 
@@ -137,16 +158,27 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
         {
             if (Model == null || MapeamentoDeControles == null || MapeamentoDeControles.Count == 0) return;
 
-            MapeamentoDeControles.ForEach(mapeamento =>
+            foreach(var mapeamento in MapeamentoDeControles)
             {
                 var controle = View.Controls.Find(mapeamento.NomeControle, true).FirstOrDefault();
                 var tipoDoControle = controle?.GetType();
 
-                if (ConversoesControlePropriedade.ContainsKey(tipoDoControle ?? throw new InvalidOperationException()))
+                if (tipoDoControle == null) 
+                {
+                    throw new InvalidOperationException();
+                }
+
+                if(mapeamento.ConversaoControlePropriedade != null)
+                {
+                    mapeamento.ConversaoControlePropriedade.Invoke(controle, mapeamento.PropriedadeObjeto, Model, this);
+                    continue;
+                }
+
+                if (ConversoesControlePropriedade.ContainsKey(tipoDoControle))
                 {
                     ConversoesControlePropriedade[tipoDoControle].Item2.Invoke(controle, mapeamento.PropriedadeObjeto, Model, this);
                 }
-            });
+            }
         }
 
         public DialogResult ExibaPromptConfirmacao(string mensagem)
@@ -348,14 +380,25 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
                         (controle, propriedade, model, presenter) =>
                         {
                             var ehCbVigencia = controle.Name == "cbVigencia";
-                            var valorControle = ((MetroComboBox) controle).SelectedText;
+                            var valorControle = (ehCbVigencia 
+                                                    ? ((MetroComboBox) controle).SelectedText
+                                                    : ((MetroComboBox) controle).SelectedItem).ToString();
 
-                            if (valorControle == string.Empty)
+                            if (ehCbVigencia && string.IsNullOrEmpty(valorControle))
+                            {
                                 valorControle = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
+                            }
 
-                            propriedade.SetValue(model, ehCbVigencia
-                                                            ? (object)valorControle.ConvertaParaDateTime(EnumFormatacaoDateTime.DD_MM_YYYY_HH_MM_SS, '/')
-                                                            : valorControle);
+                            var value = ehCbVigencia
+                                ? (object)valorControle.ConvertaParaDateTime(EnumFormatacaoDateTime.DD_MM_YYYY_HH_MM_SS, '/')
+                                : valorControle;
+
+                            if(propriedade.PropertyType.IsEnum)
+                            {
+                                value = Enum.Parse(typeof(EnumTiposDePessoa), value.ToString().RemoveDiacritics(), true);
+                            }
+
+                            propriedade.SetValue(model, value);
                         })
                 },
                 {
@@ -399,7 +442,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
                             else
                             {
                                 var valor = ((GSMetroToggle)controle).Checked;
-                                propriedade.SetValue(valor, valor);
+                                propriedade.SetValue(model, valor);
                             }
                         })
                 },
@@ -425,7 +468,12 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
                             imageAttacher.tabControl.TabPages.Clear();
 
                             var attachments = (RavenAttachments)propriedade.GetValue(model);
-                            foreach(var attachment in attachments.FileStreams)
+                            if(attachments == null)
+                            {
+                                return;
+                            }
+
+                            foreach(var attachment in attachments.FileStreams.Where(x => x.Key.StartsWith("Image")))
                             {
                                 var tabPage = imageAttacher.AddTabPageExternal(
                                     imageAttacher.tabControl,
@@ -455,7 +503,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
                             {
                                 if(image != null)
                                 {
-                                    dictionary.Add(count.ToString(), image.ToStream(ImageFormat.Png));
+                                    dictionary.Add("Image-" + count.ToString(), image.ToStream(ImageFormat.Png));
                                 }
 
                                 count++;

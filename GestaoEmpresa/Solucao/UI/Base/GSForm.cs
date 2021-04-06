@@ -1,21 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Reflection;
-using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using GS.GestaoEmpresa.Properties;
-using GS.GestaoEmpresa.Solucao.Negocio.Atributos;
 using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores.Comuns;
-using GS.GestaoEmpresa.Solucao.Negocio.Interfaces;
-using GS.GestaoEmpresa.Solucao.Negocio.Objetos;
-using GS.GestaoEmpresa.Solucao.UI.ControlesGenericos;
-using GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque;
-using GS.GestaoEmpresa.Solucao.Utilitarios;
-using MetroFramework.Controls;
 using MetroFramework.Forms;
-using MoreLinq;
 
 namespace GS.GestaoEmpresa.Solucao.UI.Base
 {
@@ -136,6 +123,17 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
             
         }
 
+        public void ChamadaMaximizarForm(object sender, EventArgs e)
+        {
+            if (WindowState == FormWindowState.Maximized)
+            {
+                WindowState = FormWindowState.Normal;
+                return;
+            }
+
+            WindowState = FormWindowState.Maximized;
+        }
+
         #endregion
 
         #region Eventos
@@ -176,7 +174,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
         {
             Presenter.MinimizarView(sender, e);
         }
-
+        
         public virtual void ChamadaFecharForm(object sender, EventArgs e)
         {
             Presenter.FecharView(sender, e);

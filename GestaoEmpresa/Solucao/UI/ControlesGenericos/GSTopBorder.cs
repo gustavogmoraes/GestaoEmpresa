@@ -57,15 +57,31 @@ namespace GS.GestaoEmpresa.Solucao.UI.ControlesGenericos
         {
             InitializeComponent();
         }
+        private bool _displayMaximize { get; set; }
+
+        public bool DisplayMaximize
+        {
+            get => _displayMaximize;
+            set
+            {
+                btnMaximize.Visible = value;
+                _displayMaximize = value;
+            }
+        }
 
         private void btnClose_Click(object sender, EventArgs e)
         {
             (ParentForm as IView)?.ChamadaFecharForm(sender, e);
         }
 
-        private void btnMinimize_Click_1(object sender, EventArgs e)
+        private void btnMinimize_Click(object sender, EventArgs e)
         {
             (ParentForm as IView)?.ChamadaMinimizarForm(sender, e);
+        }
+
+        private void btnMaximize_Click(object sender, EventArgs e)
+        {
+            (ParentForm as IView)?.ChamadaMaximizarForm(sender, e);
         }
     }
 }

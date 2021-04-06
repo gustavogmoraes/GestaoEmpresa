@@ -26,31 +26,46 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
     {
         #region Default Implementation
 
-        protected override Action AcaoSucessoValidacaoDeCadastro(Produto produto)
+        protected override Action AcaoSucessoValidacaoDeCadastro(Produto produto) => () =>
         {
-            return () => 
-            { 
-                produto.QuantidadeEmEstoque = 0;
-            };
-        }
+            using (var session = RavenHelper.OpenSession())
+            {
+                session.Store(new ProdutoQuantidade { Codigo = produto.Codigo, Quantidade = 0 });
+                session.SaveChanges();
+            }
+        };
 
         protected override Action AcaoSucessoValidacaoDeEdicao(Produto item)
         {
             return null;
         }
 
-        protected override Action AcaoSucessoValidacaoDeExclusao(int codigo)
+        protected override Action AcaoSucessoValidacaoDeExclusao(int codigo) => () =>
         {
-            return null;
-        }
+            using (var session = RavenHelper.OpenSession())
+            {
+                var produtoQtd = session.Query<ProdutoQuantidade>().FirstOrDefault(x => x.Codigo == codigo);
+
+                session.Delete(produtoQtd);
+                session.SaveChanges();
+            }
+        };
 
         #endregion
 
-        public int? ConsulteQuantidade(int codigo)
+        public int ConsulteQuantidade(int codigo)
         {
             using (var repositorioDeProduto = new RepositorioDeProduto())
             {
                 return repositorioDeProduto.ConsulteQuantidade(codigo);
+            }
+        }
+
+        public Dictionary<int, int> ConsulteQuantidade(IList<int> codigos)
+        {
+            using (var repositorioDeProduto = new RepositorioDeProduto())
+            {
+                return repositorioDeProduto.ConsulteQuantidade(codigos);
             }
         }
 
@@ -64,13 +79,14 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
                 if (formEstoque == null) return;
 
                 var produto = Consulte(codigoDoProduto);
-                formEstoque.RecarregueProdutoEspecifico(produto);
+                formEstoque.RecarregueProdutoEspecifico(produto, ConsulteQuantidade(codigoDoProduto));
             }
         }
 
         private static Expression<Func<Produto, object>> SeletorProdutoAterrissagem => x => new Produto
         {
             Codigo = x.Codigo,
+            Fabricante = x.Fabricante,
             CodigoDoFabricante = x.CodigoDoFabricante,
             Nome = x.Nome,
             Observacao = x.Observacao,
@@ -79,7 +95,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
             PrecoNaIntelbras =  x.PrecoNaIntelbras,
             PrecoDistribuidor = x.PrecoDistribuidor,
             PrecoSugeridoConsumidorFinal = x.PrecoSugeridoConsumidorFinal,
-            QuantidadeEmEstoque = x.QuantidadeEmEstoque,
+            PorcentagemDeLucro = x.PorcentagemDeLucro,
             Status = x.Status
         };
 
@@ -87,16 +103,29 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
             { x => x.Nome, x => x.Codigo, x => x.CodigoDoFabricante, x => x.Fabricante };
 
         public List<Produto> ConsulteTodosParaAterrissagem(
+            out Dictionary<int, int> quantidades,
+            bool onlyActives = true,
             Expression<Func<Produto, bool>> whereFilter = null,
             Expression<Func<Produto, object>> resultSelector = null,
             int takeQuantity = 500,
             string searchTerm = null,
             Expression<Func<Produto, object>>[] propertiesToSearch = null) 
         {
-            return Repositorio.ConsulteTodos(
-                whereFilter, resultSelector ?? SeletorProdutoAterrissagem, takeQuantity, searchTerm, propertiesToSearch: propertiesToSearch ?? DefaultPropertiesToSearch)
-                //.OrderBy(x  => x.Nome)
+            var selector = resultSelector ?? SeletorProdutoAterrissagem;
+
+            var produtos = Repositorio.ConsulteTodos(
+                onlyActives,
+                whereFilter, 
+                selector, 
+                takeQuantity, 
+                searchTerm, 
+                propertiesToSearch: propertiesToSearch ?? DefaultPropertiesToSearch)
                 .ToList();
+
+            var codigosProdutos = produtos.Select(x => x.Codigo).ToList();
+            quantidades = Repositorio.ConsulteQuantidade(codigosProdutos);
+
+            return produtos;
         }
 
         public override Produto Consulte(int codigo, bool withAttachments = true)
@@ -110,7 +139,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
         {
             if(tipoDeForm == EnumTipoDeForm.Edicao)
             {
-                item.QuantidadeEmEstoque = ConsulteQuantidade(item.Codigo).GetValueOrDefault();
+                //item.QuantidadeEmEstoque = ConsulteQuantidade(item.Codigo).GetValueOrDefault();
             }
 
             var inconsistencias = base.Salve(item, tipoDeForm);
@@ -180,7 +209,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
         {
             caller.Invoke((MethodInvoker)delegate
             {
-                caller.button1.Enabled = false;
+                caller.btnImportarTabelaPrecosIntelbras.Enabled = false;
 
                 caller.metroProgressImportar.Visible = true;
                 caller.metroProgressImportar.Value = 1;

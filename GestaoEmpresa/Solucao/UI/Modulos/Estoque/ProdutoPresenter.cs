@@ -23,7 +23,6 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             MapeieControle(model => model.Fabricante, view => view.txtMarca);
             MapeieControle(model => model.CodigoDoFabricante, view => view.txtCodigoFabricante);
             MapeieControle(model => model.QuantidadeMinimaParaAviso, view => view.txtQuantidadeMinima);
-            MapeieControle(model => model.QuantidadeEmEstoque, view => view.txtQuantidadeEmEstoque);
             MapeieControle(model => model.AvisarQuantidade, view => view.chkAvisarQuantidade);
             MapeieControle(model => model.CodigoDeBarras, view => view.txtCodigoDeBarras);
             MapeieControle(model => model.PrecoDeCompra, view => view.txtMPrecoDeCompra);
@@ -69,9 +68,8 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                             View.EstahRenderizando = true;
 
                             View.Presenter?.ViewCarregada();
-                            //CarregueControlesComModel();
-
-                            //View.cbVigencia.SelectedItem = dataVigencia.ToString("dd/MM/yyyy HH:mm:ss");
+                            View.cbVigencia.SelectedItem = dataVigencia.ToString("dd/MM/yyyy HH:mm:ss");
+                            View.txtQuantidadeEmEstoque.Text = servicoDeProduto.ConsulteQuantidade(vigenciaConsultada.Codigo).ToString();
 
                             View.EstahRenderizando = false;
                         });
@@ -84,6 +82,17 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             using (var servicoDeProduto = new ServicoDeProduto())
             {
                 return servicoDeProduto.Consulte(codigo);
+            }
+        }
+
+        public override void CarregueControlesComModel()
+        {
+            base.CarregueControlesComModel();
+
+            using(var servico = new ServicoDeProduto())
+            {
+                var quantidade = servico.ConsulteQuantidade(Model.Codigo);
+                View.txtQuantidadeEmEstoque.Text = quantidade.ToString();
             }
         }
     }

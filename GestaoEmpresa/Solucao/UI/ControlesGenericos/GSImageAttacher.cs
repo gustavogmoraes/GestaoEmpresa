@@ -125,7 +125,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.ControlesGenericos
                         tabPage.BackgroundImage = image;
 
                         tabPage.Focus();
-                        tabPage.DoubleClick += (sender, e) => tabPage_DoubleClick(sender, e);
+                        tabPage.DoubleClick += (a, b) => tabPage_DoubleClick(a, b);
                     }
                     catch (SecurityException ex)
                     {

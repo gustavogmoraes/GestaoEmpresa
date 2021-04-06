@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using MetroFramework.Controls;
+using System.Threading;
 
 namespace GS.GestaoEmpresa.Solucao.UI.ControlesGenericos
 {
@@ -16,6 +17,22 @@ namespace GS.GestaoEmpresa.Solucao.UI.ControlesGenericos
         public GSMetroToggle()
         {
             InitializeComponent();
+        }
+
+        protected override void OnLoad(EventArgs e)
+        {
+            base.OnLoad(e);
+
+            Task.Run(() =>
+            {
+                while (!txtTexto.IsHandleCreated) { Thread.Sleep(100); }
+                Invoke((MethodInvoker)delegate
+                {
+                    txtTexto.Text = metroToggle.Checked
+                                  ? TextoOn ?? "Ativo"
+                                  : TextoOff ?? "Inativo";
+                });
+            });
         }
 
         public string TextoOn { get; set; }

@@ -79,12 +79,23 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         public IPresenter Presenter { get; set; }
         public void ChamadaMinimizarForm(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            WindowState = FormWindowState.Minimized;
         }
 
         public void ChamadaFecharForm(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            GerenciadorDeViews.Exclua(typeof(frmInteracao), IdInstancia);
+        }
+
+        public void ChamadaMaximizarForm(object sender, EventArgs e)
+        {
+            if (WindowState == FormWindowState.Maximized)
+            {
+                WindowState = FormWindowState.Normal;
+                return;
+            }
+
+            WindowState = FormWindowState.Maximized;
         }
 
         protected CultureInfo Cultura = new CultureInfo("pt-BR");
@@ -315,7 +326,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                 Observacao = txtObservacoes.Text.Trim(),
                 ValorInteracao = GStxtValor.Valor.GetValueOrDefault(),
                 AtualizarValorDoProdutoNoCatalogo = chkAtualizar.Checked,
-                TipoDeInteracao = (EnumTipoDeInteracao) cbTipo.SelectedIndex + 1,
+                TipoDeInteracao = (EnumTipoDeInteracao)cbTipo.SelectedIndex + 1,
                 QuantidadeInterada = !string.IsNullOrEmpty(txtQuantidade.Text.Trim())
                                    ? int.Parse(txtQuantidade.Text.Trim())
                                    : 0,
@@ -330,7 +341,8 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                 Situacao = cbSituacao.SelectedItem?.ToString(),
                 HorarioDevolucao = cbSituacao.SelectedItem?.ToString() == "Devolvido"
                                  ? (DateTime?)dtpDevolucao.MergeValue(dtpTimeDevolucao)
-                                 : null
+                                 : null,
+                Tecnico = txtTecnico.Text
             };
 
             using (var servicoDeProduto = new ServicoDeProduto())
@@ -492,6 +504,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                     using (var servicoDeInteracao = new ServicoDeInteracao())
                     {
                         _listaDeInconsistencias = servicoDeInteracao.Salve(interacao, TipoDeForm).ToList();
+                        _codigoInteracao = interacao.Codigo;
                     }
 
                     if (_listaDeInconsistencias.Count == 0)
@@ -594,7 +607,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                         txtLineQuantidadeAux.Visible = false;
                         txtQuantidadeAux.Visible = false;
 
-                        chkAtualizar.Checked = true;
+                        //chkAtualizar.Checked = true;
                         chkAtualizar.Visible = true;
 
                         AtualizeValorComODoProduto();
@@ -809,7 +822,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         {
             var servicoDeProduto = new ServicoDeProduto();
 
-            var produtos = servicoDeProduto.ConsulteTodosParaAterrissagem(resultSelector: SeletorCombo, searchTerm: textoParaPesquisar)
+            var produtos = servicoDeProduto.ConsulteTodosParaAterrissagem(out var quantidades, resultSelector: SeletorCombo, searchTerm: textoParaPesquisar)
                 .OrderBy(x => x.Nome)
                 .ToList();
             return produtos;

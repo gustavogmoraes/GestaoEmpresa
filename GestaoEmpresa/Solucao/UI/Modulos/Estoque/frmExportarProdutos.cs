@@ -1,6 +1,8 @@
 ﻿using GS.GestaoEmpresa.Solucao.Negocio.Atributos;
 using GS.GestaoEmpresa.Solucao.Negocio.Objetos;
 using GS.GestaoEmpresa.Solucao.Negocio.Servicos;
+using GS.GestaoEmpresa.Solucao.Persistencia.BancoDeDados;
+using GS.GestaoEmpresa.Solucao.Persistencia.Repositorios;
 using GS.GestaoEmpresa.Solucao.Utilitarios;
 using OfficeOpenXml;
 using System;
@@ -10,15 +12,20 @@ using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Linq.Expressions;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using LicenseContext = OfficeOpenXml.LicenseContext;
 
 namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 {
     public partial class frmExportarProdutos : Form
     {
         private int? _columnIndex = null;
+
+        private List<PropertyInfo> _properties { get; set; }
 
         public frmExportarProdutos()
         {
@@ -32,49 +39,69 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         private void CarregueGrid()
         {
-            using (var servicoDeProduto = new ServicoDeProduto())
+            using var servicoDeProduto = new ServicoDeProduto();
+            var propriedades = GSUtilitarios.EncontrePropriedadeMarcadaComAtributo(typeof(Produto), typeof(Identificacao));
+            var propCodigo = propriedades.FirstOrDefault(x => x.Name == "Codigo");
+            propriedades.RemoveAll(x => x.Name == "Codigo");
+
+            propriedades.Insert(0, propCodigo);
+
+            var propsAndLabels = propriedades.ObtenhaPropriedadesELabels().ToList();
+
+            propsAndLabels.ForEach(x => gridExportacao.Columns.Add(x.Key.Name, x.Value));
+            gridExportacao.Columns.Add("Quantidade", "Quantidade");
+
+            foreach (DataGridViewColumn column in gridExportacao.Columns)
             {
-                var propriedades = GSUtilitarios.EncontrePropriedadeMarcadaComAtributo(typeof(Produto), typeof(Identificacao))
-                                                .ObtenhaPropriedadesELabels().ToList();
-
-                propriedades.ForEach(x => gridExportacao.Columns.Add(x.Key.Name, x.Value));
-                
-                foreach(DataGridViewColumn column in gridExportacao.Columns)
-                {
-                    column.SortMode = DataGridViewColumnSortMode.NotSortable;
-                }
-
-                AjusteEstilo();
-                AjusteContextMenu();
-
-                var quantidadeDeRegistros = servicoDeProduto.ObtenhaQuantidadeDeRegistros();
-
-                var rng = new Random();
-                var listaProdutos = new List<Produto>();
-
-                for (int i = 0; i < 3; i++)
-                {
-                    int numeroAleatorio = rng.Next(1, quantidadeDeRegistros);
-                    listaProdutos.Add(servicoDeProduto.Consulte(numeroAleatorio));
-                }
-
-                listaProdutos.Sort((x, y) => x.Codigo.CompareTo(y.Codigo));
-
-                listaProdutos.ForEach(x =>
-                    gridExportacao.Rows.Add(
-                        x.Codigo,
-                        x.Status,
-                        x.Nome,
-                        x.Fabricante,
-                        x.CodigoDoFabricante,
-                        x.PrecoDeCompra.HasValue ? x.PrecoDeCompra.GetValueOrDefault().FormateParaStringMoedaReal() : string.Empty,
-                        x.PrecoDeVenda.HasValue ? x.PrecoDeVenda.GetValueOrDefault().FormateParaStringMoedaReal() : string.Empty,
-                        x.PorcentagemDeLucro,
-                        x.QuantidadeEmEstoque,
-                        x.AvisarQuantidade.ConvertaValorBooleano(),
-                        x.QuantidadeMinimaParaAviso,
-                        x.Observacao));
+                column.SortMode = DataGridViewColumnSortMode.NotSortable;
             }
+
+            AjusteEstilo();
+            AjusteContextMenu();
+
+            var allCodes = RavenHelper.OpenSession().Query<Produto>()
+                .Where(x => x.Atual &&
+                            x.PrecoDeCompra != null &&
+                            x.PrecoDeVenda != null)
+                .OrderBy(x => x.Codigo)
+                .Select(x => x.Codigo)
+                .ToList();
+
+            var rng = new Random();
+            var listaProdutos = new List<Produto>();
+
+            for (int i = 0; i < 3; i++)
+            {
+                int numeroAleatorio = rng.Next(1, allCodes.Count);
+                var productCode = allCodes[numeroAleatorio];
+
+                listaProdutos.Add(servicoDeProduto.Consulte(productCode));
+            }
+
+            listaProdutos.Sort((x, y) => x.Codigo.CompareTo(y.Codigo));
+
+            var quantidades = servicoDeProduto.ConsulteQuantidade(listaProdutos.Select(x => x.Codigo).ToList());
+
+            listaProdutos.ForEach(x => gridExportacao.Rows.Add(GetValues(propsAndLabels, x, quantidades)));
+            _properties = propsAndLabels
+                .Select(x => x.Key)
+                .Where(x => x.Name != "Quantidade")
+                .ToList();
+        }
+
+        private object[] GetValues(
+            List<KeyValuePair<PropertyInfo, string>> propsAndLabels, Produto produto, Dictionary<int, int> quantidades)
+        {
+            var valueList = new List<object>();
+
+            propsAndLabels.Where(x => x.Key.Name != "Quantidade")
+                .Select(x => x.Key.GetValue(produto) ?? string.Empty)
+                .ToList()
+                .ForEach(x => valueList.Add(x));
+
+            valueList.Add(quantidades[produto.Codigo]);
+
+            return valueList.ToArray();
         }
 
         private void InicieForm()
@@ -183,54 +210,81 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         private void btnExportar_Click(object sender, EventArgs e)
         {
-            saveFileDialog = new SaveFileDialog();
-            saveFileDialog.Filter = "Planilha do Excel|*.xlsx";
-            saveFileDialog.Title = "Escolha o caminho";
+            saveFileDialog = new SaveFileDialog
+            {
+                Filter = "Planilha do Excel|*.xlsx",
+                Title = "Escolha o caminho",
+                FileName = $"Produtos sistema Mega {DateTime.Now.ToString("dd MM yyyy hh mm")}"
+            };
             saveFileDialog.ShowDialog();
 
             if (!string.IsNullOrEmpty(saveFileDialog.FileName))
             {
                 Exporte(saveFileDialog.FileName);
+                MessageBox.Show("Exportado com sucesso", "Sucesso!");
+                this.Dispose();
             }
         }
 
         private Task Exporte(string caminho)
         {
             var colunas = 
-                gridExportacao.Columns.Cast<DataGridViewColumn>().ToDictionary(
-                    x => typeof(Produto).GetProperty(x.Name), x => x.HeaderText);
+                gridExportacao.Columns.Cast<DataGridViewColumn>()
+                .Where(x => x.HeaderText != "Quantidade")
+                .ToDictionary( x => typeof(Produto).GetProperty(x.Name), x => x.HeaderText);
 
             var dataSet = new DataSet();
             dataSet.Tables.Add("Produtos");
 
             foreach(var coluna in colunas)
             {
-                dataSet.Tables["Produtos"].Columns.Add(coluna.Value);
-                dataSet.Tables["Produtos"].Columns.Cast<DataColumn>().LastOrDefault().DataType = coluna.Key.PropertyType;
+                var column = dataSet.Tables["Produtos"].Columns.Add(coluna.Value);
+                column.DataType = coluna.Key.PropertyType.IsNullable()
+                    ? coluna.Key.PropertyType.GenericTypeArguments.First()
+                    : coluna.Key.PropertyType;
             }
 
-            var listaDeProdutos = new List<Produto>();
-            using (var servicoDeProduto = new ServicoDeProduto())
+            dataSet.Tables["Produtos"].Columns.Add("Quantidade");
+            dataSet.Tables["Produtos"].Columns.Cast<DataColumn>().LastOrDefault().DataType = typeof(int);
+
+            using var repositorioDeProduto = new RepositorioDeProduto();
+            var listaDeProdutos = repositorioDeProduto.ConsulteTodos(takeQuantity: int.MaxValue).ToList();
+            var quantidades = repositorioDeProduto.ConsulteQuantidade(listaDeProdutos.Select(x => x.Codigo).ToList());
+
+            if (listaDeProdutos.Count <= 0)
             {
-                listaDeProdutos = servicoDeProduto.ConsulteTodos().ToList();
+                return null;
             }
 
-            if (listaDeProdutos.Count > 0)
+            foreach (var produto in listaDeProdutos)
             {
-                foreach(var produto in listaDeProdutos)
+                var linha = dataSet.Tables["Produtos"].NewRow();
+                foreach (var propriedade in colunas)
                 {
-                    var linha = dataSet.Tables["Produtos"].NewRow();
-
-                    foreach(var propriedade in colunas)
-                    {
-                        linha[propriedade.Value] = propriedade.Key.GetValue(produto);
-                    }
-
-                    dataSet.Tables["Produtos"].Rows.Add(linha);
+                    linha[propriedade.Value] = propriedade.Key.GetValue(produto) ?? DBNull.Value;
                 }
 
-                ExportarDataSetParaExcelEPPlus(dataSet, caminho);
+                if(!quantidades.ContainsKey(produto.Codigo))
+                {
+                    using var session = RavenHelper.OpenSession();
+                    var prdQty = new ProdutoQuantidade
+                    {
+                        Codigo = produto.Codigo,
+                        Quantidade = 0
+                    };
+
+                    session.Store(prdQty);
+                    session.SaveChanges();
+
+                    quantidades.Add(produto.Codigo, 0);
+                }
+
+                linha["Quantidade"] = quantidades[produto.Codigo];
+
+                dataSet.Tables["Produtos"].Rows.Add(linha);
             }
+
+            ExportarDataSetParaExcelEPPlus(dataSet, caminho);
 
             return null;
         }
@@ -301,60 +355,59 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
             #endregion
 
-            using (var pacoteExcel = new ExcelPackage())
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+            using var pacoteExcel = new ExcelPackage();
+            foreach (DataTable tabela in dataSet.Tables)
             {
-                foreach(DataTable tabela in dataSet.Tables)
+                var planilha = pacoteExcel.Workbook.Worksheets.Add(tabela.TableName);
+
+                // Setta as colunas
+                for (int i = 1; i < tabela.Columns.Count + 1; i++)
                 {
-                    var planilha = pacoteExcel.Workbook.Worksheets.Add(tabela.TableName);
+                    planilha.Cells[1, i].Value = tabela.Columns[i - 1].ColumnName;
+                    planilha.Cells[1, i].Style.Font.Bold = true;
 
-                    // Setta as colunas
-                    for (int i = 1; i < tabela.Columns.Count + 1; i++)
+                    var dataType = tabela.Columns[i - 1].DataType;
+                    if (dataType.IsNumericType())
                     {
-                        planilha.Cells[1, i].Value = tabela.Columns[i - 1].ColumnName;
-                        planilha.Cells[1, i].Style.Font.Bold = true;
-
-                        var dataType = tabela.Columns[i - 1].DataType;
-                        if (dataType.IsNumericType())
-                        {
-                            planilha.Column(i).Style.Numberformat.Format = "#,##0";
-                        }
-
-                        var valorCelula = planilha.Cells[1, i].Value.ToString();
-                        if (valorCelula.Contains("nome") || valorCelula.Contains("NOME") || valorCelula.Contains("Nome"))
-                        {
-                            planilha.Column(i).Width = 35;
-                        }
-                        else if (valorCelula.Contains("bservações") || valorCelula.Contains("bservação"))
-                        {
-                            planilha.Column(i).Width = 40;
-                        }
-                        else
-                        {
-                            planilha.Column(i).AutoFit();
-                        }
+                        planilha.Column(i).Style.Numberformat.Format = "#,##0";
                     }
 
-                    // Setta as linhas
-                    for (int j = 0; j < tabela.Rows.Count; j++)
+                    var valorCelula = planilha.Cells[1, i].Value.ToString();
+                    if (valorCelula.Contains("nome") || valorCelula.Contains("NOME") || valorCelula.Contains("Nome"))
                     {
-                        for (int k = 0; k < tabela.Columns.Count; k++)
-                        {
-                            planilha.Cells[j + 2, k + 1].Value = tabela.Columns[k].DataType == typeof(bool)
-                                                               ? Convert.ToBoolean(tabela.Rows[j].ItemArray[k]).ConvertaValorBooleanoDescritivo()
-                                                               : tabela.Rows[j].ItemArray[k];
-                        }
+                        planilha.Column(i).Width = 35;
+                    }
+                    else if (valorCelula.Contains("bservações") || valorCelula.Contains("bservação"))
+                    {
+                        planilha.Column(i).Width = 40;
+                    }
+                    else
+                    {
+                        planilha.Column(i).AutoFit();
                     }
                 }
 
-                pacoteExcel.SaveAs(new FileInfo(caminho));
+                // Setta as linhas
+                for (int j = 0; j < tabela.Rows.Count; j++)
+                {
+                    for (int k = 0; k < tabela.Columns.Count; k++)
+                    {
+                        planilha.Cells[j + 2, k + 1].Value = tabela.Columns[k].DataType == typeof(bool)
+                                                           ? Convert.ToBoolean(tabela.Rows[j].ItemArray[k]).ConvertaValorBooleanoDescritivo()
+                                                           : tabela.Rows[j].ItemArray[k];
+                    }
+                }
             }
+
+            pacoteExcel.SaveAs(new FileInfo(caminho));
         }
 
         private void gridExportacao_ColumnAdded(object sender, DataGridViewColumnEventArgs e)
         {
             if(e.Column.Name == "Nome")
             {
-                //e.Column.Width = 500;
+                e.Column.Width = 200;
             }
         }
     }

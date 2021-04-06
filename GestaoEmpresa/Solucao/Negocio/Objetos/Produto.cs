@@ -34,9 +34,6 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Objetos
         [Identificacao(Descricao = "Porcentagem de lucro")]
         public decimal? PorcentagemDeLucro { get; set; }
 
-        [Identificacao(Descricao = "Quantidade em estoque")]
-        public int QuantidadeEmEstoque { get; set; }
-
         [Identificacao(Descricao = "Avisar quando atingir quantidade mínima")]
         public bool AvisarQuantidade { get; set; }
 
@@ -92,18 +89,18 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Objetos
 
         public decimal CalculePrecoDeVenda(bool setOwnProperty = true)
         {
-            var porcentagemDeLucroPadrao = new RepositorioDeConfiguracao().ObtenhaUnica()?.PorcentagemDeLucroPadrao ?? 40.0M;
+            var porcentagemDeLucroPadrao = new RepositorioDeConfiguracao().ObtenhaUnica()?.PorcentagemDeLucroPadrao ?? 40M;
+            var porcentagemAplicada = PorcentagemDeLucro.GetValueOrDefault() == 0
+                                    ? porcentagemDeLucroPadrao / 100
+                                    : PorcentagemDeLucro / 100;
 
-            var precoDeVenda = PrecoDeCompra + PrecoDeCompra *
-                                     (PorcentagemDeLucro == 0
-                                         ? porcentagemDeLucroPadrao
-                                         : PorcentagemDeLucro / 100);
-
+            var precoDeVenda = PrecoDeCompra + (PrecoDeCompra * porcentagemAplicada);
             precoDeVenda = Math.Round(precoDeVenda.GetValueOrDefault(), 2);
 
             if (setOwnProperty)
             {
                 PrecoDeVenda = precoDeVenda;
+                PorcentagemDeLucro = porcentagemAplicada * 100;
             }
 
             return precoDeVenda.GetValueOrDefault();

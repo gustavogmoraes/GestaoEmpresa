@@ -4,6 +4,8 @@ using System.Windows.Forms;
 using GS.GestaoEmpresa.Solucao.Persistencia.BancoDeDados;
 using GS.GestaoEmpresa.Solucao.UI;
 using GS.GestaoEmpresa.Solucao.UI.ControlesGenericos;
+using GS.GestaoEmpresa.Solucao.UI.Modulos.Atendimento;
+using GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque;
 
 namespace GestaoEmpresa
 {

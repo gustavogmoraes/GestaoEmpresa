@@ -1,17 +1,18 @@
-﻿using GS.GestaoEmpresa.Solucao.Negocio.Interfaces;
-using GS.GestaoEmpresa.Solucao.Persistencia.BancoDeDados;
-using GS.GestaoEmpresa.Solucao.Utilitarios;
-using Raven.Client.Documents;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using Raven.Client.Documents.Session;
+using GS.GestaoEmpresa.Solucao.Negocio.Interfaces;
+using GS.GestaoEmpresa.Solucao.Persistencia.BancoDeDados;
 using GS.GestaoEmpresa.Solucao.Persistencia.Interfaces;
+using GS.GestaoEmpresa.Solucao.Utilitarios;
+using Raven.Client.Documents;
+using Raven.Client.Documents.Linq;
+using Raven.Client.Documents.Session;
 
 namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios.Base
 {
-    public abstract class RepositorioPadrao<T> : IDisposable
+    public abstract class RepositorioPadrao<T> : RepositoryBase<T>, IDisposable
         where T : class, IConceito, IRavenDbDocument, new()
     {
         public int Insira(T item)
@@ -54,20 +55,48 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios.Base
             }
         }
 
-        public IList<T> ConsulteTodos(Expression<Func<T, object>> seletor, string pesquisa, int takeQty = 500, params Expression<Func<T, object>>[] propriedades)
+        public IList<T> ConsulteTodos(
+            Expression<Func<T, object>> resultSelector, 
+            string searchTerm, 
+            int takeQuantity = 500,
+            bool withAttachments = false,   
+            params Expression<Func<T, object>>[] propertiesToSearch)
         {
-            var rQuery = RavenHelper.OpenSession().Query<T>();
-            if (!pesquisa.IsNullOrEmpty())
+            IList<T> returnList;
+
+            var rQuery = RavenHelper.OpenSession()
+                .Query<T>();
+
+            if (!searchTerm.IsNullOrEmpty() && propertiesToSearch.Any())
             {
-                rQuery = rQuery.SearchMultiple(pesquisa, propriedades);
+                rQuery = rQuery.SearchMultiple($"{searchTerm}", propertiesToSearch);
             }
-            
-            return rQuery
-                .Take(takeQty)
-                .Select(seletor)
-                .ToList()
-                .Cast<T>()
+
+            rQuery = rQuery.Take(takeQuantity);
+
+            if (resultSelector != null)
+            {
+                returnList = rQuery
+                    .Select(resultSelector)
+                    .OfType<T>()
+                    .ToList();
+            }
+            else
+            {
+                returnList = rQuery
+                .OfType<T>()
                 .ToList();
+            }
+
+            if (withAttachments)
+            {
+                foreach (var item in returnList)
+                {
+                    RetrieveAttachments(RavenHelper.OpenSession(), item);
+                }
+            }
+
+            return returnList;
         }
 
         public IList<T> ConsulteTodosExpensive(Expression<Func<T, object>> seletor)

@@ -4,7 +4,10 @@ using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using CSharpVerbalExpressions;
+using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores.Comuns;
 using GS.GestaoEmpresa.Solucao.Negocio.Interfaces;
 using GS.GestaoEmpresa.Solucao.Negocio.Objetos.Base;
 using GS.GestaoEmpresa.Solucao.Persistencia.BancoDeDados;
@@ -14,74 +17,14 @@ using Raven.Client.Documents.Session;
 
 namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios.Base
 {
-    public abstract class RepositorioHistoricoPadrao<T> : IDisposable
+    public abstract class RepositorioHistoricoPadrao<T> : RepositoryBase<T>, IDisposable
         where T : ObjetoComHistorico, IConceitoComHistorico, new()
     {
         protected static Expression<Func<T, bool>> _filtroAtualComCodigo(int codigo) => (x => x.Atual && x.Codigo == codigo);
 
         protected Expression<Func<T, bool>> _filtroAtual() => (x => x.Atual);
 
-        protected void StoreAttachments(IDocumentSession session, T item)
-        {
-            var attachmentProp = typeof(T).GetProperties().FirstOrDefault(x => x.PropertyType == typeof(RavenAttachments));
-
-            var value = (RavenAttachments)attachmentProp.GetValue(item);
-            if (value == null || value.FileStreams == null)
-            {
-                return;
-            }
-
-            foreach (var attachment in value.FileStreams)
-            {
-                attachment.Value.Position = 0;
-                session.Advanced.Attachments.Store(item.Id, attachment.Key, attachment.Value);
-                // If steam was already read at some point, it will be at the last position
-                // so we return it to the begining by copying it to another memory stream
-                // to make it readable again ;D
-                //using (var ms = new MemoryStream())
-                //{
-                //    attachment.Value.CopyTo(ms);
-                //    ms.Position = 0;
-
-                    
-                //}
-            }
-        }
-
-        protected void RetrieveAttachments(IDocumentSession session, T item)
-        {
-            if(item == null)
-            {
-                return;
-            }
-
-            var attachmentProp = typeof(T).GetProperties().FirstOrDefault(x => x.PropertyType == typeof(RavenAttachments));
-            var value = (RavenAttachments)attachmentProp.GetValue(item);
-            if (value == null)
-            {
-                return;
-            }
-
-            var attachmentDictionary = new Dictionary<string, Stream>();
-            foreach (var attachment in value.AttachmentsNames)
-            {
-                var attachmentResult = session.Advanced.Attachments.Get(item.Id, attachment);
-                if(attachmentResult == null)
-                {
-                    continue;
-                }
-
-                var memoryStream = new MemoryStream();
-                attachmentResult.Stream.CopyTo(memoryStream);
-
-                attachmentDictionary.Add(attachmentResult.Details.Name, memoryStream);
-            }
-
-            value.FileStreams = attachmentDictionary;
-            value.AttachmentsNames = attachmentDictionary.Keys.ToList();
-        }
-
-        public int Insira(T item)
+        public virtual int Insira(T item)
         {
             if (item.Codigo == 0)
             {
@@ -98,7 +41,7 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios.Base
             return item.Codigo;
         }
 
-        public async Task<int> InsiraAsync(T item)
+        public virtual async Task<int> InsiraAsync(T item)
         {
             if (item.Codigo == 0)
             {
@@ -179,50 +122,41 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios.Base
 
         public T Consulte(int codigo, bool withAttachments = true)
         {
-            using var session = RavenHelper.OpenSession();
-            var item = session.Query<T>().FirstOrDefault(x => x.Codigo == codigo && x.Atual);
-
-            if(withAttachments)
+            using (var session = RavenHelper.OpenSession())
             {
-                RetrieveAttachments(session, item);
+                var item = session.Query<T>().FirstOrDefault(x => x.Codigo == codigo && x.Atual);
+
+                if (withAttachments)
+                {
+                    RetrieveAttachments(session, item);
+                }
+
+                return item;
             }
-            
-            return item;
         }
 
         public T Consulte(int codigo, DateTime data, bool withAttachments = true)
         {
-            using var session = RavenHelper.OpenSession();
-            var item = session.Query<T>()
+            using (var session = RavenHelper.OpenSession())
+            {
+                var item = session.Query<T>()
                 .Where(x => x.Codigo == codigo && x.Vigencia <= data)
                 .OrderByDescending(x => x.Vigencia)
                 .FirstOrDefault();
 
-            if (withAttachments)
-            {
-                RetrieveAttachments(session, item);
-            }
+                if (withAttachments)
+                {
+                    RetrieveAttachments(session, item);
+                }
 
-            return item;
+                return item;
+            }
         }
 
         public int ObtenhaQuantidadeDeRegistros() => RavenHelper.OpenSession().Query<T>().Count(x => x.Atual);
 
-        //public IList<T> ConsulteTodos(Expression<Func<T, object>> seletor = null, Expression<Func<T, bool>> filtro = null, int takeQty = 500)
-        //{
-        //    var sessaoRaven = RavenHelper.OpenSession();
-        //    filtro = filtro?.AndAlso(_filtroAtual());
-
-        //    var queryable = filtro != null
-        //        ? sessaoRaven.Query<T>().Where(filtro)
-        //        : sessaoRaven.Query<T>().Where(_filtroAtual());
-
-        //    return seletor == null
-        //        ? queryable.Take(takeQty).ToList().ToList()
-        //        : queryable.Take(takeQty).Select(seletor).ToList().Cast<T>().ToList();
-        //}
-
         public IList<T> ConsulteTodos(
+            bool onlyActives = false,
             Expression<Func<T, bool>> whereFilter = null,
             Expression<Func<T, object>> resultSelector = null,
             int takeQuantity = 500,
@@ -242,6 +176,11 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios.Base
             var rQuery = RavenHelper.OpenSession()
                 .Query<T>();
 
+            if(onlyActives)
+            {
+                rQuery = rQuery.Where(x => x.Status == EnumStatusToggle.Ativo);
+            }
+
             if(useCurrentFilter)
             {
                 rQuery = rQuery.Where(_filtroAtual());
@@ -252,9 +191,23 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios.Base
                 rQuery = rQuery.Where(whereFilter);
             }
 
-            if (!searchTerm.IsNullOrEmpty() && propertiesToSearch.Any())
+            if (!searchTerm.IsNullOrEmpty())
             {
-                rQuery = rQuery.SearchMultiple($"{searchTerm}", propertiesToSearch);
+                var match = Regex.Match(searchTerm, @"\S*\d+\S*");
+                if (match.Success && !match.Value.All(x => x.IsDigit()))
+                {
+                    var idx = match.Value.IndexOfAny(new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' });
+
+                    var firstChopp = match.Value.Substring(0, idx);
+                    var secondChopp = match.Value.Substring(idx, match.Value.Length - idx);
+
+                    searchTerm = $"{firstChopp} {secondChopp}";
+                }
+
+                if (propertiesToSearch.Any())
+                {
+                    rQuery = rQuery.SearchMultiple($"{searchTerm}", propertiesToSearch);
+                }
             }
 
             rQuery = rQuery.Take(takeQuantity);
@@ -266,10 +219,12 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios.Base
                     .OfType<T>()
                     .ToList();
             }
-
-            returnList = rQuery
+            else
+            {
+                returnList = rQuery
                 .OfType<T>()
                 .ToList();
+            }
 
             if(withAttachments)
             {

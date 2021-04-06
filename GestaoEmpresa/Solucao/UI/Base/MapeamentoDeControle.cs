@@ -18,15 +18,22 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
         public MapeamentoDeControle(
             Expression<Func<TModel, object>> propriedade,
             Expression<Func<TView, Control>> control,
-            Action<object, Control> conversaoPropriedadeControle = null,
-            Action<Control, object> conversaoControlePropriedade = null)
+            Action<object, Control, PropertyInfo, object> conversaoPropriedadeControle = null,
+            Action<Control, PropertyInfo, object, IPresenter> conversaoControlePropriedade = null)
         {
-            PropriedadeObjeto = (PropertyInfo) propriedade.GetPropertyFromExpression();
+            PropriedadeObjeto = (PropertyInfo)propriedade.GetPropertyFromExpression();
             NomeControle = control.GetPropertyFromExpression().Name;
+
+            ConversaoPropriedadeControle = conversaoPropriedadeControle;
+            ConversaoControlePropriedade = conversaoControlePropriedade;
         }
 
         public PropertyInfo PropriedadeObjeto { get; set; }
 
         public string NomeControle { get; set; }
+
+        public Action<object, Control, PropertyInfo, object> ConversaoPropriedadeControle { get; set; }
+
+        public Action<Control, PropertyInfo, object, IPresenter> ConversaoControlePropriedade { get; set; }
     }
 }

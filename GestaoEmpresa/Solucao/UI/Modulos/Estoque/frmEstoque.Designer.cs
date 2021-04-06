@@ -31,32 +31,35 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmEstoque));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
             this.btnCatalogo = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.label1 = new System.Windows.Forms.Label();
             this.ScrollSelecao = new System.Windows.Forms.Panel();
             this.btnHistorico = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.txtPesquisa = new System.Windows.Forms.TextBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabProdutos = new System.Windows.Forms.TabPage();
+            this.chkQueryOnlyActive = new MetroFramework.Controls.MetroCheckBox();
+            this.lblButtonDescriptor = new MetroFramework.Controls.MetroLabel();
+            this.btnAtualizarPlanilhaDeCentrais = new System.Windows.Forms.Button();
             this.txtQtyProgresso = new MetroFramework.Controls.MetroLabel();
             this.txtCronometroImportar = new MetroFramework.Controls.MetroLabel();
             this.metroProgressImportar = new MetroFramework.Controls.MetroProgressBar();
-            this.button1 = new System.Windows.Forms.Button();
-            this.btnExportarExcel = new System.Windows.Forms.Button();
+            this.btnImportarTabelaPrecosIntelbras = new System.Windows.Forms.Button();
+            this.btnExportarProdutos = new System.Windows.Forms.Button();
             this.btnRefresh = new System.Windows.Forms.Button();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.btnNovoProduto = new System.Windows.Forms.Button();
@@ -89,9 +92,9 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.btnRefreshHist = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.btnNovaInteracao = new System.Windows.Forms.Button();
-            this.ucSessaoSistema2 = new GS.GestaoEmpresa.Solucao.Persistencia.BancoDeDados.UCSessaoSistema();
+            this.lblDescricaoBotoes = new MetroFramework.Controls.MetroLabel();
+            this.gsTopBorder1 = new GS.GestaoEmpresa.Solucao.UI.ControlesGenericos.GSTopBorder();
             this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tabProdutos.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
@@ -111,9 +114,9 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.btnCatalogo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCatalogo.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnCatalogo.ForeColor = System.Drawing.Color.DimGray;
-            this.btnCatalogo.Location = new System.Drawing.Point(1149, 63);
+            this.btnCatalogo.Location = new System.Drawing.Point(11, 6);
             this.btnCatalogo.Name = "btnCatalogo";
-            this.btnCatalogo.Size = new System.Drawing.Size(118, 107);
+            this.btnCatalogo.Size = new System.Drawing.Size(114, 107);
             this.btnCatalogo.TabIndex = 7;
             this.btnCatalogo.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.btnCatalogo.UseVisualStyleBackColor = false;
@@ -127,22 +130,35 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel1.Controls.Add(this.ScrollSelecao);
             this.panel1.Controls.Add(this.btnHistorico);
+            this.panel1.Controls.Add(this.btnCatalogo);
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.panel1.Location = new System.Drawing.Point(1139, 46);
+            this.panel1.Location = new System.Drawing.Point(1139, 25);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(140, 647);
+            this.panel1.Size = new System.Drawing.Size(140, 656);
             this.panel1.TabIndex = 9;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.BackColor = System.Drawing.Color.Transparent;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 26.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.ForeColor = System.Drawing.Color.White;
+            this.label1.Location = new System.Drawing.Point(8, 111);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(357, 39);
+            this.label1.TabIndex = 3;
+            this.label1.Text = "_________________";
             // 
             // ScrollSelecao
             // 
             this.ScrollSelecao.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.ScrollSelecao.BackColor = System.Drawing.Color.SteelBlue;
             this.ScrollSelecao.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.ScrollSelecao.Location = new System.Drawing.Point(1, 16);
+            this.ScrollSelecao.Location = new System.Drawing.Point(1, 10);
             this.ScrollSelecao.Name = "ScrollSelecao";
-            this.ScrollSelecao.Size = new System.Drawing.Size(11, 106);
+            this.ScrollSelecao.Size = new System.Drawing.Size(9, 106);
             this.ScrollSelecao.TabIndex = 0;
             // 
             // btnHistorico
@@ -154,7 +170,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.btnHistorico.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnHistorico.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnHistorico.ForeColor = System.Drawing.Color.DimGray;
-            this.btnHistorico.Location = new System.Drawing.Point(7, 138);
+            this.btnHistorico.Location = new System.Drawing.Point(7, 125);
             this.btnHistorico.Name = "btnHistorico";
             this.btnHistorico.Size = new System.Drawing.Size(118, 106);
             this.btnHistorico.TabIndex = 1;
@@ -168,42 +184,17 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.label2.BackColor = System.Drawing.Color.Transparent;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 26.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.Color.White;
-            this.label2.Location = new System.Drawing.Point(6, 214);
+            this.label2.Location = new System.Drawing.Point(6, 204);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(357, 39);
             this.label2.TabIndex = 3;
             this.label2.Text = "_________________";
             // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.BackColor = System.Drawing.Color.Transparent;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 26.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(6, 96);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(357, 39);
-            this.label1.TabIndex = 2;
-            this.label1.Text = "_________________";
-            // 
-            // pictureBox2
-            // 
-            this.pictureBox2.BackColor = System.Drawing.Color.SteelBlue;
-            this.pictureBox2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.pictureBox2.Image = global::GS.GestaoEmpresa.Properties.Resources.BoxBlueShort;
-            this.pictureBox2.InitialImage = global::GS.GestaoEmpresa.Properties.Resources.BoxBlueShort;
-            this.pictureBox2.Location = new System.Drawing.Point(-2, 0);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(68, 50);
-            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox2.TabIndex = 11;
-            this.pictureBox2.TabStop = false;
-            // 
             // txtPesquisa
             // 
             this.txtPesquisa.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtPesquisa.ForeColor = System.Drawing.Color.Silver;
-            this.txtPesquisa.Location = new System.Drawing.Point(46, 9);
+            this.txtPesquisa.Location = new System.Drawing.Point(46, 4);
             this.txtPesquisa.Name = "txtPesquisa";
             this.txtPesquisa.Size = new System.Drawing.Size(509, 26);
             this.txtPesquisa.TabIndex = 6;
@@ -219,20 +210,23 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl1.Controls.Add(this.tabProdutos);
             this.tabControl1.Controls.Add(this.tabHistorico);
-            this.tabControl1.Location = new System.Drawing.Point(-14, 46);
+            this.tabControl1.Location = new System.Drawing.Point(-14, 4);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1183, 638);
+            this.tabControl1.Size = new System.Drawing.Size(1183, 685);
             this.tabControl1.TabIndex = 8;
             // 
             // tabProdutos
             // 
             this.tabProdutos.BackColor = System.Drawing.Color.Silver;
+            this.tabProdutos.Controls.Add(this.chkQueryOnlyActive);
+            this.tabProdutos.Controls.Add(this.lblButtonDescriptor);
+            this.tabProdutos.Controls.Add(this.btnAtualizarPlanilhaDeCentrais);
             this.tabProdutos.Controls.Add(this.txtQtyProgresso);
             this.tabProdutos.Controls.Add(this.txtCronometroImportar);
             this.tabProdutos.Controls.Add(this.metroProgressImportar);
-            this.tabProdutos.Controls.Add(this.button1);
-            this.tabProdutos.Controls.Add(this.btnExportarExcel);
+            this.tabProdutos.Controls.Add(this.btnImportarTabelaPrecosIntelbras);
+            this.tabProdutos.Controls.Add(this.btnExportarProdutos);
             this.tabProdutos.Controls.Add(this.btnRefresh);
             this.tabProdutos.Controls.Add(this.pictureBox3);
             this.tabProdutos.Controls.Add(this.txtPesquisa);
@@ -241,16 +235,60 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.tabProdutos.Location = new System.Drawing.Point(4, 22);
             this.tabProdutos.Name = "tabProdutos";
             this.tabProdutos.Padding = new System.Windows.Forms.Padding(3);
-            this.tabProdutos.Size = new System.Drawing.Size(1175, 612);
+            this.tabProdutos.Size = new System.Drawing.Size(1175, 659);
             this.tabProdutos.TabIndex = 0;
             this.tabProdutos.Text = "tabProdutos";
+            // 
+            // chkQueryOnlyActive
+            // 
+            this.chkQueryOnlyActive.AutoSize = true;
+            this.chkQueryOnlyActive.Checked = true;
+            this.chkQueryOnlyActive.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkQueryOnlyActive.Location = new System.Drawing.Point(561, 6);
+            this.chkQueryOnlyActive.Name = "chkQueryOnlyActive";
+            this.chkQueryOnlyActive.Size = new System.Drawing.Size(104, 15);
+            this.chkQueryOnlyActive.TabIndex = 18;
+            this.chkQueryOnlyActive.Text = "Somente ativos";
+            this.chkQueryOnlyActive.UseCustomBackColor = true;
+            this.chkQueryOnlyActive.UseSelectable = true;
+            // 
+            // lblButtonDescriptor
+            // 
+            this.lblButtonDescriptor.BackColor = System.Drawing.Color.Silver;
+            this.lblButtonDescriptor.FontWeight = MetroFramework.MetroLabelWeight.Regular;
+            this.lblButtonDescriptor.ForeColor = System.Drawing.SystemColors.Control;
+            this.lblButtonDescriptor.Location = new System.Drawing.Point(677, 4);
+            this.lblButtonDescriptor.Name = "lblButtonDescriptor";
+            this.lblButtonDescriptor.Size = new System.Drawing.Size(262, 34);
+            this.lblButtonDescriptor.Style = MetroFramework.MetroColorStyle.Black;
+            this.lblButtonDescriptor.TabIndex = 17;
+            this.lblButtonDescriptor.Text = "Button Descriptor";
+            this.lblButtonDescriptor.UseCustomBackColor = true;
+            this.lblButtonDescriptor.UseStyleColors = true;
+            this.lblButtonDescriptor.Visible = false;
+            this.lblButtonDescriptor.WrapToLine = true;
+            // 
+            // btnAtualizarPlanilhaDeCentrais
+            // 
+            this.btnAtualizarPlanilhaDeCentrais.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnAtualizarPlanilhaDeCentrais.BackgroundImage = global::GS.GestaoEmpresa.Properties.Resources.impactas;
+            this.btnAtualizarPlanilhaDeCentrais.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.btnAtualizarPlanilhaDeCentrais.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnAtualizarPlanilhaDeCentrais.Location = new System.Drawing.Point(945, 1);
+            this.btnAtualizarPlanilhaDeCentrais.Name = "btnAtualizarPlanilhaDeCentrais";
+            this.btnAtualizarPlanilhaDeCentrais.Size = new System.Drawing.Size(32, 32);
+            this.btnAtualizarPlanilhaDeCentrais.TabIndex = 16;
+            this.btnAtualizarPlanilhaDeCentrais.UseVisualStyleBackColor = true;
+            this.btnAtualizarPlanilhaDeCentrais.Click += new System.EventHandler(this.button2_Click);
+            this.btnAtualizarPlanilhaDeCentrais.MouseEnter += new System.EventHandler(this.BtnAtualizarPlanilhaDeCentrais_MouseEnter_1);
+            this.btnAtualizarPlanilhaDeCentrais.MouseLeave += new System.EventHandler(this.BtnAtualizarPlanilhaDeCentrais_MouseLeave);
             // 
             // txtQtyProgresso
             // 
             this.txtQtyProgresso.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.txtQtyProgresso.AutoSize = true;
             this.txtQtyProgresso.BackColor = System.Drawing.Color.Silver;
-            this.txtQtyProgresso.Location = new System.Drawing.Point(847, 2);
+            this.txtQtyProgresso.Location = new System.Drawing.Point(777, -3);
             this.txtQtyProgresso.Name = "txtQtyProgresso";
             this.txtQtyProgresso.Size = new System.Drawing.Size(26, 19);
             this.txtQtyProgresso.TabIndex = 15;
@@ -262,7 +300,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             // 
             this.txtCronometroImportar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.txtCronometroImportar.AutoSize = true;
-            this.txtCronometroImportar.Location = new System.Drawing.Point(847, 20);
+            this.txtCronometroImportar.Location = new System.Drawing.Point(777, 15);
             this.txtCronometroImportar.Name = "txtCronometroImportar";
             this.txtCronometroImportar.Size = new System.Drawing.Size(40, 19);
             this.txtCronometroImportar.TabIndex = 14;
@@ -273,37 +311,41 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             // metroProgressImportar
             // 
             this.metroProgressImportar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.metroProgressImportar.Location = new System.Drawing.Point(648, 10);
+            this.metroProgressImportar.Location = new System.Drawing.Point(642, 10);
             this.metroProgressImportar.Name = "metroProgressImportar";
             this.metroProgressImportar.Size = new System.Drawing.Size(189, 23);
             this.metroProgressImportar.TabIndex = 13;
             this.metroProgressImportar.Visible = false;
             // 
-            // button1
+            // btnImportarTabelaPrecosIntelbras
             // 
-            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button1.BackgroundImage = global::GS.GestaoEmpresa.Properties.Resources.ImportFromExcel;
-            this.button1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.Location = new System.Drawing.Point(983, 6);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(32, 32);
-            this.button1.TabIndex = 12;
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.btnImportarTabelaPrecosIntelbras.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnImportarTabelaPrecosIntelbras.BackgroundImage = global::GS.GestaoEmpresa.Properties.Resources.ImportFromExcel;
+            this.btnImportarTabelaPrecosIntelbras.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.btnImportarTabelaPrecosIntelbras.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnImportarTabelaPrecosIntelbras.Location = new System.Drawing.Point(984, 1);
+            this.btnImportarTabelaPrecosIntelbras.Name = "btnImportarTabelaPrecosIntelbras";
+            this.btnImportarTabelaPrecosIntelbras.Size = new System.Drawing.Size(32, 32);
+            this.btnImportarTabelaPrecosIntelbras.TabIndex = 12;
+            this.btnImportarTabelaPrecosIntelbras.UseVisualStyleBackColor = true;
+            this.btnImportarTabelaPrecosIntelbras.Click += new System.EventHandler(this.button1_Click);
+            this.btnImportarTabelaPrecosIntelbras.MouseEnter += new System.EventHandler(this.BtnImportarTabelaPrecosIntelbras_MouseEnter);
+            this.btnImportarTabelaPrecosIntelbras.MouseLeave += new System.EventHandler(this.BtnImportarTabelaPrecosIntelbras_MouseLeave);
             // 
-            // btnExportarExcel
+            // btnExportarProdutos
             // 
-            this.btnExportarExcel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnExportarExcel.BackgroundImage = global::GS.GestaoEmpresa.Properties.Resources.export_spreadsheet_512;
-            this.btnExportarExcel.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.btnExportarExcel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnExportarExcel.Location = new System.Drawing.Point(1023, 6);
-            this.btnExportarExcel.Name = "btnExportarExcel";
-            this.btnExportarExcel.Size = new System.Drawing.Size(32, 32);
-            this.btnExportarExcel.TabIndex = 11;
-            this.btnExportarExcel.UseVisualStyleBackColor = true;
-            this.btnExportarExcel.Click += new System.EventHandler(this.btnExportarExcel_Click);
+            this.btnExportarProdutos.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnExportarProdutos.BackgroundImage = global::GS.GestaoEmpresa.Properties.Resources.export_spreadsheet_512;
+            this.btnExportarProdutos.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.btnExportarProdutos.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnExportarProdutos.Location = new System.Drawing.Point(1023, 1);
+            this.btnExportarProdutos.Name = "btnExportarProdutos";
+            this.btnExportarProdutos.Size = new System.Drawing.Size(32, 32);
+            this.btnExportarProdutos.TabIndex = 11;
+            this.btnExportarProdutos.UseVisualStyleBackColor = true;
+            this.btnExportarProdutos.Click += new System.EventHandler(this.btnExportarExcel_Click);
+            this.btnExportarProdutos.MouseEnter += new System.EventHandler(this.BtnExportarProdutos_MouseEnter);
+            this.btnExportarProdutos.MouseLeave += new System.EventHandler(this.BtnExportarProdutos_MouseLeave);
             // 
             // btnRefresh
             // 
@@ -311,7 +353,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.btnRefresh.BackgroundImage = global::GS.GestaoEmpresa.Properties.Resources.refresh;
             this.btnRefresh.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.btnRefresh.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnRefresh.Location = new System.Drawing.Point(1070, 6);
+            this.btnRefresh.Location = new System.Drawing.Point(1070, 1);
             this.btnRefresh.Name = "btnRefresh";
             this.btnRefresh.Size = new System.Drawing.Size(32, 32);
             this.btnRefresh.TabIndex = 10;
@@ -322,7 +364,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             // 
             this.pictureBox3.BackColor = System.Drawing.Color.Silver;
             this.pictureBox3.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox3.Image")));
-            this.pictureBox3.Location = new System.Drawing.Point(8, 11);
+            this.pictureBox3.Location = new System.Drawing.Point(8, 9);
             this.pictureBox3.Name = "pictureBox3";
             this.pictureBox3.Size = new System.Drawing.Size(32, 24);
             this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -335,7 +377,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.btnNovoProduto.BackgroundImage = global::GS.GestaoEmpresa.Properties.Resources.add;
             this.btnNovoProduto.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.btnNovoProduto.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnNovoProduto.Location = new System.Drawing.Point(1108, 6);
+            this.btnNovoProduto.Location = new System.Drawing.Point(1108, 1);
             this.btnNovoProduto.Name = "btnNovoProduto";
             this.btnNovoProduto.Size = new System.Drawing.Size(32, 32);
             this.btnNovoProduto.TabIndex = 5;
@@ -380,14 +422,21 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dgvProdutos.DefaultCellStyle = dataGridViewCellStyle8;
             this.dgvProdutos.GridColor = System.Drawing.Color.Silver;
-            this.dgvProdutos.Location = new System.Drawing.Point(10, 41);
+            this.dgvProdutos.Location = new System.Drawing.Point(10, 36);
             this.dgvProdutos.Name = "dgvProdutos";
             this.dgvProdutos.ReadOnly = true;
-            this.dgvProdutos.RowHeadersVisible = false;
-            this.dgvProdutos.RowHeadersWidth = 82;
+            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle9.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle9.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle9.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle9.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle9.SelectionForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvProdutos.RowHeadersDefaultCellStyle = dataGridViewCellStyle9;
+            this.dgvProdutos.RowHeadersWidth = 25;
             this.dgvProdutos.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.dgvProdutos.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvProdutos.Size = new System.Drawing.Size(1135, 567);
+            this.dgvProdutos.Size = new System.Drawing.Size(1135, 614);
             this.dgvProdutos.TabIndex = 0;
             this.dgvProdutos.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvProdutos_CellContentClick);
             this.dgvProdutos.CellContentDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvProdutos_CellDoubleClick);
@@ -423,7 +472,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             // 
             // colunaDescricao
             // 
-            this.colunaDescricao.HeaderText = "Observaçoes";
+            this.colunaDescricao.HeaderText = "Observações";
             this.colunaDescricao.MinimumWidth = 10;
             this.colunaDescricao.Name = "colunaDescricao";
             this.colunaDescricao.ReadOnly = true;
@@ -498,7 +547,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.tabHistorico.Location = new System.Drawing.Point(4, 22);
             this.tabHistorico.Name = "tabHistorico";
             this.tabHistorico.Padding = new System.Windows.Forms.Padding(3);
-            this.tabHistorico.Size = new System.Drawing.Size(1175, 612);
+            this.tabHistorico.Size = new System.Drawing.Size(1175, 659);
             this.tabHistorico.TabIndex = 1;
             this.tabHistorico.Text = "tabHistorico";
             // 
@@ -506,7 +555,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             // 
             this.txtPesquisaHistorico.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtPesquisaHistorico.ForeColor = System.Drawing.Color.Silver;
-            this.txtPesquisaHistorico.Location = new System.Drawing.Point(46, 9);
+            this.txtPesquisaHistorico.Location = new System.Drawing.Point(46, 4);
             this.txtPesquisaHistorico.Name = "txtPesquisaHistorico";
             this.txtPesquisaHistorico.Size = new System.Drawing.Size(509, 26);
             this.txtPesquisaHistorico.TabIndex = 12;
@@ -524,14 +573,14 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvHistorico.BackgroundColor = System.Drawing.Color.Silver;
-            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle9.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle9.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle9.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle9.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle9.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvHistorico.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle10.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle10.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle10.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle10.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle10.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle10.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvHistorico.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle10;
             this.dgvHistorico.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvHistorico.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colunaCodigoInteracao,
@@ -546,28 +595,27 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.colunaValor,
             this.colunaHorario,
             this.colunaDetalharHist});
-            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle12.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle12.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle12.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle12.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle12.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle12.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvHistorico.DefaultCellStyle = dataGridViewCellStyle12;
-            this.dgvHistorico.GridColor = System.Drawing.Color.Silver;
-            this.dgvHistorico.Location = new System.Drawing.Point(11, 42);
-            this.dgvHistorico.Name = "dgvHistorico";
-            this.dgvHistorico.ReadOnly = true;
             dataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle13.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle13.BackColor = System.Drawing.SystemColors.Window;
             dataGridViewCellStyle13.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle13.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle13.ForeColor = System.Drawing.SystemColors.ControlText;
             dataGridViewCellStyle13.SelectionBackColor = System.Drawing.SystemColors.Highlight;
             dataGridViewCellStyle13.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle13.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvHistorico.RowHeadersDefaultCellStyle = dataGridViewCellStyle13;
-            this.dgvHistorico.RowHeadersVisible = false;
-            this.dgvHistorico.RowHeadersWidth = 82;
+            dataGridViewCellStyle13.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvHistorico.DefaultCellStyle = dataGridViewCellStyle13;
+            this.dgvHistorico.GridColor = System.Drawing.Color.Silver;
+            this.dgvHistorico.Location = new System.Drawing.Point(11, 37);
+            this.dgvHistorico.Name = "dgvHistorico";
+            this.dgvHistorico.ReadOnly = true;
+            dataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle14.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle14.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle14.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle14.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle14.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle14.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvHistorico.RowHeadersDefaultCellStyle = dataGridViewCellStyle14;
+            this.dgvHistorico.RowHeadersWidth = 25;
             this.dgvHistorico.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.dgvHistorico.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.dgvHistorico.Size = new System.Drawing.Size(1132, 567);
@@ -652,10 +700,10 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             // 
             // colunaValor
             // 
-            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.BottomRight;
-            dataGridViewCellStyle10.Format = "R$ 0";
-            dataGridViewCellStyle10.NullValue = "R$ 0,00";
-            this.colunaValor.DefaultCellStyle = dataGridViewCellStyle10;
+            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.BottomRight;
+            dataGridViewCellStyle11.Format = "R$ 0";
+            dataGridViewCellStyle11.NullValue = "R$ 0,00";
+            this.colunaValor.DefaultCellStyle = dataGridViewCellStyle11;
             this.colunaValor.HeaderText = "Valor";
             this.colunaValor.MinimumWidth = 10;
             this.colunaValor.Name = "colunaValor";
@@ -664,8 +712,8 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             // 
             // colunaHorario
             // 
-            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.BottomRight;
-            this.colunaHorario.DefaultCellStyle = dataGridViewCellStyle11;
+            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.BottomRight;
+            this.colunaHorario.DefaultCellStyle = dataGridViewCellStyle12;
             this.colunaHorario.HeaderText = "Horário";
             this.colunaHorario.MinimumWidth = 10;
             this.colunaHorario.Name = "colunaHorario";
@@ -687,7 +735,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.btnRefreshHist.BackgroundImage = global::GS.GestaoEmpresa.Properties.Resources.refresh;
             this.btnRefreshHist.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.btnRefreshHist.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnRefreshHist.Location = new System.Drawing.Point(1070, 6);
+            this.btnRefreshHist.Location = new System.Drawing.Point(1070, 1);
             this.btnRefreshHist.Name = "btnRefreshHist";
             this.btnRefreshHist.Size = new System.Drawing.Size(32, 32);
             this.btnRefreshHist.TabIndex = 16;
@@ -698,7 +746,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             // 
             this.pictureBox1.BackColor = System.Drawing.Color.Silver;
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(8, 11);
+            this.pictureBox1.Location = new System.Drawing.Point(8, 6);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(32, 24);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -711,45 +759,49 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.btnNovaInteracao.BackgroundImage = global::GS.GestaoEmpresa.Properties.Resources.add;
             this.btnNovaInteracao.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.btnNovaInteracao.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnNovaInteracao.Location = new System.Drawing.Point(1108, 6);
+            this.btnNovaInteracao.Location = new System.Drawing.Point(1108, 1);
             this.btnNovaInteracao.Name = "btnNovaInteracao";
             this.btnNovaInteracao.Size = new System.Drawing.Size(32, 32);
             this.btnNovaInteracao.TabIndex = 11;
             this.btnNovaInteracao.UseVisualStyleBackColor = true;
             this.btnNovaInteracao.Click += new System.EventHandler(this.btnNovaInteracao_Click);
             // 
-            // ucSessaoSistema2
+            // lblDescricaoBotoes
             // 
-            this.ucSessaoSistema2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.lblDescricaoBotoes.AutoSize = true;
+            this.lblDescricaoBotoes.BackColor = System.Drawing.Color.DodgerBlue;
+            this.lblDescricaoBotoes.Location = new System.Drawing.Point(883, 13);
+            this.lblDescricaoBotoes.Name = "lblDescricaoBotoes";
+            this.lblDescricaoBotoes.Size = new System.Drawing.Size(0, 0);
+            this.lblDescricaoBotoes.TabIndex = 12;
+            // 
+            // gsTopBorder1
+            // 
+            this.gsTopBorder1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.ucSessaoSistema2.BackColor = System.Drawing.Color.SteelBlue;
-            this.ucSessaoSistema2.Location = new System.Drawing.Point(-10, -12);
-            this.ucSessaoSistema2.Margin = new System.Windows.Forms.Padding(6);
-            this.ucSessaoSistema2.Name = "ucSessaoSistema2";
-            this.ucSessaoSistema2.Size = new System.Drawing.Size(1289, 66);
-            this.ucSessaoSistema2.TabIndex = 10;
+            this.gsTopBorder1.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            this.gsTopBorder1.DisplayMaximize = true;
+            this.gsTopBorder1.Location = new System.Drawing.Point(0, 0);
+            this.gsTopBorder1.Name = "gsTopBorder1";
+            this.gsTopBorder1.Size = new System.Drawing.Size(1265, 26);
+            this.gsTopBorder1.TabIndex = 19;
             // 
             // FrmEstoque
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.Gray;
             this.ClientSize = new System.Drawing.Size(1264, 681);
-            this.Controls.Add(this.pictureBox2);
-            this.Controls.Add(this.ucSessaoSistema2);
-            this.Controls.Add(this.btnCatalogo);
+            this.Controls.Add(this.gsTopBorder1);
+            this.Controls.Add(this.lblDescricaoBotoes);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.tabControl1);
-            this.DoubleBuffered = true;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "FrmEstoque";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Estoque";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmEstoque_FormClosing);
             this.Load += new System.EventHandler(this.frmEstoque_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.tabControl1.ResumeLayout(false);
             this.tabProdutos.ResumeLayout(false);
             this.tabProdutos.PerformLayout();
@@ -760,37 +812,25 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             ((System.ComponentModel.ISupportInitialize)(this.dgvHistorico)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
-        private Persistencia.BancoDeDados.UCSessaoSistema ucSessaoSistema1;
         private System.Windows.Forms.Button btnCatalogo;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel ScrollSelecao;
         private System.Windows.Forms.Button btnHistorico;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.PictureBox pictureBox2;
-        private Persistencia.BancoDeDados.UCSessaoSistema ucSessaoSistema2;
         private System.Windows.Forms.TextBox txtPesquisa;
         private System.Windows.Forms.TabControl tabControl1;
-        private System.Windows.Forms.TabPage tabProdutos;
-        public MetroFramework.Controls.MetroLabel txtQtyProgresso;
-        public MetroFramework.Controls.MetroLabel txtCronometroImportar;
-        public MetroFramework.Controls.MetroProgressBar metroProgressImportar;
-        public System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button btnExportarExcel;
-        private System.Windows.Forms.Button btnRefresh;
-        private System.Windows.Forms.PictureBox pictureBox3;
-        private System.Windows.Forms.Button btnNovoProduto;
         private System.Windows.Forms.TabPage tabHistorico;
         private System.Windows.Forms.TextBox txtPesquisaHistorico;
         private System.Windows.Forms.DataGridView dgvHistorico;
         private System.Windows.Forms.Button btnRefreshHist;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Button btnNovaInteracao;
-        private System.Windows.Forms.DataGridView dgvProdutos;
         private System.Windows.Forms.DataGridViewTextBoxColumn colunaCodigoInteracao;
         private System.Windows.Forms.DataGridViewTextBoxColumn colunaTipo;
         private System.Windows.Forms.DataGridViewTextBoxColumn colunaTecnico;
@@ -803,6 +843,19 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         private System.Windows.Forms.DataGridViewTextBoxColumn colunaValor;
         private System.Windows.Forms.DataGridViewTextBoxColumn colunaHorario;
         private System.Windows.Forms.DataGridViewButtonColumn colunaDetalharHist;
+        private MetroFramework.Controls.MetroLabel lblDescricaoBotoes;
+        private System.Windows.Forms.TabPage tabProdutos;
+        private MetroFramework.Controls.MetroLabel lblButtonDescriptor;
+        public System.Windows.Forms.Button btnAtualizarPlanilhaDeCentrais;
+        public MetroFramework.Controls.MetroLabel txtQtyProgresso;
+        public MetroFramework.Controls.MetroLabel txtCronometroImportar;
+        public MetroFramework.Controls.MetroProgressBar metroProgressImportar;
+        public System.Windows.Forms.Button btnImportarTabelaPrecosIntelbras;
+        private System.Windows.Forms.Button btnExportarProdutos;
+        private System.Windows.Forms.Button btnRefresh;
+        private System.Windows.Forms.PictureBox pictureBox3;
+        private System.Windows.Forms.Button btnNovoProduto;
+        private System.Windows.Forms.DataGridView dgvProdutos;
         private System.Windows.Forms.DataGridViewTextBoxColumn colunaCodigo;
         private System.Windows.Forms.DataGridViewTextBoxColumn colunaCodigoFabricante;
         private System.Windows.Forms.DataGridViewTextBoxColumn colunaNome;
@@ -813,5 +866,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         private System.Windows.Forms.DataGridViewTextBoxColumn colunaPrecoVenda;
         private System.Windows.Forms.DataGridViewTextBoxColumn colunaQuantidade;
         private System.Windows.Forms.DataGridViewButtonColumn colunaDetalhar;
+        private MetroFramework.Controls.MetroCheckBox chkQueryOnlyActive;
+        private ControlesGenericos.GSTopBorder gsTopBorder1;
     }
 }

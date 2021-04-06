@@ -14,7 +14,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Atendimento
 
         private void frmAtendimento_Load(object sender, EventArgs e)
         {
-            EscondaHeadersTabControl(tabControl1);
+            //EscondaHeadersTabControl(tabControl1);
         }
 
         private void EscondaHeadersTabControl(TabControl tabControl)
@@ -22,11 +22,6 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Atendimento
             tabControl.Appearance = TabAppearance.FlatButtons;
             tabControl.ItemSize = new Size(0, 1);
             tabControl.SizeMode = TabSizeMode.Fixed;
-        }
-
-        public void btnNovoProduto_Click(object sender, EventArgs e)
-        {
-            GerenciadorDeViews.Crie<OrcamentoPresenter>().View.Show();
         }
     }
 }

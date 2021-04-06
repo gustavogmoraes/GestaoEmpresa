@@ -28,11 +28,18 @@ using MetroFramework.Controls;
 using System.IO;
 using System.Drawing;
 using System.Drawing.Imaging;
+using OfficeOpenXml;
+using System.Data;
 
 namespace GS.GestaoEmpresa.Solucao.Utilitarios
 {
     public static class GSExtensions
     {
+        public static bool IsEven(this int number)
+        {
+            return number % 2 == 0;
+        }
+
         public static IList<string> ObtenhaLabels(this IList<PropertyInfo> listaDePropriedades)
         {
             return listaDePropriedades.Select(x => ((Identificacao)x.GetCustomAttributes(typeof(Identificacao), false).FirstOrDefault())?.Descricao).ToList();
@@ -233,6 +240,17 @@ namespace GS.GestaoEmpresa.Solucao.Utilitarios
             view.EstahRenderizando = false;
         }
 
+        public static void SetTextWithoutFiringEvents(this MetroTextBox textBox, string text)
+        {
+            var view = (IView)textBox.FindForm();
+
+            view.EstahRenderizando = true;
+
+            textBox.Text = text;
+
+            view.EstahRenderizando = false;
+        }
+
         public static int GetDeterministicHashCode(this string str)
         {
             unchecked
@@ -267,7 +285,7 @@ namespace GS.GestaoEmpresa.Solucao.Utilitarios
             var tempText = textInfo.ToTitleCase(text);
 
             CustomTitleCaseReplacements.ForEach(x => tempText = tempText.Replace(x.Key, x.Value));
-            
+
             return tempText;
         }
 
@@ -276,7 +294,7 @@ namespace GS.GestaoEmpresa.Solucao.Utilitarios
             return Convert.ToDecimal(value.Replace("R$ ", string.Empty));
         }
 
-        public static bool AnyPropertyIsNull(this object obj) => 
+        public static bool AnyPropertyIsNull(this object obj) =>
             obj.GetType().GetProperties().ToList().All(prop => string.IsNullOrEmpty(prop.GetValue(obj).ToString()));
 
         public static decimal ToDecimal(this string value) => Convert.ToDecimal(value);
@@ -303,6 +321,23 @@ namespace GS.GestaoEmpresa.Solucao.Utilitarios
             }
 
             return values.Distinct().ToArray();
+        }
+
+        public static int CountRows(this ExcelWorksheet sheet)
+        {
+            if (sheet.Dimension == null) { return 0; } // In case of a blank sheet
+            var row = sheet.Dimension.End.Row;
+            while (row >= 1)
+            {
+                var range = sheet.Cells[row, 1, row, sheet.Dimension.End.Column];
+                if (range.Any(c => !string.IsNullOrEmpty(c.Text)))
+                {
+                    break;
+                }
+                row--;
+            }
+
+            return row;
         }
 
         public static bool IsNullOrEmpty(this string str) => string.IsNullOrEmpty(str);
@@ -335,12 +370,12 @@ namespace GS.GestaoEmpresa.Solucao.Utilitarios
 
         public static ParallelLoopResult ParallelWhile(bool condition, Action body, ParallelOptions parallelOptions = null) =>
             ParallelWhile(() => condition, body, parallelOptions);
-        
+
         public static Dictionary<string, TValue> ToDictionary<TValue>(this object obj)
-        {       
+        {
             var json = JsonConvert.SerializeObject(obj);
-            var dictionary = JsonConvert.DeserializeObject<Dictionary<string, TValue>>(json);   
-            
+            var dictionary = JsonConvert.DeserializeObject<Dictionary<string, TValue>>(json);
+
             return dictionary;
         }
 
@@ -450,6 +485,185 @@ namespace GS.GestaoEmpresa.Solucao.Utilitarios
                 }
                 return ms.ToArray();
             }
+        }
+
+        public static FileStream GetFileStream(this string filePath)
+        {
+            return File.OpenRead(filePath);
+        }
+
+        public static Point GetCenter(this Control control)
+        {
+            return new Point(control.Size.Width / 2, control.Size.Height / 2);
+        }
+
+        public static void LoadDataGrid<T>(
+            this DataGridView dataGrid,
+            IList<T> dataList,
+            Expression<Func<T, object[]>> objectSelector,
+            bool useRowColorIntercalation = true,
+            Tuple<Color, Color> colors = null)
+            where T : new()
+        {
+            dataGrid.Rows.Clear();
+
+            var selector = objectSelector.Compile();
+            foreach (T item in dataList)
+            {
+                var evenColor = colors?.Item1 ?? Color.White;
+                var oddColor = colors?.Item2 ?? ColorTranslator.FromHtml("#e6f2ff");
+
+                var rowIndex = dataGrid.Rows.Add(selector.Invoke(item));
+                var color = useRowColorIntercalation
+                    ? (rowIndex.IsEven()
+                        ? evenColor
+                        : oddColor)
+                    : Color.White;
+
+                //// https://www.w3schools.com/colors/colors_picker.asp
+
+                //dataGrid.Rows[rowIndex].HeaderCell.Style.ForeColor = color;
+                dataGrid.Rows[rowIndex].DefaultCellStyle.BackColor = color;
+            }
+
+            dataGrid.Refresh();
+        }
+
+        public static bool IsDigit(this char caracter)
+        {
+            if (char.IsDigit(caracter))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public static bool IsNullable(this Type type)
+        {
+            var isIt = Nullable.GetUnderlyingType(type);
+
+            return isIt != null;
+        }
+
+        public static string RemoveDiacritics(this string text)
+        {
+            var normalizedString = text.Normalize(NormalizationForm.FormD);
+            var stringBuilder = new StringBuilder();
+
+            foreach (var c in normalizedString)
+            {
+                var unicodeCategory = CharUnicodeInfo.GetUnicodeCategory(c);
+                if (unicodeCategory != UnicodeCategory.NonSpacingMark)
+                {
+                    stringBuilder.Append(c);
+                }
+            }
+
+            return stringBuilder.ToString().Normalize(NormalizationForm.FormC);
+        }
+
+        public static string GetValueOrNull(this string str)
+        {
+            if (string.IsNullOrEmpty(str))
+            {
+                return null;
+            }
+
+            return str;
+        }
+
+        public static Control GetControl(this Control control, string controlName)
+        {
+            return control.Controls.ContainsKey(controlName)
+                ? control.Controls[controlName]
+                : null;
+        }
+
+        public static bool IsFileLocked(FileInfo file)
+        {
+            try
+            {
+                using (FileStream stream = file.Open(FileMode.Open, FileAccess.Read, FileShare.None))
+                {
+                    stream.Close();
+                }
+            }
+            catch (IOException)
+            {
+                //the file is unavailable because it is:
+                //still being written to
+                //or being processed by another thread
+                //or does not exist (has already been processed)
+                return true;
+            }
+
+            //file is not locked
+            return false;
+        }
+
+        public static DataTable GetDataTableFromExcel(ExcelWorksheet ws, bool hasHeader = true)
+        {
+            var tbl = new DataTable();
+            foreach (var firstRowCell in ws.Cells[1, 1, 1, ws.Dimension.End.Column])
+            {
+                tbl.Columns.Add(hasHeader ? firstRowCell.Text : string.Format("Column {0}", firstRowCell.Start.Column));
+            }
+
+            var startRow = hasHeader ? 2 : 1;
+            for (int rowNum = startRow; rowNum <= ws.Dimension.End.Row; rowNum++)
+            {
+                var wsRow = ws.Cells[rowNum, 1, rowNum, ws.Dimension.End.Column];
+                DataRow row = tbl.Rows.Add();
+                foreach (var cell in wsRow)
+                {
+                    row[cell.Start.Column - 1] = cell.Text;
+                }
+            }
+            return tbl;
+        }
+
+        public static Color ColorFromHexCode(string hexCode)
+        {
+            return (Color)new ColorConverter().ConvertFromString($"#{hexCode}");
+        }
+
+        public static string TreatPercentage(this decimal? value)
+        {
+            return " %";
+        }
+
+        public static string ToRealMonetaryString(
+            this decimal? value,
+            bool returnEmptyIf0 = false,
+            bool useSymbol = true,
+            int decimalPrecision = 2,
+            int? padLeftQty = null,
+            char? paddingChar = null)
+        {
+            if (!value.HasValue)
+            {
+                return returnEmptyIf0
+                    ? string.Empty
+                    : "0";
+            }
+
+            var roundedDecimal = Math.Round(value.Value, decimalPrecision);
+            var val = string.Format(CultureInfo.GetCultureInfo("pt-BR"), "{0:C}", roundedDecimal);
+
+            if (padLeftQty.HasValue && paddingChar.HasValue)
+            {
+                val = val.Replace("R$", string.Empty).Trim().PadLeft(padLeftQty.Value, paddingChar.Value);
+            }
+
+            if (!useSymbol)
+            {
+                val = val.Replace("R$", string.Empty).Trim();
+            }
+
+            return val;
         }
     }
 }

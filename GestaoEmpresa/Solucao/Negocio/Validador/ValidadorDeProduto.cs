@@ -26,21 +26,20 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Validador
 
         private void ValideRegraProdutoPodeSerExcluido(int codigoDoProduto)
         {
-            List<Interacao> listaDeInteracoesPorProduto = new List<Interacao>();
             using (var servicoDeInteracao = new ServicoDeInteracao())
             {
-                servicoDeInteracao.ConsulteTodasAsInteracoesPorProduto(codigoDoProduto);
-            }
+                var listaDeInteracoesPorProduto = servicoDeInteracao.ConsulteTodasAsInteracoesPorProduto(codigoDoProduto);
 
-            if (listaDeInteracoesPorProduto.Count > 0)
-            {
-                _listaDeInconsistencias.Add(
-                    new Inconsistencia()
-                    {
-                        Tela = "Consulta de produtos",
-                        ConceitoValidado = "Exclusão de produto",
-                        Mensagem = Mensagens.X_NAO_PODE_SER_EXCLUIDO("O produto")
-                    });
+                if (listaDeInteracoesPorProduto.Count > 0)
+                {
+                    _listaDeInconsistencias.Add(
+                        new Inconsistencia()
+                        {
+                            Tela = "Consulta de produtos",
+                            ConceitoValidado = "Exclusão de produto",
+                            Mensagem = Mensagens.X_NAO_PODE_SER_EXCLUIDO("produto")
+                        });
+                }
             }
         }
 

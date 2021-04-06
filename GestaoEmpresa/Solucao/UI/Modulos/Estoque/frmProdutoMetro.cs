@@ -58,6 +58,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             {
                 result.ToList().ForEach(x => MessageBox.Show(x.Mensagem, "Inconsistência"));
 
+                return;
             }
 
             MessageBox.Show("Excluído com sucesso!", "Resultado");
