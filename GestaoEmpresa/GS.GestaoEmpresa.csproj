@@ -406,12 +406,13 @@
     <Compile Include="Solucao\UI\Modulos\Estoque\frmProduto.Designer.cs">
       <DependentUpon>frmProduto.cs</DependentUpon>
     </Compile>
-    <Compile Include="Solucao\UI\Modulos\Estoque\frmProdutoMetro.cs">
+    <Compile Include="Solucao\UI\Modulos\Estoque\FrmProdutoMetro.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Solucao\UI\Modulos\Estoque\frmProdutoMetro.Designer.cs">
-      <DependentUpon>frmProdutoMetro.cs</DependentUpon>
+    <Compile Include="Solucao\UI\Modulos\Estoque\FrmProdutoMetro.Designer.cs">
+      <DependentUpon>FrmProdutoMetro.cs</DependentUpon>
     </Compile>
+    <Compile Include="Solucao\UI\Modulos\Estoque\InteracaoPresenter.cs" />
     <Compile Include="Solucao\UI\Modulos\Estoque\ProdutoPresenter.cs" />
     <Compile Include="Solucao\UI\Modulos\Tecnico\frmEntradaLab.cs">
       <SubType>Form</SubType>
@@ -514,8 +515,8 @@
     <EmbeddedResource Include="Solucao\UI\Modulos\Estoque\frmProduto.resx">
       <DependentUpon>frmProduto.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Solucao\UI\Modulos\Estoque\frmProdutoMetro.resx">
-      <DependentUpon>frmProdutoMetro.cs</DependentUpon>
+    <EmbeddedResource Include="Solucao\UI\Modulos\Estoque\FrmProdutoMetro.resx">
+      <DependentUpon>FrmProdutoMetro.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Solucao\UI\Modulos\Tecnico\frmEntradaLab.resx">
       <DependentUpon>frmEntradaLab.cs</DependentUpon>
@@ -647,6 +648,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="GestaoEmpresaIcon.ico" />
+    <None Include="Resources\AddGridButton.png" />
+    <None Include="Resources\Background1.png" />
+    <None Include="Resources\RemoveGridButton.png" />
+    <None Include="Resources\ArrowUpGridButton.png" />
+    <None Include="Resources\ArrowDownGridButton.png" />
+    <None Include="Resources\AuditoriaBlue.png" />
     <None Include="Resources\impactas.png" />
     <None Include="Resources\Centrais.png" />
   </ItemGroup>

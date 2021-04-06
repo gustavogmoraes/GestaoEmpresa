@@ -99,7 +99,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         public void ChamadaFecharForm(object sender, EventArgs e)
         {
-            GerenciadorDeViews.ObtenhaIndependente<FrmEstoque>(new Guid(IdInstancia)).Dispose();
+            GerenciadorDeViews.Exclua<FrmEstoque>(IdInstancia);
         }
 
         public void ChamadaMinimizarForm(object sender, EventArgs e)
@@ -406,9 +406,9 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
-            //SetStyle(ControlStyles.UserPaint, true);
-            //SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
-            //SetStyle(ControlStyles.AllPaintingInWmPaint, true);
+            SetStyle(ControlStyles.UserPaint, true);
+            SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
+            SetStyle(ControlStyles.AllPaintingInWmPaint, true);
         }
 
         protected override void OnShown(EventArgs e)
@@ -665,7 +665,17 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         private void btnNovaInteracao_Click(object sender, EventArgs e)
         {
-            GSWaitForm.Mostrar(this, posProcessamento: () => { new FrmInteracaoMetro().Show(); });
+            IPresenter presenter = null;
+            GSWaitForm.Mostrar(
+                this,
+                () =>
+                {
+                    presenter = GerenciadorDeViews.Crie<InteracaoPresenter>();
+                },
+                () =>
+                {
+                    presenter.View.Show();
+                });
         }
 
         private void btnNovoProduto_Click(object sender, EventArgs e)
@@ -868,6 +878,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             var y = e.CellBounds.Top + (e.CellBounds.Height - h) / 2;
 
             e.Graphics.DrawImage(Resources.detalhar, new Rectangle(x, y, w, h));
+            e.Handled = true;
         }
 
         public const string CODIGO_COR_VERMELHA = "FF0000";

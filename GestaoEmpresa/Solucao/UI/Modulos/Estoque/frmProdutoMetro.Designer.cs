@@ -1,6 +1,6 @@
 ﻿namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 {
-    partial class frmProdutoMetro
+    partial class FrmProdutoMetro
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmProdutoMetro));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmProdutoMetro));
             this.lblStatus = new MetroFramework.Controls.MetroLabel();
             this.toggleStatus = new GS.GestaoEmpresa.Solucao.UI.ControlesGenericos.GSMetroToggle();
             this.chkAvisarQuantidade = new MetroFramework.Controls.MetroCheckBox();
@@ -669,6 +669,7 @@
             this.txtMPrecoDeCompra.UseCustomForeColor = true;
             this.txtMPrecoDeCompra.UseSelectable = true;
             this.txtMPrecoDeCompra.Value = null;
+            this.txtMPrecoDeCompra.Load += new System.EventHandler(this.txtMPrecoDeCompra_Load);
             this.txtMPrecoDeCompra.Leave += new System.EventHandler(this.txtPrecoDeCompra_Leave);
             // 
             // metroLabel7
@@ -786,7 +787,7 @@
             this.gsImageAttacher1.Size = new System.Drawing.Size(200, 163);
             this.gsImageAttacher1.TabIndex = 111;
             // 
-            // frmProdutoMetro
+            // FrmProdutoMetro
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -836,7 +837,7 @@
             this.Controls.Add(this.lblVigencia);
             this.Controls.Add(this.txtCodigo);
             this.Controls.Add(this.lblCodigo);
-            this.Name = "frmProdutoMetro";
+            this.Name = "FrmProdutoMetro";
             this.Text = "frmProdutoMetroT";
             this.Controls.SetChildIndex(this.lblCodigo, 0);
             this.Controls.SetChildIndex(this.txtCodigo, 0);

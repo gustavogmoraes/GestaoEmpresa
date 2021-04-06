@@ -324,7 +324,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Principal
 
         private void btnEstoque_Click_1(object sender, EventArgs e)
         {
-            var instanciaDoForm = GerenciadorDeViews.CrieIndependente<FrmEstoque>(out _);
+            var instanciaDoForm = GerenciadorDeViews.CrieIndependente<FrmEstoque>();
             instanciaDoForm?.Show();
         }
 
@@ -761,7 +761,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Principal
                 btnEntrar_Click_1(btnEntrar, e);
 
                 GerenciadorDeViews.ObtenhaPrincipal().WindowState = FormWindowState.Minimized;
-                GerenciadorDeViews.Crie<ClientePresenter>().View.Show();
+                GerenciadorDeViews.Crie<InteracaoPresenter>().View.Show();
 
                 #region Usable
 

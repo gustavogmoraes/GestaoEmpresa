@@ -11,6 +11,8 @@ namespace GS.GestaoEmpresa.Solucao.UI
 {
     public interface IView
     {
+        string IdInstancia { get; set; }
+
         EnumTipoDeForm TipoDeForm { get; set; }
 
         IPresenter Presenter { get; set; }

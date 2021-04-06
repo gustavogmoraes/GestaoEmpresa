@@ -45,10 +45,10 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
             this.btnCatalogo = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.label1 = new System.Windows.Forms.Label();
             this.ScrollSelecao = new System.Windows.Forms.Panel();
             this.btnHistorico = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
             this.txtPesquisa = new System.Windows.Forms.TextBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabProdutos = new System.Windows.Forms.TabPage();
@@ -139,18 +139,6 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.panel1.Size = new System.Drawing.Size(140, 656);
             this.panel1.TabIndex = 9;
             // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.BackColor = System.Drawing.Color.Transparent;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 26.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(8, 111);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(357, 39);
-            this.label1.TabIndex = 3;
-            this.label1.Text = "_________________";
-            // 
             // ScrollSelecao
             // 
             this.ScrollSelecao.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -189,6 +177,18 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.label2.Size = new System.Drawing.Size(357, 39);
             this.label2.TabIndex = 3;
             this.label2.Text = "_________________";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.BackColor = System.Drawing.Color.Transparent;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 26.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.ForeColor = System.Drawing.Color.White;
+            this.label1.Location = new System.Drawing.Point(8, 111);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(357, 39);
+            this.label1.TabIndex = 3;
+            this.label1.Text = "_________________";
             // 
             // txtPesquisa
             // 
@@ -618,7 +618,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.dgvHistorico.RowHeadersWidth = 25;
             this.dgvHistorico.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.dgvHistorico.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvHistorico.Size = new System.Drawing.Size(1132, 567);
+            this.dgvHistorico.Size = new System.Drawing.Size(1132, 616);
             this.dgvHistorico.TabIndex = 0;
             this.dgvHistorico.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvHistorico_CellContentClick);
             this.dgvHistorico.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvHistorico_CellDoubleClick);

@@ -1,26 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Globalization;
 using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores.Comuns;
-using GS.GestaoEmpresa.Solucao.Negocio.Interfaces;
-using GS.GestaoEmpresa.Solucao.Negocio.Objetos;
 using GS.GestaoEmpresa.Solucao.UI.Base;
 using GS.GestaoEmpresa.Solucao.UI.ControlesGenericos;
 using GS.GestaoEmpresa.Solucao.Utilitarios;
 
 namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 {
-    public partial class frmProdutoMetro : GSForm, IView
+    public partial class FrmProdutoMetro : GSForm, IView
     {
-        public frmProdutoMetro()
+        public FrmProdutoMetro()
         {
             InitializeComponent();
 
@@ -120,6 +112,11 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         private void txtMLucro_Leave(object sender, EventArgs e)
         {
             CalculeEPreenchaPrecoDeVenda();
+        }
+
+        private void txtMPrecoDeCompra_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

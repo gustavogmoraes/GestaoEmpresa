@@ -632,7 +632,20 @@ namespace GS.GestaoEmpresa.Solucao.Utilitarios
 
         public static string TreatPercentage(this decimal? value)
         {
-            return " %";
+            if (!value.HasValue)
+            {
+                return string.Empty;
+            }
+
+            var rounded = Math.Round(value.Value, 2);
+            var decimalPart = rounded - Math.Truncate(rounded);
+            var decimalStr = decimalPart == 0
+                ? "0"
+                : decimalPart.ToString();
+
+            var integerStr = ((int)rounded).ToString();
+
+            return $"{integerStr},{decimalStr} %";
         }
 
         public static string ToRealMonetaryString(
@@ -651,19 +664,140 @@ namespace GS.GestaoEmpresa.Solucao.Utilitarios
             }
 
             var roundedDecimal = Math.Round(value.Value, decimalPrecision);
-            var val = string.Format(CultureInfo.GetCultureInfo("pt-BR"), "{0:C}", roundedDecimal);
+            var val = string.Format(CultureInfo.GetCultureInfo("pt-BR"), "{0:C}", roundedDecimal)
+                .Replace("R$", string.Empty)
+                .Trim();
 
             if (padLeftQty.HasValue && paddingChar.HasValue)
             {
-                val = val.Replace("R$", string.Empty).Trim().PadLeft(padLeftQty.Value, paddingChar.Value);
+                val = val.Trim().PadLeft(padLeftQty.Value, paddingChar.Value);
             }
 
-            if (!useSymbol)
+            if (useSymbol)
             {
-                val = val.Replace("R$", string.Empty).Trim();
+                val = $"R$ {val}".Trim();
             }
 
             return val;
+        }
+
+        public static List<bool> GetHash(this Bitmap bmpSource)
+        {
+            List<bool> lResult = new List<bool>();
+            //create new image with 16x16 pixel
+            Bitmap bmpMin = new Bitmap(bmpSource, new Size(16, 16));
+            for (int j = 0; j < bmpMin.Height; j++)
+            {
+                for (int i = 0; i < bmpMin.Width; i++)
+                {
+                    //reduce colors to true / false                
+                    lResult.Add(bmpMin.GetPixel(i, j).GetBrightness() < 0.5f);
+                }
+            }
+            return lResult;
+        }
+
+        public static List<bool> GetHash(this Image imageSource)
+        {
+            return GetHash(new Bitmap(imageSource));
+        }
+
+        public static void TreatMonetaryCellValue(this DataGridViewCell cell)
+        {
+            if (!((string)cell.Value).All(GSUtilitarios.EhDigitoOuPonto))
+            {
+                cell.Value = string.Empty;
+                return;
+            }
+
+            try
+            {
+                var numero = ((string)cell.Value)
+                    .Replace(",", string.Empty)
+                    .Replace(".", string.Empty);
+
+                if (numero == string.Empty)
+                {
+                    return; 
+                }
+
+                numero = numero.PadLeft(3, '0');
+
+                if (numero.Length > 3 && numero.Substring(0, 1) == "0")
+                {
+                    numero = numero.Substring(1, numero.Length - 1);
+                }
+
+                var valor = Convert.ToDouble(numero) / 100;
+                cell.Value = string.Format(CultureInfo.GetCultureInfo("pt-BR"), "{0:N}", valor);
+                //textBox.SelectionStart = ((string)cell.Value).Length;
+            }
+            catch (Exception)
+            {
+                throw new Exception("Ocorreu um erro na formatação monetária.");
+            }
+        }
+
+        public static void PaintImageAsButton(this Bitmap image, DataGridViewCellPaintingEventArgs e)
+        {
+            e.Paint(e.CellBounds, DataGridViewPaintParts.All);
+
+            var w = image.Width;
+            var h = image.Height;
+            var x = e.CellBounds.Left + (e.CellBounds.Width - w) / 2;
+            var y = e.CellBounds.Top + (e.CellBounds.Height - h) / 2;
+
+            e.Graphics.DrawImage(image, new Rectangle(x, y, w, h));
+            e.Handled = true;
+        }
+
+        //public static void RepaintImageAsButton(this Bitmap image, )
+        //{
+        //    e.Paint(e.CellBounds, DataGridViewPaintParts.All);
+
+        //    var w = image.Width;
+        //    var h = image.Height;
+        //    var x = e.CellBounds.Left + (e.CellBounds.Width - w) / 2;
+        //    var y = e.CellBounds.Top + (e.CellBounds.Height - h) / 2;
+
+        //    e.Graphics.DrawImage(image, new Rectangle(x, y, w, h));
+        //    e.Handled = true;
+        //}
+
+        public static IEnumerable<int> AllIndexesOf(this string str, string searchstring)
+        {
+            int minIndex = str.IndexOf(searchstring);
+            while (minIndex != -1)
+            {
+                yield return minIndex;
+                minIndex = str.IndexOf(searchstring, minIndex + searchstring.Length);
+            }
+        }
+
+        public static string Swap(this string stringValue, char charA, char charB)
+        {
+            var charAPositions = stringValue.AllIndexesOf(charA.ToString());
+            var charBPositions = stringValue.AllIndexesOf(charB.ToString());
+
+            var newString = string.Empty;
+
+            for (var i = 0; i < stringValue.Length; i++)
+            {
+                var appendChar = stringValue[i];
+                if (charAPositions.Contains(i))
+                {
+                    appendChar = charB;
+                }
+
+                if (charBPositions.Contains(i))
+                {
+                    appendChar = charA;
+                }
+
+                newString += appendChar;
+            }
+
+            return newString;
         }
     }
 }

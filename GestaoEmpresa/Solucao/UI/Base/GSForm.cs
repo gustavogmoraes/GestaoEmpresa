@@ -30,6 +30,8 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
 
         public bool EstahRenderizando { get; set; }
 
+        public string IdInstancia { get; set; }
+
         #endregion
 
         #region Construtores

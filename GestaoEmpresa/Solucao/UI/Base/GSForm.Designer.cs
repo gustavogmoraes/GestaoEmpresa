@@ -84,12 +84,13 @@
             this.lblTitulo.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblTitulo.Location = new System.Drawing.Point(19, 26);
             this.lblTitulo.Name = "lblTitulo";
-            this.lblTitulo.Size = new System.Drawing.Size(0, 57);
+            this.lblTitulo.Size = new System.Drawing.Size(0, 30);
             this.lblTitulo.TabIndex = 54;
             // 
             // gsTopBorder1
             // 
             this.gsTopBorder1.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.gsTopBorder1.DisplayMaximize = false;
             this.gsTopBorder1.Location = new System.Drawing.Point(3, -1);
             this.gsTopBorder1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.gsTopBorder1.Name = "gsTopBorder1";
@@ -98,13 +99,15 @@
             // 
             // GSForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(14F, 36F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackImage = ((System.Drawing.Image)(resources.GetObject("$this.BackImage")));
-            this.BackMaxSize = 1500;
+            this.BackImage = global::GS.GestaoEmpresa.Properties.Resources.Background1;
+            this.BackMaxSize = 1920;
+            this.BorderStyle = MetroFramework.Forms.MetroFormBorderStyle.FixedSingle;
             this.ClientSize = new System.Drawing.Size(599, 710);
             this.Controls.Add(this.panelTitulo);
             this.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Movable = false;
             this.Name = "GSForm";

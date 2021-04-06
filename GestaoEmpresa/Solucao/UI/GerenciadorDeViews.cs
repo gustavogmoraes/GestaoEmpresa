@@ -57,15 +57,16 @@ namespace GS.GestaoEmpresa.Solucao.UI
         }
 
         private static List<TelaMVP> _controladorDeInstancias;
-        private static List<TelaMVP> ControladorDeInstancias => _controladorDeInstancias ?? (_controladorDeInstancias = new List<TelaMVP>
+        private static List<TelaMVP> ControladorDeInstancias => _controladorDeInstancias ??= new List<TelaMVP>
         {
-            TelaMVP.Of<frmProdutoMetro, ProdutoPresenter>(),
-            TelaMVP.Of<frmInteracao, object>(true),
-            TelaMVP.Of<FrmAtendimento, object>(true),
+            TelaMVP.Of<FrmProdutoMetro, ProdutoPresenter>(),
+            TelaMVP.Of<FrmInteracaoMetro, InteracaoPresenter>(),
             TelaMVP.Of<FrmOrcamento, OrcamentoPresenter>(),
             TelaMVP.Of<FrmCliente, ClientePresenter>(),
-            TelaMVP.Of<FrmEstoque, object>(true)
-        });
+            TelaMVP.Of<FrmAtendimento, object>(true),
+            TelaMVP.Of<FrmEstoque, object>(true),
+            TelaMVP.Of<frmInteracao, object>(true)
+        };
 
         private static Form _instanciaPrincipal;
         public static TPresenter Crie<TPresenter>()
@@ -107,7 +108,7 @@ namespace GS.GestaoEmpresa.Solucao.UI
 
         public static Form ObtenhaPrincipal()
         {
-            return _instanciaPrincipal ?? (_instanciaPrincipal = new frmPrincipal());
+            return _instanciaPrincipal ??= new frmPrincipal();
         }
 
         public static TPresenter Crie<TPresenter>(IConceito conceito)
@@ -156,13 +157,11 @@ namespace GS.GestaoEmpresa.Solucao.UI
             {
                 if(ControladorDeInstanciasIndependentes.ContainsKey(typeof(T)))
                 {
-                    ControladorDeInstanciasIndependentes[typeof(T)].ForEach(x =>
-                    {
-                        x.Value.Close();
-                        x.Value.Dispose();
-                    });
-                    ControladorDeInstanciasIndependentes[typeof(T)].Clear();
+                    var instance = ControladorDeInstanciasIndependentes[typeof(T)];
+                    instance.Close();
+                    instance.Dispose();
                 }
+
                 return;
             }
 
@@ -181,13 +180,6 @@ namespace GS.GestaoEmpresa.Solucao.UI
         public static void Exclua(Type tipoDaView, string idDaInstancia)
         {
             var instancias = ControladorDeInstancias.Find(x => x.TipoDaView == tipoDaView).Instancias;
-            instancias[idDaInstancia] = null; // Disposing Presenter
-            instancias.Remove(idDaInstancia);
-        }
-
-        public static void Exclua(string idDaInstancia)
-        {
-            var instancias = ControladorDeInstancias.Find(x => x.Instancias.ContainsKey(idDaInstancia)).Instancias;
             instancias[idDaInstancia] = null; // Disposing Presenter
             instancias.Remove(idDaInstancia);
         }
@@ -224,38 +216,31 @@ namespace GS.GestaoEmpresa.Solucao.UI
             return instanciaServico;
         }
 
-        public static T ObtenhaIndependente<T>(Guid? idInstancia = null)
+        public static T ObtenhaIndependente<T>()
             where T : Form, new()
         {
-            return (T)(idInstancia.HasValue
-                ? ControladorDeInstanciasIndependentes?[typeof(T)]?[idInstancia.GetValueOrDefault()]
-                : ControladorDeInstanciasIndependentes?[typeof(T)]?.FirstOrDefault().Value);
+            return (T)((T)ControladorDeInstanciasIndependentes[typeof(T)] != null
+                ? ControladorDeInstanciasIndependentes[typeof(T)]
+                : null);
         }
 
-        public static T CrieIndependente<T>(out Guid idInstancia, params object[] args)
-            where T : Form, new()
+        public static T CrieIndependente<T>(params object[] args)
+            where T : Form, IView, new()
         {
             if(ControladorDeInstanciasIndependentes == null)
-                ControladorDeInstanciasIndependentes = new Dictionary<Type, Dictionary<Guid, Form>>();
-
-            if (ControladorDeInstanciasIndependentes.ContainsKey(typeof(T)))
-            {
-                if(ControladorDeInstanciasIndependentes[typeof(T)] == null)
-                    ControladorDeInstanciasIndependentes[typeof(T)] = new Dictionary<Guid, Form>();
-            }
+                ControladorDeInstanciasIndependentes = new Dictionary<Type, Form>();
 
             var instanciaForm = (T)Activator.CreateInstance(typeof(T), args);
-            idInstancia = Guid.NewGuid();
-
-            ControladorDeInstanciasIndependentes[typeof(T)].Add(idInstancia, instanciaForm);
+            
+            ControladorDeInstanciasIndependentes[typeof(T)] = instanciaForm;
 
             return instanciaForm;
         }
 
-        private static Dictionary<Type, Dictionary<Guid, Form>> _controladorDeInstanciasIndependentes;
-        private static Dictionary<Type, Dictionary<Guid, Form>> ControladorDeInstanciasIndependentes
+        private static Dictionary<Type, Form> _controladorDeInstanciasIndependentes;
+        private static Dictionary<Type, Form> ControladorDeInstanciasIndependentes
         {
-            get => _controladorDeInstanciasIndependentes ?? (_controladorDeInstanciasIndependentes = new Dictionary<Type, Dictionary<Guid, Form>>
+            get => _controladorDeInstanciasIndependentes ?? (_controladorDeInstanciasIndependentes = new Dictionary<Type, Form>
             {
                 { typeof(FrmEstoque), null },
                 { typeof(FrmAtendimento), null }

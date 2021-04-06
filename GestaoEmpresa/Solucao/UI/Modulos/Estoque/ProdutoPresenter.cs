@@ -11,7 +11,7 @@ using GS.GestaoEmpresa.Solucao.UI.ControlesGenericos;
 
 namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 {
-    public sealed class ProdutoPresenter : Presenter<Produto, frmProdutoMetro>, IPresenter
+    public sealed class ProdutoPresenter : Presenter<Produto, FrmProdutoMetro>, IPresenter
     {
         public ProdutoPresenter()
         {
