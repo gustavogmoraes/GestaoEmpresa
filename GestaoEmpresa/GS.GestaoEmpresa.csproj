@@ -196,7 +196,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Solucao\Negocio\Atributos\Identificacao.cs" />
+    <Compile Include="Solucao\Negocio\Atributos\ExporterMetadata.cs" />
     <Compile Include="Solucao\Negocio\Enumeradores\Comuns\EnumFormatacaoDateTime.cs" />
     <Compile Include="Solucao\Negocio\Enumeradores\Seguros\UnidadeIntelbras\EnumUnidadeIntelbras.cs" />
     <Compile Include="Solucao\Negocio\Enumeradores\Seguros\UnidadeIntelbras\UnidadeIntelbras.cs" />
@@ -204,6 +204,7 @@
     <Compile Include="Solucao\Negocio\Interfaces\IObjectWithRavenAttachments.cs" />
     <Compile Include="Solucao\Negocio\Interfaces\IServicoHistoricoPadrao.cs" />
     <Compile Include="Solucao\Negocio\Interfaces\IServicoPadrao.cs" />
+    <Compile Include="Solucao\Negocio\Objetos\Base\BaseObject.cs" />
     <Compile Include="Solucao\Negocio\Objetos\Base\ObjetoComHistorico.cs" />
     <Compile Include="Solucao\Negocio\Objetos\Base\Pessoa.cs" />
     <Compile Include="Solucao\Negocio\Objetos\Base\RavenAttachments.cs" />

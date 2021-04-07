@@ -40,7 +40,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         private void CarregueGrid()
         {
             using var servicoDeProduto = new ServicoDeProduto();
-            var propriedades = GSUtilitarios.EncontrePropriedadeMarcadaComAtributo(typeof(Produto), typeof(Identificacao));
+            var propriedades = GSUtilitarios.EncontrePropriedadeMarcadaComAtributo(typeof(Produto), typeof(ExporterMetadata));
             var propCodigo = propriedades.FirstOrDefault(x => x.Name == "Codigo");
             propriedades.RemoveAll(x => x.Name == "Codigo");
 

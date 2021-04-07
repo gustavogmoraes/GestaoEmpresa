@@ -221,6 +221,12 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                 e.Handled = true;
                 AddProduct(gridPesquisaProduto.SelectedRows[0].Index);
             }
+
+            if (e.KeyChar == (char)Keys.Escape)
+            {
+                e.Handled = true;
+                ClearSearch();
+            }
         }
 
         private void panelTitulo_Paint(object sender, PaintEventArgs e)
@@ -278,7 +284,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                 else
                 {
                     Resources.ArrowDownGridButton.PaintImageAsButton(e);
-                    CellPaintingArgs = e;
+                    //CellPaintingArgs = e;
                 }
             }
 
@@ -286,8 +292,6 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             {
                 Resources.RemoveGridButton.PaintImageAsButton(e);
             }
-
-            
         }
 
         private void gridPesquisaProduto_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
@@ -338,30 +342,30 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             
         private void ToggleNS(string productCode)
         {
-            if(NSToggle.HasValue && NSToggle.Value == Convert.ToInt32(productCode))
-            {
-                var row = gridProdutos.Rows.OfType<DataGridViewRow>().FirstOrDefault(x =>
-                    x.Cells[colunaCodigo.Index].Value.ToString().Trim() == productCode);
+            //if(NSToggle.HasValue && NSToggle.Value == Convert.ToInt32(productCode))
+            //{
+            //    var row = gridProdutos.Rows.OfType<DataGridViewRow>().FirstOrDefault(x =>
+            //        x.Cells[colunaCodigo.Index].Value.ToString().Trim() == productCode);
 
-                //Resources.ArrowUpGridButton.PaintImageAsButton()
-                var buttonCell = (DataGridViewButtonCell)row.Cells[colunaNS.Index];
+            //    //Resources.ArrowUpGridButton.PaintImageAsButton()
+            //    var buttonCell = (DataGridViewButtonCell)row.Cells[colunaNS.Index];
 
-                return;
-            }
+            //    return;
+            //}
 
-            NSToggle = Convert.ToInt32(productCode);
-            var selectedRow = gridProdutos.Rows.OfType<DataGridViewRow>().FirstOrDefault(x =>
-                   x.Cells[colunaCodigo.Index].Value.ToString().Trim() == productCode);
-            var selectedButtonCell = (DataGridViewButtonCell)selectedRow.Cells[colunaNS.Index];
+            //NSToggle = Convert.ToInt32(productCode);
+            //var selectedRow = gridProdutos.Rows.OfType<DataGridViewRow>().FirstOrDefault(x =>
+            //       x.Cells[colunaCodigo.Index].Value.ToString().Trim() == productCode);
+            //var selectedButtonCell = (DataGridViewButtonCell)selectedRow.Cells[colunaNS.Index];
 
-            var e = new DataGridViewCellPaintingEventArgs(
-                gridProdutos, CellPaintingArgs.Graphics, CellPaintingArgs.ClipBounds, CellPaintingArgs.CellBounds,
-                selectedRow.Index, colunaNS.Index, DataGridViewElementStates.Visible, CellPaintingArgs.Value,
-                CellPaintingArgs.FormattedValue, CellPaintingArgs.ErrorText, CellPaintingArgs.CellStyle, 
-                CellPaintingArgs.AdvancedBorderStyle, CellPaintingArgs.PaintParts);
+            //var e = new DataGridViewCellPaintingEventArgs(
+            //    gridProdutos, CellPaintingArgs.Graphics, CellPaintingArgs.ClipBounds, CellPaintingArgs.CellBounds,
+            //    selectedRow.Index, colunaNS.Index, DataGridViewElementStates.Visible, CellPaintingArgs.Value,
+            //    CellPaintingArgs.FormattedValue, CellPaintingArgs.ErrorText, CellPaintingArgs.CellStyle, 
+            //    CellPaintingArgs.AdvancedBorderStyle, CellPaintingArgs.PaintParts);
 
-            PaintIndividual = true;
-            gridPesquisaProduto_CellPainting(selectedButtonCell, e);
+            //PaintIndividual = true;
+            //gridPesquisaProduto_CellPainting(selectedButtonCell, e);
         }
 
         private DataGridViewCellPaintingEventArgs CellPaintingArgs { get; set; }

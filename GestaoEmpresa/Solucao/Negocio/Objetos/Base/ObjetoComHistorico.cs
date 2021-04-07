@@ -6,11 +6,11 @@ using System.Linq;
 
 namespace GS.GestaoEmpresa.Solucao.Negocio.Objetos.Base
 {
-    public class ObjetoComHistorico : IConceitoComHistorico
+    public class ObjetoComHistorico : BaseObject, IConceitoComHistorico
     {
         public string Id { get; set; }
 
-        [Identificacao(Descricao = "Código")]
+        [ExporterMetadata(Descricao = "Código")]
         public int Codigo { get; set; }
 
         public bool Atual { get; set; }
@@ -35,12 +35,6 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Objetos.Base
 
         }
 
-        public ObjetoComHistorico(object modelo)
-        {
-            modelo.GetType().GetProperties().ToList().ForEach(prop =>
-            {
-                prop.SetValue(this, prop.GetValue(modelo, null), null);
-            });
-        }
+        public ObjetoComHistorico(ObjetoComHistorico modelo) : base(modelo) { }
     }
 }

@@ -4,74 +4,86 @@ using GS.GestaoEmpresa.Solucao.Negocio.Atributos;
 using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores.Seguros.UnidadeIntelbras;
 using GS.GestaoEmpresa.Solucao.Negocio.Objetos.Base;
 using GS.GestaoEmpresa.Solucao.Persistencia.Repositorios;
-using System.Collections.Generic;
-using System.Drawing;
-using Newtonsoft.Json;
 using GS.GestaoEmpresa.Solucao.Negocio.Interfaces;
 
 namespace GS.GestaoEmpresa.Solucao.Negocio.Objetos
 {
-	public class Produto : ObjetoComHistorico, IObjectWithRavenAttachments
+    public class Produto : ObjetoComHistorico, IObjectWithRavenAttachments
 	{
-        [Identificacao(Descricao = "Status")]
+        [ExporterMetadata(Descricao = "Status")]
         public EnumStatusToggle Status { get; set; }
 
-        [Identificacao(Descricao = "Nome")]
+        [ExporterMetadata(Descricao = "Nome")]
         public string Nome { get; set; }
 
-        [Identificacao(Descricao = "Marca")]
+        [ExporterMetadata(Descricao = "Marca")]
         public string Fabricante { get; set; }
 
-        [Identificacao(Descricao = "Código do fabricante")]
+        [ExporterMetadata(Descricao = "Código do fabricante")]
         public string CodigoDoFabricante { get; set; }
 
-        [Identificacao(Descricao = "Preço de compra")]
+        [ExporterMetadata(Descricao = "Preço de compra")]
         public decimal? PrecoDeCompra { get; set; }
 
-        [Identificacao(Descricao = "Preço de venda")]
+        [ExporterMetadata(Descricao = "Preço de venda")]
         public decimal? PrecoDeVenda { get; set; }
 
-        [Identificacao(Descricao = "Porcentagem de lucro")]
+        [ExporterMetadata(Descricao = "Porcentagem de lucro")]
         public decimal? PorcentagemDeLucro { get; set; }
 
-        [Identificacao(Descricao = "Avisar quando atingir quantidade mínima")]
+        [ExporterMetadata(Descricao = "Avisar quando atingir quantidade mínima")]
         public bool AvisarQuantidade { get; set; }
 
-        [Identificacao(Descricao = "Quantidade mínima para aviso")]
+        [ExporterMetadata(Descricao = "Quantidade mínima para aviso")]
         public int QuantidadeMinimaParaAviso { get; set; }
 
-        [Identificacao(Descricao = "Observação")]
+        [ExporterMetadata(Descricao = "Observação")]
         public string Observacao { get; set; }
 
-        [Identificacao(Descricao = "Codigo de barras")]
+        [ExporterMetadata(Descricao = "Codigo de barras")]
         public string CodigoDeBarras { get; set; }
 
-        [Identificacao(Descricao = "Porcentagem de Ipi")]
+        [ExporterMetadata(Descricao = "Porcentagem de Ipi")]
         public decimal? Ipi { get; set; }
 
         public decimal? PrecoNaIntelbras { get; set; }
 
         public UnidadeIntelbras Unidade { get; set; }
 
-        // Compra
+        /// <summary>
+        /// Preço cotado no distribuidor local.
+        /// </summary>
         public decimal? PrecoDistribuidor { get; set; }
 
-        // Lucro estimado
+        /// <summary>
+        /// Lucro estimado para compra no distribuidor.
+        /// </summary>
         public decimal? PorcentagemDeLucroDistribuidor { get; set; }
 
-        // Venda
+        /// <summary>
+        /// Preço de compra com lucro aplicado.
+        /// </summary>
         public decimal? PrecoDeVendaDoDistribuidor { get; set; }
 
-        // Consumidor Final estipulado pela Intelbras
+        /// <summary>
+        /// Preço para consumidor final estipulado pelo fabricante.
+        /// </summary>
         public decimal? PrecoSugeridoConsumidorFinal { get; set; }
 
         public bool ImportadoViaPlanilha { get; set; }
 
+        public string TambemConhecidoComo { get; set; }
+
+        public string LocalizacaoNoEstoque { get; set; }
+
         public RavenAttachments RavenAttachments { get; set; }
 
-        public Produto(Produto modelo) : base (modelo) { }
+        public Produto()
+        {
 
-        public Produto() { }
+        }
+
+        public Produto(Produto modelo) : base (modelo) { }
 
         public decimal CalculePrecoDeCompraComBaseNoPrecoDaIntelbras(bool setOwnProperty = true)
         {

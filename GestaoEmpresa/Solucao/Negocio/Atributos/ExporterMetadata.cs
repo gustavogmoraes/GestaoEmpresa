@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GS.GestaoEmpresa.Solucao.Negocio.Atributos
 {
-    public class Identificacao : Attribute
+    public class ExporterMetadata : Attribute
     {
         public string Descricao { get; set; }
     }

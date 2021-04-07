@@ -665,17 +665,19 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         private void btnNovaInteracao_Click(object sender, EventArgs e)
         {
-            IPresenter presenter = null;
-            GSWaitForm.Mostrar(
-                this,
-                () =>
-                {
-                    presenter = GerenciadorDeViews.Crie<InteracaoPresenter>();
-                },
-                () =>
-                {
-                    presenter.View.Show();
-                });
+            new frmInteracao().Show();
+
+            //IPresenter presenter = null;
+            //GSWaitForm.Mostrar(
+            //    this,
+            //    () =>
+            //    {
+            //        presenter = GerenciadorDeViews.Crie<InteracaoPresenter>();
+            //    },
+            //    () =>
+            //    {
+            //        presenter.View.Show();
+            //    });
         }
 
         private void btnNovoProduto_Click(object sender, EventArgs e)
