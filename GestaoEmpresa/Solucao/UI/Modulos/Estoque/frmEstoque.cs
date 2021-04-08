@@ -31,6 +31,7 @@ using GS.GestaoEmpresa.Solucao.UI.ControlesGenericos;
 using GS.GestaoEmpresa.Solucao.Utilitarios;
 using GS.GestaoEmpresa.Solucao.Persistencia.BancoDeDados;
 using MetroFramework.Forms;
+using Newtonsoft.Json;
 //
 
 namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque

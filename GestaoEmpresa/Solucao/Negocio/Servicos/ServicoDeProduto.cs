@@ -297,11 +297,21 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
 
             if(itemsToAdd.Any())
             {
+                foreach(var item in itemsToAdd)
+                {
+                    item.ImportadoViaPlanilha = true;
+                }
+
                 repositorioDeProduto.MassInsert(itemsToAdd.ToList());
             }
 
             if (itemsToUpdate.Any())
             {
+                foreach (var item in itemsToUpdate)
+                {
+                    item.ImportadoViaPlanilha = true;
+                }
+
                 repositorioDeProduto.MassUpdate(itemsToUpdate.ToList());
             }
 
