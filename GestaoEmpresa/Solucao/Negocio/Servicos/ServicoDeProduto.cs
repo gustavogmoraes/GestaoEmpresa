@@ -102,7 +102,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
         };
 
         private static readonly Expression<Func<Produto, object>>[] DefaultPropertiesToSearch =
-            { x => x.Nome, x => x.Codigo, x => x.CodigoDoFabricante, x => x.Fabricante };
+            { x => x.Nome, x=> x.TambemConhecidoComo, x => x.Codigo, x => x.CodigoDoFabricante, x => x.Fabricante, x => x.LocalizacaoNoEstoque };
 
         public List<Produto> ConsulteTodosParaAterrissagem(
             out Dictionary<int, int> quantidades,
