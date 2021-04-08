@@ -222,6 +222,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         {
             produto.Codigo,
             produto.CodigoDoFabricante,
+            produto.LocalizacaoNoEstoque,
             produto.Nome,
             produto.Observacao,
             produto.PrecoDeCompra.HasValue
@@ -269,64 +270,8 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         private static readonly Expression<Func<Produto, object>>[] DefaultPropertiesToSearch =
             { x => x.Nome, x => x.Codigo, x => x.CodigoDoFabricante, x => x.Fabricante };
 
-        private void frmEstoque_Load(object sender, EventArgs e)
+        private void AsyncLoad()
         {
-            //using var session = RavenHelper.OpenSession();
-            //var prodsQtd = session.Query<ProdutoQuantidade>().ToList();
-            //var prods = session.Query<Produto>().Where(x => x.Atual).Select(x => x.Codigo);
-
-            //foreach(var prod in prods)
-            //{
-            //    if(!prodsQtd.Any(x => x.Codigo == prod))
-            //    {
-            //        session.Store(new ProdutoQuantidade
-            //        {
-            //            Codigo = prod,
-            //            Quantidade = 0
-            //        });
-            //    }
-            //}
-
-            //session.SaveChanges();
-
-            // Teste de consultas
-            //var repoProd = new RepositorioDeProduto();
-            //var searchTerm = "Condulete de 1/2 pt";
-            //var x = repoProd.ConsulteTodos(searchTerm: searchTerm, resultSelector: SeletorProdutoAterrissagem, propertiesToSearch: DefaultPropertiesToSearch).OrderBy(z => z.Nome).ToList();
-            //var y = repoProd.ConsulteTodosExpensive(pesquisa: searchTerm, seletor: SeletorProdutoAterrissagem, propriedades: DefaultPropertiesToSearch).OrderBy(z => z.Nome).ToList();
-
-            //var prodsList = new List<string>();
-            //using (var session = RavenHelper.OpenSession())
-            //{
-            //    var prods = (from o in session.Query<Produto>()
-            //                 group o by o.CodigoDoFabricante
-            //                 into g
-            //                 select new
-            //                 {
-            //                     CodigoDoFabricante = g.Key,
-            //                     Count = g.Count()
-            //                 })
-            //                 .Where(x => x.Count > 1 && !string.IsNullOrEmpty(x.CodigoDoFabricante))
-            //                 .ToList();
-
-            //    prodsList.AddRange(prods.Select(x => x.CodigoDoFabricante));
-            //}
-
-            //foreach(var prod in prodsList)
-            //{
-            //    using(var session = RavenHelper.OpenSession())
-            //    {
-            //        var all = session.Query<Produto>().Where(x => x.CodigoDoFabricante == prod).ToList();
-            //        var max = all.Max(x => x.Codigo);
-            //        foreach(var each in all.Where(x => x.Codigo != max))
-            //        {
-            //            each.Atual = false;
-            //        }
-
-            //        session.SaveChanges();
-            //    }
-            //}
-
             #region Migração de dados ClientesAntigos ---> RavenDB
 
             //var dialogResult = MessageBox.Show(" Migração de dados ClientesAntigos ---> RavenDB", "Confirmação", MessageBoxButtons.YesNo);
@@ -383,25 +328,12 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             //}
 
             #endregion
+        }
 
+        private void frmEstoque_Load(object sender, EventArgs e)
+        {
             UISettings = SessaoSistema.UISettings.GetUISettings(typeof(FrmEstoque));
-
-            //Módulo - Estoque
-            //ucSessaoSistema1.DefinaModulo("Estoque", Resources.WhiteBox);
-            //EscondaHeadersTabControl(tabControl1);
-
-
-            //Catálogo de Produtos
-            using (var servicoDeProduto = new ServicoDeProduto())
-            {
-                CarregueDataGridProdutos(servicoDeProduto.ConsulteTodosParaAterrissagem(out var quantidades, onlyActives: chkQueryOnlyActive.Checked), quantidades);
-            }
-
-            //Histórico de Produtos
-            using (var servicoDeInteracao = new ServicoDeInteracao())
-            {
-                CarregueDataGridInteracoes(servicoDeInteracao.ConsulteTodasParaAterrissagem());
-            }
+            //Task.Run(AsyncLoad);
         }
 
         protected override void OnLoad(EventArgs e)
@@ -702,7 +634,10 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             txtPesquisa.Text = "Pesquisar...";
 
             using var servicoDeProduto = new ServicoDeProduto();
-            CarregueDataGridProdutos(servicoDeProduto.ConsulteTodosParaAterrissagem(out var quantidades, onlyActives: chkQueryOnlyActive.Checked), quantidades);
+            var produtosAterrissagem = servicoDeProduto.ConsulteTodosParaAterrissagem(
+                out var quantidades, onlyActives: chkQueryOnlyActive.Checked);
+
+            CarregueDataGridProdutos(produtosAterrissagem, quantidades);
         }
 
         public void btnRefreshHist_Click(object sender, EventArgs e)
@@ -1158,6 +1093,41 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         private void BtnExportarProdutos_MouseEnter(object sender, EventArgs e)
         {
             ToggleButtonDescriptor(btnExportarProdutos);
+        }
+
+        private void FrmEstoque_Shown(object sender, EventArgs e)
+        {
+            using var session = RavenHelper.OpenSession();
+            var prodsQtd = session.Query<ProdutoQuantidade>().ToList();
+            var prods = session.Query<Produto>()
+                .Where(x => x.Atual)
+                .Select(x => x.Codigo)
+                .ToList();
+
+            foreach (var prod in prods)
+            {
+                if (!prodsQtd.Any(x => x.Codigo == prod))
+                {
+                    session.Store(new ProdutoQuantidade
+                    {
+                        Codigo = prod,
+                        Quantidade = 0
+                    });
+                }
+            }
+
+            session.SaveChanges();
+
+            //Catálogo de Produtos
+            using var servicoDeProduto = new ServicoDeProduto();
+            var produtos = servicoDeProduto.ConsulteTodosParaAterrissagem(
+                out var quantidades, onlyActives: chkQueryOnlyActive.Checked);
+
+            CarregueDataGridProdutos(produtos, quantidades);
+
+            //Histórico de Produtos
+            using var servicoDeInteracao = new ServicoDeInteracao();
+            CarregueDataGridInteracoes(servicoDeInteracao.ConsulteTodasParaAterrissagem());
         }
     }
 }

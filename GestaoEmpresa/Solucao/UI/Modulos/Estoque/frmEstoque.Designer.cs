@@ -66,6 +66,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.dgvProdutos = new System.Windows.Forms.DataGridView();
             this.colunaCodigo = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colunaCodigoFabricante = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colunaLocalizacao = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colunaNome = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colunaDescricao = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colunaPrecoCompra = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -257,7 +258,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.lblButtonDescriptor.BackColor = System.Drawing.Color.Silver;
             this.lblButtonDescriptor.FontWeight = MetroFramework.MetroLabelWeight.Regular;
             this.lblButtonDescriptor.ForeColor = System.Drawing.SystemColors.Control;
-            this.lblButtonDescriptor.Location = new System.Drawing.Point(677, 4);
+            this.lblButtonDescriptor.Location = new System.Drawing.Point(677, -2);
             this.lblButtonDescriptor.Name = "lblButtonDescriptor";
             this.lblButtonDescriptor.Size = new System.Drawing.Size(262, 34);
             this.lblButtonDescriptor.Style = MetroFramework.MetroColorStyle.Black;
@@ -405,6 +406,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.dgvProdutos.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colunaCodigo,
             this.colunaCodigoFabricante,
+            this.colunaLocalizacao,
             this.colunaNome,
             this.colunaDescricao,
             this.colunaPrecoCompra,
@@ -462,6 +464,12 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.colunaCodigoFabricante.ReadOnly = true;
             this.colunaCodigoFabricante.Width = 95;
             // 
+            // colunaLocalizacao
+            // 
+            this.colunaLocalizacao.HeaderText = "LE";
+            this.colunaLocalizacao.Name = "colunaLocalizacao";
+            this.colunaLocalizacao.ReadOnly = true;
+            // 
             // colunaNome
             // 
             this.colunaNome.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
@@ -483,16 +491,17 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.colunaPrecoCompra.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.BottomRight;
             this.colunaPrecoCompra.DefaultCellStyle = dataGridViewCellStyle3;
-            this.colunaPrecoCompra.HeaderText = "Preço de Compra";
+            this.colunaPrecoCompra.HeaderText = "PC";
             this.colunaPrecoCompra.MinimumWidth = 10;
             this.colunaPrecoCompra.Name = "colunaPrecoCompra";
             this.colunaPrecoCompra.ReadOnly = true;
+            this.colunaPrecoCompra.Width = 90;
             // 
             // colunaPrecoDistribuidor
             // 
             dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.BottomRight;
             this.colunaPrecoDistribuidor.DefaultCellStyle = dataGridViewCellStyle4;
-            this.colunaPrecoDistribuidor.HeaderText = "Preço Distribuidor";
+            this.colunaPrecoDistribuidor.HeaderText = "PD";
             this.colunaPrecoDistribuidor.MinimumWidth = 10;
             this.colunaPrecoDistribuidor.Name = "colunaPrecoDistribuidor";
             this.colunaPrecoDistribuidor.ReadOnly = true;
@@ -511,10 +520,11 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.colunaPrecoVenda.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.BottomRight;
             this.colunaPrecoVenda.DefaultCellStyle = dataGridViewCellStyle6;
-            this.colunaPrecoVenda.HeaderText = "Preço de Venda";
+            this.colunaPrecoVenda.HeaderText = "PV";
             this.colunaPrecoVenda.MinimumWidth = 10;
             this.colunaPrecoVenda.Name = "colunaPrecoVenda";
             this.colunaPrecoVenda.ReadOnly = true;
+            this.colunaPrecoVenda.Width = 90;
             // 
             // colunaQuantidade
             // 
@@ -800,6 +810,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmEstoque_FormClosing);
             this.Load += new System.EventHandler(this.frmEstoque_Load);
+            this.Shown += new System.EventHandler(this.FrmEstoque_Shown);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.tabControl1.ResumeLayout(false);
@@ -856,8 +867,11 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         private System.Windows.Forms.PictureBox pictureBox3;
         private System.Windows.Forms.Button btnNovoProduto;
         private System.Windows.Forms.DataGridView dgvProdutos;
+        private MetroFramework.Controls.MetroCheckBox chkQueryOnlyActive;
+        private ControlesGenericos.GSTopBorder gsTopBorder1;
         private System.Windows.Forms.DataGridViewTextBoxColumn colunaCodigo;
         private System.Windows.Forms.DataGridViewTextBoxColumn colunaCodigoFabricante;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colunaLocalizacao;
         private System.Windows.Forms.DataGridViewTextBoxColumn colunaNome;
         private System.Windows.Forms.DataGridViewTextBoxColumn colunaDescricao;
         private System.Windows.Forms.DataGridViewTextBoxColumn colunaPrecoCompra;
@@ -866,7 +880,5 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         private System.Windows.Forms.DataGridViewTextBoxColumn colunaPrecoVenda;
         private System.Windows.Forms.DataGridViewTextBoxColumn colunaQuantidade;
         private System.Windows.Forms.DataGridViewButtonColumn colunaDetalhar;
-        private MetroFramework.Controls.MetroCheckBox chkQueryOnlyActive;
-        private ControlesGenericos.GSTopBorder gsTopBorder1;
     }
 }

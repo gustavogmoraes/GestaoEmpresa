@@ -160,6 +160,7 @@ namespace GS.GestaoEmpresa.Solucao.UI
                     var instance = ControladorDeInstanciasIndependentes[typeof(T)];
                     instance.Close();
                     instance.Dispose();
+                    instance = null;
                 }
 
                 return;
@@ -227,13 +228,20 @@ namespace GS.GestaoEmpresa.Solucao.UI
         public static T CrieIndependente<T>(params object[] args)
             where T : Form, IView, new()
         {
-            if(ControladorDeInstanciasIndependentes == null)
+            if (ControladorDeInstanciasIndependentes == null)
+            {
                 ControladorDeInstanciasIndependentes = new Dictionary<Type, Form>();
+            }
 
-            var instanciaForm = (T)Activator.CreateInstance(typeof(T), args);
-            
+            T instanciaForm =  null;
+            ObtenhaPrincipal().Invoke((MethodInvoker)delegate
+            {
+                instanciaForm = (T)Activator.CreateInstance(typeof(T), args);
+
+                
+            });
+
             ControladorDeInstanciasIndependentes[typeof(T)] = instanciaForm;
-
             return instanciaForm;
         }
 

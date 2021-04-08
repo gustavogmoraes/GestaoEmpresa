@@ -90,6 +90,10 @@
             this.lblTitulo.Size = new System.Drawing.Size(314, 30);
             this.lblTitulo.Text = "Cadastro e consulta de produtos";
             // 
+            // gsTopBorder1
+            // 
+            this.gsTopBorder1.Location = new System.Drawing.Point(1, -1);
+            // 
             // lblStatus
             // 
             this.lblStatus.AutoSize = true;
@@ -818,7 +822,7 @@
             this.txtTambemConhecidoComo.SelectionStart = 0;
             this.txtTambemConhecidoComo.ShortcutsEnabled = true;
             this.txtTambemConhecidoComo.Size = new System.Drawing.Size(542, 23);
-            this.txtTambemConhecidoComo.TabIndex = 113;
+            this.txtTambemConhecidoComo.TabIndex = 64;
             this.txtTambemConhecidoComo.UseCustomBackColor = true;
             this.txtTambemConhecidoComo.UseSelectable = true;
             this.txtTambemConhecidoComo.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
@@ -863,7 +867,7 @@
             this.txtLocalizacao.SelectionStart = 0;
             this.txtLocalizacao.ShortcutsEnabled = true;
             this.txtLocalizacao.Size = new System.Drawing.Size(542, 23);
-            this.txtLocalizacao.TabIndex = 115;
+            this.txtLocalizacao.TabIndex = 66;
             this.txtLocalizacao.UseCustomBackColor = true;
             this.txtLocalizacao.UseSelectable = true;
             this.txtLocalizacao.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));

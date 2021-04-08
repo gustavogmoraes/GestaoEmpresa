@@ -14,6 +14,7 @@ using GS.GestaoEmpresa.Solucao.Negocio.Servicos;
 using GS.GestaoEmpresa.Solucao.Persistencia.BancoDeDados;
 using GS.GestaoEmpresa.Solucao.Persistencia.Repositorios;
 using GS.GestaoEmpresa.Solucao.UI.Base;
+using GS.GestaoEmpresa.Solucao.UI.ControlesGenericos;
 using GS.GestaoEmpresa.Solucao.UI.Modulos.Atendimento;
 using GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque;
 using GS.GestaoEmpresa.Solucao.UI.Modulos.Tecnico;
@@ -324,8 +325,17 @@ namespace GS.GestaoEmpresa.Solucao.UI.Principal
 
         private void btnEstoque_Click_1(object sender, EventArgs e)
         {
-            var instanciaDoForm = GerenciadorDeViews.CrieIndependente<FrmEstoque>();
-            instanciaDoForm?.Show();
+            IView view = null;
+            GSWaitForm.Mostrar(
+                this,
+                () =>
+                {
+                    view = GerenciadorDeViews.CrieIndependente<FrmEstoque>();
+                },
+                () =>
+                {
+                    view.Show();
+                });
         }
 
         private void txtSenha_KeyPress(object sender, KeyPressEventArgs e)

@@ -96,7 +96,9 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
             PrecoDistribuidor = x.PrecoDistribuidor,
             PrecoSugeridoConsumidorFinal = x.PrecoSugeridoConsumidorFinal,
             PorcentagemDeLucro = x.PorcentagemDeLucro,
-            Status = x.Status
+            Status = x.Status,
+            TambemConhecidoComo = x.TambemConhecidoComo,
+            LocalizacaoNoEstoque = x.LocalizacaoNoEstoque
         };
 
         private static readonly Expression<Func<Produto, object>>[] DefaultPropertiesToSearch =
@@ -174,35 +176,56 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
         private List<dynamic> LeiaItensDoXls(string caminhoArquivo)
         {
             const string nomeWorksheet = "Tabela de Preços";
-            const int indexLinhaDoCabecalho = 7;
-            const int indexUnidade = 1;
-            const int indexCodigoDoProduto = 2;
-            const int indexNome = 3;
-            const int indexUf = 7;
-            const int indexIpi = 8;
-            const int indexPrecoCompra = 10;
-            const int indexPrecoDistribuidor = 12;
-            const int indexPscf = 13;
+            const int indexLinhaDoCabecalho = 6;
+
+            var columns = new[]
+            {
+                "Unidade", "Código Produto", "Descrição do Produto",
+                "Estado/UF/Região", "IPI", "PV", "PSD", "PSCF"
+            };
+
+            Dictionary<string, int> columnMappings;
+            using (var excelQueryFactory = new ExcelQueryFactory(caminhoArquivo))
+            {
+                var headerRow = excelQueryFactory.Worksheet(nomeWorksheet)
+                    .Skip(indexLinhaDoCabecalho - 1)
+                    .ToList()
+                    .FirstOrDefault();
+
+                columnMappings = columns.ToDictionary(
+                    x => x,
+                    x =>
+                    {
+                        var cell = headerRow.FirstOrDefault(y => y.Value.ToString() == x);
+                        return headerRow.IndexOf(cell);
+                    });
+            }
 
             using (var excelQueryFactory = new ExcelQueryFactory(caminhoArquivo))
             {
+
                 return excelQueryFactory.Worksheet(nomeWorksheet)
-                        .Skip(indexLinhaDoCabecalho)
-                        .Select(linha => (dynamic)new
-                        {
-                            Unidade = linha[indexUnidade].ToString().Trim(),
-                            CodigoDoProduto = linha[indexCodigoDoProduto].ToString().Trim(),
-                            Nome = linha[indexNome].ToString().Trim(),
-                            UF = linha[indexUf].ToString().Trim(),
-                            Ipi = linha[indexIpi].ToString().Trim(),
-                            PrecoDeCompra = linha[indexPrecoCompra].ToString().Trim(),
-                            PrecoDistribuidor = linha[indexPrecoDistribuidor].ToString().Trim(),
-                            Pscf = linha[indexPscf].ToString().Trim()
-                        })
-                        .ToList() // Execute query on EQF and enumerate results
-                        .Where(x => x.UF.ToString() == "GO") // Get only those from Goias
-                        .ToList();
+                .Skip(indexLinhaDoCabecalho)
+                .Select(RowSelectorForIntelbrasImport(columnMappings))
+                .ToList()
+                .Where(x => x.UF == "GO")
+                .ToList();
             }
+        }
+
+        private static Expression<Func<Row, dynamic>> RowSelectorForIntelbrasImport(Dictionary<string, int> columnMappings)
+        {
+            return linha => (dynamic)new
+            {
+                Unidade = linha[columnMappings["Unidade"]].ToString().Trim(),
+                CodigoDoProduto = linha[columnMappings["Código Produto"]].ToString().Trim(),
+                Nome = linha[columnMappings["Descrição do Produto"]].ToString().Trim(),
+                UF = linha[columnMappings["Estado/UF/Região"]].ToString().Trim(),
+                Ipi = linha[columnMappings["IPI"]].ToString().Trim(),
+                PrecoDeCompra = linha[columnMappings["PV"]].ToString().Trim(),
+                PrecoDistribuidor = linha[columnMappings["PSD"]].ToString().Trim(),
+                Pscf = linha[columnMappings["PSCF"]].ToString().Trim()
+            };
         }
 
         private void SetupProgressBar(FrmEstoque caller)

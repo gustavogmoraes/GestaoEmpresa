@@ -26,7 +26,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.ControlesGenericos
             Task.Run(() =>
             {
                 while (!txtTexto.IsHandleCreated) { Thread.Sleep(100); }
-                Invoke((MethodInvoker)delegate
+                GerenciadorDeViews.ObtenhaPrincipal().Invoke((MethodInvoker)delegate
                 {
                     txtTexto.Text = metroToggle.Checked
                                   ? TextoOn ?? "Ativo"
