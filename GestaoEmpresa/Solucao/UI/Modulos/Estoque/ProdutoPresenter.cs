@@ -57,7 +57,6 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         public void RecarregueVigencia(DateTime dataVigencia)
         {
             GSWaitForm.Mostrar(
-                View,
                 () =>
                 {
                     using (var servicoDeProduto = new ServicoDeProduto())

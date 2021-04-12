@@ -23,24 +23,27 @@ namespace GS.GestaoEmpresa.Solucao.UI.ControlesGenericos
         }
         private static GSWaitForm _form { get; set; }
 
-        public static void Mostrar(Form caller, [Optional]Action processamento, [Optional]Action posProcessamento)
+        public static void Mostrar([Optional]Action processamento, [Optional]Action posProcessamento)
         {
-            caller.Invoke((MethodInvoker) delegate { _form.Show(); });
+            GerenciadorDeViews.ObtenhaPrincipal().Invoke((MethodInvoker) delegate 
+            { 
+                _form.Show();
+            });
 
             if (processamento == null) { processamento = () => { }; }
             if (posProcessamento == null) { posProcessamento = () => { }; }
 
-            _ = Task.Run(processamento).ContinueWith(x =>
-              {
-                  Thread.Sleep(TimeSpan.FromMilliseconds(700));
-                  _ = caller.Invoke((MethodInvoker)delegate
-                  {
-                      posProcessamento();
+            Task.Run(processamento).ContinueWith(x =>
+            {
+                Thread.Sleep(TimeSpan.FromMilliseconds(700));
+                GerenciadorDeViews.ObtenhaPrincipal().Invoke((MethodInvoker)delegate
+                {
+                    posProcessamento();
 
-                      _form.Hide();
-                  });
-              },
-              TaskContinuationOptions.RunContinuationsAsynchronously);
+                    _form.Hide();
+                });
+            },
+            TaskContinuationOptions.ExecuteSynchronously);
         }
     }
 }

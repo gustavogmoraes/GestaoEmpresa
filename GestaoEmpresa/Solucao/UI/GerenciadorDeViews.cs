@@ -88,13 +88,13 @@ namespace GS.GestaoEmpresa.Solucao.UI
                     ObtenhaPrincipal().Invoke((MethodInvoker) delegate
                     {
                         instanciaView = (IView)Activator.CreateInstance(tela.TipoDaView);
-                    });
 
-                    instanciaPresenter.IdInstancia = idInstancia;
-                    instanciaPresenter.View = instanciaView;
-                    instanciaView.Presenter = instanciaPresenter;
-                    instanciaPresenter.View.TipoDeForm = EnumTipoDeForm.Cadastro;
-                    instanciaPresenter.HabiliteControles();
+                        instanciaPresenter.IdInstancia = idInstancia;
+                        instanciaPresenter.View = instanciaView;
+                        instanciaView.Presenter = instanciaPresenter;
+                        instanciaPresenter.View.TipoDeForm = EnumTipoDeForm.Cadastro;
+                        instanciaPresenter.HabiliteControles();
+                    });
 
                     tela.Instancias.Add(idInstancia, instanciaPresenter);
 
@@ -233,12 +233,10 @@ namespace GS.GestaoEmpresa.Solucao.UI
                 ControladorDeInstanciasIndependentes = new Dictionary<Type, Form>();
             }
 
-            T instanciaForm =  null;
+            T instanciaForm = null;
             ObtenhaPrincipal().Invoke((MethodInvoker)delegate
             {
                 instanciaForm = (T)Activator.CreateInstance(typeof(T), args);
-
-                
             });
 
             ControladorDeInstanciasIndependentes[typeof(T)] = instanciaForm;

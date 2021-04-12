@@ -327,7 +327,6 @@ namespace GS.GestaoEmpresa.Solucao.UI.Principal
         {
             IView view = null;
             GSWaitForm.Mostrar(
-                this,
                 () =>
                 {
                     view = GerenciadorDeViews.CrieIndependente<FrmEstoque>();

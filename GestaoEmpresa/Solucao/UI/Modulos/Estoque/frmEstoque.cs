@@ -391,7 +391,6 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
                 IPresenter presenter = null;
                 GSWaitForm.Mostrar(
-                    this,
                     () =>
                     {
                         using var servicoDeProduto = new ServicoDeProduto();
@@ -412,7 +411,6 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
             IPresenter presenter = null;
             GSWaitForm.Mostrar(
-                this,
                 () =>
                 {
                     using var servicoDeProduto = new ServicoDeProduto();
@@ -518,7 +516,6 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
                 Dictionary<int, int> qtds = null;
                 GSWaitForm.Mostrar(
-                    this,
                     () =>
                     {
                         _txtPesquisaDeProdutoPreviousSearch = pesquisa;
@@ -617,7 +614,6 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         {
             IPresenter presenter = null;
             GSWaitForm.Mostrar(
-                this,
                 () =>
                 {
                     presenter = GerenciadorDeViews.Crie<ProdutoPresenter>();
@@ -703,7 +699,6 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                 }
 
                 GSWaitForm.Mostrar(
-                    this,
                     () =>
                     {
                         _cbPesquisaPorProdutoPreviousSearch = searchTerm;

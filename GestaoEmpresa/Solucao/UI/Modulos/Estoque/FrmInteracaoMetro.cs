@@ -98,7 +98,6 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
                 Dictionary<int, int> qtds = null;
                 GSWaitForm.Mostrar(
-                    this,
                     () =>
                     {
                         _txtPesquisaDeProdutoPreviousSearch = pesquisa;

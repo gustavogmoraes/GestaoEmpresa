@@ -33,7 +33,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             var cadastroOuAtualizacao = TipoDeForm == EnumTipoDeForm.Cadastro ? "Cadastrado" : "Atualizado";
             MessageBox.Show($"{cadastroOuAtualizacao} com sucesso!", "Resultado");
 
-            GSWaitForm.Mostrar(this, () =>
+            GSWaitForm.Mostrar(() =>
             {
                 Invoke((MethodInvoker)delegate
                 {
