@@ -85,16 +85,13 @@ namespace GS.GestaoEmpresa.Solucao.UI
                     var instanciaPresenter = (TPresenter)Activator.CreateInstance(tela.TipoDoPresenter);
 
                     IView instanciaView = null;
-                    ObtenhaPrincipal().Invoke((MethodInvoker) delegate
-                    {
-                        instanciaView = (IView)Activator.CreateInstance(tela.TipoDaView);
+                    InvokeOnMain(delegate { instanciaView = (IView)Activator.CreateInstance(tela.TipoDaView); });
 
-                        instanciaPresenter.IdInstancia = idInstancia;
-                        instanciaPresenter.View = instanciaView;
-                        instanciaView.Presenter = instanciaPresenter;
-                        instanciaPresenter.View.TipoDeForm = EnumTipoDeForm.Cadastro;
-                        instanciaPresenter.HabiliteControles();
-                    });
+                    instanciaPresenter.IdInstancia = idInstancia;
+                    instanciaPresenter.View = instanciaView;
+                    instanciaView.Presenter = instanciaPresenter;
+                    instanciaPresenter.View.TipoDeForm = EnumTipoDeForm.Cadastro;
+                    instanciaPresenter.HabiliteControles();
 
                     tela.Instancias.Add(idInstancia, instanciaPresenter);
 
@@ -106,6 +103,11 @@ namespace GS.GestaoEmpresa.Solucao.UI
             return null;
         }
 
+        private static void InvokeOnMain(Action action)
+        {
+            ObtenhaPrincipal().Invoke(action);
+        }
+
         public static Form ObtenhaPrincipal()
         {
             return _instanciaPrincipal ??= new frmPrincipal();
@@ -115,14 +117,12 @@ namespace GS.GestaoEmpresa.Solucao.UI
             where TPresenter : class, IPresenter, new()
         {
             var instanciaPresenter = Crie<TPresenter>();
-
-            ObtenhaPrincipal().Invoke((MethodInvoker) delegate
-            {
-                instanciaPresenter.Model = conceito;
-                //instanciaPresenter.IdInstancia = conceito.Codigo.ToString();
-                //instanciaPresenter.CarregueControlesComModel();
-                instanciaPresenter.View.TipoDeForm = EnumTipoDeForm.Detalhamento;
-            });
+            instanciaPresenter.Model = conceito;
+            instanciaPresenter.View.TipoDeForm = EnumTipoDeForm.Detalhamento;
+            //ObtenhaPrincipal().Invoke((MethodInvoker) delegate
+            //{
+                
+            //});
 
             return instanciaPresenter;
         }

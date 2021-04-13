@@ -126,15 +126,13 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios.Base
 
         public void Exclua(int codigo)
         {
-            using (var sessaoRaven = RavenHelper.OpenSession())
-            {
-                sessaoRaven.Query<T>()
-                    .Where(x => x.Codigo == codigo)
-                    .ToList()
-                    .ForEach(x => sessaoRaven.Delete(x.Id));
+            using var sessaoRaven = RavenHelper.OpenSession();
+            sessaoRaven.Query<T>()
+                .Where(x => x.Codigo == codigo)
+                .ToList()
+                .ForEach(x => sessaoRaven.Delete<T>(x));
 
-                sessaoRaven.SaveChanges();
-            }
+            sessaoRaven.SaveChanges();
         }
 
         public int ObtenhaProximoCodigoDisponivel()

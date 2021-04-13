@@ -800,6 +800,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BorderStyle = MetroFramework.Forms.MetroFormBorderStyle.FixedSingle;
             this.ClientSize = new System.Drawing.Size(1264, 681);
             this.Controls.Add(this.gsTopBorder1);
             this.Controls.Add(this.lblDescricaoBotoes);
@@ -807,6 +808,8 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.Controls.Add(this.tabControl1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "FrmEstoque";
+            this.ShadowType = MetroFramework.Forms.MetroFormShadowType.None;
+            this.Text = "GE - Estoque";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmEstoque_FormClosing);
             this.Load += new System.EventHandler(this.frmEstoque_Load);

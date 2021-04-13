@@ -118,12 +118,12 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
 
         #endregion
 
-        public virtual void CarregueControlesComModel()
+        public virtual void CarregueControlesComModel(bool reloading = false)
         {
-            if(View.EstahRenderizando)
-            {
-                return;
-            }
+            //if(View.EstahRenderizando && !reloading)
+            //{
+            //    return;
+            //}
 
             View.EstahRenderizando = true;
             if (Model == null || MapeamentoDeControles == null || MapeamentoDeControles.Count == 0) return;
@@ -150,8 +150,8 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
                 }
             });
 
-            View.EstahRenderizando = false;
             View.Refresh();
+            View.EstahRenderizando = false;
         }
 
         public virtual void CarregueModelComControles()

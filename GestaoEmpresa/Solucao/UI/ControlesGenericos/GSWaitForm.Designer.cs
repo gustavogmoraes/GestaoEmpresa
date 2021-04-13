@@ -59,7 +59,6 @@
             this.ClientSize = new System.Drawing.Size(254, 160);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.panel1);
-            this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "GSWaitForm";
             this.Opacity = 0.95D;

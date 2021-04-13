@@ -938,6 +938,7 @@
             this.Controls.Add(this.cbVigencia);
             this.Controls.Add(this.lblVigencia);
             this.Controls.Add(this.lblCodigo);
+            this.DoubleBuffered = false;
             this.Name = "FrmProdutoMetro";
             this.Text = "frmProdutoMetroT";
             this.Controls.SetChildIndex(this.lblCodigo, 0);

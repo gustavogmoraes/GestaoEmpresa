@@ -23,16 +23,16 @@ namespace GS.GestaoEmpresa.Solucao.UI.ControlesGenericos
         {
             base.OnLoad(e);
 
-            Task.Run(() =>
-            {
-                while (!txtTexto.IsHandleCreated) { Thread.Sleep(100); }
-                GerenciadorDeViews.ObtenhaPrincipal().Invoke((MethodInvoker)delegate
-                {
-                    txtTexto.Text = metroToggle.Checked
-                                  ? TextoOn ?? "Ativo"
-                                  : TextoOff ?? "Inativo";
-                });
-            });
+            //Task.Run(() =>
+            //{
+            //    while (!txtTexto.IsHandleCreated) { Thread.Sleep(100); }
+            //    GerenciadorDeViews.ObtenhaPrincipal().Invoke((MethodInvoker)delegate
+            //    {
+            //        txtTexto.Text = metroToggle.Checked
+            //                      ? TextoOn ?? "Ativo"
+            //                      : TextoOff ?? "Inativo";
+            //    });
+            //});
         }
 
         public string TextoOn { get; set; }

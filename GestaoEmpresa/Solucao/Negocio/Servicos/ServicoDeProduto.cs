@@ -203,13 +203,12 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
 
             using (var excelQueryFactory = new ExcelQueryFactory(caminhoArquivo))
             {
-
                 return excelQueryFactory.Worksheet(nomeWorksheet)
-                .Skip(indexLinhaDoCabecalho)
-                .Select(RowSelectorForIntelbrasImport(columnMappings))
-                .ToList()
-                .Where(x => x.UF == "GO")
-                .ToList();
+                    .Skip(indexLinhaDoCabecalho)
+                    .Select(RowSelectorForIntelbrasImport(columnMappings))
+                    .ToList()
+                    .Where(x => x.UF == "GO")
+                    .ToList();
             }
         }
 

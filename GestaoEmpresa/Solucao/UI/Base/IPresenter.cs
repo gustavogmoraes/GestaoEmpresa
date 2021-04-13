@@ -19,7 +19,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
 
         IConceito Model { get; set; }
 
-        void CarregueControlesComModel();
+        void CarregueControlesComModel(bool reloading = false);
 
         void CarregueModelComControles();
 

@@ -59,42 +59,38 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             GSWaitForm.Mostrar(
                 () =>
                 {
-                    using (var servicoDeProduto = new ServicoDeProduto())
+                    using var servicoDeProduto = new ServicoDeProduto();
+                    var vigenciaConsultada = servicoDeProduto.Consulte(Model.Codigo, dataVigencia);
+                    Model = vigenciaConsultada;
+
+                    View.Invoke((MethodInvoker)delegate
                     {
-                        var vigenciaConsultada = servicoDeProduto.Consulte(Model.Codigo, dataVigencia);
-                        Model = vigenciaConsultada;
+                        View.EstahRenderizando = true;
 
-                        View.Invoke((MethodInvoker)delegate
-                        {
-                            View.EstahRenderizando = true;
+                        View.Presenter?.CarregueControlesComModel();
+                        View.EstahRenderizando = true;
 
-                            View.Presenter?.ViewCarregada();
-                            View.cbVigencia.SelectedItem = dataVigencia.ToString("dd/MM/yyyy HH:mm:ss");
-                            View.txtQuantidadeEmEstoque.Text = servicoDeProduto.ConsulteQuantidade(vigenciaConsultada.Codigo).ToString();
+                        View.cbVigencia.SelectedItem = dataVigencia.ToString("dd/MM/yyyy HH:mm:ss");
+                        View.txtQuantidadeEmEstoque.Text = servicoDeProduto.ConsulteQuantidade(vigenciaConsultada.Codigo).ToString();
 
-                            View.EstahRenderizando = false;
-                        });
-                    }
+                        View.EstahRenderizando = false;
+                    });
                 });
         }
 
         public Produto Consulte(int codigo)
         {
-            using (var servicoDeProduto = new ServicoDeProduto())
-            {
-                return servicoDeProduto.Consulte(codigo);
-            }
+            using var servicoDeProduto = new ServicoDeProduto();
+            return servicoDeProduto.Consulte(codigo);
         }
 
-        public override void CarregueControlesComModel()
+        public override void CarregueControlesComModel(bool reloading = false)
         {
-            base.CarregueControlesComModel();
+            base.CarregueControlesComModel(reloading);
 
-            using(var servico = new ServicoDeProduto())
-            {
-                var quantidade = servico.ConsulteQuantidade(Model.Codigo);
-                View.txtQuantidadeEmEstoque.Text = quantidade.ToString();
-            }
+            using var servico = new ServicoDeProduto();
+            var quantidade = servico.ConsulteQuantidade(Model.Codigo);
+            View.txtQuantidadeEmEstoque.Text = quantidade.ToString();
         }
     }
 }
