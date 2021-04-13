@@ -176,7 +176,7 @@ namespace GS.GestaoEmpresa.Solucao.Utilitarios
             return tipo.GetProperties().Where(x => Attribute.IsDefined(x, typeof(T))).ToList();
         }
 
-        public static void Focar(this IView view, Form invoker = null)
+        public static void Focar(this IView view, Form invoker = null, FormWindowState? state = null)
         {
             var form = (view as Form);
 
@@ -189,7 +189,16 @@ namespace GS.GestaoEmpresa.Solucao.Utilitarios
             {
                 form.Show();
                 form.Visible = true;
-                form.WindowState = FormWindowState.Normal;
+
+                if(!state.HasValue)
+                {
+                    form.WindowState = FormWindowState.Normal;
+                }
+                else
+                {
+                    form.WindowState = state.GetValueOrDefault();
+                }
+                
                 form.Activate();
                 form.Select();
                 form.Focus();

@@ -48,7 +48,6 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.ScrollSelecao = new System.Windows.Forms.Panel();
             this.btnHistorico = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
             this.txtPesquisa = new System.Windows.Forms.TextBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabProdutos = new System.Windows.Forms.TabPage();
@@ -95,6 +94,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.btnNovaInteracao = new System.Windows.Forms.Button();
             this.lblDescricaoBotoes = new MetroFramework.Controls.MetroLabel();
             this.gsTopBorder1 = new GS.GestaoEmpresa.Solucao.UI.ControlesGenericos.GSTopBorder();
+            this.label3 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabProdutos.SuspendLayout();
@@ -130,10 +130,10 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.panel1.BackColor = System.Drawing.Color.DimGray;
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel1.Controls.Add(this.ScrollSelecao);
-            this.panel1.Controls.Add(this.btnHistorico);
             this.panel1.Controls.Add(this.btnCatalogo);
+            this.panel1.Controls.Add(this.label3);
+            this.panel1.Controls.Add(this.btnHistorico);
             this.panel1.Controls.Add(this.label2);
-            this.panel1.Controls.Add(this.label1);
             this.panel1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.panel1.Location = new System.Drawing.Point(1139, 25);
             this.panel1.Name = "panel1";
@@ -178,18 +178,6 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.label2.Size = new System.Drawing.Size(357, 39);
             this.label2.TabIndex = 3;
             this.label2.Text = "_________________";
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.BackColor = System.Drawing.Color.Transparent;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 26.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(8, 111);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(357, 39);
-            this.label1.TabIndex = 3;
-            this.label1.Text = "_________________";
             // 
             // txtPesquisa
             // 
@@ -796,6 +784,18 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.gsTopBorder1.Size = new System.Drawing.Size(1265, 26);
             this.gsTopBorder1.TabIndex = 19;
             // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.BackColor = System.Drawing.Color.Transparent;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 26.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.ForeColor = System.Drawing.Color.White;
+            this.label3.Location = new System.Drawing.Point(6, 83);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(357, 39);
+            this.label3.TabIndex = 8;
+            this.label3.Text = "_________________";
+            // 
             // FrmEstoque
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -836,7 +836,6 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         private System.Windows.Forms.Panel ScrollSelecao;
         private System.Windows.Forms.Button btnHistorico;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox txtPesquisa;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabHistorico;
@@ -883,5 +882,6 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         private System.Windows.Forms.DataGridViewTextBoxColumn colunaPrecoVenda;
         private System.Windows.Forms.DataGridViewTextBoxColumn colunaQuantidade;
         private System.Windows.Forms.DataGridViewButtonColumn colunaDetalhar;
+        private System.Windows.Forms.Label label3;
     }
 }

@@ -153,23 +153,23 @@ namespace GS.GestaoEmpresa.Solucao.UI
         public static void Exclua<T>(string idDaInstancia = null)
             where T : Form, IView
         {
-            if(idDaInstancia.IsNullOrEmpty())
+            if (idDaInstancia.IsNullOrEmpty())
             {
-                if(ControladorDeInstanciasIndependentes.ContainsKey(typeof(T)))
+                if (ControladorDeInstanciasIndependentes.ContainsKey(typeof(T)))
                 {
                     var instance = ControladorDeInstanciasIndependentes[typeof(T)];
                     instance.Close();
-                    instance.Dispose();
-                    instance = null;
-                }
 
-                return;
+                    ControladorDeInstanciasIndependentes[typeof(T)] = null;
+
+                    return;
+                }
             }
 
             var instancias = ControladorDeInstancias.Find(x => x.TipoDaView == typeof(T)).Instancias.Values;
             if (instancias != null && instancias.Count > 0)
             {
-                instancias.ForEach(x => (x.View as Form).Invoke((MethodInvoker) delegate
+                instancias.ForEach(x => (x.View as Form).Invoke((MethodInvoker)delegate
                 {
                     (x as Form).Dispose();
                 }));
@@ -231,6 +231,12 @@ namespace GS.GestaoEmpresa.Solucao.UI
             if (ControladorDeInstanciasIndependentes == null)
             {
                 ControladorDeInstanciasIndependentes = new Dictionary<Type, Form>();
+            }
+
+            if (ControladorDeInstanciasIndependentes.ContainsKey(typeof(T)) && 
+                ControladorDeInstanciasIndependentes[typeof(T)] != null)
+            {
+                return (T)ControladorDeInstanciasIndependentes[typeof(T)];
             }
 
             T instanciaForm = null;

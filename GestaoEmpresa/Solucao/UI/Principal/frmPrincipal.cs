@@ -334,6 +334,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Principal
                 () =>
                 {
                     view.Show();
+                    view.Focar(state: FormWindowState.Maximized);
                 });
         }
 
