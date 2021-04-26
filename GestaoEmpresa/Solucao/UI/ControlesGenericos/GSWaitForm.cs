@@ -21,6 +21,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.ControlesGenericos
         {
             InitializeComponent();
         }
+
         private static GSWaitForm _form { get; set; }
 
         public static void Mostrar([Optional]Action processing, [Optional]Action postProcessing)
