@@ -192,6 +192,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
                             servicoDeProduto.Salve(produtoConsultado, EnumTipoDeForm.Edicao);
                         }
                     }
+
                     var quantidadeEmEstoque = servicoDeProduto.ConsulteQuantidade(produtoConsultado.Codigo);
 
                     servicoDeProduto.AltereQuantidadeDeProduto(produtoConsultado.Codigo, quantidadeEmEstoque + quantidadeInterada + quantidadeInteradaAux);

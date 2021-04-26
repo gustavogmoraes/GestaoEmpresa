@@ -6,6 +6,7 @@ using NUnit.Framework;
 using GS.GestaoEmpresa.Solucao.Persistencia.BancoDeDados;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using GS.GestaoEmpresa.Solucao.Persistencia.Repositorios;
 using GS.GestaoEmpresa.Solucao.Utilitarios;
 
@@ -47,25 +48,28 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos.Tests
             }
         }
 
-        [TestCase]
-        public void SalveTest()
+        [TestCase(EnumTipoDeForm.Cadastro)]
+        [TestCase(EnumTipoDeForm.Edicao)]
+        public void SalveTest(EnumTipoDeForm formType)
         {
-            Salve_Cadastro_Test();
+            var product = new Produto { Nome = $"Integration test session {SessionId} - Test product" };
 
-            Salve_Edicao_Test();
+            switch (formType)
+            {
+                case EnumTipoDeForm.Cadastro:
+                    Salve_Cadastro_Test(product);
+                    break;
+                case EnumTipoDeForm.Edicao:
+                    Salve_Edicao_Test(product);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(formType), formType, null);
+            }
         }
 
-        private void Salve_Cadastro_Test()
+        private void Salve_Cadastro_Test(Produto newProduct)
         {
-            var newProduct = new Produto
-            {
-                Nome = $"Integration test session {SessionId} - Test product"
-            };
-
-            using var productService = new ServicoDeProduto();
-            var inconsistences = productService.Salve(newProduct, EnumTipoDeForm.Cadastro);
-
-            DocumentsIdsToDelete.Add(newProduct.Id);
+            var inconsistences = SalveCadastro(newProduct);
 
             bool InconsistencesCondition() => 
                 inconsistences == null || 
@@ -99,44 +103,51 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos.Tests
                                               "Product.Atual is not true");
         }
 
-        private void SalveCadastro()
+        private IList<Inconsistencia> SalveCadastro(Produto product)
         {
+            using var productService = new ServicoDeProduto();
+            var inconsistences = productService.Salve(product, EnumTipoDeForm.Cadastro);
 
+            DocumentsIdsToDelete.Add(product.Id);
+
+            return inconsistences;
         }
 
-        private void Salve_Edicao_Test()
+        private void Salve_Edicao_Test(Produto product)
         {
-            var newProduct = new Produto
-            {
-                Codigo = new RepositorioDeProduto().ObtenhaProximoCodigoDisponivel(),
-                Nome = $"Integration test session {SessionId} - Test product"
-            };
+            SalveCadastro(product);
+            DocumentsIdsToDelete.Add(product.Id);
 
             using var productService = new ServicoDeProduto();
-            var inconsistencies = productService.Salve(newProduct, EnumTipoDeForm.Cadastro);
+            product.Id = null;
+            product.Nome += " Edited";
 
-            DocumentsIdsToDelete.Add(newProduct.Id);
+            var inconsistencies = productService.Salve(product, EnumTipoDeForm.Edicao);
+            Assert.IsTrue(!inconsistencies?.Any(), "Got inconsistencies");
 
-            Assert.IsTrue(inconsistencies == null || !inconsistencies.Any());
+            Thread.Sleep(TimeSpan.FromSeconds(2));
 
             using var session = RavenHelper.OpenSession();
-            var produtosQuantidades = session.Query<ProdutoQuantidade>().Where(x => x.Codigo == newProduct.Codigo).ToList();
-            var produtos = session.Query<Produto>().Where(x => x.Codigo == newProduct.Codigo).ToList();
+            var products = session.Query<Produto>()
+                .Where(x => x.Codigo == product.Codigo)
+                .OrderBy(x => x.Vigencia)
+                .ToList();
 
-            DocumentsIdsToDelete.AddRange(produtos.Select(x => x.Id));
-            DocumentsIdsToDelete.AddRange(produtosQuantidades.Select(x => x.Id));
+            var code = products[0].Codigo;
 
-            Assert.IsTrue(
-                produtosQuantidades != null &&
-                produtosQuantidades.Count == 1 &&
-                produtosQuantidades[0] != null &&
-                produtosQuantidades[0].Quantidade == 0, "Product not inserted");
+            var productsQuantities = session.Query<ProdutoQuantidade>().Where(x => x.Codigo == code).ToList();
+            var list = products.Select(x => x.Id).Concat(productsQuantities.Select(x => x.Id)).ToList();
+            DocumentsIdsToDelete.AddRange(list);
 
-            Assert.IsTrue(
-                produtos != null &&
-                produtos.Count == 1 &&
-                produtos[0] != null &&
-                produtos[0].Atual, "Product not inserted");
+            bool ProductsCondition() =>
+                products is { Count: 2 } &&
+                products[0] != null &&
+                products[1] != null &&
+                !products[0].Atual &&
+                products[1].Atual &&
+                products[1].Nome.EndsWith("Edited");
+
+            Assert.IsTrue(ProductsCondition(), "Not edited");
         }
     }
 }

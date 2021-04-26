@@ -87,7 +87,6 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos.Base
                     inconsistencias = Validador.ValideEdicao(item).ToList();
                     if (inconsistencias.Count == 0)
                     {
-   
                         Repositorio.Atualize(item);
                         AcaoSucessoValidacaoDeEdicao(item)?.Invoke();
                     }
