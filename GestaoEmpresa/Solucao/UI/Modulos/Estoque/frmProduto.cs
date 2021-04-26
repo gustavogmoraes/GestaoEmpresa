@@ -38,7 +38,10 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             throw new NotImplementedException();
         }
 
-
+        public void SetBorderStyle()
+        {
+            //BorderStyle = MetroFormBorderStyle.FixedSingle;
+        }
 
         public EnumTipoDeForm TipoDeForm { get; set; }
 

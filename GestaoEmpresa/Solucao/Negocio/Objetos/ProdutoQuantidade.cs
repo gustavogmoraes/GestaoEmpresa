@@ -3,14 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using GS.GestaoEmpresa.Solucao.Persistencia.Interfaces;
 
 namespace GS.GestaoEmpresa.Solucao.Negocio.Objetos
 {
-    public class ProdutoQuantidade
+    public class ProdutoQuantidade : IRavenDbDocument
     {
         public int Codigo { get; set; }
 
         public int Quantidade { get; set; }
+
+        public string Id { get; set; }
     }
 }
 

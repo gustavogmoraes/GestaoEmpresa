@@ -1,27 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores.Comuns;
 using GS.GestaoEmpresa.Solucao.Negocio.Interfaces;
-using GS.GestaoEmpresa.Solucao.Negocio.Objetos.Base;
-using GS.GestaoEmpresa.Solucao.Negocio.Servicos.Base;
-using GS.GestaoEmpresa.Solucao.Negocio.Validador.Base;
-using GS.GestaoEmpresa.Solucao.Persistencia.Repositorios.Base;
 using GS.GestaoEmpresa.Solucao.UI.Base;
 using GS.GestaoEmpresa.Solucao.UI.Modulos.Atendimento;
 using GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque;
-using GS.GestaoEmpresa.Solucao.UI.Modulos.Tecnico;
 using GS.GestaoEmpresa.Solucao.UI.Principal;
 using GS.GestaoEmpresa.Solucao.Utilitarios;
 using MoreLinq;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime;
-using OfficeOpenXml.FormulaParsing.ExpressionGraph;
-using Remotion.Data.Linq.Clauses;
 
 namespace GS.GestaoEmpresa.Solucao.UI
 {

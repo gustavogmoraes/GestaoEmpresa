@@ -808,5 +808,7 @@ namespace GS.GestaoEmpresa.Solucao.Utilitarios
 
             return newString;
         }
+
+        public static bool IsNotNull(this object obj) => obj != null;
     }
 }

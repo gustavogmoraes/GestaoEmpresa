@@ -40,12 +40,19 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
         {
             InitializeComponent();
 
+            SetBorderStyle();
+
             lblTitulo.BringToFront();
         }
 
         #endregion
 
         #region Métodos
+
+        public void SetBorderStyle()
+        {
+            BorderStyle = MetroFormBorderStyle.FixedSingle;
+        }
 
         protected void InicializeBotoes(EnumTipoDeForm tipoDeForm)
         {

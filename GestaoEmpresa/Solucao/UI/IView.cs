@@ -19,6 +19,8 @@ namespace GS.GestaoEmpresa.Solucao.UI
 
         bool EstahRenderizando { get; set; }
 
+        void SetBorderStyle();
+
         void Show();
 
         void Dispose();

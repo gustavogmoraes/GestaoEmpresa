@@ -14,7 +14,7 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.BancoDeDados
 
         public static string NomeUsuario { get; set; }
 
-        public static InformacoesConexaoBanco InformacoesConexao { get; internal set; }
+        public static InformacoesConexaoBanco InformacoesConexao { get; set; }
 
         public static bool WorkTestMode { get; set; }
 

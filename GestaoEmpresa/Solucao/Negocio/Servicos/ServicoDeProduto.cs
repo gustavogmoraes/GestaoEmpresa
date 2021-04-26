@@ -28,11 +28,9 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
 
         protected override Action AcaoSucessoValidacaoDeCadastro(Produto produto) => () =>
         {
-            using (var session = RavenHelper.OpenSession())
-            {
-                session.Store(new ProdutoQuantidade { Codigo = produto.Codigo, Quantidade = 0 });
-                session.SaveChanges();
-            }
+            using var session = RavenHelper.OpenSession();
+            session.Store(new ProdutoQuantidade { Codigo = produto.Codigo, Quantidade = 0 });
+            session.SaveChanges();
         };
 
         protected override Action AcaoSucessoValidacaoDeEdicao(Produto item)
@@ -42,23 +40,22 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
 
         protected override Action AcaoSucessoValidacaoDeExclusao(int codigo) => () =>
         {
-            using (var session = RavenHelper.OpenSession())
-            {
-                var produtoQtd = session.Query<ProdutoQuantidade>().FirstOrDefault(x => x.Codigo == codigo);
+            using var session = RavenHelper.OpenSession();
+            var produtoQtd = session.Query<ProdutoQuantidade>()
+                .Where(x => x.Codigo == codigo)
+                .ToList();
 
-                session.Delete(produtoQtd);
-                session.SaveChanges();
-            }
+            produtoQtd.ForEach(session.Delete);
+
+            session.SaveChanges();
         };
 
         #endregion
 
         public int ConsulteQuantidade(int codigo)
         {
-            using (var repositorioDeProduto = new RepositorioDeProduto())
-            {
-                return repositorioDeProduto.ConsulteQuantidade(codigo);
-            }
+            using var repositorioDeProduto = new RepositorioDeProduto();
+            return repositorioDeProduto.ConsulteQuantidade(codigo);
         }
 
         public Dictionary<int, int> ConsulteQuantidade(IList<int> codigos)

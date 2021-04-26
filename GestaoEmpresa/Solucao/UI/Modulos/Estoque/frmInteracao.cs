@@ -23,6 +23,7 @@ using GS.GestaoEmpresa.Solucao.UI.Base;
 using MoreLinq;
 using GS.GestaoEmpresa.Solucao.Persistencia.BancoDeDados;
 using GS.GestaoEmpresa.Solucao.Persistencia.Repositorios;
+using MetroFramework.Forms;
 
 namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 {
@@ -75,6 +76,11 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         }
 
         #region FormPadrao
+
+        public void SetBorderStyle()
+        {
+            //BorderStyle = MetroFormBorderStyle.FixedSingle;
+        }
 
         public IPresenter Presenter { get; set; }
         public void ChamadaMinimizarForm(object sender, EventArgs e)

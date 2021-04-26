@@ -50,6 +50,11 @@ namespace GS.GestaoEmpresa.Solucao.UI.Principal
             WindowState = FormWindowState.Maximized;
         }
 
+        public void SetBorderStyle()
+        {
+            BorderStyle = MetroFormBorderStyle.FixedSingle;
+        }
+
         public EnumTipoDeForm TipoDeForm { get; set; }
 
 

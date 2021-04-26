@@ -90,6 +90,11 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             dgvProdutos.FirstDisplayedScrollingRowIndex = index;
         }
 
+        public void SetBorderStyle()
+        {
+            BorderStyle = MetroFormBorderStyle.FixedSingle;
+        }
+
         public void ChamadaFecharForm(object sender, EventArgs e)
         {
             GerenciadorDeViews.Exclua<FrmEstoque>(IdInstancia);
@@ -339,6 +344,48 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         protected override void OnShown(EventArgs e)
         {
             base.OnShown(e);
+
+            ////Corection Scripts //
+            //using var correctionsession = RavenHelper.OpenSession();
+            //var groups = correctionsession.Query<ProdutoQuantidade>()
+            //    .ToList()
+            //    .GroupBy(x => x.Codigo)
+            //    .Where(x => x.Count() > 1)
+            //    .ToDictionary(x => x.Key, x => x.ToList());
+
+            //foreach (var list in groups.Values)
+            //{
+            //    list.Except(new[] { list.FirstOrDefault() }).ToList().ForEach(correctionsession.Delete);
+            //}
+
+            //correctionsession.SaveChanges();
+
+            //using var correctionsession2 = RavenHelper.OpenSession();
+            //var products = correctionsession2.Query<Produto>().ToList();
+            //var codes = correctionsession2.Query<ProdutoQuantidade>().Select(x => x.Codigo).ToList();
+
+            //var toremove = new List<int>();
+            //foreach (var code in codes)
+            //{
+            //    if (products.Any(x => x.Codigo == code))
+            //    {
+            //        continue;
+            //    }
+
+            //    toremove.Add(code);
+            //}
+
+            //toremove.ForEach(x =>
+            //{
+            //    using var correctionsession3 = RavenHelper.OpenSession();
+            //    var item = correctionsession3.Query<Produto>().Where(y => y.Codigo == x).ToList();
+            //    item.ForEach(correctionsession3.Delete);
+            //    correctionsession3.SaveChanges();
+            //});
+
+            //correctionsession2.SaveChanges();
+
+            ////
 
             //if (SessaoSistema.WorkTestMode)
             //{

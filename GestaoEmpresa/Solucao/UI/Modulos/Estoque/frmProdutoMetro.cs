@@ -7,6 +7,7 @@ using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores.Comuns;
 using GS.GestaoEmpresa.Solucao.UI.Base;
 using GS.GestaoEmpresa.Solucao.UI.ControlesGenericos;
 using GS.GestaoEmpresa.Solucao.Utilitarios;
+using MetroFramework.Forms;
 
 namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 {
@@ -20,6 +21,11 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         }
 
         private CultureInfo _culture = new CultureInfo("pt-BR");
+
+        protected void SetBorderStyle()
+        {
+            BorderStyle = MetroFormBorderStyle.FixedSingle;
+        }
 
         protected override void ChamadaSalvar(object sender, EventArgs e)
         {
