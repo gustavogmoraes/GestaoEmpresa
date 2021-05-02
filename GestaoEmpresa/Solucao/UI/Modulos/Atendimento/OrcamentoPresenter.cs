@@ -32,7 +32,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Atendimento
 
         //public OrcamentoPresenter()
         //{
-        //    //MapeieControle(view => view.Cliente.Nome, view => view.txtNomeCliente);
+        //    //MapControl(view => view.Cliente.Nome, view => view.txtNomeCliente);
         //}
 
         //#endregion

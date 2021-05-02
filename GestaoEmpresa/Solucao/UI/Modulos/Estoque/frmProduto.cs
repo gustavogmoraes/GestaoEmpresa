@@ -28,12 +28,12 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         public IPresenter Presenter { get; set; }
 
-        public void ChamadaMinimizarForm(object sender, EventArgs e)
+        public void MinimizeFormCall(object sender, EventArgs e)
         {
             throw new NotImplementedException();
         }
 
-        public void ChamadaFecharForm(object sender, EventArgs e)
+        public void CloseFormCall(object sender, EventArgs e)
         {
             throw new NotImplementedException();
         }
@@ -512,8 +512,8 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                 AjustePrecosNaTela(sender as Control);
         }
 
-        public string IdInstancia { get; set; }
-        public bool EstahRenderizando { get; set; }
+        public string InstanceId { get; set; }
+        public bool IsRendering { get; set; }
 
         public void ApagueInstancia()
         {
@@ -525,7 +525,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             ApagueInstancia();
         }
 
-        public void ChamadaMaximizarForm(object sender, EventArgs e)
+        public void MaximizeFormCall(object sender, EventArgs e)
         {
             throw new NotImplementedException();
         }

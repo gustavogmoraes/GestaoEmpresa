@@ -29,17 +29,17 @@ namespace GS.GestaoEmpresa.Solucao.UI.Principal
     {
         public IPresenter Presenter { get; set; }
 
-        public void ChamadaMinimizarForm(object sender, EventArgs e)
+        public void MinimizeFormCall(object sender, EventArgs e)
         {
             WindowState = FormWindowState.Minimized;
         }
 
-        public void ChamadaFecharForm(object sender, EventArgs e)
+        public void CloseFormCall(object sender, EventArgs e)
         {
             Close();
         }
 
-        public void ChamadaMaximizarForm(object sender, EventArgs e)
+        public void MaximizeFormCall(object sender, EventArgs e)
         {
             if (WindowState == FormWindowState.Maximized)
             {
@@ -362,7 +362,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Principal
             new FrmAtendimento().Show();
         }
 
-        public string IdInstancia { get; set; }
+        public string InstanceId { get; set; }
 
         public void ApagueInstancia()
         {
@@ -687,7 +687,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Principal
             { "HORARIO_PROGRAMADO", typeof(DateTime) }
         };
 
-        public bool EstahRenderizando { get; set; }
+        public bool IsRendering { get; set; }
 
         private Interacao MonteRetornoInteracoes(DataTable tabela, int linha)
         {

@@ -44,7 +44,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                 Invoke((MethodInvoker)delegate
                 {
                     TipoDeForm = EnumTipoDeForm.Detalhamento;
-                    Presenter.ViewCarregada();
+                    Presenter.ViewDidLoad();
                 });
             });
         }
@@ -60,14 +60,14 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             }
 
             MessageBox.Show("Excluído com sucesso!", "Resultado");
-            Presenter.FecharView(sender, e);
+            Presenter.CloseView(sender, e);
         }
         protected override void ChamadaEditarOnClick(object sender, EventArgs e)
         {
-            EstahRenderizando = true;
+            IsRendering = true;
             TipoDeForm = EnumTipoDeForm.Edicao;
-            Presenter.HabiliteControles(new[] { txtQuantidadeEmEstoque.Name });
-            EstahRenderizando = false;
+            Presenter.EnableControls(new[] { txtQuantidadeEmEstoque.Name });
+            IsRendering = false;
         }
 
         private void TxtCodigoDeBarras_KeyDown(object sender, KeyEventArgs e)
@@ -80,12 +80,12 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         private void cbVigencia_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if(EstahRenderizando)
+            if(IsRendering)
             {
                 return;
             }
 
-            var dataVigencia = DateTime.ParseExact((string)cbVigencia.SelectedItem, "dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture);
+            var dataVigencia = DateTime.ParseExact((string)cbValidity.SelectedItem, "dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture);
             ((ProdutoPresenter) Presenter).RecarregueVigencia(dataVigencia);
         }
 

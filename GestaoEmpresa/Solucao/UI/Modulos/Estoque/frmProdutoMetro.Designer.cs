@@ -47,7 +47,7 @@
             this.lblCodigoFabricante = new MetroFramework.Controls.MetroLabel();
             this.txtMarca = new MetroFramework.Controls.MetroTextBox();
             this.lblMarca = new MetroFramework.Controls.MetroLabel();
-            this.cbVigencia = new MetroFramework.Controls.MetroComboBox();
+            this.cbValidity = new MetroFramework.Controls.MetroComboBox();
             this.lblVigencia = new MetroFramework.Controls.MetroLabel();
             this.txtCodigo = new MetroFramework.Controls.MetroTextBox();
             this.lblCodigo = new MetroFramework.Controls.MetroLabel();
@@ -440,19 +440,19 @@
             this.lblMarca.Text = "Marca";
             this.lblMarca.UseCustomBackColor = true;
             // 
-            // cbVigencia
+            // cbValidity
             // 
-            this.cbVigencia.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
-            this.cbVigencia.FontSize = MetroFramework.MetroComboBoxSize.Small;
-            this.cbVigencia.FormattingEnabled = true;
-            this.cbVigencia.ItemHeight = 19;
-            this.cbVigencia.Location = new System.Drawing.Point(424, 87);
-            this.cbVigencia.Name = "cbVigencia";
-            this.cbVigencia.Size = new System.Drawing.Size(155, 25);
-            this.cbVigencia.TabIndex = 57;
-            this.cbVigencia.UseCustomBackColor = true;
-            this.cbVigencia.UseSelectable = true;
-            this.cbVigencia.SelectedIndexChanged += new System.EventHandler(this.cbVigencia_SelectedIndexChanged);
+            this.cbValidity.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
+            this.cbValidity.FontSize = MetroFramework.MetroComboBoxSize.Small;
+            this.cbValidity.FormattingEnabled = true;
+            this.cbValidity.ItemHeight = 19;
+            this.cbValidity.Location = new System.Drawing.Point(424, 87);
+            this.cbValidity.Name = "cbValidity";
+            this.cbValidity.Size = new System.Drawing.Size(155, 25);
+            this.cbValidity.TabIndex = 57;
+            this.cbValidity.UseCustomBackColor = true;
+            this.cbValidity.UseSelectable = true;
+            this.cbValidity.SelectedIndexChanged += new System.EventHandler(this.cbVigencia_SelectedIndexChanged);
             // 
             // lblVigencia
             // 
@@ -935,7 +935,7 @@
             this.Controls.Add(this.lblCodigoFabricante);
             this.Controls.Add(this.txtMarca);
             this.Controls.Add(this.lblMarca);
-            this.Controls.Add(this.cbVigencia);
+            this.Controls.Add(this.cbValidity);
             this.Controls.Add(this.lblVigencia);
             this.Controls.Add(this.lblCodigo);
             this.DoubleBuffered = false;
@@ -943,7 +943,7 @@
             this.Text = "frmProdutoMetroT";
             this.Controls.SetChildIndex(this.lblCodigo, 0);
             this.Controls.SetChildIndex(this.lblVigencia, 0);
-            this.Controls.SetChildIndex(this.cbVigencia, 0);
+            this.Controls.SetChildIndex(this.cbValidity, 0);
             this.Controls.SetChildIndex(this.lblMarca, 0);
             this.Controls.SetChildIndex(this.txtMarca, 0);
             this.Controls.SetChildIndex(this.lblCodigoFabricante, 0);
@@ -1008,7 +1008,7 @@
         public MetroFramework.Controls.MetroLabel lblCodigoFabricante;
         public MetroFramework.Controls.MetroTextBox txtMarca;
         public MetroFramework.Controls.MetroLabel lblMarca;
-        public MetroFramework.Controls.MetroComboBox cbVigencia;
+        public MetroFramework.Controls.MetroComboBox cbValidity;
         public MetroFramework.Controls.MetroLabel lblVigencia;
         public MetroFramework.Controls.MetroLabel lblCodigo;
         public MetroFramework.Controls.MetroCheckBox chkAvisarQuantidade;

@@ -28,9 +28,9 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
             }
         }
 
-        public bool EstahRenderizando { get; set; }
+        public bool IsRendering { get; set; }
 
-        public string IdInstancia { get; set; }
+        public string InstanceId { get; set; }
 
         #endregion
 
@@ -98,27 +98,27 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
 
         protected virtual void ChamadaEditarOnClick(object sender, EventArgs e)
         {
-            EstahRenderizando = true;
+            IsRendering = true;
             TipoDeForm = EnumTipoDeForm.Edicao;
-            Presenter.HabiliteControles();
-            EstahRenderizando = false;
+            Presenter.EnableControls();
+            IsRendering = false;
         }
 
         protected virtual void ChamadaSalvarOnClick(object sender, EventArgs e)
         {
-            Presenter.CarregueModelComControles();
+            Presenter.FillModelWithControls();
             ChamadaSalvar(sender, e);
         }
 
         protected virtual void ChamadaCancelarOnClick(object sender, EventArgs e)
         {
             TipoDeForm = EnumTipoDeForm.Detalhamento;
-            Presenter.DesabiliteControles();
+            Presenter.DisableControls();
         }
 
         protected virtual void ChamadaExcluirOnClick(object sender, EventArgs e)
         {
-            var dialogResult = Presenter.ExibaPromptConfirmacao("Tem certeza que deseja excluir?");
+            var dialogResult = Presenter.DisplayConfirmationPrompt("Tem certeza que deseja excluir?");
             if (dialogResult == DialogResult.Yes) ChamadaExclusao(sender, e);
         }
 
@@ -132,7 +132,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
             
         }
 
-        public void ChamadaMaximizarForm(object sender, EventArgs e)
+        public void MaximizeFormCall(object sender, EventArgs e)
         {
             if (WindowState == FormWindowState.Maximized)
             {
@@ -168,7 +168,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
             switch (TipoDeForm)
             {
                 case EnumTipoDeForm.Cadastro:
-                    ChamadaFecharForm(sender, e);
+                    CloseFormCall(sender, e);
                     break;
                 case EnumTipoDeForm.Detalhamento:
                     ChamadaExcluirOnClick(sender, e);
@@ -179,14 +179,14 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
             }
         }
 
-        public virtual void ChamadaMinimizarForm(object sender, EventArgs e)
+        public virtual void MinimizeFormCall(object sender, EventArgs e)
         {
-            Presenter.MinimizarView(sender, e);
+            Presenter.MinimizeView(sender, e);
         }
         
-        public virtual void ChamadaFecharForm(object sender, EventArgs e)
+        public virtual void CloseFormCall(object sender, EventArgs e)
         {
-            Presenter.FecharView(sender, e);
+            Presenter.CloseView(sender, e);
         }
 
         #endregion
@@ -194,7 +194,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
         private void GSForm_Load(object sender, EventArgs e)
         {
             // Se tirar isso o Designer do VS pifa
-            Presenter?.ViewCarregada();
+            Presenter?.ViewDidLoad();
         }
     }
 }

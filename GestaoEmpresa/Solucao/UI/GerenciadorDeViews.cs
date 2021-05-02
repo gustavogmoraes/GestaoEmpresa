@@ -79,7 +79,7 @@ namespace GS.GestaoEmpresa.Solucao.UI
                     instanciaPresenter.View = instanciaView;
                     instanciaView.Presenter = instanciaPresenter;
                     instanciaPresenter.View.TipoDeForm = EnumTipoDeForm.Cadastro;
-                    instanciaPresenter.HabiliteControles();
+                    instanciaPresenter.EnableControls();
 
                     tela.Instancias.Add(idInstancia, instanciaPresenter);
 

@@ -11,13 +11,13 @@ namespace GS.GestaoEmpresa.Solucao.UI
 {
     public interface IView
     {
-        string IdInstancia { get; set; }
+        string InstanceId { get; set; }
 
         EnumTipoDeForm TipoDeForm { get; set; }
 
         IPresenter Presenter { get; set; }
 
-        bool EstahRenderizando { get; set; }
+        bool IsRendering { get; set; }
 
         void SetBorderStyle();
 
@@ -25,10 +25,10 @@ namespace GS.GestaoEmpresa.Solucao.UI
 
         void Dispose();
 
-        void ChamadaMinimizarForm(object sender, EventArgs e);
+        void MinimizeFormCall(object sender, EventArgs e);
 
-        void ChamadaFecharForm(object sender, EventArgs e);
+        void CloseFormCall(object sender, EventArgs e);
 
-        void ChamadaMaximizarForm(object sender, EventArgs e);
+        void MaximizeFormCall(object sender, EventArgs e);
     }
 }

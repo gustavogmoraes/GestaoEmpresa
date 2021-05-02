@@ -38,7 +38,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Atendimento
                 Invoke((MethodInvoker)delegate
                 {
                     TipoDeForm = EnumTipoDeForm.Detalhamento;
-                    Presenter.ViewCarregada();
+                    Presenter.ViewDidLoad();
                 });
             });
         }
@@ -53,15 +53,15 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Atendimento
             //}
 
             MessageBox.Show("Excluído com sucesso!", "Resultado");
-            Presenter.FecharView(sender, e);
+            Presenter.CloseView(sender, e);
         }
 
         protected override void ChamadaEditarOnClick(object sender, EventArgs e)
         {
-            EstahRenderizando = true;
+            IsRendering = true;
             TipoDeForm = EnumTipoDeForm.Edicao;
-            Presenter.HabiliteControles();
-            EstahRenderizando = false;
+            Presenter.EnableControls();
+            IsRendering = false;
         }
 
         private void TabPage3_Click(object sender, EventArgs e)

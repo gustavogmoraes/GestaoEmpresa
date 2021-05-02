@@ -48,9 +48,9 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         public CultureInfo Cultura => CultureInfo.GetCultureInfo("pt-BR");
 
-        public bool EstahRenderizando { get; set; }
+        public bool IsRendering { get; set; }
 
-        public string IdInstancia { get; set; }
+        public string InstanceId { get; set; }
 
         public IPresenter Presenter { get; set; }
 
@@ -95,17 +95,17 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             BorderStyle = MetroFormBorderStyle.FixedSingle;
         }
 
-        public void ChamadaFecharForm(object sender, EventArgs e)
+        public void CloseFormCall(object sender, EventArgs e)
         {
-            GerenciadorDeViews.Exclua<FrmEstoque>(IdInstancia);
+            GerenciadorDeViews.Exclua<FrmEstoque>(InstanceId);
         }
 
-        public void ChamadaMinimizarForm(object sender, EventArgs e)
+        public void MinimizeFormCall(object sender, EventArgs e)
         {
             WindowState = FormWindowState.Minimized;
         }
 
-        public void ChamadaMaximizarForm(object sender, EventArgs e)
+        public void MaximizeFormCall(object sender, EventArgs e)
         {
             if(WindowState == FormWindowState.Maximized)
             {
@@ -1118,26 +1118,26 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         private void FrmEstoque_Shown(object sender, EventArgs e)
         {
-            using var session = RavenHelper.OpenSession();
-            var prodsQtd = session.Query<ProdutoQuantidade>().ToList();
-            var prods = session.Query<Produto>()
-                .Where(x => x.Atual)
-                .Select(x => x.Codigo)
-                .ToList();
+            //using var session = RavenHelper.OpenSession();
+            //var prodsQtd = session.Query<ProdutoQuantidade>().ToList();
+            //var prods = session.Query<Produto>()
+            //    .Where(x => x.Atual)
+            //    .Select(x => x.Codigo)
+            //    .ToList();
 
-            foreach (var prod in prods)
-            {
-                if (!prodsQtd.Any(x => x.Codigo == prod))
-                {
-                    session.Store(new ProdutoQuantidade
-                    {
-                        Codigo = prod,
-                        Quantidade = 0
-                    });
-                }
-            }
+            //foreach (var prod in prods)
+            //{
+            //    if (!prodsQtd.Any(x => x.Codigo == prod))
+            //    {
+            //        session.Store(new ProdutoQuantidade
+            //        {
+            //            Codigo = prod,
+            //            Quantidade = 0
+            //        });
+            //    }
+            //}
 
-            session.SaveChanges();
+            //session.SaveChanges();
 
             //Catálogo de Produtos
             using var servicoDeProduto = new ServicoDeProduto();

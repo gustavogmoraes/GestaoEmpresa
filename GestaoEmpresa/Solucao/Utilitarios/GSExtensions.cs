@@ -242,22 +242,22 @@ namespace GS.GestaoEmpresa.Solucao.Utilitarios
         {
             var view = (IView)textBox.FindForm();
 
-            view.EstahRenderizando = true;
+            view.IsRendering = true;
 
             textBox.Text = text;
 
-            view.EstahRenderizando = false;
+            view.IsRendering = false;
         }
 
         public static void SetTextWithoutFiringEvents(this MetroTextBox textBox, string text)
         {
             var view = (IView)textBox.FindForm();
 
-            view.EstahRenderizando = true;
+            view.IsRendering = true;
 
             textBox.Text = text;
 
-            view.EstahRenderizando = false;
+            view.IsRendering = false;
         }
 
         public static int GetDeterministicHashCode(this string str)

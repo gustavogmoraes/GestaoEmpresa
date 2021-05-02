@@ -71,17 +71,17 @@ namespace GS.GestaoEmpresa.Solucao.UI.ControlesGenericos
 
         private void btnClose_Click(object sender, EventArgs e)
         {
-            (ParentForm as IView)?.ChamadaFecharForm(sender, e);
+            (ParentForm as IView)?.CloseFormCall(sender, e);
         }
 
         private void btnMinimize_Click(object sender, EventArgs e)
         {
-            (ParentForm as IView)?.ChamadaMinimizarForm(sender, e);
+            (ParentForm as IView)?.MinimizeFormCall(sender, e);
         }
 
         private void btnMaximize_Click(object sender, EventArgs e)
         {
-            (ParentForm as IView)?.ChamadaMaximizarForm(sender, e);
+            (ParentForm as IView)?.MaximizeFormCall(sender, e);
         }
     }
 }

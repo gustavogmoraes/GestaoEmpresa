@@ -19,20 +19,20 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
 
         IConceito Model { get; set; }
 
-        void CarregueControlesComModel(bool reloading = false);
+        void FillControlsWithModel(bool reloading = false);
 
-        void CarregueModelComControles();
+        void FillModelWithControls();
 
-        DialogResult ExibaPromptConfirmacao(string mensagem);
+        DialogResult DisplayConfirmationPrompt(string message);
 
-        void MinimizarView(object sender, EventArgs eventArgs);
+        void MinimizeView(object sender, EventArgs eventArgs);
 
-        void FecharView(object sender, EventArgs eventArgs);
+        void CloseView(object sender, EventArgs eventArgs);
 
-        void HabiliteControles(IList<string> excecoes = null);
+        void EnableControls(IList<string> exceptions = null);
 
-        void DesabiliteControles(IList<string> excecoes = null);
+        void DisableControls(IList<string> exceptions = null);
 
-        void ViewCarregada();
+        void ViewDidLoad();
     }
 }

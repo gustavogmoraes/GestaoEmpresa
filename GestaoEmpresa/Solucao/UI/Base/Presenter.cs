@@ -66,7 +66,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
             set => View = (TView)value;
         }
 
-        protected List<MapeamentoDeControle<TModel, TView>> MapeamentoDeControles { get; set; }
+        protected List<MapeamentoDeControle<TModel, TView>> ControlsMappings { get; set; }
 
         #endregion
 
@@ -83,32 +83,18 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
 
         #region Protected Methods
 
-        protected virtual void MapeieControle(
-            Expression<Func<TModel, object>> propriedade,
-            Expression<Func<TView, Control>> controle,
-            Action<object, Control, PropertyInfo, object> conversaoPropriedadeControle = null,
-            Action<Control, PropertyInfo, object, IPresenter> conversaoControlePropriedade = null)
+        protected virtual void MapControl(
+            Expression<Func<TModel, object>> objectProperty,
+            Expression<Func<TView, Control>> viewControl,
+            Action<object, Control, PropertyInfo, object> propertyToControlConversion = null,
+            Action<Control, PropertyInfo, object, IPresenter> controlToPropertyConversion = null)
         {
-            if (propriedade == null || controle == null) return;
-            if (Model == null) Model = new TModel();
-            if (MapeamentoDeControles == null) MapeamentoDeControles = new List<MapeamentoDeControle<TModel, TView>>();
+            if (objectProperty == null || viewControl == null) return;
+            Model ??= new TModel();
+            ControlsMappings ??= new List<MapeamentoDeControle<TModel, TView>>();
 
-            MapeamentoDeControles.Add(new MapeamentoDeControle<TModel, TView>(
-                propriedade, controle, conversaoPropriedadeControle, conversaoControlePropriedade));
-        }
-
-        protected virtual void MapeieControle(
-            Expression<Func<TModel, object>> propriedade,
-            Expression<Func<TView, IComponent>> controle,
-            Action<object, Control> conversaoPropriedadeControle = null,
-            Action<Control, object> conversaoControlePropriedade = null)
-        {
-            if (propriedade == null || controle == null) return;
-            if (Model == null) Model = new TModel();
-            if (MapeamentoDeControles == null) MapeamentoDeControles = new List<MapeamentoDeControle<TModel, TView>>();
-
-            //MapeamentoDeControles.Add(new MapeamentoDeControle<TModel, TView>(
-            //    propriedade, controle, conversaoPropriedadeControle, conversaoControlePropriedade));
+            ControlsMappings.Add(new MapeamentoDeControle<TModel, TView>(
+                objectProperty, viewControl, propertyToControlConversion, controlToPropertyConversion));
         }
 
         #endregion
@@ -118,90 +104,86 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
 
         #endregion
 
-        public virtual void CarregueControlesComModel(bool reloading = false)
+        public virtual void FillControlsWithModel(bool reloading = false)
         {
-            //if(View.EstahRenderizando && !reloading)
-            //{
-            //    return;
-            //}
+            View.IsRendering = true;
+            if (Model == null || ControlsMappings == null || ControlsMappings.Count == 0) return;
 
-            View.EstahRenderizando = true;
-            if (Model == null || MapeamentoDeControles == null || MapeamentoDeControles.Count == 0) return;
-
-            if (MapeamentoDeControles.Any(x => x.PropriedadeObjeto.Name.ToLowerInvariant().Contains("vigencia")))
+            var validityControls = ControlsMappings.Any(x => x.PropriedadeObjeto.Name.ToLowerInvariant().Contains("validity"));
+            if (validityControls)
             {
-                var controle = (MetroComboBox)View.Controls.Find("cbVigencia", false).FirstOrDefault();
-                CarregueComboDeVigencias(controle, Model.Codigo);
+                var control = (MetroComboBox)View.Controls.Find("cbValidity", false).FirstOrDefault();
+                LoadValidityComboBox(control, Model.Codigo);
             }
 
-            MapeamentoDeControles.ForEach(mapeamento =>
+            ControlsMappings.ForEach(mapping =>
             {
-                if (mapeamento.PropriedadeObjeto.GetValue(Model) == null)
+                if (mapping.PropriedadeObjeto.GetValue(Model) == null)
                 {
                     return;
                 }
 
-                var controle = View.Controls.Find(mapeamento.NomeControle, true).FirstOrDefault();
-                var tipoDoControle = controle?.GetType();
+                var control = View.Controls.Find(mapping.NomeControle, true).FirstOrDefault();
+                var controlType = control?.GetType();
 
-                if (ConversoesControlePropriedade.ContainsKey(tipoDoControle ?? throw new InvalidOperationException()))
+                if (_controlPropertyConversions.ContainsKey(controlType ?? throw new InvalidOperationException()))
                 {
-                    ConversoesControlePropriedade[tipoDoControle].Item1.Invoke(controle, mapeamento.PropriedadeObjeto, Model, this);
+                    _controlPropertyConversions[controlType].Item1.Invoke(control, mapping.PropriedadeObjeto, Model, this);
                 }
             });
 
             View.Refresh();
-            View.EstahRenderizando = false;
+            View.IsRendering = false;
         }
 
-        public virtual void CarregueModelComControles()
+        public virtual void FillModelWithControls()
         {
-            if (Model == null || MapeamentoDeControles == null || MapeamentoDeControles.Count == 0) return;
+            if (Model == null || ControlsMappings == null || ControlsMappings.Count == 0) return;
 
-            foreach(var mapeamento in MapeamentoDeControles)
+            foreach(var mapping in ControlsMappings)
             {
-                var controle = View.Controls.Find(mapeamento.NomeControle, true).FirstOrDefault();
-                var tipoDoControle = controle?.GetType();
+                var control = View.Controls.Find(mapping.NomeControle, true).FirstOrDefault();
+                var controlType = control?.GetType();
 
-                if (tipoDoControle == null) 
+                if (controlType == null) 
                 {
                     throw new InvalidOperationException();
                 }
 
-                if(mapeamento.ConversaoControlePropriedade != null)
+                if(mapping.ConversaoControlePropriedade != null)
                 {
-                    mapeamento.ConversaoControlePropriedade.Invoke(controle, mapeamento.PropriedadeObjeto, Model, this);
+                    mapping.ConversaoControlePropriedade.Invoke(control, mapping.PropriedadeObjeto, Model, this);
                     continue;
                 }
 
-                if (ConversoesControlePropriedade.ContainsKey(tipoDoControle))
+                if (_controlPropertyConversions.ContainsKey(controlType))
                 {
-                    ConversoesControlePropriedade[tipoDoControle].Item2.Invoke(controle, mapeamento.PropriedadeObjeto, Model, this);
+                    _controlPropertyConversions[controlType].Item2.Invoke(control, mapping.PropriedadeObjeto, Model, this);
                 }
             }
         }
 
-        public DialogResult ExibaPromptConfirmacao(string mensagem)
+        public DialogResult DisplayConfirmationPrompt(string message)
         {
-            return (DialogResult) ExecuteFuncaoNaView(() => MessageBox.Show(mensagem, "Confirmação", MessageBoxButtons.YesNo));
+            return (DialogResult) ExecuteOnView(() => MessageBox.Show(message, "Confirmação", MessageBoxButtons.YesNo));
         }
 
-        public void MinimizarView(object sender, EventArgs eventArgs)
+        public void MinimizeView(object sender, EventArgs eventArgs)
         {
             View.WindowState = FormWindowState.Minimized;
         }
 
-        public void FecharView(object sender, EventArgs eventArgs)
+        public void CloseView(object sender, EventArgs eventArgs)
         {
             View.Close();
             GerenciadorDeViews.Exclua(View.GetType(), IdInstancia);
         }
 
-        public void HabiliteControles(IList<string> excecoes = null)
+        public void EnableControls(IList<string> exceptions = null)
         {
-            SwitchControles(true, excecoes);
+            SwitchControls(true, exceptions);
 
-            if(View.EstahRenderizando)
+            if(View.IsRendering)
             {
                 var imageAttachers = View.Controls.OfType<GSImageAttacher>().ToList();
                 foreach (var attacher in imageAttachers)
@@ -210,8 +192,8 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
                 }
             }
 
-            var comboVigencia = View.Controls.OfType<Control>().FirstOrDefault(x => x.Name == "cbVigencia");
-            if (comboVigencia == null)
+            var validityCombo = View.Controls.OfType<Control>().FirstOrDefault(x => x.Name == "cbValidity");
+            if (validityCombo == null)
             {
                 return;
             }
@@ -219,19 +201,21 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
             switch (View.TipoDeForm)
             {
                 case EnumTipoDeForm.Cadastro:
-                    ExecuteAcaoNaView(() => comboVigencia.Enabled = false);
+                    ExecuteOnView((Action) (() => validityCombo.Enabled = false));
                     break;
                 case EnumTipoDeForm.Detalhamento:
                     break;
                 case EnumTipoDeForm.Edicao:
-                    ExecuteAcaoNaView(() => comboVigencia.Enabled = false);
+                    ExecuteOnView((Action) (() => validityCombo.Enabled = false));
                     break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
         }
 
-        public void DesabiliteControles(IList<string> excecoes = null)
+        public void DisableControls(IList<string> exceptions = null)
         {
-            SwitchControles(false, excecoes);
+            SwitchControls(false, exceptions);
 
             var imageAttachers = View.Controls.OfType<GSImageAttacher>().ToList();
             foreach(var attacher in imageAttachers)
@@ -239,21 +223,21 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
                 attacher.Switch(false);
             }
 
-            var comboVigencia = View.Controls.OfType<Control>().FirstOrDefault(x => x.Name == "cbVigencia");
-            if (comboVigencia == null) return;
+            var validityComboBox = View.Controls.OfType<Control>().FirstOrDefault(x => x.Name == "cbValidity");
+            if (validityComboBox == null) return;
 
             switch (View.TipoDeForm)
             {
                 case EnumTipoDeForm.Cadastro:
-                    ExecuteAcaoNaView(() =>
+                    ExecuteOnView(() =>
                     {
-                        comboVigencia.Enabled = false;
+                        validityComboBox.Enabled = false;
                     });
                     break;
                 case EnumTipoDeForm.Detalhamento:
-                    ExecuteAcaoNaView(() => 
+                    ExecuteOnView(() => 
                     {
-                        comboVigencia.Enabled = true;
+                        validityComboBox.Enabled = true;
                         foreach(var attacher in imageAttachers)
                         {
                             attacher.Enabled = true;
@@ -263,100 +247,110 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
                     );
                     break;
                 case EnumTipoDeForm.Edicao:
-                    ExecuteAcaoNaView(() =>
+                    ExecuteOnView(() =>
                     {
-                        comboVigencia.Enabled = true;
+                        validityComboBox.Enabled = true;
                     });
                     break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
         }
 
-        public virtual void ViewCarregada()
+        public virtual void ViewDidLoad()
         {
             switch (View.TipoDeForm)
             {
                 case EnumTipoDeForm.Cadastro:
-                    HabiliteControles();
+                    EnableControls();
                     break;
                 case EnumTipoDeForm.Detalhamento:
-                    CarregueControlesComModel();
-                    DesabiliteControles(new [] { "cbVigencia" });
+                    FillControlsWithModel();
+                    DisableControls(new [] { "cbValidity" });
                     break;
                 case EnumTipoDeForm.Edicao:
-                    HabiliteControles();
+                    EnableControls();
                     break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
         }
 
-        private void SwitchControles(bool opcao, IList<string> excecoes)
+        private void SwitchControls(bool option, IList<string> exceptions)
         {
-            var listaDeExcecao = (excecoes ?? new List<string>()).ToList();
+            var exceptionList = (exceptions ?? new List<string>()).ToList();
+            var controlList = View.Controls.Cast<Control>().ToList();
 
-            var listaControles = View.Controls.Cast<Control>().ToList();
-
-            var topBorder = listaControles.Find(x => x.GetType() == typeof(Panel) || x.GetType() == typeof(MetroPanel));
+            var topBorder = controlList.Find(x => x.GetType() == typeof(Panel) || x.GetType() == typeof(MetroPanel));
             if (topBorder != null)
-                listaDeExcecao.Add(topBorder.Name);
+                exceptionList.Add(topBorder.Name);
 
-            listaDeExcecao.Add(string.Empty);
-            var listaNomesControles = listaControles.Select(x => x.Name)
-                                                    .Except(listaDeExcecao)
-                                                    .ToList();
+            exceptionList.Add(string.Empty);
+            var controlNameList = controlList
+                .Select(x => x.Name)
+                .Except(exceptionList)
+                .ToList();
             
 
-            listaNomesControles.ForEach(x => View.Controls.Find(x, true).FirstOrDefault().Enabled = opcao);
+            controlNameList.ForEach(x =>
+            {
+                var foundControl = View.Controls.Find(x, true);
+                if (!foundControl.Any()) return;
+
+                foundControl[0].Enabled = option;
+            });
         }
 
-        public void ExecuteAcaoNaView(Action acao)
+        public void ExecuteOnView(Action action)
         {
             Task.Run(() =>
             {
                 while (!View.CanSelect) { }
-                View.Invoke((MethodInvoker)delegate { acao.Invoke(); });
+                View.Invoke((MethodInvoker)action.Invoke);
             });
         }
 
-        public object ExecuteFuncaoNaView(Func<object> funcao)
+        public object ExecuteOnView(Func<object> function)
         {
             object result = null;
-            View.Invoke((MethodInvoker)delegate { result = funcao.Invoke(); });
+            View.Invoke((MethodInvoker)delegate { result = function.Invoke(); });
 
             return result;
         }
 
-        private static Dictionary<Type, Tuple<Action<Control, PropertyInfo, object, IPresenter>, Action<Control, PropertyInfo, object, IPresenter>>> ConversoesControlePropriedade =
+        private readonly Dictionary<Type, Tuple<Action<Control, PropertyInfo, object, IPresenter>, Action<Control, PropertyInfo, object, IPresenter>>> _controlPropertyConversions =
             new Dictionary<Type, Tuple<Action<Control, PropertyInfo, object, IPresenter>, Action<Control, PropertyInfo, object, IPresenter>>>
             {
                 {
                     typeof(MetroTextBox),
                     new Tuple<Action<Control, PropertyInfo, object, IPresenter>, Action<Control, PropertyInfo, object, IPresenter>>(
 
-                        // Objeto --> Controle
-                        (controle, propriedade, model, presenter) =>
+                        // Object --> Control
+                        (control, property, model, presenter) =>
                         {
-                            var valor = propriedade.GetValue(model, null);
-                            if (propriedade.PropertyType.IsAny(typeof(decimal), typeof(decimal?)))
+                            var valor = property.GetValue(model, null);
+                            if (property.PropertyType.IsAny(typeof(decimal), typeof(decimal?)))
                             {
                                 valor = Math.Round(Convert.ToDecimal(valor), 2);
                             }
 
-                            ((MetroTextBox) controle).Text = (valor ?? string.Empty).ToString();
+                            ((MetroTextBox) control).Text = (valor ?? string.Empty).ToString();
                         },
 
-                        // Controle --> Objeto
-                        (controle, propriedade, model, presenter) =>
+                        // Control --> Object
+                        (control, property, model, presenter) =>
                         {
-                            var valor = ((MetroTextBox) controle).Text;
-                            if (propriedade.PropertyType.IsNumericType() && string.IsNullOrEmpty(valor))
+                            var valor = ((MetroTextBox)control).Text.Trim();
+                            if (property.PropertyType.IsNumericType() && string.IsNullOrEmpty(valor))
                             {
                                 valor = 0.ToString();
                             }
 
-                            // This worksaround nullable types
-                            var safeType = Nullable.GetUnderlyingType(propriedade.PropertyType) ?? propriedade.PropertyType;
+                            // This works around nullable types
+                            var safeType = Nullable.GetUnderlyingType(property.PropertyType) ?? property.PropertyType;
                             var safeValue = string.IsNullOrEmpty(valor) ? null : Convert.ChangeType(valor, safeType);
 
-                            propriedade.SetValue(model, safeValue);
+                            property.SetValue(model, safeValue);
                         })
                 },
                 {
@@ -365,11 +359,11 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
                         (controle, propriedade, model, presenter) =>
                         {
                             var valorProp = propriedade.GetValue(model, null);
-                            var ehCbVigencia = controle.Name == "cbVigencia";
+                            var ehCbVigencia = controle.Name == "cbValidity";
 
                             if (ehCbVigencia)
                             {
-                                presenter.View.EstahRenderizando = true;
+                                presenter.View.IsRendering = true;
                                 if(((MetroComboBox) controle).Items.Count > 0)
                                 {
                                     ((MetroComboBox) controle).SelectedIndex = 0;
@@ -379,7 +373,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
                         },
                         (controle, propriedade, model, presenter) =>
                         {
-                            var ehCbVigencia = controle.Name == "cbVigencia";
+                            var ehCbVigencia = controle.Name == "cbValidity";
                             var valorControle = (ehCbVigencia 
                                                     ? ((MetroComboBox) controle).SelectedText
                                                     : ((MetroComboBox) controle).SelectedItem).ToString();
@@ -520,23 +514,20 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
                 }
             };
 
-        protected void CarregueComboDeVigencias(MetroComboBox cbVigencia, int codigo)
+        protected void LoadValidityComboBox(MetroComboBox cbValidity, int code)
         {
-            cbVigencia.Items.Clear();
+            cbValidity.Items.Clear();
 
-            var listaDeVigencias = new List<DateTime>();
-            using (var servico = GerenciadorDeViews.ObtenhaServicoHistoricoPadraoPorModel(Model))
+            using var service = GerenciadorDeViews.ObtenhaServicoHistoricoPadraoPorModel(Model);
+            if (service == null) return;
+
+            var validityList = service.ConsulteVigencias(code).ToList();
+            foreach (var validity in validityList)
             {
-                if (servico == null) return;
-                listaDeVigencias = servico.ConsulteVigencias(codigo).ToList();
+                cbValidity.Items.Add(validity.ToString(CultureInfo.GetCultureInfo("pt-BR")));
             }
 
-            foreach (var vigencia in listaDeVigencias)
-            {
-                cbVigencia.Items.Add(vigencia.ToString(CultureInfo.GetCultureInfo("pt-BR")));
-            }
-
-            // A última vigência é selecionada no delegate do método CarregueControlesComModel
+            // A última vigência é selecionada no delegate do método FillControlsWithModel
         }
     }
 }

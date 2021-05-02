@@ -4,10 +4,8 @@ using GS.GestaoEmpresa.Solucao.Negocio.Objetos;
 using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores.Comuns;
 using NUnit.Framework;
 using GS.GestaoEmpresa.Solucao.Persistencia.BancoDeDados;
-using System.IO;
 using System.Linq;
 using System.Threading;
-using GS.GestaoEmpresa.Solucao.Persistencia.Repositorios;
 using GS.GestaoEmpresa.Solucao.Utilitarios;
 
 namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos.Tests

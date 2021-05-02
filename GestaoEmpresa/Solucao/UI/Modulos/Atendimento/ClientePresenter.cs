@@ -18,20 +18,20 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Atendimento
     {
         public ClientePresenter()
         {
-            MapeieControle(x => x.Codigo, x => x.txtCodigo);
-            MapeieControle(x => x.Status, x => x.toggleStatus);
-            MapeieControle(x => x.CadastroPendente, x => x.toggleCadastroPendente);
+            MapControl(x => x.Codigo, x => x.txtCodigo);
+            MapControl(x => x.Status, x => x.toggleStatus);
+            MapControl(x => x.CadastroPendente, x => x.toggleCadastroPendente);
 
-            MapeieControle(x => x.Nome, x => x.txtNomeDoCliente);
-            MapeieControle(x => x.TipoDePessoa, x => x.cbTipoDePessoa);
-            MapeieControle(x => x.RG, x => x.txtRG);
-            MapeieControle(x => x.InscricaoEstadual, x => x.txtInscricaoEstadual);
-            MapeieControle(x => x.InscricaoMunicipal, x => x.txtInscricaoMunicipal);
-            MapeieControle(x => x.RazaoSocial, x => x.txtRazaoSocial);
-            MapeieControle(x => x.RamoDoNegocio, x => x.txtRazaoSocial);
-            MapeieControle(x => x.Observacao, x => x.txtObservacoes);
+            MapControl(x => x.Nome, x => x.txtNomeDoCliente);
+            MapControl(x => x.TipoDePessoa, x => x.cbTipoDePessoa);
+            MapControl(x => x.RG, x => x.txtRG);
+            MapControl(x => x.InscricaoEstadual, x => x.txtInscricaoEstadual);
+            MapControl(x => x.InscricaoMunicipal, x => x.txtInscricaoMunicipal);
+            MapControl(x => x.RazaoSocial, x => x.txtRazaoSocial);
+            MapControl(x => x.RamoDoNegocio, x => x.txtRazaoSocial);
+            MapControl(x => x.Observacao, x => x.txtObservacoes);
 
-            MapeieControle(x => x.Unidades, x => x.tabUnidades, ConversaoPropriedadeControleUnidades, ConversaoControlePropriedadeUnidades);
+            MapControl(x => x.Unidades, x => x.tabUnidades, ConversaoPropriedadeControleUnidades, ConversaoControlePropriedadeUnidades);
         }
 
         public List<Inconsistencia> Salve()

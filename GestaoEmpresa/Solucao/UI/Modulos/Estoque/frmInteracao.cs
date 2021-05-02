@@ -55,24 +55,24 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
             TipoDeForm = EnumTipoDeForm.Detalhamento;
 
-            EstahRenderizando = true;
+            IsRendering = true;
 
             CarregueControlesComObjeto(interacao);
             DesabiliteControles();
             InicializeBotoes(EnumTipoDeForm.Detalhamento, ref btnEditarSalvar, ref btnCancelarExcluir, ref _switchBotaoEditarSalvar, ref _switchBotaoCancelarExcluir);
             _codigoInteracao = interacao.Codigo;
 
-            EstahRenderizando = false;
+            IsRendering = false;
         }
 
         private GsTypingAssistant CbProdutoAssistente { get; set; }
 
         private void InicializeAssistentesDigitacao()
         {
-            EstahRenderizando = true;
+            IsRendering = true;
             CbProdutoAssistente = new GsTypingAssistant();
             CbProdutoAssistente.Idled += CbProdutoAssistant_Idled;
-            EstahRenderizando = false;
+            IsRendering = false;
         }
 
         #region FormPadrao
@@ -83,17 +83,17 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         }
 
         public IPresenter Presenter { get; set; }
-        public void ChamadaMinimizarForm(object sender, EventArgs e)
+        public void MinimizeFormCall(object sender, EventArgs e)
         {
             WindowState = FormWindowState.Minimized;
         }
 
-        public void ChamadaFecharForm(object sender, EventArgs e)
+        public void CloseFormCall(object sender, EventArgs e)
         {
-            GerenciadorDeViews.Exclua(typeof(frmInteracao), IdInstancia);
+            GerenciadorDeViews.Exclua(typeof(frmInteracao), InstanceId);
         }
 
-        public void ChamadaMaximizarForm(object sender, EventArgs e)
+        public void MaximizeFormCall(object sender, EventArgs e)
         {
             if (WindowState == FormWindowState.Maximized)
             {
@@ -435,7 +435,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         private void cbProduto_DropDown(object sender, EventArgs e)
         {
-            if(EstahRenderizando)
+            if(IsRendering)
             {
                 return;
             }
@@ -641,7 +641,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         private void AtualizeValorComODoProduto()
         {
-            if(EstahRenderizando)
+            if(IsRendering)
             {
                 return;
             }
@@ -709,7 +709,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         private void cbProduto_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if(EstahRenderizando)
+            if(IsRendering)
             {
                 return;
             }
@@ -756,8 +756,8 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             }
         }
 
-        public string IdInstancia { get; set; }
-        public bool EstahRenderizando { get; set; }
+        public string InstanceId { get; set; }
+        public bool IsRendering { get; set; }
 
         public void ApagueInstancia()
         {
@@ -766,7 +766,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         private void cbProduto_TextChanged(object sender, EventArgs e)
         {
-            if(EstahRenderizando)
+            if(IsRendering)
             {
                 return;
             }
@@ -780,7 +780,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         void CbProdutoAssistant_Idled(object sender, EventArgs e)
         {
-            if(EstahRenderizando)
+            if(IsRendering)
             {
                 return;
             }
@@ -814,10 +814,10 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                     cbProduto.DisplayMember = "Nome";
                     cbProduto.Focus();
                     cbProduto.DroppedDown = true;
-                    EstahRenderizando = true;
+                    IsRendering = true;
                     cbProduto.SelectedIndex = -1;
                     cbProduto.Text = textoParaPesquisar;
-                    EstahRenderizando = false;
+                    IsRendering = false;
                     cbProduto.Cursor = Cursors.Default;
                 }
                 cbProduto.SelectionStart = cbProduto.Text.Length;
