@@ -752,7 +752,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
             Task.Run(() =>
             {
-                return new ServicoDeProduto().ImportePlanilhaIntelbras(caminhoArquivo, this);
+                return new ServicoDeProduto().ImportIntelbrasSpreadsheet(caminhoArquivo, this);
             }).ContinueWith(taskResult =>
             {
                 stpWatch.Stop();

@@ -300,7 +300,9 @@ namespace GS.GestaoEmpresa.Solucao.Utilitarios
 
         public static decimal ObtenhaMonetario(this string value)
         {
-            return Convert.ToDecimal(value.Replace("R$ ", string.Empty));
+            return string.IsNullOrEmpty(value) 
+                ? 0 
+                : Convert.ToDecimal(value.Replace("R$ ", string.Empty));
         }
 
         public static bool AnyPropertyIsNull(this object obj) =>

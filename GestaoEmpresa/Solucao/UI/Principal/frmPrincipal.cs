@@ -822,7 +822,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Principal
 
                 //using (var servico = new ServicoDeProduto())
                 //{
-                //    servico.ImportePlanilhaIntelbras(@"C:\Users\gusta\Documents\Tabela.xlsb").ContinueWithTask(() =>
+                //    servico.ImportIntelbrasSpreadsheet(@"C:\Users\gusta\Documents\Tabela.xlsb").ContinueWithTask(() =>
                 //    {
                 //        Console.WriteLine("Completado com sucesso");
                 //        return Task.CompletedTask;

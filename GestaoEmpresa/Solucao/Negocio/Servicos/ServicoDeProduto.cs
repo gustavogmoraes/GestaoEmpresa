@@ -248,33 +248,32 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
             }
         }
 
-        public Tuple<int, int> ImportePlanilhaIntelbras(string caminhoArquivo, FrmEstoque caller)
+        public Tuple<int, int> ImportIntelbrasSpreadsheet(string filePath, FrmEstoque caller)
         {
-            var repositorioDeProduto = new RepositorioDeProduto();
+            var productRepository = new RepositorioDeProduto();
 
             SetupProgressBar(caller);
 
-            var configuracao = new RepositorioDeConfiguracao().ObtenhaUnica();
+            var configuration = new RepositorioDeConfiguracao().ObtenhaUnica();
 
-            var importedItems = LeiaItensDoXls(caminhoArquivo);
+            var importedItems = LeiaItensDoXls(filePath);
             var progressRange = GSExtensions.GetProgressRange(importedItems.Count);
-            var persistedItems = repositorioDeProduto.ConsulteTodos(takeQuantity: int.MaxValue, withAttachments: true);
+            var persistedItems = productRepository.ConsulteTodos(takeQuantity: int.MaxValue, withAttachments: true);
 
             var totalAdded = 0;
 
             var concurrentQueue = new ConcurrentQueue<dynamic>(importedItems
-                .Where(x => !((object)x).AnyPropertyIsNull())
                 .Distinct()
                 .ToList());
 
             var itemsToAdd = new ConcurrentBag<Produto>();
             var itemsToUpdate = new ConcurrentBag<Produto>();
             
-            var KeepRunningTask = true;
-            GSExtensions.ParallelWhile(() => KeepRunningTask, () =>
+            var keepTaskRunning = true;
+            GSExtensions.ParallelWhile(() => keepTaskRunning, () =>
             {
-                KeepRunningTask = concurrentQueue.TryDequeue(out var item);
-                if(!KeepRunningTask)
+                keepTaskRunning = concurrentQueue.TryDequeue(out var item);
+                if(!keepTaskRunning)
                 {
                     return;
                 }
@@ -287,26 +286,26 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
                     return;
                 }
 
-                var codigoDoProdutoIntelbras = (string)item.CodigoDoProduto;
+                var intelbrasProductCode = (string)item.CodigoDoProduto;
                 
-                var produtoPersistido = persistedItems.FirstOrDefault(x => x.CodigoDoFabricante?.Trim() == codigoDoProdutoIntelbras.Trim());
-                if (produtoPersistido != null)
+                var persistedProduct = persistedItems.FirstOrDefault(x => x.CodigoDoFabricante?.Trim() == intelbrasProductCode.Trim());
+                if (persistedProduct != null)
                 {
-                    var precoPlanilha = ((string)item.PrecoDeCompra).ObtenhaMonetario();
-                    var ipiPlanilha = Convert.ToDecimal(((string)item.Ipi).Replace("%", string.Empty));
+                    var worksheetPrice = ((string)item.PrecoDeCompra).ObtenhaMonetario();
+                    var worksheetIpi = Convert.ToDecimal(((string)item.Ipi).Replace("%", string.Empty));
 
-                    if (produtoPersistido.PrecoNaIntelbras == precoPlanilha && produtoPersistido.Ipi == ipiPlanilha)
+                    if (persistedProduct.PrecoNaIntelbras == worksheetPrice && persistedProduct.Ipi == worksheetIpi)
                     {
                         return;
                     }
 
-                    PreenchaProduto(produtoPersistido, item, configuracao);
-                    itemsToUpdate.Add(produtoPersistido);
+                    PreenchaProduto(persistedProduct, item, configuration);
+                    itemsToUpdate.Add(persistedProduct);
 
                     return;
                 }
 
-                itemsToAdd.Add(ObtenhaNovoProduto(item, configuracao));
+                itemsToAdd.Add(ObtenhaNovoProduto(item, configuration));
             });
 
             if(itemsToAdd.Any())
@@ -316,7 +315,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
                     item.ImportadoViaPlanilha = true;
                 }
 
-                repositorioDeProduto.MassInsert(itemsToAdd.ToList());
+                productRepository.MassInsert(itemsToAdd.ToList());
             }
 
             if (itemsToUpdate.Any())
@@ -326,7 +325,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
                     item.ImportadoViaPlanilha = true;
                 }
 
-                repositorioDeProduto.MassUpdate(itemsToUpdate.ToList());
+                productRepository.MassUpdate(itemsToUpdate.ToList());
             }
 
             return new Tuple<int, int>(itemsToUpdate.Count, itemsToAdd.Count);

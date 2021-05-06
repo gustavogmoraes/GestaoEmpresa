@@ -32,17 +32,17 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
             this.btnCatalogo = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
             this.ScrollSelecao = new System.Windows.Forms.Panel();
@@ -64,6 +64,17 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.txtPesquisa = new System.Windows.Forms.TextBox();
             this.btnNovoProduto = new System.Windows.Forms.Button();
             this.dgvProdutos = new System.Windows.Forms.DataGridView();
+            this.colunaCodigo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colunaCodigoFabricante = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colunaLocalizacao = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colunaNome = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colunaDescricao = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colunaPrecoCompra = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colunaPrecoDistribuidor = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colunaPscf = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colunaPrecoVenda = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colunaQuantidade = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colunaDetalhar = new System.Windows.Forms.DataGridViewButtonColumn();
             this.tabHistorico = new System.Windows.Forms.TabPage();
             this.txtPesquisaHistorico = new System.Windows.Forms.TextBox();
             this.dgvHistorico = new System.Windows.Forms.DataGridView();
@@ -84,17 +95,6 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.btnNovaInteracao = new System.Windows.Forms.Button();
             this.lblDescricaoBotoes = new MetroFramework.Controls.MetroLabel();
             this.gsTopBorder1 = new GS.GestaoEmpresa.Solucao.UI.ControlesGenericos.GSTopBorder();
-            this.colunaCodigo = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colunaCodigoFabricante = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colunaLocalizacao = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colunaNome = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colunaDescricao = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colunaPrecoCompra = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colunaPrecoDistribuidor = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colunaPscf = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colunaPrecoVenda = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colunaQuantidade = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colunaDetalhar = new System.Windows.Forms.DataGridViewButtonColumn();
             this.panel1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabProdutos.SuspendLayout();
@@ -207,10 +207,10 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             // tabProdutos
             // 
             this.tabProdutos.BackColor = System.Drawing.Color.Silver;
+            this.tabProdutos.Controls.Add(this.txtQtyProgresso);
             this.tabProdutos.Controls.Add(this.chkQueryOnlyActive);
             this.tabProdutos.Controls.Add(this.lblButtonDescriptor);
             this.tabProdutos.Controls.Add(this.btnAtualizarPlanilhaDeCentrais);
-            this.tabProdutos.Controls.Add(this.txtQtyProgresso);
             this.tabProdutos.Controls.Add(this.txtCronometroImportar);
             this.tabProdutos.Controls.Add(this.metroProgressImportar);
             this.tabProdutos.Controls.Add(this.btnImportarTabelaPrecosIntelbras);
@@ -222,7 +222,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.tabProdutos.Controls.Add(this.dgvProdutos);
             this.tabProdutos.Location = new System.Drawing.Point(4, 22);
             this.tabProdutos.Name = "tabProdutos";
-            this.tabProdutos.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabProdutos.Padding = new System.Windows.Forms.Padding(3);
             this.tabProdutos.Size = new System.Drawing.Size(1175, 659);
             this.tabProdutos.TabIndex = 0;
             this.tabProdutos.Text = "tabProdutos";
@@ -276,7 +276,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.txtQtyProgresso.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.txtQtyProgresso.AutoSize = true;
             this.txtQtyProgresso.BackColor = System.Drawing.Color.Silver;
-            this.txtQtyProgresso.Location = new System.Drawing.Point(777, -3);
+            this.txtQtyProgresso.Location = new System.Drawing.Point(857, 10);
             this.txtQtyProgresso.Name = "txtQtyProgresso";
             this.txtQtyProgresso.Size = new System.Drawing.Size(26, 19);
             this.txtQtyProgresso.TabIndex = 15;
@@ -444,6 +444,112 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.dgvProdutos.CellContentDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvProdutos_CellDoubleClick);
             this.dgvProdutos.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.dgvProdutos_CellPainting);
             // 
+            // colunaCodigo
+            // 
+            this.colunaCodigo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.BottomRight;
+            this.colunaCodigo.DefaultCellStyle = dataGridViewCellStyle2;
+            this.colunaCodigo.HeaderText = "Código";
+            this.colunaCodigo.MinimumWidth = 10;
+            this.colunaCodigo.Name = "colunaCodigo";
+            this.colunaCodigo.ReadOnly = true;
+            this.colunaCodigo.Width = 60;
+            // 
+            // colunaCodigoFabricante
+            // 
+            this.colunaCodigoFabricante.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.colunaCodigoFabricante.HeaderText = "Código do Fabricante";
+            this.colunaCodigoFabricante.MinimumWidth = 10;
+            this.colunaCodigoFabricante.Name = "colunaCodigoFabricante";
+            this.colunaCodigoFabricante.ReadOnly = true;
+            this.colunaCodigoFabricante.Width = 95;
+            // 
+            // colunaLocalizacao
+            // 
+            this.colunaLocalizacao.HeaderText = "LE";
+            this.colunaLocalizacao.MinimumWidth = 8;
+            this.colunaLocalizacao.Name = "colunaLocalizacao";
+            this.colunaLocalizacao.ReadOnly = true;
+            this.colunaLocalizacao.Width = 50;
+            // 
+            // colunaNome
+            // 
+            this.colunaNome.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.colunaNome.HeaderText = "Nome";
+            this.colunaNome.MinimumWidth = 100;
+            this.colunaNome.Name = "colunaNome";
+            this.colunaNome.ReadOnly = true;
+            // 
+            // colunaDescricao
+            // 
+            this.colunaDescricao.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.colunaDescricao.HeaderText = "Observações";
+            this.colunaDescricao.MinimumWidth = 80;
+            this.colunaDescricao.Name = "colunaDescricao";
+            this.colunaDescricao.ReadOnly = true;
+            // 
+            // colunaPrecoCompra
+            // 
+            this.colunaPrecoCompra.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.BottomRight;
+            this.colunaPrecoCompra.DefaultCellStyle = dataGridViewCellStyle3;
+            this.colunaPrecoCompra.HeaderText = "PC";
+            this.colunaPrecoCompra.MinimumWidth = 10;
+            this.colunaPrecoCompra.Name = "colunaPrecoCompra";
+            this.colunaPrecoCompra.ReadOnly = true;
+            this.colunaPrecoCompra.Width = 90;
+            // 
+            // colunaPrecoDistribuidor
+            // 
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.BottomRight;
+            this.colunaPrecoDistribuidor.DefaultCellStyle = dataGridViewCellStyle4;
+            this.colunaPrecoDistribuidor.HeaderText = "PD";
+            this.colunaPrecoDistribuidor.MinimumWidth = 10;
+            this.colunaPrecoDistribuidor.Name = "colunaPrecoDistribuidor";
+            this.colunaPrecoDistribuidor.ReadOnly = true;
+            this.colunaPrecoDistribuidor.Width = 90;
+            // 
+            // colunaPscf
+            // 
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.BottomRight;
+            this.colunaPscf.DefaultCellStyle = dataGridViewCellStyle5;
+            this.colunaPscf.HeaderText = "PSCF";
+            this.colunaPscf.MinimumWidth = 8;
+            this.colunaPscf.Name = "colunaPscf";
+            this.colunaPscf.ReadOnly = true;
+            this.colunaPscf.Width = 150;
+            // 
+            // colunaPrecoVenda
+            // 
+            this.colunaPrecoVenda.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.BottomRight;
+            this.colunaPrecoVenda.DefaultCellStyle = dataGridViewCellStyle6;
+            this.colunaPrecoVenda.HeaderText = "PV";
+            this.colunaPrecoVenda.MinimumWidth = 10;
+            this.colunaPrecoVenda.Name = "colunaPrecoVenda";
+            this.colunaPrecoVenda.ReadOnly = true;
+            this.colunaPrecoVenda.Width = 90;
+            // 
+            // colunaQuantidade
+            // 
+            this.colunaQuantidade.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.BottomRight;
+            this.colunaQuantidade.DefaultCellStyle = dataGridViewCellStyle7;
+            this.colunaQuantidade.HeaderText = "Qtd. em estoque";
+            this.colunaQuantidade.MinimumWidth = 10;
+            this.colunaQuantidade.Name = "colunaQuantidade";
+            this.colunaQuantidade.ReadOnly = true;
+            this.colunaQuantidade.Width = 75;
+            // 
+            // colunaDetalhar
+            // 
+            this.colunaDetalhar.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.colunaDetalhar.HeaderText = "";
+            this.colunaDetalhar.MinimumWidth = 10;
+            this.colunaDetalhar.Name = "colunaDetalhar";
+            this.colunaDetalhar.ReadOnly = true;
+            this.colunaDetalhar.Width = 30;
+            // 
             // tabHistorico
             // 
             this.tabHistorico.BackColor = System.Drawing.Color.Silver;
@@ -454,7 +560,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.tabHistorico.Controls.Add(this.btnNovaInteracao);
             this.tabHistorico.Location = new System.Drawing.Point(4, 22);
             this.tabHistorico.Name = "tabHistorico";
-            this.tabHistorico.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabHistorico.Padding = new System.Windows.Forms.Padding(3);
             this.tabHistorico.Size = new System.Drawing.Size(1175, 659);
             this.tabHistorico.TabIndex = 1;
             this.tabHistorico.Text = "tabHistorico";
@@ -694,112 +800,6 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.gsTopBorder1.Name = "gsTopBorder1";
             this.gsTopBorder1.Size = new System.Drawing.Size(1265, 26);
             this.gsTopBorder1.TabIndex = 19;
-            // 
-            // colunaCodigo
-            // 
-            this.colunaCodigo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.BottomRight;
-            this.colunaCodigo.DefaultCellStyle = dataGridViewCellStyle2;
-            this.colunaCodigo.HeaderText = "Código";
-            this.colunaCodigo.MinimumWidth = 10;
-            this.colunaCodigo.Name = "colunaCodigo";
-            this.colunaCodigo.ReadOnly = true;
-            this.colunaCodigo.Width = 60;
-            // 
-            // colunaCodigoFabricante
-            // 
-            this.colunaCodigoFabricante.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.colunaCodigoFabricante.HeaderText = "Código do Fabricante";
-            this.colunaCodigoFabricante.MinimumWidth = 10;
-            this.colunaCodigoFabricante.Name = "colunaCodigoFabricante";
-            this.colunaCodigoFabricante.ReadOnly = true;
-            this.colunaCodigoFabricante.Width = 95;
-            // 
-            // colunaLocalizacao
-            // 
-            this.colunaLocalizacao.HeaderText = "LE";
-            this.colunaLocalizacao.MinimumWidth = 8;
-            this.colunaLocalizacao.Name = "colunaLocalizacao";
-            this.colunaLocalizacao.ReadOnly = true;
-            this.colunaLocalizacao.Width = 50;
-            // 
-            // colunaNome
-            // 
-            this.colunaNome.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.colunaNome.HeaderText = "Nome";
-            this.colunaNome.MinimumWidth = 100;
-            this.colunaNome.Name = "colunaNome";
-            this.colunaNome.ReadOnly = true;
-            // 
-            // colunaDescricao
-            // 
-            this.colunaDescricao.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.colunaDescricao.HeaderText = "Observações";
-            this.colunaDescricao.MinimumWidth = 80;
-            this.colunaDescricao.Name = "colunaDescricao";
-            this.colunaDescricao.ReadOnly = true;
-            // 
-            // colunaPrecoCompra
-            // 
-            this.colunaPrecoCompra.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.BottomRight;
-            this.colunaPrecoCompra.DefaultCellStyle = dataGridViewCellStyle3;
-            this.colunaPrecoCompra.HeaderText = "PC";
-            this.colunaPrecoCompra.MinimumWidth = 10;
-            this.colunaPrecoCompra.Name = "colunaPrecoCompra";
-            this.colunaPrecoCompra.ReadOnly = true;
-            this.colunaPrecoCompra.Width = 90;
-            // 
-            // colunaPrecoDistribuidor
-            // 
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.BottomRight;
-            this.colunaPrecoDistribuidor.DefaultCellStyle = dataGridViewCellStyle4;
-            this.colunaPrecoDistribuidor.HeaderText = "PD";
-            this.colunaPrecoDistribuidor.MinimumWidth = 10;
-            this.colunaPrecoDistribuidor.Name = "colunaPrecoDistribuidor";
-            this.colunaPrecoDistribuidor.ReadOnly = true;
-            this.colunaPrecoDistribuidor.Width = 90;
-            // 
-            // colunaPscf
-            // 
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.BottomRight;
-            this.colunaPscf.DefaultCellStyle = dataGridViewCellStyle5;
-            this.colunaPscf.HeaderText = "PSCF";
-            this.colunaPscf.MinimumWidth = 8;
-            this.colunaPscf.Name = "colunaPscf";
-            this.colunaPscf.ReadOnly = true;
-            this.colunaPscf.Width = 150;
-            // 
-            // colunaPrecoVenda
-            // 
-            this.colunaPrecoVenda.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.BottomRight;
-            this.colunaPrecoVenda.DefaultCellStyle = dataGridViewCellStyle6;
-            this.colunaPrecoVenda.HeaderText = "PV";
-            this.colunaPrecoVenda.MinimumWidth = 10;
-            this.colunaPrecoVenda.Name = "colunaPrecoVenda";
-            this.colunaPrecoVenda.ReadOnly = true;
-            this.colunaPrecoVenda.Width = 90;
-            // 
-            // colunaQuantidade
-            // 
-            this.colunaQuantidade.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.BottomRight;
-            this.colunaQuantidade.DefaultCellStyle = dataGridViewCellStyle7;
-            this.colunaQuantidade.HeaderText = "Qtd. em estoque";
-            this.colunaQuantidade.MinimumWidth = 10;
-            this.colunaQuantidade.Name = "colunaQuantidade";
-            this.colunaQuantidade.ReadOnly = true;
-            this.colunaQuantidade.Width = 75;
-            // 
-            // colunaDetalhar
-            // 
-            this.colunaDetalhar.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.colunaDetalhar.HeaderText = "";
-            this.colunaDetalhar.MinimumWidth = 10;
-            this.colunaDetalhar.Name = "colunaDetalhar";
-            this.colunaDetalhar.ReadOnly = true;
-            this.colunaDetalhar.Width = 30;
             // 
             // FrmEstoque
             // 
