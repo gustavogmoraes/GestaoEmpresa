@@ -12,7 +12,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Objetos
         public Interacao()
         {
             NumerosDeSerie = new List<string>();
-        }
+        }   
 
         public int Codigo { get; set; }
 

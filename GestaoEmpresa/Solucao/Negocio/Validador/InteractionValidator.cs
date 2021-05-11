@@ -5,41 +5,43 @@ using GS.GestaoEmpresa.Solucao.Negocio.Objetos;
 using GS.GestaoEmpresa.Solucao.Negocio.Catalogos;
 using GS.GestaoEmpresa.Solucao.Negocio.Servicos;
 using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores.Comuns;
+using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores.Comuns.Estoque;
+using GS.GestaoEmpresa.Solucao.Negocio.Objetos.Estoque;
 using GS.GestaoEmpresa.Solucao.Negocio.Validador.Base;
 using GS.GestaoEmpresa.Solucao.Persistencia.Repositorios;
 using MoreLinq;
 
 namespace GS.GestaoEmpresa.Solucao.Negocio.Validador
 {
-    public class ValidadorDeInteracao : ValidadorPadrao<Interacao>, IDisposable
+    public class InteractionValidator : BaseValidator<Interaction>, IDisposable
     {
         #region Propriedades
 
-        private Interacao _interacao { get; set; }
+        private Interaction _interaction { get; set; }
 
         private List<Inconsistencia> _listaDeInconsistencias { get; set; }
 
         private RepositorioDeProduto _mapeadorDeProduto;
 
-        private RepositorioDeInteracao _mapeadorDeInteracao;
+        private InteractionRepository _mapeadorDeInteracao;
 
         private RepositorioDeProduto RepositorioDeProduto()
         {
             return _mapeadorDeProduto ?? (_mapeadorDeProduto = new RepositorioDeProduto());
         }
 
-        private RepositorioDeInteracao RepositorioDeInteracao()
+        private InteractionRepository RepositorioDeInteracao()
         {
-            return _mapeadorDeInteracao ?? (_mapeadorDeInteracao = new RepositorioDeInteracao());
+            return _mapeadorDeInteracao ?? (_mapeadorDeInteracao = new InteractionRepository());
         }
 
         #endregion
 
         #region Implementação Padrão
 
-        public override IList<Inconsistencia> ValideCadastro(Interacao item)
+        public override IList<Inconsistencia> ValidateCreate(Interaction item)
         {
-            _interacao = item;
+            _interaction = item;
             _listaDeInconsistencias = new List<Inconsistencia>();
 
             ValideRegraObrigatoriedades();
@@ -49,35 +51,34 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Validador
             return _listaDeInconsistencias;
         }
 
-        // Conceito não possui edição
-        public override IList<Inconsistencia> ValideEdicao(Interacao item)
+        // ToDo
+        public override IList<Inconsistencia> ValidateUpdate(Interaction item)
         {
             return new List<Inconsistencia>();
         }
 
-        public override IList<Inconsistencia> ValideExclusao(int codigo)
+        public override IList<Inconsistencia> ValidateDelete(int code)
         {
-            var interacao = RepositorioDeInteracao().Consulte(codigo);
+            var interaction = RepositorioDeInteracao().Consulte(code);
 
-            var listaDeInteracoes = RepositorioDeInteracao().Consulte(x => x.Produto.Codigo == interacao.Produto.Codigo);
-            var ultimaInteracaoComEsseProduto = listaDeInteracoes.MaxBy(x => x.Horario);
+            var interactionList = RepositorioDeInteracao().Consulte(x => x.Produto.Codigo == interaction.Produto.Codigo);
+            var lastInteractionWithThisProduct = interactionList.MaxBy(x => x.Horario);
 
-            var listaDeInconsistencias = new List<Inconsistencia>();
-            if (codigo != ultimaInteracaoComEsseProduto.Codigo)
+            var errorList = new List<Inconsistencia>();
+            if (code != lastInteractionWithThisProduct.Codigo)
             {
-                listaDeInconsistencias.Add(
-                    new Inconsistencia()
-                    {
-                        Modulo = "Controle de Estoque",
-                        Tela = "Cadastro de Interações",
-                        ConceitoValidado = "Interação",
-                        NomeDaPropriedadeValidada = "Interação",
-                        DescricaoDaPropriedadeValidada = "Interação",
-                        Mensagem = $"Não é possível deletar essa interação porque ela não é a última interação com o produto {interacao.Produto.Codigo} - {interacao.Produto.Nome}."
-                    });
+                errorList.Add(new Inconsistencia
+                {
+                    Modulo = "Controle de Estoque",
+                    Tela = "Cadastro de Interações",
+                    ConceitoValidado = "Interação",
+                    NomeDaPropriedadeValidada = "Interação",
+                    DescricaoDaPropriedadeValidada = "Interação",
+                    Mensagem = $"Não é possível deletar essa interação porque ela não é a última interação com o produto {interaction.Produto.Codigo} - {interaction.Produto.Nome}."
+                });
             }
 
-            return listaDeInconsistencias;
+            return errorList;
         }
 
         #endregion
@@ -86,10 +87,11 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Validador
 
         private void ValideRegraObrigatoriedades()
         {
-            if (_interacao.Produto == null || _interacao.Produto.Codigo == 0)
+            foreach (var subInteraction in _interaction.SubInteractions)
             {
-                _listaDeInconsistencias.Add(
-                    new Inconsistencia()
+                if (subInteraction.Product == null || subInteraction.Product.Code == 0)
+                {
+                    _listaDeInconsistencias.Add(new Inconsistencia
                     {
                         Modulo = "Controle de Estoque",
                         Tela = "Cadastro de Interações",
@@ -98,12 +100,11 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Validador
                         DescricaoDaPropriedadeValidada = "Produto da entrada/saída",
                         Mensagem = Mensagens.X_DEVE_SER_SELECIONADO("Um produto")
                     });
-            }
+                }
 
-            if (_interacao.QuantidadeInterada == 0 && _interacao.TipoDeInteracao != EnumTipoDeInteracao.BASE_DE_TROCA)
-            {
-                _listaDeInconsistencias.Add(
-                    new Inconsistencia()
+                if (_interaction.InteractionType != InteractionType.ExchangeBase && subInteraction.InteractedQuantity == 0)
+                {
+                    _listaDeInconsistencias.Add(new Inconsistencia
                     {
                         Modulo = "Controle de Estoque",
                         Tela = "Cadastro de Interações",
@@ -112,12 +113,11 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Validador
                         DescricaoDaPropriedadeValidada = "Quantidade movimentada do produto",
                         Mensagem = Mensagens.X_DEVE_SER_INFORMADO("Uma quantidade de produto para movimentação")
                     });
-            }
+                }
 
-            if (string.IsNullOrEmpty(_interacao.Origem))
-            {
-                _listaDeInconsistencias.Add(
-                    new Inconsistencia()
+                if (string.IsNullOrEmpty(_interaction.Origin))
+                {
+                    _listaDeInconsistencias.Add(new Inconsistencia
                     {
                         Modulo = "Controle de Estoque",
                         Tela = "Cadastro de Interações",
@@ -126,12 +126,11 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Validador
                         DescricaoDaPropriedadeValidada = "Origem",
                         Mensagem = Mensagens.X_DEVE_SER_INFORMADO("Uma origem")
                     });
-            }
+                }
 
-            if (string.IsNullOrEmpty(_interacao.Destino))
-            {
-                _listaDeInconsistencias.Add(
-                    new Inconsistencia()
+                if (string.IsNullOrEmpty(_interaction.Destination))
+                {
+                    _listaDeInconsistencias.Add(new Inconsistencia
                     {
                         Modulo = "Controle de Estoque",
                         Tela = "Cadastro de Interações",
@@ -140,68 +139,66 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Validador
                         DescricaoDaPropriedadeValidada = "Destino",
                         Mensagem = Mensagens.X_DEVE_SER_INFORMADO("Um destino")
                     });
+                }
             }
         }
 
         private void ValideRegrasDeNumeroDeSerie()
         {
-            // Números incompativeis com a quantidade
-            if (_interacao.InformaNumeroDeSerie && _interacao.NumerosDeSerie.Count != _interacao.QuantidadeInterada)
+            foreach (var subInteraction in _interaction.SubInteractions)
             {
-                _listaDeInconsistencias.Add(
-                    new Inconsistencia()
+                // Números incompativeis com a quantidade
+                if (subInteraction.InformsSerialNumber && subInteraction.SerialNumbers.Count != subInteraction.InteractedQuantity)
+                {
+                    _listaDeInconsistencias.Add(new Inconsistencia
                     {
                         Modulo = "Controle de Estoque",
                         Tela = "Cadastro de Interações",
                         ConceitoValidado = "Interação",
                         NomeDaPropriedadeValidada = "NumerosDeSerie",
                         DescricaoDaPropriedadeValidada = "Lista de números de série",
-                        Mensagem = Mensagens.DEVE_SER_INFORMADOS_NS_PARA_TODOS_OS_PRODUTOS(_interacao.NumerosDeSerie.Count, _interacao.QuantidadeInterada)
+                        Mensagem = Mensagens.DEVE_SER_INFORMADOS_NS_PARA_TODOS_OS_PRODUTOS(
+                            subInteraction.SerialNumbers.Count, subInteraction.InteractedQuantity)
                     });
-            }
+                }
 
-            // Primeiro validamos se existe algum número de série na lista para evitar gastar processamento
-            if (_interacao.NumerosDeSerie == null || _interacao.NumerosDeSerie.Count == 0)
-            {
-                return;
-            }
-
-            using (var servicoDeInteracao = new ServicoDeInteracao())
-            {
-                foreach (var numeroDeSerie in _interacao.NumerosDeSerie)
+                if (subInteraction.SerialNumbers == null || subInteraction.SerialNumbers.Count == 0)
                 {
-                    // Consultamos se o número de série existe para evitar gastar processamento
-                    if (!servicoDeInteracao.VerifiqueSeNumeroDeSerieExisteNoBanco(numeroDeSerie))
-                        continue;
+                    return;
+                }
 
-                    var estahEmEstoque = servicoDeInteracao.VerifiqueSeNumeroDeSerieEstahEmEstoque(numeroDeSerie);
+                using var interactionService = new InteractionService();
+                foreach (var serialNumber in subInteraction.SerialNumbers)
+                {
+                    if (!interactionService.CheckIfSerialNumberIsInDatabase(serialNumber)) continue;
 
-                    if (_interacao.TipoDeInteracao == EnumTipoDeInteracao.ENTRADA && estahEmEstoque)
+                    var isItIntoTheInventory = interactionService.CheckIfSerialNumberIsIntoTheInventory(serialNumber);
+                    switch (isItIntoTheInventory)
                     {
-                        _listaDeInconsistencias.Add(
-                            new Inconsistencia()
+                        case true 
+                            when _interaction.InteractionType == InteractionType.Input:
+                            _listaDeInconsistencias.Add(new Inconsistencia
                             {
                                 Modulo = "Controle de Estoque",
                                 Tela = "Cadastro de Interações",
                                 ConceitoValidado = "Interação",
                                 NomeDaPropriedadeValidada = "NumerosDeSerie",
                                 DescricaoDaPropriedadeValidada = "Lista de números de série",
-                                Mensagem = Mensagens.UM_PRODUTO_COM_O_NUMERO_DE_SERIE_X_JA_ESTA_EM_ESTOQUE(numeroDeSerie)
+                                Mensagem = Mensagens.UM_PRODUTO_COM_O_NUMERO_DE_SERIE_X_JA_ESTA_EM_ESTOQUE(serialNumber)
                             });
-                    }
-
-                    if (_interacao.TipoDeInteracao == EnumTipoDeInteracao.SAIDA && !estahEmEstoque)
-                    {
-                        _listaDeInconsistencias.Add(
-                            new Inconsistencia()
+                            break;
+                        case false 
+                            when _interaction.InteractionType == InteractionType.Output:
+                            _listaDeInconsistencias.Add(new Inconsistencia
                             {
                                 Modulo = "Controle de Estoque",
                                 Tela = "Cadastro de Interações",
                                 ConceitoValidado = "Interação",
                                 NomeDaPropriedadeValidada = "NumerosDeSerie",
                                 DescricaoDaPropriedadeValidada = "Lista de números de série",
-                                Mensagem = Mensagens.NAO_E_POSSIVEL_DAR_SAIDA_DO_NUMERO_DE_SERIE_X(numeroDeSerie)
+                                Mensagem = Mensagens.NAO_E_POSSIVEL_DAR_SAIDA_DO_NUMERO_DE_SERIE_X(serialNumber)
                             });
+                            break;
                     }
                 }
             }
@@ -209,15 +206,17 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Validador
 
         private void ValideRegraQuantidades()
         {
-
-            var quantidadeAtual = RepositorioDeProduto().ConsulteQuantidade(_interacao.Produto.Codigo);
-            var quantidadeInterada = _interacao.TipoDeInteracao == EnumTipoDeInteracao.SAIDA ? _interacao.QuantidadeInterada * -1 : _interacao.QuantidadeInterada;
-            var quantidadeAuxiliar = (_interacao.QuantidadeAuxiliar ?? 0) * -1;
-
-            if ((quantidadeAtual + quantidadeInterada + quantidadeAuxiliar) < 0)
+            foreach (var subInteraction in _interaction.SubInteractions)
             {
-                _listaDeInconsistencias.Add(
-                    new Inconsistencia()
+                var currentQuantity = RepositorioDeProduto().ConsulteQuantidade(subInteraction.Product.Code);
+                var interactedQuantity = _interaction.InteractionType == InteractionType.Output
+                    ? subInteraction.InteractedQuantity * -1 
+                    : subInteraction.InteractedQuantity;
+
+                var auxiliaryQuantity = (subInteraction.AuxiliaryQuantity ?? 0) * -1;
+                if (currentQuantity + interactedQuantity + auxiliaryQuantity < 0)
+                {
+                    _listaDeInconsistencias.Add(new Inconsistencia
                     {
                         Modulo = "Controle de Estoque",
                         Tela = "Cadastro de Interações",
@@ -226,6 +225,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Validador
                         DescricaoDaPropriedadeValidada = "Produto da entrada/saída",
                         Mensagem = "Essa interação deixaria o produto com quantidade abaixo de 0!"
                     });
+                }
             }
         }
 

@@ -51,10 +51,10 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.label2 = new System.Windows.Forms.Label();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabProdutos = new System.Windows.Forms.TabPage();
+            this.txtQtyProgresso = new MetroFramework.Controls.MetroLabel();
             this.chkQueryOnlyActive = new MetroFramework.Controls.MetroCheckBox();
             this.lblButtonDescriptor = new MetroFramework.Controls.MetroLabel();
             this.btnAtualizarPlanilhaDeCentrais = new System.Windows.Forms.Button();
-            this.txtQtyProgresso = new MetroFramework.Controls.MetroLabel();
             this.txtCronometroImportar = new MetroFramework.Controls.MetroLabel();
             this.metroProgressImportar = new MetroFramework.Controls.MetroProgressBar();
             this.btnImportarTabelaPrecosIntelbras = new System.Windows.Forms.Button();
@@ -227,6 +227,19 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.tabProdutos.TabIndex = 0;
             this.tabProdutos.Text = "tabProdutos";
             // 
+            // txtQtyProgresso
+            // 
+            this.txtQtyProgresso.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtQtyProgresso.AutoSize = true;
+            this.txtQtyProgresso.BackColor = System.Drawing.Color.Silver;
+            this.txtQtyProgresso.Location = new System.Drawing.Point(857, 10);
+            this.txtQtyProgresso.Name = "txtQtyProgresso";
+            this.txtQtyProgresso.Size = new System.Drawing.Size(26, 19);
+            this.txtQtyProgresso.TabIndex = 15;
+            this.txtQtyProgresso.Text = "?/?";
+            this.txtQtyProgresso.UseCustomBackColor = true;
+            this.txtQtyProgresso.Visible = false;
+            // 
             // chkQueryOnlyActive
             // 
             this.chkQueryOnlyActive.AutoSize = true;
@@ -270,19 +283,6 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.btnAtualizarPlanilhaDeCentrais.Click += new System.EventHandler(this.button2_Click);
             this.btnAtualizarPlanilhaDeCentrais.MouseEnter += new System.EventHandler(this.BtnAtualizarPlanilhaDeCentrais_MouseEnter_1);
             this.btnAtualizarPlanilhaDeCentrais.MouseLeave += new System.EventHandler(this.BtnAtualizarPlanilhaDeCentrais_MouseLeave);
-            // 
-            // txtQtyProgresso
-            // 
-            this.txtQtyProgresso.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtQtyProgresso.AutoSize = true;
-            this.txtQtyProgresso.BackColor = System.Drawing.Color.Silver;
-            this.txtQtyProgresso.Location = new System.Drawing.Point(857, 10);
-            this.txtQtyProgresso.Name = "txtQtyProgresso";
-            this.txtQtyProgresso.Size = new System.Drawing.Size(26, 19);
-            this.txtQtyProgresso.TabIndex = 15;
-            this.txtQtyProgresso.Text = "?/?";
-            this.txtQtyProgresso.UseCustomBackColor = true;
-            this.txtQtyProgresso.Visible = false;
             // 
             // txtCronometroImportar
             // 
@@ -871,7 +871,6 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         private System.Windows.Forms.Button btnExportarProdutos;
         private System.Windows.Forms.Button btnRefresh;
         private System.Windows.Forms.PictureBox pictureBox3;
-        private System.Windows.Forms.Button btnNovoProduto;
         private System.Windows.Forms.DataGridView dgvProdutos;
         private MetroFramework.Controls.MetroCheckBox chkQueryOnlyActive;
         private ControlesGenericos.GSTopBorder gsTopBorder1;
@@ -888,5 +887,6 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         private System.Windows.Forms.DataGridViewTextBoxColumn colunaPrecoVenda;
         private System.Windows.Forms.DataGridViewTextBoxColumn colunaQuantidade;
         private System.Windows.Forms.DataGridViewButtonColumn colunaDetalhar;
+        public System.Windows.Forms.Button btnNovoProduto;
     }
 }

@@ -45,7 +45,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Atendimento
 
         protected override void ChamadaExclusao(object sender, EventArgs e)
         {
-            //var result = (Presenter as ClientePresenter)?.Exclua(Presenter.Model.Codigo);
+            //var result = (Presenter as ClientePresenter)?.Delete(Presenter.Model.Codigo);
             //if (result.Any())
             //{
             //    result.ToList().ForEach(x => MessageBox.Show(x.Mensagem, "Inconsistência"));

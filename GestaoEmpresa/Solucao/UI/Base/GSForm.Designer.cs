@@ -1,4 +1,6 @@
-﻿namespace GS.GestaoEmpresa.Solucao.UI.Base
+﻿using System.Drawing;
+
+namespace GS.GestaoEmpresa.Solucao.UI.Base
 {
     partial class GSForm
     {
@@ -69,6 +71,7 @@
             // panelTitulo
             // 
             this.panelTitulo.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            this.panelTitulo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panelTitulo.Controls.Add(this.lblTitulo);
             this.panelTitulo.Controls.Add(this.gsTopBorder1);
             this.panelTitulo.Controls.Add(this.btnEditarSalvar);
@@ -101,7 +104,6 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackImage = global::GS.GestaoEmpresa.Properties.Resources.Background1;
             this.BackMaxSize = 1920;
             this.BorderStyle = MetroFramework.Forms.MetroFormBorderStyle.FixedSingle;
             this.ClientSize = new System.Drawing.Size(599, 710);

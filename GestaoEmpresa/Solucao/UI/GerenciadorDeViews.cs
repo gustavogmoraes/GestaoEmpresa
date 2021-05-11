@@ -75,7 +75,7 @@ namespace GS.GestaoEmpresa.Solucao.UI
                     IView instanciaView = null;
                     InvokeOnMain(delegate { instanciaView = (IView)Activator.CreateInstance(tela.TipoDaView); });
 
-                    instanciaPresenter.IdInstancia = idInstancia;
+                    instanciaPresenter.InstanceId = idInstancia;
                     instanciaPresenter.View = instanciaView;
                     instanciaView.Presenter = instanciaPresenter;
                     instanciaPresenter.View.TipoDeForm = EnumTipoDeForm.Cadastro;
@@ -101,7 +101,7 @@ namespace GS.GestaoEmpresa.Solucao.UI
             return _instanciaPrincipal ??= new frmPrincipal();
         }
 
-        public static TPresenter Crie<TPresenter>(IConceito conceito)
+        public static TPresenter Crie<TPresenter>(IEntity conceito)
             where TPresenter : class, IPresenter, new()
         {
             var instanciaPresenter = Crie<TPresenter>();
@@ -132,7 +132,7 @@ namespace GS.GestaoEmpresa.Solucao.UI
             var tela = ControladorDeInstancias.Find(x => x.Instancias.ContainsKey(idInstancia));
             if (tela.Instancias != null && tela.Instancias.Count > 0)
             {
-                return tela.Instancias.Values.FirstOrDefault(x => x.IdInstancia == idInstancia) as IPresenter;
+                return tela.Instancias.Values.FirstOrDefault(x => x.InstanceId == idInstancia) as IPresenter;
             }
 
             return null;
@@ -173,20 +173,24 @@ namespace GS.GestaoEmpresa.Solucao.UI
             instancias.Remove(idDaInstancia);
         }
 
-        public static IServicoHistoricoPadrao ObtenhaServicoHistoricoPadraoPorModel(IConceito model)
+        public static IServicoHistoricoPadrao ObtenhaServicoHistoricoPadraoPorModel(IEntity model)
         {
-            var tipos = GSUtilitarios.GetTypesThatImplementsInteface(typeof(IServicoHistoricoPadrao));
-            var classes = tipos.ToList().Where(x => !x.IsInterface && !x.Name.Contains("ServicoHistoricoPadrao"));
-            var servico = classes.FirstOrDefault(x => x.BaseType.GenericTypeArguments.First() == model.GetType());
+            var types = GSUtilitarios.GetTypesThatImplementsInteface(typeof(IServicoHistoricoPadrao));
+            var classes = types.ToList().Where(x => !x.IsInterface && !x.Name.Contains("BaseServiceWithRevision"));
 
-            var instanciaServico = (IServicoHistoricoPadrao)Activator.CreateInstance(servico);
+            var serviceType = classes.FirstOrDefault(x => x.BaseType != null && x.BaseType.GenericTypeArguments.First() == model.GetType());
+            if (serviceType == null)
+            {
+                throw new Exception("Service type not found");
+            }
 
-            if (instanciaServico == null)
+            var serviceInstance = (IServicoHistoricoPadrao)Activator.CreateInstance(serviceType);
+            if (serviceInstance == null)
             {
                 throw new Exception("Não foi possível encontrar um serviço implementado que contemple o model informado");
             }
 
-            return instanciaServico;
+            return serviceInstance;
         }
 
         public static IServicoPadrao ObtenhaServicoPadraoPorModel(IConceito model)

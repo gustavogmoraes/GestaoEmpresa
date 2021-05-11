@@ -39,7 +39,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         private void CarregueGrid()
         {
-            using var servicoDeProduto = new ServicoDeProduto();
+            using var servicoDeProduto = new ProductService();
             var propriedades = GSUtilitarios.EncontrePropriedadeMarcadaComAtributo(typeof(Produto), typeof(ExporterMetadata));
             var propCodigo = propriedades.FirstOrDefault(x => x.Name == "Codigo");
             propriedades.RemoveAll(x => x.Name == "Codigo");
@@ -75,7 +75,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                 int numeroAleatorio = rng.Next(1, allCodes.Count);
                 var productCode = allCodes[numeroAleatorio];
 
-                listaProdutos.Add(servicoDeProduto.Consulte(productCode));
+                listaProdutos.Add(servicoDeProduto.QueryFirst(productCode));
             }
 
             listaProdutos.Sort((x, y) => x.Codigo.CompareTo(y.Codigo));

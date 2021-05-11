@@ -10,9 +10,9 @@ using GS.GestaoEmpresa.Solucao.Persistencia.Interfaces;
 
 namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos.Base
 {
-    public abstract class ServicoPadrao<TConceito, TValidador, TRepositorio> : IServicoPadrao, IDisposable
-        where TConceito : class, IConceito, IRavenDbDocument, new()
-        where TValidador : ValidadorPadrao<TConceito>, IDisposable, new()
+    public abstract class BaseService<TConceito, TValidador, TRepositorio> : IServicoPadrao, IDisposable
+        where TConceito : class, IEntity, IRavenDbDocument, new()
+        where TValidador : BaseValidator<TConceito>, IDisposable, new()
         where TRepositorio : RepositorioPadrao<TConceito>, IDisposable, new()
     {
         private TValidador _validador;
@@ -39,11 +39,11 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos.Base
             return Repositorio.ConsulteTodos();
         }
 
-        protected abstract Action AcaoSucessoValidacaoDeCadastro(TConceito item);
+        protected abstract Action CreateValidationSucceeded(TConceito interaction);
 
-        protected abstract Action AcaoSucessoValidacaoDeEdicao(TConceito item);
+        protected abstract Action UpdateValidationSucceeded(TConceito item);
 
-        protected abstract Action AcaoSucessoValidacaoDeExclusao(int codigo);
+        protected abstract Action DeleteValidationSucceeded(int code);
 
         public IList<Inconsistencia> Salve(TConceito item, EnumTipoDeForm tipoDeForm)
         {
@@ -52,10 +52,10 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos.Base
             switch (tipoDeForm)
             {
                 case EnumTipoDeForm.Cadastro:
-                    inconsistencias = Validador.ValideCadastro(item).ToList();
+                    inconsistencias = Validador.ValidateCreate(item).ToList();
                     if (inconsistencias.Count == 0)
                     {
-                        var acao = AcaoSucessoValidacaoDeCadastro(item);
+                        var acao = CreateValidationSucceeded(item);
                         if (acao != null) acao.Invoke();
 
                         Repositorio.Insira(item);
@@ -64,10 +64,10 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos.Base
                     break;
 
                 case EnumTipoDeForm.Edicao:
-                    inconsistencias = Validador.ValideEdicao(item).ToList();
+                    inconsistencias = Validador.ValidateUpdate(item).ToList();
                     if (inconsistencias.Count == 0)
                     {
-                        var acao = AcaoSucessoValidacaoDeEdicao(item);
+                        var acao = UpdateValidationSucceeded(item);
                         if (acao != null) acao.Invoke();
 
                         Repositorio.Atualize(item);
@@ -79,16 +79,16 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos.Base
             return inconsistencias;
         }
 
-        public IList<Inconsistencia> Exclua(int codigo)
+        public IList<Inconsistencia> Delete(int code)
         {
-            var inconsistencias = Validador.ValideExclusao(codigo);
+            var inconsistencias = Validador.ValidateDelete(code);
 
             if (inconsistencias.Count == 0)
             {
-                var acao = AcaoSucessoValidacaoDeExclusao(codigo);
+                var acao = DeleteValidationSucceeded(code);
                 if (acao != null) acao.Invoke();
 
-                Repositorio.Exclua(codigo);
+                Repositorio.Exclua(code);
             }
                 
 

@@ -91,7 +91,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Atendimento
         //{
         //    using (var servicoDeProduto = new ServicoDeProduto())
         //    {
-        //        var produtosPesquisados = servicoDeProduto.ConsulteTodosParaAterrissagem(
+        //        var produtosPesquisados = servicoDeProduto.QueryForLandingPage(
         //            searchTerm: searchTerm, 
         //            propertiesToSearch: new Expression<Func<Produto, object>>[] { model => model.Nome, model => model.CodigoDoFabricante, model => model.Codigo});
         //        View.Invoke((MethodInvoker)delegate
@@ -107,7 +107,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Atendimento
         //{
         //    using (var servicoDeProduto = new ServicoDeProduto())
         //    {
-        //        var produto = servicoDeProduto.Consulte(codigo);
+        //        var produto = servicoDeProduto.QueryFirst(codigo);
         //        var sequencial = ObtenhaNovoSequencial();
 
         //        if (Model.Itens == null)

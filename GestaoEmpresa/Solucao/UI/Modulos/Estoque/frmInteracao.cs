@@ -351,12 +351,12 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                 Tecnico = txtTecnico.Text
             };
 
-            using (var servicoDeProduto = new ServicoDeProduto())
+            using (var servicoDeProduto = new ProductService())
             {
                 int codigoProduto = CodigoProdutoCarregado.GetValueOrDefault();
                 var horarioProgramado = dateData.MergeValue(dateHorario).RemoveMs();
 
-                interacao.Produto = servicoDeProduto.Consulte(codigoProduto, horarioProgramado, false) ?? servicoDeProduto.Consulte(codigoProduto, false);
+                interacao.Produto = servicoDeProduto.Consulte(codigoProduto, horarioProgramado, false) ?? servicoDeProduto.QueryFirst(codigoProduto, false);
             }
 
             if (chkInformarNumeroDeSerie.Checked)
@@ -507,7 +507,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                     interacao.Horario = DateTime.Now;
                     //txtHorario.Text = horario.ToString(Cultura);
 
-                    using (var servicoDeInteracao = new ServicoDeInteracao())
+                    using (var servicoDeInteracao = new InteractionService())
                     {
                         _listaDeInconsistencias = servicoDeInteracao.Salve(interacao, TipoDeForm).ToList();
                         _codigoInteracao = interacao.Codigo;
@@ -539,7 +539,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                     TipoDeForm = EnumTipoDeForm.Detalhamento;
 
                     Interacao interacao;
-                    using (var servicoDeInteracao = new ServicoDeInteracao())
+                    using (var servicoDeInteracao = new InteractionService())
                     {
                         interacao = servicoDeInteracao.Consulte(_codigoInteracao);
                     }
@@ -552,9 +552,9 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                     var resultado = MessageBox.Show($"Tem certeza que deseja excluir essa interação?", "Confirmação", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                     if (resultado == DialogResult.Yes)
                     {
-                        using (var servicoDeInteracao = new ServicoDeInteracao())
+                        using (var servicoDeInteracao = new InteractionService())
                         {
-                            var inconsistencias = servicoDeInteracao.Exclua(_codigoInteracao);
+                            var inconsistencias = servicoDeInteracao.Delete(_codigoInteracao);
 
                             if (inconsistencias.Count > 0)
                             {
@@ -647,7 +647,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             }
 
             var listaDeProdutos = new List<Produto>();
-            using (var servicoDeProduto = new ServicoDeProduto())
+            using (var servicoDeProduto = new ProductService())
             {
                 if(cbProduto.SelectedItem == null)
                 {
@@ -761,7 +761,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         public void ApagueInstancia()
         {
-            //GerenciadorDeViews.Exclua<frmInteracao>(IdInstancia);
+            //GerenciadorDeViews.Delete<frmInteracao>(InstanceId);
         }
 
         private void cbProduto_TextChanged(object sender, EventArgs e)
@@ -826,9 +826,9 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         private static List<Produto> ConsulteProdutos(string textoParaPesquisar)
         {
-            var servicoDeProduto = new ServicoDeProduto();
+            var servicoDeProduto = new ProductService();
 
-            var produtos = servicoDeProduto.ConsulteTodosParaAterrissagem(out var quantidades, resultSelector: SeletorCombo, searchTerm: textoParaPesquisar)
+            var produtos = servicoDeProduto.QueryForLandingPage(out var quantidades, resultSelector: SeletorCombo, searchTerm: textoParaPesquisar)
                 .OrderBy(x => x.Nome)
                 .ToList();
             return produtos;

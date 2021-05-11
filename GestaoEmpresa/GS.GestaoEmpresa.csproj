@@ -198,9 +198,13 @@
   <ItemGroup>
     <Compile Include="Solucao\Negocio\Atributos\ExporterMetadata.cs" />
     <Compile Include="Solucao\Negocio\Enumeradores\Comuns\EnumFormatacaoDateTime.cs" />
+    <Compile Include="Solucao\Negocio\Enumeradores\Comuns\Estoque\InteractionType.cs" />
     <Compile Include="Solucao\Negocio\Enumeradores\Seguros\UnidadeIntelbras\EnumUnidadeIntelbras.cs" />
     <Compile Include="Solucao\Negocio\Enumeradores\Seguros\UnidadeIntelbras\UnidadeIntelbras.cs" />
+    <Compile Include="Solucao\Negocio\Interfaces\EntityStatusType.cs" />
     <Compile Include="Solucao\Negocio\Interfaces\IConceitoComPendencia.cs" />
+    <Compile Include="Solucao\Negocio\Interfaces\IEntity.cs" />
+    <Compile Include="Solucao\Negocio\Interfaces\IEntityWithRevision.cs" />
     <Compile Include="Solucao\Negocio\Interfaces\IObjectWithRavenAttachments.cs" />
     <Compile Include="Solucao\Negocio\Interfaces\IServicoHistoricoPadrao.cs" />
     <Compile Include="Solucao\Negocio\Interfaces\IServicoPadrao.cs" />
@@ -210,15 +214,18 @@
     <Compile Include="Solucao\Negocio\Objetos\Base\RavenAttachments.cs" />
     <Compile Include="Solucao\Negocio\Objetos\ClienteAntigo.cs" />
     <Compile Include="Solucao\Negocio\Objetos\Configuracoes.cs" />
+    <Compile Include="Solucao\Negocio\Objetos\Estoque\Interaction.cs" />
+    <Compile Include="Solucao\Negocio\Objetos\Estoque\Product.cs" />
+    <Compile Include="Solucao\Negocio\Objetos\Estoque\SubInteraction.cs" />
     <Compile Include="Solucao\Negocio\Objetos\Orcamento\ItemOrcamento.cs" />
     <Compile Include="Solucao\Negocio\Objetos\Orcamento\Orcamento.cs" />
     <Compile Include="Solucao\Negocio\Objetos\Orcamento\TipoDeItemOrcamento.cs" />
     <Compile Include="Solucao\Negocio\Objetos\ProdutoQuantidade.cs" />
     <Compile Include="Solucao\Negocio\Objetos\UISettings.cs" />
     <Compile Include="Solucao\Negocio\Objetos\Unidade.cs" />
-    <Compile Include="Solucao\Negocio\Servicos\Base\ServicoHistoricoPadrao.cs" />
-    <Compile Include="Solucao\Negocio\Servicos\Base\ServicoPadrao.cs" />
-    <Compile Include="Solucao\Negocio\Validador\Base\ValidadorPadrao.cs" />
+    <Compile Include="Solucao\Negocio\Servicos\Base\BaseServiceWithRevision.cs" />
+    <Compile Include="Solucao\Negocio\Servicos\Base\BaseService.cs" />
+    <Compile Include="Solucao\Negocio\Validador\Base\BaseValidator.cs" />
     <Compile Include="Solucao\Persistencia\BancoDeDados\EnumTipoDeBanco.cs" />
     <Compile Include="Solucao\Persistencia\BancoDeDados\GSBancoDeDados.cs" />
     <Compile Include="Solucao\Persistencia\BancoDeDados\RavenHelper.cs" />
@@ -237,7 +244,7 @@
     <Compile Include="Solucao\Persistencia\Repositorios\RepositorioDeClienteAntigo.cs" />
     <Compile Include="Solucao\Persistencia\Repositorios\RepositorioDeColaborador.cs" />
     <Compile Include="Solucao\Persistencia\Repositorios\RepositorioDeConfiguracao.cs" />
-    <Compile Include="Solucao\Persistencia\Repositorios\RepositorioDeInteracao.cs" />
+    <Compile Include="Solucao\Persistencia\Repositorios\InteractionRepository.cs" />
     <Compile Include="Solucao\Persistencia\Repositorios\RepositorioDeProduto.cs" />
     <Compile Include="Solucao\Persistencia\Repositorios\RepositorioDeSolicitacaoDeAtendimento.cs" />
     <Compile Include="Solucao\Negocio\Enumeradores\Seguros\Base\TypeSafeEnum.cs" />
@@ -262,11 +269,11 @@
     <Compile Include="Solucao\Negocio\Objetos\Produto.cs" />
     <Compile Include="Solucao\Negocio\Objetos\Telefone.cs" />
     <Compile Include="Solucao\Negocio\Objetos\Usuario.cs" />
-    <Compile Include="Solucao\Negocio\Servicos\ServicoDeInteracao.cs" />
-    <Compile Include="Solucao\Negocio\Servicos\ServicoDeProduto.cs" />
+    <Compile Include="Solucao\Negocio\Servicos\InteractionService.cs" />
+    <Compile Include="Solucao\Negocio\Servicos\ProductService.cs" />
     <Compile Include="Solucao\Negocio\Servicos\ServicoDeUsuario.cs" />
-    <Compile Include="Solucao\Negocio\Validador\ValidadorDeInteracao.cs" />
-    <Compile Include="Solucao\Negocio\Validador\ValidadorDeProduto.cs" />
+    <Compile Include="Solucao\Negocio\Validador\InteractionValidator.cs" />
+    <Compile Include="Solucao\Negocio\Validador\ProductValidator.cs" />
     <Compile Include="Solucao\Persistencia\Repositorios\RepositorioDeUsuario.cs" />
     <Compile Include="Solucao\UI\Base\GSForm.cs">
       <SubType>Form</SubType>
@@ -275,7 +282,7 @@
       <DependentUpon>GSForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Solucao\UI\Base\IPresenter.cs" />
-    <Compile Include="Solucao\UI\Base\MapeamentoDeControle.cs" />
+    <Compile Include="Solucao\UI\Base\ControlMapping.cs" />
     <Compile Include="Solucao\UI\Base\Presenter.cs" />
     <Compile Include="Solucao\UI\Base\Temp.cs">
       <SubType>Form</SubType>
@@ -658,6 +665,7 @@
     <None Include="Resources\impactas.png" />
     <None Include="Resources\Centrais.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

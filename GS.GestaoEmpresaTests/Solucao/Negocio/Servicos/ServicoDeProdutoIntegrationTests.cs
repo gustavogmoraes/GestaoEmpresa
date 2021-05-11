@@ -10,7 +10,7 @@ using GS.GestaoEmpresa.Solucao.Utilitarios;
 
 namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos.Tests
 {
-    [TestOf(typeof(ServicoDeProduto))]
+    [TestOf(typeof(ProductService))]
     [TestFixture]
     public class ServicoDeProdutoTests
     {
@@ -103,7 +103,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos.Tests
 
         private IList<Inconsistencia> SalveCadastro(Produto product)
         {
-            using var productService = new ServicoDeProduto();
+            using var productService = new ProductService();
             var inconsistences = productService.Salve(product, EnumTipoDeForm.Cadastro);
 
             DocumentsIdsToDelete.Add(product.Id);
@@ -116,7 +116,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos.Tests
             SalveCadastro(product);
             DocumentsIdsToDelete.Add(product.Id);
 
-            using var productService = new ServicoDeProduto();
+            using var productService = new ProductService();
             product.Id = null;
             product.Nome += " Edited";
 
@@ -128,7 +128,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos.Tests
             using var session = RavenHelper.OpenSession();
             var products = session.Query<Produto>()
                 .Where(x => x.Codigo == product.Codigo)
-                .OrderBy(x => x.Vigencia)
+                .OrderBy(x => x.RevisionStartDateTime)
                 .ToList();
 
             var code = products[0].Codigo;

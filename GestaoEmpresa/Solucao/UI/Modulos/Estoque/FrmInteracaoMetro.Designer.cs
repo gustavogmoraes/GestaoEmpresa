@@ -96,6 +96,8 @@
             this.colunaTotal = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colunaNS = new System.Windows.Forms.DataGridViewButtonColumn();
             this.colunaRemover = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.flpNS = new System.Windows.Forms.FlowLayoutPanel();
+            this.gsMultiTextBox = new GS.GestaoEmpresa.Solucao.UI.ControlesGenericos.GSMultiTextBox();
             ((System.ComponentModel.ISupportInitialize)(this.btnCancelarExcluir)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnEditarSalvar)).BeginInit();
             this.panelTitulo.SuspendLayout();
@@ -103,6 +105,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.btnDoSearch)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridPesquisaProduto)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridProdutos)).BeginInit();
+            this.flpNS.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnCancelarExcluir
@@ -950,6 +953,28 @@
             this.colunaRemover.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             this.colunaRemover.Width = 30;
             // 
+            // flpNS
+            // 
+            this.flpNS.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
+            this.flpNS.Controls.Add(this.gsMultiTextBox);
+            this.flpNS.Location = new System.Drawing.Point(30, 276);
+            this.flpNS.Name = "flpNS";
+            this.flpNS.Size = new System.Drawing.Size(1108, 129);
+            this.flpNS.TabIndex = 184;
+            this.flpNS.Visible = false;
+            // 
+            // gsMultiTextBox
+            // 
+            this.gsMultiTextBox.BackColor = System.Drawing.Color.Silver;
+            this.gsMultiTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.gsMultiTextBox.Location = new System.Drawing.Point(3, 4);
+            this.gsMultiTextBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.gsMultiTextBox.Name = "gsMultiTextBox";
+            this.gsMultiTextBox.Size = new System.Drawing.Size(534, 40);
+            this.gsMultiTextBox.TabIndex = 0;
+            this.gsMultiTextBox.Texto = "";
+            this.gsMultiTextBox.UseSelectable = true;
+            // 
             // FrmInteracaoMetro
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
@@ -957,6 +982,7 @@
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.BackImage = ((System.Drawing.Image)(resources.GetObject("$this.BackImage")));
             this.ClientSize = new System.Drawing.Size(1207, 740);
+            this.Controls.Add(this.flpNS);
             this.Controls.Add(this.panelProdutos);
             this.Controls.Add(this.metroLabel9);
             this.Controls.Add(this.metroTextBox3);
@@ -1014,6 +1040,7 @@
             this.Controls.SetChildIndex(this.metroLabel9, 0);
             this.Controls.SetChildIndex(this.panelProdutos, 0);
             this.Controls.SetChildIndex(this.panelTitulo, 0);
+            this.Controls.SetChildIndex(this.flpNS, 0);
             ((System.ComponentModel.ISupportInitialize)(this.btnCancelarExcluir)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnEditarSalvar)).EndInit();
             this.panelTitulo.ResumeLayout(false);
@@ -1022,6 +1049,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.btnDoSearch)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridPesquisaProduto)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridProdutos)).EndInit();
+            this.flpNS.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1081,5 +1109,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colunaTotal;
         private System.Windows.Forms.DataGridViewButtonColumn colunaNS;
         private System.Windows.Forms.DataGridViewButtonColumn colunaRemover;
+        private System.Windows.Forms.FlowLayoutPanel flpNS;
+        private ControlesGenericos.GSMultiTextBox gsMultiTextBox;
     }
 }

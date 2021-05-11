@@ -8,12 +8,12 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Objetos.Base
 {
     public abstract class BaseObject
     {
-        public BaseObject()
+        protected BaseObject()
         {
 
         }
 
-        public BaseObject(object modelToClone)
+        protected BaseObject(object modelToClone)
         {
             modelToClone.GetType().GetProperties().ToList().ForEach(prop =>
             {

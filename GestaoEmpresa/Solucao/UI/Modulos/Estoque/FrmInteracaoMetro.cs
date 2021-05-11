@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using GS.GestaoEmpresa.Properties;
 using GS.GestaoEmpresa.Solucao.Negocio.Objetos;
+using GS.GestaoEmpresa.Solucao.Negocio.Objetos.Estoque;
 using GS.GestaoEmpresa.Solucao.Negocio.Servicos;
 using GS.GestaoEmpresa.Solucao.UI.Base;
 using GS.GestaoEmpresa.Solucao.UI.ControlesGenericos;
@@ -85,9 +86,9 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
                 if (string.IsNullOrEmpty(pesquisa))
                 {
-                    using var servicoDeProduto = new ServicoDeProduto();
+                    using var servicoDeProduto = new ProductService();
 
-                    CarregueDataGridProdutos(servicoDeProduto.ConsulteTodosParaAterrissagem(
+                    CarregueDataGridProdutos(servicoDeProduto.QueryForLandingPage(
                         out var quantidades, 
                         onlyActives: true), 
                         quantidades);
@@ -101,9 +102,9 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                     () =>
                     {
                         _txtPesquisaDeProdutoPreviousSearch = pesquisa;
-                        using var servicoDeProduto = new ServicoDeProduto();
+                        using var servicoDeProduto = new ProductService();
 
-                        listaFiltrada = servicoDeProduto.ConsulteTodosParaAterrissagem(
+                        listaFiltrada = servicoDeProduto.QueryForLandingPage(
                             out qtds, searchTerm: pesquisa, onlyActives: true);
                         processou = true;
                     },
@@ -275,16 +276,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
             if(e.ColumnIndex == colunaNS.Index)
             {
-                if(PaintIndividual)
-                {
-                    Resources.ArrowUpGridButton.PaintImageAsButton(e);
-                    PaintIndividual = false;
-                }
-                else
-                {
-                    Resources.ArrowDownGridButton.PaintImageAsButton(e);
-                    //CellPaintingArgs = e;
-                }
+                Resources.ArrowUpGridButton.PaintImageAsButton(e);
             }
 
             if (e.ColumnIndex == colunaRemover.Index)
@@ -319,6 +311,20 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             }
         }
 
+        public Interaction Model
+        {
+            get => (Interaction) Presenter?.Model;
+            set
+            {
+                if (Presenter == null)
+                {
+                    return;
+                }
+
+                Presenter.Model = value;
+            }
+        }
+
         private void gridProdutos_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0)
@@ -341,30 +347,21 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             
         private void ToggleNS(string productCode)
         {
-            //if(NSToggle.HasValue && NSToggle.Value == Convert.ToInt32(productCode))
-            //{
-            //    var row = gridProdutos.Rows.OfType<DataGridViewRow>().FirstOrDefault(x =>
-            //        x.Cells[colunaCodigo.Index].Value.ToString().Trim() == productCode);
-
-            //    //Resources.ArrowUpGridButton.PaintImageAsButton()
-            //    var buttonCell = (DataGridViewButtonCell)row.Cells[colunaNS.Index];
-
-            //    return;
-            //}
-
-            //NSToggle = Convert.ToInt32(productCode);
-            //var selectedRow = gridProdutos.Rows.OfType<DataGridViewRow>().FirstOrDefault(x =>
-            //       x.Cells[colunaCodigo.Index].Value.ToString().Trim() == productCode);
-            //var selectedButtonCell = (DataGridViewButtonCell)selectedRow.Cells[colunaNS.Index];
-
-            //var e = new DataGridViewCellPaintingEventArgs(
-            //    gridProdutos, CellPaintingArgs.Graphics, CellPaintingArgs.ClipBounds, CellPaintingArgs.CellBounds,
-            //    selectedRow.Index, colunaNS.Index, DataGridViewElementStates.Visible, CellPaintingArgs.Value,
-            //    CellPaintingArgs.FormattedValue, CellPaintingArgs.ErrorText, CellPaintingArgs.CellStyle, 
-            //    CellPaintingArgs.AdvancedBorderStyle, CellPaintingArgs.PaintParts);
-
-            //PaintIndividual = true;
-            //gridPesquisaProduto_CellPainting(selectedButtonCell, e);
+            flpNS.Visible = true;
+            foreach (var numero in Model.NumerosDeSerie)
+            {
+                if (numero == Model.NumerosDeSerie.FirstOrDefault())
+                {
+                    gsMultiTextBox.Texto = numero;
+                }
+                else
+                {
+                    flpNS.Controls.Add(new GSMultiTextBox
+                    {
+                        Texto = numero
+                    });
+                }
+            }
         }
 
         private DataGridViewCellPaintingEventArgs CellPaintingArgs { get; set; }

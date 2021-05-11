@@ -11,12 +11,12 @@ using GS.GestaoEmpresa.Solucao.UI.ControlesGenericos;
 
 namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 {
-    public sealed class ProdutoPresenter : Presenter<Produto, FrmProdutoMetro>, IPresenter
+    public sealed class ProdutoPresenter : Presenter<Produto, FrmProdutoMetro>
     {
         public ProdutoPresenter()
         {
             MapControl(model => model.Codigo, view => view.txtCodigo);
-            MapControl(model => model.Vigencia, view => view.cbValidity);
+            MapControl(model => model.RevisionStartDateTime, view => view.cbValidity);
             MapControl(model => model.Status, view => view.toggleStatus);
             MapControl(model => model.Nome, view => view.txtNome);
             MapControl(model => model.Observacao, view => view.txtObservacoes);
@@ -40,7 +40,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         public IList<Inconsistencia> Salve()
         {
-            using (var servicoDeProduto = new ServicoDeProduto())
+            using (var servicoDeProduto = new ProductService())
             {
                 return servicoDeProduto.Salve(Model, View.TipoDeForm);
             }
@@ -48,7 +48,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         public IList<Inconsistencia> Exclua(int codigo)
         {
-            using (var servicoDeProduto = new ServicoDeProduto())
+            using (var servicoDeProduto = new ProductService())
             {
                 return servicoDeProduto.Exclua(codigo);
             }
@@ -59,7 +59,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             GSWaitForm.Mostrar(
                 () =>
                 {
-                    using var servicoDeProduto = new ServicoDeProduto();
+                    using var servicoDeProduto = new ProductService();
                     var vigenciaConsultada = servicoDeProduto.Consulte(Model.Codigo, dataVigencia);
                     Model = vigenciaConsultada;
 
@@ -80,15 +80,15 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         public Produto Consulte(int codigo)
         {
-            using var servicoDeProduto = new ServicoDeProduto();
-            return servicoDeProduto.Consulte(codigo);
+            using var servicoDeProduto = new ProductService();
+            return servicoDeProduto.QueryFirst(codigo);
         }
 
         public override void FillControlsWithModel(bool reloading = false)
         {
             base.FillControlsWithModel(reloading);
 
-            using var servico = new ServicoDeProduto();
+            using var servico = new ProductService();
             var quantidade = servico.ConsulteQuantidade(Model.Codigo);
             View.txtQuantidadeEmEstoque.Text = quantidade.ToString();
         }

@@ -3,7 +3,7 @@ using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores.Comuns;
 
 namespace GS.GestaoEmpresa.Solucao.Negocio.Interfaces
 {
-    public interface IConceitoComHistorico : IConceito
+    public interface IConceitoComHistorico : IEntity
     {
         DateTime Vigencia { get; set; }
 

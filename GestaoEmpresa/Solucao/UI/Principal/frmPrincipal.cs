@@ -366,7 +366,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Principal
 
         public void ApagueInstancia()
         {
-            //GerenciadorDeViews.Exclua<frmPrincipal>(IdInstancia);
+            //GerenciadorDeViews.Delete<frmPrincipal>(InstanceId);
         }
 
         #region Migração
@@ -404,7 +404,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Principal
                 foreach (var vigencia in todasVigencias)
                 {
                     var produtoConsultado = ConsulteProduto(ultimaVigencia.Codigo, vigencia);
-                    produtoConsultado.Vigencia = vigencia;
+                    produtoConsultado.RevisionStartDateTime = vigencia;
 
                     if (vigencia == todasVigencias.LastOrDefault())
                     {
@@ -437,7 +437,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Principal
 
                 listaProdutosRaven.GroupBy(x => x.Codigo).ToList().ForEach(grupo =>
                 {
-                    var lista = grupo.OrderBy(x => x.Vigencia).ToList();
+                    var lista = grupo.OrderBy(x => x.RevisionStartDateTime).ToList();
 
                     repoProduto.Insira(lista.FirstOrDefault());
 
@@ -452,7 +452,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Principal
 
             SessaoSistema.InformacoesConexao = informacoesConexaoBancoRaven;
 
-            using (var repoInteracao = new RepositorioDeInteracao())
+            using (var repoInteracao = new InteractionRepository())
                 listaInteracoesRaven.ForEach(x => repoInteracao.Insira(x));
 
             MessageBox.Show("Concluído!");
@@ -776,6 +776,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Principal
                 btnEntrar_Click_1(btnEntrar, e);
 
                 GerenciadorDeViews.ObtenhaPrincipal().WindowState = FormWindowState.Minimized;
+                //new frmInteracao().Show();
                 GerenciadorDeViews.Crie<InteracaoPresenter>().View.Show();
 
                 #region Usable
@@ -790,7 +791,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Principal
                 //{
                 //    i++;
                 //    var newProd = new Produto(x);
-                //    newProd.Vigencia = DateTime.Now;
+                //    newProd.RevisionStartDateTime = DateTime.Now;
                 //    repoProd.Atualize(newProd);
                 //});
                 //var repoCfg = new RepositorioDeConfiguracao();

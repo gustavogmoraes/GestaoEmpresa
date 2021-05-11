@@ -1,7 +1,11 @@
 ﻿using System;
+using System.Drawing;
 using System.Windows.Forms;
 using GS.GestaoEmpresa.Properties;
 using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores.Comuns;
+using GS.GestaoEmpresa.Solucao.Negocio.Interfaces;
+using GS.GestaoEmpresa.Solucao.Negocio.Objetos;
+using MetroFramework.Drawing;
 using MetroFramework.Forms;
 
 namespace GS.GestaoEmpresa.Solucao.UI.Base
@@ -9,6 +13,8 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
     public partial class GSForm: MetroForm, IView
     {
         #region Propriedades
+        
+        protected Color CustomBackColor = Color.FromArgb(240, 240, 240);
 
         public EnumBotoesForm SwitchBotaoEditarSalvar { get; set; }
 
@@ -24,7 +30,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
             set
             {
                 _tipoDeForm = value;
-                InicializeBotoes(_tipoDeForm);
+                InitializeButtons(_tipoDeForm);
             }
         }
 
@@ -49,14 +55,20 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
 
         #region Métodos
 
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            base.OnPaint(e);
+            e.Graphics.Clear(CustomBackColor);
+        }
+
         public void SetBorderStyle()
         {
             BorderStyle = MetroFormBorderStyle.FixedSingle;
         }
 
-        protected void InicializeBotoes(EnumTipoDeForm tipoDeForm)
+        protected void InitializeButtons(EnumTipoDeForm formType)
         {
-            switch (tipoDeForm)
+            switch (formType)
             {
                 case EnumTipoDeForm.Cadastro:
                     btnCancelarExcluir.Enabled = false;
@@ -176,6 +188,8 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
                 case EnumTipoDeForm.Edicao:
                     ChamadaCancelarOnClick(sender, e);
                     break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
         }
 
@@ -193,7 +207,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
 
         private void GSForm_Load(object sender, EventArgs e)
         {
-            // Se tirar isso o Designer do VS pifa
+            // Don't remove this, VS WinForm designer complains
             Presenter?.ViewDidLoad();
         }
     }

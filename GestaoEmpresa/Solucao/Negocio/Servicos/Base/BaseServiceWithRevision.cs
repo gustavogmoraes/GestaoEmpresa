@@ -11,9 +11,9 @@ using GS.GestaoEmpresa.Solucao.Persistencia.Repositorios.Base;
 
 namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos.Base
 {
-    public abstract class ServicoHistoricoPadrao<TConceito, TValidador, TRepositorio> : IServicoHistoricoPadrao, IDisposable
-        where TConceito : ObjetoComHistorico, IConceitoComHistorico, new()
-        where TValidador : ValidadorPadrao<TConceito>, IDisposable, new()
+    public abstract class BaseServiceWithRevision<TConceito, TValidador, TRepositorio> : IServicoHistoricoPadrao, IDisposable
+        where TConceito : ObjetoComHistorico, IEntityWithRevision, new()
+        where TValidador : BaseValidator<TConceito>, IDisposable, new()
         where TRepositorio : RepositorioHistoricoPadrao<TConceito>, IDisposable, new()
     {
         private TValidador _validador;
@@ -30,7 +30,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos.Base
             set => _repositorio = value;
         }
 
-        public virtual TConceito Consulte(int codigo, bool withAttachments = true)
+        public virtual TConceito QueryFirst(int codigo, bool withAttachments = true)
         {
             return Repositorio.Consulte(codigo, withAttachments);
         }
@@ -68,13 +68,13 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos.Base
 
         public virtual IList<Inconsistencia> Salve(TConceito item, EnumTipoDeForm tipoDeForm)
         {
-            item.Vigencia = DateTime.Now;
+            item.RevisionStartDateTime = DateTime.Now;
             var inconsistencias = new List<Inconsistencia>();
 
             switch (tipoDeForm)
             {
                 case EnumTipoDeForm.Cadastro:
-                    inconsistencias = Validador.ValideCadastro(item).ToList();
+                    inconsistencias = Validador.ValidateCreate(item).ToList();
                     if (inconsistencias.Count == 0)
                     {
                         Repositorio.Insira(item);
@@ -84,7 +84,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos.Base
                     break;
 
                 case EnumTipoDeForm.Edicao:
-                    inconsistencias = Validador.ValideEdicao(item).ToList();
+                    inconsistencias = Validador.ValidateUpdate(item).ToList();
                     if (inconsistencias.Count == 0)
                     {
                         Repositorio.Atualize(item);
@@ -99,7 +99,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos.Base
 
         public IList<Inconsistencia> Exclua(int codigo)
         {
-            var inconsistencias = Validador.ValideExclusao(codigo);
+            var inconsistencias = Validador.ValidateDelete(codigo);
 
             if (inconsistencias.Count == 0)
             {

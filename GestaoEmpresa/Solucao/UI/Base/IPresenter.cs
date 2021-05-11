@@ -13,11 +13,11 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
 {
     public interface IPresenter
     {
-        string IdInstancia { get; set; }
+        string InstanceId { get; set; }
 
         IView View { get; set; }
 
-        IConceito Model { get; set; }
+        IEntity Model { get; set; }
 
         void FillControlsWithModel(bool reloading = false);
 

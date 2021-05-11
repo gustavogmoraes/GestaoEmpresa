@@ -13,13 +13,13 @@ using Raven.Client.Documents.Session;
 namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios.Base
 {
     public abstract class RepositorioPadrao<T> : RepositoryBase<T>, IDisposable
-        where T : class, IConceito, IRavenDbDocument, new()
+        where T : class, IEntity, IRavenDbDocument, new()
     {
         public int Insira(T item)
         {
-            if (item.Codigo == 0)
+            if (item.Code == 0)
             {
-                item.Codigo = ObtenhaProximoCodigoDisponivel();
+                item.Code = ObtenhaProximoCodigoDisponivel();
             }
 
             using (var sessaoRaven = RavenHelper.OpenSession())
@@ -28,14 +28,14 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios.Base
                 sessaoRaven.SaveChanges();
             }
 
-            return item.Codigo;
+            return item.Code;
         }
 
         public T Consulte(int codigo)
         {
             using (var session = RavenHelper.OpenSession())
             {
-                return session.Query<T>().FirstOrDefault(x => x.Codigo == codigo);
+                return session.Query<T>().FirstOrDefault(x => x.Code == codigo);
             }
         }
 
@@ -128,7 +128,7 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios.Base
         {
             using var sessaoRaven = RavenHelper.OpenSession();
             sessaoRaven.Query<T>()
-                .Where(x => x.Codigo == codigo)
+                .Where(x => x.Code == codigo)
                 .ToList()
                 .ForEach(x => sessaoRaven.Delete<T>(x));
 
@@ -140,7 +140,7 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios.Base
             using (var session = RavenHelper.OpenSession())
             {
                 var listaDeCodigos = session.Query<T>()
-                    .Select(x => x.Codigo)
+                    .Select(x => x.Code)
                     .ToList()
                     .Distinct()
                     .OrderBy(x => x)
@@ -162,7 +162,7 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios.Base
         public IList<int> MassGetAvailableCodes(int numberOfNeededCodes)
         {
             var listaDeCodigos = RavenHelper.OpenSession().Query<T>()
-                .Select(x => x.Codigo)
+                .Select(x => x.Code)
                 .ToList() // Raven query
                 .Distinct()
                 .OrderBy(x => x)
@@ -196,9 +196,9 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios.Base
                 var item = list[index];
                 item.Id = null;
 
-                if (item.Codigo == 0)
+                if (item.Code == 0)
                 {
-                    item.Codigo = newCodes[index];
+                    item.Code = newCodes[index];
                 }
             }
 

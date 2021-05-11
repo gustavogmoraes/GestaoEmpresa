@@ -141,7 +141,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         protected void PreenchaCodigoComProximoDisponivel()
         {
             int proximoCodigo;
-            using (var servicoDeProduto = new ServicoDeProduto())
+            using (var servicoDeProduto = new ProductService())
                 proximoCodigo = servicoDeProduto.ObtenhaProximoCodigoDisponivel();
 
             if (proximoCodigo == 0)
@@ -158,7 +158,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             if (cbVigencia.SelectedIndex == -1) return;
 
             Produto produto = null;
-            using (var servicoDeProduto = new ServicoDeProduto())
+            using (var servicoDeProduto = new ProductService())
                 produto = servicoDeProduto.Consulte(int.Parse(txtCodigo.Text.Trim()), DateTime.Parse(cbVigencia.SelectedItem.ToString(), Cultura));
 
             if(produto != null) CarregueControlesComObjeto(produto);
@@ -169,7 +169,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             cbVigencia.Items.Clear();
 
             var listaDeVigencias = new List<DateTime>();
-            using (var servicoDeProduto = new ServicoDeProduto())
+            using (var servicoDeProduto = new ProductService())
             {
                 listaDeVigencias = servicoDeProduto.ConsulteVigencias(codigo).ToList();
             }
@@ -369,7 +369,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                     var listaDeInconsistencias = new List<Inconsistencia>();
                     var quantidade = 0;
 
-                    using (var servicoDeProduto = new ServicoDeProduto())
+                    using (var servicoDeProduto = new ProductService())
                     {
                         listaDeInconsistencias = servicoDeProduto.Salve(produto, TipoDeForm).ToList();
 
@@ -418,9 +418,9 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                     TipoDeForm = EnumTipoDeForm.Detalhamento;
 
                     Produto produto;
-                    using (var servicoDeProduto = new ServicoDeProduto())
+                    using (var servicoDeProduto = new ProductService())
                     {
-                        produto = servicoDeProduto.Consulte(int.Parse(txtCodigo.Text.Trim()));
+                        produto = servicoDeProduto.QueryFirst(int.Parse(txtCodigo.Text.Trim()));
                     }
 
                     CarregueControlesComObjeto(produto);
@@ -438,7 +438,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                         var codigoDoProduto = int.Parse(txtCodigo.Text);
 
                         var listaDeInconsistenciasExclusao = new List<Inconsistencia>();
-                        using (var servicoDeProduto = new ServicoDeProduto())
+                        using (var servicoDeProduto = new ProductService())
                         {
                             listaDeInconsistenciasExclusao = servicoDeProduto.Exclua(codigoDoProduto).ToList();
                         }
@@ -517,7 +517,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         public void ApagueInstancia()
         {
-            //GerenciadorDeViews.Exclua<frmProduto>(IdInstancia);
+            //GerenciadorDeViews.Delete<frmProduto>(InstanceId);
         }
 
         private void frmProduto_FormClosed(object sender, FormClosedEventArgs e)

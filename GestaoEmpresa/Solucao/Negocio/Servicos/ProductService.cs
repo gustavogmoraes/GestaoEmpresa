@@ -22,7 +22,7 @@ using GS.GestaoEmpresa.Solucao.Utilitarios;
 
 namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
 {
-    public class ServicoDeProduto : ServicoHistoricoPadrao<Produto, ValidadorDeProduto, RepositorioDeProduto>, IDisposable
+    public class ProductService : BaseServiceWithRevision<Produto, ProductValidator, RepositorioDeProduto>, IDisposable
     {
         #region Default Implementation
 
@@ -75,12 +75,12 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
                 var formEstoque = GerenciadorDeViews.ObtenhaIndependente<FrmEstoque>();
                 if (formEstoque == null) return;
 
-                var produto = Consulte(codigoDoProduto);
+                var produto = QueryFirst(codigoDoProduto);
                 formEstoque.RecarregueProdutoEspecifico(produto, ConsulteQuantidade(codigoDoProduto));
             }
         }
 
-        private static Expression<Func<Produto, object>> SeletorProdutoAterrissagem => x => new Produto
+        private static Expression<Func<Produto, object>> LandingPageProductSelector => x => new Produto
         {
             Codigo = x.Codigo,
             Fabricante = x.Fabricante,
@@ -99,10 +99,13 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
         };
 
         private static readonly Expression<Func<Produto, object>>[] DefaultPropertiesToSearch =
-            { x => x.Nome, x=> x.TambemConhecidoComo, x => x.Codigo, x => x.CodigoDoFabricante, x => x.Fabricante, x => x.LocalizacaoNoEstoque };
+        {
+            x => x.Nome, x=> x.TambemConhecidoComo, x => x.Codigo, 
+            x => x.CodigoDoFabricante, x => x.Fabricante, x => x.LocalizacaoNoEstoque
+        };
 
-        public List<Produto> ConsulteTodosParaAterrissagem(
-            out Dictionary<int, int> quantidades,
+        public List<Produto> QueryForLandingPage(
+            out Dictionary<int, int> quantities,
             bool onlyActives = true,
             Expression<Func<Produto, bool>> whereFilter = null,
             Expression<Func<Produto, object>> resultSelector = null,
@@ -110,9 +113,9 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
             string searchTerm = null,
             Expression<Func<Produto, object>>[] propertiesToSearch = null) 
         {
-            var selector = resultSelector ?? SeletorProdutoAterrissagem;
+            var selector = resultSelector ?? LandingPageProductSelector;
 
-            var produtos = Repositorio.ConsulteTodos(
+            var products = Repositorio.ConsulteTodos(
                 onlyActives,
                 whereFilter, 
                 selector, 
@@ -121,32 +124,23 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
                 propertiesToSearch: propertiesToSearch ?? DefaultPropertiesToSearch)
                 .ToList();
 
-            var codigosProdutos = produtos.Select(x => x.Codigo).ToList();
-            quantidades = Repositorio.ConsulteQuantidade(codigosProdutos);
+            var productsCodes = products.Select(x => x.Codigo).ToList();
+            quantities = Repositorio.ConsulteQuantidade(productsCodes);
 
-            return produtos;
-        }
-
-        public override Produto Consulte(int codigo, bool withAttachments = true)
-        {
-            var produto = base.Consulte(codigo, withAttachments);
-
-            return produto;
+            return products;
         }
 
         public override IList<Inconsistencia> Salve(Produto item, EnumTipoDeForm tipoDeForm)
         {
-            var inconsistencias = base.Salve(item, tipoDeForm);
+            var inconsistencies = base.Salve(item, tipoDeForm);
 
-            return inconsistencias;
+            return inconsistencies;
         }
 
-        public Produto Consulte(Expression<Func<Produto, bool>> filtro)
+        public Produto QueryFirst(Expression<Func<Produto, bool>> whereFilter)
         {
-            using (var repositorioDeProduto = new RepositorioDeProduto())
-            {
-                return repositorioDeProduto.Consulte(filtro);
-            }
+            using var productRepo = new RepositorioDeProduto();
+            return productRepo.Consulte(whereFilter);
         }
 
         public static void KeepTimeRunning(Stopwatch stopwatch, Form form, Label label)
@@ -165,7 +159,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
             });
         }
 
-        private List<dynamic> LeiaItensDoXls(string caminhoArquivo)
+        private static List<dynamic> ReadXlsItems(string filePath)
         {
             const string nomeWorksheet = "Tabela de Preços";
             const int indexLinhaDoCabecalho = 6;
@@ -177,7 +171,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
             };
 
             Dictionary<string, int> columnMappings;
-            using (var excelQueryFactory = new ExcelQueryFactory(caminhoArquivo))
+            using (var excelQueryFactory = new ExcelQueryFactory(filePath))
             {
                 var headerRow = excelQueryFactory.Worksheet(nomeWorksheet)
                     .Skip(indexLinhaDoCabecalho - 1)
@@ -193,7 +187,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
                     });
             }
 
-            using (var excelQueryFactory = new ExcelQueryFactory(caminhoArquivo))
+            using (var excelQueryFactory = new ExcelQueryFactory(filePath))
             {
                 return excelQueryFactory.Worksheet(nomeWorksheet)
                     .Skip(indexLinhaDoCabecalho)
@@ -206,20 +200,20 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
 
         private static Expression<Func<Row, dynamic>> RowSelectorForIntelbrasImport(Dictionary<string, int> columnMappings)
         {
-            return linha => (dynamic)new
+            return row => new
             {
-                Unidade = linha[columnMappings["Unidade"]].ToString().Trim(),
-                CodigoDoProduto = linha[columnMappings["Código Produto"]].ToString().Trim(),
-                Nome = linha[columnMappings["Descrição do Produto"]].ToString().Trim(),
-                UF = linha[columnMappings["Estado/UF/Região"]].ToString().Trim(),
-                Ipi = linha[columnMappings["IPI"]].ToString().Trim(),
-                PrecoDeCompra = linha[columnMappings["PV"]].ToString().Trim(),
-                PrecoDistribuidor = linha[columnMappings["PSD"]].ToString().Trim(),
-                Pscf = linha[columnMappings["PSCF"]].ToString().Trim()
+                Unidade = row[columnMappings["Unidade"]].ToString().Trim(),
+                CodigoDoProduto = row[columnMappings["Código Produto"]].ToString().Trim(),
+                Nome = row[columnMappings["Descrição do Produto"]].ToString().Trim(),
+                UF = row[columnMappings["Estado/UF/Região"]].ToString().Trim(),
+                Ipi = row[columnMappings["IPI"]].ToString().Trim(),
+                PrecoDeCompra = row[columnMappings["PV"]].ToString().Trim(),
+                PrecoDistribuidor = row[columnMappings["PSD"]].ToString().Trim(),
+                Pscf = row[columnMappings["PSCF"]].ToString().Trim()
             };
         }
 
-        private void SetupProgressBar(FrmEstoque caller)
+        private static void SetupProgressBar(FrmEstoque caller)
         {
             caller.Invoke((MethodInvoker)delegate
             {
@@ -235,7 +229,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
             });
         }
 
-        private void UpdateProgressBar(ref int totalAdded, int[] items, List<dynamic> totalItems, FrmEstoque caller)
+        private static void UpdateProgressBar(ref int totalAdded, int[] items, List<dynamic> totalItems, FrmEstoque caller)
         {
             totalAdded++;
 
@@ -256,7 +250,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
 
             var configuration = new RepositorioDeConfiguracao().ObtenhaUnica();
 
-            var importedItems = LeiaItensDoXls(filePath);
+            var importedItems = ReadXlsItems(filePath);
             var progressRange = GSExtensions.GetProgressRange(importedItems.Count);
             var persistedItems = productRepository.ConsulteTodos(takeQuantity: int.MaxValue, withAttachments: true);
 
@@ -299,13 +293,13 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
                         return;
                     }
 
-                    PreenchaProduto(persistedProduct, item, configuration);
+                    LoadProduct(persistedProduct, item);
                     itemsToUpdate.Add(persistedProduct);
 
                     return;
                 }
 
-                itemsToAdd.Add(ObtenhaNovoProduto(item, configuration));
+                itemsToAdd.Add(GetNewProduct(item, configuration));
             });
 
             if(itemsToAdd.Any())
@@ -331,23 +325,23 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
             return new Tuple<int, int>(itemsToUpdate.Count, itemsToAdd.Count);
         }
 
-        private static void PreenchaProduto(Produto produtoPersistido, dynamic item, Configuracoes configuracao)
+        private static void LoadProduct(Produto persistedProduct, dynamic item)
         {
-            produtoPersistido.Nome = item.Nome;
-            produtoPersistido.Fabricante = "Intelbras";
-            produtoPersistido.Unidade = UnidadeIntelbras.ObtenhaPorNome(item.Unidade);
-            produtoPersistido.PrecoNaIntelbras = GSExtensions.ObtenhaMonetario(item.PrecoDeCompra);
-            produtoPersistido.Ipi = ((string)item.Ipi).Replace("%", string.Empty).ToDecimal();
-            produtoPersistido.CalculePrecoDeCompraComBaseNoPrecoDaIntelbras();
-            produtoPersistido.CalculePrecoDeVenda();
-            produtoPersistido.CalculePrecoDeVendaDistribuidor();
-            produtoPersistido.PrecoDistribuidor = GSExtensions.ObtenhaMonetario(item.PrecoDistribuidor);
-            produtoPersistido.PrecoSugeridoConsumidorFinal = GSExtensions.ObtenhaMonetario(item.Pscf);
+            persistedProduct.Nome = item.Nome;
+            persistedProduct.Fabricante = "Intelbras";
+            persistedProduct.Unidade = UnidadeIntelbras.ObtenhaPorNome(item.Unidade);
+            persistedProduct.PrecoNaIntelbras = GSExtensions.ObtenhaMonetario(item.PrecoDeCompra);
+            persistedProduct.Ipi = ((string)item.Ipi).Replace("%", string.Empty).ToDecimal();
+            persistedProduct.CalculePrecoDeCompraComBaseNoPrecoDaIntelbras();
+            persistedProduct.CalculePrecoDeVenda();
+            persistedProduct.CalculePrecoDeVendaDistribuidor();
+            persistedProduct.PrecoDistribuidor = GSExtensions.ObtenhaMonetario(item.PrecoDistribuidor);
+            persistedProduct.PrecoSugeridoConsumidorFinal = GSExtensions.ObtenhaMonetario(item.Pscf);
         }
 
-        private static Produto ObtenhaNovoProduto(dynamic item, Configuracoes configuracao)
+        private static Produto GetNewProduct(dynamic item, Configuracoes systemConfig)
         {
-            var novoProduto = new Produto
+            var newProduct = new Produto
             {
                 Nome = ((string)item.Nome).ToCustomTitleCase(),
                 Fabricante = "Intelbras",
@@ -357,16 +351,16 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
                 PrecoNaIntelbras = GSExtensions.ObtenhaMonetario(item.PrecoDeCompra),
                 Ipi = ((string)item.Ipi).Replace("%", string.Empty).ToDecimal(),
                 PrecoDistribuidor = GSExtensions.ObtenhaMonetario(item.PrecoDistribuidor),
-                PorcentagemDeLucro = configuracao.PorcentagemDeLucroPadrao,
+                PorcentagemDeLucro = systemConfig.PorcentagemDeLucroPadrao,
                 PrecoSugeridoConsumidorFinal = GSExtensions.ObtenhaMonetario(item.Pscf),
                 PorcentagemDeLucroDistribuidor = 30.0M
         };
 
-            novoProduto.CalculePrecoDeCompraComBaseNoPrecoDaIntelbras();
-            novoProduto.CalculePrecoDeVenda();
-            novoProduto.CalculePrecoDeVendaDistribuidor();
+            newProduct.CalculePrecoDeCompraComBaseNoPrecoDaIntelbras();
+            newProduct.CalculePrecoDeVenda();
+            newProduct.CalculePrecoDeVendaDistribuidor();
 
-            return novoProduto;
+            return newProduct;
         }
     }
 }       

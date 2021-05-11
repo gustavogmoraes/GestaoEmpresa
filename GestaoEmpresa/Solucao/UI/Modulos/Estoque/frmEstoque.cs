@@ -291,7 +291,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             //                Nome = x.Nome,
             //                Atual = true,
             //                CadastroPendente = true,
-            //                Vigencia = (string.IsNullOrEmpty(x.DataDoAntigoCadastro) 
+            //                RevisionStartDateTime = (string.IsNullOrEmpty(x.DataDoAntigoCadastro) 
             //                                ? "27/02/2019" 
             //                                : x.DataDoAntigoCadastro).ConvertaParaDateTime(EnumFormatacaoDateTime.DD_MM_YYYY, '/')
 
@@ -432,8 +432,8 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                 GSWaitForm.Mostrar(
                     () =>
                     {
-                        using var servicoDeProduto = new ServicoDeProduto();
-                        var produto = servicoDeProduto.Consulte(codigoProduto);
+                        using var servicoDeProduto = new ProductService();
+                        var produto = servicoDeProduto.QueryFirst(codigoProduto);
                         presenter = GerenciadorDeViews.Crie<ProdutoPresenter>(produto);
                     },
                     () =>
@@ -452,8 +452,8 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             GSWaitForm.Mostrar(
                 () =>
                 {
-                    using var servicoDeProduto = new ServicoDeProduto();
-                    var produto = servicoDeProduto.Consulte(codigoProduto);
+                    using var servicoDeProduto = new ProductService();
+                    var produto = servicoDeProduto.QueryFirst(codigoProduto);
                     presenter = GerenciadorDeViews.Crie<ProdutoPresenter>(produto);
                 },
                 () =>
@@ -539,9 +539,9 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
                 if (string.IsNullOrEmpty(searchTerm))
                 {
-                    using var productService = new ServicoDeProduto();
+                    using var productService = new ProductService();
 
-                    var productList = productService.ConsulteTodosParaAterrissagem(out var quantities, onlyActives: chkQueryOnlyActive.Checked);
+                    var productList = productService.QueryForLandingPage(out var quantities, onlyActives: chkQueryOnlyActive.Checked);
                     CarregueDataGridProdutos(productList, quantities);
 
                     didProcess = false;
@@ -554,9 +554,9 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                     () =>
                     {
                         _txtPesquisaDeProdutoPreviousSearch = searchTerm;
-                        using (var servicoDeProduto = new ServicoDeProduto())
+                        using (var servicoDeProduto = new ProductService())
                         {
-                            filteredList = servicoDeProduto.ConsulteTodosParaAterrissagem(out qtds, searchTerm: searchTerm, onlyActives: chkQueryOnlyActive.Checked);
+                            filteredList = servicoDeProduto.QueryForLandingPage(out qtds, searchTerm: searchTerm, onlyActives: chkQueryOnlyActive.Checked);
                             didProcess = true;
                         }
                     },
@@ -590,9 +590,9 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                 txtPesquisaHistorico.ForeColor = Color.Silver;
                 txtPesquisaHistorico.SetTextWithoutFiringEvents("Pesquisar...");
 
-                using (var servicoDeInteracao = new ServicoDeInteracao())
+                using (var servicoDeInteracao = new InteractionService())
                 {
-                    CarregueDataGridInteracoes(servicoDeInteracao.ConsulteTodasParaAterrissagem());
+                    CarregueDataGridInteracoes(servicoDeInteracao.QueryToLandingPage());
                 }
             }
         }
@@ -656,8 +656,8 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             txtPesquisa.ForeColor = Color.Silver;
             txtPesquisa.Text = "Pesquisar...";
 
-            using var servicoDeProduto = new ServicoDeProduto();
-            var produtosAterrissagem = servicoDeProduto.ConsulteTodosParaAterrissagem(
+            using var servicoDeProduto = new ProductService();
+            var produtosAterrissagem = servicoDeProduto.QueryForLandingPage(
                 out var quantidades, onlyActives: chkQueryOnlyActive.Checked);
 
             CarregueDataGridProdutos(produtosAterrissagem, quantidades);
@@ -665,9 +665,9 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         public void btnRefreshHist_Click(object sender, EventArgs e)
         {
-            using (var servicoDeInteracao = new ServicoDeInteracao())
+            using (var servicoDeInteracao = new InteractionService())
             {
-                CarregueDataGridInteracoes(servicoDeInteracao.ConsulteTodasParaAterrissagem());
+                CarregueDataGridInteracoes(servicoDeInteracao.QueryToLandingPage());
             }
 
             txtPesquisaHistorico.ForeColor = Color.Silver;
@@ -718,8 +718,8 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
                 if (searchTerm.IsNullOrEmpty())
                 {
-                    using (var servicoDeInteracao = new ServicoDeInteracao())
-                    CarregueDataGridInteracoes(servicoDeInteracao.ConsulteTodasParaAterrissagem());
+                    using (var servicoDeInteracao = new InteractionService())
+                    CarregueDataGridInteracoes(servicoDeInteracao.QueryToLandingPage());
 
                     processou = false;
                     return;
@@ -729,8 +729,8 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                     () =>
                     {
                         _cbPesquisaPorProdutoPreviousSearch = searchTerm;
-                        using var servicoDeInteracao = new ServicoDeInteracao();
-                        listaFiltrada = servicoDeInteracao.ConsulteTodasParaAterrissagem(searchTerm);
+                        using var servicoDeInteracao = new InteractionService();
+                        listaFiltrada = servicoDeInteracao.QueryToLandingPage(searchTerm);
                         processou = true;
                     },
                     () =>
@@ -748,11 +748,11 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             var stpWatch = new Stopwatch();
             stpWatch.Start();
 
-            Task.Run(() => ServicoDeProduto.KeepTimeRunning(stpWatch, this, txtCronometroImportar));
+            Task.Run(() => ProductService.KeepTimeRunning(stpWatch, this, txtCronometroImportar));
 
             Task.Run(() =>
             {
-                return new ServicoDeProduto().ImportIntelbrasSpreadsheet(caminhoArquivo, this);
+                return new ProductService().ImportIntelbrasSpreadsheet(caminhoArquivo, this);
             }).ContinueWith(taskResult =>
             {
                 stpWatch.Stop();
@@ -789,7 +789,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                     var codigoInteracao = (int)senderGrid["colunaCodigoInteracao", e.RowIndex].Value;
                     Interacao interacao;
 
-                    using (var servicoDeInteracao = new ServicoDeInteracao())
+                    using (var servicoDeInteracao = new InteractionService())
                     {
                         interacao = servicoDeInteracao.Consulte(codigoInteracao);
                     }
@@ -812,7 +812,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             var codigoInteracao = (int)senderGrid["colunaCodigoInteracao", e.RowIndex].Value;
             Interacao interacao;
 
-            using (var servicoDeInteracao = new ServicoDeInteracao())
+            using (var servicoDeInteracao = new InteractionService())
             {
                 interacao = servicoDeInteracao.Consulte(codigoInteracao);
             }
@@ -866,7 +866,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             var stpWatch = new Stopwatch();
             stpWatch.Start();
 
-            Task.Run(() => ServicoDeProduto.KeepTimeRunning(stpWatch, this, txtCronometroImportar));
+            Task.Run(() => ProductService.KeepTimeRunning(stpWatch, this, txtCronometroImportar));
             Task.Run(() => ExporteParaPlanilhasCentrais(fileInfo)).ContinueWith(taskResult =>
             {
                 stpWatch.Stop();
@@ -1140,15 +1140,15 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             //session.SaveChanges();
 
             //Catálogo de Produtos
-            using var servicoDeProduto = new ServicoDeProduto();
-            var produtos = servicoDeProduto.ConsulteTodosParaAterrissagem(
+            using var servicoDeProduto = new ProductService();
+            var produtos = servicoDeProduto.QueryForLandingPage(
                 out var quantidades, onlyActives: chkQueryOnlyActive.Checked);
 
             CarregueDataGridProdutos(produtos, quantidades);
 
             //Histórico de Produtos
-            using var servicoDeInteracao = new ServicoDeInteracao();
-            CarregueDataGridInteracoes(servicoDeInteracao.ConsulteTodasParaAterrissagem());
+            using var servicoDeInteracao = new InteractionService();
+            CarregueDataGridInteracoes(servicoDeInteracao.QueryToLandingPage());
         }
 
         private void txtPesquisa_KeyPress(object sender, KeyPressEventArgs e)

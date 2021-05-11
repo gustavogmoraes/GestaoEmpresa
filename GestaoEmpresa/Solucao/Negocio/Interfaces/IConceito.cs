@@ -4,6 +4,6 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Interfaces
 {
     public interface IConceito : IRavenDbDocument
     {
-        int Codigo { get; set; }
+        new int Codigo { get; set; }
     }
 }

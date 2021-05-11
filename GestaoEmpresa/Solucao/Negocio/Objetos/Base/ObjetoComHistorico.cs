@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace GS.GestaoEmpresa.Solucao.Negocio.Objetos.Base
 {
-    public class ObjetoComHistorico : BaseObject, IConceitoComHistorico
+    public class ObjetoComHistorico : BaseObject, IEntityWithRevision
     {
         public string Id { get; set; }
 
@@ -15,17 +15,19 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Objetos.Base
 
         public bool Atual { get; set; }
 
+        public DateTime RevisionStartTime { get; set; }
+        public bool Current { get; set; }
         public EnumStatusToggle Status { get; set; }
 
-        private DateTime _vigencia;
+        private DateTime _revisionStartDateTime;
 
-        public DateTime Vigencia
+        public DateTime RevisionStartDateTime
         {
-            get => _vigencia;
-            set => _vigencia = TrateDateTimeExcluindoMS(value);
+            get => _revisionStartDateTime;
+            set => _revisionStartDateTime = ExcludeMsFromDateTime(value);
         }
 
-        protected DateTime TrateDateTimeExcluindoMS(DateTime dateTime)
+        protected DateTime ExcludeMsFromDateTime(DateTime dateTime)
         {
             return new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, dateTime.Hour, dateTime.Minute, dateTime.Second);
         }
@@ -36,5 +38,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Objetos.Base
         }
 
         public ObjetoComHistorico(ObjetoComHistorico modelo) : base(modelo) { }
+
+        public int Code { get; set; }
     }
 }

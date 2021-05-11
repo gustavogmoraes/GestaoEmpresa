@@ -41,19 +41,17 @@ using MetroFramework.Controls;
 namespace GS.GestaoEmpresa.Solucao.UI.Base
 {
     public abstract class Presenter<TModel, TView> : IPresenter
-        where TModel : class, IConceito, new()
+        where TModel : class, IEntity, new()
         where TView : Form, IView, new()
     {
         #region Properties
 
-        public string IdInstancia { get; set; }
-
-        public bool CodeFiredChange { get; set; }
+        public string InstanceId { get; set; }
 
         #region Generics
 
         public TModel Model { get; set; }
-        IConceito IPresenter.Model
+        IEntity IPresenter.Model
         {
             get => Model;
             set => Model = (TModel)value;
@@ -66,7 +64,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
             set => View = (TView)value;
         }
 
-        protected List<MapeamentoDeControle<TModel, TView>> ControlsMappings { get; set; }
+        protected List<ControlMapping<TModel, TView>> ControlsMappings { get; set; }
 
         #endregion
 
@@ -77,6 +75,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
         protected Presenter()
         {
             View = new TView { Presenter = this };
+            Model = new TModel();
         }
 
         #endregion
@@ -91,9 +90,9 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
         {
             if (objectProperty == null || viewControl == null) return;
             Model ??= new TModel();
-            ControlsMappings ??= new List<MapeamentoDeControle<TModel, TView>>();
+            ControlsMappings ??= new List<ControlMapping<TModel, TView>>();
 
-            ControlsMappings.Add(new MapeamentoDeControle<TModel, TView>(
+            ControlsMappings.Add(new ControlMapping<TModel, TView>(
                 objectProperty, viewControl, propertyToControlConversion, controlToPropertyConversion));
         }
 
@@ -109,26 +108,26 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
             View.IsRendering = true;
             if (Model == null || ControlsMappings == null || ControlsMappings.Count == 0) return;
 
-            var validityControls = ControlsMappings.Any(x => x.PropriedadeObjeto.Name.ToLowerInvariant().Contains("validity"));
+            var validityControls = ControlsMappings.Any(x => x.ObjectProperty.Name.ToLowerInvariant().Contains("validity"));
             if (validityControls)
             {
                 var control = (MetroComboBox)View.Controls.Find("cbValidity", false).FirstOrDefault();
-                LoadValidityComboBox(control, Model.Codigo);
+                LoadValidityComboBox(control, Model.Code);
             }
 
             ControlsMappings.ForEach(mapping =>
             {
-                if (mapping.PropriedadeObjeto.GetValue(Model) == null)
+                if (mapping.ObjectProperty.GetValue(Model) == null)
                 {
                     return;
                 }
 
-                var control = View.Controls.Find(mapping.NomeControle, true).FirstOrDefault();
+                var control = View.Controls.Find(mapping.ControlName, true).FirstOrDefault();
                 var controlType = control?.GetType();
 
                 if (_controlPropertyConversions.ContainsKey(controlType ?? throw new InvalidOperationException()))
                 {
-                    _controlPropertyConversions[controlType].Item1.Invoke(control, mapping.PropriedadeObjeto, Model, this);
+                    _controlPropertyConversions[controlType].Item1.Invoke(control, mapping.ObjectProperty, Model, this);
                 }
             });
 
@@ -142,7 +141,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
 
             foreach(var mapping in ControlsMappings)
             {
-                var control = View.Controls.Find(mapping.NomeControle, true).FirstOrDefault();
+                var control = View.Controls.Find(mapping.ControlName, true).FirstOrDefault();
                 var controlType = control?.GetType();
 
                 if (controlType == null) 
@@ -150,15 +149,15 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
                     throw new InvalidOperationException();
                 }
 
-                if(mapping.ConversaoControlePropriedade != null)
+                if(mapping.ControlPropertyConversion != null)
                 {
-                    mapping.ConversaoControlePropriedade.Invoke(control, mapping.PropriedadeObjeto, Model, this);
+                    mapping.ControlPropertyConversion.Invoke(control, mapping.ObjectProperty, Model, this);
                     continue;
                 }
 
                 if (_controlPropertyConversions.ContainsKey(controlType))
                 {
-                    _controlPropertyConversions[controlType].Item2.Invoke(control, mapping.PropriedadeObjeto, Model, this);
+                    _controlPropertyConversions[controlType].Item2.Invoke(control, mapping.ObjectProperty, Model, this);
                 }
             }
         }
@@ -176,7 +175,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
         public void CloseView(object sender, EventArgs eventArgs)
         {
             View.Close();
-            GerenciadorDeViews.Exclua(View.GetType(), IdInstancia);
+            GerenciadorDeViews.Exclua(View.GetType(), InstanceId);
         }
 
         public void EnableControls(IList<string> exceptions = null)
@@ -356,112 +355,111 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
                 {
                     typeof(MetroComboBox),
                     new Tuple<Action<Control, PropertyInfo, object, IPresenter>, Action<Control, PropertyInfo, object, IPresenter>>(
-                        (controle, propriedade, model, presenter) =>
+                        (control, property, model, presenter) =>
                         {
-                            var valorProp = propriedade.GetValue(model, null);
-                            var ehCbVigencia = controle.Name == "cbValidity";
+                            var valorProp = property.GetValue(model, null);
+                            var isValidityComboBox = control.Name == "cbValidity";
 
-                            if (ehCbVigencia)
+                            if (isValidityComboBox)
                             {
                                 presenter.View.IsRendering = true;
-                                if(((MetroComboBox) controle).Items.Count > 0)
+                                if(((MetroComboBox) control).Items.Count > 0)
                                 {
-                                    ((MetroComboBox) controle).SelectedIndex = 0;
+                                    ((MetroComboBox) control).SelectedIndex = 0;
                                 }
                             }
-                            else ((MetroComboBox) controle).SelectedText = valorProp.ToString();
+                            else ((MetroComboBox) control).SelectedText = valorProp.ToString();
                         },
-                        (controle, propriedade, model, presenter) =>
+                        (control, property, model, presenter) =>
                         {
-                            var ehCbVigencia = controle.Name == "cbValidity";
-                            var valorControle = (ehCbVigencia 
-                                                    ? ((MetroComboBox) controle).SelectedText
-                                                    : ((MetroComboBox) controle).SelectedItem).ToString();
+                            var isValidityComboBox = control.Name == "cbValidity";
+                            var controlValue = (isValidityComboBox 
+                                                    ? ((MetroComboBox) control).SelectedText
+                                                    : ((MetroComboBox) control).SelectedItem).ToString();
 
-                            if (ehCbVigencia && string.IsNullOrEmpty(valorControle))
+                            if (isValidityComboBox && string.IsNullOrEmpty(controlValue))
                             {
-                                valorControle = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
+                                controlValue = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
                             }
 
-                            var value = ehCbVigencia
-                                ? (object)valorControle.ConvertaParaDateTime(EnumFormatacaoDateTime.DD_MM_YYYY_HH_MM_SS, '/')
-                                : valorControle;
+                            var value = isValidityComboBox
+                                ? (object)controlValue.ConvertaParaDateTime(EnumFormatacaoDateTime.DD_MM_YYYY_HH_MM_SS, '/')
+                                : controlValue;
 
-                            if(propriedade.PropertyType.IsEnum)
+                            if(property.PropertyType.IsEnum)
                             {
                                 value = Enum.Parse(typeof(EnumTiposDePessoa), value.ToString().RemoveDiacritics(), true);
                             }
 
-                            propriedade.SetValue(model, value);
+                            property.SetValue(model, value);
                         })
                 },
                 {
                     typeof(MetroCheckBox),
                     new Tuple<Action<Control, PropertyInfo, object, IPresenter>, Action<Control, PropertyInfo, object, IPresenter>>(
-                        (controle, propriedade, model, presenter) =>
+                        (control, property, model, presenter) =>
                         {
-                            ((MetroCheckBox)controle).Checked = (bool)propriedade.GetValue(model, null);
+                            ((MetroCheckBox)control).Checked = (bool)property.GetValue(model, null);
                         },
-                        (controle, propriedade, model, presenter) =>
+                        (control, property, model, presenter) =>
                         {
-                            propriedade.SetValue(model, ((MetroCheckBox)controle).Checked);
+                            property.SetValue(model, ((MetroCheckBox)control).Checked);
                         })
                 },
                 {
                     typeof(MetroDateTime),
                     new Tuple<Action<Control, PropertyInfo, object, IPresenter>, Action<Control, PropertyInfo, object, IPresenter>>(
-                        (controle, propriedade, model, presenter) =>
+                        (control, property, model, presenter) =>
                         {
-                            ((MetroDateTime)controle).Value = (DateTime)propriedade.GetValue(model, null);
+                            ((MetroDateTime)control).Value = (DateTime)property.GetValue(model, null);
                         },
-                        (controle, propriedade, model, presenter) =>
+                        (control, property, model, presenter) =>
                         {
-                            propriedade.SetValue(model, ((MetroDateTime)controle).Value);
+                            property.SetValue(model, ((MetroDateTime)control).Value);
                         })
                 },
                 {
                     typeof(GSMetroToggle),
                     new Tuple<Action<Control, PropertyInfo, object, IPresenter>, Action<Control, PropertyInfo, object, IPresenter>>(
-                        (controle, propriedade, model, presenter) =>
+                        (control, property, model, presenter) =>
                         {
-                            ((GSMetroToggle)controle).Checked = (EnumStatusToggle)propriedade.GetValue(model, null) == EnumStatusToggle.Ativo;
+                            ((GSMetroToggle)control).Checked = (EnumStatusToggle)property.GetValue(model, null) == EnumStatusToggle.Ativo;
                         },
-                        (controle, propriedade, model, presenter) =>
+                        (control, property, model, presenter) =>
                         {
-                            if(propriedade.PropertyType == typeof(EnumStatusToggle))
+                            if(property.PropertyType == typeof(EnumStatusToggle))
                             {
-                                var valorToggle = ((GSMetroToggle)controle).Checked ? EnumStatusToggle.Ativo : EnumStatusToggle.Inativo;
-                                propriedade.SetValue(model, valorToggle);
+                                var valorToggle = ((GSMetroToggle)control).Checked ? EnumStatusToggle.Ativo : EnumStatusToggle.Inativo;
+                                property.SetValue(model, valorToggle);
                             }
                             else
                             {
-                                var valor = ((GSMetroToggle)controle).Checked;
-                                propriedade.SetValue(model, valor);
+                                var valor = ((GSMetroToggle)control).Checked;
+                                property.SetValue(model, valor);
                             }
                         })
                 },
                 {
                     typeof(GSMetroMonetary),
                     new Tuple<Action<Control, PropertyInfo, object, IPresenter>, Action<Control, PropertyInfo, object, IPresenter>>(
-                        (controle, propriedade, model, presenter) =>
+                        (control, property, model, presenter) =>
                         {
-                            ((GSMetroMonetary)controle).Value = Math.Round((decimal)propriedade.GetValue(model, null), 2);
+                            ((GSMetroMonetary)control).Value = Math.Round((decimal)property.GetValue(model, null), 2);
                         },
-                        (controle, propriedade, model, presenter) =>
+                        (control, property, model, presenter) =>
                         {
-                            propriedade.SetValue(model, ((GSMetroMonetary)controle).Value);
+                            property.SetValue(model, ((GSMetroMonetary)control).Value);
                         })
                 },
                 {
                     typeof(GSImageAttacher),
                     new Tuple<Action<Control, PropertyInfo, object, IPresenter>, Action<Control, PropertyInfo, object, IPresenter>>(
-                        // Object --> Control
-                        (controle, propriedade, model, presenter) =>
+                        (control, property, model, presenter) =>
                         {
-                            var imageAttacher = ((GSImageAttacher)controle);
+                            var imageAttacher = ((GSImageAttacher)control);
                             imageAttacher.tabControl.TabPages.Clear();
 
-                            var attachments = (RavenAttachments)propriedade.GetValue(model);
+                            var attachments = (RavenAttachments)property.GetValue(model);
                             if(attachments == null)
                             {
                                 return;
@@ -482,9 +480,9 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
                             }
                         },
                         // Control --> Object
-                        (controle, propriedade, model, presenter) =>
+                        (control, property, model, presenter) =>
                         {
-                            var imageAttacher = ((GSImageAttacher)controle);
+                            var imageAttacher = ((GSImageAttacher)control);
                             var imageList = imageAttacher.tabControl.TabPages.OfType<TabPage>()
                                 .Where(x => x.Name != "tabAdd")
                                 .Select(x => x.BackgroundImage)
@@ -497,7 +495,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
                             {
                                 if(image != null)
                                 {
-                                    dictionary.Add("Image-" + count.ToString(), image.ToStream(ImageFormat.Png));
+                                    dictionary.Add("Image-" + count, image.ToStream(ImageFormat.Png));
                                 }
 
                                 count++;
@@ -509,7 +507,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
                                 AttachmentsNames = dictionary.Keys.ToList() 
                             };
 
-                            propriedade.SetValue(model, ravenAttachments);
+                            property.SetValue(model, ravenAttachments);
                         })
                 }
             };
@@ -527,7 +525,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
                 cbValidity.Items.Add(validity.ToString(CultureInfo.GetCultureInfo("pt-BR")));
             }
 
-            // A última vigência é selecionada no delegate do método FillControlsWithModel
+            //// The last validity is selected on the FillControlsWithModel delegate
         }
     }
 }

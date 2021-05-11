@@ -8,10 +8,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque;
+using MetroFramework.Controls;
 
 namespace GS.GestaoEmpresa.Solucao.UI.ControlesGenericos
 {
-    public partial class GSMultiTextBox : UserControl
+    public partial class GSMultiTextBox : MetroUserControl
     {
         public GSMultiTextBox()
         {
@@ -27,38 +28,38 @@ namespace GS.GestaoEmpresa.Solucao.UI.ControlesGenericos
 
         private void btnAdicionar_Click(object sender, EventArgs e)
         {
-            var painel = (Parent as FlowLayoutPanel);
-            painel.Controls.Add(new GSMultiTextBox());
+            if (!(Parent is FlowLayoutPanel panel)) return;
 
-            Recarregue(painel);
+            panel.Controls.Add(new GSMultiTextBox());
+            Reload(panel);
         }
 
         private void btnRemover_Click(object sender, EventArgs e)
         {
-            var painel = (Parent as FlowLayoutPanel);
-            painel.Controls.Remove(this);
+            if (!(Parent is FlowLayoutPanel panel)) return;
+            panel.Controls.Remove(this);
 
-            Recarregue(painel);
+            Reload(panel);
         }
 
-        public void Recarregue(FlowLayoutPanel painel)
+        public void Reload(FlowLayoutPanel panel)
         {
-            if (painel.Controls.Count == 1)
+            if (panel.Controls.Count == 1)
             {
-                var unicaBox = painel.Controls.Find("GSMultiTextBox", false).FirstOrDefault() as GSMultiTextBox;
+                var unicaBox = panel.Controls.Find("GSMultiTextBox", false).FirstOrDefault() as GSMultiTextBox;
 
                 unicaBox.btnAdicionar.Visible = true;
                 unicaBox.btnRemover.Visible = false;
             }
             else
             {
-                foreach (var controle in painel.Controls)
+                foreach (var controle in panel.Controls)
                 {
                     (controle as GSMultiTextBox).btnAdicionar.Visible = false;
                     (controle as GSMultiTextBox).btnRemover.Visible = true;
                 }
 
-                var ultimaBox = painel.Controls.Find("GSMultiTextBox", false).Last() as GSMultiTextBox;
+                var ultimaBox = panel.Controls.Find("GSMultiTextBox", false).Last() as GSMultiTextBox;
 
                 ultimaBox.btnAdicionar.Visible = true;
                 ultimaBox.btnRemover.Visible = true;

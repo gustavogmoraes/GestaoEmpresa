@@ -5,7 +5,7 @@ using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores.Comuns;
 
 namespace GS.GestaoEmpresa.Solucao.Negocio.Objetos
 {
-    public class Cliente : Pessoa, IConceitoComPendencia
+    public class Cliente : Pessoa, IConceitoComPendencia, IEntity
     {
         public EnumStatusToggle Status { get; set; }
 
@@ -28,5 +28,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Objetos
         public string RamoDoNegocio { get; set; }
 
         public List<Unidade> Unidades { get; set; }
+
+        public int Code { get; set; }
     }
 }
