@@ -40,8 +40,6 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
     {
         #region Fields
 
-        private readonly GsTypingAssistant _txtPesquisaDeInteracoesTypingAssistant;
-        private readonly GsTypingAssistant _txtPesquisaDeProdutoTypingAssistant;
         private string _cbPesquisaPorProdutoPreviousSearch;
         private string _txtPesquisaDeProdutoPreviousSearch;
         #endregion
@@ -71,12 +69,6 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         public FrmEstoque()
         {
             InitializeComponent();
-
-            _txtPesquisaDeProdutoTypingAssistant = new GsTypingAssistant(AssistandMsWindupTime);
-            _txtPesquisaDeProdutoTypingAssistant.Idled += TxtPesquisaDeProdutoAssistant_Idled;
-
-            _txtPesquisaDeInteracoesTypingAssistant = new GsTypingAssistant(AssistandMsWindupTime);
-            _txtPesquisaDeInteracoesTypingAssistant.Idled += PesquisaDeInteracoesAssistent_Idled;
         }
 
         public void AdicioneNovoProdutoNaGrid(Produto produto, int quantidade)
@@ -477,40 +469,36 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             {
                 txtPesquisa.ForeColor = Color.Silver;
                 txtPesquisa.SetTextWithoutFiringEvents("Pesquisar...");
-
                 //CarregueDataGridProdutos(_listaDeProdutos);
             }
         }
 
-        private void txtPesquisa_TextChanged(object sender, EventArgs e)
-        {
-            if (EstahRenderizando) return;
-
-            _txtPesquisaDeProdutoTypingAssistant.TextChanged();
-        }
-
-        private void TxtPesquisaDeProdutoAssistant_Idled(object sender, EventArgs e)
+        private void DoProductSearch()
         {
             Invoke(new MethodInvoker(() =>
             {
-                var pesquisa = txtPesquisa.Text.ToLowerInvariant().Trim();
-                var listaFiltrada = new List<Produto>();
-                var processou = false;
+                var searchTerm = txtPesquisa.Text.ToLowerInvariant().Trim();
+                var filteredList = new List<Produto>();
+                var didProcess = false;
 
-                if (string.IsNullOrEmpty(pesquisa))
+                if (string.IsNullOrEmpty(searchTerm))
                 {
-                    if (string.IsNullOrEmpty(_txtPesquisaDeProdutoPreviousSearch) || _txtPesquisaDeProdutoPreviousSearch == pesquisa)
+                    if (string.IsNullOrEmpty(_txtPesquisaDeProdutoPreviousSearch) || _txtPesquisaDeProdutoPreviousSearch == searchTerm)
                     {
-                        processou = false;
+                        didProcess = false;
                         return;
                     }
                 }
 
-                if (string.IsNullOrEmpty(pesquisa))
+                if (string.IsNullOrEmpty(searchTerm))
                 {
-                    using (var servicoDeProduto = new ServicoDeProduto())
-                    CarregueDataGridProdutos(servicoDeProduto.ConsulteTodosParaAterrissagem(out var quantidades, onlyActives: chkQueryOnlyActive.Checked), quantidades);
-                    processou = false;
+                    using var productService = new ServicoDeProduto();
+
+                    var productList = productService.ConsulteTodosParaAterrissagem(out var quantities, onlyActives: chkQueryOnlyActive.Checked);
+                    CarregueDataGridProdutos(productList, quantities);
+
+                    didProcess = false;
+
                     return;
                 }
 
@@ -518,18 +506,18 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                 GSWaitForm.Mostrar(
                     () =>
                     {
-                        _txtPesquisaDeProdutoPreviousSearch = pesquisa;
+                        _txtPesquisaDeProdutoPreviousSearch = searchTerm;
                         using (var servicoDeProduto = new ServicoDeProduto())
                         {
-                            listaFiltrada = servicoDeProduto.ConsulteTodosParaAterrissagem(out qtds, searchTerm: pesquisa, onlyActives: chkQueryOnlyActive.Checked);
-                            processou = true;
+                            filteredList = servicoDeProduto.ConsulteTodosParaAterrissagem(out qtds, searchTerm: searchTerm, onlyActives: chkQueryOnlyActive.Checked);
+                            didProcess = true;
                         }
                     },
                     () =>
                     {
-                        if (processou)
+                        if (didProcess)
                         {
-                            CarregueDataGridProdutos(listaFiltrada, qtds);
+                            CarregueDataGridProdutos(filteredList, qtds);
                         }
                     });
             }));
@@ -562,14 +550,6 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             }
         }
 
-        private void txtPesquisaHistorico_TextChanged(object sender, EventArgs e)
-        {
-            if (EstahRenderizando) return;
-
-            _txtPesquisaDeInteracoesTypingAssistant.TextChanged();
-        }
-
-        
         #endregion
 
         #endregion
@@ -671,7 +651,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             ChamadaImportarPlanilha(fileDialog.FileName);
         }
 
-        private void PesquisaDeInteracoesAssistent_Idled(object sender, EventArgs e)
+        private void DoInteractionSearch()
         {
             Invoke(new MethodInvoker(() =>
             {
@@ -1122,6 +1102,38 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             //Histórico de Produtos
             using var servicoDeInteracao = new ServicoDeInteracao();
             CarregueDataGridInteracoes(servicoDeInteracao.ConsulteTodasParaAterrissagem());
+        }
+
+        private void txtPesquisa_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            switch (e.KeyChar)
+            {
+                case (char)Keys.Enter: // Also counts for Return key
+                    e.Handled = true;
+                    DoProductSearch();
+                    break;
+
+                case (char)Keys.Escape:
+                    e.Handled = true;
+                    //ClearSearch();
+                    break;
+            }
+        }
+
+        private void txtPesquisaHistorico_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            switch (e.KeyChar)
+            {
+                case (char)Keys.Enter: // Also counts for Return key
+                    e.Handled = true;
+                    DoInteractionSearch();
+                    break;
+
+                case (char)Keys.Escape:
+                    e.Handled = true;
+                    //ClearSearch();
+                    break;
+            }
         }
     }
 }
