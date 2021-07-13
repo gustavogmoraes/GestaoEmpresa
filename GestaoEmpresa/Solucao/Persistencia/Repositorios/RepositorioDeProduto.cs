@@ -11,6 +11,7 @@ using System.Data;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using GS.GestaoEmpresa.Persistence.RavenDB;
 
 namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios
 {

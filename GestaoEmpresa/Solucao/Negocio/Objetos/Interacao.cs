@@ -1,13 +1,10 @@
 ﻿using System;
-using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores;
 using System.Collections.Generic;
-using System.Data;
 using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores.Comuns;
-using GS.GestaoEmpresa.Solucao.Negocio.Interfaces;
 
 namespace GS.GestaoEmpresa.Solucao.Negocio.Objetos
 {
-    public class Interacao : IConceito
+    public class Interacao
     {
         public Interacao()
         {
@@ -51,6 +48,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Objetos
         public string Situacao { get; set; }
 
         public DateTime? HorarioDevolucao { get; set; }
+
         public string Id { get; set; }
 
         //public Funcionario FuncionarioResponsavel { get; set; }

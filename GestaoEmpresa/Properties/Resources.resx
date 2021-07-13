@@ -139,9 +139,6 @@
   <data name="LocationIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\LocationIcon.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Load2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Load2.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="Background" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Background.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -153,6 +150,9 @@
   </data>
   <data name="cancel-icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\cancel-icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Conexao" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Conexao.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="edit-512" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\edit-512.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -171,6 +171,9 @@
   </data>
   <data name="add" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\add.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="AddGridButton" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\AddGridButton.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="impactas" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\impactas.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -204,8 +207,8 @@ Tempo de execução: {0}</value>
   <data name="export-spreadsheet-512" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\export-spreadsheet-512.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Conexao" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Conexao.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Load2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Load2.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="floppy-icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\floppy-icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -213,7 +216,7 @@ Tempo de execução: {0}</value>
   <data name="detalhar" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\detalhar.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="AddGridButton" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\AddGridButton.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="BackgroundNew" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\BackgroundNew.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

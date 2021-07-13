@@ -2,13 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using GS.GestaoEmpresa.Solucao.Negocio.Interfaces;
-using GS.GestaoEmpresa.Solucao.Persistencia.BancoDeDados;
-using GS.GestaoEmpresa.Solucao.Persistencia.Interfaces;
+using GS.GestaoEmpresa.Persistence.RavenDB;
+using GS.GestaoEmpresa.Persistence.RavenDbSupport.Interfaces;
+using GS.GestaoEmpresa.Persistence.Repositories.Base;
 using GS.GestaoEmpresa.Solucao.Utilitarios;
-using Raven.Client.Documents;
 using Raven.Client.Documents.Linq;
-using Raven.Client.Documents.Session;
 
 namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios.Base
 {
@@ -151,7 +149,7 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios.Base
                     return 1;
                 }
 
-                var numerosFaltando = listaDeCodigos.EncontreInteirosFaltandoEmUmaSequencia();
+                var numerosFaltando = listaDeCodigos.FindMissingIntegersInSequence();
 
                 return numerosFaltando != null && numerosFaltando.Any()
                     ? numerosFaltando.Min()
@@ -172,7 +170,7 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios.Base
 
             if (listaDeCodigos.Any())
             {
-                var missingNumbers = listaDeCodigos.EncontreInteirosFaltandoEmUmaSequencia().ToList();
+                var missingNumbers = listaDeCodigos.FindMissingIntegersInSequence().ToList();
                 missingNumbers.ForEach(x => returnList.Add(x));
 
                 numberOfNeededCodes -= returnList.Count;

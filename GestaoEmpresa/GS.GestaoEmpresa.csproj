@@ -9,7 +9,7 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>GS.GestaoEmpresa</RootNamespace>
     <AssemblyName>GS.GestaoEmpresa</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
     <IsWebBootstrapper>false</IsWebBootstrapper>
@@ -72,11 +72,11 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
-    <Reference Include="EPPlus, Version=5.4.1.0, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
-      <HintPath>..\packages\EPPlus.5.4.1\lib\net45\EPPlus.dll</HintPath>
+    <Reference Include="EPPlus, Version=5.7.1.0, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
+      <HintPath>..\packages\EPPlus.5.7.1\lib\net45\EPPlus.dll</HintPath>
     </Reference>
-    <Reference Include="KellermanSoftware.Compare-NET-Objects, Version=4.67.0.0, Culture=neutral, PublicKeyToken=d970ace04cc85217, processorArchitecture=MSIL">
-      <HintPath>..\packages\CompareNETObjects.4.67.0\lib\net46\KellermanSoftware.Compare-NET-Objects.dll</HintPath>
+    <Reference Include="KellermanSoftware.Compare-NET-Objects, Version=4.73.0.0, Culture=neutral, PublicKeyToken=d970ace04cc85217, processorArchitecture=MSIL">
+      <HintPath>..\packages\CompareNETObjects.4.73.0\lib\net472\KellermanSoftware.Compare-NET-Objects.dll</HintPath>
     </Reference>
     <Reference Include="Lambda2Js.Signed, Version=3.1.3.0, Culture=neutral, PublicKeyToken=9ba16f7edfc48fe6, processorArchitecture=MSIL">
       <HintPath>..\packages\Lambda2Js.Signed.3.1.3\lib\net40\Lambda2Js.Signed.dll</HintPath>
@@ -96,23 +96,29 @@
     <Reference Include="MetroFramework.Fonts, Version=1.4.0.0, Culture=neutral, PublicKeyToken=5f91a84759bf584a, processorArchitecture=MSIL">
       <HintPath>..\packages\MetroModernUI.1.4.0.0\lib\net\MetroFramework.Fonts.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.1.1.1\lib\net461\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
+    <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=5.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.5.0.0\lib\net461\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Bcl.HashCode, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.HashCode.1.1.1\lib\net461\Microsoft.Bcl.HashCode.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.IO.RecyclableMemoryStream, Version=2.1.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.IO.RecyclableMemoryStream.2.1.2\lib\net462\Microsoft.IO.RecyclableMemoryStream.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="MoreLinq.Portable, Version=1.4.18916.0, Culture=neutral, PublicKeyToken=384d532d7e88985d, processorArchitecture=MSIL">
       <HintPath>..\packages\MoreLinq.Portable.1.4.0\lib\portable-net4+sl5+netcore45+wpa81+wp8+MonoAndroid1+MonoTouch1\MoreLinq.Portable.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="OleDB, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\OleDB_dotNET.1.2.0\lib\net40\OleDB.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <Reference Include="Raven.Client, Version=5.0.4.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
-      <HintPath>..\packages\RavenDB.Client.5.0.4\lib\netstandard2.0\Raven.Client.dll</HintPath>
+    <Reference Include="Raven.Client, Version=5.2.1.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
+      <HintPath>..\packages\RavenDB.Client.5.2.1\lib\netstandard2.0\Raven.Client.dll</HintPath>
     </Reference>
     <Reference Include="Remotion, Version=1.13.52.2, Culture=neutral, PublicKeyToken=0669cf0452175907, processorArchitecture=MSIL">
       <HintPath>..\packages\LinqToExcel_x64.1.10.1\lib\Remotion.dll</HintPath>
@@ -123,25 +129,26 @@
     <Reference Include="Remotion.Interfaces, Version=1.13.52.2, Culture=neutral, PublicKeyToken=0669cf0452175907, processorArchitecture=MSIL">
       <HintPath>..\packages\LinqToExcel_x64.1.10.1\lib\Remotion.Interfaces.dll</HintPath>
     </Reference>
-    <Reference Include="Sparrow, Version=5.0.4.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
-      <HintPath>..\packages\RavenDB.Client.5.0.4\lib\netstandard2.0\Sparrow.dll</HintPath>
+    <Reference Include="Sparrow, Version=5.2.1.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
+      <HintPath>..\packages\RavenDB.Client.5.2.1\lib\netstandard2.0\Sparrow.dll</HintPath>
     </Reference>
-    <Reference Include="Syncfusion.Compression.Base, Version=18.3460.0.53, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
-      <HintPath>..\packages\Syncfusion.Compression.Base.18.3.0.53\lib\net46\Syncfusion.Compression.Base.dll</HintPath>
+    <Reference Include="Syncfusion.Compression.Base, Version=19.2460.0.46, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
+      <HintPath>..\packages\Syncfusion.Compression.Base.19.2.0.46\lib\net46\Syncfusion.Compression.Base.dll</HintPath>
     </Reference>
-    <Reference Include="Syncfusion.Licensing, Version=18.3460.0.53, Culture=neutral, PublicKeyToken=632609b4d040f6b4, processorArchitecture=MSIL">
-      <HintPath>..\packages\Syncfusion.Licensing.18.3.0.53\lib\net46\Syncfusion.Licensing.dll</HintPath>
+    <Reference Include="Syncfusion.Licensing, Version=19.2460.0.46, Culture=neutral, PublicKeyToken=632609b4d040f6b4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Syncfusion.Licensing.19.2.0.46\lib\net46\Syncfusion.Licensing.dll</HintPath>
     </Reference>
-    <Reference Include="Syncfusion.XlsIO.Base, Version=18.3460.0.53, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
-      <HintPath>..\packages\Syncfusion.XlsIO.WinForms.18.3.0.53\lib\net46\Syncfusion.XlsIO.Base.dll</HintPath>
+    <Reference Include="Syncfusion.XlsIO.Base, Version=19.2460.0.46, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
+      <HintPath>..\packages\Syncfusion.XlsIO.WinForms.19.2.0.46\lib\net46\Syncfusion.XlsIO.Base.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
     </Reference>
     <Reference Include="System.ComponentModel.Annotations, Version=4.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.ComponentModel.Annotations.4.7.0\lib\net461\System.ComponentModel.Annotations.dll</HintPath>
+      <HintPath>..\packages\System.ComponentModel.Annotations.5.0.0\lib\net461\System.ComponentModel.Annotations.dll</HintPath>
     </Reference>
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
@@ -149,12 +156,22 @@
       <HintPath>..\packages\System.Data.OleDb.5.0.0\lib\net461\System.Data.OleDb.dll</HintPath>
     </Reference>
     <Reference Include="System.DirectoryServices" />
+    <Reference Include="System.IO, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.4.3.0\lib\net462\System.IO.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Memory.4.5.4\lib\net461\System.Memory.dll</HintPath>
     </Reference>
     <Reference Include="System.Numerics" />
     <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime, Version=4.1.1.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.4.3.1\lib\net462\System.Runtime.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.5.0.0\lib\net45\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
@@ -167,6 +184,11 @@
     </Reference>
     <Reference Include="System.Security.Cryptography.Cng, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Security.Cryptography.Cng.5.0.0\lib\net461\System.Security.Cryptography.Cng.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Encoding, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.Encoding.4.3.0\lib\net46\System.Security.Cryptography.Encoding.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System.Security.Cryptography.Primitives, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Security.Cryptography.Primitives.4.3.0\lib\net46\System.Security.Cryptography.Primitives.dll</HintPath>
@@ -196,347 +218,338 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Business\Converters\ProductConverter.cs" />
+    <Compile Include="Business\Objects\Storage\Product.cs" />
+    <Compile Include="Business\Objects\Storage\ProductQuantity.cs" />
+    <Compile Include="Infrastructure\Persistence\Repositories\ProductQuantityRepository.cs" />
+    <Compile Include="Infrastructure\Persistence\Repositories\ProductRepository.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Solucao\Negocio\Atributos\ExporterMetadata.cs" />
-    <Compile Include="Solucao\Negocio\Enumeradores\Comuns\EnumFormatacaoDateTime.cs" />
-    <Compile Include="Solucao\Negocio\Enumeradores\Comuns\Estoque\InteractionType.cs" />
-    <Compile Include="Solucao\Negocio\Enumeradores\Seguros\UnidadeIntelbras\EnumUnidadeIntelbras.cs" />
-    <Compile Include="Solucao\Negocio\Enumeradores\Seguros\UnidadeIntelbras\UnidadeIntelbras.cs" />
-    <Compile Include="Solucao\Negocio\Interfaces\EntityStatusType.cs" />
-    <Compile Include="Solucao\Negocio\Interfaces\IConceitoComPendencia.cs" />
-    <Compile Include="Solucao\Negocio\Interfaces\IEntity.cs" />
-    <Compile Include="Solucao\Negocio\Interfaces\IEntityWithRevision.cs" />
-    <Compile Include="Solucao\Negocio\Interfaces\IObjectWithRavenAttachments.cs" />
-    <Compile Include="Solucao\Negocio\Interfaces\IServicoHistoricoPadrao.cs" />
-    <Compile Include="Solucao\Negocio\Interfaces\IServicoPadrao.cs" />
-    <Compile Include="Solucao\Negocio\Objetos\Base\BaseObject.cs" />
-    <Compile Include="Solucao\Negocio\Objetos\Base\ObjetoComHistorico.cs" />
+    <Compile Include="Business\Enumerators\Default\EnumFormatacaoDateTime.cs" />
+    <Compile Include="Business\Enumerators\Default\Storage\InteractionType.cs" />
+    <Compile Include="Business\Enumerators\TypeSafe\IntelbrasUnity\EnumUnidadeIntelbras.cs" />
+    <Compile Include="Business\Enumerators\TypeSafe\IntelbrasUnity\UnidadeIntelbras.cs" />
+    <Compile Include="Business\Interfaces\EntityStatusType.cs" />
+    <Compile Include="Business\Interfaces\IConceitoComPendencia.cs" />
+    <Compile Include="Infrastructure\Persistence\RavenDB\Support\Interfaces\IEntity.cs" />
+    <Compile Include="Infrastructure\Persistence\RavenDB\Support\Interfaces\IEntityWithRevision.cs" />
+    <Compile Include="Infrastructure\Persistence\RavenDB\Support\Interfaces\IObjectWithRavenAttachments.cs" />
+    <Compile Include="Business\Interfaces\IServicoHistoricoPadrao.cs" />
+    <Compile Include="Business\Interfaces\IBaseService.cs" />
+    <Compile Include="Business\Objects\Base\BaseObject.cs" />
+    <Compile Include="Infrastructure\Persistence\RavenDB\Support\Objects\RavenDbDocument.cs" />
+    <Compile Include="Infrastructure\Persistence\RavenDB\Support\Objects\RavenDbDocumentWithRevision.cs" />
+    <Compile Include="Solucao\Negocio\Objetos\Base\Old.cs" />
     <Compile Include="Solucao\Negocio\Objetos\Base\Pessoa.cs" />
-    <Compile Include="Solucao\Negocio\Objetos\Base\RavenAttachments.cs" />
-    <Compile Include="Solucao\Negocio\Objetos\ClienteAntigo.cs" />
-    <Compile Include="Solucao\Negocio\Objetos\Configuracoes.cs" />
-    <Compile Include="Solucao\Negocio\Objetos\Estoque\Interaction.cs" />
-    <Compile Include="Solucao\Negocio\Objetos\Estoque\Product.cs" />
-    <Compile Include="Solucao\Negocio\Objetos\Estoque\SubInteraction.cs" />
+    <Compile Include="Infrastructure\Persistence\RavenDB\Support\Objects\RavenAttachments.cs" />
+    <Compile Include="Business\Objects\Attendance\ClientFromContaFacil.cs" />
+    <Compile Include="Business\Objects\Core\Configuration.cs" />
+    <Compile Include="Solucao\Negocio\Objetos\Configuracao.cs" />
+    <Compile Include="Business\Objects\Storage\Interaction.cs" />
+    <Compile Include="Business\Objects\Storage\SubInteraction.cs" />
     <Compile Include="Solucao\Negocio\Objetos\Orcamento\ItemOrcamento.cs" />
     <Compile Include="Solucao\Negocio\Objetos\Orcamento\Orcamento.cs" />
     <Compile Include="Solucao\Negocio\Objetos\Orcamento\TipoDeItemOrcamento.cs" />
     <Compile Include="Solucao\Negocio\Objetos\ProdutoQuantidade.cs" />
-    <Compile Include="Solucao\Negocio\Objetos\UISettings.cs" />
+    <Compile Include="Business\Objects\Core\UISettings.cs" />
     <Compile Include="Solucao\Negocio\Objetos\Unidade.cs" />
-    <Compile Include="Solucao\Negocio\Servicos\Base\BaseServiceWithRevision.cs" />
-    <Compile Include="Solucao\Negocio\Servicos\Base\BaseService.cs" />
-    <Compile Include="Solucao\Negocio\Validador\Base\BaseValidator.cs" />
-    <Compile Include="Solucao\Persistencia\BancoDeDados\EnumTipoDeBanco.cs" />
-    <Compile Include="Solucao\Persistencia\BancoDeDados\GSBancoDeDados.cs" />
-    <Compile Include="Solucao\Persistencia\BancoDeDados\RavenHelper.cs" />
-    <Compile Include="Solucao\Persistencia\BancoDeDados\UCSessaoSistema.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Solucao\Persistencia\BancoDeDados\UCSessaoSistema.Designer.cs">
-      <DependentUpon>UCSessaoSistema.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Solucao\Persistencia\Interfaces\IRavenDbDocument.cs" />
-    <Compile Include="Solucao\Persistencia\Repositorios\Base\RepositorioDeOrcamento.cs" />
+    <Compile Include="Business\Services\Base\BaseServiceWithRevision.cs" />
+    <Compile Include="Business\Services\Base\BaseService.cs" />
+    <Compile Include="Solucao\Negocio\Objetos\Usuario.cs" />
+    <Compile Include="Business\Validators\Base\BaseValidator.cs" />
+    <Compile Include="Infrastructure\Persistence\RavenDB\RavenHelper.cs" />
+    <Compile Include="Infrastructure\Persistence\RavenDB\Support\Interfaces\IRavenDbDocument.cs" />
     <Compile Include="Solucao\Persistencia\Repositorios\Base\RepositorioPadrao.cs" />
     <Compile Include="Solucao\Persistencia\Repositorios\Base\RepositorioHistoricoPadrao.cs" />
-    <Compile Include="Solucao\Persistencia\Repositorios\Base\RepositoryBase.cs" />
-    <Compile Include="Solucao\Persistencia\Repositorios\RepositorioDeCliente.cs" />
-    <Compile Include="Solucao\Persistencia\Repositorios\RepositorioDeClienteAntigo.cs" />
-    <Compile Include="Solucao\Persistencia\Repositorios\RepositorioDeColaborador.cs" />
-    <Compile Include="Solucao\Persistencia\Repositorios\RepositorioDeConfiguracao.cs" />
-    <Compile Include="Solucao\Persistencia\Repositorios\InteractionRepository.cs" />
+    <Compile Include="Infrastructure\Persistence\Repositories\Base\RepositoryBase.cs" />
+    <Compile Include="Infrastructure\Persistence\Repositories\ConfigurationRepository.cs" />
+    <Compile Include="Infrastructure\Persistence\Repositories\InteractionRepository.cs" />
     <Compile Include="Solucao\Persistencia\Repositorios\RepositorioDeProduto.cs" />
-    <Compile Include="Solucao\Persistencia\Repositorios\RepositorioDeSolicitacaoDeAtendimento.cs" />
-    <Compile Include="Solucao\Negocio\Enumeradores\Seguros\Base\TypeSafeEnum.cs" />
-    <Compile Include="Solucao\Negocio\Enumeradores\Seguros\Conceito\Conceito.cs" />
-    <Compile Include="Solucao\Negocio\Enumeradores\Comuns\EnumBotoesForm.cs" />
-    <Compile Include="Solucao\Negocio\Enumeradores\Seguros\Conceito\EnumConceitos.cs" />
-    <Compile Include="Solucao\Negocio\Enumeradores\Comuns\EnumStatusDoUsuario.cs" />
-    <Compile Include="Solucao\Negocio\Enumeradores\Comuns\EnumTipoDeAcaoProduto.cs" />
-    <Compile Include="Solucao\Negocio\Enumeradores\Comuns\EnumStatusToggle.cs" />
-    <Compile Include="Solucao\Negocio\Enumeradores\Comuns\EnumTipoDeEntidadeRelacional.cs" />
-    <Compile Include="Solucao\Negocio\Enumeradores\Comuns\EnumTipoDeForm.cs" />
-    <Compile Include="Solucao\Negocio\Enumeradores\Seguros\TipoDePessoa\EnumTipoDePessoa.cs" />
-    <Compile Include="Solucao\Negocio\Enumeradores\Seguros\TipoDePessoa\TipoDePessoa.cs" />
-    <Compile Include="Solucao\Negocio\Interfaces\IConceitoComHistorico.cs" />
-    <Compile Include="Solucao\Negocio\Interfaces\IConceito.cs" />
+    <Compile Include="Business\Enumerators\TypeSafe\Base\TypeSafeEnum.cs" />
+    <Compile Include="Business\Enumerators\TypeSafe\Entities\Conceito.cs" />
+    <Compile Include="Business\Enumerators\Default\EnumBotoesForm.cs" />
+    <Compile Include="Business\Enumerators\TypeSafe\Entities\EnumConceitos.cs" />
+    <Compile Include="Business\Enumerators\Default\EnumStatusDoUsuario.cs" />
+    <Compile Include="Business\Enumerators\Default\EnumTipoDeAcaoProduto.cs" />
+    <Compile Include="Business\Enumerators\Default\EnumStatusToggle.cs" />
+    <Compile Include="Business\Enumerators\Default\EnumTipoDeEntidadeRelacional.cs" />
+    <Compile Include="Business\Enumerators\Default\FormType.cs" />
+    <Compile Include="Business\Enumerators\TypeSafe\PersonType\EnumTipoDePessoa.cs" />
+    <Compile Include="Business\Enumerators\TypeSafe\PersonType\TipoDePessoa.cs" />
+    <Compile Include="Business\Interfaces\IConceitoComHistorico.cs" />
     <Compile Include="Solucao\Negocio\Atributos\PropriedadeBD.cs" />
     <Compile Include="Solucao\Negocio\Atributos\Multivalor.cs" />
     <Compile Include="Solucao\Negocio\Objetos\Base\Grupo.cs" />
-    <Compile Include="Solucao\Negocio\Objetos\Cliente.cs" />
+    <Compile Include="Business\Objects\Attendance\Client.cs" />
     <Compile Include="Solucao\Negocio\Objetos\Email.cs" />
     <Compile Include="Solucao\Negocio\Objetos\Inconsistencia.cs" />
     <Compile Include="Solucao\Negocio\Objetos\Produto.cs" />
     <Compile Include="Solucao\Negocio\Objetos\Telefone.cs" />
-    <Compile Include="Solucao\Negocio\Objetos\Usuario.cs" />
-    <Compile Include="Solucao\Negocio\Servicos\InteractionService.cs" />
-    <Compile Include="Solucao\Negocio\Servicos\ProductService.cs" />
-    <Compile Include="Solucao\Negocio\Servicos\ServicoDeUsuario.cs" />
-    <Compile Include="Solucao\Negocio\Validador\InteractionValidator.cs" />
-    <Compile Include="Solucao\Negocio\Validador\ProductValidator.cs" />
-    <Compile Include="Solucao\Persistencia\Repositorios\RepositorioDeUsuario.cs" />
-    <Compile Include="Solucao\UI\Base\GSForm.cs">
+    <Compile Include="Business\Objects\Core\User.cs" />
+    <Compile Include="Business\Services\InteractionService.cs" />
+    <Compile Include="Business\Services\ProductService.cs" />
+    <Compile Include="Business\Services\UserService.cs" />
+    <Compile Include="Business\Validators\InteractionValidator.cs" />
+    <Compile Include="Business\Validators\ProductValidator.cs" />
+    <Compile Include="Infrastructure\Persistence\Repositories\UserRepository.cs" />
+    <Compile Include="UI\Base\GSForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Solucao\UI\Base\GSForm.Designer.cs">
+    <Compile Include="UI\Base\GSForm.Designer.cs">
       <DependentUpon>GSForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Solucao\UI\Base\IPresenter.cs" />
-    <Compile Include="Solucao\UI\Base\ControlMapping.cs" />
-    <Compile Include="Solucao\UI\Base\Presenter.cs" />
-    <Compile Include="Solucao\UI\Base\Temp.cs">
+    <Compile Include="UI\Base\IPresenter.cs" />
+    <Compile Include="UI\Base\ControlMapping.cs" />
+    <Compile Include="UI\Base\Presenter.cs" />
+    <Compile Include="UI\Base\Temp.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Solucao\UI\Base\Temp.Designer.cs">
+    <Compile Include="UI\Base\Temp.Designer.cs">
       <DependentUpon>Temp.cs</DependentUpon>
     </Compile>
-    <Compile Include="Solucao\UI\ControlesGenericos\GSDateTimePicker.cs">
+    <Compile Include="UI\GenericControls\GSDateTimePicker.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Solucao\UI\ControlesGenericos\GSDateTimePicker.Designer.cs">
+    <Compile Include="UI\GenericControls\GSDateTimePicker.Designer.cs">
       <DependentUpon>GSDateTimePicker.cs</DependentUpon>
     </Compile>
-    <Compile Include="Solucao\UI\ControlesGenericos\GSFileAttacher.cs">
+    <Compile Include="UI\GenericControls\GSFileAttacher.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Solucao\UI\ControlesGenericos\GSFileAttacher.Designer.cs">
+    <Compile Include="UI\GenericControls\GSFileAttacher.Designer.cs">
       <DependentUpon>GSFileAttacher.cs</DependentUpon>
     </Compile>
-    <Compile Include="Solucao\UI\ControlesGenericos\GSImageAttacher.cs">
+    <Compile Include="UI\GenericControls\GSImageAttacher.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Solucao\UI\ControlesGenericos\GSImageAttacher.Designer.cs">
+    <Compile Include="UI\GenericControls\GSImageAttacher.Designer.cs">
       <DependentUpon>GSImageAttacher.cs</DependentUpon>
     </Compile>
-    <Compile Include="Solucao\UI\ControlesGenericos\GSImageVisualizer.cs">
+    <Compile Include="UI\GenericControls\GSImageVisualizer.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Solucao\UI\ControlesGenericos\GSImageVisualizer.Designer.cs">
+    <Compile Include="UI\GenericControls\GSImageVisualizer.Designer.cs">
       <DependentUpon>GSImageVisualizer.cs</DependentUpon>
     </Compile>
-    <Compile Include="Solucao\UI\ControlesGenericos\GSLocationAttacher.cs">
+    <Compile Include="UI\GenericControls\GSLocationAttacher.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Solucao\UI\ControlesGenericos\GSLocationAttacher.Designer.cs">
+    <Compile Include="UI\GenericControls\GSLocationAttacher.Designer.cs">
       <DependentUpon>GSLocationAttacher.cs</DependentUpon>
     </Compile>
-    <Compile Include="Solucao\UI\ControlesGenericos\GSMetroMonetary.cs">
+    <Compile Include="UI\GenericControls\GSMetroMonetary.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Solucao\UI\ControlesGenericos\GSMetroMonetary.Designer.cs">
+    <Compile Include="UI\GenericControls\GSMetroMonetary.Designer.cs">
       <DependentUpon>GSMetroMonetary.cs</DependentUpon>
     </Compile>
-    <Compile Include="Solucao\UI\ControlesGenericos\GSMetroToggle.cs">
+    <Compile Include="UI\GenericControls\GSMetroToggle.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Solucao\UI\ControlesGenericos\GSMetroToggle.Designer.cs">
+    <Compile Include="UI\GenericControls\GSMetroToggle.Designer.cs">
       <DependentUpon>GSMetroToggle.cs</DependentUpon>
     </Compile>
-    <Compile Include="Solucao\UI\ControlesGenericos\GSMultiTextBox.cs">
+    <Compile Include="UI\GenericControls\GSMultiTextBox.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Solucao\UI\ControlesGenericos\GSMultiTextBox.Designer.cs">
+    <Compile Include="UI\GenericControls\GSMultiTextBox.Designer.cs">
       <DependentUpon>GSMultiTextBox.cs</DependentUpon>
     </Compile>
-    <Compile Include="Solucao\UI\ControlesGenericos\GSTextBoxMonetaria.cs">
+    <Compile Include="UI\GenericControls\GSTextBoxMonetaria.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Solucao\UI\ControlesGenericos\GSTextBoxMonetaria.Designer.cs">
+    <Compile Include="UI\GenericControls\GSTextBoxMonetaria.Designer.cs">
       <DependentUpon>GSTextBoxMonetaria.cs</DependentUpon>
     </Compile>
-    <Compile Include="Solucao\UI\ControlesGenericos\GSTopBorder.cs">
+    <Compile Include="UI\GenericControls\GSTopBorder.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Solucao\UI\ControlesGenericos\GSTopBorder.Designer.cs">
+    <Compile Include="UI\GenericControls\GSTopBorder.Designer.cs">
       <DependentUpon>GSTopBorder.cs</DependentUpon>
     </Compile>
-    <Compile Include="Solucao\UI\ControlesGenericos\GSWaitForm.cs">
+    <Compile Include="UI\GenericControls\GSWaitForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Solucao\UI\ControlesGenericos\GSWaitForm.Designer.cs">
+    <Compile Include="UI\GenericControls\GSWaitForm.Designer.cs">
       <DependentUpon>GSWaitForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Solucao\UI\GerenciadorDeViews.cs" />
-    <Compile Include="Solucao\UI\IView.cs" />
-    <Compile Include="Solucao\UI\Modulos\Atendimento\ClientePresenter.cs" />
-    <Compile Include="Solucao\UI\Modulos\Atendimento\frmAtendimento.cs">
+    <Compile Include="UI\Base\ViewManager.cs" />
+    <Compile Include="UI\Base\IView.cs" />
+    <Compile Include="UI\Modules\Attendance\ClientePresenter.cs" />
+    <Compile Include="UI\Modules\Attendance\frmAtendimento.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Solucao\UI\Modulos\Atendimento\frmAtendimento.designer.cs">
+    <Compile Include="UI\Modules\Attendance\frmAtendimento.designer.cs">
       <DependentUpon>frmAtendimento.cs</DependentUpon>
     </Compile>
-    <Compile Include="Solucao\UI\Modulos\Atendimento\FrmCliente.cs">
+    <Compile Include="UI\Modules\Attendance\FrmCliente.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Solucao\UI\Modulos\Atendimento\FrmCliente.Designer.cs">
+    <Compile Include="UI\Modules\Attendance\FrmCliente.Designer.cs">
       <DependentUpon>FrmCliente.cs</DependentUpon>
     </Compile>
-    <Compile Include="Solucao\UI\Modulos\Atendimento\FrmOrcamento.cs">
+    <Compile Include="UI\Modules\Attendance\FrmOrcamento.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Solucao\UI\Modulos\Atendimento\FrmOrcamento.Designer.cs">
+    <Compile Include="UI\Modules\Attendance\FrmOrcamento.Designer.cs">
       <DependentUpon>FrmOrcamento.cs</DependentUpon>
     </Compile>
-    <Compile Include="Solucao\UI\Modulos\Atendimento\OrcamentoPresenter.cs" />
-    <Compile Include="Solucao\UI\Modulos\Atendimento\testMap.cs">
+    <Compile Include="UI\Modules\Attendance\OrcamentoPresenter.cs" />
+    <Compile Include="UI\Modules\Attendance\testMap.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Solucao\UI\Modulos\Atendimento\testMap.Designer.cs">
+    <Compile Include="UI\Modules\Attendance\testMap.Designer.cs">
       <DependentUpon>testMap.cs</DependentUpon>
     </Compile>
-    <Compile Include="Solucao\UI\Modulos\Estoque\FrmInteracaoMetro.cs">
+    <Compile Include="UI\Modules\Storage\Interaction\InteractionView.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Solucao\UI\Modulos\Estoque\FrmInteracaoMetro.Designer.cs">
-      <DependentUpon>FrmInteracaoMetro.cs</DependentUpon>
+    <Compile Include="UI\Modules\Storage\Interaction\InteractionView.Designer.cs">
+      <DependentUpon>InteractionView.cs</DependentUpon>
     </Compile>
-    <Compile Include="Solucao\UI\Modulos\Estoque\frmEstoque.cs">
+    <Compile Include="UI\Modules\Storage\Storage\StorageView.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Solucao\UI\Modulos\Estoque\frmEstoque.Designer.cs">
-      <DependentUpon>frmEstoque.cs</DependentUpon>
+    <Compile Include="UI\Modules\Storage\Storage\StorageView.Designer.cs">
+      <DependentUpon>StorageView.cs</DependentUpon>
     </Compile>
-    <Compile Include="Solucao\UI\Modulos\Estoque\frmExportarProdutos.cs">
+    <Compile Include="UI\Modules\Storage\ProductExport\frmExportarProdutos.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Solucao\UI\Modulos\Estoque\frmExportarProdutos.Designer.cs">
+    <Compile Include="UI\Modules\Storage\ProductExport\frmExportarProdutos.Designer.cs">
       <DependentUpon>frmExportarProdutos.cs</DependentUpon>
     </Compile>
-    <Compile Include="Solucao\UI\Modulos\Estoque\frmInteracao.cs">
+    <Compile Include="UI\Modules\Storage\Interaction\frmInteracao.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Solucao\UI\Modulos\Estoque\frmInteracao.Designer.cs">
+    <Compile Include="UI\Modules\Storage\Interaction\frmInteracao.Designer.cs">
       <DependentUpon>frmInteracao.cs</DependentUpon>
     </Compile>
-    <Compile Include="Solucao\UI\Modulos\Estoque\frmProduto.cs">
+    <Compile Include="UI\Modules\Storage\Product\frmProduto.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Solucao\UI\Modulos\Estoque\frmProduto.Designer.cs">
+    <Compile Include="UI\Modules\Storage\Product\frmProduto.Designer.cs">
       <DependentUpon>frmProduto.cs</DependentUpon>
     </Compile>
-    <Compile Include="Solucao\UI\Modulos\Estoque\FrmProdutoMetro.cs">
+    <Compile Include="UI\Modules\Storage\Product\ProductView.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Solucao\UI\Modulos\Estoque\FrmProdutoMetro.Designer.cs">
-      <DependentUpon>FrmProdutoMetro.cs</DependentUpon>
+    <Compile Include="UI\Modules\Storage\Product\ProductView.Designer.cs">
+      <DependentUpon>ProductView.cs</DependentUpon>
     </Compile>
-    <Compile Include="Solucao\UI\Modulos\Estoque\InteracaoPresenter.cs" />
-    <Compile Include="Solucao\UI\Modulos\Estoque\ProdutoPresenter.cs" />
-    <Compile Include="Solucao\UI\Modulos\Tecnico\frmEntradaLab.cs">
+    <Compile Include="UI\Modules\Storage\Interaction\InteractionPresenter.cs" />
+    <Compile Include="UI\Modules\Storage\Product\ProductPresenter.cs" />
+    <Compile Include="UI\Modules\Technician\frmEntradaLab.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Solucao\UI\Modulos\Tecnico\frmEntradaLab.Designer.cs">
+    <Compile Include="UI\Modules\Technician\frmEntradaLab.Designer.cs">
       <DependentUpon>frmEntradaLab.cs</DependentUpon>
     </Compile>
-    <Compile Include="Solucao\UI\Modulos\Tecnico\frmEntradaLabProduto.cs">
+    <Compile Include="UI\Modules\Technician\frmEntradaLabProduto.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Solucao\UI\Modulos\Tecnico\frmEntradaLabProduto.Designer.cs">
+    <Compile Include="UI\Modules\Technician\frmEntradaLabProduto.Designer.cs">
       <DependentUpon>frmEntradaLabProduto.cs</DependentUpon>
     </Compile>
-    <Compile Include="Solucao\UI\Modulos\Tecnico\frmTecnico.cs">
+    <Compile Include="UI\Modules\Technician\frmTecnico.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Solucao\UI\Modulos\Tecnico\frmTecnico.Designer.cs">
+    <Compile Include="UI\Modules\Technician\frmTecnico.Designer.cs">
       <DependentUpon>frmTecnico.cs</DependentUpon>
     </Compile>
-    <Compile Include="Solucao\UI\Principal\frmPrincipal.cs">
+    <Compile Include="UI\Modules\MainWindow\MainView.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Solucao\UI\Principal\frmPrincipal.Designer.cs">
-      <DependentUpon>frmPrincipal.cs</DependentUpon>
+    <Compile Include="UI\Modules\MainWindow\MainView.Designer.cs">
+      <DependentUpon>MainView.cs</DependentUpon>
     </Compile>
-    <Compile Include="Solucao\Utilitarios\EnumCriptografiaBasica.cs" />
-    <Compile Include="Solucao\Utilitarios\GSExtensions.cs" />
-    <Compile Include="Solucao\Utilitarios\GSTarefasAssincronas.cs" />
-    <Compile Include="Solucao\Utilitarios\GSUtilitarios.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="Infrastructure\BasicCryptographyToggle.cs" />
+    <Compile Include="Infrastructure\Utils\GSExtensions.cs" />
+    <Compile Include="Infrastructure\Utils\GSTarefasAssincronas.cs" />
+    <Compile Include="Infrastructure\Utils\GSUtilitarios.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Solucao\Utilitarios\GSAssistenteDeDigitacao.cs" />
-    <Compile Include="Solucao\Utilitarios\LambdaExtensions.cs" />
-    <EmbeddedResource Include="Solucao\Persistencia\BancoDeDados\UCSessaoSistema.resx">
-      <DependentUpon>UCSessaoSistema.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Solucao\UI\Base\GSForm.resx">
+    <Compile Include="Infrastructure\Utils\TypingAssistant.cs" />
+    <Compile Include="Infrastructure\Utils\LambdaExtensions.cs" />
+    <EmbeddedResource Include="UI\Base\GSForm.resx">
       <DependentUpon>GSForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Solucao\UI\Base\Temp.resx">
+    <EmbeddedResource Include="UI\Base\Temp.resx">
       <DependentUpon>Temp.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Solucao\UI\ControlesGenericos\GSDateTimePicker.resx">
+    <EmbeddedResource Include="UI\GenericControls\GSDateTimePicker.resx">
       <DependentUpon>GSDateTimePicker.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Solucao\UI\ControlesGenericos\GSFileAttacher.resx">
+    <EmbeddedResource Include="UI\GenericControls\GSFileAttacher.resx">
       <DependentUpon>GSFileAttacher.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Solucao\UI\ControlesGenericos\GSImageAttacher.resx">
+    <EmbeddedResource Include="UI\GenericControls\GSImageAttacher.resx">
       <DependentUpon>GSImageAttacher.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Solucao\UI\ControlesGenericos\GSImageVisualizer.resx">
+    <EmbeddedResource Include="UI\GenericControls\GSImageVisualizer.resx">
       <DependentUpon>GSImageVisualizer.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Solucao\UI\ControlesGenericos\GSLocationAttacher.resx">
+    <EmbeddedResource Include="UI\GenericControls\GSLocationAttacher.resx">
       <DependentUpon>GSLocationAttacher.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Solucao\UI\ControlesGenericos\GSMetroMonetary.resx">
+    <EmbeddedResource Include="UI\GenericControls\GSMetroMonetary.resx">
       <DependentUpon>GSMetroMonetary.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Solucao\UI\ControlesGenericos\GSMetroToggle.resx">
+    <EmbeddedResource Include="UI\GenericControls\GSMetroToggle.resx">
       <DependentUpon>GSMetroToggle.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Solucao\UI\ControlesGenericos\GSMultiTextBox.resx">
+    <EmbeddedResource Include="UI\GenericControls\GSMultiTextBox.resx">
       <DependentUpon>GSMultiTextBox.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Solucao\UI\ControlesGenericos\GSTextBoxMonetaria.resx">
+    <EmbeddedResource Include="UI\GenericControls\GSTextBoxMonetaria.resx">
       <DependentUpon>GSTextBoxMonetaria.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Solucao\UI\ControlesGenericos\GSTopBorder.resx">
+    <EmbeddedResource Include="UI\GenericControls\GSTopBorder.resx">
       <DependentUpon>GSTopBorder.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Solucao\UI\ControlesGenericos\GSWaitForm.resx">
+    <EmbeddedResource Include="UI\GenericControls\GSWaitForm.resx">
       <DependentUpon>GSWaitForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Solucao\UI\Modulos\Atendimento\frmAtendimento.resx">
+    <EmbeddedResource Include="UI\Modules\Attendance\frmAtendimento.resx">
       <DependentUpon>frmAtendimento.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Solucao\UI\Modulos\Atendimento\FrmCliente.resx">
+    <EmbeddedResource Include="UI\Modules\Attendance\FrmCliente.resx">
       <DependentUpon>FrmCliente.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Solucao\UI\Modulos\Atendimento\FrmOrcamento.resx">
+    <EmbeddedResource Include="UI\Modules\Attendance\FrmOrcamento.resx">
       <DependentUpon>FrmOrcamento.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Solucao\UI\Modulos\Atendimento\testMap.resx">
+    <EmbeddedResource Include="UI\Modules\Attendance\testMap.resx">
       <DependentUpon>testMap.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Solucao\UI\Modulos\Estoque\frmEstoque.resx">
-      <DependentUpon>frmEstoque.cs</DependentUpon>
+    <EmbeddedResource Include="UI\Modules\Storage\Storage\StorageView.resx">
+      <DependentUpon>StorageView.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Solucao\UI\Modulos\Estoque\frmExportarProdutos.resx">
+    <EmbeddedResource Include="UI\Modules\Storage\ProductExport\frmExportarProdutos.resx">
       <DependentUpon>frmExportarProdutos.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Solucao\UI\Modulos\Estoque\frmInteracao.resx">
+    <EmbeddedResource Include="UI\Modules\Storage\Interaction\frmInteracao.resx">
       <DependentUpon>frmInteracao.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Solucao\UI\Modulos\Estoque\FrmInteracaoMetro.resx">
-      <DependentUpon>FrmInteracaoMetro.cs</DependentUpon>
+    <EmbeddedResource Include="UI\Modules\Storage\Interaction\InteractionView.resx">
+      <DependentUpon>InteractionView.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Solucao\UI\Modulos\Estoque\frmProduto.resx">
+    <EmbeddedResource Include="UI\Modules\Storage\Product\frmProduto.resx">
       <DependentUpon>frmProduto.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Solucao\UI\Modulos\Estoque\FrmProdutoMetro.resx">
-      <DependentUpon>FrmProdutoMetro.cs</DependentUpon>
+    <EmbeddedResource Include="UI\Modules\Storage\Product\ProductView.resx">
+      <DependentUpon>ProductView.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Solucao\UI\Modulos\Tecnico\frmEntradaLab.resx">
+    <EmbeddedResource Include="UI\Modules\Technician\frmEntradaLab.resx">
       <DependentUpon>frmEntradaLab.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Solucao\UI\Modulos\Tecnico\frmEntradaLabProduto.resx">
+    <EmbeddedResource Include="UI\Modules\Technician\frmEntradaLabProduto.resx">
       <DependentUpon>frmEntradaLabProduto.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Solucao\UI\Modulos\Tecnico\frmTecnico.resx">
+    <EmbeddedResource Include="UI\Modules\Technician\frmTecnico.resx">
       <DependentUpon>frmTecnico.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Solucao\UI\Principal\frmPrincipal.resx">
-      <DependentUpon>frmPrincipal.cs</DependentUpon>
+    <EmbeddedResource Include="UI\Modules\MainWindow\MainView.resx">
+      <DependentUpon>MainView.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -560,24 +573,24 @@
     </Compile>
     <Compile Include="Solucao\Negocio\Objetos\Endereco.cs" />
     <Compile Include="Solucao\Negocio\Catalogos\Namespaces.cs" />
-    <Compile Include="Solucao\Persistencia\BancoDeDados\InformacoesConexaoBanco.cs" />
-    <Compile Include="Solucao\Persistencia\BancoDeDados\SessaoSistema.cs" />
-    <Compile Include="Solucao\UI\Modulos\Configuracoes\frmConfiguracoes.cs">
+    <Compile Include="Business\Objects\Base\DatabaseConnection.cs" />
+    <Compile Include="Business\Objects\Base\SystemSession.cs" />
+    <Compile Include="UI\Modules\Configuration\frmConfiguracoes.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Solucao\UI\Modulos\Configuracoes\frmConfiguracoes.Designer.cs">
+    <Compile Include="UI\Modules\Configuration\frmConfiguracoes.Designer.cs">
       <DependentUpon>frmConfiguracoes.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="Solucao\UI\Modulos\Configuracoes\frmConfiguracoes.resx">
+    <EmbeddedResource Include="UI\Modules\Configuration\frmConfiguracoes.resx">
       <DependentUpon>frmConfiguracoes.cs</DependentUpon>
     </EmbeddedResource>
     <Compile Include="Solucao\Negocio\Catalogos\Mensagens.cs" />
     <Compile Include="Solucao\Negocio\Objetos\IdentificadorExterno.cs" />
     <Compile Include="Solucao\Negocio\Objetos\Interacao.cs" />
-    <Compile Include="Solucao\Negocio\Enumeradores\Comuns\EnumTipoInteracao.cs" />
+    <Compile Include="Business\Enumerators\Default\EnumTipoInteracao.cs" />
     <Compile Include="Solucao\Negocio\Objetos\OrdemDeServico.cs" />
-    <Compile Include="Solucao\Negocio\Objetos\SolicitacaoDeAtendimento.cs" />
-    <Compile Include="Solucao\Negocio\Objetos\Colaborador.cs" />
+    <Compile Include="Business\Objects\Attendance\ServiceRequest.cs" />
+    <Compile Include="Business\Objects\Core\Employee.cs" />
     <Compile Include="Solucao\Negocio\Objetos\LancamentoOS.cs" />
     <Compile Include="Solucao\Negocio\Atributos\Validacao.cs" />
     <Compile Include="Solucao\Negocio\Catalogos\Cores.cs" />
@@ -656,6 +669,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="GestaoEmpresaIcon.ico" />
+    <None Include="Resources\BackgroundNew.jpg" />
     <None Include="Resources\AddGridButton.png" />
     <None Include="Resources\Background1.png" />
     <None Include="Resources\RemoveGridButton.png" />
@@ -665,7 +679,14 @@
     <None Include="Resources\impactas.png" />
     <None Include="Resources\Centrais.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Solucao\Negocio\Enumeradores\Comuns\" />
+    <Folder Include="Solucao\Negocio\Enumeradores\Seguros\" />
+    <Folder Include="Solucao\Negocio\Interfaces\" />
+    <Folder Include="Solucao\Negocio\Objetos\Estoque\" />
+    <Folder Include="Solucao\Negocio\Servicos\" />
+    <Folder Include="Solucao\Negocio\Validador\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

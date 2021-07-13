@@ -1,6 +1,4 @@
-﻿using GS.GestaoEmpresa.Solucao.Negocio.Interfaces;
-
-namespace GS.GestaoEmpresa.Solucao.Negocio.Objetos
+﻿namespace GS.GestaoEmpresa.Solucao.Negocio.Objetos
 {
     public class Endereco
     {

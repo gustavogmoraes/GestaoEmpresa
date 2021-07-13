@@ -1,24 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using CSharpVerbalExpressions;
+using GS.GestaoEmpresa.Business.Interfaces;
+using GS.GestaoEmpresa.Persistence.RavenDB;
+using GS.GestaoEmpresa.Persistence.RavenDbSupport.Interfaces;
+using GS.GestaoEmpresa.Persistence.Repositories.Base;
 using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores.Comuns;
-using GS.GestaoEmpresa.Solucao.Negocio.Interfaces;
 using GS.GestaoEmpresa.Solucao.Negocio.Objetos.Base;
 using GS.GestaoEmpresa.Solucao.Persistencia.BancoDeDados;
 using GS.GestaoEmpresa.Solucao.Utilitarios;
 using Raven.Client.Documents.Linq;
-using Raven.Client.Documents.Session;
 
 namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios.Base
 {
     public abstract class RepositorioHistoricoPadrao<T> : RepositoryBase<T>, IDisposable
-        where T : ObjetoComHistorico, IEntityWithRevision, new()
+        where T : Old, IEntity, new()
     {
         protected static Expression<Func<T, bool>> _filtroAtualComCodigo(int codigo) => (x => x.Atual && x.Codigo == codigo);
 
@@ -71,7 +71,7 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios.Base
 
             if (listaDeCodigos.Any())
             {
-                var missingNumbers = listaDeCodigos.EncontreInteirosFaltandoEmUmaSequencia().ToList();
+                var missingNumbers = listaDeCodigos.FindMissingIntegersInSequence().ToList();
                 missingNumbers.ForEach(x => returnList.Add(x));
 
                 numberOfNeededCodes -= returnList.Count;
@@ -95,7 +95,7 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios.Base
                 var item = list[index];
                 item.Id = null;
                 item.Atual = true;
-                item.RevisionStartDateTime = DateTime.Now;
+                item.Vigencia = DateTime.Now;
 
                 if (item.Codigo == 0)
                 {
@@ -140,8 +140,8 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios.Base
             using (var session = RavenHelper.OpenSession())
             {
                 var item = session.Query<T>()
-                .Where(x => x.Codigo == codigo && x.RevisionStartDateTime <= data)
-                .OrderByDescending(x => x.RevisionStartDateTime)
+                .Where(x => x.Codigo == codigo && x.Vigencia <= data)
+                .OrderByDescending(x => x.Vigencia)
                 .FirstOrDefault();
 
                 if (withAttachments)
@@ -178,7 +178,7 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios.Base
 
             if(onlyActives)
             {
-                rQuery = rQuery.Where(x => x.Status == EnumStatusToggle.Ativo);
+                rQuery = rQuery.Where(x => x.Status == EnumStatusToggle.Active);
             }
 
             if(useCurrentFilter)
@@ -297,7 +297,7 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios.Base
         public IList<DateTime> ConsulteVigencias(int codigo)
         {
             var resultadoConsulta = RavenHelper.OpenSession().Query<T>().Where(x => x.Codigo == codigo)
-                                                              .Select(x => x.RevisionStartDateTime)
+                                                              .Select(x => x.Vigencia)
                                                               .ToList();
             // Ordenação ao contrario
             resultadoConsulta.Sort((x, y) => -x.CompareTo(y)); // Método 1
@@ -321,7 +321,7 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios.Base
             item.Atual = true;
 
             item.Id = null;
-            item.RevisionStartDateTime = DateTime.Now;
+            item.Vigencia = DateTime.Now;
 
             sessaoRaven.Store(item);
             StoreAttachments(sessaoRaven, item);
@@ -373,7 +373,7 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios.Base
                 return 1;
             }
 
-            var numerosFaltando = listaDeCodigos.EncontreInteirosFaltandoEmUmaSequencia().ToList();
+            var numerosFaltando = listaDeCodigos.FindMissingIntegersInSequence().ToList();
             return numerosFaltando.Any()
                 ? numerosFaltando.Min()
                 : listaDeCodigos.Max() + 1;

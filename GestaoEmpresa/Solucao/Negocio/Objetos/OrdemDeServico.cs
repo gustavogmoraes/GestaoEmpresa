@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using GS.GestaoEmpresa.Business.Objects.Attendance;
+using GS.GestaoEmpresa.Business.Objects.Core;
 using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores;
 
 namespace GS.GestaoEmpresa.Solucao.Negocio.Objetos
@@ -10,16 +12,16 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Objetos
 
         public string Descricao { get; set; }
 
-        public SolicitacaoDeAtendimento SAVinculada { get; set; }
+        public ServiceRequest SAVinculada { get; set; }
 
         public OrdemDeServico OrdemDeServicoAnteriorParaVincular { get; set; }
 
         // Assinatura
         public string ContatoResponsavelAssinatura { get; set; }
 
-        public Colaborador TecnicoResponsavel { get; set; }
+        public Employee TecnicoResponsavel { get; set; }
 
-        public List<Colaborador> Auxiliares { get; set; }
+        public List<Employee> Auxiliares { get; set; }
 
         public List<LancamentoOS> Lancamentos { get; set; }
 

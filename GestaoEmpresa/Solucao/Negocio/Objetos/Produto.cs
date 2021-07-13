@@ -1,17 +1,19 @@
 ﻿using System;
+using GS.GestaoEmpresa.Business.Interfaces;
+using GS.GestaoEmpresa.Persistence.RavenDbSupport.Interfaces;
 using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores.Comuns;
 using GS.GestaoEmpresa.Solucao.Negocio.Atributos;
 using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores.Seguros.UnidadeIntelbras;
 using GS.GestaoEmpresa.Solucao.Negocio.Objetos.Base;
-using GS.GestaoEmpresa.Solucao.Persistencia.Repositorios;
-using GS.GestaoEmpresa.Solucao.Negocio.Interfaces;
+using GS.GestaoEmpresa.Persistence.Repositories;
+using GS.GestaoEmpresa.Persistence.RavenDbSupport.Objects;
 
 namespace GS.GestaoEmpresa.Solucao.Negocio.Objetos
 {
-    public class Produto : ObjetoComHistorico, IObjectWithRavenAttachments
+    public class Produto : Old, IConceitoComHistorico, IEntityWithRevision
 	{
         [ExporterMetadata(Descricao = "Status")]
-        public EnumStatusToggle Status { get; set; }
+        public new EnumStatusToggle Status { get; set; }
 
         [ExporterMetadata(Descricao = "Nome")]
         public string Nome { get; set; }
@@ -77,13 +79,20 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Objetos
         public string LocalizacaoNoEstoque { get; set; }
 
         public RavenAttachments RavenAttachments { get; set; }
+        public new DateTime Vigencia { get; set; }
+        public new bool Atual { get; set; }
+        public int Code { get; set; }
+
+        public DateTime RevisionStartTime { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public bool Current { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        RavenAttachments IObjectWithRavenAttachments.RavenAttachments { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         public Produto()
         {
 
         }
 
-        public Produto(Produto modelo) : base (modelo) { }
+        //public Produto(Produto modelo) : base (modelo) { }
 
         public decimal CalculePrecoDeCompraComBaseNoPrecoDaIntelbras(bool setOwnProperty = true)
         {
@@ -101,7 +110,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Objetos
 
         public decimal CalculePrecoDeVenda(bool setOwnProperty = true)
         {
-            var porcentagemDeLucroPadrao = new RepositorioDeConfiguracao().ObtenhaUnica()?.PorcentagemDeLucroPadrao ?? 40M;
+            var porcentagemDeLucroPadrao = new ConfigurationRepository().ObtenhaUnica()?.DefaultSaleProfitPercentage ?? 40M;
             var porcentagemAplicada = PorcentagemDeLucro.GetValueOrDefault() == 0
                                     ? porcentagemDeLucroPadrao / 100
                                     : PorcentagemDeLucro / 100;
