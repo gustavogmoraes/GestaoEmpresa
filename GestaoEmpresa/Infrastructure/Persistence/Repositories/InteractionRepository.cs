@@ -1,17 +1,11 @@
-﻿using GS.GestaoEmpresa.Solucao.Negocio.Objetos;
-using GS.GestaoEmpresa.Solucao.Persistencia.Repositorios.Base;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using GS.GestaoEmpresa.Solucao.Persistencia.BancoDeDados;
-using System.Linq.Expressions;
+﻿using System.Linq;
+using GS.GestaoEmpresa.Business.Converters;
 using GS.GestaoEmpresa.Business.Objects.Storage;
 using GS.GestaoEmpresa.Persistence.RavenDB;
 using GS.GestaoEmpresa.Persistence.Repositories.Base;
+using GS.GestaoEmpresa.Solucao.Negocio.Objetos;
 
-namespace GS.GestaoEmpresa.Persistence.Repositories
+namespace GS.GestaoEmpresa.Infrastructure.Persistence.Repositories
 {
     public class InteractionRepository : RepositoryBase<Interaction>
     {
@@ -21,6 +15,20 @@ namespace GS.GestaoEmpresa.Persistence.Repositories
             return ravenDbSession.Query<Interacao>()
                 .Where(x => x.InformaNumeroDeSerie && x.NumerosDeSerie.Any())
                 .Any(x => x.NumerosDeSerie.Contains(serialNumber));
+        }
+
+        public void Migrate()
+        {
+            using var ravenDbSession = RavenHelper.OpenSession();
+            var oldObjs = ravenDbSession.Query<Interacao>().ToList();
+
+            var interactionConverter = new InteractionConverter();
+
+            var newObjs = oldObjs.Select(interactionConverter.Convert).ToList();
+            newObjs.ForEach(x =>
+            {
+                Insert(x);
+            });
         }
     }
 }

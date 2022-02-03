@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Data;
 using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
@@ -13,12 +12,9 @@ using LinqToExcel;
 using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores.Comuns;
 using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores.Seguros.UnidadeIntelbras;
 using GS.GestaoEmpresa.Solucao.Negocio.Objetos;
-using GS.GestaoEmpresa.Solucao.Persistencia.BancoDeDados;
 using GS.GestaoEmpresa.Solucao.Persistencia.Repositorios;
-using GS.GestaoEmpresa.Solucao.UI;
 using GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque;
 using GS.GestaoEmpresa.Solucao.Utilitarios;
-using GS.GestaoEmpresa.Business.Objects;
 using GS.GestaoEmpresa.Business.Objects.Core;
 using GS.GestaoEmpresa.Business.Objects.Storage;
 using GS.GestaoEmpresa.Persistence.Repositories;
@@ -26,6 +22,7 @@ using GS.GestaoEmpresa.Business.Services.Base;
 using GS.GestaoEmpresa.Business.Validators;
 using GS.GestaoEmpresa.Infrastructure.Persistence.Repositories;
 using GS.GestaoEmpresa.Persistence.RavenDB;
+using GS.GestaoEmpresa.UI.Base;
 using Raven.Client.Documents.Linq;
 
 namespace GS.GestaoEmpresa.Business.Services
@@ -87,7 +84,7 @@ namespace GS.GestaoEmpresa.Business.Services
             {
                 repositorioDeProduto.AltereQuantidadeDeProduto(codigoDoProduto, novaQuantidade);
 
-                var formEstoque = GerenciadorDeViews.ObtenhaIndependente<FrmEstoque>();
+                var formEstoque = ViewManager.ObtenhaIndependente<FrmEstoque>();
                 if (formEstoque == null) return;
 
                 var produto = Query(codigoDoProduto);

@@ -4,10 +4,10 @@ using System.Windows.Forms;
 using GS.GestaoEmpresa.Business.Enumerators.Default;
 using GS.GestaoEmpresa.Properties;
 using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores.Comuns;
-using GS.GestaoEmpresa.UI.Base;
+using GS.GestaoEmpresa.Solucao.UI.Base;
 using MetroFramework.Forms;
 
-namespace GS.GestaoEmpresa.Solucao.UI.Base
+namespace GS.GestaoEmpresa.UI.Base
 {
     public partial class GSForm: MetroForm, IView
     {

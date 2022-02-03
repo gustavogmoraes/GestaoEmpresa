@@ -4,81 +4,80 @@ using System.Linq;
 using System.Windows.Forms;
 using GS.GestaoEmpresa.Business.Enumerators.Default;
 using GS.GestaoEmpresa.Business.Interfaces;
-using GS.GestaoEmpresa.Persistence.RavenDbSupport.Interfaces;
-using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores.Comuns;
+using GS.GestaoEmpresa.Infrastructure.Persistence.RavenDB.Support.Interfaces;
 using GS.GestaoEmpresa.Solucao.UI.Base;
 using GS.GestaoEmpresa.Solucao.UI.Modulos.Atendimento;
 using GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque;
 using GS.GestaoEmpresa.Solucao.Utilitarios;
-using GS.GestaoEmpresa.UI.Base;
-using GS.GestaoEmpresa.UI.MainWindow;
 using GS.GestaoEmpresa.UI.Modules.Attendance;
+using GS.GestaoEmpresa.UI.Modules.MainWindow;
 using GS.GestaoEmpresa.UI.Modules.Storage.Interaction;
+using GS.GestaoEmpresa.UI.Modules.Storage.Product;
 using MoreLinq;
 
-namespace GS.GestaoEmpresa.Solucao.UI
+namespace GS.GestaoEmpresa.UI.Base
 {
-    public static class GerenciadorDeViews
+    public static class ViewManager
     {
         /// <summary>
         /// Tela Model-View-Presenter
         /// </summary>
         /// 
-        public class TelaMVP
+        public class MvpView
         {
-            public static TelaMVP Of<TView, TPresenter>(bool instanciaUnica = false)
+            public static MvpView Of<TView, TPresenter>(bool singleInstance = false)
             {
-                return new TelaMVP(typeof(TView), typeof(TPresenter), instanciaUnica);
+                return new MvpView(typeof(TView), typeof(TPresenter), singleInstance);
             }
 
-            public TelaMVP(Type view, Type presenter = null, bool instanciaUnica = false)
+            public MvpView(Type viewType, Type presenterType = null, bool singleInstance = false)
             {
-                TipoDaView = view;
-                TipoDoPresenter = presenter;
-                InstanciaUnica = instanciaUnica;
+                ViewType = viewType;
+                PresenterType = presenterType;
+                SingleInstance = singleInstance;
             }
 
-            public Type TipoDoModel { get; set; }
+            public Type ModelType { get; set; }
 
-            public Type TipoDaView { get; set; }
+            public Type ViewType { get; set; }
 
-            public Type TipoDoPresenter { get; set; }
+            public Type PresenterType { get; set; }
 
-            public bool InstanciaUnica { get; set; }
+            public bool SingleInstance { get; set; }
 
-            public Dictionary<string, IPresenter> Instancias { get; set; }
+            public Dictionary<string, IPresenter> Instances { get; set; }
         }
 
-        private static List<TelaMVP> _controladorDeInstancias;
-        private static List<TelaMVP> ControladorDeInstancias => _controladorDeInstancias ??= new List<TelaMVP>
+        private static List<MvpView> _instanceController;
+        private static List<MvpView> InstanceController => _instanceController ??= new List<MvpView>
         {
-            TelaMVP.Of<FrmProdutoMetro, ProdutoPresenter>(),
-            TelaMVP.Of<FrmInteracaoMetro, InteractionPresenter>(),
-            TelaMVP.Of<FrmOrcamento, OrcamentoPresenter>(),
-            TelaMVP.Of<FrmCliente, ClientePresenter>(),
-            TelaMVP.Of<FrmAtendimento, object>(true),
-            TelaMVP.Of<FrmEstoque, object>(true),
-            TelaMVP.Of<frmInteracao, object>(true)
+            MvpView.Of<FrmProdutoMetro, ProductPresenter>(),
+            MvpView.Of<FrmInteracaoMetro, InteractionPresenter>(),
+            MvpView.Of<FrmOrcamento, OrcamentoPresenter>(),
+            MvpView.Of<FrmCliente, ClientePresenter>(),
+            MvpView.Of<FrmAtendimento, object>(true),
+            MvpView.Of<FrmEstoque, object>(true),
+            MvpView.Of<frmInteracao, object>(true)
         };
 
-        private static Form _instanciaPrincipal;
-        public static TPresenter Crie<TPresenter>()
+        private static Form _mainInstance;
+        public static TPresenter Create<TPresenter>()
             where TPresenter : class, IPresenter, new()
         {
-            var tela = ControladorDeInstancias.Find(x => x.TipoDoPresenter == typeof(TPresenter));
-            if (tela == null) throw new Exception("View não encontrada pelo gerenciador!");
+            var view = InstanceController.Find(x => x.PresenterType == typeof(TPresenter));
+            if (view == null) throw new Exception("View não encontrada pelo gerenciador!");
 
-            if (!(tela.InstanciaUnica && tela.Instancias != null))
+            if (!(view.SingleInstance && view.Instances != null))
             {
-                if (tela.Instancias == null) tela.Instancias = new Dictionary<string, IPresenter>();
+                if (view.Instances == null) view.Instances = new Dictionary<string, IPresenter>();
 
-                var idInstancia = tela.InstanciaUnica ? "Única" : Guid.NewGuid().ToString();
-                if (!tela.Instancias.ContainsKey(idInstancia))
+                var idInstancia = view.SingleInstance ? "Única" : Guid.NewGuid().ToString();
+                if (!view.Instances.ContainsKey(idInstancia))
                 {
-                    var instanciaPresenter = (TPresenter)Activator.CreateInstance(tela.TipoDoPresenter);
+                    var instanciaPresenter = (TPresenter)Activator.CreateInstance(view.PresenterType);
 
                     IView instanciaView = null;
-                    InvokeOnMain(delegate { instanciaView = (IView)Activator.CreateInstance(tela.TipoDaView); });
+                    InvokeOnMain(delegate { instanciaView = (IView)Activator.CreateInstance(view.ViewType); });
 
                     instanciaPresenter.InstanceId = idInstancia;
                     instanciaPresenter.View = instanciaView;
@@ -86,7 +85,7 @@ namespace GS.GestaoEmpresa.Solucao.UI
                     instanciaPresenter.View.FormType = FormType.Insert;
                     instanciaPresenter.EnableControls();
 
-                    tela.Instancias.Add(idInstancia, instanciaPresenter);
+                    view.Instances.Add(idInstancia, instanciaPresenter);
 
                     return instanciaPresenter;
                 }
@@ -98,21 +97,21 @@ namespace GS.GestaoEmpresa.Solucao.UI
 
         private static void InvokeOnMain(Action action)
         {
-            ObtenhaPrincipal().Invoke(action);
+            GetMain().Invoke(action);
         }
 
-        public static Form ObtenhaPrincipal()
+        public static Form GetMain()
         {
-            return _instanciaPrincipal ??= new MainView();
+            return _mainInstance ??= new MainView();
         }
 
         public static TPresenter Crie<TPresenter>(IEntity conceito)
             where TPresenter : class, IPresenter, new()
         {
-            var instanciaPresenter = Crie<TPresenter>();
+            var instanciaPresenter = Create<TPresenter>();
             instanciaPresenter.Model = conceito;
             instanciaPresenter.View.FormType = FormType.Detail;
-            //ObtenhaPrincipal().Invoke((MethodInvoker) delegate
+            //GetMain().Invoke((MethodInvoker) delegate
             //{
                 
             //});
@@ -123,10 +122,10 @@ namespace GS.GestaoEmpresa.Solucao.UI
         public static TPresenter Obtenha<TPresenter>()
             where TPresenter : class, IPresenter, new()
         {
-            var tela = ControladorDeInstancias.Find(x => x.TipoDoPresenter == typeof(TPresenter));
-            if (tela.Instancias != null && tela.Instancias.Count > 0)
+            var tela = InstanceController.Find(x => x.PresenterType == typeof(TPresenter));
+            if (tela.Instances != null && tela.Instances.Count > 0)
             {
-                return tela.Instancias.Values.FirstOrDefault() as TPresenter;
+                return tela.Instances.Values.FirstOrDefault() as TPresenter;
             }
 
             return null;
@@ -134,10 +133,10 @@ namespace GS.GestaoEmpresa.Solucao.UI
 
         public static IPresenter Obtenha(string idInstancia)
         {
-            var tela = ControladorDeInstancias.Find(x => x.Instancias.ContainsKey(idInstancia));
-            if (tela.Instancias != null && tela.Instancias.Count > 0)
+            var tela = InstanceController.Find(x => x.Instances.ContainsKey(idInstancia));
+            if (tela.Instances != null && tela.Instances.Count > 0)
             {
-                return tela.Instancias.Values.FirstOrDefault(x => x.InstanceId == idInstancia) as IPresenter;
+                return tela.Instances.Values.FirstOrDefault(x => x.InstanceId == idInstancia) as IPresenter;
             }
 
             return null;
@@ -159,7 +158,7 @@ namespace GS.GestaoEmpresa.Solucao.UI
                 }
             }
 
-            var instancias = ControladorDeInstancias.Find(x => x.TipoDaView == typeof(T)).Instancias.Values;
+            var instancias = InstanceController.Find(x => x.ViewType == typeof(T)).Instances.Values;
             if (instancias != null && instancias.Count > 0)
             {
                 instancias.ForEach(x => (x.View as Form).Invoke((MethodInvoker)delegate
@@ -173,7 +172,7 @@ namespace GS.GestaoEmpresa.Solucao.UI
 
         public static void Exclua(Type tipoDaView, string idDaInstancia)
         {
-            var instancias = ControladorDeInstancias.Find(x => x.TipoDaView == tipoDaView).Instancias;
+            var instancias = InstanceController.Find(x => x.ViewType == tipoDaView).Instances;
             instancias[idDaInstancia] = null; // Disposing Presenter
             instancias.Remove(idDaInstancia);
         }
@@ -237,7 +236,7 @@ namespace GS.GestaoEmpresa.Solucao.UI
             }
 
             T instanciaForm = null;
-            ObtenhaPrincipal().Invoke((MethodInvoker)delegate
+            GetMain().Invoke((MethodInvoker)delegate
             {
                 instanciaForm = (T)Activator.CreateInstance(typeof(T), args);
             });

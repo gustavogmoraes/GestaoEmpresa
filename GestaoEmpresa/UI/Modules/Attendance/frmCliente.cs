@@ -13,6 +13,7 @@ using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores.Comuns;
 using GS.GestaoEmpresa.Solucao.UI.Base;
 using GS.GestaoEmpresa.Solucao.UI.ControlesGenericos;
 using GS.GestaoEmpresa.UI.Base;
+using GS.GestaoEmpresa.UI.GenericControls;
 using GS.GestaoEmpresa.UI.Modules.Attendance;
 
 namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Atendimento

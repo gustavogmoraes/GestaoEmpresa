@@ -36,9 +36,13 @@ using GS.GestaoEmpresa.Business.Objects;
 using GS.GestaoEmpresa.Business.Objects.Core;
 using GS.GestaoEmpresa.Business.Objects.Storage;
 using GS.GestaoEmpresa.Business.Services;
+using GS.GestaoEmpresa.Infrastructure.Persistence.Repositories;
 using GS.GestaoEmpresa.Persistence.RavenDB;
+using GS.GestaoEmpresa.Persistence.Repositories;
 using GS.GestaoEmpresa.UI.Base;
+using GS.GestaoEmpresa.UI.GenericControls;
 using GS.GestaoEmpresa.UI.Modules.Storage.Interaction;
+using GS.GestaoEmpresa.UI.Modules.Storage.Product;
 
 //
 
@@ -106,7 +110,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         public void CloseFormCall(object sender, EventArgs e)
         {
-            GerenciadorDeViews.Exclua<FrmEstoque>(InstanceId);
+            ViewManager.Exclua<FrmEstoque>(InstanceId);
         }
 
         public void MinimizeFormCall(object sender, EventArgs e)
@@ -178,19 +182,30 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             tabControl.SizeMode = TabSizeMode.Fixed;
         }
 
+        private string ResolveInteractionType(InteractionType interactionType)
+        {
+            return interactionType switch
+            {
+                InteractionType.Input        => "Entrada",
+                InteractionType.Output       => "Saída",
+                InteractionType.ExchangeBase => "Base de troca",
+                _ => null
+            };
+        }
+
         private object[] GetInteractionRowObject(Interaction interaction) => new object[]
         {
             interaction.Code,
-            interaction.InteractionType.ToCustomString(),
-            //interaction.Tecnico,
-            //interaction.Produto.Nome,
-            //interaction.QuantidadeInterada,
-            //interaction.Origem,
-            //interaction.Destino,
-            //interaction.Finalidade,
-            //interaction.Situacao,
-            //GSUtilitarios.FormateDecimalParaStringMoedaReal(interaction.ValorInteracao),
-            //interaction.HorarioProgramado.ToString(Cultura).Remove(interaction.OpenTime.ToString(Cultura).Length - 3, 3)
+            ResolveInteractionType(interaction.InteractionType),
+            interaction.Technician,
+            interaction.SubInteractions.First().Product.Name,
+            interaction.SubInteractions.First().Quantity,
+            interaction.Origin,
+            interaction.Destination,
+            interaction.Goal,
+            interaction.Situation,
+            GSUtilitarios.FormateDecimalParaStringMoedaReal(interaction.SubInteractions.Sum(x => x.TotalPrice.GetValueOrDefault())),
+            interaction.ScheduledTime.ToString(Cultura)
         };
 
         private void CarregueDataGridInteracoes(IList<Interaction> interactionList)
@@ -340,6 +355,9 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         {
             UISettings = SessaoSistema.UISettings.GetUISettings(typeof(FrmEstoque));
             //Task.Run(AsyncLoad);
+
+            var service = new InteractionRepository();
+            service.Migrate();
         }
 
         protected override void OnLoad(EventArgs e)
@@ -443,7 +461,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                     {
                         using var servicoDeProduto = new ProductService();
                         var produto = servicoDeProduto.Query(codigoProduto);
-                        presenter = GerenciadorDeViews.Crie<ProdutoPresenter>(produto);
+                        presenter = ViewManager.Crie<ProductPresenter>(produto);
                     },
                     () =>
                     {
@@ -463,7 +481,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                 {
                     using var servicoDeProduto = new ProductService();
                     var produto = servicoDeProduto.Query(codigoProduto);
-                    presenter = GerenciadorDeViews.Crie<ProdutoPresenter>(produto);
+                    presenter = ViewManager.Crie<ProductPresenter>(produto);
                 },
                 () =>
                 {
@@ -628,28 +646,25 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         private void btnNovaInteracao_Click(object sender, EventArgs e)
         {
-            new frmInteracao().Show();
+            //new frmInteracao().Show();
 
-            //IPresenter presenter = null;
-            //GSWaitForm.Mostrar(
-            //    this,
-            //    () =>
-            //    {
-            //        presenter = GerenciadorDeViews.Crie<InteracaoPresenter>();
-            //    },
-            //    () =>
-            //    {
-            //        presenter.View.Show();
-            //    });
+            IPresenter presenter = null;
+            GSWaitForm.Mostrar(() =>
+            {
+                presenter = ViewManager.Create<InteractionPresenter>();
+            },
+            () =>
+            {
+                presenter.View.Show();
+            });
         }
 
         private void btnNovoProduto_Click(object sender, EventArgs e)
         {
             IPresenter presenter = null;
-            GSWaitForm.Mostrar(
-                () =>
+            GSWaitForm.Mostrar(() =>
                 {
-                    presenter = GerenciadorDeViews.Crie<ProdutoPresenter>();
+                    presenter = ViewManager.Create<ProductPresenter>();
                 },
                 () =>
                 {
@@ -799,7 +814,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
                     if (interaction != null)
                     {
-                        var presenter = GerenciadorDeViews.Crie<InteractionPresenter>(interaction);
+                        var presenter = ViewManager.Crie<InteractionPresenter>(interaction);
                         presenter.View.Show();
                     }
                 }
@@ -819,7 +834,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
             if (interaction != null)
             {
-                GerenciadorDeViews.Crie<InteractionPresenter>(interaction);
+                ViewManager.Crie<InteractionPresenter>(interaction);
             }
         }
 

@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
 using GS.GestaoEmpresa.Business.Interfaces;
+using GS.GestaoEmpresa.Infrastructure.Persistence.RavenDB.Support.Interfaces;
 using GS.GestaoEmpresa.Persistence.RavenDB;
 using GS.GestaoEmpresa.Persistence.RavenDbSupport.Interfaces;
 using GS.GestaoEmpresa.Persistence.RavenDbSupport.Objects;
@@ -198,7 +199,7 @@ namespace GS.GestaoEmpresa.Persistence.Repositories.Base
                 attachment.Value.Position = 0;
                 session.Advanced.Attachments.Store(item.Id, attachment.Key, attachment.Value);
 
-                // If stream was already read at some point, it will be at the last position
+                // Coallesce stream was already read at some point, it will be at the last position
                 // so we return it to the begining by copying it to another memory stream
                 // to make it readable again ;D
                 //using (var ms = new MemoryStream())

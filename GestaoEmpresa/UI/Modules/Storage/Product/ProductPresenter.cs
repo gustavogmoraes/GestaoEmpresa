@@ -1,18 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using GS.GestaoEmpresa.Business.Objects;
-using GS.GestaoEmpresa.Business.Objects.Storage;
 using GS.GestaoEmpresa.Business.Services;
 using GS.GestaoEmpresa.Solucao.Negocio.Objetos;
 using GS.GestaoEmpresa.Solucao.UI.Base;
-using GS.GestaoEmpresa.Solucao.UI.ControlesGenericos;
+using GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque;
+using GS.GestaoEmpresa.UI.GenericControls;
 
-namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
+namespace GS.GestaoEmpresa.UI.Modules.Storage.Product
 {
-    public sealed class ProdutoPresenter : Presenter<Product, FrmProdutoMetro>
+    public sealed class ProductPresenter : Presenter<Business.Objects.Storage.Product, FrmProdutoMetro>
     {
-        public ProdutoPresenter()
+        public ProductPresenter()
         {
             MapControl(model => model.Code, view => view.txtCodigo);
             MapControl(model => model.RevisionStartDateTime, view => view.cbValidity);
@@ -77,7 +76,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                 });
         }
 
-        public Product Consulte(int codigo)
+        public Business.Objects.Storage.Product Consulte(int codigo)
         {
             using var servicoDeProduto = new ProductService();
             return servicoDeProduto.Query(codigo);

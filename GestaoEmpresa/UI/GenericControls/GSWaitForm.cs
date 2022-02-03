@@ -3,8 +3,9 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using GS.GestaoEmpresa.UI.Base;
 
-namespace GS.GestaoEmpresa.Solucao.UI.ControlesGenericos
+namespace GS.GestaoEmpresa.UI.GenericControls
 {
     public partial class GSWaitForm : Form
     {
@@ -26,7 +27,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.ControlesGenericos
 
         public static void Mostrar([Optional]Action processing, [Optional]Action postProcessing)
         {
-            GerenciadorDeViews.ObtenhaPrincipal().Invoke((MethodInvoker)delegate
+            ViewManager.GetMain().Invoke((MethodInvoker)delegate
             {
                 _form.Show();
             });
@@ -38,7 +39,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.ControlesGenericos
             {
                 Thread.Sleep(TimeSpan.FromMilliseconds(700));
 
-                GerenciadorDeViews.ObtenhaPrincipal().Invoke((MethodInvoker)delegate
+                ViewManager.GetMain().Invoke((MethodInvoker)delegate
                 {
                     postProcessing();
                     _form.Hide();

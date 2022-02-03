@@ -83,7 +83,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         public void CloseFormCall(object sender, EventArgs e)
         {
-            GerenciadorDeViews.Exclua(typeof(frmInteracao), InstanceId);
+            ViewManager.Exclua(typeof(frmInteracao), InstanceId);
         }
 
         public void MaximizeFormCall(object sender, EventArgs e)
@@ -514,7 +514,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                         FormType = FormType.Update;
                         DesabiliteControles();
 
-                        var formEstoque = GerenciadorDeViews.ObtenhaIndependente<FrmEstoque>();
+                        var formEstoque = ViewManager.ObtenhaIndependente<FrmEstoque>();
                         formEstoque.btnRefreshHist_Click(null, null);
                         return;
                     }
@@ -560,7 +560,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                             {
                                 MessageBox.Show("Interação excluída com sucesso!");
                                 Close();
-                                var formEstoque = GerenciadorDeViews.ObtenhaIndependente<FrmEstoque>();
+                                var formEstoque = ViewManager.ObtenhaIndependente<FrmEstoque>();
                                 formEstoque.btnRefreshHist_Click(null, null);
                             }
                         }
@@ -754,7 +754,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         public void ApagueInstancia()
         {
-            //GerenciadorDeViews.Delete<frmInteracao>(InstanceId);
+            //ViewManager.Delete<frmInteracao>(InstanceId);
         }
 
         private void cbProduto_TextChanged(object sender, EventArgs e)

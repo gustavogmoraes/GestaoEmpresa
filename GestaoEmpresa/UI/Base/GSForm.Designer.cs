@@ -1,6 +1,4 @@
-﻿using System.Drawing;
-
-namespace GS.GestaoEmpresa.Solucao.UI.Base
+﻿namespace GS.GestaoEmpresa.UI.Base
 {
     partial class GSForm
     {
@@ -130,6 +128,6 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
         public System.Windows.Forms.PictureBox btnEditarSalvar;
         protected System.Windows.Forms.Label lblTitulo;
         protected System.Windows.Forms.Panel panelTitulo;
-        protected ControlesGenericos.GSTopBorder gsTopBorder1;
+        protected Solucao.UI.ControlesGenericos.GSTopBorder gsTopBorder1;
     }
 }

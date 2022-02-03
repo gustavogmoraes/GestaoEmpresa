@@ -60,7 +60,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Configuracoes
                                       .ToString().Trim();
             var usuario = servicoMapeadorUsuario.Query(x => x.Name == nome).FirstOrDefault();
 
-            //GerenciadorDeForms.Crie<frmUsuario>().Show();
+            //GerenciadorDeForms.Create<frmUsuario>().Show();
         }
 
         private void tabUsuarios_Click(object sender, EventArgs e)

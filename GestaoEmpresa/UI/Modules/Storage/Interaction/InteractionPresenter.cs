@@ -35,17 +35,30 @@ namespace GS.GestaoEmpresa.UI.Modules.Storage.Interaction
             MapControl(x => x.Destination, x => x.txtDestino);
             MapControl(x => x.Notes, x => x.txtObservacao);
             MapControl(x => x.SubInteractions, x => x.gridProdutos, SubInteractionsPropertyControlConversion, SubInteractionsControlPropertyConversion);
+
+            ProductSerialNumberBinder = new Dictionary<int, List<string>>();
         }
 
-        private object[] SubInteractionToRowObject(SubInteraction sub, InteractionType type) => new object[]
+        private object[] SubInteractionToRowObject(SubInteraction sub, InteractionType type)
         {
-            sub.Product.Code,
-            sub.Product.Manufacturer,
-            sub.Product.Name,
-            type == InteractionType.Input ? sub.Product.PurchasePrice : sub.Product.SalePrice,
-            sub.Quantity,
-            sub.TotalPrice
-        };
+            var qty = sub.Quantity.Coalesce(x => x == 0, sub.InteractedQuantity);
+            var price = type == InteractionType.Input
+                ? sub.Product.PurchasePrice.GetValueOrDefault()
+                : sub.Product.SalePrice;
+
+            var total = Convert.ToDecimal(qty) * price.GetValueOrDefault();
+
+            return new[]
+            {
+                sub.Product.Code,
+                sub.Product.Manufacturer,
+                sub.Product.ManufacturerCode,
+                sub.Product.Name,
+                type == InteractionType.Input ? sub.Product.PurchasePrice : sub.Product.SalePrice,
+                qty,
+                total
+            };
+        }
 
         public Action<object, Control, PropertyInfo, object> SubInteractionsPropertyControlConversion => (model, control, prop, _) =>
         {
@@ -90,9 +103,9 @@ namespace GS.GestaoEmpresa.UI.Modules.Storage.Interaction
                         CEP = gbAddress.GetControl("txtCep")?.Text.GetValueOrNull(),
                         Cidade = gbAddress.GetControl("txtCidade")?.Text.GetValueOrNull(),
                         Estado = gbAddress.GetControl("cbEstado")?.Text.GetValueOrNull(),
-                        Localizacao = GetLocationFromAttacher((GSLocationAttacher)gbAddress.GetControl("gsLocation"))
+                        //Localizacao = GetLocationFromAttacher((GSLocationAttacher)gbAddress.GetControl("gsLocation"))
                     },
-                    Telefones = GetPhones((MetroGrid)gbPhones.GetControl("gridTelefones"))
+                    //Telefones = GetPhones((MetroGrid)gbPhones.GetControl("gridTelefones"))
                 };
             }
         };

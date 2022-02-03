@@ -9,6 +9,8 @@ using GS.GestaoEmpresa.Solucao.UI.Base;
 using GS.GestaoEmpresa.Solucao.UI.ControlesGenericos;
 using GS.GestaoEmpresa.Solucao.Utilitarios;
 using GS.GestaoEmpresa.UI.Base;
+using GS.GestaoEmpresa.UI.GenericControls;
+using GS.GestaoEmpresa.UI.Modules.Storage.Product;
 using MetroFramework.Forms;
 
 namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
@@ -31,7 +33,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         protected override void ChamadaSalvar(object sender, EventArgs e)
         {
-            var result = (Presenter as ProdutoPresenter)?.Salve();
+            var result = (Presenter as ProductPresenter)?.Salve();
             if(result.IsNotNull() && result!.Any())
             {
                 result.ToList().ForEach(x => MessageBox.Show(x.Mensagem, "Inconsistência"));
@@ -53,7 +55,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         protected override void ChamadaExclusao(object sender, EventArgs e)
         {
-            var result = (Presenter as ProdutoPresenter)?.Exclua(Presenter.Model.Code);
+            var result = (Presenter as ProductPresenter)?.Exclua(Presenter.Model.Code);
             if (result.Any())
             {
                 result.ToList().ForEach(x => MessageBox.Show(x.Mensagem, "Inconsistência"));
@@ -88,7 +90,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             }
 
             var dataVigencia = DateTime.ParseExact((string)cbValidity.SelectedItem, "dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture);
-            ((ProdutoPresenter) Presenter).RecarregueVigencia(dataVigencia);
+            ((ProductPresenter) Presenter).RecarregueVigencia(dataVigencia);
         }
 
         private void txtPorcentagemLucro_Leave(object sender, EventArgs e)

@@ -2,6 +2,7 @@
 
 using GS.GestaoEmpresa.Business.Enumerators.Default;
 using GS.GestaoEmpresa.Business.Interfaces;
+using GS.GestaoEmpresa.Infrastructure.Persistence.RavenDB.Support.Interfaces;
 using GS.GestaoEmpresa.Persistence.RavenDbSupport.Interfaces;
 using GS.GestaoEmpresa.Persistence.RavenDbSupport.Objects;
 using GS.GestaoEmpresa.UI.Base;
@@ -131,6 +132,11 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
                 {
                     _controlPropertyConversions[controlType].Item1.Invoke(control, mapping.ObjectProperty, Model, this);
                 }
+
+                if (mapping.PropertyControlConversion != null)
+                {
+                    mapping.PropertyControlConversion.Invoke(Model, control, mapping.ObjectProperty, null);
+                }
             });
 
             View.Refresh();
@@ -177,7 +183,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
         public void CloseView(object sender, EventArgs eventArgs)
         {
             View.Close();
-            GerenciadorDeViews.Exclua(View.GetType(), InstanceId);
+            ViewManager.Exclua(View.GetType(), InstanceId);
         }
 
         public void EnableControls(IList<string> exceptions = null)
@@ -518,7 +524,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
         {
             cbValidity.Items.Clear();
 
-            using var service = GerenciadorDeViews.ObtenhaServicoHistoricoPadraoPorModel(Model);
+            using var service = ViewManager.ObtenhaServicoHistoricoPadraoPorModel(Model);
             if (service == null) return;
 
             var validityList = service.ConsulteVigencias(code).ToList();

@@ -1,6 +1,6 @@
 ﻿using MetroFramework.Controls;
 
-namespace GS.GestaoEmpresa.UI.MainWindow
+namespace GS.GestaoEmpresa.UI.Modules.MainWindow
 {
     partial class MainView
     {
@@ -93,17 +93,17 @@ namespace GS.GestaoEmpresa.UI.MainWindow
             this.tabControl1.Controls.Add(this.tabLogin);
             this.tabControl1.Controls.Add(this.tabChamador);
             this.tabControl1.Font = new System.Drawing.Font("Microsoft Tai Le", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tabControl1.Location = new System.Drawing.Point(-3, 17);
+            this.tabControl1.Location = new System.Drawing.Point(-4, 21);
+            this.tabControl1.Margin = new System.Windows.Forms.Padding(4);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(798, 496);
+            this.tabControl1.Size = new System.Drawing.Size(1064, 610);
             this.tabControl1.TabIndex = 47;
             this.tabControl1.Visible = false;
             // 
             // tabLogin
             // 
             this.tabLogin.BackColor = System.Drawing.Color.Gainsboro;
-            this.tabLogin.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("tabLogin.BackgroundImage")));
             this.tabLogin.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.tabLogin.Controls.Add(this.gbConfiguracoesBasicas);
             this.tabLogin.Controls.Add(this.panelConexao);
@@ -117,10 +117,11 @@ namespace GS.GestaoEmpresa.UI.MainWindow
             this.tabLogin.Controls.Add(this.label1);
             this.tabLogin.Controls.Add(this.lblTitle);
             this.tabLogin.Controls.Add(this.btnEntrar);
-            this.tabLogin.Location = new System.Drawing.Point(4, 23);
+            this.tabLogin.Location = new System.Drawing.Point(4, 27);
+            this.tabLogin.Margin = new System.Windows.Forms.Padding(4);
             this.tabLogin.Name = "tabLogin";
-            this.tabLogin.Padding = new System.Windows.Forms.Padding(3);
-            this.tabLogin.Size = new System.Drawing.Size(790, 469);
+            this.tabLogin.Padding = new System.Windows.Forms.Padding(4);
+            this.tabLogin.Size = new System.Drawing.Size(1056, 579);
             this.tabLogin.TabIndex = 0;
             this.tabLogin.Text = "Login";
             this.tabLogin.Click += new System.EventHandler(this.tabLogin_Click);
@@ -135,9 +136,11 @@ namespace GS.GestaoEmpresa.UI.MainWindow
             this.gbConfiguracoesBasicas.Controls.Add(this.btnSalvarConfiguracaoBasica);
             this.gbConfiguracoesBasicas.Controls.Add(this.txtConfigServer);
             this.gbConfiguracoesBasicas.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.gbConfiguracoesBasicas.Location = new System.Drawing.Point(557, 143);
+            this.gbConfiguracoesBasicas.Location = new System.Drawing.Point(743, 176);
+            this.gbConfiguracoesBasicas.Margin = new System.Windows.Forms.Padding(4);
             this.gbConfiguracoesBasicas.Name = "gbConfiguracoesBasicas";
-            this.gbConfiguracoesBasicas.Size = new System.Drawing.Size(225, 166);
+            this.gbConfiguracoesBasicas.Padding = new System.Windows.Forms.Padding(4);
+            this.gbConfiguracoesBasicas.Size = new System.Drawing.Size(300, 204);
             this.gbConfiguracoesBasicas.TabIndex = 47;
             this.gbConfiguracoesBasicas.TabStop = false;
             this.gbConfiguracoesBasicas.Text = "Configurações básicas";
@@ -147,9 +150,10 @@ namespace GS.GestaoEmpresa.UI.MainWindow
             // 
             this.lblServer.AutoSize = true;
             this.lblServer.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblServer.Location = new System.Drawing.Point(6, 22);
+            this.lblServer.Location = new System.Drawing.Point(8, 27);
+            this.lblServer.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblServer.Name = "lblServer";
-            this.lblServer.Size = new System.Drawing.Size(45, 17);
+            this.lblServer.Size = new System.Drawing.Size(57, 23);
             this.lblServer.TabIndex = 49;
             this.lblServer.Text = "Server";
             // 
@@ -157,9 +161,10 @@ namespace GS.GestaoEmpresa.UI.MainWindow
             // 
             this.lblDatabaseName.AutoSize = true;
             this.lblDatabaseName.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblDatabaseName.Location = new System.Drawing.Point(6, 70);
+            this.lblDatabaseName.Location = new System.Drawing.Point(8, 86);
+            this.lblDatabaseName.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblDatabaseName.Name = "lblDatabaseName";
-            this.lblDatabaseName.Size = new System.Drawing.Size(103, 17);
+            this.lblDatabaseName.Size = new System.Drawing.Size(134, 23);
             this.lblDatabaseName.TabIndex = 48;
             this.lblDatabaseName.Text = "Nome do Banco";
             // 
@@ -169,16 +174,18 @@ namespace GS.GestaoEmpresa.UI.MainWindow
             // 
             // 
             this.txtConfigDatabaseName.CustomButton.Image = null;
-            this.txtConfigDatabaseName.CustomButton.Location = new System.Drawing.Point(186, 2);
+            this.txtConfigDatabaseName.CustomButton.Location = new System.Drawing.Point(250, 2);
+            this.txtConfigDatabaseName.CustomButton.Margin = new System.Windows.Forms.Padding(4);
             this.txtConfigDatabaseName.CustomButton.Name = "";
-            this.txtConfigDatabaseName.CustomButton.Size = new System.Drawing.Size(21, 21);
+            this.txtConfigDatabaseName.CustomButton.Size = new System.Drawing.Size(27, 27);
             this.txtConfigDatabaseName.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
             this.txtConfigDatabaseName.CustomButton.TabIndex = 1;
             this.txtConfigDatabaseName.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
             this.txtConfigDatabaseName.CustomButton.UseSelectable = true;
             this.txtConfigDatabaseName.CustomButton.Visible = false;
             this.txtConfigDatabaseName.Lines = new string[0];
-            this.txtConfigDatabaseName.Location = new System.Drawing.Point(6, 90);
+            this.txtConfigDatabaseName.Location = new System.Drawing.Point(8, 111);
+            this.txtConfigDatabaseName.Margin = new System.Windows.Forms.Padding(4);
             this.txtConfigDatabaseName.MaxLength = 32767;
             this.txtConfigDatabaseName.Name = "txtConfigDatabaseName";
             this.txtConfigDatabaseName.PasswordChar = '\0';
@@ -187,7 +194,7 @@ namespace GS.GestaoEmpresa.UI.MainWindow
             this.txtConfigDatabaseName.SelectionLength = 0;
             this.txtConfigDatabaseName.SelectionStart = 0;
             this.txtConfigDatabaseName.ShortcutsEnabled = true;
-            this.txtConfigDatabaseName.Size = new System.Drawing.Size(210, 26);
+            this.txtConfigDatabaseName.Size = new System.Drawing.Size(280, 32);
             this.txtConfigDatabaseName.TabIndex = 47;
             this.txtConfigDatabaseName.UseSelectable = true;
             this.txtConfigDatabaseName.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
@@ -196,9 +203,10 @@ namespace GS.GestaoEmpresa.UI.MainWindow
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(206, 10);
+            this.label13.Location = new System.Drawing.Point(275, 12);
+            this.label13.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(17, 21);
+            this.label13.Size = new System.Drawing.Size(21, 28);
             this.label13.TabIndex = 46;
             this.label13.Text = "x";
             this.label13.Click += new System.EventHandler(this.label13_Click);
@@ -206,9 +214,10 @@ namespace GS.GestaoEmpresa.UI.MainWindow
             // btnSalvarConfiguracaoBasica
             // 
             this.btnSalvarConfiguracaoBasica.FontSize = MetroFramework.MetroButtonSize.Medium;
-            this.btnSalvarConfiguracaoBasica.Location = new System.Drawing.Point(57, 123);
+            this.btnSalvarConfiguracaoBasica.Location = new System.Drawing.Point(76, 151);
+            this.btnSalvarConfiguracaoBasica.Margin = new System.Windows.Forms.Padding(4);
             this.btnSalvarConfiguracaoBasica.Name = "btnSalvarConfiguracaoBasica";
-            this.btnSalvarConfiguracaoBasica.Size = new System.Drawing.Size(107, 34);
+            this.btnSalvarConfiguracaoBasica.Size = new System.Drawing.Size(143, 42);
             this.btnSalvarConfiguracaoBasica.TabIndex = 42;
             this.btnSalvarConfiguracaoBasica.Text = "Salvar";
             this.btnSalvarConfiguracaoBasica.UseSelectable = true;
@@ -220,16 +229,18 @@ namespace GS.GestaoEmpresa.UI.MainWindow
             // 
             // 
             this.txtConfigServer.CustomButton.Image = null;
-            this.txtConfigServer.CustomButton.Location = new System.Drawing.Point(186, 2);
+            this.txtConfigServer.CustomButton.Location = new System.Drawing.Point(250, 2);
+            this.txtConfigServer.CustomButton.Margin = new System.Windows.Forms.Padding(4);
             this.txtConfigServer.CustomButton.Name = "";
-            this.txtConfigServer.CustomButton.Size = new System.Drawing.Size(21, 21);
+            this.txtConfigServer.CustomButton.Size = new System.Drawing.Size(27, 27);
             this.txtConfigServer.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
             this.txtConfigServer.CustomButton.TabIndex = 1;
             this.txtConfigServer.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
             this.txtConfigServer.CustomButton.UseSelectable = true;
             this.txtConfigServer.CustomButton.Visible = false;
             this.txtConfigServer.Lines = new string[0];
-            this.txtConfigServer.Location = new System.Drawing.Point(6, 43);
+            this.txtConfigServer.Location = new System.Drawing.Point(8, 53);
+            this.txtConfigServer.Margin = new System.Windows.Forms.Padding(4);
             this.txtConfigServer.MaxLength = 32767;
             this.txtConfigServer.Name = "txtConfigServer";
             this.txtConfigServer.PasswordChar = '\0';
@@ -238,7 +249,7 @@ namespace GS.GestaoEmpresa.UI.MainWindow
             this.txtConfigServer.SelectionLength = 0;
             this.txtConfigServer.SelectionStart = 0;
             this.txtConfigServer.ShortcutsEnabled = true;
-            this.txtConfigServer.Size = new System.Drawing.Size(210, 26);
+            this.txtConfigServer.Size = new System.Drawing.Size(280, 32);
             this.txtConfigServer.TabIndex = 0;
             this.txtConfigServer.UseSelectable = true;
             this.txtConfigServer.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
@@ -250,18 +261,20 @@ namespace GS.GestaoEmpresa.UI.MainWindow
             this.panelConexao.Controls.Add(this.pictureBox5);
             this.panelConexao.Controls.Add(this.lblIpApp);
             this.panelConexao.Controls.Add(this.lblIpBanco);
-            this.panelConexao.Location = new System.Drawing.Point(522, 23);
+            this.panelConexao.Location = new System.Drawing.Point(696, 28);
+            this.panelConexao.Margin = new System.Windows.Forms.Padding(4);
             this.panelConexao.Name = "panelConexao";
-            this.panelConexao.Size = new System.Drawing.Size(260, 100);
+            this.panelConexao.Size = new System.Drawing.Size(347, 123);
             this.panelConexao.TabIndex = 56;
             // 
             // pictureBox5
             // 
             this.pictureBox5.BackgroundImage = global::GS.GestaoEmpresa.Properties.Resources.SemConexao;
             this.pictureBox5.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.pictureBox5.Location = new System.Drawing.Point(13, 9);
+            this.pictureBox5.Location = new System.Drawing.Point(17, 11);
+            this.pictureBox5.Margin = new System.Windows.Forms.Padding(4);
             this.pictureBox5.Name = "pictureBox5";
-            this.pictureBox5.Size = new System.Drawing.Size(210, 50);
+            this.pictureBox5.Size = new System.Drawing.Size(280, 62);
             this.pictureBox5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox5.TabIndex = 53;
             this.pictureBox5.TabStop = false;
@@ -270,27 +283,30 @@ namespace GS.GestaoEmpresa.UI.MainWindow
             // 
             this.lblIpApp.AutoSize = true;
             this.lblIpApp.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblIpApp.Location = new System.Drawing.Point(12, 61);
+            this.lblIpApp.Location = new System.Drawing.Point(16, 75);
+            this.lblIpApp.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblIpApp.Name = "lblIpApp";
-            this.lblIpApp.Size = new System.Drawing.Size(0, 17);
+            this.lblIpApp.Size = new System.Drawing.Size(0, 23);
             this.lblIpApp.TabIndex = 54;
             // 
             // lblIpBanco
             // 
             this.lblIpBanco.AutoSize = true;
             this.lblIpBanco.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblIpBanco.Location = new System.Drawing.Point(134, 61);
+            this.lblIpBanco.Location = new System.Drawing.Point(179, 75);
+            this.lblIpBanco.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblIpBanco.Name = "lblIpBanco";
-            this.lblIpBanco.Size = new System.Drawing.Size(0, 17);
+            this.lblIpBanco.Size = new System.Drawing.Size(0, 23);
             this.lblIpBanco.TabIndex = 55;
             // 
             // lblConfiguracoesBasicas
             // 
             this.lblConfiguracoesBasicas.AutoSize = true;
             this.lblConfiguracoesBasicas.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblConfiguracoesBasicas.Location = new System.Drawing.Point(658, 3);
+            this.lblConfiguracoesBasicas.Location = new System.Drawing.Point(877, 4);
+            this.lblConfiguracoesBasicas.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblConfiguracoesBasicas.Name = "lblConfiguracoesBasicas";
-            this.lblConfiguracoesBasicas.Size = new System.Drawing.Size(92, 17);
+            this.lblConfiguracoesBasicas.Size = new System.Drawing.Size(119, 23);
             this.lblConfiguracoesBasicas.TabIndex = 48;
             this.lblConfiguracoesBasicas.Text = "Configurações";
             this.lblConfiguracoesBasicas.Visible = false;
@@ -303,16 +319,18 @@ namespace GS.GestaoEmpresa.UI.MainWindow
             // 
             // 
             this.txtSenha.CustomButton.Image = null;
-            this.txtSenha.CustomButton.Location = new System.Drawing.Point(130, 2);
+            this.txtSenha.CustomButton.Location = new System.Drawing.Point(175, 2);
+            this.txtSenha.CustomButton.Margin = new System.Windows.Forms.Padding(4);
             this.txtSenha.CustomButton.Name = "";
-            this.txtSenha.CustomButton.Size = new System.Drawing.Size(19, 19);
+            this.txtSenha.CustomButton.Size = new System.Drawing.Size(25, 25);
             this.txtSenha.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
             this.txtSenha.CustomButton.TabIndex = 1;
             this.txtSenha.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
             this.txtSenha.CustomButton.UseSelectable = true;
             this.txtSenha.CustomButton.Visible = false;
             this.txtSenha.Lines = new string[0];
-            this.txtSenha.Location = new System.Drawing.Point(325, 316);
+            this.txtSenha.Location = new System.Drawing.Point(433, 389);
+            this.txtSenha.Margin = new System.Windows.Forms.Padding(4);
             this.txtSenha.MaxLength = 32767;
             this.txtSenha.Name = "txtSenha";
             this.txtSenha.PasswordChar = '*';
@@ -321,7 +339,7 @@ namespace GS.GestaoEmpresa.UI.MainWindow
             this.txtSenha.SelectionLength = 0;
             this.txtSenha.SelectionStart = 0;
             this.txtSenha.ShortcutsEnabled = true;
-            this.txtSenha.Size = new System.Drawing.Size(152, 24);
+            this.txtSenha.Size = new System.Drawing.Size(203, 30);
             this.txtSenha.TabIndex = 44;
             this.txtSenha.UseCustomBackColor = true;
             this.txtSenha.UseSelectable = true;
@@ -336,16 +354,18 @@ namespace GS.GestaoEmpresa.UI.MainWindow
             // 
             // 
             this.txtUsuario.CustomButton.Image = null;
-            this.txtUsuario.CustomButton.Location = new System.Drawing.Point(130, 2);
+            this.txtUsuario.CustomButton.Location = new System.Drawing.Point(175, 2);
+            this.txtUsuario.CustomButton.Margin = new System.Windows.Forms.Padding(4);
             this.txtUsuario.CustomButton.Name = "";
-            this.txtUsuario.CustomButton.Size = new System.Drawing.Size(19, 19);
+            this.txtUsuario.CustomButton.Size = new System.Drawing.Size(25, 25);
             this.txtUsuario.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
             this.txtUsuario.CustomButton.TabIndex = 1;
             this.txtUsuario.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
             this.txtUsuario.CustomButton.UseSelectable = true;
             this.txtUsuario.CustomButton.Visible = false;
             this.txtUsuario.Lines = new string[0];
-            this.txtUsuario.Location = new System.Drawing.Point(324, 274);
+            this.txtUsuario.Location = new System.Drawing.Point(432, 337);
+            this.txtUsuario.Margin = new System.Windows.Forms.Padding(4);
             this.txtUsuario.MaxLength = 32767;
             this.txtUsuario.Name = "txtUsuario";
             this.txtUsuario.PasswordChar = '\0';
@@ -354,7 +374,7 @@ namespace GS.GestaoEmpresa.UI.MainWindow
             this.txtUsuario.SelectionLength = 0;
             this.txtUsuario.SelectionStart = 0;
             this.txtUsuario.ShortcutsEnabled = true;
-            this.txtUsuario.Size = new System.Drawing.Size(152, 24);
+            this.txtUsuario.Size = new System.Drawing.Size(203, 30);
             this.txtUsuario.TabIndex = 43;
             this.txtUsuario.UseCustomBackColor = true;
             this.txtUsuario.UseSelectable = true;
@@ -365,9 +385,10 @@ namespace GS.GestaoEmpresa.UI.MainWindow
             // 
             this.pictureBoxLogo.BackColor = System.Drawing.Color.Transparent;
             this.pictureBoxLogo.Image = ((System.Drawing.Image)(resources.GetObject("pictureBoxLogo.Image")));
-            this.pictureBoxLogo.Location = new System.Drawing.Point(301, 32);
+            this.pictureBoxLogo.Location = new System.Drawing.Point(401, 39);
+            this.pictureBoxLogo.Margin = new System.Windows.Forms.Padding(4);
             this.pictureBoxLogo.Name = "pictureBoxLogo";
-            this.pictureBoxLogo.Size = new System.Drawing.Size(197, 156);
+            this.pictureBoxLogo.Size = new System.Drawing.Size(263, 192);
             this.pictureBoxLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.pictureBoxLogo.TabIndex = 42;
             this.pictureBoxLogo.TabStop = false;
@@ -376,9 +397,10 @@ namespace GS.GestaoEmpresa.UI.MainWindow
             // 
             this.pictureBox3.BackColor = System.Drawing.Color.Transparent;
             this.pictureBox3.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox3.Image")));
-            this.pictureBox3.Location = new System.Drawing.Point(288, 305);
+            this.pictureBox3.Location = new System.Drawing.Point(384, 375);
+            this.pictureBox3.Margin = new System.Windows.Forms.Padding(4);
             this.pictureBox3.Name = "pictureBox3";
-            this.pictureBox3.Size = new System.Drawing.Size(26, 36);
+            this.pictureBox3.Size = new System.Drawing.Size(35, 44);
             this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox3.TabIndex = 40;
             this.pictureBox3.TabStop = false;
@@ -387,9 +409,10 @@ namespace GS.GestaoEmpresa.UI.MainWindow
             // 
             this.pictureBox2.BackColor = System.Drawing.Color.Transparent;
             this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
-            this.pictureBox2.Location = new System.Drawing.Point(286, 268);
+            this.pictureBox2.Location = new System.Drawing.Point(381, 330);
+            this.pictureBox2.Margin = new System.Windows.Forms.Padding(4);
             this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(30, 31);
+            this.pictureBox2.Size = new System.Drawing.Size(40, 38);
             this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox2.TabIndex = 39;
             this.pictureBox2.TabStop = false;
@@ -399,9 +422,10 @@ namespace GS.GestaoEmpresa.UI.MainWindow
             this.label2.AutoSize = true;
             this.label2.BackColor = System.Drawing.Color.Transparent;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(283, 325);
+            this.label2.Location = new System.Drawing.Point(377, 400);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(225, 20);
+            this.label2.Size = new System.Drawing.Size(276, 25);
             this.label2.TabIndex = 38;
             this.label2.Text = "________________________";
             // 
@@ -410,9 +434,10 @@ namespace GS.GestaoEmpresa.UI.MainWindow
             this.label1.AutoSize = true;
             this.label1.BackColor = System.Drawing.Color.Transparent;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(283, 283);
+            this.label1.Location = new System.Drawing.Point(377, 348);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(225, 20);
+            this.label1.Size = new System.Drawing.Size(276, 25);
             this.label1.TabIndex = 37;
             this.label1.Text = "________________________";
             // 
@@ -421,9 +446,10 @@ namespace GS.GestaoEmpresa.UI.MainWindow
             this.lblTitle.AutoSize = true;
             this.lblTitle.BackColor = System.Drawing.Color.Transparent;
             this.lblTitle.Font = new System.Drawing.Font("Segoe UI Light", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTitle.Location = new System.Drawing.Point(288, 195);
+            this.lblTitle.Location = new System.Drawing.Point(384, 240);
+            this.lblTitle.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblTitle.Name = "lblTitle";
-            this.lblTitle.Size = new System.Drawing.Size(213, 40);
+            this.lblTitle.Size = new System.Drawing.Size(272, 50);
             this.lblTitle.TabIndex = 36;
             this.lblTitle.Text = "Gestão Empresa";
             // 
@@ -434,9 +460,10 @@ namespace GS.GestaoEmpresa.UI.MainWindow
             this.btnEntrar.Enabled = false;
             this.btnEntrar.FontSize = MetroFramework.MetroButtonSize.Medium;
             this.btnEntrar.ForeColor = System.Drawing.Color.SteelBlue;
-            this.btnEntrar.Location = new System.Drawing.Point(327, 352);
+            this.btnEntrar.Location = new System.Drawing.Point(436, 433);
+            this.btnEntrar.Margin = new System.Windows.Forms.Padding(4);
             this.btnEntrar.Name = "btnEntrar";
-            this.btnEntrar.Size = new System.Drawing.Size(119, 35);
+            this.btnEntrar.Size = new System.Drawing.Size(159, 43);
             this.btnEntrar.TabIndex = 45;
             this.btnEntrar.Text = "Entrar";
             this.btnEntrar.UseSelectable = true;
@@ -445,7 +472,6 @@ namespace GS.GestaoEmpresa.UI.MainWindow
             // tabChamador
             // 
             this.tabChamador.BackColor = System.Drawing.Color.Gainsboro;
-            this.tabChamador.BackgroundImage = global::GS.GestaoEmpresa.Properties.Resources.BackgroundNew;
             this.tabChamador.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.tabChamador.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.tabChamador.Controls.Add(this.label5);
@@ -453,10 +479,11 @@ namespace GS.GestaoEmpresa.UI.MainWindow
             this.tabChamador.Controls.Add(this.label9);
             this.tabChamador.Controls.Add(this.groupBox2);
             this.tabChamador.Controls.Add(this.pictureBox4);
-            this.tabChamador.Location = new System.Drawing.Point(4, 23);
+            this.tabChamador.Location = new System.Drawing.Point(4, 27);
+            this.tabChamador.Margin = new System.Windows.Forms.Padding(4);
             this.tabChamador.Name = "tabChamador";
-            this.tabChamador.Padding = new System.Windows.Forms.Padding(3);
-            this.tabChamador.Size = new System.Drawing.Size(790, 469);
+            this.tabChamador.Padding = new System.Windows.Forms.Padding(4);
+            this.tabChamador.Size = new System.Drawing.Size(1056, 579);
             this.tabChamador.TabIndex = 1;
             this.tabChamador.Text = "Chamador";
             // 
@@ -465,9 +492,10 @@ namespace GS.GestaoEmpresa.UI.MainWindow
             this.label5.AutoSize = true;
             this.label5.BackColor = System.Drawing.Color.Transparent;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(458, 51);
+            this.label5.Location = new System.Drawing.Point(611, 63);
+            this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(59, 25);
+            this.label5.Size = new System.Drawing.Size(73, 31);
             this.label5.TabIndex = 25;
             this.label5.Text = "v 1.?";
             // 
@@ -481,9 +509,11 @@ namespace GS.GestaoEmpresa.UI.MainWindow
             this.groupBox1.Controls.Add(this.label7);
             this.groupBox1.Controls.Add(this.label8);
             this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox1.Location = new System.Drawing.Point(41, 6);
+            this.groupBox1.Location = new System.Drawing.Point(55, 7);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(221, 94);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(4);
+            this.groupBox1.Size = new System.Drawing.Size(295, 116);
             this.groupBox1.TabIndex = 24;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Permissões";
@@ -492,18 +522,20 @@ namespace GS.GestaoEmpresa.UI.MainWindow
             // 
             this.txtPermissaoGrupo.BackColor = System.Drawing.Color.SteelBlue;
             this.txtPermissaoGrupo.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtPermissaoGrupo.Location = new System.Drawing.Point(73, 74);
+            this.txtPermissaoGrupo.Location = new System.Drawing.Point(97, 91);
+            this.txtPermissaoGrupo.Margin = new System.Windows.Forms.Padding(4);
             this.txtPermissaoGrupo.Name = "txtPermissaoGrupo";
-            this.txtPermissaoGrupo.Size = new System.Drawing.Size(100, 19);
+            this.txtPermissaoGrupo.Size = new System.Drawing.Size(133, 23);
             this.txtPermissaoGrupo.TabIndex = 24;
             // 
             // txtPermissaoFuncao
             // 
             this.txtPermissaoFuncao.BackColor = System.Drawing.Color.SteelBlue;
             this.txtPermissaoFuncao.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtPermissaoFuncao.Location = new System.Drawing.Point(73, 48);
+            this.txtPermissaoFuncao.Location = new System.Drawing.Point(97, 59);
+            this.txtPermissaoFuncao.Margin = new System.Windows.Forms.Padding(4);
             this.txtPermissaoFuncao.Name = "txtPermissaoFuncao";
-            this.txtPermissaoFuncao.Size = new System.Drawing.Size(100, 19);
+            this.txtPermissaoFuncao.Size = new System.Drawing.Size(133, 23);
             this.txtPermissaoFuncao.TabIndex = 23;
             // 
             // txtPermissaoUsuario
@@ -511,18 +543,20 @@ namespace GS.GestaoEmpresa.UI.MainWindow
             this.txtPermissaoUsuario.BackColor = System.Drawing.Color.SteelBlue;
             this.txtPermissaoUsuario.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtPermissaoUsuario.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtPermissaoUsuario.Location = new System.Drawing.Point(73, 21);
+            this.txtPermissaoUsuario.Location = new System.Drawing.Point(97, 26);
+            this.txtPermissaoUsuario.Margin = new System.Windows.Forms.Padding(4);
             this.txtPermissaoUsuario.Name = "txtPermissaoUsuario";
-            this.txtPermissaoUsuario.Size = new System.Drawing.Size(100, 19);
+            this.txtPermissaoUsuario.Size = new System.Drawing.Size(133, 23);
             this.txtPermissaoUsuario.TabIndex = 22;
             // 
             // label6
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(7, 71);
+            this.label6.Location = new System.Drawing.Point(9, 87);
+            this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(58, 20);
+            this.label6.Size = new System.Drawing.Size(72, 25);
             this.label6.TabIndex = 21;
             this.label6.Text = "Grupo:";
             // 
@@ -530,9 +564,10 @@ namespace GS.GestaoEmpresa.UI.MainWindow
             // 
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(7, 45);
+            this.label7.Location = new System.Drawing.Point(9, 55);
+            this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(67, 20);
+            this.label7.Size = new System.Drawing.Size(84, 25);
             this.label7.TabIndex = 20;
             this.label7.Text = "Função:";
             // 
@@ -540,9 +575,10 @@ namespace GS.GestaoEmpresa.UI.MainWindow
             // 
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.Location = new System.Drawing.Point(5, 20);
+            this.label8.Location = new System.Drawing.Point(7, 25);
+            this.label8.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(68, 20);
+            this.label8.Size = new System.Drawing.Size(85, 25);
             this.label8.TabIndex = 19;
             this.label8.Text = "Usuário:";
             // 
@@ -551,9 +587,10 @@ namespace GS.GestaoEmpresa.UI.MainWindow
             this.label9.AutoSize = true;
             this.label9.BackColor = System.Drawing.Color.Transparent;
             this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.Location = new System.Drawing.Point(268, 14);
+            this.label9.Location = new System.Drawing.Point(357, 17);
+            this.label9.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(271, 37);
+            this.label9.Size = new System.Drawing.Size(333, 46);
             this.label9.TabIndex = 22;
             this.label9.Text = "Gestão Empresa";
             // 
@@ -567,9 +604,11 @@ namespace GS.GestaoEmpresa.UI.MainWindow
             this.groupBox2.Controls.Add(this.btnConfiguracoes);
             this.groupBox2.Controls.Add(this.btnEstoque);
             this.groupBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox2.Location = new System.Drawing.Point(41, 99);
+            this.groupBox2.Location = new System.Drawing.Point(55, 122);
+            this.groupBox2.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(717, 334);
+            this.groupBox2.Padding = new System.Windows.Forms.Padding(4);
+            this.groupBox2.Size = new System.Drawing.Size(956, 411);
             this.groupBox2.TabIndex = 21;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Módulos";
@@ -580,9 +619,10 @@ namespace GS.GestaoEmpresa.UI.MainWindow
             this.btnAtendimento.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.btnAtendimento.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnAtendimento.FontSize = MetroFramework.MetroButtonSize.Tall;
-            this.btnAtendimento.Location = new System.Drawing.Point(361, 21);
+            this.btnAtendimento.Location = new System.Drawing.Point(481, 26);
+            this.btnAtendimento.Margin = new System.Windows.Forms.Padding(4);
             this.btnAtendimento.Name = "btnAtendimento";
-            this.btnAtendimento.Size = new System.Drawing.Size(170, 150);
+            this.btnAtendimento.Size = new System.Drawing.Size(227, 185);
             this.btnAtendimento.TabIndex = 7;
             this.btnAtendimento.Text = "Atendimento";
             this.btnAtendimento.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
@@ -595,9 +635,10 @@ namespace GS.GestaoEmpresa.UI.MainWindow
             this.btnTecnico.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.btnTecnico.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnTecnico.FontSize = MetroFramework.MetroButtonSize.Tall;
-            this.btnTecnico.Location = new System.Drawing.Point(537, 21);
+            this.btnTecnico.Location = new System.Drawing.Point(716, 26);
+            this.btnTecnico.Margin = new System.Windows.Forms.Padding(4);
             this.btnTecnico.Name = "btnTecnico";
-            this.btnTecnico.Size = new System.Drawing.Size(170, 150);
+            this.btnTecnico.Size = new System.Drawing.Size(227, 185);
             this.btnTecnico.TabIndex = 13;
             this.btnTecnico.Text = "Técnico";
             this.btnTecnico.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
@@ -611,9 +652,10 @@ namespace GS.GestaoEmpresa.UI.MainWindow
             this.btnAuditoria.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnAuditoria.Enabled = false;
             this.btnAuditoria.FontSize = MetroFramework.MetroButtonSize.Tall;
-            this.btnAuditoria.Location = new System.Drawing.Point(185, 177);
+            this.btnAuditoria.Location = new System.Drawing.Point(247, 218);
+            this.btnAuditoria.Margin = new System.Windows.Forms.Padding(4);
             this.btnAuditoria.Name = "btnAuditoria";
-            this.btnAuditoria.Size = new System.Drawing.Size(170, 150);
+            this.btnAuditoria.Size = new System.Drawing.Size(227, 185);
             this.btnAuditoria.TabIndex = 15;
             this.btnAuditoria.Text = "Auditoria";
             this.btnAuditoria.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
@@ -626,9 +668,10 @@ namespace GS.GestaoEmpresa.UI.MainWindow
             this.btnCorporativo.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnCorporativo.Enabled = false;
             this.btnCorporativo.FontSize = MetroFramework.MetroButtonSize.Tall;
-            this.btnCorporativo.Location = new System.Drawing.Point(9, 177);
+            this.btnCorporativo.Location = new System.Drawing.Point(12, 218);
+            this.btnCorporativo.Margin = new System.Windows.Forms.Padding(4);
             this.btnCorporativo.Name = "btnCorporativo";
-            this.btnCorporativo.Size = new System.Drawing.Size(170, 150);
+            this.btnCorporativo.Size = new System.Drawing.Size(227, 185);
             this.btnCorporativo.TabIndex = 14;
             this.btnCorporativo.Text = "Corporativo";
             this.btnCorporativo.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
@@ -642,9 +685,10 @@ namespace GS.GestaoEmpresa.UI.MainWindow
             this.btnConfiguracoes.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnConfiguracoes.Enabled = false;
             this.btnConfiguracoes.FontSize = MetroFramework.MetroButtonSize.Tall;
-            this.btnConfiguracoes.Location = new System.Drawing.Point(9, 21);
+            this.btnConfiguracoes.Location = new System.Drawing.Point(12, 26);
+            this.btnConfiguracoes.Margin = new System.Windows.Forms.Padding(4);
             this.btnConfiguracoes.Name = "btnConfiguracoes";
-            this.btnConfiguracoes.Size = new System.Drawing.Size(170, 150);
+            this.btnConfiguracoes.Size = new System.Drawing.Size(227, 185);
             this.btnConfiguracoes.TabIndex = 12;
             this.btnConfiguracoes.Text = "Configurações";
             this.btnConfiguracoes.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
@@ -657,9 +701,10 @@ namespace GS.GestaoEmpresa.UI.MainWindow
             this.btnEstoque.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.btnEstoque.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnEstoque.FontSize = MetroFramework.MetroButtonSize.Tall;
-            this.btnEstoque.Location = new System.Drawing.Point(185, 21);
+            this.btnEstoque.Location = new System.Drawing.Point(247, 26);
+            this.btnEstoque.Margin = new System.Windows.Forms.Padding(4);
             this.btnEstoque.Name = "btnEstoque";
-            this.btnEstoque.Size = new System.Drawing.Size(170, 150);
+            this.btnEstoque.Size = new System.Drawing.Size(227, 185);
             this.btnEstoque.TabIndex = 8;
             this.btnEstoque.Text = "Estoque";
             this.btnEstoque.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
@@ -672,9 +717,10 @@ namespace GS.GestaoEmpresa.UI.MainWindow
             this.pictureBox4.BackColor = System.Drawing.Color.Transparent;
             this.pictureBox4.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pictureBox4.BackgroundImage")));
             this.pictureBox4.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.pictureBox4.Location = new System.Drawing.Point(546, -23);
+            this.pictureBox4.Location = new System.Drawing.Point(728, -28);
+            this.pictureBox4.Margin = new System.Windows.Forms.Padding(4);
             this.pictureBox4.Name = "pictureBox4";
-            this.pictureBox4.Size = new System.Drawing.Size(213, 147);
+            this.pictureBox4.Size = new System.Drawing.Size(284, 181);
             this.pictureBox4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox4.TabIndex = 23;
             this.pictureBox4.TabStop = false;
@@ -684,20 +730,23 @@ namespace GS.GestaoEmpresa.UI.MainWindow
             this.gsTopBorder1.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
             this.gsTopBorder1.DisplayMaximize = false;
             this.gsTopBorder1.Location = new System.Drawing.Point(0, 0);
+            this.gsTopBorder1.Margin = new System.Windows.Forms.Padding(5);
             this.gsTopBorder1.Name = "gsTopBorder1";
-            this.gsTopBorder1.Size = new System.Drawing.Size(788, 26);
+            this.gsTopBorder1.Size = new System.Drawing.Size(1051, 32);
             this.gsTopBorder1.TabIndex = 48;
             // 
             // MainView
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(788, 478);
+            this.ClientSize = new System.Drawing.Size(1051, 588);
             this.Controls.Add(this.gsTopBorder1);
             this.Controls.Add(this.tabControl1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;
             this.Name = "MainView";
+            this.Padding = new System.Windows.Forms.Padding(27, 74, 27, 25);
             this.ShadowType = MetroFramework.Forms.MetroFormShadowType.None;
             this.Load += new System.EventHandler(this.GestaoEmpresa_Load);
             this.tabControl1.ResumeLayout(false);

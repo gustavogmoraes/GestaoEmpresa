@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using GS.GestaoEmpresa.Business.Interfaces;
+using GS.GestaoEmpresa.Infrastructure.Persistence.RavenDB.Support.Interfaces;
 using GS.GestaoEmpresa.Persistence.RavenDbSupport.Interfaces;
 using GS.GestaoEmpresa.Persistence.RavenDbSupport.Objects;
 using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores.Comuns.Estoque;
@@ -26,11 +27,7 @@ namespace GS.GestaoEmpresa.Business.Objects.Storage
         public string Origin { get; set; }
 
         public string Destination { get; set; }
-
-
-        /// <summary>
-        /// Nota fiscal
-        /// </summary>
+        
         public string InvoiceNumber { get; set; }
 
         public string Technician { get; set; }
@@ -40,7 +37,9 @@ namespace GS.GestaoEmpresa.Business.Objects.Storage
         public string Situation { get; set; }
 
         public DateTime? ReturnTime { get; set; }
+        
         public string OrderOfServiceNumber { get; set; }
+        
         public string Notes { get; set; }
     }
 }

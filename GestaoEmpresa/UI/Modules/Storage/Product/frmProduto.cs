@@ -377,13 +377,13 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                     {
                         if (FormType == FormType.Insert)
                         {
-                            GerenciadorDeViews.ObtenhaIndependente<FrmEstoque>()
+                            ViewManager.ObtenhaIndependente<FrmEstoque>()
                                 .AdicioneNovoProdutoNaGrid(produto, 0);
                             MessageBox.Show(Mensagens.X_FOI_CADASTRADO_COM_SUCESSO("Produto"));
                         }
                         else
                         {
-                            GerenciadorDeViews.ObtenhaIndependente<FrmEstoque>().RecarregueProdutoEspecifico(produto, quantidade);
+                            ViewManager.ObtenhaIndependente<FrmEstoque>().RecarregueProdutoEspecifico(produto, quantidade);
                             MessageBox.Show(Mensagens.X_FOI_ATUALIZADO_COM_SUCESSO("Produto"));
                         }
 
@@ -515,7 +515,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         public void ApagueInstancia()
         {
-            //GerenciadorDeViews.Delete<frmProduto>(InstanceId);
+            //ViewManager.Delete<frmProduto>(InstanceId);
         }
 
         private void frmProduto_FormClosed(object sender, FormClosedEventArgs e)

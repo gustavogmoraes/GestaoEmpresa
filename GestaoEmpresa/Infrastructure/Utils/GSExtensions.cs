@@ -41,6 +41,11 @@ namespace GS.GestaoEmpresa.Solucao.Utilitarios
             return number % 2 == 0;
         }
 
+        public static object Coalesce<T>(this T item, Expression<Func<T, bool>> expression, T trueValue)
+        {
+            return expression.Compile().Invoke(item) ? trueValue : item;
+        }
+
         public static IList<string> ObtenhaLabels(this IList<PropertyInfo> listaDePropriedades)
         {
             return listaDePropriedades.Select(x => ((ExporterMetadata)x.GetCustomAttributes(typeof(ExporterMetadata), false).FirstOrDefault())?.Descricao).ToList();
@@ -183,7 +188,7 @@ namespace GS.GestaoEmpresa.Solucao.Utilitarios
 
             if (invoker == null)
             {
-                invoker = GerenciadorDeViews.ObtenhaPrincipal();
+                invoker = ViewManager.GetMain();
             }
 
             invoker.Invoke((MethodInvoker)delegate

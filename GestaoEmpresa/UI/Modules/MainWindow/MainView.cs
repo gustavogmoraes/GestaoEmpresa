@@ -2,17 +2,12 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
-using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
-using GS.GestaoEmpresa.Business.Converters;
 using GS.GestaoEmpresa.Business.Enumerators.Default;
 using GS.GestaoEmpresa.Business.Objects.Base;
 using GS.GestaoEmpresa.Business.Objects.Core;
-using GS.GestaoEmpresa.Business.Objects.Storage;
 using GS.GestaoEmpresa.Business.Services;
-using GS.GestaoEmpresa.Infrastructure.Persistence.Repositories;
-using GS.GestaoEmpresa.Persistence.RavenDB;
 using GS.GestaoEmpresa.Persistence.Repositories;
 using GS.GestaoEmpresa.Properties;
 using GS.GestaoEmpresa.Solucao.Negocio.Catalogos;
@@ -27,11 +22,11 @@ using GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque;
 using GS.GestaoEmpresa.Solucao.UI.Modulos.Tecnico;
 using GS.GestaoEmpresa.Solucao.Utilitarios;
 using GS.GestaoEmpresa.UI.Base;
+using GS.GestaoEmpresa.UI.GenericControls;
 using GS.GestaoEmpresa.UI.Modules.Storage.Interaction;
 using MetroFramework.Forms;
-using Raven.Client.Documents.Linq;
 
-namespace GS.GestaoEmpresa.UI.MainWindow
+namespace GS.GestaoEmpresa.UI.Modules.MainWindow
 {
     public partial class MainView : MetroForm, IView
     {
@@ -68,9 +63,9 @@ namespace GS.GestaoEmpresa.UI.MainWindow
 
         #region Constantes
 
-        public const string DIRETORIO_LOCAL = @".\";
+        public const string DiretorioLocal = @".\";
 
-        public const string NOME_ARQUIVO_CONFIGURACOES_BANCO = "ConexaoBanco.txt";
+        public const string NomeArquivoConfiguracoesBanco = "ConexaoBanco.txt";
 
         #endregion
 
@@ -98,7 +93,7 @@ namespace GS.GestaoEmpresa.UI.MainWindow
 
         private void CarregueConfiguracoesConexaoBanco()
         {
-           SessaoSistema.InformacoesConexao = SessaoSistema.BusqueConfiguracoesConexaoDoArquivo(DIRETORIO_LOCAL, NOME_ARQUIVO_CONFIGURACOES_BANCO);
+           SessaoSistema.InformacoesConexao = SessaoSistema.BusqueConfiguracoesConexaoDoArquivo(DiretorioLocal, NomeArquivoConfiguracoesBanco);
 
             if (SessaoSistema.InformacoesConexao == null)
             {
@@ -148,7 +143,7 @@ namespace GS.GestaoEmpresa.UI.MainWindow
         {
             if (SessaoSistema.InformacoesConexao == null)
             {
-                SessaoSistema.BusqueConfiguracoesConexaoDoArquivo(DIRETORIO_LOCAL, NOME_ARQUIVO_CONFIGURACOES_BANCO);
+                SessaoSistema.BusqueConfiguracoesConexaoDoArquivo(DiretorioLocal, NomeArquivoConfiguracoesBanco);
             }
 
             lblIpApp.Text = GSUtilitarios.ObtenhaIPLocal();
@@ -195,7 +190,7 @@ namespace GS.GestaoEmpresa.UI.MainWindow
 
         #region Eventos
 
-        //Evento Load
+        // Evento Load
         private void GestaoEmpresa_Load(object sender, EventArgs e)
         {
             AjustePosicaoControlsDinamicamente();
@@ -215,105 +210,8 @@ namespace GS.GestaoEmpresa.UI.MainWindow
             SessaoSistema.InicieVerificacaoDeConexao();
 
             InicieVerificacaoParaAtualizarStatusDeConexao();
-
-            /////////// Migration ///////////
-
-            //MigrateUsers();
-            //MigrateConfig();
-            //MigrateProducts();
-            //MigrateProductQuantities();
-            //MigrateInteractions();
-
-            /////////////////////////////////
         }
 
-        public void MigrateConfig()
-        {
-            var session = RavenHelper.OpenSession();
-            var cfgs = session.Query<Configuracao>().ToList();
-            var cfgRepo = new ConfigurationRepository();
-            foreach (var x in cfgs)
-            {
-                cfgRepo.Insert(new Configuration
-                {
-                    Code = x.Codigo,
-                    DefaultSaleProfitPercentage = x.PorcentagemDeLucroPadrao,
-                    ProtegeTaxPercentage = x.PorcentagemImpostoProtege
-                });
-
-                session.Delete(x);
-            }
-
-            session.SaveChanges();
-        }
-
-        public void MigrateProductQuantities()
-        {
-            var session = RavenHelper.OpenSession();
-            var pq = session.Query<ProdutoQuantidade>().OrderBy(x => x.Codigo).ToList();
-            var productQuantityRepository = new ProductQuantityRepository();
-            pq.ForEach(x =>
-            {
-                var session2 = RavenHelper.OpenSession();
-                productQuantityRepository.Insert(new ProductQuantity
-                {
-                    ProductCode = x.Codigo,
-                    Quantity = x.Quantidade
-                });
-
-                session2.Delete(x.Id);
-                session2.SaveChanges();
-            });
-        }
-
-        public void MigrateProducts()
-        {
-            var sessionBulk = RavenHelper.OpenSession();
-            sessionBulk.PatchByQuery(
-                @"from Produtos
-                  update {
-                  this.Status = ""Active""
-                  }");
-            sessionBulk.SaveChanges();
-
-            var prodConvert = new ProductConverter();
-            prodConvert.ConvertAll();
-        }
-
-        public void MigrateUsers()
-        {
-            var sessionBulk = RavenHelper.OpenSession();
-            sessionBulk.PatchByQuery(
-                @"from Usuarios
-                  update {
-                  this.Status = ""Active""
-                  }");
-            sessionBulk.SaveChanges();
-
-            var session = RavenHelper.OpenSession();
-            var users = session.Query<Usuario>().ToList();
-            var userRepo = new UserRepository();
-            users.ForEach(x =>
-            {
-                userRepo.Insert(new User
-                {
-                    Code = x.Codigo,
-                    Name = x.Nome,
-                    UISettings = x.UISettings,
-                    Status = x.Status,
-                    Password = Convert.ToInt32(x.Senha)
-                });
-
-                session.Delete(x);
-            });
-
-            session.SaveChanges();
-        }
-
-        public void MigrateInteractions()
-        {
-
-        }
 
         // TODO: Creio eu que esses não são mais usados, confirmar e excluir
         private void label13_Click(object sender, EventArgs e)
@@ -334,9 +232,7 @@ namespace GS.GestaoEmpresa.UI.MainWindow
                 DatabaseName = txtConfigDatabaseName.Text.Trim()
             };
 
-
-            SessaoSistema.SalveConfiguracoesConexaoNoArquivo(
-                informacoesConexaoBanco, DIRETORIO_LOCAL, NOME_ARQUIVO_CONFIGURACOES_BANCO);
+            SessaoSistema.SalveConfiguracoesConexaoNoArquivo(informacoesConexaoBanco, DiretorioLocal, NomeArquivoConfiguracoesBanco);
 
             CarregueConfiguracoesConexaoBanco();
             DefinaLabelsIPs();
@@ -385,35 +281,34 @@ namespace GS.GestaoEmpresa.UI.MainWindow
 
         private void btnEntrar_Click_1(object sender, EventArgs e)
         {
-            using (var servicoDeUsuario = new UserService())
+            using var servicoDeUsuario = new UserService();
+
+            var usuario = servicoDeUsuario.Query((txtUsuario.Text.Trim()));
+            if (usuario != null)
             {
-                var usuario = servicoDeUsuario.Query((txtUsuario.Text.Trim()));
-                if (usuario != null)
+                if (usuario.Password == txtSenha.Text.Trim().GetDeterministicHashCode())
                 {
-                    if (usuario.Password == txtSenha.Text.Trim().GetDeterministicHashCode())
-                    {
-                        tabControl1.SelectTab("tabChamador");
-                        //GerenciadorAbas.ChamadorAtivo = true;
-                        lblConfiguracoesBasicas.Visible = false;
+                    tabControl1.SelectTab("tabChamador");
+                    //GerenciadorAbas.ChamadorAtivo = true;
+                    lblConfiguracoesBasicas.Visible = false;
 
-                        //Dados da sessão do sistema
-                        SessaoSistema.Iniciada = true;
-                        SessaoSistema.CodigoUsuario = usuario.Code;
-                        SessaoSistema.NomeUsuario = usuario.Name;
+                    //Dados da sessão do sistema
+                    SessaoSistema.Iniciada = true;
+                    SessaoSistema.CodigoUsuario = usuario.Code;
+                    SessaoSistema.NomeUsuario = usuario.Name;
 
-                        txtPermissaoUsuario.Text = usuario.Name;
-                        //txtPermissaoFuncao.Text = usuario.Funcionario.Function ?? "---";
-                        //txtPermissaoGrupo.Text = usuario.GrupoUsuario == null ? "---" : usuario.GrupoUsuario.Nome;
+                    txtPermissaoUsuario.Text = usuario.Name;
+                    //txtPermissaoFuncao.Text = usuario.Funcionario.Function ?? "---";
+                    //txtPermissaoGrupo.Text = usuario.GrupoUsuario == null ? "---" : usuario.GrupoUsuario.Nome;
 
-                        SessaoSistema.VerificarStatusDaConexao = false;
-                        SessaoSistema.UISettings = usuario.UISettings ?? new UISettings();
-                        return;
-                    }
+                    SessaoSistema.VerificarStatusDaConexao = false;
+                    SessaoSistema.UISettings = usuario.UISettings ?? new UISettings();
+                    return;
                 }
-
-                txtSenha.Clear();
-                MessageBox.Show("Usuário ou senha incorretos");
             }
+
+            txtSenha.Clear();
+            MessageBox.Show("Usuário ou senha incorretos");
         }
 
         private void lblConfiguracoesBasicas_Click_2(object sender, EventArgs e)
@@ -438,7 +333,7 @@ namespace GS.GestaoEmpresa.UI.MainWindow
             GSWaitForm.Mostrar(
                 () =>
                 {
-                    view = GerenciadorDeViews.CrieIndependente<FrmEstoque>();
+                    view = ViewManager.CrieIndependente<FrmEstoque>();
                 },
                 () =>
                 {
@@ -470,7 +365,7 @@ namespace GS.GestaoEmpresa.UI.MainWindow
 
         public void ApagueInstancia()
         {
-            //GerenciadorDeViews.Delete<frmPrincipal>(InstanceId);
+            //ViewManager.Delete<frmPrincipal>(InstanceId);
         }
 
         #region Migração
@@ -632,9 +527,14 @@ namespace GS.GestaoEmpresa.UI.MainWindow
 
                 btnEntrar_Click_1(btnEntrar, e);
 
-                GerenciadorDeViews.ObtenhaPrincipal().WindowState = FormWindowState.Minimized;
+                WindowState = FormWindowState.Minimized;
+
+                var estoque = new FrmEstoque { WindowState = FormWindowState.Maximized };
+                estoque.Show();
+
+                //ViewManager.GetMain().WindowState = FormWindowState.Minimized;
                 //new frmInteracao().Show();
-                GerenciadorDeViews.Crie<InteractionPresenter>().View.Show();
+                //ViewManager.Create<InteractionPresenter>().View.Show();
 
                 #region Usable
 

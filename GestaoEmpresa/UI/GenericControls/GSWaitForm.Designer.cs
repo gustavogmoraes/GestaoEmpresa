@@ -1,4 +1,4 @@
-﻿namespace GS.GestaoEmpresa.Solucao.UI.ControlesGenericos
+﻿namespace GS.GestaoEmpresa.UI.GenericControls
 {
     partial class GSWaitForm
     {

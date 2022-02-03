@@ -1,5 +1,7 @@
 ﻿#region Usings
 
+using GS.GestaoEmpresa.UI.Base;
+
 #region Core
 
 using System;

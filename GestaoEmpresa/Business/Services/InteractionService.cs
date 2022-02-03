@@ -11,6 +11,7 @@ using GS.GestaoEmpresa.Solucao.Utilitarios;
 using Raven.Client.Documents.Linq;
 using GS.GestaoEmpresa.Business.Services.Base;
 using GS.GestaoEmpresa.Business.Validators;
+using GS.GestaoEmpresa.Infrastructure.Persistence.Repositories;
 using GS.GestaoEmpresa.Persistence.Repositories;
 
 namespace GS.GestaoEmpresa.Business.Services
@@ -19,27 +20,25 @@ namespace GS.GestaoEmpresa.Business.Services
     {
         private static Expression<Func<Interaction, object>> SeletorInteracaoAterrissagem => x => new Interaction
         {
-            //Codigo = x.Codigo,
-            //TipoDeInteracao = x.TipoDeInteracao,
-            //Produto = new Produto
-            //{
-            //    Codigo = x.Codigo, 
-            //    Nome = x.Produto.Nome
-            //},
-            //QuantidadeInterada = x.QuantidadeInterada,
-            //Origem = x.Origem,
-            //Destino = x.Destino,
-            //Finalidade = x.Finalidade,
-            //Situacao = x.Situacao,
-            //NumerosDeSerie = x.NumerosDeSerie,
-            //HorarioProgramado = x.HorarioProgramado,
-            //ValorInteracao = x.ValorInteracao,
+            Code = x.Code,
+            InteractionType = x.InteractionType,
+            SubInteractions = x.SubInteractions,
+            Origin = x.Origin,
+            Destination = x.Destination,
+            Goal = x.Goal,
+            Situation = x.Situation,
+            ScheduledTime = x.ScheduledTime
         };
 
         private static Expression<Func<Interaction, object>>[] DefaultPropertiesToSearch => new Expression<Func<Interaction, object>>[] 
         {
-            //x => x.Produto.Nome, x => x.Produto.CodigoDoFabricante, x => x.Produto.Codigo, x => x.Produto.CodigoDeBarras,
-            //x => x.Destino, x => x.Origem, x => x.NumerosDeSerie
+            x => string.Join(" ", x.SubInteractions.Select(p => p.Product.Name)),
+            x => string.Join(" ", x.SubInteractions.Select(p => p.Product.ManufacturerCode)),
+            x => string.Join(" ", x.SubInteractions.Select(p => p.Product.Code)),
+            x => string.Join(" ", x.SubInteractions.Select(p => p.Product.BarCode)),
+            x => x.Destination,
+            x => x.Origin,
+            x => string.Join(" ", x.SubInteractions.Select(s => s.SerialNumbers))
         };
 
         public List<Interaction> QueryAllInteractions()
@@ -195,7 +194,7 @@ namespace GS.GestaoEmpresa.Business.Services
                             ? queriedProduct.PurchasePrice
                             : queriedProduct.SalePrice;
 
-                        // If the price is different we must create a new revision
+                        // Coallesce the price is different we must create a new revision
                         if (subInteraction.UnitaryPrice != productPrice.GetValueOrDefault())
                         {
                             if (interaction.InteractionType == InteractionType.Input)

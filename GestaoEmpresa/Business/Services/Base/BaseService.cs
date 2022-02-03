@@ -7,6 +7,7 @@ using GS.GestaoEmpresa.Solucao.Negocio.Objetos;
 using GS.GestaoEmpresa.Persistence.Repositories.Base;
 using GS.GestaoEmpresa.Business.Interfaces;
 using GS.GestaoEmpresa.Business.Validators.Base;
+using GS.GestaoEmpresa.Infrastructure.Persistence.RavenDB.Support.Interfaces;
 using GS.GestaoEmpresa.Persistence.RavenDbSupport.Interfaces;
 
 namespace GS.GestaoEmpresa.Business.Services.Base
