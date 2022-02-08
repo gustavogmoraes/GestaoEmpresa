@@ -27,9 +27,9 @@ namespace GS.GestaoEmpresa.Infrastructure.Persistence.Repositories.Migrations
             void MigrateConfig()
             {
                 var session = RavenHelper.OpenSession();
-                var cfgs = session.Query<Configuracao>(collectionName: "Configuracoes").ToList();
+                var configs = session.Query<Configuracao>(collectionName: "Configuracoes").ToList();
                 var cfgRepo = new ConfigurationRepository();
-                foreach (var x in cfgs)
+                foreach (var x in configs)
                 {
                     cfgRepo.Insert(new Configuration
                     {
@@ -68,9 +68,9 @@ namespace GS.GestaoEmpresa.Infrastructure.Persistence.Repositories.Migrations
                 var sessionBulk = RavenHelper.OpenSession();
                 sessionBulk.PatchByQuery(
                     @"from Produtos
-                  update {
-                  this.Status = ""Active""
-                  }");
+                      update {
+                      this.Status = ""Active""
+                      }");
                 sessionBulk.SaveChanges();
 
                 var prodConvert = new ProductConverter();
@@ -82,9 +82,10 @@ namespace GS.GestaoEmpresa.Infrastructure.Persistence.Repositories.Migrations
                 var sessionBulk = RavenHelper.OpenSession();
                 sessionBulk.PatchByQuery(
                     @"from Usuarios
-                  update {
-                  this.Status = ""Active""
-                  }");
+                      update {
+                      this.Status = ""Active""
+                      }");
+                
                 sessionBulk.SaveChanges();
 
                 var session = RavenHelper.OpenSession();
@@ -96,7 +97,7 @@ namespace GS.GestaoEmpresa.Infrastructure.Persistence.Repositories.Migrations
                     {
                         Code = x.Codigo,
                         Name = x.Nome,
-                        UISettings = x.UISettings,
+                        UISettings = null,
                         Status = x.Status,
                         Password = Convert.ToInt32(x.Senha)
                     });
