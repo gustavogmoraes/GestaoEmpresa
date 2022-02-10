@@ -10,8 +10,6 @@ namespace GS.GestaoEmpresa.Business.Objects.Storage
 
         public int? AuxiliaryQuantity { get; set; }
 
-        public int Quantity { get; set; }
-
         public decimal? UnitaryPrice { get; set; }
 
         public bool UpdateUnitaryPriceAtProductCatalog { get; set; }

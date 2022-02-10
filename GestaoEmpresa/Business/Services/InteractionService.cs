@@ -100,7 +100,7 @@ namespace GS.GestaoEmpresa.Business.Services
             return inputNumbers > outputNumbers;
         }
 
-        public new List<Inconsistencia> Delete(int interactionNumber)
+        public new List<Error> Delete(int interactionNumber)
         {
             using var productService = new ProductService();
             using var interactionValidator = new InteractionValidator();
@@ -108,7 +108,7 @@ namespace GS.GestaoEmpresa.Business.Services
 
             var interaction = Query(interactionNumber);
 
-            var productsQuantities = productService.ConsulteQuantidade(
+            var productsQuantities = productService.QueryQuantity(
                 interaction.SubInteractions.Select(x => x.Product.Code).ToList());
 
             var errorList = interactionValidator.ValidateDelete(interactionNumber).ToList();
@@ -148,7 +148,7 @@ namespace GS.GestaoEmpresa.Business.Services
                                   interactedQuantity +
                                   interactedAuxiliaryQuantity;
 
-                productService.AltereQuantidadeDeProduto(productsQuantities[subInteraction.Product.Code], newQuantity);
+                productService.UpdateProductQuantity(productsQuantities[subInteraction.Product.Code], newQuantity);
             }
 
             interactionRepository.Delete(interactionNumber);
@@ -211,9 +211,9 @@ namespace GS.GestaoEmpresa.Business.Services
                         }
                     }
 
-                    var inventoryQuantity = productService.ConsulteQuantidade(queriedProduct.Code);
+                    var inventoryQuantity = productService.QueryQuantity(queriedProduct.Code);
 
-                    productService.AltereQuantidadeDeProduto(queriedProduct.Code, inventoryQuantity + interactedQuantity + interactedAuxiliaryQuantity);
+                    productService.UpdateProductQuantity(queriedProduct.Code, inventoryQuantity + interactedQuantity + interactedAuxiliaryQuantity);
                 }
             };
         }
@@ -229,9 +229,9 @@ namespace GS.GestaoEmpresa.Business.Services
                 foreach (var subInteraction in interaction.SubInteractions)
                 {
                     var queriedProduct = productService.Query(subInteraction.Product.Code);
-                    var quantity = productService.ConsulteQuantidade(queriedProduct.Code);
+                    var quantity = productService.QueryQuantity(queriedProduct.Code);
 
-                    productService.AltereQuantidadeDeProduto(queriedProduct.Code,
+                    productService.UpdateProductQuantity(queriedProduct.Code,
                         quantity + subInteraction.InteractedQuantity);
                     productService.Dispose();
                 }

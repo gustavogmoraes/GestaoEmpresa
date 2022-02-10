@@ -1,20 +1,19 @@
-﻿using GS.GestaoEmpresa.Solucao.Negocio.Catalogos;
-using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores.Comuns;
-using GS.GestaoEmpresa.Solucao.Negocio.Objetos;
-using GS.GestaoEmpresa.Solucao.Utilitarios;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Windows.Forms;
 using GS.GestaoEmpresa.Business.Enumerators.Default;
-using GS.GestaoEmpresa.Solucao.UI.Base;
 using GS.GestaoEmpresa.Business.Services;
-using GS.GestaoEmpresa.Business.Objects;
-using GS.GestaoEmpresa.Business.Objects.Storage;
+using GS.GestaoEmpresa.Solucao.Negocio.Catalogos;
+using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores.Comuns;
+using GS.GestaoEmpresa.Solucao.Negocio.Objetos;
+using GS.GestaoEmpresa.Solucao.UI.Base;
+using GS.GestaoEmpresa.Solucao.Utilitarios;
 using GS.GestaoEmpresa.UI.Base;
+using GS.GestaoEmpresa.UI.Modules.Storage.Storage;
 
-namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
+namespace GS.GestaoEmpresa.UI.Modules.Storage.Product
 {
     public partial class frmProduto : Form, IView
     {
@@ -64,7 +63,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             txtLineVigencia.Enabled = false;
         }
 
-        public frmProduto(Product produto, int quantidade)
+        public frmProduto(Business.Objects.Storage.Product produto, int quantidade)
         {
             InitializeComponent();
 
@@ -77,7 +76,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             DesabiliteControles();
         }
 
-        private void CarregueControlesProduto(Product produto, int quantidade)
+        private void CarregueControlesProduto(Business.Objects.Storage.Product produto, int quantidade)
         {
             CarregueControlesComObjeto(produto);
             txtLineQuantidadeEstoque.Text = quantidade.ToString();
@@ -153,7 +152,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         {
             if (cbVigencia.SelectedIndex == -1) return;
 
-            Product produto = null;
+            Business.Objects.Storage.Product produto = null;
             using (var servicoDeProduto = new ProductService())
                 produto = servicoDeProduto.Query(
                     int.Parse(txtCodigo.Text.Trim()), DateTime.Parse(cbVigencia.SelectedItem.ToString(), Cultura));
@@ -177,7 +176,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             }
         }
 
-        protected void CarregueControlesComObjeto(Product objeto)
+        protected void CarregueControlesComObjeto(Business.Objects.Storage.Product objeto)
         {
             txtCodigo.Text = objeto.Code.ToString();
             txtCodigoFabricante.Text = objeto.ManufacturerCode ?? string.Empty;
@@ -193,9 +192,9 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             
         }
 
-        protected Product CarregueObjetoComControles()
+        protected Business.Objects.Storage.Product CarregueObjetoComControles()
         {
-            var produto = new Product();
+            var produto = new Business.Objects.Storage.Product();
 
             produto.Code = int.Parse(txtCodigo.Text.Trim());
             produto.ManufacturerCode = txtCodigoFabricante.Text.Trim();
@@ -363,27 +362,27 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
                     var produto = CarregueObjetoComControles();
 
-                    var listaDeInconsistencias = new List<Inconsistencia>();
+                    var listaDeInconsistencias = new List<Error>();
                     var quantidade = 0;
 
                     using (var servicoDeProduto = new ProductService())
                     {
                         listaDeInconsistencias = servicoDeProduto.Save(produto, FormType).ToList();
 
-                        quantidade = servicoDeProduto.ConsulteQuantidade(produto.Code);
+                        quantidade = servicoDeProduto.QueryQuantity(produto.Code);
                     }
 
                     if (listaDeInconsistencias.Count == 0)
                     {
                         if (FormType == FormType.Insert)
                         {
-                            ViewManager.ObtenhaIndependente<FrmEstoque>()
-                                .AdicioneNovoProdutoNaGrid(produto, 0);
+                            ViewManager.GetIndependent<StorageView>()
+                                .AddNewProductOnGrid(produto, 0);
                             MessageBox.Show(Mensagens.X_FOI_CADASTRADO_COM_SUCESSO("Produto"));
                         }
                         else
                         {
-                            ViewManager.ObtenhaIndependente<FrmEstoque>().RecarregueProdutoEspecifico(produto, quantidade);
+                            ViewManager.GetIndependent<StorageView>().ReloadProduct(produto, quantidade);
                             MessageBox.Show(Mensagens.X_FOI_ATUALIZADO_COM_SUCESSO("Produto"));
                         }
 
@@ -400,7 +399,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
                     foreach (var inconsistencia in listaDeInconsistencias)
                     {
-                        MessageBox.Show(inconsistencia.Mensagem);
+                        MessageBox.Show(inconsistencia.Message);
                         //Invoke metodo para destacar o form, ou então fazer um destaque automático
                     }
                     break;
@@ -415,7 +414,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                     InicializeBotoes(FormType.Detail);
                     FormType = FormType.Detail;
 
-                    Product produto;
+                    Business.Objects.Storage.Product produto;
                     using (var servicoDeProduto = new ProductService())
                     {
                         produto = servicoDeProduto.Query(int.Parse(txtCodigo.Text.Trim()));
@@ -435,7 +434,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                     {
                         var codigoDoProduto = int.Parse(txtCodigo.Text);
 
-                        var listaDeInconsistenciasExclusao = new List<Inconsistencia>();
+                        var listaDeInconsistenciasExclusao = new List<Error>();
                         using (var servicoDeProduto = new ProductService())
                         {
                             listaDeInconsistenciasExclusao = servicoDeProduto.Delete(codigoDoProduto).ToList();
@@ -450,7 +449,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                         {
                             foreach(var inconsistencia in listaDeInconsistenciasExclusao)
                             {
-                                MessageBox.Show(inconsistencia.Mensagem);
+                                MessageBox.Show(inconsistencia.Message);
                             }
                         }
                     }

@@ -24,6 +24,7 @@ using GS.GestaoEmpresa.Solucao.Utilitarios;
 using GS.GestaoEmpresa.UI.Base;
 using GS.GestaoEmpresa.UI.GenericControls;
 using GS.GestaoEmpresa.UI.Modules.Storage.Interaction;
+using GS.GestaoEmpresa.UI.Modules.Storage.Storage;
 using MetroFramework.Forms;
 
 namespace GS.GestaoEmpresa.UI.Modules.MainWindow
@@ -333,7 +334,7 @@ namespace GS.GestaoEmpresa.UI.Modules.MainWindow
             GSWaitForm.Mostrar(
                 () =>
                 {
-                    view = ViewManager.CrieIndependente<FrmEstoque>();
+                    view = ViewManager.CreateIndependent<StorageView>();
                 },
                 () =>
                 {
@@ -517,7 +518,7 @@ namespace GS.GestaoEmpresa.UI.Modules.MainWindow
 
                 WindowState = FormWindowState.Minimized;
 
-                var estoque = new FrmEstoque { WindowState = FormWindowState.Maximized };
+                var estoque = new StorageView { WindowState = FormWindowState.Maximized };
                 estoque.Show();
             }
             else if (SessaoSistema.WorkTestMode)
@@ -529,7 +530,7 @@ namespace GS.GestaoEmpresa.UI.Modules.MainWindow
 
                 WindowState = FormWindowState.Minimized;
 
-                var estoque = new FrmEstoque { WindowState = FormWindowState.Maximized };
+                var estoque = new StorageView { WindowState = FormWindowState.Maximized };
                 estoque.Show();
 
                 //ViewManager.GetMain().WindowState = FormWindowState.Minimized;
@@ -587,7 +588,7 @@ namespace GS.GestaoEmpresa.UI.Modules.MainWindow
                 //    });
                 //}
 
-                //var estoque = new FrmEstoque { WindowState = FormWindowState.Maximized };
+                //var estoque = new StorageView { WindowState = FormWindowState.Maximized };
                 //estoque.Show();
 
                 #endregion

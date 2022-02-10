@@ -5,74 +5,72 @@ using GS.GestaoEmpresa.Business.Objects.Storage;
 using GS.GestaoEmpresa.Business.Services;
 using GS.GestaoEmpresa.Business.Validators.Base;
 using GS.GestaoEmpresa.Infrastructure.Persistence.Repositories;
-using GS.GestaoEmpresa.Persistence.Repositories;
 using GS.GestaoEmpresa.Solucao.Negocio.Catalogos;
 using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores.Comuns.Estoque;
 using GS.GestaoEmpresa.Solucao.Negocio.Objetos;
-using GS.GestaoEmpresa.Solucao.Persistencia.Repositorios;
 using MoreLinq;
 
 namespace GS.GestaoEmpresa.Business.Validators
 {
     public class InteractionValidator : BaseValidator<Interaction>, IDisposable
     {
-        #region Propriedades
+        public InteractionValidator()
+        {
+            _productRepository = new ProductRepository();
+            _interactionRepository = new InteractionRepository();
+        }
 
-        private Interaction _interaction { get; set; }
+        private Interaction Interaction { get; set; }
 
-        private List<Inconsistencia> _inconsistenceList { get; set; }
+        private List<Error> ErrorList { get; set; }
 
-        private RepositorioDeProduto _productRepository;
-        private RepositorioDeProduto ProductRepository => _productRepository ??= new RepositorioDeProduto();
+        private readonly ProductRepository _productRepository;
 
-        private InteractionRepository _interactionRepository;
-        private InteractionRepository InteractionRepository => _interactionRepository ??= new InteractionRepository();
-
-        #endregion
+        private readonly InteractionRepository _interactionRepository;
 
         #region Implementação Padrão
 
-        public override IList<Inconsistencia> ValidateCreate(Interaction item)
+        public override IList<Error> ValidateCreate(Interaction item)
         {
-            _interaction = item;
-            _inconsistenceList = new List<Inconsistencia>();
+            Interaction = item;
+            ErrorList = new List<Error>();
 
-            ValideRegraObrigatoriedades();
-            ValideRegrasDeNumeroDeSerie();
-            ValideRegraQuantidades();
+            ValidateMandatory();
+            ValidateSerialNumbers();
+            ValidateQuantityRule();
 
-            return _inconsistenceList;
+            return ErrorList;
         }
 
         // ToDo
-        public override IList<Inconsistencia> ValidateUpdate(Interaction item)
+        public override IList<Error> ValidateUpdate(Interaction item)
         {
-            return new List<Inconsistencia>();
+            return new List<Error>();
         }
 
         //TODO
-        public override IList<Inconsistencia> ValidateDelete(int code)
+        public override IList<Error> ValidateDelete(int code)
         {
-            var interaction = InteractionRepository.Query(code);
+            var interaction = _interactionRepository.Query(code);
             var allProductCodes = interaction.SubInteractions.Select(x => x.Product.Code).ToList();
 
-            var interactionList = InteractionRepository.Query(x => 
+            var interactionList = _interactionRepository.Query(x => 
                 x.SubInteractions.Any(y => 
                     allProductCodes.Contains(y.Product.Code)));
 
             var lastInteractionWithThisProduct = interactionList.MaxBy(x => x.Time);
 
-            var errorList = new List<Inconsistencia>();
+            var errorList = new List<Error>();
             if (code != lastInteractionWithThisProduct.Code)
             {
-                //errorList.Add(new Inconsistencia
+                //errorList.Add(new Error
                 //{
-                //    Modulo = "Controle de Estoque",
-                //    Tela = "Cadastro de Interações",
-                //    ConceitoValidado = "Interação",
-                //    NomeDaPropriedadeValidada = "Interação",
-                //    DescricaoDaPropriedadeValidada = "Interação",
-                //    Mensagem = $"Não é possível deletar essa interação porque ela não " +
+                //    Module = "Controle de Estoque",
+                //    View = "Cadastro de Interações",
+                //    ValidatedConcept = "Interação",
+                //    NameOfValidatedProperty = "Interação",
+                //    ValidatedPropertyDescription = "Interação",
+                //    Message = $"Não é possível deletar essa interação porque ela não " +
                 //    $"é a última interação com o produto {interaction.Produto.Codigo} - {interaction.Produto.Nome}."
                 //});
             }
@@ -84,79 +82,92 @@ namespace GS.GestaoEmpresa.Business.Validators
 
         #region Regras de validação
 
-        private void ValideRegraObrigatoriedades()
+        private void ValidateMandatory()
         {
-            foreach (var subInteraction in _interaction.SubInteractions)
+            if (Interaction.InteractionType == null)
+            {
+                ErrorList.Add(new Error
+                {
+                    Module = "Storage",
+                    View = "Interaction",
+                    ValidatedConcept = "Interaction",
+                    NameOfValidatedProperty = "InteractionType",
+                    ValidatedPropertyDescription = "InteractionType",
+                    Message = Mensagens.X_DEVE_SER_SELECIONADO("Um tipo de interação")
+                });
+            }
+
+            if (string.IsNullOrEmpty(Interaction.Origin))
+            {
+                ErrorList.Add(new Error
+                {
+                    Module = "Controle de Estoque",
+                    View = "Cadastro de Interações",
+                    ValidatedConcept = "Interação",
+                    NameOfValidatedProperty = "Origem",
+                    ValidatedPropertyDescription = "Origem",
+                    Message = Mensagens.X_DEVE_SER_INFORMADO("Uma origem")
+                });
+            }
+
+            if (string.IsNullOrEmpty(Interaction.Destination))
+            {
+                ErrorList.Add(new Error
+                {
+                    Module = "Controle de Estoque",
+                    View = "Cadastro de Interações",
+                    ValidatedConcept = "Interação",
+                    NameOfValidatedProperty = "Destino",
+                    ValidatedPropertyDescription = "Destino",
+                    Message = Mensagens.X_DEVE_SER_INFORMADO("Um destino")
+                });
+            }
+
+            foreach (var subInteraction in Interaction.SubInteractions)
             {
                 if (subInteraction.Product == null || subInteraction.Product.Code == 0)
                 {
-                    _inconsistenceList.Add(new Inconsistencia
+                    ErrorList.Add(new Error
                     {
-                        Modulo = "Controle de Estoque",
-                        Tela = "Cadastro de Interações",
-                        ConceitoValidado = "Interação",
-                        NomeDaPropriedadeValidada = "Produto",
-                        DescricaoDaPropriedadeValidada = "Produto da entrada/saída",
-                        Mensagem = Mensagens.X_DEVE_SER_SELECIONADO("Um produto")
+                        Module = "Controle de Estoque",
+                        View = "Cadastro de Interações",
+                        ValidatedConcept = "Interação",
+                        NameOfValidatedProperty = "Produto",
+                        ValidatedPropertyDescription = "Produto da entrada/saída",
+                        Message = Mensagens.X_DEVE_SER_SELECIONADO("Um produto")
                     });
                 }
 
-                if (_interaction.InteractionType != InteractionType.ExchangeBase && subInteraction.InteractedQuantity == 0)
+                if (Interaction.InteractionType != InteractionType.ExchangeBase && subInteraction.InteractedQuantity == 0)
                 {
-                    _inconsistenceList.Add(new Inconsistencia
+                    ErrorList.Add(new Error
                     {
-                        Modulo = "Controle de Estoque",
-                        Tela = "Cadastro de Interações",
-                        ConceitoValidado = "Interação",
-                        NomeDaPropriedadeValidada = "QuantidadeInterada",
-                        DescricaoDaPropriedadeValidada = "Quantidade movimentada do produto",
-                        Mensagem = Mensagens.X_DEVE_SER_INFORMADO("Uma quantidade de produto para movimentação")
-                    });
-                }
-
-                if (string.IsNullOrEmpty(_interaction.Origin))
-                {
-                    _inconsistenceList.Add(new Inconsistencia
-                    {
-                        Modulo = "Controle de Estoque",
-                        Tela = "Cadastro de Interações",
-                        ConceitoValidado = "Interação",
-                        NomeDaPropriedadeValidada = "Origem",
-                        DescricaoDaPropriedadeValidada = "Origem",
-                        Mensagem = Mensagens.X_DEVE_SER_INFORMADO("Uma origem")
-                    });
-                }
-
-                if (string.IsNullOrEmpty(_interaction.Destination))
-                {
-                    _inconsistenceList.Add(new Inconsistencia
-                    {
-                        Modulo = "Controle de Estoque",
-                        Tela = "Cadastro de Interações",
-                        ConceitoValidado = "Interação",
-                        NomeDaPropriedadeValidada = "Destino",
-                        DescricaoDaPropriedadeValidada = "Destino",
-                        Mensagem = Mensagens.X_DEVE_SER_INFORMADO("Um destino")
+                        Module = "Controle de Estoque",
+                        View = "Cadastro de Interações",
+                        ValidatedConcept = "Interação",
+                        NameOfValidatedProperty = "QuantidadeInterada",
+                        ValidatedPropertyDescription = "Quantidade movimentada do produto",
+                        Message = Mensagens.X_DEVE_SER_INFORMADO("Uma quantidade de produto para movimentação")
                     });
                 }
             }
         }
 
-        private void ValideRegrasDeNumeroDeSerie()
+        private void ValidateSerialNumbers()
         {
-            foreach (var subInteraction in _interaction.SubInteractions)
+            foreach (var subInteraction in Interaction.SubInteractions)
             {
                 // Números incompativeis com a quantidade
                 if (subInteraction.InformsSerialNumber && subInteraction.SerialNumbers.Count != subInteraction.InteractedQuantity)
                 {
-                    _inconsistenceList.Add(new Inconsistencia
+                    ErrorList.Add(new Error
                     {
-                        Modulo = "Controle de Estoque",
-                        Tela = "Cadastro de Interações",
-                        ConceitoValidado = "Interação",
-                        NomeDaPropriedadeValidada = "NumerosDeSerie",
-                        DescricaoDaPropriedadeValidada = "Lista de números de série",
-                        Mensagem = Mensagens.DEVE_SER_INFORMADOS_NS_PARA_TODOS_OS_PRODUTOS(
+                        Module = "Controle de Estoque",
+                        View = "Cadastro de Interações",
+                        ValidatedConcept = "Interação",
+                        NameOfValidatedProperty = "NumerosDeSerie",
+                        ValidatedPropertyDescription = "Lista de números de série",
+                        Message = Mensagens.DEVE_SER_INFORMADOS_NS_PARA_TODOS_OS_PRODUTOS(
                             subInteraction.SerialNumbers.Count, subInteraction.InteractedQuantity)
                     });
                 }
@@ -175,27 +186,27 @@ namespace GS.GestaoEmpresa.Business.Validators
                     switch (isItIntoTheInventory)
                     {
                         case true 
-                            when _interaction.InteractionType == InteractionType.Input:
-                            _inconsistenceList.Add(new Inconsistencia
+                            when Interaction.InteractionType == InteractionType.Input:
+                            ErrorList.Add(new Error
                             {
-                                Modulo = "Controle de Estoque",
-                                Tela = "Cadastro de Interações",
-                                ConceitoValidado = "Interação",
-                                NomeDaPropriedadeValidada = "NumerosDeSerie",
-                                DescricaoDaPropriedadeValidada = "Lista de números de série",
-                                Mensagem = Mensagens.UM_PRODUTO_COM_O_NUMERO_DE_SERIE_X_JA_ESTA_EM_ESTOQUE(serialNumber)
+                                Module = "Controle de Estoque",
+                                View = "Cadastro de Interações",
+                                ValidatedConcept = "Interação",
+                                NameOfValidatedProperty = "NumerosDeSerie",
+                                ValidatedPropertyDescription = "Lista de números de série",
+                                Message = Mensagens.UM_PRODUTO_COM_O_NUMERO_DE_SERIE_X_JA_ESTA_EM_ESTOQUE(serialNumber)
                             });
                             break;
                         case false 
-                            when _interaction.InteractionType == InteractionType.Output:
-                            _inconsistenceList.Add(new Inconsistencia
+                            when Interaction.InteractionType == InteractionType.Output:
+                            ErrorList.Add(new Error
                             {
-                                Modulo = "Controle de Estoque",
-                                Tela = "Cadastro de Interações",
-                                ConceitoValidado = "Interação",
-                                NomeDaPropriedadeValidada = "NumerosDeSerie",
-                                DescricaoDaPropriedadeValidada = "Lista de números de série",
-                                Mensagem = Mensagens.NAO_E_POSSIVEL_DAR_SAIDA_DO_NUMERO_DE_SERIE_X(serialNumber)
+                                Module = "Controle de Estoque",
+                                View = "Cadastro de Interações",
+                                ValidatedConcept = "Interação",
+                                NameOfValidatedProperty = "NumerosDeSerie",
+                                ValidatedPropertyDescription = "Lista de números de série",
+                                Message = Mensagens.NAO_E_POSSIVEL_DAR_SAIDA_DO_NUMERO_DE_SERIE_X(serialNumber)
                             });
                             break;
                     }
@@ -203,26 +214,26 @@ namespace GS.GestaoEmpresa.Business.Validators
             }
         }
 
-        private void ValideRegraQuantidades()
+        private void ValidateQuantityRule()
         {
-            foreach (var subInteraction in _interaction.SubInteractions)
+            foreach (var subInteraction in Interaction.SubInteractions)
             {
-                var currentQuantity = ProductRepository.ConsulteQuantidade(subInteraction.Product.Code);
-                var interactedQuantity = _interaction.InteractionType == InteractionType.Output
+                var currentQuantity = _productRepository.QueryQuantity(subInteraction.Product.Code);
+                var interactedQuantity = Interaction.InteractionType == InteractionType.Output
                     ? subInteraction.InteractedQuantity * -1 
                     : subInteraction.InteractedQuantity;
 
                 var auxiliaryQuantity = (subInteraction.AuxiliaryQuantity ?? 0) * -1;
                 if (currentQuantity + interactedQuantity + auxiliaryQuantity < 0)
                 {
-                    _inconsistenceList.Add(new Inconsistencia
+                    ErrorList.Add(new Error
                     {
-                        Modulo = "Controle de Estoque",
-                        Tela = "Cadastro de Interações",
-                        ConceitoValidado = "Interação",
-                        NomeDaPropriedadeValidada = "Produto",
-                        DescricaoDaPropriedadeValidada = "Produto da entrada/saída",
-                        Mensagem = "Essa interação deixaria o produto com quantidade abaixo de 0!"
+                        Module = "Controle de Estoque",
+                        View = "Cadastro de Interações",
+                        ValidatedConcept = "Interação",
+                        NameOfValidatedProperty = "Produto",
+                        ValidatedPropertyDescription = "Produto da entrada/saída",
+                        Message = "Essa interação deixaria o produto com quantidade abaixo de 0!"
                     });
                 }
             }

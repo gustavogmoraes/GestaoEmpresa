@@ -1,8 +1,8 @@
-﻿using GS.GestaoEmpresa.UI.GenericControls;
+using GS.GestaoEmpresa.UI.GenericControls;
 
-namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
+namespace GS.GestaoEmpresa.UI.Modules.Storage.Interaction
 {
-    partial class FrmInteracaoMetro
+    partial class InteractionView
     {
         /// <summary>
         /// Required designer variable.
@@ -45,7 +45,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmInteracaoMetro));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(InteractionView));
             this.metroLabel1 = new MetroFramework.Controls.MetroLabel();
             this.cbTipo = new MetroFramework.Controls.MetroComboBox();
             this.metroLabel2 = new MetroFramework.Controls.MetroLabel();
@@ -53,7 +53,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.metroLabel4 = new MetroFramework.Controls.MetroLabel();
             this.metroLabel5 = new MetroFramework.Controls.MetroLabel();
             this.cbSituacao = new MetroFramework.Controls.MetroComboBox();
-            this.gsFileAttacher1 = new GS.GestaoEmpresa.Solucao.UI.ControlesGenericos.GSFileAttacher();
+            this.gsFileAttacher1 = new GSFileAttacher();
             this.metroLabel6 = new MetroFramework.Controls.MetroLabel();
             this.lblNotaFiscal = new MetroFramework.Controls.MetroLabel();
             this.txtNF = new MetroFramework.Controls.MetroTextBox();
@@ -97,8 +97,8 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.colunaRemover = new System.Windows.Forms.DataGridViewButtonColumn();
             this.txtCodigo = new MetroFramework.Controls.MetroTextBox();
             this.lblCodigo = new MetroFramework.Controls.MetroLabel();
-            this.dtpHorario = new GS.GestaoEmpresa.Solucao.UI.ControlesGenericos.GSDateTimePicker();
-            this.dtpHorarioDevolucao = new GS.GestaoEmpresa.Solucao.UI.ControlesGenericos.GSDateTimePicker();
+            this.dtpHorario = new GSDateTimePicker();
+            this.dtpHorarioDevolucao = new GSDateTimePicker();
             ((System.ComponentModel.ISupportInitialize)(this.btnCancelarExcluir)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnEditarSalvar)).BeginInit();
             this.panelTitulo.SuspendLayout();
@@ -1063,7 +1063,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         private MetroFramework.Controls.MetroLabel metroLabel3;
         private MetroFramework.Controls.MetroLabel metroLabel4;
         private MetroFramework.Controls.MetroLabel metroLabel5;
-        private ControlesGenericos.GSFileAttacher gsFileAttacher1;
+        private GSFileAttacher gsFileAttacher1;
         private MetroFramework.Controls.MetroLabel metroLabel6;
         private MetroFramework.Controls.MetroLabel lblNotaFiscal;
         private MetroFramework.Controls.MetroLabel metroLabel7;
@@ -1107,8 +1107,8 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         public MetroFramework.Controls.MetroTextBox txtOrigem;
         public MetroFramework.Controls.MetroTextBox txtObservacao;
         public MetroFramework.Controls.MetroTextBox txtCodigo;
-        public ControlesGenericos.GSDateTimePicker dtpHorario;
-        public ControlesGenericos.GSDateTimePicker dtpHorarioDevolucao;
+        public GSDateTimePicker dtpHorario;
+        public GSDateTimePicker dtpHorarioDevolucao;
         public MetroFramework.Controls.MetroTextBox txtOS;
         public MetroFramework.Controls.MetroGrid gridProdutos;
     }

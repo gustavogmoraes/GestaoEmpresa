@@ -25,12 +25,12 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Atendimento
             InitializeComponent();
         }
 
-        protected override void ChamadaSalvar(object sender, EventArgs e)
+        protected override void SaveCall(object sender, EventArgs e)
         {
             var result = (Presenter as ClientePresenter)?.Salve();
             if (result.Any())
             {
-                result.ToList().ForEach(x => MessageBox.Show(x.Mensagem, "Inconsistência"));
+                result.ToList().ForEach(x => MessageBox.Show(x.Message, "Inconsistência"));
                 return;
             }
 
@@ -47,12 +47,12 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Atendimento
             });
         }
 
-        protected override void ChamadaExclusao(object sender, EventArgs e)
+        protected override void DeleteCall(object sender, EventArgs e)
         {
             //var result = (Presenter as ClientePresenter)?.Delete(Presenter.Model.Codigo);
             //if (result.Any())
             //{
-            //    result.ToList().ForEach(x => MessageBox.Show(x.Mensagem, "Inconsistência"));
+            //    result.ToList().ForEach(x => MessageBox.Show(x.Message, "Inconsistência"));
 
             //}
 

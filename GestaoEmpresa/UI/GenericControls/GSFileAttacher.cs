@@ -1,19 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using MetroFramework.Controls;
-using System.Security;
-using MetroFramework;
 using System.IO;
+using System.Linq;
+using System.Security;
+using System.Windows.Forms;
+using GS.GestaoEmpresa.Solucao.UI.ControlesGenericos;
 using GS.GestaoEmpresa.Solucao.Utilitarios;
+using MetroFramework;
+using MetroFramework.Controls;
 
-namespace GS.GestaoEmpresa.Solucao.UI.ControlesGenericos
+namespace GS.GestaoEmpresa.UI.GenericControls
 {
     public partial class GSFileAttacher : UserControl
     {
@@ -147,7 +143,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.ControlesGenericos
                     {
                         // O usuário  não possui permissão para ler arquivos
                         MessageBox.Show("Erro de segurança Contate o administrador de segurança da rede.\n\n" +
-                                                    "Mensagem : " + ex.Message + "\n\n" +
+                                                    "Message : " + ex.Message + "\n\n" +
                                                     "Detalhes (enviar ao suporte):\n\n" + ex.StackTrace);
                     }
                     catch (Exception ex)

@@ -1,14 +1,5 @@
 ﻿#region Usings
 
-using GS.GestaoEmpresa.Business.Enumerators.Default;
-using GS.GestaoEmpresa.Business.Interfaces;
-using GS.GestaoEmpresa.Infrastructure.Persistence.RavenDB.Support.Interfaces;
-using GS.GestaoEmpresa.Persistence.RavenDbSupport.Interfaces;
-using GS.GestaoEmpresa.Persistence.RavenDbSupport.Objects;
-using GS.GestaoEmpresa.UI.Base;
-
-#region Core
-
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -20,28 +11,32 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using GS.GestaoEmpresa.Business.Enumerators.Default;
+using GS.GestaoEmpresa.Infrastructure.Persistence.RavenDB.Support.Interfaces;
+using GS.GestaoEmpresa.Persistence.RavenDbSupport.Objects;
+using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores.Comuns;
+using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores.Seguros.TipoDePessoa;
+using GS.GestaoEmpresa.Solucao.Negocio.Objetos;
+using GS.GestaoEmpresa.Solucao.UI.Base;
+using GS.GestaoEmpresa.Solucao.UI.ControlesGenericos;
+using GS.GestaoEmpresa.Solucao.Utilitarios;
+using MetroFramework.Controls;
+
+#region Core
 
 #endregion
 
 #region Ours
 
-using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores.Comuns;
-using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores.Seguros.TipoDePessoa;
-using GS.GestaoEmpresa.Solucao.Negocio.Objetos.Base;
-using GS.GestaoEmpresa.Solucao.UI.ControlesGenericos;
-using GS.GestaoEmpresa.Solucao.Utilitarios;
-
 #endregion
 
 #region Third-party
 
-using MetroFramework.Controls;
-
 #endregion
 
 #endregion
 
-namespace GS.GestaoEmpresa.Solucao.UI.Base
+namespace GS.GestaoEmpresa.UI.Base
 {
     public abstract class Presenter<TModel, TView> : IPresenter
         where TModel : class, IEntity, new()
@@ -88,15 +83,14 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
         protected virtual void MapControl(
             Expression<Func<TModel, object>> objectProperty,
             Expression<Func<TView, Control>> viewControl,
-            Action<object, Control, PropertyInfo, object> propertyToControlConversion = null,
-            Action<Control, PropertyInfo, object, IPresenter> controlToPropertyConversion = null)
+            Action<TModel, Control, PropertyInfo, TModel> propertyToControlConversion = null,
+            Action<Control, PropertyInfo, TModel, IPresenter> controlToPropertyConversion = null)
         {
             if (objectProperty == null || viewControl == null) return;
             Model ??= new TModel();
             ControlsMappings ??= new List<ControlMapping<TModel, TView>>();
 
-            ControlsMappings.Add(new ControlMapping<TModel, TView>(
-                objectProperty, viewControl, propertyToControlConversion, controlToPropertyConversion));
+            ControlsMappings.Add(new ControlMapping<TModel, TView>(objectProperty, viewControl, propertyToControlConversion, controlToPropertyConversion));
         }
 
         #endregion
@@ -183,7 +177,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
         public void CloseView(object sender, EventArgs eventArgs)
         {
             View.Close();
-            ViewManager.Exclua(View.GetType(), InstanceId);
+            ViewManager.Delete(View.GetType(), InstanceId);
         }
 
         public void EnableControls(IList<string> exceptions = null)
@@ -283,6 +277,11 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
             }
         }
 
+        public virtual IList<Error> Save()
+        {
+            return null;
+        }
+
         private void SwitchControls(bool option, IList<string> exceptions)
         {
             var exceptionList = (exceptions ?? new List<string>()).ToList();
@@ -325,206 +324,205 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
             return result;
         }
 
-        private readonly Dictionary<Type, Tuple<Action<Control, PropertyInfo, object, IPresenter>, Action<Control, PropertyInfo, object, IPresenter>>> _controlPropertyConversions =
-            new Dictionary<Type, Tuple<Action<Control, PropertyInfo, object, IPresenter>, Action<Control, PropertyInfo, object, IPresenter>>>
+        private readonly Dictionary<Type, Tuple<Action<Control, PropertyInfo, TModel, IPresenter>, Action<Control, PropertyInfo, TModel, IPresenter>>> _controlPropertyConversions = new()
+        {
             {
-                {
-                    typeof(MetroTextBox),
-                    new Tuple<Action<Control, PropertyInfo, object, IPresenter>, Action<Control, PropertyInfo, object, IPresenter>>(
+                typeof(MetroTextBox),
+                new Tuple<Action<Control, PropertyInfo, TModel, IPresenter>, Action<Control, PropertyInfo, TModel, IPresenter>>(
 
-                        // Object --> Control
-                        (control, property, model, presenter) =>
+                    // Object --> Control
+                    (control, property, model, presenter) =>
+                    {
+                        var valor = property.GetValue(model, null);
+                        if (property.PropertyType.IsAny(typeof(decimal), typeof(decimal?)))
                         {
-                            var valor = property.GetValue(model, null);
-                            if (property.PropertyType.IsAny(typeof(decimal), typeof(decimal?)))
+                            valor = Math.Round(Convert.ToDecimal(valor), 2);
+                        }
+
+                        ((MetroTextBox) control).Text = (valor ?? string.Empty).ToString();
+                    },
+
+                    // Control --> Object
+                    (control, property, model, presenter) =>
+                    {
+                        var valor = ((MetroTextBox)control).Text.Trim();
+                        if (property.PropertyType.IsNumericType() && string.IsNullOrEmpty(valor))
+                        {
+                            valor = 0.ToString();
+                        }
+
+                        // This works around nullable types
+                        var safeType = Nullable.GetUnderlyingType(property.PropertyType) ?? property.PropertyType;
+                        var safeValue = string.IsNullOrEmpty(valor) ? null : Convert.ChangeType(valor, safeType);
+
+                        property.SetValue(model, safeValue);
+                    })
+            },
+            {
+                typeof(MetroComboBox),
+                new Tuple<Action<Control, PropertyInfo, TModel, IPresenter>, Action<Control, PropertyInfo, TModel, IPresenter>>(
+                    (control, property, model, presenter) =>
+                    {
+                        var valorProp = property.GetValue(model, null);
+                        var isValidityComboBox = control.Name == "cbValidity";
+
+                        if (isValidityComboBox)
+                        {
+                            presenter.View.IsRendering = true;
+                            if(((MetroComboBox) control).Items.Count > 0)
                             {
-                                valor = Math.Round(Convert.ToDecimal(valor), 2);
+                                ((MetroComboBox) control).SelectedIndex = 0;
+                            }
+                        }
+                        else ((MetroComboBox) control).SelectedText = valorProp.ToString();
+                    },
+                    (control, property, model, presenter) =>
+                    {
+                        var isValidityComboBox = control.Name == "cbValidity";
+                        var controlValue = (isValidityComboBox 
+                                                ? ((MetroComboBox) control).SelectedText
+                                                : ((MetroComboBox) control).SelectedItem??string.Empty).ToString();
+
+                        if (isValidityComboBox && string.IsNullOrEmpty(controlValue))
+                        {
+                            controlValue = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
+                        }
+
+                        var value = isValidityComboBox
+                            ? (object)controlValue.ConvertaParaDateTime(EnumFormatacaoDateTime.DD_MM_YYYY_HH_MM_SS, '/')
+                            : controlValue;
+
+                        if(property.PropertyType.IsEnum)
+                        {
+                            value = Enum.Parse(typeof(EnumTiposDePessoa), value.ToString().RemoveDiacritics(), true);
+                        }
+
+                        property.SetValue(model, value);
+                    })
+            },
+            {
+                typeof(MetroCheckBox),
+                new Tuple<Action<Control, PropertyInfo, TModel, IPresenter>, Action<Control, PropertyInfo, TModel, IPresenter>>(
+                    (control, property, model, presenter) =>
+                    {
+                        ((MetroCheckBox)control).Checked = (bool)property.GetValue(model, null);
+                    },
+                    (control, property, model, presenter) =>
+                    {
+                        property.SetValue(model, ((MetroCheckBox)control).Checked);
+                    })
+            },
+            {
+                typeof(MetroDateTime),
+                new Tuple<Action<Control, PropertyInfo, TModel, IPresenter>, Action<Control, PropertyInfo, TModel, IPresenter>>(
+                    (control, property, model, presenter) =>
+                    {
+                        ((MetroDateTime)control).Value = (DateTime)property.GetValue(model, null);
+                    },
+                    (control, property, model, presenter) =>
+                    {
+                        property.SetValue(model, ((MetroDateTime)control).Value);
+                    })
+            },
+            {
+                typeof(GSMetroToggle),
+                new Tuple<Action<Control, PropertyInfo, TModel, IPresenter>, Action<Control, PropertyInfo, TModel, IPresenter>>(
+                    (control, property, model, presenter) =>
+                    {
+                        ((GSMetroToggle)control).Checked = (EnumStatusToggle)property.GetValue(model, null) == EnumStatusToggle.Active;
+                    },
+                    (control, property, model, presenter) =>
+                    {
+                        if(property.PropertyType == typeof(EnumStatusToggle))
+                        {
+                            var valorToggle = ((GSMetroToggle)control).Checked ? EnumStatusToggle.Active : EnumStatusToggle.Inactive;
+                            property.SetValue(model, valorToggle);
+                        }
+                        else
+                        {
+                            var valor = ((GSMetroToggle)control).Checked;
+                            property.SetValue(model, valor);
+                        }
+                    })
+            },
+            {
+                typeof(GSMetroMonetary),
+                new Tuple<Action<Control, PropertyInfo, TModel, IPresenter>, Action<Control, PropertyInfo, TModel, IPresenter>>(
+                    (control, property, model, presenter) =>
+                    {
+                        ((GSMetroMonetary)control).Value = Math.Round((decimal)property.GetValue(model, null), 2);
+                    },
+                    (control, property, model, presenter) =>
+                    {
+                        property.SetValue(model, ((GSMetroMonetary)control).Value);
+                    })
+            },
+            {
+                typeof(GSImageAttacher),
+                new Tuple<Action<Control, PropertyInfo, TModel, IPresenter>, Action<Control, PropertyInfo, TModel, IPresenter>>(
+                    (control, property, model, presenter) =>
+                    {
+                        var imageAttacher = ((GSImageAttacher)control);
+                        imageAttacher.tabControl.TabPages.Clear();
+
+                        var attachments = (RavenAttachments)property.GetValue(model);
+                        if(attachments == null)
+                        {
+                            return;
+                        }
+
+                        foreach(var attachment in attachments.FileStreams.Where(x => x.Key.StartsWith("Image")))
+                        {
+                            var tabPage = imageAttacher.AddTabPageExternal(
+                                imageAttacher.tabControl,
+                                imageAttacher.tabControl.SelectedTab, 
+                                Image.FromStream(attachment.Value),
+                                addInsteadOfInsert: true);
+                        }
+
+                        if (imageAttacher.tabControl.TabPages.OfType<TabPage>().Any())
+                        {
+                            imageAttacher.tabControl.SelectedTab = imageAttacher.tabControl.TabPages.OfType<TabPage>().FirstOrDefault();
+                        }
+                    },
+                    // Control --> Object
+                    (control, property, model, presenter) =>
+                    {
+                        var imageAttacher = ((GSImageAttacher)control);
+                        var imageList = imageAttacher.tabControl.TabPages.OfType<TabPage>()
+                            .Where(x => x.Name != "tabAdd")
+                            .Select(x => x.BackgroundImage)
+                            .ToList();
+
+                        var count = 1;
+                        var dictionary = new Dictionary<string, Stream>();
+
+                        foreach(var image in imageList)
+                        {
+                            if(image != null)
+                            {
+                                dictionary.Add("Image-" + count, image.ToStream(ImageFormat.Png));
                             }
 
-                            ((MetroTextBox) control).Text = (valor ?? string.Empty).ToString();
-                        },
+                            count++;
+                        }
 
-                        // Control --> Object
-                        (control, property, model, presenter) =>
-                        {
-                            var valor = ((MetroTextBox)control).Text.Trim();
-                            if (property.PropertyType.IsNumericType() && string.IsNullOrEmpty(valor))
-                            {
-                                valor = 0.ToString();
-                            }
+                        var ravenAttachments = new RavenAttachments 
+                        { 
+                            FileStreams = dictionary,
+                            AttachmentsNames = dictionary.Keys.ToList() 
+                        };
 
-                            // This works around nullable types
-                            var safeType = Nullable.GetUnderlyingType(property.PropertyType) ?? property.PropertyType;
-                            var safeValue = string.IsNullOrEmpty(valor) ? null : Convert.ChangeType(valor, safeType);
-
-                            property.SetValue(model, safeValue);
-                        })
-                },
-                {
-                    typeof(MetroComboBox),
-                    new Tuple<Action<Control, PropertyInfo, object, IPresenter>, Action<Control, PropertyInfo, object, IPresenter>>(
-                        (control, property, model, presenter) =>
-                        {
-                            var valorProp = property.GetValue(model, null);
-                            var isValidityComboBox = control.Name == "cbValidity";
-
-                            if (isValidityComboBox)
-                            {
-                                presenter.View.IsRendering = true;
-                                if(((MetroComboBox) control).Items.Count > 0)
-                                {
-                                    ((MetroComboBox) control).SelectedIndex = 0;
-                                }
-                            }
-                            else ((MetroComboBox) control).SelectedText = valorProp.ToString();
-                        },
-                        (control, property, model, presenter) =>
-                        {
-                            var isValidityComboBox = control.Name == "cbValidity";
-                            var controlValue = (isValidityComboBox 
-                                                    ? ((MetroComboBox) control).SelectedText
-                                                    : ((MetroComboBox) control).SelectedItem).ToString();
-
-                            if (isValidityComboBox && string.IsNullOrEmpty(controlValue))
-                            {
-                                controlValue = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
-                            }
-
-                            var value = isValidityComboBox
-                                ? (object)controlValue.ConvertaParaDateTime(EnumFormatacaoDateTime.DD_MM_YYYY_HH_MM_SS, '/')
-                                : controlValue;
-
-                            if(property.PropertyType.IsEnum)
-                            {
-                                value = Enum.Parse(typeof(EnumTiposDePessoa), value.ToString().RemoveDiacritics(), true);
-                            }
-
-                            property.SetValue(model, value);
-                        })
-                },
-                {
-                    typeof(MetroCheckBox),
-                    new Tuple<Action<Control, PropertyInfo, object, IPresenter>, Action<Control, PropertyInfo, object, IPresenter>>(
-                        (control, property, model, presenter) =>
-                        {
-                            ((MetroCheckBox)control).Checked = (bool)property.GetValue(model, null);
-                        },
-                        (control, property, model, presenter) =>
-                        {
-                            property.SetValue(model, ((MetroCheckBox)control).Checked);
-                        })
-                },
-                {
-                    typeof(MetroDateTime),
-                    new Tuple<Action<Control, PropertyInfo, object, IPresenter>, Action<Control, PropertyInfo, object, IPresenter>>(
-                        (control, property, model, presenter) =>
-                        {
-                            ((MetroDateTime)control).Value = (DateTime)property.GetValue(model, null);
-                        },
-                        (control, property, model, presenter) =>
-                        {
-                            property.SetValue(model, ((MetroDateTime)control).Value);
-                        })
-                },
-                {
-                    typeof(GSMetroToggle),
-                    new Tuple<Action<Control, PropertyInfo, object, IPresenter>, Action<Control, PropertyInfo, object, IPresenter>>(
-                        (control, property, model, presenter) =>
-                        {
-                            ((GSMetroToggle)control).Checked = (EnumStatusToggle)property.GetValue(model, null) == EnumStatusToggle.Active;
-                        },
-                        (control, property, model, presenter) =>
-                        {
-                            if(property.PropertyType == typeof(EnumStatusToggle))
-                            {
-                                var valorToggle = ((GSMetroToggle)control).Checked ? EnumStatusToggle.Active : EnumStatusToggle.Inactive;
-                                property.SetValue(model, valorToggle);
-                            }
-                            else
-                            {
-                                var valor = ((GSMetroToggle)control).Checked;
-                                property.SetValue(model, valor);
-                            }
-                        })
-                },
-                {
-                    typeof(GSMetroMonetary),
-                    new Tuple<Action<Control, PropertyInfo, object, IPresenter>, Action<Control, PropertyInfo, object, IPresenter>>(
-                        (control, property, model, presenter) =>
-                        {
-                            ((GSMetroMonetary)control).Value = Math.Round((decimal)property.GetValue(model, null), 2);
-                        },
-                        (control, property, model, presenter) =>
-                        {
-                            property.SetValue(model, ((GSMetroMonetary)control).Value);
-                        })
-                },
-                {
-                    typeof(GSImageAttacher),
-                    new Tuple<Action<Control, PropertyInfo, object, IPresenter>, Action<Control, PropertyInfo, object, IPresenter>>(
-                        (control, property, model, presenter) =>
-                        {
-                            var imageAttacher = ((GSImageAttacher)control);
-                            imageAttacher.tabControl.TabPages.Clear();
-
-                            var attachments = (RavenAttachments)property.GetValue(model);
-                            if(attachments == null)
-                            {
-                                return;
-                            }
-
-                            foreach(var attachment in attachments.FileStreams.Where(x => x.Key.StartsWith("Image")))
-                            {
-                                var tabPage = imageAttacher.AddTabPageExternal(
-                                    imageAttacher.tabControl,
-                                    imageAttacher.tabControl.SelectedTab, 
-                                    Image.FromStream(attachment.Value),
-                                    addInsteadOfInsert: true);
-                            }
-
-                            if (imageAttacher.tabControl.TabPages.OfType<TabPage>().Any())
-                            {
-                                imageAttacher.tabControl.SelectedTab = imageAttacher.tabControl.TabPages.OfType<TabPage>().FirstOrDefault();
-                            }
-                        },
-                        // Control --> Object
-                        (control, property, model, presenter) =>
-                        {
-                            var imageAttacher = ((GSImageAttacher)control);
-                            var imageList = imageAttacher.tabControl.TabPages.OfType<TabPage>()
-                                .Where(x => x.Name != "tabAdd")
-                                .Select(x => x.BackgroundImage)
-                                .ToList();
-
-                            var count = 1;
-                            var dictionary = new Dictionary<string, Stream>();
-
-                            foreach(var image in imageList)
-                            {
-                                if(image != null)
-                                {
-                                    dictionary.Add("Image-" + count, image.ToStream(ImageFormat.Png));
-                                }
-
-                                count++;
-                            }
-
-                            var ravenAttachments = new RavenAttachments 
-                            { 
-                                FileStreams = dictionary,
-                                AttachmentsNames = dictionary.Keys.ToList() 
-                            };
-
-                            property.SetValue(model, ravenAttachments);
-                        })
-                }
-            };
+                        property.SetValue(model, ravenAttachments);
+                    })
+            }
+        };
 
         protected void LoadValidityComboBox(MetroComboBox cbValidity, int code)
         {
             cbValidity.Items.Clear();
 
-            using var service = ViewManager.ObtenhaServicoHistoricoPadraoPorModel(Model);
+            using var service = ViewManager.GetDefaultHistoricServiceByModel(Model);
             if (service == null) return;
 
             var validityList = service.ConsulteVigencias(code).ToList();

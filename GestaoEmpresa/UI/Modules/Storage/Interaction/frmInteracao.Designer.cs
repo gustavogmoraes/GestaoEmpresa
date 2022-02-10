@@ -92,7 +92,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.label12 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
-            this.gsFileAttacher1 = new GS.GestaoEmpresa.Solucao.UI.ControlesGenericos.GSFileAttacher();
+            this.gsFileAttacher1 = new GSFileAttacher();
             this.GStxtValor = new GS.GestaoEmpresa.Solucao.UI.ControlesGenericos.GSTextBoxMonetaria();
             this.GSMultiTextBox = new GSMultiTextBox();
             this.panel1.SuspendLayout();
@@ -955,7 +955,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         private Label label11;
         private DateTimePicker dtpTimeDevolucao;
         private Label label12;
-        private ControlesGenericos.GSFileAttacher gsFileAttacher1;
+        private GSFileAttacher gsFileAttacher1;
         private Label label5;
         private Label label8;
     }

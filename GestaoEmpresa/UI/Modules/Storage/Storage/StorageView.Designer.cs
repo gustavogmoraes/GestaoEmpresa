@@ -1,6 +1,6 @@
-namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
+namespace GS.GestaoEmpresa.UI.Modules.Storage.Storage
 {
-    partial class FrmEstoque
+    partial class StorageView
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmEstoque));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(StorageView));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -801,7 +801,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.gsTopBorder1.Size = new System.Drawing.Size(1265, 26);
             this.gsTopBorder1.TabIndex = 19;
             // 
-            // FrmEstoque
+            // StorageView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -812,7 +812,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.tabControl1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "FrmEstoque";
+            this.Name = "StorageView";
             this.ShadowType = MetroFramework.Forms.MetroFormShadowType.None;
             this.Text = "GE - Estoque";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
@@ -873,7 +873,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         private System.Windows.Forms.PictureBox pictureBox3;
         private System.Windows.Forms.DataGridView dgvProdutos;
         private MetroFramework.Controls.MetroCheckBox chkQueryOnlyActive;
-        private ControlesGenericos.GSTopBorder gsTopBorder1;
+        private Solucao.UI.ControlesGenericos.GSTopBorder gsTopBorder1;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox txtPesquisa;
         private System.Windows.Forms.DataGridViewTextBoxColumn colunaCodigo;

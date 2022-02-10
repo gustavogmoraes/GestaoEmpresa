@@ -4,10 +4,10 @@ using System.Linq;
 using GS.GestaoEmpresa.Business.Enumerators.Default;
 using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores.Comuns;
 using GS.GestaoEmpresa.Solucao.Negocio.Objetos;
-using GS.GestaoEmpresa.Persistence.Repositories.Base;
 using GS.GestaoEmpresa.Business.Interfaces;
 using GS.GestaoEmpresa.Business.Validators.Base;
 using GS.GestaoEmpresa.Infrastructure.Persistence.RavenDB.Support.Interfaces;
+using GS.GestaoEmpresa.Infrastructure.Persistence.Repositories.Base;
 using GS.GestaoEmpresa.Persistence.RavenDbSupport.Interfaces;
 
 namespace GS.GestaoEmpresa.Business.Services.Base
@@ -47,18 +47,18 @@ namespace GS.GestaoEmpresa.Business.Services.Base
 
         protected abstract Action DeleteValidationSucceeded(int code);
 
-        public IList<Inconsistencia> Save(TEntity item, FormType tipoDeFormType)
+        public IList<Error> Save(TEntity item, FormType formType)
         {
-            var inconsistencias = new List<Inconsistencia>();
+            List<Error> errors;
 
-            switch (tipoDeFormType)
+            switch (formType)
             {
                 case FormType.Insert:
-                    inconsistencias = Validator.ValidateCreate(item).ToList();
-                    if (inconsistencias.Count == 0)
+                    errors = Validator.ValidateCreate(item).ToList();
+                    if (errors.Count == 0)
                     {
-                        var acao = CreateValidationSucceeded(item);
-                        if (acao != null) acao.Invoke();
+                        var action = CreateValidationSucceeded(item);
+                        action?.Invoke();
 
                         Repository.Insert(item);
                     }
@@ -66,22 +66,26 @@ namespace GS.GestaoEmpresa.Business.Services.Base
                     break;
 
                 case FormType.Update:
-                    inconsistencias = Validator.ValidateUpdate(item).ToList();
-                    if (inconsistencias.Count == 0)
+                    errors = Validator.ValidateUpdate(item).ToList();
+                    if (errors.Count == 0)
                     {
-                        var acao = UpdateValidationSucceeded(item);
-                        if (acao != null) acao.Invoke();
+                        var action = UpdateValidationSucceeded(item);
+                        action?.Invoke();
 
                         Repository.Update(item);
                     }
                         
                     break;
+
+                case FormType.Detail:
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(formType), formType, null);
             }
 
-            return inconsistencias;
+            return errors;
         }
 
-        public IList<Inconsistencia> Delete(int code)
+        public IList<Error> Delete(int code)
         {
             var inconsistencias = Validator.ValidateDelete(code);
 

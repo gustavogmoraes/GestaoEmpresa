@@ -13,6 +13,7 @@ using GS.GestaoEmpresa.UI.Modules.Attendance;
 using GS.GestaoEmpresa.UI.Modules.MainWindow;
 using GS.GestaoEmpresa.UI.Modules.Storage.Interaction;
 using GS.GestaoEmpresa.UI.Modules.Storage.Product;
+using GS.GestaoEmpresa.UI.Modules.Storage.Storage;
 using MoreLinq;
 
 namespace GS.GestaoEmpresa.UI.Base
@@ -20,7 +21,7 @@ namespace GS.GestaoEmpresa.UI.Base
     public static class ViewManager
     {
         /// <summary>
-        /// Tela Model-View-Presenter
+        /// Model-View-Presenter View
         /// </summary>
         /// 
         public class MvpView
@@ -52,11 +53,11 @@ namespace GS.GestaoEmpresa.UI.Base
         private static List<MvpView> InstanceController => _instanceController ??= new List<MvpView>
         {
             MvpView.Of<FrmProdutoMetro, ProductPresenter>(),
-            MvpView.Of<FrmInteracaoMetro, InteractionPresenter>(),
+            MvpView.Of<InteractionView, InteractionPresenter>(),
             MvpView.Of<FrmOrcamento, OrcamentoPresenter>(),
             MvpView.Of<FrmCliente, ClientePresenter>(),
             MvpView.Of<FrmAtendimento, object>(true),
-            MvpView.Of<FrmEstoque, object>(true),
+            MvpView.Of<StorageView, object>(true),
             MvpView.Of<frmInteracao, object>(true)
         };
 
@@ -65,33 +66,33 @@ namespace GS.GestaoEmpresa.UI.Base
             where TPresenter : class, IPresenter, new()
         {
             var view = InstanceController.Find(x => x.PresenterType == typeof(TPresenter));
-            if (view == null) throw new Exception("View não encontrada pelo gerenciador!");
+            if (view == null) throw new Exception("View not found at manager");
 
             if (!(view.SingleInstance && view.Instances != null))
             {
-                if (view.Instances == null) view.Instances = new Dictionary<string, IPresenter>();
+                view.Instances ??= new Dictionary<string, IPresenter>();
 
-                var idInstancia = view.SingleInstance ? "Única" : Guid.NewGuid().ToString();
-                if (!view.Instances.ContainsKey(idInstancia))
+                var instanceId = view.SingleInstance ? "Unique" : Guid.NewGuid().ToString();
+                if (!view.Instances.ContainsKey(instanceId))
                 {
-                    var instanciaPresenter = (TPresenter)Activator.CreateInstance(view.PresenterType);
+                    var presenterInstance = (TPresenter)Activator.CreateInstance(view.PresenterType);
 
-                    IView instanciaView = null;
-                    InvokeOnMain(delegate { instanciaView = (IView)Activator.CreateInstance(view.ViewType); });
+                    IView instanceView = null;
+                    InvokeOnMain(delegate { instanceView = (IView)Activator.CreateInstance(view.ViewType); });
 
-                    instanciaPresenter.InstanceId = idInstancia;
-                    instanciaPresenter.View = instanciaView;
-                    instanciaView.Presenter = instanciaPresenter;
-                    instanciaPresenter.View.FormType = FormType.Insert;
-                    instanciaPresenter.EnableControls();
+                    presenterInstance.InstanceId = instanceId;
+                    presenterInstance.View = instanceView;
+                    instanceView.Presenter = presenterInstance;
+                    presenterInstance.View.FormType = FormType.Insert;
+                    presenterInstance.EnableControls();
 
-                    view.Instances.Add(idInstancia, instanciaPresenter);
+                    view.Instances.Add(instanceId, presenterInstance);
 
-                    return instanciaPresenter;
+                    return presenterInstance;
                 }
             }
 
-            MessageBox.Show($"Essa tela já está aberta!");
+            MessageBox.Show(@"This view is already opened");
             return null;
         }
 
@@ -105,79 +106,74 @@ namespace GS.GestaoEmpresa.UI.Base
             return _mainInstance ??= new MainView();
         }
 
-        public static TPresenter Crie<TPresenter>(IEntity conceito)
+        public static TPresenter Create<TPresenter>(IEntity model)
             where TPresenter : class, IPresenter, new()
         {
-            var instanciaPresenter = Create<TPresenter>();
-            instanciaPresenter.Model = conceito;
-            instanciaPresenter.View.FormType = FormType.Detail;
-            //GetMain().Invoke((MethodInvoker) delegate
-            //{
-                
-            //});
+            var presenterInstance = Create<TPresenter>();
+            presenterInstance.Model = model;
+            presenterInstance.View.FormType = FormType.Detail;
 
-            return instanciaPresenter;
+            return presenterInstance;
         }
 
-        public static TPresenter Obtenha<TPresenter>()
+        public static TPresenter Get<TPresenter>()
             where TPresenter : class, IPresenter, new()
         {
-            var tela = InstanceController.Find(x => x.PresenterType == typeof(TPresenter));
-            if (tela.Instances != null && tela.Instances.Count > 0)
+            var view = InstanceController.Find(x => x.PresenterType == typeof(TPresenter));
+            if (view.Instances != null && view.Instances.Count > 0)
             {
-                return tela.Instances.Values.FirstOrDefault() as TPresenter;
+                return view.Instances.Values.FirstOrDefault() as TPresenter;
             }
 
             return null;
         }
 
-        public static IPresenter Obtenha(string idInstancia)
+        public static IPresenter Get(string instanceId)
         {
-            var tela = InstanceController.Find(x => x.Instances.ContainsKey(idInstancia));
-            if (tela.Instances != null && tela.Instances.Count > 0)
-            {
-                return tela.Instances.Values.FirstOrDefault(x => x.InstanceId == idInstancia) as IPresenter;
-            }
-
-            return null;
+            var view = InstanceController.Find(x => x.Instances.ContainsKey(instanceId));
+            return view.Instances is {Count: > 0} 
+                ? view.Instances.Values.FirstOrDefault(x => x.InstanceId == instanceId) 
+                : null;
         }
 
-        public static void Exclua<T>(string idDaInstancia = null)
+        public static void Delete<T>(string instanceId = null)
             where T : Form, IView
         {
-            if (idDaInstancia.IsNullOrEmpty())
+            if (instanceId.IsNullOrEmpty())
             {
-                if (ControladorDeInstanciasIndependentes.ContainsKey(typeof(T)))
+                if (IndependentInstanceController.ContainsKey(typeof(T)))
                 {
-                    var instance = ControladorDeInstanciasIndependentes[typeof(T)];
+                    var instance = IndependentInstanceController[typeof(T)];
                     instance.Close();
 
-                    ControladorDeInstanciasIndependentes[typeof(T)] = null;
+                    IndependentInstanceController[typeof(T)] = null;
 
                     return;
                 }
             }
 
-            var instancias = InstanceController.Find(x => x.ViewType == typeof(T)).Instances.Values;
-            if (instancias != null && instancias.Count > 0)
+            var instances = InstanceController.Find(x => x.ViewType == typeof(T)).Instances.Values;
+            if (instances is not {Count: > 0})
             {
-                instancias.ForEach(x => (x.View as Form).Invoke((MethodInvoker)delegate
-                {
-                    (x as Form).Dispose();
-                }));
-
-                instancias = null;
+                return;
             }
+
+            instances.ForEach(x => ((Form) x.View).Invoke((MethodInvoker)delegate
+            {
+                ((Form) x)?.Dispose();
+            }));
+
+            instances = null;
         }
 
-        public static void Exclua(Type tipoDaView, string idDaInstancia)
+        public static void Delete(Type viewType, string instanceId)
         {
-            var instancias = InstanceController.Find(x => x.ViewType == tipoDaView).Instances;
-            instancias[idDaInstancia] = null; // Disposing Presenter
-            instancias.Remove(idDaInstancia);
+            var instances = InstanceController.Find(x => x.ViewType == viewType).Instances;
+            instances[instanceId] = null;
+            instances.Remove(instanceId);
         }
 
-        public static IServicoHistoricoPadrao ObtenhaServicoHistoricoPadraoPorModel(IEntity model)
+        public static IServicoHistoricoPadrao GetDefaultHistoricServiceByModel(IEntity model)
         {
             var types = GSUtilitarios.GetTypesThatImplementsInteface(typeof(IServicoHistoricoPadrao));
             var classes = types.ToList().Where(x => !x.IsInterface && !x.Name.Contains("BaseServiceWithRevision"));
@@ -191,70 +187,70 @@ namespace GS.GestaoEmpresa.UI.Base
             var serviceInstance = (IServicoHistoricoPadrao)Activator.CreateInstance(serviceType);
             if (serviceInstance == null)
             {
-                throw new Exception("Não foi possível encontrar um serviço implementado que contemple o model informado");
+                throw new Exception("Could not find an implemented service for this model");
             }
 
             return serviceInstance;
         }
 
-        public static IBaseService ObtenhaServicoPadraoPorModel(IEntity model)
+        public static IBaseService GetDefaultServiceByModel(IEntity model)
         {
-            var tipos = GSUtilitarios.GetTypesThatImplementsInteface(typeof(IBaseService));
-            var classes = tipos.ToList().Where(x => !x.IsInterface && !x.Name.Contains("ServicoPadrao"));
-            var servico = classes.FirstOrDefault(x => x.BaseType.GenericTypeArguments.First() == model.GetType());
-
-            var instanciaServico = (IBaseService)Activator.CreateInstance(servico);
-
-            if (instanciaServico == null)
+            var types = GSUtilitarios.GetTypesThatImplementsInteface(typeof(IBaseService));
+            var classes = types.ToList().Where(x => !x.IsInterface && !x.Name.Contains("BaseService"));
+            var service = classes.FirstOrDefault(x => x.BaseType?.GenericTypeArguments.First() == model.GetType());
+            if (service == null)
             {
-                throw new Exception("Não foi possível encontrar um serviço implementado que contemple o model informado");
+                return null;
             }
 
-            return instanciaServico;
+            var serviceInstance = (IBaseService)Activator.CreateInstance(service);
+            if (serviceInstance == null)
+            {
+                throw new Exception("Could not find an implemented service for this model");
+            }
+
+            return serviceInstance;
         }
 
-        public static T ObtenhaIndependente<T>()
+        public static T GetIndependent<T>()
             where T : Form, new()
         {
-            return (T)((T)ControladorDeInstanciasIndependentes[typeof(T)] != null
-                ? ControladorDeInstanciasIndependentes[typeof(T)]
+            return (T)((T)IndependentInstanceController[typeof(T)] != null
+                ? IndependentInstanceController[typeof(T)]
                 : null);
         }
 
-        public static T CrieIndependente<T>(params object[] args)
+        public static T CreateIndependent<T>(params object[] args)
             where T : Form, IView, new()
         {
-            if (ControladorDeInstanciasIndependentes == null)
+            IndependentInstanceController ??= new Dictionary<Type, Form>();
+
+            if (IndependentInstanceController.ContainsKey(typeof(T)) && 
+                IndependentInstanceController[typeof(T)] != null)
             {
-                ControladorDeInstanciasIndependentes = new Dictionary<Type, Form>();
+                return (T)IndependentInstanceController[typeof(T)];
             }
 
-            if (ControladorDeInstanciasIndependentes.ContainsKey(typeof(T)) && 
-                ControladorDeInstanciasIndependentes[typeof(T)] != null)
-            {
-                return (T)ControladorDeInstanciasIndependentes[typeof(T)];
-            }
-
-            T instanciaForm = null;
+            T formInstance = null;
             GetMain().Invoke((MethodInvoker)delegate
             {
-                instanciaForm = (T)Activator.CreateInstance(typeof(T), args);
+                formInstance = (T)Activator.CreateInstance(typeof(T), args);
             });
 
-            ControladorDeInstanciasIndependentes[typeof(T)] = instanciaForm;
-            return instanciaForm;
+            IndependentInstanceController[typeof(T)] = formInstance;
+            return formInstance;
         }
 
-        private static Dictionary<Type, Form> _controladorDeInstanciasIndependentes;
-        private static Dictionary<Type, Form> ControladorDeInstanciasIndependentes
+        private static Dictionary<Type, Form> _independentInstanceController;
+        private static Dictionary<Type, Form> IndependentInstanceController
         {
-            get => _controladorDeInstanciasIndependentes ?? (_controladorDeInstanciasIndependentes = new Dictionary<Type, Form>
+            get => _independentInstanceController ??= new Dictionary<Type, Form>
             {
-                { typeof(FrmEstoque), null },
+                { typeof(StorageView), null },
                 { typeof(FrmAtendimento), null }
-            });
+            };
 
-            set => _controladorDeInstanciasIndependentes = value;
+            set => _independentInstanceController = value;
         }
     }
 }

@@ -17,6 +17,7 @@ using MoreLinq;
 using GS.GestaoEmpresa.Business.Services;
 using GS.GestaoEmpresa.UI.Base;
 using GS.GestaoEmpresa.UI.GenericControls;
+using GS.GestaoEmpresa.UI.Modules.Storage.Storage;
 
 namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 {
@@ -83,7 +84,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         public void CloseFormCall(object sender, EventArgs e)
         {
-            ViewManager.Exclua(typeof(frmInteracao), InstanceId);
+            ViewManager.Delete(typeof(frmInteracao), InstanceId);
         }
 
         public void MaximizeFormCall(object sender, EventArgs e)
@@ -105,7 +106,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         public FormType FormType { get; set; }
 
-        protected List<Inconsistencia> _listaDeInconsistencias { get; set; }
+        protected List<Error> _listaDeInconsistencias { get; set; }
 
         protected virtual void HabiliteControles()
         {
@@ -385,7 +386,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
             if (_listaDeInconsistencias == null)
             {
-                _listaDeInconsistencias = new List<Inconsistencia>();
+                _listaDeInconsistencias = new List<Error>();
             }
 
             if (_listaDeInconsistencias.Count == 0)
@@ -400,14 +401,14 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                     //FlowLayoutPanel.Add(
                     //    new Label()
                     //    {
-                    //        Text = string.Format("{0}, ", inconsistencia.Mensagem)
+                    //        Text = string.Format("{0}, ", inconsistencia.Message)
                     //    });
 
-                    MessageBox.Show(inconsistencia.Mensagem);
+                    MessageBox.Show(inconsistencia.Message);
 
-                    if (inconsistencia.NomeDaPropriedadeValidada == "ValorInteracao")
+                    if (inconsistencia.NameOfValidatedProperty == "ValorInteracao")
                     {
-                        //GStxtValor.ListaDeInconsistencias = new List<Inconsistencia> { inconsistencia };
+                        //GStxtValor.ListaDeInconsistencias = new List<Error> { inconsistencia };
                     }
                 }
 }
@@ -499,7 +500,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                     }
 
                     interacao.Horario = DateTime.Now;
-                    //txtHorario.Text = horario.ToString(Cultura);
+                    //txtHorario.Text = horario.ToString(Culture);
 
                     //using (var servicoDeInteracao = new InteractionService())
                     //{
@@ -514,7 +515,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                         FormType = FormType.Update;
                         DesabiliteControles();
 
-                        var formEstoque = ViewManager.ObtenhaIndependente<FrmEstoque>();
+                        var formEstoque = ViewManager.GetIndependent<StorageView>();
                         formEstoque.btnRefreshHist_Click(null, null);
                         return;
                     }
@@ -553,14 +554,14 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                             {
                                 foreach (var inconsitencia in inconsistencias)
                                 {
-                                    MessageBox.Show(inconsitencia.Mensagem);
+                                    MessageBox.Show(inconsitencia.Message);
                                 }
                             }
                             else
                             {
                                 MessageBox.Show("Interação excluída com sucesso!");
                                 Close();
-                                var formEstoque = ViewManager.ObtenhaIndependente<FrmEstoque>();
+                                var formEstoque = ViewManager.GetIndependent<StorageView>();
                                 formEstoque.btnRefreshHist_Click(null, null);
                             }
                         }

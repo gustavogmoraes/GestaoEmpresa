@@ -1,4 +1,4 @@
-﻿namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
+﻿namespace GS.GestaoEmpresa.UI.Modules.Storage.Product
 {
     partial class frmProduto
     {
@@ -679,9 +679,9 @@
         private System.Windows.Forms.Label txtLineQuantidadeMinima;
         private System.Windows.Forms.Label txtLineQuantidadeEstoque;
         private System.Windows.Forms.Label txtLineObservacoes;
-        private ControlesGenericos.GSTextBoxMonetaria txtPrecoDeCompra;
-        private ControlesGenericos.GSTextBoxMonetaria txtPrecoDeVenda;
-        private ControlesGenericos.GSTextBoxMonetaria txtPorcentagemDeLucro;
+        private Solucao.UI.ControlesGenericos.GSTextBoxMonetaria txtPrecoDeCompra;
+        private Solucao.UI.ControlesGenericos.GSTextBoxMonetaria txtPrecoDeVenda;
+        private Solucao.UI.ControlesGenericos.GSTextBoxMonetaria txtPorcentagemDeLucro;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Panel panel2;
     }

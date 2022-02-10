@@ -314,7 +314,12 @@ namespace GS.GestaoEmpresa.Solucao.Utilitarios
         public static bool AnyPropertyIsNull(this object obj) =>
             obj.GetType().GetProperties().ToList().All(prop => string.IsNullOrEmpty(prop.GetValue(obj).ToString()));
 
-        public static decimal ToDecimal(this string value) => Convert.ToDecimal(value);
+        public static decimal ToDecimal(this string value)
+        {
+            var culture = CultureInfo.GetCultureInfo("pt-BR");
+
+            return Convert.ToDecimal(value, culture);
+        }
 
         public static decimal DivideBy(this decimal value, decimal by) => value / by;
 

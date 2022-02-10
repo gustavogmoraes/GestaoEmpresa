@@ -131,7 +131,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.ControlesGenericos
                     {
                         // O usuário  não possui permissão para ler arquivos
                         MessageBox.Show("Erro de segurança Contate o administrador de segurança da rede.\n\n" +
-                                                    "Mensagem : " + ex.Message + "\n\n" +
+                                                    "Message : " + ex.Message + "\n\n" +
                                                     "Detalhes (enviar ao suporte):\n\n" + ex.StackTrace);
                     }
                     catch (Exception ex)

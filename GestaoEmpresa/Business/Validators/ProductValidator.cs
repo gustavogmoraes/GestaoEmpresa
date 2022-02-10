@@ -17,14 +17,14 @@ namespace GS.GestaoEmpresa.Business.Validators
     {
         public ProductValidator()
         {
-            ErrorList = new List<Inconsistencia>();
+            ErrorList = new List<Error>();
         }
 
         private Product Product { get; set; }
 
         private Product PreviousProduct { get; set; }
 
-        private List<Inconsistencia> ErrorList { get; set; }
+        private List<Error> ErrorList { get; set; }
 
         private void ValidateRuleProductCannotBeDeleted(int productCode)
         {
@@ -33,27 +33,27 @@ namespace GS.GestaoEmpresa.Business.Validators
 
             if (interactionsByProduct.Count > 0)
             {
-                ErrorList.Add(new Inconsistencia
+                ErrorList.Add(new Error
                 {   
-                    Tela = "Consulta de produtos",
-                    ConceitoValidado = "Exclusão de product",
-                    Mensagem = Mensagens.X_NAO_PODE_SER_EXCLUIDO("product")
+                    View = "Consulta de produtos",
+                    ValidatedConcept = "Exclusão de product",
+                    Message = Mensagens.X_NAO_PODE_SER_EXCLUIDO("product")
                 });
             }
         }
 
-        public List<Inconsistencia> ValidateInitialCreation(Produto product)
+        public List<Error> ValidateInitialCreation(Produto product)
         {
-            var errorList = new List<Inconsistencia>();
+            var errorList = new List<Error>();
 
             using var productRepository = new RepositorioDeProduto();
             var queriedProduct = productRepository.Consulte(product.Codigo);
 
             if (queriedProduct != null && (queriedProduct.Codigo == product.Codigo || product.Nome == product.Nome))
             {
-                errorList.Add(new Inconsistencia
+                errorList.Add(new Error
                 {
-                    Mensagem = Mensagens.JA_EXISTE_UM_X_COM_ESSE_Y("Produto", "código ou nome")
+                    Message = Mensagens.JA_EXISTE_UM_X_COM_ESSE_Y("Produto", "código ou nome")
                 });
             }
 
@@ -76,12 +76,12 @@ namespace GS.GestaoEmpresa.Business.Validators
             var result = compareLogic.Compare(PreviousProduct, Product);
             if (result.AreEqual)
             {
-                ErrorList.Add(new Inconsistencia
+                ErrorList.Add(new Error
                 {
-                    Modulo = "Controle de Estoque",
-                    Tela = "Cadastro de Produtos",
-                    ConceitoValidado = "Produto",
-                    Mensagem = Mensagens.NADA_FOI_ALTERADO
+                    Module = "Controle de Estoque",
+                    View = "Cadastro de Produtos",
+                    ValidatedConcept = "Produto",
+                    Message = Mensagens.NADA_FOI_ALTERADO
                 });
             }
         }
@@ -94,18 +94,18 @@ namespace GS.GestaoEmpresa.Business.Validators
             x.ManufacturerCode.Trim() == Product.ManufacturerCode.Trim());
             if (queriedProduct.IsNotNull())
             {
-                ErrorList.Add(new Inconsistencia
+                ErrorList.Add(new Error
                 {
-                    Modulo = "Controle de Estoque",
-                    Tela = "Cadastro de Produtos",
-                    ConceitoValidado = "Produto",
-                    Mensagem = $"Já existe um produto cadastrado com o Código do Fabricante " +
+                    Module = "Controle de Estoque",
+                    View = "Cadastro de Produtos",
+                    ValidatedConcept = "Produto",
+                    Message = $"Já existe um produto cadastrado com o Código do Fabricante " +
                         $"'{Product.ManufacturerCode.Trim()}'"
                 });
             }
         }
 
-        public override IList<Inconsistencia> ValidateCreate(Product item)
+        public override IList<Error> ValidateCreate(Product item)
         {
             Product = item;
 
@@ -115,7 +115,7 @@ namespace GS.GestaoEmpresa.Business.Validators
             return ErrorList;
         }
 
-        public override IList<Inconsistencia> ValidateUpdate(Product item)
+        public override IList<Error> ValidateUpdate(Product item)
         {
             Product = item;
 
@@ -127,7 +127,7 @@ namespace GS.GestaoEmpresa.Business.Validators
             return ErrorList;
         }
 
-        public override IList<Inconsistencia> ValidateDelete(int code)
+        public override IList<Error> ValidateDelete(int code)
         {
             ValidateRuleProductCannotBeDeleted(code);
 

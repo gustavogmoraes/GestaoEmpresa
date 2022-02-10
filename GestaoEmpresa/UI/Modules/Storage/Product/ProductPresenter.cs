@@ -5,6 +5,7 @@ using GS.GestaoEmpresa.Business.Services;
 using GS.GestaoEmpresa.Solucao.Negocio.Objetos;
 using GS.GestaoEmpresa.Solucao.UI.Base;
 using GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque;
+using GS.GestaoEmpresa.UI.Base;
 using GS.GestaoEmpresa.UI.GenericControls;
 
 namespace GS.GestaoEmpresa.UI.Modules.Storage.Product
@@ -36,7 +37,7 @@ namespace GS.GestaoEmpresa.UI.Modules.Storage.Product
             MapControl(model => model.LocationInStorage, view => view.txtLocalizacao);
         }
 
-        public IList<Inconsistencia> Salve()
+        public IList<Error> Salve()
         {
             using (var servicoDeProduto = new ProductService())
             {
@@ -44,7 +45,7 @@ namespace GS.GestaoEmpresa.UI.Modules.Storage.Product
             }
         }
 
-        public IList<Inconsistencia> Exclua(int codigo)
+        public IList<Error> Exclua(int codigo)
         {
             using (var servicoDeProduto = new ProductService())
             {
@@ -69,7 +70,7 @@ namespace GS.GestaoEmpresa.UI.Modules.Storage.Product
                         View.IsRendering = true;
 
                         View.cbValidity.SelectedItem = dataVigencia.ToString("dd/MM/yyyy HH:mm:ss");
-                        View.txtQuantidadeEmEstoque.Text = servicoDeProduto.ConsulteQuantidade(vigenciaConsultada.Code).ToString();
+                        View.txtQuantidadeEmEstoque.Text = servicoDeProduto.QueryQuantity(vigenciaConsultada.Code).ToString();
 
                         View.IsRendering = false;
                     });
@@ -87,7 +88,7 @@ namespace GS.GestaoEmpresa.UI.Modules.Storage.Product
             base.FillControlsWithModel(reloading);
 
             using var servico = new ProductService();
-            var quantidade = servico.ConsulteQuantidade(Model.Code);
+            var quantidade = servico.QueryQuantity(Model.Code);
             View.txtQuantidadeEmEstoque.Text = quantidade.ToString();
         }
     }

@@ -10,6 +10,7 @@
 
 using GS.GestaoEmpresa.Solucao.Negocio.Objetos.Orcamento;
 using GS.GestaoEmpresa.Solucao.UI.Base;
+using GS.GestaoEmpresa.UI.Base;
 
 #endregion
 

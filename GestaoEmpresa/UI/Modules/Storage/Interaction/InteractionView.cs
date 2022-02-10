@@ -4,28 +4,22 @@ using System.Drawing;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Windows.Forms;
-using GS.GestaoEmpresa.Business.Objects;
-using GS.GestaoEmpresa.Business.Objects.Storage;
 using GS.GestaoEmpresa.Business.Services;
 using GS.GestaoEmpresa.Properties;
-using GS.GestaoEmpresa.Solucao.Negocio.Objetos;
-using GS.GestaoEmpresa.Solucao.UI.Base;
-using GS.GestaoEmpresa.Solucao.UI.ControlesGenericos;
 using GS.GestaoEmpresa.Solucao.Utilitarios;
 using GS.GestaoEmpresa.UI.Base;
 using GS.GestaoEmpresa.UI.GenericControls;
-using GS.GestaoEmpresa.UI.Modules.Storage.Interaction;
 
-namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
+namespace GS.GestaoEmpresa.UI.Modules.Storage.Interaction
 {
-    public partial class FrmInteracaoMetro : GSForm
+    public partial class InteractionView : GSForm
     {
 
-        private string _txtPesquisaDeProdutoPreviousSearch;
+        private string _txtProductSearchPreviousSearch;
 
         public InteractionPresenter PresenterWrapper => (InteractionPresenter)Presenter;
 
-        public FrmInteracaoMetro()
+        public InteractionView()
         {
             InitializeComponent();
 
@@ -40,12 +34,12 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             //WindowState = FormWindowState.Maximized;
         }
 
-        private void LoadProductGrid(IList<Product> productList, IDictionary<int, int> quantities)
+        private void LoadProductGrid(IList<Business.Objects.Storage.Product> productList, IDictionary<int, int> quantities)
         {
             gridPesquisaProduto.LoadDataGrid(productList, ProductGridSelection(quantities), useRowColorIntercalation: true);
         }
 
-        private static Expression<Func<Product, object[]>> ProductGridSelection(IDictionary<int, int> quantities) => product => new object[]
+        private static Expression<Func<Business.Objects.Storage.Product, object[]>> ProductGridSelection(IDictionary<int, int> quantities) => product => new object[]
         {
             product.Code,
             product.Manufacturer,
@@ -74,12 +68,12 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                 gridPesquisaProduto.CellBorderStyle = DataGridViewCellBorderStyle.Single;
 
                 var search = txtPesquisa.Text.ToLowerInvariant().Trim();
-                var filteredList = new List<Product>();
+                var filteredList = new List<Business.Objects.Storage.Product>();
                 var didProcess = false;
 
                 if (string.IsNullOrEmpty(search))
                 {
-                    if (string.IsNullOrEmpty(_txtPesquisaDeProdutoPreviousSearch) || _txtPesquisaDeProdutoPreviousSearch == search)
+                    if (string.IsNullOrEmpty(_txtProductSearchPreviousSearch) || _txtProductSearchPreviousSearch == search)
                     {
                         didProcess = false;
                         return;
@@ -100,7 +94,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                 GSWaitForm.Mostrar(
                     () =>
                     {
-                        _txtPesquisaDeProdutoPreviousSearch = search;
+                        _txtProductSearchPreviousSearch = search;
                         using var productService = new ProductService();
 
                         filteredList = productService.QueryForLandingPage(
@@ -310,9 +304,9 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             }
         }
 
-        public Interaction Model
+        public Business.Objects.Storage.Interaction Model
         {
-            get => (Interaction) Presenter?.Model;
+            get => (Business.Objects.Storage.Interaction) Presenter?.Model;
             set
             {
                 if (Presenter == null)

@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using GS.GestaoEmpresa.Business.Interfaces;
 using GS.GestaoEmpresa.Infrastructure.Persistence.RavenDB.Support.Interfaces;
-using GS.GestaoEmpresa.Persistence.RavenDbSupport.Interfaces;
-using GS.GestaoEmpresa.UI.Base;
+using GS.GestaoEmpresa.Solucao.Negocio.Objetos;
 
-namespace GS.GestaoEmpresa.Solucao.UI.Base
+namespace GS.GestaoEmpresa.UI.Base
 {
     public interface IPresenter
     {
@@ -31,5 +29,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
         void DisableControls(IList<string> exceptions = null);
 
         void ViewDidLoad();
+
+        IList<Error> Save();
     }
 }

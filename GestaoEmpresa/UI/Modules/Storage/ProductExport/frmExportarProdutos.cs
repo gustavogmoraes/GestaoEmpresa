@@ -80,7 +80,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
             listaProdutos.Sort((x, y) => x.Code.CompareTo(y.Code));
 
-            var quantidades = servicoDeProduto.ConsulteQuantidade(listaProdutos.Select(x => x.Code).ToList());
+            var quantidades = servicoDeProduto.QueryQuantity(listaProdutos.Select(x => x.Code).ToList());
 
             listaProdutos.ForEach(x => gridExportacao.Rows.Add(GetValues(propsAndLabels, x, quantidades)));
             _properties = propsAndLabels

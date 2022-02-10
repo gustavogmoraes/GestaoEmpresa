@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using GS.GestaoEmpresa.Business.Objects.Storage;
+using GS.GestaoEmpresa.Infrastructure.Persistence.Repositories.Base;
 using GS.GestaoEmpresa.Persistence.RavenDB;
-using GS.GestaoEmpresa.Persistence.Repositories.Base;
 using GS.GestaoEmpresa.Solucao.Utilitarios;
 using Raven.Client.Documents.Linq;
 

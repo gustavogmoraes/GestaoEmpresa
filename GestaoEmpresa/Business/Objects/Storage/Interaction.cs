@@ -16,7 +16,7 @@ namespace GS.GestaoEmpresa.Business.Objects.Storage
             
         public RavenAttachments RavenAttachments { get; set; }
 
-        public InteractionType InteractionType { get; set; }
+        public InteractionType? InteractionType { get; set; }
 
         public DateTime Time { get; set; }
 

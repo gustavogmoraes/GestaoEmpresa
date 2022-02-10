@@ -112,7 +112,7 @@ namespace GS.GestaoEmpresaTests.Business.Services
                                               "Product.Atual is not true");
         }
 
-        private IList<Inconsistencia> SalveCadastro(Product product)
+        private IList<Error> SalveCadastro(Product product)
         {
             using var productService = new ProductService();
             var inconsistences = productService.Save(product, FormType.Insert);

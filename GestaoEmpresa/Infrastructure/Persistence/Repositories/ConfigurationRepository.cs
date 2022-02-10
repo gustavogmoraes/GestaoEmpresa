@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using GS.GestaoEmpresa.Business.Objects.Core;
-using GS.GestaoEmpresa.Persistence.Repositories.Base;
+using GS.GestaoEmpresa.Infrastructure.Persistence.Repositories.Base;
 
 namespace GS.GestaoEmpresa.Persistence.Repositories
 {

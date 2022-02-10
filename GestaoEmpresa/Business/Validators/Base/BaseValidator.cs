@@ -9,10 +9,10 @@ namespace GS.GestaoEmpresa.Business.Validators.Base
     public abstract class BaseValidator<TEntity>
         where TEntity : IEntity, new()
     {
-        public abstract IList<Inconsistencia> ValidateCreate(TEntity item);
+        public abstract IList<Error> ValidateCreate(TEntity item);
 
-        public abstract IList<Inconsistencia> ValidateUpdate(TEntity item);
+        public abstract IList<Error> ValidateUpdate(TEntity item);
 
-        public abstract IList<Inconsistencia> ValidateDelete(int code);
+        public abstract IList<Error> ValidateDelete(int code);
     }
 }

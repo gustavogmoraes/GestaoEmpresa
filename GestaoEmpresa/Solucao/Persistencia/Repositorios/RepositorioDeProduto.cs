@@ -32,15 +32,6 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios
                 .ToDictionary(x => x.Codigo, x => x.Quantidade);
         }
 
-        public void AltereQuantidadeDeProduto(int codigoDoProduto, int novaQuantidade)
-        {
-            using var sessaoRaven = RavenHelper.OpenSession();
-            var produtoQtd = sessaoRaven.Query<ProdutoQuantidade>().FirstOrDefault(x => x.Codigo == codigoDoProduto);
-
-            produtoQtd.Quantidade = novaQuantidade;
-            sessaoRaven.SaveChanges();
-        }
-        
         public Produto Consulte(Expression<Func<Produto, bool>> filtro)
         {
             return RavenHelper.OpenSession().Query<Produto>().FirstOrDefault(filtro);

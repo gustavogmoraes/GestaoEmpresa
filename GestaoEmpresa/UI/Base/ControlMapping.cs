@@ -14,8 +14,8 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
         public ControlMapping(
             Expression<Func<TModel, object>> property,
             Expression<Func<TView, Control>> control,
-            Action<object, Control, PropertyInfo, object> propertyControlConversion = null,
-            Action<Control, PropertyInfo, object, IPresenter> controlPropertyConversion = null)
+            Action<TModel, Control, PropertyInfo, TModel> propertyControlConversion = null,
+            Action<Control, PropertyInfo, TModel, IPresenter> controlPropertyConversion = null)
         {
             ObjectProperty = (PropertyInfo)property.GetPropertyFromExpression();
             ControlName = control.GetPropertyFromExpression().Name;
@@ -28,8 +28,8 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
 
         public string ControlName { get; set; }
 
-        public Action<object, Control, PropertyInfo, object> PropertyControlConversion { get; set; }
+        public Action<TModel, Control, PropertyInfo, TModel> PropertyControlConversion { get; set; }
 
-        public Action<Control, PropertyInfo, object, IPresenter> ControlPropertyConversion { get; set; }
+        public Action<Control, PropertyInfo, TModel, IPresenter> ControlPropertyConversion { get; set; }
     }
 }

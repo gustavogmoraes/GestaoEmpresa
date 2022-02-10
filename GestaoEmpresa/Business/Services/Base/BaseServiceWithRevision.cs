@@ -4,8 +4,8 @@ using System.Linq;
 using GS.GestaoEmpresa.Business.Enumerators.Default;
 using GS.GestaoEmpresa.Business.Interfaces;
 using GS.GestaoEmpresa.Business.Validators.Base;
+using GS.GestaoEmpresa.Infrastructure.Persistence.Repositories.Base;
 using GS.GestaoEmpresa.Persistence.RavenDbSupport.Objects;
-using GS.GestaoEmpresa.Persistence.Repositories.Base;
 using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores.Comuns;
 using GS.GestaoEmpresa.Solucao.Negocio.Objetos;
 using GS.GestaoEmpresa.Solucao.Negocio.Objetos.Base;
@@ -62,11 +62,11 @@ namespace GS.GestaoEmpresa.Business.Services.Base
 
         protected abstract Action DeleteValidationSucceeded(int code);
 
-        public virtual IList<Inconsistencia> Save(TEntity item, FormType tipoDeFormType)
+        public virtual IList<Error> Save(TEntity item, FormType formType)
         {
-            var inconsistencias = new List<Inconsistencia>();
+            var inconsistencias = new List<Error>();
 
-            switch (tipoDeFormType)
+            switch (formType)
             {
                 case FormType.Insert:
                     inconsistencias = Validator.ValidateCreate(item).ToList();
@@ -96,7 +96,7 @@ namespace GS.GestaoEmpresa.Business.Services.Base
             return inconsistencias;
         }
 
-        public virtual IList<Inconsistencia> Delete(int code)
+        public virtual IList<Error> Delete(int code)
         {
             var inconsistencias = Validator.ValidateDelete(code);
 

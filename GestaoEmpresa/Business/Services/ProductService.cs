@@ -13,7 +13,6 @@ using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores.Comuns;
 using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores.Seguros.UnidadeIntelbras;
 using GS.GestaoEmpresa.Solucao.Negocio.Objetos;
 using GS.GestaoEmpresa.Solucao.Persistencia.Repositorios;
-using GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque;
 using GS.GestaoEmpresa.Solucao.Utilitarios;
 using GS.GestaoEmpresa.Business.Objects.Core;
 using GS.GestaoEmpresa.Business.Objects.Storage;
@@ -22,19 +21,15 @@ using GS.GestaoEmpresa.Business.Services.Base;
 using GS.GestaoEmpresa.Business.Validators;
 using GS.GestaoEmpresa.Infrastructure.Persistence.Repositories;
 using GS.GestaoEmpresa.Persistence.RavenDB;
-using GS.GestaoEmpresa.UI.Base;
+using GS.GestaoEmpresa.UI.Modules.Storage.Storage;
 using Raven.Client.Documents.Linq;
 
 namespace GS.GestaoEmpresa.Business.Services
 {
     public class ProductService : BaseServiceWithRevision<Product, ProductValidator, ProductRepository>, IDisposable
     {
-        private ProductQuantityRepository _productQuantityRepository;
-        public ProductQuantityRepository ProductQuantityRepository
-        {
-            get => _productQuantityRepository ??= new ProductQuantityRepository();
-            set => _productQuantityRepository = value;
-        }
+        private readonly ProductRepository _productRepository;
+        private readonly ProductQuantityRepository _productQuantityRepository;
 
         #region Default Implementation
 
@@ -64,32 +59,28 @@ namespace GS.GestaoEmpresa.Business.Services
 
         #endregion
 
-        public int ConsulteQuantidade(int codigo)
+        public ProductService()
         {
-            using var repositorioDeProduto = new RepositorioDeProduto();
-            return repositorioDeProduto.ConsulteQuantidade(codigo);
+            _productQuantityRepository = new ProductQuantityRepository();
+            _productRepository = new ProductRepository();
         }
 
-        public Dictionary<int, int> ConsulteQuantidade(IList<int> codigos)
+        public int QueryQuantity(int code)
         {
-            using (var repositorioDeProduto = new RepositorioDeProduto())
-            {
-                return repositorioDeProduto.ConsulteQuantidade(codigos);
-            }
+            return _productRepository.QueryQuantity(code);
         }
 
-        public void AltereQuantidadeDeProduto(int codigoDoProduto, int novaQuantidade)
+        public Dictionary<int, int> QueryQuantity(IList<int> codes)
         {
-            using (var repositorioDeProduto = new RepositorioDeProduto())
-            {
-                repositorioDeProduto.AltereQuantidadeDeProduto(codigoDoProduto, novaQuantidade);
+            return _productQuantityRepository.QueryQuantities(codes);
+        }
 
-                var formEstoque = ViewManager.ObtenhaIndependente<FrmEstoque>();
-                if (formEstoque == null) return;
+        public void UpdateProductQuantity(int productCode, int newQuantity)
+        {
+            var productQuantity = _productQuantityRepository.QueryFirst(x => x.ProductCode == productCode);
+            productQuantity.Quantity = newQuantity;
+            _productQuantityRepository.Update(productQuantity);
 
-                var produto = Query(codigoDoProduto);
-                formEstoque.RecarregueProdutoEspecifico(produto, ConsulteQuantidade(codigoDoProduto));
-            }
         }
 
         private static Expression<Func<Product, object>> LandingPageProductSelector => x => new Product
@@ -132,14 +123,14 @@ namespace GS.GestaoEmpresa.Business.Services
                 .ToList();
 
             var productsCodes = products.Select(x => x.Code).ToList();
-            quantities = ProductQuantityRepository.QueryQuantities(productsCodes);
+            quantities = _productQuantityRepository.QueryQuantities(productsCodes);
 
             return products;
         }
 
-        public override IList<Inconsistencia> Save(Product item, FormType tipoDeFormType)
+        public override IList<Error> Save(Product item, FormType formType)
         {
-            var inconsistencies = base.Save(item, tipoDeFormType);
+            var inconsistencies = base.Save(item, formType);
 
             return inconsistencies;
         }
@@ -220,7 +211,7 @@ namespace GS.GestaoEmpresa.Business.Services
             };
         }
 
-        private static void SetupProgressBar(FrmEstoque caller)
+        private static void SetupProgressBar(StorageView caller)
         {
             caller.Invoke((MethodInvoker)delegate
             {
@@ -236,7 +227,7 @@ namespace GS.GestaoEmpresa.Business.Services
             });
         }
 
-        private static void UpdateProgressBar(ref int totalAdded, int[] items, List<dynamic> totalItems, FrmEstoque caller)
+        private static void UpdateProgressBar(ref int totalAdded, int[] items, List<dynamic> totalItems, StorageView caller)
         {
             totalAdded++;
 
@@ -249,7 +240,7 @@ namespace GS.GestaoEmpresa.Business.Services
             }
         }
 
-        public Tuple<int, int> ImportIntelbrasSpreadsheet(string filePath, FrmEstoque caller)
+        public Tuple<int, int> ImportIntelbrasSpreadsheet(string filePath, StorageView caller)
         {
             var productRepository = new RepositorioDeProduto();
 

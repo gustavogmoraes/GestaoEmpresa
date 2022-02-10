@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using GS.GestaoEmpresa.Business.Objects.Storage;
 using GS.GestaoEmpresa.Persistence.RavenDbSupport.Interfaces;
 using GS.GestaoEmpresa.Solucao.Negocio.Objetos;
 using GS.GestaoEmpresa.Solucao.Persistencia.BancoDeDados;
@@ -178,17 +179,17 @@ namespace GS.GestaoEmpresa.Persistence.RavenDB
         private static void SobrescrevaConventions()
         {
             DocumentStore.Conventions.FindCollectionName = type => 
-                NomenclaturaDeColecaoCustomizada.ContainsKey(type) 
-                    ? NomenclaturaDeColecaoCustomizada[type] 
+                CustomCollectionNames.ContainsKey(type) 
+                    ? CustomCollectionNames[type] 
                     : DocumentConventions.DefaultGetCollectionName(type);
         }
 
-        private static Dictionary<Type, string> NomenclaturaDeColecaoCustomizada =>
-            new Dictionary<Type, string>
-            {
-                { typeof(Interacao), "Interacoes" },
-                { typeof(ProdutoQuantidade), "ProdutosQuantidades" }
-            };
+        private static Dictionary<Type, string> CustomCollectionNames => new()
+        {
+            { typeof(Interacao), "Interacoes" },
+            { typeof(ProdutoQuantidade), "ProdutosQuantidades" },
+            { typeof(ProductQuantity), "ProductQuantities"}
+        };
 
         public static IRavenQueryable<T> SearchMultiple<T>(this IRavenQueryable<T> queryable, string searchTerm, params Expression<Func<T, object>>[] properties)
             where T: class, IRavenDbDocument, new()

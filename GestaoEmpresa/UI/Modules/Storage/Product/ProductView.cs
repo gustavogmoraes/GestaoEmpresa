@@ -31,12 +31,12 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             BorderStyle = MetroFormBorderStyle.FixedSingle;
         }
 
-        protected override void ChamadaSalvar(object sender, EventArgs e)
+        protected override void SaveCall(object sender, EventArgs e)
         {
             var result = (Presenter as ProductPresenter)?.Salve();
             if(result.IsNotNull() && result!.Any())
             {
-                result.ToList().ForEach(x => MessageBox.Show(x.Mensagem, "Inconsistência"));
+                result.ToList().ForEach(x => MessageBox.Show(x.Message, "Inconsistência"));
                 return;
             }
 
@@ -53,12 +53,12 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             });
         }
 
-        protected override void ChamadaExclusao(object sender, EventArgs e)
+        protected override void DeleteCall(object sender, EventArgs e)
         {
             var result = (Presenter as ProductPresenter)?.Exclua(Presenter.Model.Code);
             if (result.Any())
             {
-                result.ToList().ForEach(x => MessageBox.Show(x.Mensagem, "Inconsistência"));
+                result.ToList().ForEach(x => MessageBox.Show(x.Message, "Inconsistência"));
 
                 return;
             }

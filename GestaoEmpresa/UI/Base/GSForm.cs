@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 using GS.GestaoEmpresa.Business.Enumerators.Default;
 using GS.GestaoEmpresa.Properties;
 using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores.Comuns;
 using GS.GestaoEmpresa.Solucao.UI.Base;
+using GS.GestaoEmpresa.Solucao.Utilitarios;
+using GS.GestaoEmpresa.UI.GenericControls;
 using MetroFramework.Forms;
 
 namespace GS.GestaoEmpresa.UI.Base
@@ -118,7 +121,7 @@ namespace GS.GestaoEmpresa.UI.Base
         protected virtual void ChamadaSalvarOnClick(object sender, EventArgs e)
         {
             Presenter.FillModelWithControls();
-            ChamadaSalvar(sender, e);
+            SaveCall(sender, e);
         }
 
         protected virtual void ChamadaCancelarOnClick(object sender, EventArgs e)
@@ -130,17 +133,36 @@ namespace GS.GestaoEmpresa.UI.Base
         protected virtual void ChamadaExcluirOnClick(object sender, EventArgs e)
         {
             var dialogResult = Presenter.DisplayConfirmationPrompt("Tem certeza que deseja excluir?");
-            if (dialogResult == DialogResult.Yes) ChamadaExclusao(sender, e);
+            if (dialogResult == DialogResult.Yes) DeleteCall(sender, e);
         }
 
-        protected virtual void ChamadaExclusao(object sender, EventArgs e)
+        protected virtual void DeleteCall(object sender, EventArgs e)
         {
             
         }
 
-        protected virtual void ChamadaSalvar(object sender, EventArgs e)
+        protected virtual void SaveCall(object sender, EventArgs e)
         {
-            
+            var result = Presenter.Save();
+            if (result.IsNotNull() && result!.Any())
+            {
+                var messages = string.Join("\n", result.Select(x => "- " + x.Message).ToList());
+                MessageBox.Show(messages, "Inconsistência");
+
+                return;
+            }
+
+            var insertionOrUpdate = FormType == FormType.Insert ? "Cadastrado" : "Atualizado";
+            MessageBox.Show($"{insertionOrUpdate} com sucesso!", "Resultado");
+
+            GSWaitForm.Mostrar(() =>
+            {
+                Invoke((MethodInvoker)delegate
+                {
+                    FormType = FormType.Detail;
+                    Presenter.ViewDidLoad();
+                });
+            });
         }
 
         public void MaximizeFormCall(object sender, EventArgs e)

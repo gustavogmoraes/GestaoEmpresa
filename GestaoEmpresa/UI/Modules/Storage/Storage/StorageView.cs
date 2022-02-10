@@ -1,64 +1,51 @@
-﻿// System
-using System;
+﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
-using System.Data;
-using System.IO;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Collections.Concurrent;
-using System.Threading;
 using GS.GestaoEmpresa.Business.Enumerators.Default;
-//
-
-// Third-party
-using LinqToExcel;
-using MoreLinq;
-using OfficeOpenXml;
-using Raven.Client.Documents.Linq;
-//
-
-// Ours
-using GS.GestaoEmpresa.Properties;
-using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores.Comuns;
-using GS.GestaoEmpresa.Solucao.Negocio.Objetos;
-using GS.GestaoEmpresa.Solucao.UI.Base;
-using GS.GestaoEmpresa.Solucao.UI.ControlesGenericos;
-using GS.GestaoEmpresa.Solucao.Utilitarios;
-using GS.GestaoEmpresa.Solucao.Persistencia.BancoDeDados;
-using MetroFramework.Forms;
-using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores.Comuns.Estoque;
-using GS.GestaoEmpresa.Business.Objects;
 using GS.GestaoEmpresa.Business.Objects.Core;
-using GS.GestaoEmpresa.Business.Objects.Storage;
 using GS.GestaoEmpresa.Business.Services;
 using GS.GestaoEmpresa.Infrastructure.Persistence.Repositories;
+using GS.GestaoEmpresa.Infrastructure.Persistence.Repositories.Migrations;
 using GS.GestaoEmpresa.Persistence.RavenDB;
-using GS.GestaoEmpresa.Persistence.Repositories;
+using GS.GestaoEmpresa.Properties;
+using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores.Comuns.Estoque;
+using GS.GestaoEmpresa.Solucao.Negocio.Objetos;
+using GS.GestaoEmpresa.Solucao.Persistencia.BancoDeDados;
+using GS.GestaoEmpresa.Solucao.UI.Base;
+using GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque;
+using GS.GestaoEmpresa.Solucao.Utilitarios;
 using GS.GestaoEmpresa.UI.Base;
 using GS.GestaoEmpresa.UI.GenericControls;
 using GS.GestaoEmpresa.UI.Modules.Storage.Interaction;
 using GS.GestaoEmpresa.UI.Modules.Storage.Product;
+using LinqToExcel;
+using MetroFramework.Forms;
+using MoreLinq;
+using OfficeOpenXml;
+using Raven.Client.Documents.Linq;
 
-//
-
-namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
+namespace GS.GestaoEmpresa.UI.Modules.Storage.Storage
 {
-    public partial class FrmEstoque : MetroForm, IView
+    public partial class StorageView : MetroForm, IView
     {
         #region Fields
 
-        private string _cbPesquisaPorProdutoPreviousSearch;
-        private string _txtPesquisaDeProdutoPreviousSearch;
+        private string _cbSearchByProductPreviousSearch;
+        private string _txtProductSearchPreviousSearch;
         #endregion
 
         #region Properties
 
-        public CultureInfo Cultura => CultureInfo.GetCultureInfo("pt-BR");
+        public CultureInfo Culture => CultureInfo.GetCultureInfo("pt-BR");
 
         public bool IsRendering { get; set; }
 
@@ -68,7 +55,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         public FormType FormType { get; set; }
 
-        private static int AssistandMsWindupTime => Convert.ToInt32(TimeSpan.FromSeconds(1.2).TotalMilliseconds);
+        private static int AssistantMsWindupTime => Convert.ToInt32(TimeSpan.FromSeconds(1.2).TotalMilliseconds);
 
         private UISettings UISettings { get; set; }
 
@@ -78,15 +65,14 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         #region Public
 
-        public FrmEstoque()
+        public StorageView()
         {
             InitializeComponent();
         }
 
-        public void AdicioneNovoProdutoNaGrid(Product produto, int quantidade)
+        public void AddNewProductOnGrid(Business.Objects.Storage.Product produto, int quantidade)
         {
-            // Mantendo a seleção e scroll presente na tela
-            var index = dgvProdutos.CurrentRow.Index;
+            var index = dgvProdutos.CurrentRow?.Index;
 
             dgvProdutos.Rows.Add(
                 produto.Code,
@@ -100,7 +86,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
             dgvProdutos.Refresh();
 
-            dgvProdutos.FirstDisplayedScrollingRowIndex = index;
+            dgvProdutos.FirstDisplayedScrollingRowIndex = index.GetValueOrDefault();
         }
 
         public void SetBorderStyle()
@@ -110,7 +96,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         public void CloseFormCall(object sender, EventArgs e)
         {
-            ViewManager.Exclua<FrmEstoque>(InstanceId);
+            ViewManager.Delete<StorageView>(InstanceId);
         }
 
         public void MinimizeFormCall(object sender, EventArgs e)
@@ -129,16 +115,15 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             WindowState = FormWindowState.Maximized;
         }
 
-        public void RecarregueProdutoEspecifico(Product product, int quantidade)
+        public void ReloadProduct(Business.Objects.Storage.Product product, int quantity)
         {
-            // Mantendo a seleção e scroll presente na tela
             var currentIndex = dgvProdutos.CurrentRow?.Index;
             var didUpdate = false;
 
-            var indice = dgvProdutos.EncontreIndiceNaGrid("colunaCodigo", product.Code.ToString());
-            if (indice.HasValue)
+            var index = dgvProdutos.EncontreIndiceNaGrid("colunaCodigo", product.Code.ToString());
+            if (index.HasValue)
             {
-                UpdateProductOnGrid(product, quantidade, indice);
+                UpdateProductOnGrid(product, quantity, index);
                 didUpdate = true;
             }
 
@@ -148,25 +133,25 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             }
         }
 
-        private void UpdateProductOnGrid(Product produto, int quantidade, int? indice)
+        private void UpdateProductOnGrid(Business.Objects.Storage.Product product, int quantity, int? index)
         {
             if(!dgvProdutos.HasChildren && !dgvProdutos.Rows.OfType<DataGridViewRow>().Any())
             {
                 return;
             }
 
-            var rowIndex = indice.GetValueOrDefault();
+            var rowIndex = index.GetValueOrDefault();
 
-            dgvProdutos[colunaCodigoFabricante.Index, rowIndex].Value = produto.ManufacturerCode;
-            dgvProdutos[colunaNome.Index, rowIndex].Value = produto.Name;
-            dgvProdutos[colunaDescricao.Index, rowIndex].Value = produto.Notes;
-            dgvProdutos[colunaPrecoCompra.Index, rowIndex].Value = produto.PurchasePrice.HasValue
-                                                                 ? produto.PurchasePrice.GetValueOrDefault().FormateParaStringMoedaReal()
+            dgvProdutos[colunaCodigoFabricante.Index, rowIndex].Value = product.ManufacturerCode;
+            dgvProdutos[colunaNome.Index, rowIndex].Value = product.Name;
+            dgvProdutos[colunaDescricao.Index, rowIndex].Value = product.Notes;
+            dgvProdutos[colunaPrecoCompra.Index, rowIndex].Value = product.PurchasePrice.HasValue
+                                                                 ? product.PurchasePrice.GetValueOrDefault().FormateParaStringMoedaReal()
                                                                  : string.Empty;
-            dgvProdutos[colunaPrecoVenda.Index, rowIndex].Value = produto.SalePrice.HasValue
-                                                                ? produto.SalePrice.GetValueOrDefault().FormateParaStringMoedaReal()
+            dgvProdutos[colunaPrecoVenda.Index, rowIndex].Value = product.SalePrice.HasValue
+                                                                ? product.SalePrice.GetValueOrDefault().FormateParaStringMoedaReal()
                                                                 : string.Empty;
-            dgvProdutos[colunaQuantidade.Index, rowIndex].Value = quantidade;
+            dgvProdutos[colunaQuantidade.Index, rowIndex].Value = quantity;
 
             dgvProdutos.Refresh();
         }
@@ -175,14 +160,14 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         #region Private
 
-        private void EscondaHeadersTabControl(TabControl tabControl)
+        private void HideTabControlHeaders(TabControl tabControl)
         {
             tabControl.Appearance = TabAppearance.FlatButtons;
             tabControl.ItemSize = new Size(0, 1);
             tabControl.SizeMode = TabSizeMode.Fixed;
         }
 
-        private string ResolveInteractionType(InteractionType interactionType)
+        private static string ResolveInteractionType(InteractionType interactionType)
         {
             return interactionType switch
             {
@@ -193,22 +178,22 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             };
         }
 
-        private object[] GetInteractionRowObject(Interaction interaction) => new object[]
+        private object[] GetInteractionRowObject(Business.Objects.Storage.Interaction interaction) => new object[]
         {
             interaction.Code,
-            ResolveInteractionType(interaction.InteractionType),
+            ResolveInteractionType(interaction.InteractionType.GetValueOrDefault()),
             interaction.Technician,
             interaction.SubInteractions.First().Product.Name,
-            interaction.SubInteractions.First().Quantity,
+            interaction.SubInteractions.First().InteractedQuantity,
             interaction.Origin,
             interaction.Destination,
             interaction.Goal,
             interaction.Situation,
             GSUtilitarios.FormateDecimalParaStringMoedaReal(interaction.SubInteractions.Sum(x => x.TotalPrice.GetValueOrDefault())),
-            interaction.ScheduledTime.ToString(Cultura)
+            interaction.ScheduledTime.ToString(Culture)
         };
 
-        private void CarregueDataGridInteracoes(IList<Interaction> interactionList)
+        private void LoadInteractionGrid(IList<Business.Objects.Storage.Interaction> interactionList)
         {
             dgvHistorico.Rows.Clear();
 
@@ -216,30 +201,23 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             {
                 dgvHistorico.Rows.Add(GetInteractionRowObject(interaction));
 
-                switch (interaction.InteractionType)
+                dgvHistorico.Rows[dgvHistorico.Rows.Count - 1].DefaultCellStyle.BackColor = interaction.InteractionType switch
                 {
-                    case InteractionType.Input:
-                        dgvHistorico.Rows[dgvHistorico.Rows.Count - 1].DefaultCellStyle.BackColor = Color.LightBlue;
-                        break;
-                    case InteractionType.Output:
-                        dgvHistorico.Rows[dgvHistorico.Rows.Count - 1].DefaultCellStyle.BackColor = Color.LightPink;
-                        break;
-                    case InteractionType.ExchangeBase:
-                        dgvHistorico.Rows[dgvHistorico.Rows.Count - 1].DefaultCellStyle.BackColor = Color.LightGreen;
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException();
-                }
+                    InteractionType.Input => Color.LightBlue,
+                    InteractionType.Output => Color.LightPink,
+                    InteractionType.ExchangeBase => Color.LightGreen,
+                    _ => throw new ArgumentOutOfRangeException()
+                };
             }
             dgvHistorico.Refresh();
         }
 
-        private void CarregueDataGridProdutos(List<Product> listaDeProdutos, Dictionary<int, int> quantidades)
+        private void LoadProductGrid(List<Business.Objects.Storage.Product> productList, Dictionary<int, int> quantities)
         {
-            dgvProdutos.LoadDataGrid(listaDeProdutos, ProductSelectionForGrid(quantidades));
+            dgvProdutos.LoadDataGrid(productList, ProductSelectionForGrid(quantities));
         }
 
-        private Expression<Func<Product, object[]>> ProductSelectionForGrid(Dictionary<int, int> quantidades) => product => new object[]
+        private static Expression<Func<Business.Objects.Storage.Product, object[]>> ProductSelectionForGrid(IReadOnlyDictionary<int, int> quantities) => product => new object[]
         {
             product.Code,
             product.ManufacturerCode,
@@ -258,7 +236,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             product.SalePrice.HasValue
                 ? GSUtilitarios.FormateDecimalParaStringMoedaReal(product.SalePrice.GetValueOrDefault(), false)
                 : string.Empty,
-            quantidades[product.Code]
+            quantities[product.Code]
         };
 
         #endregion
@@ -271,7 +249,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         private void FrmEstoque_FormClosing(object sender, FormClosingEventArgs e)
         {
-            SessaoSistema.UISettings.SaveUISettings(typeof(FrmEstoque), UISettings);
+            SessaoSistema.UISettings.SaveUISettings(typeof(StorageView), UISettings);
         }
 
         private static Expression<Func<Produto, object>> SeletorProdutoAterrissagem => x => new Produto
@@ -291,73 +269,12 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         private static readonly Expression<Func<Produto, object>>[] DefaultPropertiesToSearch =
             { x => x.Nome, x => x.Codigo, x => x.CodigoDoFabricante, x => x.Fabricante };
 
-        private void AsyncLoad()
-        {
-            #region Migração de dados ClientesAntigos ---> RavenDB
-
-            //var dialogResult = MessageBox.Show(" Migração de dados ClientesAntigos ---> RavenDB", "Confirmação", MessageBoxButtons.YesNo);
-            //if (dialogResult == DialogResult.Yes)
-            //{
-            //    var caminho = Directory.GetCurrentDirectory();
-            //    const string NOME_DO_ARQUIVO_IMPORTADO_FILTRADO = @"ImportadoFiltrado.json";
-            //    Console.WriteLine("Recuperando lista salva.");
-            //    var arquivo = File.ReadAllText(caminho + "/" + NOME_DO_ARQUIVO_IMPORTADO_FILTRADO);
-
-            //    if (arquivo != null)
-            //    {
-            //        MessageBox.Show("Lista recuperada com sucesso.");
-            //        var jsonSerializer = new JsonSerializer();
-            //        var ListaClienteAntigo = JsonConvert.DeserializeObject<List<ClientFromContaFacil>>(arquivo);
-            //        var ListaCliente = ListaClienteAntigo.
-            //            Select(x => new Client
-            //            {
-            //                Codigo = x.Codigo,
-            //                Nome = x.Nome,
-            //                Atual = true,
-            //                CadastroPendente = true,
-            //                RevisionStartDateTime = (string.IsNullOrEmpty(x.DataDoAntigoCadastro) 
-            //                                ? "27/02/2019" 
-            //                                : x.DataDoAntigoCadastro).ConvertaParaDateTime(EnumFormatacaoDateTime.DD_MM_YYYY, '/')
-
-            //            }).ToList();
-
-            //        Task.Run(() =>
-            //        {
-
-            //            using (var repositorioDeCliente = new RepositorioDeCliente())
-            //            using (var repositorioDeClienteAntigo = new RepositorioDeClienteAntigo())
-            //            {
-
-            //                foreach (var item in ListaClienteAntigo)
-            //                {
-            //                    repositorioDeClienteAntigo.Insira(item);
-
-            //                }
-            //                foreach (var item in ListaCliente)
-            //                {
-            //                    repositorioDeCliente.Insira(item);
-            //                }
-            //            }
-            //            MessageBox.Show("Finalizado importaçao.");
-            //        });
-
-            //    }
-            //    else
-            //    {
-            //        MessageBox.Show("Falha na recuperacao.");
-            //    }
-            //}
-
-            #endregion
-        }
-
         private void frmEstoque_Load(object sender, EventArgs e)
         {
-            UISettings = SessaoSistema.UISettings.GetUISettings(typeof(FrmEstoque));
-            //Task.Run(AsyncLoad);
+            UISettings = SessaoSistema.UISettings.GetUISettings(typeof(StorageView));
 
-            var service = new InteractionRepository();
-            service.Migrate();
+            //var migration = new DbMigrations();
+            //migration.Interactions_2022_02_03();
         }
 
         protected override void OnLoad(EventArgs e)
@@ -461,7 +378,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                     {
                         using var servicoDeProduto = new ProductService();
                         var produto = servicoDeProduto.Query(codigoProduto);
-                        presenter = ViewManager.Crie<ProductPresenter>(produto);
+                        presenter = ViewManager.Create<ProductPresenter>(produto);
                     },
                     () =>
                     {
@@ -481,7 +398,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                 {
                     using var servicoDeProduto = new ProductService();
                     var produto = servicoDeProduto.Query(codigoProduto);
-                    presenter = ViewManager.Crie<ProductPresenter>(produto);
+                    presenter = ViewManager.Create<ProductPresenter>(produto);
                 },
                 () =>
                 {
@@ -543,7 +460,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             {
                 txtPesquisa.ForeColor = Color.Silver;
                 txtPesquisa.SetTextWithoutFiringEvents("Pesquisar...");
-                //CarregueDataGridProdutos(_listaDeProdutos);
+                //LoadProductGrid(_listaDeProdutos);
             }
         }
 
@@ -552,12 +469,12 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             Invoke(new MethodInvoker(() =>
             {
                 var searchTerm = txtPesquisa.Text.ToLowerInvariant().Trim();
-                var filteredList = new List<Product>();
+                var filteredList = new List<Business.Objects.Storage.Product>();
                 var didProcess = false;
 
                 if (string.IsNullOrEmpty(searchTerm))
                 {
-                    if (string.IsNullOrEmpty(_txtPesquisaDeProdutoPreviousSearch) || _txtPesquisaDeProdutoPreviousSearch == searchTerm)
+                    if (string.IsNullOrEmpty(_txtProductSearchPreviousSearch) || _txtProductSearchPreviousSearch == searchTerm)
                     {
                         didProcess = false;
                         return;
@@ -569,7 +486,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                     using var productService = new ProductService();
 
                     var productList = productService.QueryForLandingPage(out var quantities, onlyActives: chkQueryOnlyActive.Checked);
-                    CarregueDataGridProdutos(productList, quantities);
+                    LoadProductGrid(productList, quantities);
 
                     didProcess = false;
 
@@ -580,7 +497,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                 GSWaitForm.Mostrar(
                     () =>
                     {
-                        _txtPesquisaDeProdutoPreviousSearch = searchTerm;
+                        _txtProductSearchPreviousSearch = searchTerm;
                         using var servicoDeProduto = new ProductService();
                         filteredList = servicoDeProduto.QueryForLandingPage(
                             out qtds, searchTerm: searchTerm, onlyActives: chkQueryOnlyActive.Checked);
@@ -590,7 +507,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                     {
                         if (didProcess)
                         {
-                            CarregueDataGridProdutos(filteredList, qtds);
+                            LoadProductGrid(filteredList, qtds);
                         }
                     });
             }));
@@ -617,7 +534,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                 txtPesquisaHistorico.SetTextWithoutFiringEvents("Pesquisar...");
 
                 using var servicoDeInteracao = new InteractionService();
-                CarregueDataGridInteracoes(servicoDeInteracao.QueryToLandingPage());
+                LoadInteractionGrid(servicoDeInteracao.QueryToLandingPage());
             }
         }
 
@@ -681,14 +598,14 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             var produtosAterrissagem = servicoDeProduto.QueryForLandingPage(
                 out var quantidades, onlyActives: chkQueryOnlyActive.Checked);
 
-            CarregueDataGridProdutos(produtosAterrissagem, quantidades);
+            LoadProductGrid(produtosAterrissagem, quantidades);
         }
 
         public void btnRefreshHist_Click(object sender, EventArgs e)
         {
             using (var servicoDeInteracao = new InteractionService())
             {
-                CarregueDataGridInteracoes(servicoDeInteracao.QueryToLandingPage());
+                LoadInteractionGrid(servicoDeInteracao.QueryToLandingPage());
             }
 
             txtPesquisaHistorico.ForeColor = Color.Silver;
@@ -716,7 +633,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                 return;
             }
 
-            ChamadaImportarPlanilha(fileDialog.FileName);
+            ImportSpreadsheet(fileDialog.FileName);
         }
 
         private void DoInteractionSearch()
@@ -724,13 +641,13 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             Invoke(new MethodInvoker(() =>
             {
                 var searchTerm = txtPesquisaHistorico.Text.ToLowerInvariant().Trim();
-                var listaFiltrada = new List<Interaction>();
+                var listaFiltrada = new List<Business.Objects.Storage.Interaction>();
                 var processou = false;
 
                 if (searchTerm.IsNullOrEmpty())
                 {
-                    if (_cbPesquisaPorProdutoPreviousSearch.IsNullOrEmpty() || 
-                        _cbPesquisaPorProdutoPreviousSearch == searchTerm)
+                    if (_cbSearchByProductPreviousSearch.IsNullOrEmpty() || 
+                        _cbSearchByProductPreviousSearch == searchTerm)
                     {
                         processou = false;
                         return;
@@ -740,7 +657,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                 if (searchTerm.IsNullOrEmpty())
                 {
                     using (var interactionService = new InteractionService())
-                    CarregueDataGridInteracoes(interactionService.QueryToLandingPage());
+                    LoadInteractionGrid(interactionService.QueryToLandingPage());
 
                     processou = false;
                     return;
@@ -749,7 +666,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                 GSWaitForm.Mostrar(
                     () =>
                     {
-                        _cbPesquisaPorProdutoPreviousSearch = searchTerm;
+                        _cbSearchByProductPreviousSearch = searchTerm;
                         using var interactionService = new InteractionService();
                         listaFiltrada = interactionService.QueryToLandingPage(searchTerm);
                         processou = true;
@@ -758,23 +675,20 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                     {
                         if (processou)
                         {
-                            CarregueDataGridInteracoes(listaFiltrada);
+                            LoadInteractionGrid(listaFiltrada);
                         }
                     });
             }));
         }
 
-        private void ChamadaImportarPlanilha(string caminhoArquivo)
+        private void ImportSpreadsheet(string filePath)
         {
             var stpWatch = new Stopwatch();
             stpWatch.Start();
 
             Task.Run(() => ProductService.KeepTimeRunning(stpWatch, this, txtCronometroImportar));
 
-            Task.Run(() =>
-            {
-                return new ProductService().ImportIntelbrasSpreadsheet(caminhoArquivo, this);
-            }).ContinueWith(taskResult =>
+            Task.Run(() => new ProductService().ImportIntelbrasSpreadsheet(filePath, this)).ContinueWith(taskResult =>
             {
                 stpWatch.Stop();
 
@@ -814,7 +728,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
                     if (interaction != null)
                     {
-                        var presenter = ViewManager.Crie<InteractionPresenter>(interaction);
+                        var presenter = ViewManager.Create<InteractionPresenter>(interaction);
                         presenter.View.Show();
                     }
                 }
@@ -834,7 +748,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
             if (interaction != null)
             {
-                ViewManager.Crie<InteractionPresenter>(interaction);
+                ViewManager.Create<InteractionPresenter>(interaction);
             }
         }
 
@@ -1011,7 +925,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                     var codeCell = planilha.Cells[linha, 1];
                     var codigoIntelbras = codeCell.Text.Trim();
 
-                        // Se não encontrar o produto muda o texto da celula A pra vermelho e passa pra próxima linha
+                        // Se não encontrar o product muda o texto da celula A pra vermelho e passa pra próxima linha
                         var produto = listOfProductsToUpdate.FirstOrDefault(x => x.CodigoDoFabricante == codigoIntelbras);
                     if (produto == null)
                     {
@@ -1159,11 +1073,11 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             var produtos = servicoDeProduto.QueryForLandingPage(
                 out var quantidades, onlyActives: chkQueryOnlyActive.Checked);
 
-            CarregueDataGridProdutos(produtos, quantidades);
+            LoadProductGrid(produtos, quantidades);
 
             //Histórico de Produtos
             using var servicoDeInteracao = new InteractionService();
-            CarregueDataGridInteracoes(servicoDeInteracao.QueryToLandingPage());
+            LoadInteractionGrid(servicoDeInteracao.QueryToLandingPage());
         }
 
         private void txtPesquisa_KeyPress(object sender, KeyPressEventArgs e)

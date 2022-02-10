@@ -10,6 +10,7 @@ using GS.GestaoEmpresa.Solucao.UI.Base;
 using GS.GestaoEmpresa.Solucao.UI.ControlesGenericos;
 using GS.GestaoEmpresa.Solucao.UI.Modulos.Atendimento;
 using GS.GestaoEmpresa.Solucao.Utilitarios;
+using GS.GestaoEmpresa.UI.Base;
 using MetroFramework.Controls;
 
 namespace GS.GestaoEmpresa.UI.Modules.Attendance
@@ -34,9 +35,9 @@ namespace GS.GestaoEmpresa.UI.Modules.Attendance
             MapControl(x => x.Unidades, x => x.tabUnidades, ConversaoPropriedadeControleUnidades, ConversaoControlePropriedadeUnidades);
         }
 
-        public List<Inconsistencia> Salve()
+        public List<Error> Salve()
         {
-            return new List<Inconsistencia>();
+            return new List<Error>();
         }
 
         private Action<object, Control, PropertyInfo, object> ConversaoPropriedadeControleUnidades => (model, control, prop, presenter) =>

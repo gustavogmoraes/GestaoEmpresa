@@ -21,7 +21,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.ControlesGenericos
 
         private CultureInfo _cultura = new CultureInfo("pt-BR");
 
-        //private List<Inconsistencia> _listaDeInconsistencias;
+        //private List<Error> _listaDeInconsistencias;
 
         public decimal? Valor
         {

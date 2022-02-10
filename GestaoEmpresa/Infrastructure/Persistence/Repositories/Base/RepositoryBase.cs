@@ -6,16 +6,12 @@ using System.Linq.Expressions;
 using GS.GestaoEmpresa.Business.Interfaces;
 using GS.GestaoEmpresa.Infrastructure.Persistence.RavenDB.Support.Interfaces;
 using GS.GestaoEmpresa.Persistence.RavenDB;
-using GS.GestaoEmpresa.Persistence.RavenDbSupport.Interfaces;
 using GS.GestaoEmpresa.Persistence.RavenDbSupport.Objects;
-using GS.GestaoEmpresa.Solucao.Negocio.Objetos;
-using GS.GestaoEmpresa.Solucao.Negocio.Objetos.Base;
-using GS.GestaoEmpresa.Solucao.Persistencia.BancoDeDados;
 using GS.GestaoEmpresa.Solucao.Utilitarios;
 using Raven.Client.Documents.Linq;
 using Raven.Client.Documents.Session;
 
-namespace GS.GestaoEmpresa.Persistence.Repositories.Base
+namespace GS.GestaoEmpresa.Infrastructure.Persistence.Repositories.Base
 {
     public abstract class RepositoryBase<T>
         where T : class, IEntity, new()
@@ -48,6 +44,12 @@ namespace GS.GestaoEmpresa.Persistence.Repositories.Base
                 .FirstOrDefault(x => x.Code == code);
 
             return result;
+        }
+
+        public virtual T QueryFirst(Expression<Func<T, bool>> where)
+        {
+            using var ravenSession = RavenHelper.OpenSession();
+            return ravenSession.Query<T>().FirstOrDefault(where);
         }
 
         public virtual IList<T> Query(string searchTerm,
