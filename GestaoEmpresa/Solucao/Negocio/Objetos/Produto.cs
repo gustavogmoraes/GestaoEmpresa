@@ -97,8 +97,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Objetos
         public decimal CalculePrecoDeCompraComBaseNoPrecoDaIntelbras(bool setOwnProperty = true)
         {
             var precoDeCompra = PrecoNaIntelbras.GetValueOrDefault() +
-                                      PrecoNaIntelbras.GetValueOrDefault() * (Ipi.GetValueOrDefault() / 100) +
-                                      PrecoNaIntelbras.GetValueOrDefault() * ObtenhaValorDoProtege(Ipi.GetValueOrDefault());
+                                PrecoNaIntelbras.GetValueOrDefault() * (Ipi.GetValueOrDefault() / 100);
 
             if (setOwnProperty)
             {
@@ -166,20 +165,20 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Objetos
             return porcentagemDeLucro;
         }
 
-        private static decimal ObtenhaValorDoProtege(decimal ipi)
-        {
-            switch (ipi)
-            {
-                case 4:
-                    return 7.87M / 100M;
+        //private static decimal ObtenhaValorDoProtege(decimal ipi)
+        //{
+        //    switch (ipi)
+        //    {
+        //        case 4:
+        //            return 7.87M / 100M;
 
-                case 7:
-                case 12:
-                    return 4.49M / 100M;
+        //        case 7:
+        //        case 12:
+        //            return 4.49M / 100M;
 
-                default:
-                    return 4.49M / 100M;
-            }
-        }
+        //        default:
+        //            return 4.49M / 100M;
+        //    }
+        //}
     }
 }

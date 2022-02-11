@@ -79,16 +79,15 @@ namespace GS.GestaoEmpresa.Business.Objects.Storage
 
         public decimal CalculatePurchasePriceBasedOnIntelbrasPrice(bool setOwnProperty = true)
         {
-            var precoDeCompra = IntelbrasPrice.GetValueOrDefault() +
-                                      IntelbrasPrice.GetValueOrDefault() * (Ipi.GetValueOrDefault() / 100) +
-                                      IntelbrasPrice.GetValueOrDefault() * GetProtegeTaxValue(Ipi.GetValueOrDefault());
+            var purchasePrice = IntelbrasPrice.GetValueOrDefault() +
+                                IntelbrasPrice.GetValueOrDefault() * (Ipi.GetValueOrDefault() / 100);
 
             if (setOwnProperty)
             {
-                PurchasePrice = precoDeCompra;
+                PurchasePrice = purchasePrice;
             }
 
-            return precoDeCompra;
+            return purchasePrice;
         }
 
         public decimal CalculateSalePrice(bool setOwnProperty = true)
@@ -101,11 +100,13 @@ namespace GS.GestaoEmpresa.Business.Objects.Storage
             var salePrice = PurchasePrice + (PurchasePrice * appliedPercentage);
             salePrice = Math.Round(salePrice.GetValueOrDefault(), 2);
 
-            if (setOwnProperty)
+            if (!setOwnProperty)
             {
-                SalePrice = salePrice;
-                ProfitPercentage = appliedPercentage * 100;
+                return salePrice.GetValueOrDefault();
             }
+
+            SalePrice = salePrice;
+            ProfitPercentage = appliedPercentage * 100;
 
             return salePrice.GetValueOrDefault();
         }
@@ -151,20 +152,15 @@ namespace GS.GestaoEmpresa.Business.Objects.Storage
             return profitPercent;
         }
 
-        private static decimal GetProtegeTaxValue(decimal ipi)
-        {
-            switch (ipi)
-            {
-                case 4:
-                    return 7.87M / 100M;
-
-                case 7:
-                case 12:
-                    return 4.49M / 100M;
-
-                default:
-                    return 4.49M / 100M;
-            }
-        }
+        //private static decimal GetProtegeTaxValue(decimal ipi)
+        //{
+        //    return ipi switch
+        //    {
+        //        4 => 7.87M / 100M,
+        //        7 => 4.49M / 100M,
+        //        12 => 4.49M / 100M,
+        //        _ => 4.49M / 100M
+        //    };
+        //}
     }
 }
