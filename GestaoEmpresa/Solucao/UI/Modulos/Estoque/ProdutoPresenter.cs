@@ -91,6 +91,10 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             using var servico = new ServicoDeProduto();
             var quantidade = servico.ConsulteQuantidade(Model.Codigo);
             View.txtQuantidadeEmEstoque.Text = quantidade.ToString();
+
+            View.CalculeEPreenchaPrecoDeCompra();
+            View.CalculeEPreenchaPrecoDeVenda();
+            View.CalculeEPreenchaPrecoConsumidorFinal();
         }
     }
 }

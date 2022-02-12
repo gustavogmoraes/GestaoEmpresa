@@ -677,7 +677,6 @@
             this.txtMPrecoDeCompra.UseCustomForeColor = true;
             this.txtMPrecoDeCompra.UseSelectable = true;
             this.txtMPrecoDeCompra.Value = null;
-            this.txtMPrecoDeCompra.Load += new System.EventHandler(this.txtMPrecoDeCompra_Load);
             this.txtMPrecoDeCompra.Leave += new System.EventHandler(this.txtPrecoDeCompra_Leave);
             // 
             // metroLabel7
@@ -731,6 +730,7 @@
             this.txtMPorcentagemIpi.UseCustomForeColor = true;
             this.txtMPorcentagemIpi.UseSelectable = true;
             this.txtMPorcentagemIpi.Value = null;
+            this.txtMPorcentagemIpi.Leave += new System.EventHandler(this.txtMPorcentagemIpi_Leave);
             // 
             // txtMPrecoNaIntelbras
             // 
@@ -744,6 +744,7 @@
             this.txtMPrecoNaIntelbras.UseCustomForeColor = true;
             this.txtMPrecoNaIntelbras.UseSelectable = true;
             this.txtMPrecoNaIntelbras.Value = null;
+            this.txtMPrecoNaIntelbras.Leave += new System.EventHandler(this.txtMPrecoNaIntelbras_Leave);
             // 
             // txtMPrecoSugeridoRevenda
             // 
@@ -757,6 +758,7 @@
             this.txtMPrecoSugeridoRevenda.UseCustomForeColor = true;
             this.txtMPrecoSugeridoRevenda.UseSelectable = true;
             this.txtMPrecoSugeridoRevenda.Value = null;
+            this.txtMPrecoSugeridoRevenda.Leave += new System.EventHandler(this.txtMPrecoSugeridoRevenda_Leave);
             // 
             // txtMPorcentagemDeLucroConsumidorFinal
             // 
@@ -770,6 +772,7 @@
             this.txtMPorcentagemDeLucroConsumidorFinal.UseCustomForeColor = true;
             this.txtMPorcentagemDeLucroConsumidorFinal.UseSelectable = true;
             this.txtMPorcentagemDeLucroConsumidorFinal.Value = null;
+            this.txtMPorcentagemDeLucroConsumidorFinal.Leave += new System.EventHandler(this.txtMPorcentagemDeLucroConsumidorFinal_Leave);
             // 
             // txtMPscf
             // 
