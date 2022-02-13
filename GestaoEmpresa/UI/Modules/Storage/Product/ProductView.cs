@@ -66,6 +66,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             MessageBox.Show("Excluído com sucesso!", "Resultado");
             Presenter.CloseView(sender, e);
         }
+
         protected override void ChamadaEditarOnClick(object sender, EventArgs e)
         {
             IsRendering = true;
@@ -98,7 +99,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             CalculeEPreenchaPrecoDeVenda();
         }
 
-        private void CalculeEPreenchaPrecoDeVenda()
+        public void CalculeEPreenchaPrecoDeVenda()
         {
             if (txtMPrecoDeCompra.Value != 0 &&
                 txtMLucro.Value != 0)
@@ -114,6 +115,38 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             }
         }
 
+        public void CalculeEPreenchaPrecoDeCompra()
+        {
+            if (txtMPrecoNaIntelbras.Value == 0 || txtMPorcentagemIpi.Value == 0)
+            {
+                return;
+            }
+
+            var precoIntelbras = txtMPrecoNaIntelbras.Value.GetValueOrDefault();
+
+            var y = txtMPorcentagemIpi.Value.GetValueOrDefault() / 100;
+            var k = precoIntelbras * y;
+            var z = precoIntelbras + k;
+
+            txtMPrecoDeCompra.Value = Math.Round(z, 2);
+        }
+
+        public void CalculeEPreenchaPrecoConsumidorFinal()
+        {
+            if (txtMPrecoSugeridoRevenda.Value == 0 || txtMPorcentagemDeLucroConsumidorFinal.Value == 0)
+            {
+                return;
+            }
+
+            var precoRevenda = txtMPrecoSugeridoRevenda.Value.GetValueOrDefault();
+
+            var y = txtMPorcentagemIpi.Value.GetValueOrDefault() / 100;
+            var k = precoRevenda * y;
+            var z = precoRevenda + k;
+
+            txtMPscf.Value = Math.Round(z, 2);
+        }
+
         private void txtPrecoDeCompra_Leave(object sender, EventArgs e)
         {
             CalculeEPreenchaPrecoDeVenda();
@@ -124,9 +157,25 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             CalculeEPreenchaPrecoDeVenda();
         }
 
-        private void txtMPrecoDeCompra_Load(object sender, EventArgs e)
-        {
 
+        private void txtMPrecoNaIntelbras_Leave(object sender, EventArgs e)
+        {
+            CalculeEPreenchaPrecoDeCompra();
+        }
+
+        private void txtMPorcentagemIpi_Leave(object sender, EventArgs e)
+        {
+            CalculeEPreenchaPrecoDeCompra();
+        }
+
+        private void txtMPrecoSugeridoRevenda_Leave(object sender, EventArgs e)
+        {
+            CalculeEPreenchaPrecoConsumidorFinal();
+        }
+
+        private void txtMPorcentagemDeLucroConsumidorFinal_Leave(object sender, EventArgs e)
+        {
+            CalculeEPreenchaPrecoConsumidorFinal();
         }
     }
 }
