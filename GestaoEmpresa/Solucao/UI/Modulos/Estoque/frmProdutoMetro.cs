@@ -107,7 +107,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         public void CalculeEPreenchaPrecoDeCompra()
         {
-            if (txtMPrecoNaIntelbras.Value == 0 || txtMPorcentagemIpi.Value == 0)
+            if (txtMPrecoNaIntelbras.Value is null or 0 || txtMPorcentagemIpi.Value is null or 0)
             {
                 return;
             }
