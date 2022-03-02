@@ -1,9 +1,7 @@
-﻿// System
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
-using System.Data;
 using System.IO;
 using System.Globalization;
 using System.Linq;
@@ -12,16 +10,10 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Collections.Concurrent;
 using System.Threading;
-//
-
-// Third-party
 using LinqToExcel;
 using MoreLinq;
 using OfficeOpenXml;
 using Raven.Client.Documents.Linq;
-//
-
-// Ours
 using GS.GestaoEmpresa.Properties;
 using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores.Comuns;
 using GS.GestaoEmpresa.Solucao.Negocio.Objetos;
@@ -30,9 +22,8 @@ using GS.GestaoEmpresa.Solucao.UI.Base;
 using GS.GestaoEmpresa.Solucao.UI.ControlesGenericos;
 using GS.GestaoEmpresa.Solucao.Utilitarios;
 using GS.GestaoEmpresa.Solucao.Persistencia.BancoDeDados;
+using GS.GestaoEmpresa.Solucao.Persistencia.Repositorios;
 using MetroFramework.Forms;
-using Newtonsoft.Json;
-//
 
 namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 {
@@ -325,7 +316,6 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         private void frmEstoque_Load(object sender, EventArgs e)
         {
             UISettings = SessaoSistema.UISettings.GetUISettings(typeof(FrmEstoque));
-            //Task.Run(AsyncLoad);
         }
 
         protected override void OnLoad(EventArgs e)
@@ -554,6 +544,10 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         #endregion
 
+        public const string RedColorCode = "FF0000";
+        public const int PurchasePriceColumnIndex = 5;
+        public const int DistributorPriceColumnIndex = 6;
+
         private void btnCatalogo_Click(object sender, EventArgs e)
         {
             tabControl1.SelectedTab = tabProdutos;
@@ -630,7 +624,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         private void button1_Click(object sender, EventArgs e)
         {
-            var fileDialog = new OpenFileDialog { Filter = "Excel Files|*.xls;*.xlsx;*.xlsb" };
+            var fileDialog = new OpenFileDialog { Filter = Resources.OpenFileDialogFilter_ExcelFiles };
 
             var dialogResult = fileDialog.ShowDialog();
             if (dialogResult != DialogResult.OK || !fileDialog.CheckFileExists)
@@ -671,8 +665,8 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
                 if (searchTerm.IsNullOrEmpty())
                 {
-                    using (var servicoDeInteracao = new ServicoDeInteracao())
-                    CarregueDataGridInteracoes(servicoDeInteracao.ConsulteTodasParaAterrissagem());
+                    using var interactionService = new ServicoDeInteracao();
+                    CarregueDataGridInteracoes(interactionService.ConsulteTodasParaAterrissagem());
 
                     processou = false;
                     return;
@@ -703,10 +697,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
             Task.Run(() => ServicoDeProduto.KeepTimeRunning(stpWatch, this, txtCronometroImportar));
 
-            Task.Run(() =>
-            {
-                return new ServicoDeProduto().ImportePlanilhaIntelbras(caminhoArquivo, this);
-            }).ContinueWith(taskResult =>
+            Task.Run(() => new ServicoDeProduto().ImportePlanilhaIntelbras(caminhoArquivo, this)).ContinueWith(taskResult =>
             {
                 stpWatch.Stop();
 
@@ -716,6 +707,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                         $"Importação realizada com sucesso\n" +
                         $"{taskResult.Result.Item1} produtos atualizados\n" +
                         $"{taskResult.Result.Item2} produtos adicionados\n" +
+                        $"{taskResult.Result.Item3} produtos desativados\n" +
                         $"Tempo de execução {txtCronometroImportar.Text}", "Sucesso");
 
                     txtQtyProgresso.Text = "?/?";
@@ -794,25 +786,23 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             e.Handled = true;
         }
 
-        public const string CODIGO_COR_VERMELHA = "FF0000";
-        public const int NUMERO_COLUNA_PRECO_DE_COMPRA = 5;
-        public const int NUMERO_COLUNA_PRECO_DISTRIBUIDOR = 6;
+        
 
         private void button2_Click(object sender, EventArgs e)
         {
-            var fileDialog = new OpenFileDialog { Filter = "Excel Files|*.xls;*.xlsx;*.xlsb" };
+            var fileDialog = new OpenFileDialog { Filter = Resources.OpenFileDialogFilter_ExcelFiles };
 
             var dialogResult = fileDialog.ShowDialog();
             if (dialogResult != DialogResult.OK || !fileDialog.CheckFileExists)
             {
-                MessageBox.Show("Falha ao pegar o arquivo", "Erro");
+                MessageBox.Show(Resources.Message_FalhaAoAbrirArquivo, Resources.Message_Erro);
                 return;
             }
 
             var fileInfo = new FileInfo(fileDialog.FileName);
             if (GSExtensions.IsFileLocked(fileInfo))
             {
-                MessageBox.Show("O arquivo está em uso, feche o primeiro", "Erro");
+                MessageBox.Show(Resources.Message_FileLocked, Resources.Message_Erro);
                 return;
             }
 
@@ -898,7 +888,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                 {
                     // Passa pra próxima linha se o texto celula A for vermelho
                     var celulaA = worksheet.Cells[i, 1];
-                    if (string.IsNullOrEmpty(celulaA.Text) || celulaA.Style.Font.Color.Rgb == CODIGO_COR_VERMELHA)
+                    if (string.IsNullOrEmpty(celulaA.Text) || celulaA.Style.Font.Color.Rgb == RedColorCode)
                     {
                         continue;
                     }
@@ -953,29 +943,29 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                         var produto = listOfProductsToUpdate.FirstOrDefault(x => x.CodigoDoFabricante == codigoIntelbras);
                     if (produto == null)
                     {
-                        var corVermelha = GSExtensions.ColorFromHexCode(CODIGO_COR_VERMELHA);
+                        var corVermelha = GSExtensions.ColorFromHexCode(RedColorCode);
                         codeCell.Style.Font.Color.SetColor(corVermelha);
                         return;
                     }
 
-                    var precoDeCompraPlanilha = planilha.Cells[linha, NUMERO_COLUNA_PRECO_DE_COMPRA].Value;
+                    var precoDeCompraPlanilha = planilha.Cells[linha, PurchasePriceColumnIndex].Value;
                     var precoDeCompraSistema = Math.Round(produto.PrecoDeCompra.GetValueOrDefault(), 2);
 
-                    var precoDistribuidorPlanilha = planilha.Cells[linha, NUMERO_COLUNA_PRECO_DISTRIBUIDOR].Value;
+                    var precoDistribuidorPlanilha = planilha.Cells[linha, DistributorPriceColumnIndex].Value;
                     var precoDistribuidorSistema = Math.Round(produto.PrecoDistribuidor.GetValueOrDefault(), 2);
 
                     var atualizou = false;
 
                     if (Convert.ToDecimal(precoDeCompraPlanilha) != precoDeCompraSistema)
                     {
-                        planilha.Cells[linha, NUMERO_COLUNA_PRECO_DE_COMPRA].Value = precoDeCompraSistema;
+                        planilha.Cells[linha, PurchasePriceColumnIndex].Value = precoDeCompraSistema;
                             atualizou = true;
                     }
 
                     if(precoDistribuidorPlanilha.ToString() == "-" &&
                        precoDistribuidorSistema > 0)
                     {
-                        planilha.Cells[linha, NUMERO_COLUNA_PRECO_DISTRIBUIDOR].Value = precoDistribuidorSistema;
+                        planilha.Cells[linha, DistributorPriceColumnIndex].Value = precoDistribuidorSistema;
                         atualizou = true;
                     }
 

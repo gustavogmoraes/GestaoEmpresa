@@ -11,6 +11,7 @@ using MetroFramework.Controls;
 using System.Security;
 using MetroFramework;
 using System.IO;
+using GS.GestaoEmpresa.Properties;
 using GS.GestaoEmpresa.Solucao.Utilitarios;
 
 namespace GS.GestaoEmpresa.Solucao.UI.ControlesGenericos
@@ -120,7 +121,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.ControlesGenericos
                             MessageBox.Show(
                                 "O nome do arquivo é muito grande\n" +
                                 "O tamanho máximo permitido é de 60 caracteres", 
-                                "Erro");
+                                Resources.Message_Erro);
 
                             return;
                         }

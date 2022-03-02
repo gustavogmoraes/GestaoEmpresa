@@ -833,5 +833,9 @@ namespace GS.GestaoEmpresa.Solucao.UI.Principal
 
         #endregion
 
+        private void btnRql_Click(object sender, EventArgs e)
+        {
+            new DevPlayground().Show();
+        }
     }
 }
