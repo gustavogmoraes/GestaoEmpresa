@@ -65,6 +65,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Principal
             this.label8 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.btnDevPlayground = new System.Windows.Forms.Button();
             this.btnAtendimento = new MetroFramework.Controls.MetroButton();
             this.btnTecnico = new MetroFramework.Controls.MetroButton();
             this.btnAuditoria = new MetroFramework.Controls.MetroButton();
@@ -419,7 +420,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Principal
             this.lblTitle.Font = new System.Drawing.Font("Segoe UI Light", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblTitle.Location = new System.Drawing.Point(288, 195);
             this.lblTitle.Name = "lblTitle";
-            this.lblTitle.Size = new System.Drawing.Size(214, 40);
+            this.lblTitle.Size = new System.Drawing.Size(213, 40);
             this.lblTitle.TabIndex = 36;
             this.lblTitle.Text = "Gestão Empresa";
             // 
@@ -552,6 +553,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Principal
             // groupBox2
             // 
             this.groupBox2.BackColor = System.Drawing.Color.Transparent;
+            this.groupBox2.Controls.Add(this.btnDevPlayground);
             this.groupBox2.Controls.Add(this.btnAtendimento);
             this.groupBox2.Controls.Add(this.btnTecnico);
             this.groupBox2.Controls.Add(this.btnAuditoria);
@@ -565,6 +567,17 @@ namespace GS.GestaoEmpresa.Solucao.UI.Principal
             this.groupBox2.TabIndex = 21;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Módulos";
+            // 
+            // btnDevPlayground
+            // 
+            this.btnDevPlayground.Location = new System.Drawing.Point(567, 289);
+            this.btnDevPlayground.Name = "btnDevPlayground";
+            this.btnDevPlayground.Size = new System.Drawing.Size(144, 39);
+            this.btnDevPlayground.TabIndex = 16;
+            this.btnDevPlayground.Text = "DevPlayground";
+            this.btnDevPlayground.UseVisualStyleBackColor = true;
+            this.btnDevPlayground.Visible = false;
+            this.btnDevPlayground.Click += new System.EventHandler(this.btnRql_Click);
             // 
             // btnAtendimento
             // 
@@ -674,6 +687,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Principal
             // gsTopBorder1
             // 
             this.gsTopBorder1.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            this.gsTopBorder1.DisplayMaximize = false;
             this.gsTopBorder1.Location = new System.Drawing.Point(0, 0);
             this.gsTopBorder1.Name = "gsTopBorder1";
             this.gsTopBorder1.Size = new System.Drawing.Size(788, 26);
@@ -757,5 +771,6 @@ namespace GS.GestaoEmpresa.Solucao.UI.Principal
         private System.Windows.Forms.PictureBox pictureBox5;
         private System.Windows.Forms.Panel panelConexao;
         private ControlesGenericos.GSTopBorder gsTopBorder1;
+        private System.Windows.Forms.Button btnDevPlayground;
     }
 }

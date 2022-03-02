@@ -75,6 +75,9 @@
     <Reference Include="EPPlus, Version=5.4.1.0, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
       <HintPath>..\packages\EPPlus.5.4.1\lib\net45\EPPlus.dll</HintPath>
     </Reference>
+    <Reference Include="ICSharpCode.TextEditor, Version=3.2.1.6466, Culture=neutral, PublicKeyToken=4d61825e8dd49f1a, processorArchitecture=MSIL">
+      <HintPath>..\packages\ICSharpCode.TextEditor.3.2.1.6466\lib\Net20\ICSharpCode.TextEditor.dll</HintPath>
+    </Reference>
     <Reference Include="KellermanSoftware.Compare-NET-Objects, Version=4.67.0.0, Culture=neutral, PublicKeyToken=d970ace04cc85217, processorArchitecture=MSIL">
       <HintPath>..\packages\CompareNETObjects.4.67.0\lib\net48\KellermanSoftware.Compare-NET-Objects.dll</HintPath>
     </Reference>
@@ -296,6 +299,12 @@
     <Compile Include="Solucao\Negocio\Validador\ValidadorDeInteracao.cs" />
     <Compile Include="Solucao\Negocio\Validador\ValidadorDeProduto.cs" />
     <Compile Include="Solucao\Persistencia\Repositorios\RepositorioDeUsuario.cs" />
+    <Compile Include="Solucao\UI\Base\DevPlayground.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Solucao\UI\Base\DevPlayground.Designer.cs">
+      <DependentUpon>DevPlayground.cs</DependentUpon>
+    </Compile>
     <Compile Include="Solucao\UI\Base\GSForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -477,6 +486,9 @@
     <Compile Include="Solucao\Utilitarios\LambdaExtensions.cs" />
     <EmbeddedResource Include="Solucao\Persistencia\BancoDeDados\UCSessaoSistema.resx">
       <DependentUpon>UCSessaoSistema.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Solucao\UI\Base\DevPlayground.resx">
+      <DependentUpon>DevPlayground.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Solucao\UI\Base\GSForm.resx">
       <DependentUpon>GSForm.cs</DependentUpon>

@@ -251,7 +251,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
             }
         }
 
-        public Tuple<int, int> ImportePlanilhaIntelbras(string caminhoArquivo, FrmEstoque caller)
+        public Tuple<int, int, int> ImportePlanilhaIntelbras(string caminhoArquivo, FrmEstoque caller)
         {
             var repositorioDeProduto = new RepositorioDeProduto();
 
@@ -261,7 +261,10 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
 
             var importedItems = LeiaItensDoXls(caminhoArquivo);
             var progressRange = GSExtensions.GetProgressRange(importedItems.Count);
-            var persistedItems = repositorioDeProduto.ConsulteTodos(takeQuantity: int.MaxValue, withAttachments: true);
+            var persistedItems = repositorioDeProduto.ConsulteTodos(
+                takeQuantity: int.MaxValue,
+                withAttachments: true).Where(x =>
+                    !string.IsNullOrEmpty(x.Fabricante) && x.Fabricante.Trim().ToLowerInvariant() == "intelbras").ToList();
 
             var totalAdded = 0;
 
@@ -306,11 +309,15 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
                     PreenchaProduto(produtoPersistido, item, configuracao);
                     itemsToUpdate.Add(produtoPersistido);
 
+
                     return;
                 }
 
                 itemsToAdd.Add(ObtenhaNovoProduto(item, configuracao));
             });
+
+            var itemsToDeactivate = persistedItems.Where(persisted => importedItems.All(imported => (string) imported.CodigoDoProduto != persisted.CodigoDoFabricante))
+                .ToList();
 
             if(itemsToAdd.Any())
             {
@@ -332,7 +339,17 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
                 repositorioDeProduto.MassUpdate(itemsToUpdate.ToList());
             }
 
-            return new Tuple<int, int>(itemsToUpdate.Count, itemsToAdd.Count);
+            if (itemsToDeactivate.Any())
+            {
+                foreach (var item in itemsToDeactivate)
+                {
+                    item.Status = EnumStatusToggle.Inativo;
+                }
+
+                repositorioDeProduto.MassUpdate(itemsToDeactivate.ToList());
+            }
+
+            return new Tuple<int, int, int>(itemsToUpdate.Count, itemsToAdd.Count, itemsToDeactivate.Count);
         }
 
         private static void PreenchaProduto(Produto produtoPersistido, dynamic item, Configuracoes configuracao)

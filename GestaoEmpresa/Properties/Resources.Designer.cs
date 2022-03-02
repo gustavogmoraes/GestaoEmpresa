@@ -320,6 +320,42 @@ namespace GS.GestaoEmpresa.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Erro.
+        /// </summary>
+        internal static string Message_Erro {
+            get {
+                return ResourceManager.GetString("Message_Erro", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Falha ao abrir o arquivo.
+        /// </summary>
+        internal static string Message_FalhaAoAbrirArquivo {
+            get {
+                return ResourceManager.GetString("Message_FalhaAoAbrirArquivo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to O arquivo está em uso, feche o primeiro.
+        /// </summary>
+        internal static string Message_FileLocked {
+            get {
+                return ResourceManager.GetString("Message_FileLocked", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Excel Files|*.xls;*.xlsx;*.xlsb.
+        /// </summary>
+        internal static string OpenFileDialogFilter_ExcelFiles {
+            get {
+                return ResourceManager.GetString("OpenFileDialogFilter_ExcelFiles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap Preloader_2 {
