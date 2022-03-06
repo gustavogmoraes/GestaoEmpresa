@@ -264,7 +264,9 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
             var persistedItems = repositorioDeProduto.ConsulteTodos(
                 takeQuantity: int.MaxValue,
                 withAttachments: true).Where(x =>
-                    !string.IsNullOrEmpty(x.Fabricante) && x.Fabricante.Trim().ToLowerInvariant() == "intelbras").ToList();
+                    x.Status == EnumStatusToggle.Ativo &&
+                    !string.IsNullOrEmpty(x.Fabricante) && 
+                    x.Fabricante.Trim().ToLowerInvariant() == "intelbras").ToList();
 
             var totalAdded = 0;
 
