@@ -72,20 +72,26 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Validador
 
         private void ValideRegraNaoHouveAlteracao()
         {
-            var logica = new CompareLogic();
-            logica.Config.MembersToIgnore = new List<string>{ "Vigencia", "QuantidadeEmEstoque" };
-            // https://github.com/GregFinzer/Compare-Net-Objects/wiki/Ignoring-Members
+            var compareLogic = new CompareLogic
+            {
+                Config =
+                {
+                    MembersToIgnore = new List<string>{ "Vigencia", "QuantidadeEmEstoque", "RavenAttachments" }
+                }
+            };
+            //// https://github.com/GregFinzer/Compare-Net-Objects/wiki/Ignoring-Members
 
-            var resultado = logica.Compare(_produtoAnterior, _produto);
-            if (resultado.AreEqual)
-                _listaDeInconsistencias.Add(
-                    new Inconsistencia()
-                    {
-                        Modulo = "Controle de Estoque",
-                        Tela = "Cadastro de Produtos",
-                        ConceitoValidado = "Produto",
-                        Mensagem = Mensagens.NADA_FOI_ALTERADO
-                    });
+            var result = compareLogic.Compare(_produtoAnterior, _produto);
+            if (result.AreEqual)
+            {
+                _listaDeInconsistencias.Add(new Inconsistencia
+                {
+                    Modulo = "Controle de Estoque",
+                    Tela = "Cadastro de Produtos",
+                    ConceitoValidado = "Produto",
+                    Mensagem = Mensagens.NADA_FOI_ALTERADO
+                });
+            }
         }
 
         public override IList<Inconsistencia> ValideCadastro(Produto item)
@@ -151,7 +157,5 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Validador
             // GC.SuppressFinalize(this);
         }
         #endregion
-
-        
     }
 }

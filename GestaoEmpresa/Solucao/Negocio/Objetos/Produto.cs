@@ -88,8 +88,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Objetos
         public decimal CalculePrecoDeCompraComBaseNoPrecoDaIntelbras(bool setOwnProperty = true)
         {
             var precoDeCompra = PrecoNaIntelbras.GetValueOrDefault() +
-                                      PrecoNaIntelbras.GetValueOrDefault() * (Ipi.GetValueOrDefault() / 100) +
-                                      PrecoNaIntelbras.GetValueOrDefault();
+                                PrecoNaIntelbras.GetValueOrDefault() * (Ipi.GetValueOrDefault() / 100);
 
             if (setOwnProperty)
             {

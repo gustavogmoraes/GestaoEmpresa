@@ -300,10 +300,12 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
                 var produtoPersistido = persistedItems.FirstOrDefault(x => x.CodigoDoFabricante?.Trim() == codigoDoProdutoIntelbras.Trim());
                 if (produtoPersistido != null)
                 {
-                    var precoPlanilha = ((string)item.PrecoDeCompra).ObtenhaMonetario();
+                    var precoPlanilha = Math.Round(((string)item.PrecoDeCompra).ObtenhaMonetario(), 2);
                     var ipiPlanilha = Convert.ToDecimal(((string)item.Ipi).Replace("%", string.Empty));
+                    var precoIntelbrasPersistido = Math.Round(produtoPersistido.PrecoNaIntelbras.GetValueOrDefault(), 2);
 
-                    if (produtoPersistido.PrecoNaIntelbras == precoPlanilha && produtoPersistido.Ipi == ipiPlanilha)
+                    if (precoIntelbrasPersistido == precoPlanilha && 
+                        produtoPersistido.Ipi == ipiPlanilha)
                     {
                         return;
                     }
