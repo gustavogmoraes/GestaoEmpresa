@@ -1061,26 +1061,36 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         private void FrmEstoque_Shown(object sender, EventArgs e)
         {
-            using var session = RavenHelper.OpenSession();
-            var prodsQtd = session.Query<ProdutoQuantidade>().ToList();
-            var prods = session.Query<Produto>()
-                .Where(x => x.Atual)
-                .Select(x => x.Codigo)
-                .ToList();
+            //using var session = RavenHelper.OpenSession();
+            //var prodsQtd = session.Query<ProdutoQuantidade>().ToList();
+            //var prods = session.Query<Produto>()
+            //    .Where(x => x.Atual)
+            //    .Select(x => x.Codigo)
+            //    .ToList();
 
-            foreach (var prod in prods)
-            {
-                if (!prodsQtd.Any(x => x.Codigo == prod))
-                {
-                    session.Store(new ProdutoQuantidade
-                    {
-                        Codigo = prod,
-                        Quantidade = 0
-                    });
-                }
-            }
+            //foreach (var prod in prods)
+            //{
+            //    if (!prodsQtd.Any(x => x.Codigo == prod))
+            //    {
+            //        session.Store(new ProdutoQuantidade
+            //        {
+            //            Codigo = prod,
+            //            Quantidade = 0
+            //        });
+            //    }
+            //}
 
-            session.SaveChanges();
+            //session.SaveChanges();
+
+            //var repo = new RepositorioDeProduto();
+            //var prods = repo.ConsulteTodos(onlyActives: true, takeQuantity: int.MaxValue);
+            //var res = prods.Where(x => x.Ipi is > 0.0M and < 1.0M).ToList();
+            //var srv = new ServicoDeProduto();
+            //res.ForEach(x =>
+            //{
+            //    x.Ipi = x.Ipi * 100;
+            //    srv.Salve(x, EnumTipoDeForm.Edicao);
+            //});
 
             //Catálogo de Produtos
             using var servicoDeProduto = new ServicoDeProduto();
