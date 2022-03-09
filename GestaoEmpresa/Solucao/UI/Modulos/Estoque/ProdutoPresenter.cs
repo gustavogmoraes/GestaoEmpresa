@@ -68,7 +68,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                     {
                         View.EstahRenderizando = true;
 
-                        View.Presenter?.CarregueControlesComModel();
+                        View.Presenter?.CarregueControlesComModel(true);
                         View.EstahRenderizando = true;
 
                         View.cbVigencia.SelectedItem = dataVigencia.ToString("dd/MM/yyyy HH:mm:ss");
@@ -110,16 +110,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             var quantidade = servico.ConsulteQuantidade(Model.Codigo);
             View.txtQuantidadeEmEstoque.Text = quantidade.ToString();
 
-            if (Model.IsFromIntelbras())
-            {
-                ApplyPpLabeling();
-
-                View.CalculeEPreenchaPrecoDeCompra();
-                View.CalculeEPreenchaPrecoConsumidorFinal();
-                return;
-            }
-
-            View.CalculeEPreenchaPrecoDeVenda();
+            ApplyPpLabeling();
         }
     }
 }

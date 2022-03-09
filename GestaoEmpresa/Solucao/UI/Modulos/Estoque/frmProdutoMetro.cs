@@ -130,7 +130,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
             var precoRevenda = txtMPrecoSugeridoRevenda.Value.GetValueOrDefault();
 
-            var y = txtMPorcentagemIpi.Value.GetValueOrDefault() / 100;
+            var y = txtMPorcentagemDeLucroConsumidorFinal.Value.GetValueOrDefault() / 100;
             var k = precoRevenda * y;
             var z = precoRevenda + k;
 
