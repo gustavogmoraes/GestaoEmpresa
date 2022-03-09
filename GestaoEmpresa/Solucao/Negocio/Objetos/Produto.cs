@@ -76,6 +76,8 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Objetos
 
         public string LocalizacaoNoEstoque { get; set; }
 
+        public bool IsFromIntelbras() => Fabricante.Trim().ToLowerInvariant() == "intelbras";
+
         public RavenAttachments RavenAttachments { get; set; }
 
         public Produto()
@@ -87,8 +89,10 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Objetos
 
         public decimal CalculePrecoDeCompraComBaseNoPrecoDaIntelbras(bool setOwnProperty = true)
         {
-            var precoDeCompra = PrecoNaIntelbras.GetValueOrDefault() +
-                                PrecoNaIntelbras.GetValueOrDefault() * (Ipi.GetValueOrDefault() / 100);
+            var precoDeCompra = Math.Round(
+                PrecoNaIntelbras.GetValueOrDefault() +
+                PrecoNaIntelbras.GetValueOrDefault() * (Ipi.GetValueOrDefault() / 100),
+                2);
 
             if (setOwnProperty)
             {
@@ -132,10 +136,10 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Objetos
 
         public decimal CalculePrecoDeVendaDistribuidor(bool setOwnProperty = true)
         {
-            var precoVendaDistribuidor = 
-                Math.Round(PrecoDistribuidor.GetValueOrDefault() + 
-                           PrecoDistribuidor.GetValueOrDefault() * (PorcentagemDeLucroDistribuidor ?? 30.0M / 100),
-                    2);
+            var precoVendaDistribuidor = Math.Round(
+                PrecoDistribuidor.GetValueOrDefault() +
+                PrecoDistribuidor.GetValueOrDefault() * ((PorcentagemDeLucroDistribuidor ?? 30.0M) / 100),
+                2);
 
             if (setOwnProperty)
             {
@@ -155,21 +159,5 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Objetos
 
             return porcentagemDeLucro;
         }
-
-        //private static decimal ObtenhaValorDoProtege(decimal ipi)
-        //{
-        //    switch (ipi)
-        //    {
-        //        case 4:
-        //            return 7.87M / 100M;
-
-        //        case 7:
-        //        case 12:
-        //            return 4.49M / 100M;
-
-        //        default:
-        //            return 4.49M / 100M;
-        //    }
-        //}
     }
 }

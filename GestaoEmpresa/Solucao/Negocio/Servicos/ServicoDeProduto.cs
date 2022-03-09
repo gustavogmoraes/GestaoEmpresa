@@ -3,11 +3,14 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Documents;
 using System.Windows.Forms;
+using GS.GestaoEmpresa.Solucao.Negocio.Catalogos;
 using LinqToExcel;
 using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores.Comuns;
 using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores.Seguros.UnidadeIntelbras;
@@ -19,6 +22,8 @@ using GS.GestaoEmpresa.Solucao.Persistencia.Repositorios;
 using GS.GestaoEmpresa.Solucao.UI;
 using GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque;
 using GS.GestaoEmpresa.Solucao.Utilitarios;
+using KellermanSoftware.CompareNetObjects;
+using Newtonsoft.Json;
 
 namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
 {
@@ -176,7 +181,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
             var columns = new[]
             {
                 "Unidade", "Código Produto", "Descrição do Produto",
-                "Estado/UF/Região", "IPI", "PV", "PSD", "PSCF"
+                "Estado/UF/Região", "IPI", "PV", "PP", "PSD", "PSCF"
             };
 
             Dictionary<string, int> columnMappings;
@@ -217,6 +222,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
                 UF = linha[columnMappings["Estado/UF/Região"]].ToString().Trim(),
                 Ipi = linha[columnMappings["IPI"]].ToString().Trim(),
                 PrecoDeCompra = linha[columnMappings["PV"]].ToString().Trim(),
+                PrecoPredatorio = linha[columnMappings["PP"]].ToString().Trim(),
                 PrecoDistribuidor = linha[columnMappings["PSD"]].ToString().Trim(),
                 Pscf = linha[columnMappings["PSCF"]].ToString().Trim()
             };
@@ -289,30 +295,29 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
 
                 UpdateProgressBar(ref totalAdded, progressRange, importedItems, caller);
 
-                if (((string)item.PrecoDeCompra).IsAny("R$ -", "-") ||
-                    ((string)item.PrecoDistribuidor).IsAny("R$ -", "-"))
+                if (((string)item.PrecoDeCompra).IsAny("R$ -", "-"))
                 {
                     return;
                 }
 
                 var codigoDoProdutoIntelbras = (string)item.CodigoDoProduto;
-                
                 var produtoPersistido = persistedItems.FirstOrDefault(x => x.CodigoDoFabricante?.Trim() == codigoDoProdutoIntelbras.Trim());
+
                 if (produtoPersistido != null)
                 {
-                    var precoPlanilha = Math.Round(((string)item.PrecoDeCompra).ObtenhaMonetario(), 2);
+                    var precoIntelbrasPlanilha = Math.Round(((string)item.PrecoDeCompra).ObtenhaMonetario(), 2);
                     var ipiPlanilha = Convert.ToDecimal(((string)item.Ipi).Replace("%", string.Empty));
                     var precoIntelbrasPersistido = Math.Round(produtoPersistido.PrecoNaIntelbras.GetValueOrDefault(), 2);
 
-                    if (precoIntelbrasPersistido == precoPlanilha && 
-                        produtoPersistido.Ipi == ipiPlanilha)
+                    if (precoIntelbrasPersistido == precoIntelbrasPlanilha && 
+                        produtoPersistido.Ipi == ipiPlanilha &&
+                        produtoPersistido.PrecoDeCompra == CalculePrecoDeCompraOuPP(item))
                     {
                         return;
                     }
 
                     PreenchaProduto(produtoPersistido, item, configuracao);
                     itemsToUpdate.Add(produtoPersistido);
-
 
                     return;
                 }
@@ -363,11 +368,23 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
             produtoPersistido.Unidade = UnidadeIntelbras.ObtenhaPorNome(item.Unidade);
             produtoPersistido.PrecoNaIntelbras = GSExtensions.ObtenhaMonetario(item.PrecoDeCompra);
             produtoPersistido.Ipi = ((string)item.Ipi).Replace("%", string.Empty).ToDecimal();
-            produtoPersistido.CalculePrecoDeCompraComBaseNoPrecoDaIntelbras();
+            produtoPersistido.PrecoDeCompra = CalculePrecoDeCompraOuPP(item);
             produtoPersistido.CalculePrecoDeVenda();
             produtoPersistido.CalculePrecoDeVendaDistribuidor();
             produtoPersistido.PrecoDistribuidor = GSExtensions.ObtenhaMonetario(item.PrecoDistribuidor);
             produtoPersistido.PrecoSugeridoConsumidorFinal = GSExtensions.ObtenhaMonetario(item.Pscf);
+        }
+
+        private static decimal CalculePrecoDeCompraOuPP(dynamic item)
+        {
+            var ipiPercent = ((string) item.Ipi).Replace("%", string.Empty).ToDecimal() / 100;
+            var precoDeCompra = GSExtensions.ObtenhaMonetario(item.PrecoDeCompra);
+
+            var finalPrice = item.PrecoPredatorio != "R$ -"
+                ? GSExtensions.ObtenhaMonetario(item.PrecoPredatorio)
+                : precoDeCompra + precoDeCompra * ipiPercent;
+
+            return Math.Round(finalPrice, 2);
         }
 
         private static Produto ObtenhaNovoProduto(dynamic item, Configuracoes configuracao)
