@@ -82,7 +82,9 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Validador
             //// https://github.com/GregFinzer/Compare-Net-Objects/wiki/Ignoring-Members
 
             var result = compareLogic.Compare(_produtoAnterior, _produto);
-            if (result.AreEqual)
+            var attachmentsEqual = (_produtoAnterior.RavenAttachments?.Equals(_produto.RavenAttachments)).GetValueOrDefault();
+
+            if (result.AreEqual && attachmentsEqual)
             {
                 _listaDeInconsistencias.Add(new Inconsistencia
                 {

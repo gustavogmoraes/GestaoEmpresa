@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq.Expressions;
 using System.Windows.Forms;
 using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores.Comuns;
@@ -67,15 +68,32 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                     {
                         View.EstahRenderizando = true;
 
-                        View.Presenter?.CarregueControlesComModel();
+                        View.Presenter?.CarregueControlesComModel(true);
                         View.EstahRenderizando = true;
 
                         View.cbVigencia.SelectedItem = dataVigencia.ToString("dd/MM/yyyy HH:mm:ss");
                         View.txtQuantidadeEmEstoque.Text = servicoDeProduto.ConsulteQuantidade(vigenciaConsultada.Codigo).ToString();
 
+                        ApplyPpLabeling();
+
                         View.EstahRenderizando = false;
                     });
                 });
+        }
+
+        private void ApplyPpLabeling()
+        {
+            if (Model.IsFromIntelbras() && !View.lblPrecoCompra.Text.EndsWith("(PP)"))
+            {
+                View.lblPrecoCompra.Text += " (PP)";
+                View.lblPrecoCompra.Location = new Point(200, View.lblPrecoCompra.Location.Y);
+            }
+
+            if (View.lblPrecoCompra.Text.EndsWith(" (PP)") && !Model.IsFromIntelbras())
+            {
+                View.lblPrecoCompra.Text = "Preço de compra";
+                View.lblPrecoCompra.Location = new Point(228, View.lblPrecoCompra.Location.Y);
+            }
         }
 
         public Produto Consulte(int codigo)
@@ -92,9 +110,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             var quantidade = servico.ConsulteQuantidade(Model.Codigo);
             View.txtQuantidadeEmEstoque.Text = quantidade.ToString();
 
-            View.CalculeEPreenchaPrecoDeCompra();
-            View.CalculeEPreenchaPrecoDeVenda();
-            View.CalculeEPreenchaPrecoConsumidorFinal();
+            ApplyPpLabeling();
         }
     }
 }

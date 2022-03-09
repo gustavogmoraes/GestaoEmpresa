@@ -1011,20 +1011,14 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                 return;
             }
 
-            switch (button.Name)
+            lblButtonDescriptor.Text = button.Name switch
             {
-                case "btnImportarTabelaPrecosIntelbras":
-                    lblButtonDescriptor.Text = "Importa a tabela de preços da Intelbras para o sistema";
-                    break;
-
-                case "btnExportarProdutos":
-                    lblButtonDescriptor.Text = "Exporta os produtos cadastrados no sistema para um Excel";
-                    break;
-
-                case "btnAtualizarPlanilhaDeCentrais":
-                    lblButtonDescriptor.Text = "Atualiza uma planilha de centrais com os preços do sistema";
-                    break;
-            }
+                "btnImportarTabelaPrecosIntelbras" => "Importa a tabela de preços da Intelbras para o sistema",
+                "btnExportarProdutos"              => "Exporta os produtos cadastrados no sistema para um Excel",
+                "btnAtualizarPlanilhaDeCentrais"   => "Atualiza uma planilha de centrais com os preços do sistema",
+                "btnCheckConsistency"              => "Verifica a consistência do estoque",
+                _ => lblButtonDescriptor.Text
+            };
 
             lblButtonDescriptor.Visible = true;
         }
@@ -1061,37 +1055,6 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         private void FrmEstoque_Shown(object sender, EventArgs e)
         {
-            //using var session = RavenHelper.OpenSession();
-            //var prodsQtd = session.Query<ProdutoQuantidade>().ToList();
-            //var prods = session.Query<Produto>()
-            //    .Where(x => x.Atual)
-            //    .Select(x => x.Codigo)
-            //    .ToList();
-
-            //foreach (var prod in prods)
-            //{
-            //    if (!prodsQtd.Any(x => x.Codigo == prod))
-            //    {
-            //        session.Store(new ProdutoQuantidade
-            //        {
-            //            Codigo = prod,
-            //            Quantidade = 0
-            //        });
-            //    }
-            //}
-
-            //session.SaveChanges();
-
-            //var repo = new RepositorioDeProduto();
-            //var prods = repo.ConsulteTodos(onlyActives: true, takeQuantity: int.MaxValue);
-            //var res = prods.Where(x => x.Ipi is > 0.0M and < 1.0M).ToList();
-            //var srv = new ServicoDeProduto();
-            //res.ForEach(x =>
-            //{
-            //    x.Ipi = x.Ipi * 100;
-            //    srv.Salve(x, EnumTipoDeForm.Edicao);
-            //});
-
             //Catálogo de Produtos
             using var servicoDeProduto = new ServicoDeProduto();
             var produtos = servicoDeProduto.ConsulteTodosParaAterrissagem(
@@ -1134,6 +1097,78 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                     //ClearSearch();
                     break;
             }
+        }
+
+        private void btnCheckConsistency_Click(object sender, EventArgs e)
+        {
+            CheckAndCorrectQuantityConsistency();
+            CheckAndCorrectWrongIpi();
+            RedoCalculations();
+
+            MessageBox.Show("Consistência realizada com sucesso!", "Consistência", MessageBoxButtons.OK);
+        }
+
+        private void CheckAndCorrectWrongIpi()
+        {
+            var repositorioDeProduto = new RepositorioDeProduto();
+            var servicoDeProduto = new ServicoDeProduto();
+
+            var produtos = repositorioDeProduto.ConsulteTodos(true, takeQuantity: int.MaxValue);
+            var queryResult = produtos.Where(x => x.Ipi is > 0.0M and < 1.0M).ToList();
+
+            queryResult.ForEach(x =>
+            {
+                x.Ipi *= 100;
+                servicoDeProduto.Salve(x, EnumTipoDeForm.Edicao);
+            });
+        }
+
+        private void CheckAndCorrectQuantityConsistency()
+        {
+            using var session = RavenHelper.OpenSession();
+            var productQuantities = session.Query<ProdutoQuantidade>().ToList();
+            var products = session.Query<Produto>()
+                .Where(x => x.Atual)
+                .Select(x => x.Codigo)
+                .ToList();
+
+            var missingProductQuantities = products
+                .Where(prod => productQuantities.All(x => x.Codigo != prod))
+                .ToList();
+
+            foreach (var prod in missingProductQuantities)
+            {
+                session.Store(new ProdutoQuantidade
+                {
+                    Codigo = prod,
+                    Quantidade = 0
+                });
+            }
+
+            session.SaveChanges();
+
+        }
+
+        private void RedoCalculations()
+        {
+            var repositorioDeProduto = new RepositorioDeProduto();
+            var servicoDeProduto = new ServicoDeProduto();
+
+            var produtos = repositorioDeProduto.ConsulteTodos(true, takeQuantity: int.MaxValue);
+            produtos.ForEach(x =>
+            {
+                x.PrecoNaIntelbras = Math.Round(x.PrecoNaIntelbras.GetValueOrDefault(), 2);
+                x.PrecoDistribuidor = Math.Round(x.PrecoDistribuidor.GetValueOrDefault(), 2);
+                x.PrecoSugeridoConsumidorFinal = Math.Round(x.PrecoSugeridoConsumidorFinal.GetValueOrDefault(), 2);
+                if (!x.IsFromIntelbras())
+                {
+                    x.CalculePrecoDeCompraComBaseNoPrecoDaIntelbras();
+                }
+                
+                x.CalculePrecoDeVenda();
+                x.CalculePrecoDeVendaDistribuidor();
+                servicoDeProduto.Salve(x, EnumTipoDeForm.Edicao);
+            });
         }
     }
 }
