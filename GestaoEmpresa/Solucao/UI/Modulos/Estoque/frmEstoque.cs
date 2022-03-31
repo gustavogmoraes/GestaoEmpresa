@@ -316,6 +316,8 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         private void frmEstoque_Load(object sender, EventArgs e)
         {
             UISettings = SessaoSistema.UISettings.GetUISettings(typeof(FrmEstoque));
+            //CheckAndCorrectWrongIpi();
+            CheckAndCorrectQuantityConsistency();
         }
 
         protected override void OnLoad(EventArgs e)
@@ -1099,7 +1101,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             }
         }
 
-        private void btnCheckConsistency_Click(object sender, EventArgs e)
+        public void btnCheckConsistency_Click(object sender, EventArgs e)
         {
             CheckAndCorrectQuantityConsistency();
             CheckAndCorrectWrongIpi();
@@ -1108,7 +1110,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             MessageBox.Show("Consistência realizada com sucesso!", "Consistência", MessageBoxButtons.OK);
         }
 
-        private void CheckAndCorrectWrongIpi()
+        public void CheckAndCorrectWrongIpi()
         {
             var repositorioDeProduto = new RepositorioDeProduto();
             var servicoDeProduto = new ServicoDeProduto();

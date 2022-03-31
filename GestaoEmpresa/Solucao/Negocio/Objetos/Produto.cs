@@ -76,7 +76,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Objetos
 
         public string LocalizacaoNoEstoque { get; set; }
 
-        public bool IsFromIntelbras() => Fabricante.Trim().ToLowerInvariant() == "intelbras";
+        public bool IsFromIntelbras() => Fabricante?.Trim().ToLowerInvariant() == "intelbras";
 
         public RavenAttachments RavenAttachments { get; set; }
 

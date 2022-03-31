@@ -62,7 +62,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
         {
             using (var repositorioDeProduto = new RepositorioDeProduto())
             {
-                return repositorioDeProduto.ConsulteQuantidade(codigo);
+                return repositorioDeProduto.ConsulteQuantidade(codigo).GetValueOrDefault();
             }
         }
 
