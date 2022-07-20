@@ -809,5 +809,30 @@ namespace GS.GestaoEmpresa.Solucao.Utilitarios
 
             return newString;
         }
+
+        public static int FinalSum(this IList<Interacao> interacoes)
+        {
+            var somalFinal = 0;
+
+            foreach (var interacao in interacoes)
+            {
+                switch (interacao.TipoDeInteracao)
+                {
+                    case EnumTipoDeInteracao.ENTRADA:
+                        somalFinal += interacao.QuantidadeInterada;
+                        break;
+                    case EnumTipoDeInteracao.SAIDA:
+                        somalFinal -= interacao.QuantidadeInterada;
+                        break;
+                    case EnumTipoDeInteracao.BASE_DE_TROCA:
+                        somalFinal += interacao.QuantidadeInterada;
+                        somalFinal -= interacao.QuantidadeInterada;
+                        break;
+                }
+
+            }
+
+            return somalFinal;
+        }
     }
 }

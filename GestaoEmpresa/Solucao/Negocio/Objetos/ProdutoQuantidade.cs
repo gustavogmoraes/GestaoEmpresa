@@ -8,6 +8,8 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Objetos
 {
     public class ProdutoQuantidade
     {
+        public string Id { get; set; }
+
         public int Codigo { get; set; }
 
         public int Quantidade { get; set; }

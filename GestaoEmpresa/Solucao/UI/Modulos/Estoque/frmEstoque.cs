@@ -1147,6 +1147,19 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
             session.SaveChanges();
 
+            using var servicoInteracao = new ServicoDeInteracao();
+            var duplicates = session.Query<ProdutoQuantidade>().ToList().GroupBy(x => x.Codigo).Where(x => x.Count() > 1).ToList();
+
+            foreach(var duplicate in duplicates)
+            {
+                var somaFinal = servicoInteracao.ConsulteTodasAsInteracoesPorProduto(duplicate.Key).FinalSum();
+
+                var quantidadeCorreta = duplicate.Where(x => x.Quantidade == somaFinal).FirstOrDefault();
+                var duplicatesToRemove = duplicate.ToList().Except(new[] { quantidadeCorreta }).ToList();
+
+                duplicatesToRemove.ForEach(x => session.Delete(x));
+                session.SaveChanges();
+            }
         }
 
         private void RedoCalculations()

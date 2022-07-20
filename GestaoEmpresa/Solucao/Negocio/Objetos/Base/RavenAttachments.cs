@@ -25,7 +25,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Objetos.Base
             if (ReferenceEquals(this, other)) return true;
 
             var countEqual = AttachmentsNames.Count == other.AttachmentsNames.Count &&
-                             FileStreams.Count == other.FileStreams.Count;
+                             FileStreams.Count == other.FileStreams?.Count;
             if (!countEqual)
             {
                 return false;
