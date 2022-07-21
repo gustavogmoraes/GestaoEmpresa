@@ -65,7 +65,8 @@ namespace GS.GestaoEmpresa.Solucao.UI
             TelaMVP.Of<FrmCliente, ClientePresenter>(),
             TelaMVP.Of<FrmAtendimento, object>(true),
             TelaMVP.Of<FrmEstoque, object>(true),
-            TelaMVP.Of<frmInteracao, object>(true)
+            TelaMVP.Of<frmInteracao, object>(true),
+            TelaMVP.Of<BulkUpdateProductsModal, object>(true)
         };
 
         private static Form _instanciaPrincipal;

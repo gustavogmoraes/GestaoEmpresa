@@ -428,7 +428,7 @@
       <DependentUpon>testMap.cs</DependentUpon>
     </Compile>
     <Compile Include="Solucao\UI\Modulos\Estoque\BulkUpdateProductsModal.cs">
-      <SubType>UserControl</SubType>
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="Solucao\UI\Modulos\Estoque\BulkUpdateProductsModal.Designer.cs">
       <DependentUpon>BulkUpdateProductsModal.cs</DependentUpon>
@@ -711,6 +711,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="GestaoEmpresaIcon.ico" />
+    <None Include="Resources\edit-5121.png" />
     <None Include="Resources\BatchUpdate.png" />
     <None Include="Resources\BulkUpdate1.png" />
     <None Include="Resources\BulkUpdate.png" />

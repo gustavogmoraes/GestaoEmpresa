@@ -124,6 +124,9 @@
   <data name="Background1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Background1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="BatchUpdate" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\BatchUpdate.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="BoxBlueShort" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\BoxBlueShort.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -142,9 +145,6 @@
   <data name="LocationIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\LocationIcon.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Load2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Load2.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="Background" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Background.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -159,6 +159,9 @@
   </data>
   <data name="Message_FileLocked" xml:space="preserve">
     <value>O arquivo está em uso, feche o primeiro</value>
+  </data>
+  <data name="Conexao" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Conexao.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="edit-512" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\edit-512.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -225,8 +228,8 @@ Tempo de execução: {0}</value>
   <data name="export-spreadsheet-512" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\export-spreadsheet-512.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Conexao" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Conexao.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Load2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Load2.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="floppy-icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\floppy-icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -237,7 +240,7 @@ Tempo de execução: {0}</value>
   <data name="detalhar" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\detalhar.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="BatchUpdate" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\BatchUpdate.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="edit-5121" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\edit-5121.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

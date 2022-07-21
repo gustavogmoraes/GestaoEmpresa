@@ -379,6 +379,11 @@ namespace GS.GestaoEmpresa.Solucao.Utilitarios
 
         public static bool EhDigitoOuPonto(char caracter)
         {
+            if(caracter.IsAny('-', '+', '*', '='))
+            {
+                return false;
+            }
+
             if (char.IsDigit(caracter) || char.IsPunctuation(caracter))
             {
                 return true;
