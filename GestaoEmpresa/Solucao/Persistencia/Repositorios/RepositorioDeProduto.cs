@@ -16,13 +16,12 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios
 {
     public class RepositorioDeProduto : RepositorioHistoricoPadrao<Produto>
     {
-
-        public int ConsulteQuantidade(int codigo)
+        public int? ConsulteQuantidade(int codigo)
         {
-            using (var sessaoRaven = RavenHelper.OpenSession())
-            {
-                return sessaoRaven.Query<ProdutoQuantidade>().FirstOrDefault(x => x.Codigo == codigo).Quantidade;
-            }
+            using var sessaoRaven = RavenHelper.OpenSession();
+            var produto = sessaoRaven.Query<ProdutoQuantidade>().FirstOrDefault(x => x.Codigo == codigo);
+
+            return produto?.Quantidade;
         }
 
         public Dictionary<int, int> ConsulteQuantidade(IList<int> codigos)

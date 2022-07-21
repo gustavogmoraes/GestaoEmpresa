@@ -379,7 +379,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
                     (controle, propriedade, model, presenter) =>
                     {
                         var ehCbVigencia = controle.Name == "cbVigencia";
-                        var valorControle = (ehCbVigencia 
+                        var valorControle = (ehCbVigencia
                                                 ? ((MetroComboBox) controle).SelectedText
                                                 : ((MetroComboBox) controle).SelectedItem).ToString();
 
@@ -450,11 +450,15 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
                 new Tuple<Action<Control, PropertyInfo, object, IPresenter>, Action<Control, PropertyInfo, object, IPresenter>>(
                     (controle, propriedade, model, presenter) =>
                     {
-                        ((GSMetroMonetary)controle).Value = Math.Round((decimal)propriedade.GetValue(model, null), 2);
+                        var value = ((decimal?)propriedade.GetValue(model, null)).GetValueOrDefault();
+                        var control = (GSMetroMonetary)controle;
+
+                        control.Value = Math.Round(value, 2);
                     },
                     (controle, propriedade, model, presenter) =>
                     {
-                        propriedade.SetValue(model, ((GSMetroMonetary)controle).Value);
+                        var control = (GSMetroMonetary)controle;
+                        propriedade.SetValue(model, control.Value);
                     })
             },
             {

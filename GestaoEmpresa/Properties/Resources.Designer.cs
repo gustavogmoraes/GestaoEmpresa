@@ -133,9 +133,39 @@ namespace GS.GestaoEmpresa.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap BatchUpdate {
+            get {
+                object obj = ResourceManager.GetObject("BatchUpdate", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap BoxBlueShort {
             get {
                 object obj = ResourceManager.GetObject("BoxBlueShort", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap BulkUpdate {
+            get {
+                object obj = ResourceManager.GetObject("BulkUpdate", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap BulkUpdate1 {
+            get {
+                object obj = ResourceManager.GetObject("BulkUpdate1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -216,6 +246,16 @@ namespace GS.GestaoEmpresa.Properties {
         internal static System.Drawing.Bitmap edit_512 {
             get {
                 object obj = ResourceManager.GetObject("edit-512", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap edit_5121 {
+            get {
+                object obj = ResourceManager.GetObject("edit-5121", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

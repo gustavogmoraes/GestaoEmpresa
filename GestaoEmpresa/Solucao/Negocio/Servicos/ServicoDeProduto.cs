@@ -24,6 +24,7 @@ using GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque;
 using GS.GestaoEmpresa.Solucao.Utilitarios;
 using KellermanSoftware.CompareNetObjects;
 using Newtonsoft.Json;
+using GS.GestaoEmpresa.Solucao.UI.ControlesGenericos;
 
 namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
 {
@@ -62,7 +63,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
         {
             using (var repositorioDeProduto = new RepositorioDeProduto())
             {
-                return repositorioDeProduto.ConsulteQuantidade(codigo);
+                return repositorioDeProduto.ConsulteQuantidade(codigo).GetValueOrDefault();
             }
         }
 
@@ -409,6 +410,28 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
             novoProduto.CalculePrecoDeVendaDistribuidor();
 
             return novoProduto;
+        }
+
+        public void BulkUpdateProducts(decimal? pctLucroVenda, decimal? pctLucroCons)
+        {
+            var produtos = Repositorio.ConsulteTodos(takeQuantity: int.MaxValue, withAttachments: true);
+            
+            foreach(var produto in produtos)
+            {
+                if (pctLucroVenda.HasValue)
+                {
+                    produto.PorcentagemDeLucro = pctLucroVenda;
+                    produto.CalculePrecoDeVenda();
+                }
+
+                if (pctLucroCons.HasValue)
+                {
+                    produto.PorcentagemDeLucroDistribuidor = pctLucroCons;
+                    produto.CalculePrecoDeVendaDistribuidor();
+                }
+
+                Repositorio.Atualize(produto);
+            }
         }
     }
 }       

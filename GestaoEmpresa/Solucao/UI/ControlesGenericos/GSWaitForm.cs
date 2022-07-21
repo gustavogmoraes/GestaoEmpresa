@@ -40,8 +40,8 @@ namespace GS.GestaoEmpresa.Solucao.UI.ControlesGenericos
 
                 GerenciadorDeViews.ObtenhaPrincipal().Invoke((MethodInvoker)delegate
                 {
-                    postProcessing();
                     _form.Hide();
+                    postProcessing();
                 });
             },
             TaskScheduler.Default);

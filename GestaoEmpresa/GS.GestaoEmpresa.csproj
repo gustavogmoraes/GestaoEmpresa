@@ -427,6 +427,12 @@
     <Compile Include="Solucao\UI\Modulos\Atendimento\testMap.Designer.cs">
       <DependentUpon>testMap.cs</DependentUpon>
     </Compile>
+    <Compile Include="Solucao\UI\Modulos\Estoque\BulkUpdateProductsModal.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Solucao\UI\Modulos\Estoque\BulkUpdateProductsModal.Designer.cs">
+      <DependentUpon>BulkUpdateProductsModal.cs</DependentUpon>
+    </Compile>
     <Compile Include="Solucao\UI\Modulos\Estoque\FrmInteracaoMetro.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -553,6 +559,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Solucao\UI\Modulos\Atendimento\testMap.resx">
       <DependentUpon>testMap.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Solucao\UI\Modulos\Estoque\BulkUpdateProductsModal.resx">
+      <DependentUpon>BulkUpdateProductsModal.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Solucao\UI\Modulos\Estoque\frmEstoque.resx">
       <DependentUpon>frmEstoque.cs</DependentUpon>
@@ -702,6 +711,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="GestaoEmpresaIcon.ico" />
+    <None Include="Resources\edit-5121.png" />
+    <None Include="Resources\BatchUpdate.png" />
+    <None Include="Resources\BulkUpdate1.png" />
+    <None Include="Resources\BulkUpdate.png" />
     <None Include="Resources\consistency.png" />
     <None Include="Resources\AddGridButton.png" />
     <None Include="Resources\Background1.png" />

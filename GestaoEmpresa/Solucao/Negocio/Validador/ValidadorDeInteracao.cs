@@ -209,12 +209,16 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Validador
 
         private void ValideRegraQuantidades()
         {
+            if (_interacao.Produto == null)
+            {
+                return;
+            }
 
             var quantidadeAtual = RepositorioDeProduto().ConsulteQuantidade(_interacao.Produto.Codigo);
             var quantidadeInterada = _interacao.TipoDeInteracao == EnumTipoDeInteracao.SAIDA ? _interacao.QuantidadeInterada * -1 : _interacao.QuantidadeInterada;
             var quantidadeAuxiliar = (_interacao.QuantidadeAuxiliar ?? 0) * -1;
 
-            if ((quantidadeAtual + quantidadeInterada + quantidadeAuxiliar) < 0)
+            if ((quantidadeAtual.GetValueOrDefault() + quantidadeInterada + quantidadeAuxiliar) < 0)
             {
                 _listaDeInconsistencias.Add(
                     new Inconsistencia()

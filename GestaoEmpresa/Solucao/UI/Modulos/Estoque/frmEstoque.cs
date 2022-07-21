@@ -316,6 +316,8 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         private void frmEstoque_Load(object sender, EventArgs e)
         {
             UISettings = SessaoSistema.UISettings.GetUISettings(typeof(FrmEstoque));
+            //CheckAndCorrectWrongIpi();
+            CheckAndCorrectQuantityConsistency();
         }
 
         protected override void OnLoad(EventArgs e)
@@ -500,6 +502,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                         using (var servicoDeProduto = new ServicoDeProduto())
                         {
                             filteredList = servicoDeProduto.ConsulteTodosParaAterrissagem(out qtds, searchTerm: searchTerm, onlyActives: chkQueryOnlyActive.Checked);
+                            filteredList = filteredList.OrderBy(x => x.Nome).ToList();
                             didProcess = true;
                         }
                     },
@@ -1016,6 +1019,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                 "btnImportarTabelaPrecosIntelbras" => "Importa a tabela de preços da Intelbras para o sistema",
                 "btnExportarProdutos"              => "Exporta os produtos cadastrados no sistema para um Excel",
                 "btnAtualizarPlanilhaDeCentrais"   => "Atualiza uma planilha de centrais com os preços do sistema",
+                "btnBulkUpdateProducts"            => "Atualiza todos os produtos de uma vez", 
                 "btnCheckConsistency"              => "Verifica a consistência do estoque",
                 _ => lblButtonDescriptor.Text
             };
@@ -1051,6 +1055,31 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
         private void BtnExportarProdutos_MouseEnter(object sender, EventArgs e)
         {
             ToggleButtonDescriptor(btnExportarProdutos);
+        }
+
+        private void BtnBulkUpdateProducts_MouseLeave(object sender, EventArgs e)
+        {
+            ToggleButtonDescriptor(btnBulkUpdateProducts);
+        }
+
+        private void BtnBulkUpdateProducts_MouseEnter(object sender, EventArgs e)
+        {
+            ToggleButtonDescriptor(btnBulkUpdateProducts);
+        }
+
+        private void BtnBulkUpdateProducts_Click(object sender, EventArgs e)
+        {
+            IView view = null;
+            GSWaitForm.Mostrar(
+                () =>
+                {
+                    view = GerenciadorDeViews.CrieIndependente<BulkUpdateProductsModal>();
+                },
+                () =>
+                {
+                    view.Show();
+                    view.Focar();
+                });
         }
 
         private void FrmEstoque_Shown(object sender, EventArgs e)
@@ -1099,7 +1128,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             }
         }
 
-        private void btnCheckConsistency_Click(object sender, EventArgs e)
+        public void btnCheckConsistency_Click(object sender, EventArgs e)
         {
             CheckAndCorrectQuantityConsistency();
             CheckAndCorrectWrongIpi();
@@ -1108,7 +1137,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             MessageBox.Show("Consistência realizada com sucesso!", "Consistência", MessageBoxButtons.OK);
         }
 
-        private void CheckAndCorrectWrongIpi()
+        public void CheckAndCorrectWrongIpi()
         {
             var repositorioDeProduto = new RepositorioDeProduto();
             var servicoDeProduto = new ServicoDeProduto();

@@ -174,11 +174,23 @@ namespace GS.GestaoEmpresa.Solucao.UI.Base
 
         public virtual void ChamadaMinimizarForm(object sender, EventArgs e)
         {
+            if (Presenter == null)
+            {
+                ((Control)sender).FindForm().WindowState = FormWindowState.Minimized;
+                return;
+            }
+
             Presenter.MinimizarView(sender, e);
         }
         
         public virtual void ChamadaFecharForm(object sender, EventArgs e)
         {
+            if(Presenter == null)
+            {
+                ((Control)sender).FindForm().Hide();
+                return;
+            }
+
             Presenter.FecharView(sender, e);
         }
 

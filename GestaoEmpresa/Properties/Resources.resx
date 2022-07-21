@@ -124,11 +124,17 @@
   <data name="Background1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Background1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="BatchUpdate" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\BatchUpdate.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="BoxBlueShort" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\BoxBlueShort.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="WhiteBox" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\WhiteBox.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="BulkUpdate" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\BulkUpdate.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="refresh" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\refresh.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -171,6 +177,9 @@
   </data>
   <data name="detail" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\detail.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="consistency" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\consistency.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="add" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\add.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -225,10 +234,13 @@ Tempo de execução: {0}</value>
   <data name="floppy-icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\floppy-icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="BulkUpdate1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\BulkUpdate1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="detalhar" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\detalhar.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="consistency" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\consistency.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="edit-5121" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\edit-5121.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>
