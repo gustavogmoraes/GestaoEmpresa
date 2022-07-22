@@ -252,6 +252,8 @@
     <Compile Include="Solucao\Negocio\Objetos\Base\ObjetoComHistorico.cs" />
     <Compile Include="Solucao\Negocio\Objetos\Base\Pessoa.cs" />
     <Compile Include="Solucao\Negocio\Objetos\Base\RavenAttachments.cs" />
+    <Compile Include="Solucao\Negocio\Objetos\BulkUpdateCommand.cs" />
+    <Compile Include="Solucao\Negocio\Objetos\BulkUpdateFilter.cs" />
     <Compile Include="Solucao\Negocio\Objetos\ClienteAntigo.cs" />
     <Compile Include="Solucao\Negocio\Objetos\Configuracoes.cs" />
     <Compile Include="Solucao\Negocio\Objetos\Orcamento\ItemOrcamento.cs" />
@@ -263,6 +265,7 @@
     <Compile Include="Solucao\Negocio\Servicos\Base\ServicoHistoricoPadrao.cs" />
     <Compile Include="Solucao\Negocio\Servicos\Base\ServicoPadrao.cs" />
     <Compile Include="Solucao\Negocio\Validador\Base\ValidadorPadrao.cs" />
+    <Compile Include="Solucao\Negocio\Validador\ProductBulkUpdateValidator.cs" />
     <Compile Include="Solucao\Persistencia\BancoDeDados\EnumTipoDeBanco.cs" />
     <Compile Include="Solucao\Persistencia\BancoDeDados\GSBancoDeDados.cs" />
     <Compile Include="Solucao\Persistencia\BancoDeDados\RavenHelper.cs" />

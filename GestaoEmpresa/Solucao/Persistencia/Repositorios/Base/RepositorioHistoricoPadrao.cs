@@ -359,6 +359,28 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios.Base
             sessaoRaven.SaveChanges();
         }
 
+        public void Rollback(int codigo, DateTime destination)
+        {
+            using var ravenSession = RavenHelper.OpenSession();
+            var toKeep = ravenSession.Query<T>()
+                .Where(x => x.Codigo == codigo && x.Vigencia <= destination)
+                .OrderByDescending(x => x.Vigencia)
+                .FirstOrDefault();
+
+            var toDelete = ravenSession.Query<T>()
+                .Where(x => x.Codigo == codigo && x.Vigencia > toKeep.Vigencia)
+                .ToList();
+
+            foreach(var item in toDelete)
+            {
+                ravenSession.Delete<T>(item);
+            }
+
+            toKeep.Atual = true;
+
+            ravenSession.SaveChanges();
+        }
+
         public int ObtenhaProximoCodigoDisponivel()
         {
             var listaDeCodigos = RavenHelper.OpenSession().Query<T>()

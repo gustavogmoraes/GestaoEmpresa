@@ -412,26 +412,82 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Servicos
             return novoProduto;
         }
 
-        public void BulkUpdateProducts(decimal? pctLucroVenda, decimal? pctLucroCons)
+        public void BulkUpdateProducts(BulkUpdateCommand command)
         {
-            var produtos = Repositorio.ConsulteTodos(takeQuantity: int.MaxValue, withAttachments: true);
+            Expression<Func<Produto, bool>> filter = null;
+            if(command.Filter != null)
+            {
+                if(command.Filter.Manufacturer != null)
+                {
+                    if(filter == null)
+                    {
+                        filter = x => x.Fabricante == command.Filter.Manufacturer;
+                    }
+                    else
+                    {
+                        filter = filter.AndAlso(x => x.Fabricante == command.Filter.Manufacturer);
+                    }
+                    
+                }
+
+                if (command.Filter.SellingProfitPercentage.HasValue)
+                {
+                    if(filter == null)
+                    {
+                        filter = x => x.PorcentagemDeLucro == command.Filter.SellingProfitPercentage;
+                    }
+                    else
+                    {
+                        filter = filter.AndAlso(x => x.PorcentagemDeLucro == command.Filter.SellingProfitPercentage);
+                    }
+                }
+
+                if (command.Filter.FinalConsumerProfitPercentage.HasValue)
+                {
+                    if (filter == null)
+                    {
+                        filter = x => x.PorcentagemDeLucro == command.Filter.FinalConsumerProfitPercentage;
+                    }
+                    else
+                    {
+                        filter = filter.AndAlso(x => x.PorcentagemDeLucro == command.Filter.FinalConsumerProfitPercentage);
+                    }
+                    
+                }
+            }
+
+            var produtos = Repositorio.ConsulteTodos(whereFilter: filter, takeQuantity: int.MaxValue, withAttachments: true);
             
             foreach(var produto in produtos)
             {
-                if (pctLucroVenda.HasValue)
+                if (command.SellingProfitPercentage.HasValue)
                 {
-                    produto.PorcentagemDeLucro = pctLucroVenda;
+                    produto.PorcentagemDeLucro = command.SellingProfitPercentage;
                     produto.CalculePrecoDeVenda();
                 }
 
-                if (pctLucroCons.HasValue)
+                if (command.FinalConsumerProfitPercentage.HasValue)
                 {
-                    produto.PorcentagemDeLucroDistribuidor = pctLucroCons;
+                    produto.PorcentagemDeLucroDistribuidor = command.FinalConsumerProfitPercentage;
                     produto.CalculePrecoDeVendaDistribuidor();
                 }
 
                 Repositorio.Atualize(produto);
             }
+        }
+
+        public IList<string> ObtenhaFabricantes()
+        {
+            using var ravenSession = RavenHelper.OpenSession();
+            var fabricantes = ravenSession.Query<Produto>()
+                .Where(x => x.Atual && !string.IsNullOrEmpty(x.Fabricante))
+                .Select(x => x.Fabricante)
+                .Distinct()
+                .ToList()
+                .Distinct()
+                .ToArray();
+
+            return fabricantes;
         }
     }
 }       
