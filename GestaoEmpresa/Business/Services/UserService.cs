@@ -5,6 +5,7 @@ using System.Linq.Expressions;
 using GS.GestaoEmpresa.Business.Objects.Core;
 using GS.GestaoEmpresa.Solucao.Utilitarios;
 using GS.GestaoEmpresa.Persistence.Repositories;
+using System.Threading.Tasks;
 
 namespace GS.GestaoEmpresa.Business.Services
 {
@@ -24,10 +25,10 @@ namespace GS.GestaoEmpresa.Business.Services
             UISettings = x.UISettings
         };
 
-        public void CrieUsuarioAdministrador()
+        public async Task CreateAdminUser()
         {
             var userRepository = new UserRepository();
-            userRepository.Insert(new User
+            await userRepository.InsertAsync(new User
             {
                 Code = 1,
                 Status = EnumStatusToggle.Active,
@@ -36,37 +37,37 @@ namespace GS.GestaoEmpresa.Business.Services
             });
         }
 
-        public void Insira(string nome, string senha)
+        public async Task InsertAsync(string nome, string senha)
         {
             var userRepository = new UserRepository();
-            userRepository.Insert(new User
+            await userRepository.InsertAsync(new User
             {
-                Code = userRepository.GetNextAvailableCode(),
+                Code = await userRepository.GetNextAvailableCodeAsync(),
                 Status = EnumStatusToggle.Active,
                 Name = nome,
                 Password = senha.GetDeterministicHashCode(),
             });
         }
 
-        public void AtualizeUISetting(int codigoUsuario, UISettings setting)
+        public async Task UpdateUiSettings(int codigoUsuario, UISettings setting)
         {
             var repositorioDeUsuario = new UserRepository();
-            var usuario = repositorioDeUsuario.Query(codigoUsuario);
+            var usuario = await repositorioDeUsuario.QueryFirstAsync(codigoUsuario);
             usuario.UISettings = setting;
 
-            repositorioDeUsuario.Update(usuario);
+            Task.Run(async () => await repositorioDeUsuario.UpdateAsync(usuario)).Wait();
         }
 
-        public User Consulte(int codigo)
+        public async Task<User> Query(int code)
         {
             var repositorioDeUsuario = new UserRepository();
-            return repositorioDeUsuario.Query(codigo);
+            return await repositorioDeUsuario.QueryFirstAsync(code);
         }
 
-        public User Query(string nome)
+        public async Task<User> Query(string nome)
         {
             var userRepository = new UserRepository();
-            return userRepository.Query(nome, DefaultPropertiesToSearch, DefaultSelector).FirstOrDefault();
+            return (await userRepository.QueryAsync(nome, DefaultPropertiesToSearch, DefaultSelector)).FirstOrDefault();
         }
 
         #region IDisposable Support

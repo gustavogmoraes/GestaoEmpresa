@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 using GS.GestaoEmpresa.Infrastructure.Persistence.RavenDB.Support.Interfaces;
 using GS.GestaoEmpresa.Infrastructure.Persistence.Repositories.Base;
 using GS.GestaoEmpresa.Persistence.RavenDB;
@@ -91,7 +92,7 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios.Base
             {
                 foreach (var item in returnList)
                 {
-                    RetrieveAttachments(RavenHelper.OpenSession(), item);
+                    Task.Run(() => RetrieveAttachmentsAsync(RavenHelper.OpenAsyncSession(), item)).Wait();
                 }
             }
 

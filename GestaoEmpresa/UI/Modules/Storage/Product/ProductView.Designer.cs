@@ -1,6 +1,6 @@
 ﻿namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 {
-    partial class FrmProdutoMetro
+    partial class ProductView
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmProdutoMetro));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ProductView));
             this.lblStatus = new MetroFramework.Controls.MetroLabel();
             this.toggleStatus = new GS.GestaoEmpresa.Solucao.UI.ControlesGenericos.GSMetroToggle();
             this.chkAvisarQuantidade = new MetroFramework.Controls.MetroCheckBox();

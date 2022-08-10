@@ -6,32 +6,37 @@ using System.Threading.Tasks;
 using GS.GestaoEmpresa.Business.Converters;
 using GS.GestaoEmpresa.Business.Objects.Core;
 using GS.GestaoEmpresa.Business.Objects.Storage;
+using GS.GestaoEmpresa.Business.Services;
 using GS.GestaoEmpresa.Persistence.RavenDB;
 using GS.GestaoEmpresa.Persistence.Repositories;
 using GS.GestaoEmpresa.Solucao.Negocio.Objetos;
 using GS.GestaoEmpresa.Solucao.Utilitarios;
+using Raven.Client.Documents;
 using Raven.Client.Documents.Linq;
+using Raven.Client.Documents.Operations;
+using Raven.Client.Documents.Queries;
 
 namespace GS.GestaoEmpresa.Infrastructure.Persistence.Repositories.Migrations
 {
     public class DbMigrations
     {
-        public void Interactions_2022_02_03()
+        public async Task Interactions_2022_02_03()
         {
-            MigrateUsers();
-            MigrateConfig();
-            MigrateProducts();
-            MigrateProductQuantities();
-            MigrateInteractions();
+            await MigrateUsers();
+            await MigrateConfig();
+            await MigrateProductQuantities();
+            await MigrateProducts();
+            await MigrateInteractions();
+            await CorrectQuantityConsistency();
 
-            void MigrateConfig()
+            async Task MigrateConfig()
             {
                 var session = RavenHelper.OpenSession();
                 var configs = session.Query<Configuracao>(collectionName: "Configuracoes").ToList();
                 var cfgRepo = new ConfigurationRepository();
                 foreach (var x in configs)
                 {
-                    cfgRepo.Insert(new Configuration
+                    await cfgRepo.InsertAsync(new Configuration
                     {
                         Code = x.Codigo,
                         DefaultSaleProfitPercentage = x.PorcentagemDeLucroPadrao,
@@ -44,56 +49,103 @@ namespace GS.GestaoEmpresa.Infrastructure.Persistence.Repositories.Migrations
                 session.SaveChanges();
             }
 
-            void MigrateProductQuantities()
+            async Task MigrateProducts()
             {
-                var session = RavenHelper.OpenSession();
-                var pq = session.Query<ProdutoQuantidade>().OrderBy(x => x.Codigo).ToList();
+                var sessionBulk = RavenHelper.OpenSession();
+                sessionBulk.PatchByQuery(
+                    @"from Produtos
+                      update {
+                        this.Status = ""Active""
+                      }");
+                sessionBulk.SaveChanges();
+
+                var prodConvert = new ProductConverter();
+                await prodConvert.ConvertAll();
+            }
+
+            async Task MigrateProductQuantities()
+            {
+                var session = RavenHelper.OpenAsyncSession();
+                var productQuantities = await session.Query<ProdutoQuantidade>().OrderBy(x => x.Codigo).ToListAsync();
                 var productQuantityRepository = new ProductQuantityRepository();
-                pq.ForEach(x =>
+
+                foreach (var x in productQuantities)
                 {
-                    var session2 = RavenHelper.OpenSession();
-                    productQuantityRepository.Insert(new ProductQuantity
+                    var session2 = RavenHelper.OpenAsyncSession();
+                    await productQuantityRepository.InsertAsync(new ProductQuantity
                     {
                         ProductCode = x.Codigo,
                         Quantity = x.Quantidade
                     });
 
                     session2.Delete(x.Id);
-                    session2.SaveChanges();
-                });
+                    await session2.SaveChangesAsync();
+                }
             }
 
-            void MigrateProducts()
+            async Task CorrectQuantityConsistency()
             {
-                var sessionBulk = RavenHelper.OpenSession();
-                sessionBulk.PatchByQuery(
-                    @"from Produtos
-                      update {
-                      this.Status = ""Active""
-                      }");
-                sessionBulk.SaveChanges();
+                using var session = RavenHelper.OpenAsyncSession();
+                var productQuantities = await session.Query<ProductQuantity>().ToListAsync();
+                var products = await session.Query<Product>()
+                    .Select(x => x.Code)
+                    .ToListAsync();
 
-                var prodConvert = new ProductConverter();
-                prodConvert.ConvertAll();
+                var missingProductQuantities = products
+                    .Where(prod => productQuantities.All(x => x.ProductCode != prod))
+                    .ToList();
+
+                foreach (var prod in missingProductQuantities)
+                {
+                    var internalSession = RavenHelper.OpenAsyncSession();
+                    await internalSession.StoreAsync(new ProductQuantity
+                    {
+                        ProductCode = prod,
+                        Quantity = 0
+                    });
+
+                    await internalSession.SaveChangesAsync();
+                }
+
+                using var interactionService = new InteractionService();
+                var duplicates = (await session.Query<ProductQuantity>().ToListAsync()).GroupBy(x => x.ProductCode).Where(x => x.Count() > 1).ToList();
+
+                foreach (var duplicate in duplicates)
+                {
+                    var somaFinal = (await interactionService.QueryAllInteractionsByProductAsync(duplicate.Key)).FinalSum();
+
+                    var quantidadeCorreta = duplicate.Where(x => x.Quantity == somaFinal).FirstOrDefault();
+                    var duplicatesToRemove = duplicate.ToList().Except(new[] { quantidadeCorreta }).ToList();
+
+                    foreach(var x in duplicatesToRemove)
+                    {
+                        var internalSession = RavenHelper.OpenAsyncSession();
+                        internalSession.Delete(x);
+
+                        await internalSession.SaveChangesAsync();
+                    }
+                }
             }
 
-            void MigrateUsers()
+            async Task MigrateUsers()
             {
-                var sessionBulk = RavenHelper.OpenSession();
-                sessionBulk.PatchByQuery(
+                var sessionBulk = RavenHelper.OpenAsyncSession();
+                await sessionBulk.PatchByQueryAsync(
                     @"from Usuarios
                       update {
-                      this.Status = ""Active""
+                        this.Status = ""Active"",
+                        this.UISettings = null
                       }");
                 
-                sessionBulk.SaveChanges();
+                await sessionBulk.SaveChangesAsync();
 
-                var session = RavenHelper.OpenSession();
-                var users = session.Query<Usuario>().ToList();
+                var session = RavenHelper.OpenAsyncSession();
+                var users = await session.Query<Usuario>().ToListAsync();
                 var userRepo = new UserRepository();
-                users.ForEach(x =>
+
+                foreach(var x in users)
                 {
-                    userRepo.Insert(new User
+                    await userRepo.InsertAsync(new User
                     {
                         Code = x.Codigo,
                         Name = x.Nome,
@@ -103,22 +155,24 @@ namespace GS.GestaoEmpresa.Infrastructure.Persistence.Repositories.Migrations
                     });
 
                     session.Delete(x);
-                });
+                }
 
-                session.SaveChanges();
+                await session.SaveChangesAsync();
             }
 
-            void MigrateInteractions()
+            async Task MigrateInteractions()
             {
-                var sessionBulk = RavenHelper.OpenSession();
-                sessionBulk.PatchByQuery(
+                var sessionBulk = RavenHelper.OpenAsyncSession();
+                await sessionBulk.PatchByQueryAsync(
                     @"from Interacoes
-                  update {
-                    this.Produto.Status = ""Active""
-                  }");
-                sessionBulk.SaveChanges();
+                      update {
+                        this.Produto.Status = ""Active""
+                      }");
+
+                await sessionBulk.SaveChangesAsync();
+
                 var interactionRepository = new InteractionRepository();
-                interactionRepository.Migrate();
+                await interactionRepository.MigrateAsync();
             }
         }
     }

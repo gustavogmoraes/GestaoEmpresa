@@ -13,10 +13,11 @@ using System.Net;
 using GS.GestaoEmpresa.Infrastructure;
 using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores.Comuns;
 using GS.GestaoEmpresa.Solucao.Negocio.Atributos;
+using System.Threading.Tasks;
 
 namespace GS.GestaoEmpresa.Solucao.Utilitarios
 {
-	public static class GSUtilitarios
+	public static class GSUtils
 	{
         #region Propriedades
 
@@ -46,7 +47,7 @@ namespace GS.GestaoEmpresa.Solucao.Utilitarios
 
         #region BancoDeDados
 
-        static GSUtilitarios()
+        static GSUtils()
         {
             DicionarioTipoDadosParaBancoDeDados = new Dictionary<Type, string>()
             {
@@ -428,8 +429,7 @@ namespace GS.GestaoEmpresa.Solucao.Utilitarios
 
         #endregion
 
-        public static DateTime ObtenhaDateTimeCompletoDePickers(
-            DateTimePicker dateDataInicio, DateTimePicker dateHoraInicio)
+        public static DateTime ObtenhaDateTimeCompletoDePickers(DateTimePicker dateDataInicio, DateTimePicker dateHoraInicio)
         {
             var dia = dateDataInicio.Value.Day;
             var mes = dateDataInicio.Value.Month;
@@ -511,5 +511,15 @@ namespace GS.GestaoEmpresa.Solucao.Utilitarios
             var propList = origin.GetType().GetProperties().ToList();
             propList.ForEach(prop => prop.SetValue(destiny, prop.GetValue(origin)));
         }
+
+        //public static void AsyncCall(Task task)
+        //{
+        //    Task.Run(() => task).Wait();
+        //}
+
+        //public static T AsyncCall<T>(Task<T> task)
+        //{
+        //    return Task.Run(() => task).Result;
+        //}
     }
 }

@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 using GS.GestaoEmpresa.Business.Interfaces;
 using GS.GestaoEmpresa.Infrastructure.Persistence.RavenDB.Support.Interfaces;
+using GS.GestaoEmpresa.Infrastructure.Persistence.RavenDB.Support.Objects;
 using GS.GestaoEmpresa.Persistence.RavenDB;
 using GS.GestaoEmpresa.Persistence.RavenDbSupport.Objects;
 using GS.GestaoEmpresa.Solucao.Utilitarios;
+using Raven.Client.Documents;
 using Raven.Client.Documents.Linq;
 using Raven.Client.Documents.Session;
 
@@ -16,43 +19,81 @@ namespace GS.GestaoEmpresa.Infrastructure.Persistence.Repositories.Base
     public abstract class RepositoryBase<T>
         where T : class, IEntity, new()
     {
-        public virtual IList<T> Query()
+        public virtual async Task<IList<T>> QueryAllAsync()
         {
-            using var ravenSession = RavenHelper.OpenSession();
+            using var ravenSession = RavenHelper.OpenAsyncSession();
 
-            var result = ravenSession.Query<T>().ToList();
+            var result = await ravenSession.Query<T>().ToListAsync();
 
-            return result;  
+            return result;
         }
 
-        public virtual IList<T> Query(Expression<Func<T, bool>> where)
+        public virtual async Task<IList<T>> QueryAsync(Expression<Func<T, bool>> where)
         {
-            using var ravenSession = RavenHelper.OpenSession();
+            using var ravenSession = RavenHelper.OpenAsyncSession();
 
-            var result = ravenSession.Query<T>()
+            var result = await ravenSession.Query<T>()
                 .Where(where)
-                .ToList();
+                .ToListAsync();
 
             return result;
         }
 
-        public virtual T Query(int code)
+        public virtual async Task<T> QueryFirstAsync(Expression<Func<T, bool>> where)
         {
-            using var ravenSession = RavenHelper.OpenSession();
+            using var ravenSession = RavenHelper.OpenAsyncSession();
 
-            var result = ravenSession.Query<T>()
-                .FirstOrDefault(x => x.Code == code);
+            var result = await ravenSession.Query<T>()
+                .Where(where)
+                .FirstOrDefaultAsync();
 
             return result;
         }
 
-        public virtual T QueryFirst(Expression<Func<T, bool>> where)
+        public virtual async Task<T> QueryFirstAsync(int code, bool withAttachments = true)
         {
-            using var ravenSession = RavenHelper.OpenSession();
-            return ravenSession.Query<T>().FirstOrDefault(where);
+            var documentId = await RetrieveIdAsync(code);
+            return await QueryFirstAsync(documentId, withAttachments);
         }
 
-        public virtual IList<T> Query(string searchTerm,
+        public virtual async Task<T> QueryFirstAsync(string id, bool withAttachments = true)
+        {
+            using var ravenSession = RavenHelper.OpenAsyncSession();
+
+            var result = await ravenSession.LoadAsync<T>(id);
+            if(result != null && withAttachments)
+            {
+                await RetrieveAttachmentsAsync(ravenSession, result);
+            }
+
+            return result;
+        }
+
+        public virtual async Task<T> QueryFirstAsync(int code, DateTime dataVigencia, bool withAttachments = true)
+        {
+            var documentId = await RetrieveIdAsync(code);
+            return await QueryFirstAsync(documentId, dataVigencia, withAttachments);
+        }
+
+        public virtual async Task<T> QueryFirstAsync(string documentId, DateTime dataVigencia, bool withAttachments = true)
+        {
+            var revisions = await QueryRevisionsAsync(documentId);
+            var selectedRevision = revisions
+                .OrderByDescending(x => x.DateTime)
+                .FirstOrDefault(x => x.DateTime.RemoveMs() <= dataVigencia.RemoveMs());
+
+            using var ravenSession = RavenHelper.OpenAsyncSession();
+            var revisionResult = await ravenSession.Advanced.Revisions.GetAsync<T>(documentId, selectedRevision.DateTime.ToUniversalTime());
+            if (revisionResult != null && withAttachments)
+            {
+                await RetrieveAttachmentsAsync(ravenSession, revisionResult, selectedRevision.ChangeVector);
+            }
+
+            return revisionResult;
+        }
+
+        public virtual async Task<IList<T>> QueryAsync(
+            string searchTerm,
             Expression<Func<T, object>>[] propertiesToSearch,
             Expression<Func<T, object>> selector,
             int takeQuantity = 500,
@@ -60,8 +101,7 @@ namespace GS.GestaoEmpresa.Infrastructure.Persistence.Repositories.Base
         {
             IList<T> returnList;
 
-            var rQuery = RavenHelper.OpenSession()
-                .Query<T>();
+            var rQuery = RavenHelper.OpenAsyncSession().Query<T>();
 
             if (!searchTerm.IsNullOrEmpty() && propertiesToSearch.Any())
             {
@@ -72,84 +112,99 @@ namespace GS.GestaoEmpresa.Infrastructure.Persistence.Repositories.Base
 
             if (selector != null)
             {
-                returnList = rQuery
+                returnList = await rQuery
                     .Select(selector)
                     .OfType<T>()
-                    .ToList();
+                    .ToListAsync();
             }
             else
             {
-                returnList = rQuery
+                returnList = await rQuery
                 .OfType<T>()
-                .ToList();
+                .ToListAsync();
             }
 
             if (withAttachments)
             {
                 foreach (var item in returnList)
                 {
-                    RetrieveAttachments(RavenHelper.OpenSession(), item);
+                    await RetrieveAttachmentsAsync(RavenHelper.OpenAsyncSession(), item);
                 }
             }
 
             return returnList;
         }
 
-        public virtual void Insert(T item)
+        public virtual async Task InsertAsync(T item)
         {
-            using var ravenSession = RavenHelper.OpenSession();
+            using var ravenSession = RavenHelper.OpenAsyncSession();
 
-            ravenSession.Store(item);
-            if (item.RavenAttachments != null)
+            await ravenSession.StoreAsync(item);
+            await ravenSession.SaveChangesAsync();
+
+            var implementsRevision = typeof(T).GetInterface(nameof(IEntityWithRevision)) != null;
+            if (implementsRevision)
             {
-                StoreAttachments(ravenSession, item);
+                ravenSession.Advanced.Revisions.ForceRevisionCreationFor(item);
             }
 
-            ravenSession.SaveChanges();
+            if (item.RavenAttachments != null && item.RavenAttachments.FileStreams.Any())
+            {
+                await StoreAttachmentsAsync(ravenSession, item);
+            }
+
+            await ravenSession.SaveChangesAsync();
         }
 
-        public virtual int GetNextAvailableCode()
+        public virtual async Task<int> GetNextAvailableCodeAsync()
         {
-            using var session = RavenHelper.OpenSession();
-            var listaDeCodigos = session.Query<T>()
+            using var session = RavenHelper.OpenAsyncSession();
+            var codesOnDb = await session
+                .Query<T>()
                 .Select(x => x.Code)
-                .ToList()
+                .ToListAsync();
+
+            var codeList = codesOnDb
                 .Distinct()
                 .OrderBy(x => x)
                 .ToList();
 
-            if (!listaDeCodigos.Any())
+            if (!codeList.Any())
             {
                 return 1;
             }
 
-            var numerosFaltando = listaDeCodigos.FindMissingIntegersInSequence();
+            var missingNumbers = codeList.FindMissingIntegersInSequence();
 
-            return numerosFaltando != null && numerosFaltando.Any()
-                ? numerosFaltando.Min()
-                : listaDeCodigos.Max() + 1;
+            return missingNumbers != null && missingNumbers.Any()
+                ? missingNumbers.Min()
+                : codeList.Max() + 1;
         }
 
-        public virtual IList<int> GetNextAvailableCodes(int numberOfNeededCodes)
+        public virtual async Task<IList<int>> GetNextAvailableCodesAsync(int numberOfNeededCodes)
         {
-            var listaDeCodigos = RavenHelper.OpenSession().Query<T>()
+            var session = RavenHelper.OpenAsyncSession();
+            var codesOnDb = await session
+                .Query<T>()
                 .Select(x => x.Code)
-                .ToList() // Raven query
+                .ToListAsync();
+
+            var codeList = codesOnDb
                 .Distinct()
                 .OrderBy(x => x)
-                .ToList(); // In memory query
+                .ToList();
 
             var returnList = new List<int>();
 
-            if (listaDeCodigos.Any())
+            if (codeList.Any())
             {
-                var missingNumbers = listaDeCodigos.FindMissingIntegersInSequence().ToList();
+                var missingNumbers = codeList.FindMissingIntegersInSequence().ToList();
                 missingNumbers.ForEach(x => returnList.Add(x));
 
                 numberOfNeededCodes -= returnList.Count;
             }
 
-            var startingNumber = listaDeCodigos.Any() ? listaDeCodigos.Last() : 1;
+            var startingNumber = codeList.Any() ? codeList.Last() : 1;
 
             for (int i = 0; i < numberOfNeededCodes; i++)
             {
@@ -159,60 +214,101 @@ namespace GS.GestaoEmpresa.Infrastructure.Persistence.Repositories.Base
             return returnList;
         }
 
-        public void Update(T item)
+        public async Task UpdateAsync(T item)
         {
-            using var ravenSession = RavenHelper.OpenSession();
-            var storedItem = ravenSession.Load<T>(item.Id);
+            var ravenSession = RavenHelper.OpenAsyncSession();
+            var storedItem = await ravenSession.LoadAsync<T>(item.Id);
+            
+            item.CopyPropValuesTo(storedItem);
+
+            if (item.RavenAttachments != null)
+            {
+                await StoreAttachmentsAsync(ravenSession, storedItem);
+            }
+
+            await ravenSession.SaveChangesAsync();
 
             var implementsRevision = typeof(T).GetInterface(nameof(IEntityWithRevision)) != null;
             if (implementsRevision)
             {
                 ravenSession.Advanced.Revisions.ForceRevisionCreationFor(storedItem);
+                await ravenSession.SaveChangesAsync();
             }
+        }
 
-            item.CopyPropValuesTo(storedItem);
-            if (item.RavenAttachments != null)
+        public async Task<string> RetrieveIdAsync(int code)
+        {
+            using var session = RavenHelper.OpenAsyncSession();
+            return (await session.Query<T>()
+                .Select(x => new { x.Id, x.Code })
+                .FirstOrDefaultAsync(x => x.Code == code))
+                .Id;
+        }
+
+        public async Task DeleteAsync(int code)
+        {
+            var id = await RetrieveIdAsync(code);
+
+            await DeleteAsync(id);
+        }
+
+        public async Task DeleteAsync(string id)
+        {
+            using var session = RavenHelper.OpenAsyncSession();
+            session.Delete(id);
+            await session.SaveChangesAsync();
+        }
+
+        public virtual async Task<IList<RevisionMetadata>> QueryRevisionsAsync(string id)
+        {
+            var ravenSession = RavenHelper.OpenAsyncSession();
+            var metadata = await ravenSession.Advanced.Revisions.GetMetadataForAsync(id);
+
+            return metadata.Select(x => new RevisionMetadata
             {
-                StoreAttachments(ravenSession, item);
-            }
-
-            ravenSession.SaveChanges();
+                DateTime = Convert.ToDateTime(x["@last-modified"]),
+                ChangeVector = x["@change-vector"].ToString()
+            }).ToList();
         }
 
-        public void Delete(int code)
+        protected virtual async Task StoreAttachmentsAsync(IAsyncDocumentSession session, T item)
         {
-            throw new NotImplementedException();
-        }
-
-
-        protected virtual void StoreAttachments(IDocumentSession session, T item)
-        {
-            var attachmentProp = typeof(T).GetProperties().FirstOrDefault(x => 
+            await Task.Run(() =>
+            {
+                var attachmentProp = typeof(T).GetProperties().FirstOrDefault(x =>
                 x.PropertyType == typeof(RavenAttachments));
 
-            var value = (RavenAttachments)attachmentProp.GetValue(item);
-            if (value == null || value.FileStreams == null)
-            {
-                return;
-            }
+                var value = (RavenAttachments)attachmentProp.GetValue(item);
+                if (value == null || value.FileStreams == null)
+                {
+                    return;
+                }
 
-            foreach (var attachment in value.FileStreams)
-            {
-                attachment.Value.Position = 0;
-                session.Advanced.Attachments.Store(item.Id, attachment.Key, attachment.Value);
+                foreach (var attachment in value.FileStreams)
+                {
+                    attachment.Value.Position = 0;
+                    session.Advanced.Attachments.Store(item.Id, attachment.Key, attachment.Value);
 
-                // Coallesce stream was already read at some point, it will be at the last position
-                // so we return it to the begining by copying it to another memory stream
-                // to make it readable again ;D
-                //using (var ms = new MemoryStream())
-                //{
-                //    attachment.Value.CopyTo(ms);
-                //    ms.Position = 0;
-                //}
-            }
+                    // Coallesce stream was already read at some point, it will be at the last position
+                    // so we return it to the begining by copying it to another memory stream
+                    // to make it readable again ;D
+                    //using (var ms = new MemoryStream())
+                    //{
+                    //    attachment.Value.CopyTo(ms);
+                    //    ms.Position = 0;
+                    //}
+                }
+            });
         }
 
-        protected virtual void RetrieveAttachments(IDocumentSession session, T item)
+        /// <summary>
+        /// Retrieves attachments for a document.
+        /// </summary>
+        /// <param name="session">The raven session</param>
+        /// <param name="item">The desired item.</param>
+        /// <param name="changeVector">Change vector, passed if the attachments are from a revision.</param>
+        /// <returns></returns>
+        protected virtual async Task RetrieveAttachmentsAsync(IAsyncDocumentSession session, T item, string changeVector = null)
         {
             if (item == null)
             {
@@ -229,7 +325,9 @@ namespace GS.GestaoEmpresa.Infrastructure.Persistence.Repositories.Base
             var attachmentDictionary = new Dictionary<string, Stream>();
             foreach (var attachment in value.AttachmentsNames)
             {
-                var attachmentResult = session.Advanced.Attachments.Get(item.Id, attachment);
+                var attachmentResult = changeVector == null 
+                    ? await session.Advanced.Attachments.GetAsync(item.Id, attachment)
+                    : await session.Advanced.Attachments.GetRevisionAsync(item.Id, attachment, changeVector);
                 if (attachmentResult == null)
                 {
                     continue;

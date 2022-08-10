@@ -34,7 +34,7 @@ namespace GS.GestaoEmpresa.Business.Objects.Core
         void SaveOnDatabase(UISettings setting)
         {
             using var servicoDeUsuario = new UserService();
-            servicoDeUsuario.AtualizeUISetting(SessaoSistema.CodigoUsuario, setting);
+            servicoDeUsuario.UpdateUiSettings(SessaoSistema.CodigoUsuario, setting);
         }
 
         public UISettings()

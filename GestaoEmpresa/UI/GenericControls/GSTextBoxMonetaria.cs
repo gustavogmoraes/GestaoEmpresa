@@ -27,7 +27,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.ControlesGenericos
         {
             get => string.IsNullOrEmpty(txtValor.Text) ? (decimal?) null : decimal.Parse(txtValor.Text, _cultura);
 
-            set => this.txtValor.Text = value.HasValue ? GSUtilitarios.FormateDecimalParaStringMoedaReal(value.GetValueOrDefault()) : string.Empty;
+            set => this.txtValor.Text = value.HasValue ? GSUtils.FormateDecimalParaStringMoedaReal(value.GetValueOrDefault()) : string.Empty;
         }
 
         private void txtValor_TextChanged(object sender, EventArgs e)
@@ -37,7 +37,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.ControlesGenericos
 
         public static void AjusteTextBoxMonetaria(ref TextBox textBox)
         {
-            if (!textBox.Text.All(GSUtilitarios.EhDigitoOuPonto))
+            if (!textBox.Text.All(GSUtils.EhDigitoOuPonto))
             {
                 textBox.Text = string.Empty;
                 return;

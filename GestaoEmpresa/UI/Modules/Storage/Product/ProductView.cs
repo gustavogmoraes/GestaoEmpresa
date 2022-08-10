@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Globalization;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using GS.GestaoEmpresa.Business.Enumerators.Default;
 using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores.Comuns;
@@ -15,9 +16,9 @@ using MetroFramework.Forms;
 
 namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 {
-    public partial class FrmProdutoMetro : GSForm, IView
+    public partial class ProductView : GSForm, IView
     {
-        public FrmProdutoMetro()
+        public ProductView()
         {
             InitializeComponent();
 
@@ -31,10 +32,10 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             BorderStyle = MetroFormBorderStyle.FixedSingle;
         }
 
-        protected override void SaveCall(object sender, EventArgs e)
+        protected override async Task SaveCall(object sender, EventArgs e)
         {
-            var result = (Presenter as ProductPresenter)?.Salve();
-            if(result.IsNotNull() && result!.Any())
+            var result = await (Presenter as ProductPresenter)?.SaveAsync();
+            if (result.IsNotNull() && result!.Any())
             {
                 result.ToList().ForEach(x => MessageBox.Show(x.Message, "Inconsistência"));
                 return;
@@ -55,7 +56,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
         protected override void DeleteCall(object sender, EventArgs e)
         {
-            var result = (Presenter as ProductPresenter)?.Exclua(Presenter.Model.Code);
+            var result = (Presenter as ProductPresenter)?.Exclua(Presenter.Model.Code).Result;
             if (result.Any())
             {
                 result.ToList().ForEach(x => MessageBox.Show(x.Message, "Inconsistência"));
@@ -91,7 +92,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             }
 
             var dataVigencia = DateTime.ParseExact((string)cbValidity.SelectedItem, "dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture);
-            ((ProductPresenter) Presenter).RecarregueVigencia(dataVigencia);
+            ((ProductPresenter) Presenter).ReloadRevision(dataVigencia);
         }
 
         private void txtPorcentagemLucro_Leave(object sender, EventArgs e)

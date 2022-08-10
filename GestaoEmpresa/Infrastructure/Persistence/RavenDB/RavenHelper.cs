@@ -3,13 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using GS.GestaoEmpresa.Business.Objects.Storage;
+using GS.GestaoEmpresa.Business.Services;
 using GS.GestaoEmpresa.Persistence.RavenDbSupport.Interfaces;
 using GS.GestaoEmpresa.Solucao.Negocio.Objetos;
 using GS.GestaoEmpresa.Solucao.Persistencia.BancoDeDados;
+using GS.GestaoEmpresa.Solucao.Utilitarios;
 using MoreLinq;
 using Raven.Client.Documents;
 using Raven.Client.Documents.Conventions;
 using Raven.Client.Documents.Linq;
+using Raven.Client.Documents.Operations;
 using Raven.Client.Documents.Operations.Indexes;
 using Raven.Client.Documents.Queries;
 using Raven.Client.Documents.Session;
@@ -49,12 +52,10 @@ namespace GS.GestaoEmpresa.Persistence.RavenDB
         public static void BulkInsert<T>(this IDocumentStore store, IList<T> items)
             where T : class, IRavenDbDocument, new()
         {
-            using (var bulkInsert = store.BulkInsert())
+            using var bulkInsert = store.BulkInsert();
+            foreach (var item in items)
             {
-                foreach (var item in items)
-                {
-                    bulkInsert.Store(item);
-                }
+                bulkInsert.Store(item);
             }
         }
 
@@ -71,6 +72,13 @@ namespace GS.GestaoEmpresa.Persistence.RavenDB
             });
 
             session.SaveChanges();
+        }
+
+        public static void BulkDelete<T>(this IDocumentStore store)
+            where T : class, IRavenDbDocument, new()
+        {
+            var operation = store.Operations.Send(
+                new DeleteByQueryOperation(new IndexQuery { Query = $"from {nameof(T)}s" }));
         }
 
         public static void BulkUpdateAdvancedN<T>(this IDocumentSession session, IList<T> items, bool useBatchCommand = false)
@@ -99,13 +107,23 @@ namespace GS.GestaoEmpresa.Persistence.RavenDB
             //var patchDictionary = Queryable.Where(session.Query<T>(), x => ids.Contains(x.Id)).ToDictionary(x => x.Id, GetPatchDictionary);
         }
 
+        public static void DeleteByQuery(this IDocumentSession session, string query)
+        {
+            session.Advanced.DocumentStore.Operations.Send(
+                new DeleteByQueryOperation(new IndexQuery { Query = query }));
+        }
+
+        public static void DeleteByQuery(this IDocumentStore store, string query)
+        {
+            store.Operations.Send(new DeleteByQueryOperation(new IndexQuery { Query = query }));
+        }
+
         private static Dictionary<Expression<Func<T, object>>, object> GetPatchDictionary<T>(T item)
         {
             var patch = new Dictionary<Expression<Func<T, object>>, object>();
 
             return patch;
         }
-
 
         public static void BulkUpdateAdvanced<T>(this IDocumentSession session, Dictionary<string, Dictionary<Expression<Func<T, object>>, object>> valuesToPatch)
             where T : class, IRavenDbDocument, new()
@@ -119,7 +137,7 @@ namespace GS.GestaoEmpresa.Persistence.RavenDB
             session.SaveChanges();
         }
 
-        private static bool ObtenhaVersaoDoServidor(out BuildNumber buildNumber, int timeoutMilliseconds = 5000)
+        private static bool GetRavenDbServerVersion(out BuildNumber buildNumber, int timeoutMilliseconds = 5000)
         {
             try
             {
@@ -147,14 +165,24 @@ namespace GS.GestaoEmpresa.Persistence.RavenDB
 
         public static bool VerifiqueSeServidorEstahOnline(int timeoutMilliseconds = 5000)
         {
-            BuildNumber buildNumber;
-            var conexaoOk = ObtenhaVersaoDoServidor(out buildNumber);
+            var conexaoOk = GetRavenDbServerVersion(out BuildNumber buildNumber);
             var databaseExists = false;
 
             if (conexaoOk)
                 databaseExists = VerifiqueSeBancoExiste(SessaoSistema.InformacoesConexao.DatabaseName);
 
-            return conexaoOk && databaseExists;
+            var ok = conexaoOk && databaseExists;
+            if(ok)
+            {
+                var userService = new UserService();
+                var user = userService.Query("admin");
+                if(user == null)
+                {
+                    userService.CreateAdminUser().Wait();
+                }
+            }
+
+            return ok;
         }
 
         public static void CompactarBancoDeDados(string databaseName = null)

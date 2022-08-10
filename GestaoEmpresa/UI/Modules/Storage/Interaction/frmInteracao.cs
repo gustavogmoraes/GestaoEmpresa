@@ -525,7 +525,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             }
         }
 
-        private void btnCancelarExcluir_Click(object sender, EventArgs e)
+        private async void btnCancelarExcluir_Click(object sender, EventArgs e)
         {
             switch (_switchBotaoCancelarExcluir)
             {
@@ -535,7 +535,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
 
                     using (var servicoDeInteracao = new InteractionService())
                     {
-                        var interaction = servicoDeInteracao.Query(_codigoInteracao);
+                        var interaction = await servicoDeInteracao.QueryFirstAsync(_codigoInteracao);
                         //CarregueControlesComObjeto(interaction);
                     }
 
@@ -548,7 +548,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                     {
                         using (var servicoDeInteracao = new InteractionService())
                         {
-                            var inconsistencias = servicoDeInteracao.Delete(_codigoInteracao);
+                            var inconsistencias = await servicoDeInteracao.DeleteAsync(_codigoInteracao);
 
                             if (inconsistencias.Count > 0)
                             {
@@ -651,7 +651,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                 int codigoProduto = Convert.ToInt32(((dynamic)cbProduto.SelectedItem).Codigo);
                 CodigoProdutoCarregado = codigoProduto;
 
-                var horarioProgramado = GSUtilitarios.ObtenhaDateTimeCompletoDePickers(dateData, dateHorario).RemoveMs();
+                var horarioProgramado = GSUtils.ObtenhaDateTimeCompletoDePickers(dateData, dateHorario).RemoveMs();
 
                 //var produto = servicoDeProduto.Query(codigoProduto, horarioProgramado);
                 //if (produto == null)

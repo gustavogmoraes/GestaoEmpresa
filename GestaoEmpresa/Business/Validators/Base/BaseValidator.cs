@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
-using GS.GestaoEmpresa.Business.Interfaces;
+using System.Threading.Tasks;
 using GS.GestaoEmpresa.Infrastructure.Persistence.RavenDB.Support.Interfaces;
-using GS.GestaoEmpresa.Persistence.RavenDbSupport.Interfaces;
 using GS.GestaoEmpresa.Solucao.Negocio.Objetos;
 
 namespace GS.GestaoEmpresa.Business.Validators.Base
@@ -9,10 +8,10 @@ namespace GS.GestaoEmpresa.Business.Validators.Base
     public abstract class BaseValidator<TEntity>
         where TEntity : IEntity, new()
     {
-        public abstract IList<Error> ValidateCreate(TEntity item);
+        public abstract Task<IList<Error>> ValidateCreateAsync(TEntity item);
 
-        public abstract IList<Error> ValidateUpdate(TEntity item);
+        public abstract Task<IList<Error>> ValidateUpdateAsync(TEntity item);
 
-        public abstract IList<Error> ValidateDelete(int code);
+        public abstract Task<IList<Error>> ValidateDeleteAsync(int code);
     }
 }

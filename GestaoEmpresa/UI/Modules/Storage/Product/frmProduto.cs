@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using GS.GestaoEmpresa.Business.Enumerators.Default;
 using GS.GestaoEmpresa.Business.Services;
@@ -71,7 +72,7 @@ namespace GS.GestaoEmpresa.UI.Modules.Storage.Product
             FormType = FormType.Detail;
 
             CarregueControlesProduto(produto, quantidade);
-            CarregueComboDeVigencias(produto.Code);
+            LoadRevisionsCombo();
             SelecioneUltimaVigencia();
             DesabiliteControles();
         }
@@ -137,7 +138,7 @@ namespace GS.GestaoEmpresa.UI.Modules.Storage.Product
         {
             int proximoCodigo;
             using (var servicoDeProduto = new ProductService())
-                proximoCodigo = servicoDeProduto.GetNextAvailableCode();
+                proximoCodigo = Task.Run(() => servicoDeProduto.GetNextAvailableCodeAsync()).Result;
 
             if (proximoCodigo == 0)
             {
@@ -154,23 +155,20 @@ namespace GS.GestaoEmpresa.UI.Modules.Storage.Product
 
             Business.Objects.Storage.Product produto = null;
             using (var servicoDeProduto = new ProductService())
-                produto = servicoDeProduto.Query(
-                    int.Parse(txtCodigo.Text.Trim()), DateTime.Parse(cbVigencia.SelectedItem.ToString(), Cultura));
+                produto = Task.Run(() => servicoDeProduto.QueryFirstAsync(
+                    int.Parse(txtCodigo.Text.Trim()), DateTime.Parse(cbVigencia.SelectedItem.ToString(), Cultura))).Result;
 
             if(produto != null) CarregueControlesComObjeto(produto);
         }
 
-        protected void CarregueComboDeVigencias(int codigo)
+        protected void LoadRevisionsCombo()
         {
             cbVigencia.Items.Clear();
 
-            var listaDeVigencias = new List<DateTime>();
-            using (var servicoDeProduto = new ProductService())
-            {
-                listaDeVigencias = servicoDeProduto.QueryRevisions(codigo).ToList();
-            }
+            using var servicoDeProduto = new ProductService();
+            var revisionList = Task.Run(() => servicoDeProduto.QueryRevisionsAsync(Presenter.Model.Id)).Result.ToList();
 
-            foreach (var vigencia in listaDeVigencias)
+            foreach (var vigencia in revisionList)
             {
                 cbVigencia.Items.Add(vigencia.ToString(Cultura));
             }
@@ -367,7 +365,7 @@ namespace GS.GestaoEmpresa.UI.Modules.Storage.Product
 
                     using (var servicoDeProduto = new ProductService())
                     {
-                        listaDeInconsistencias = servicoDeProduto.Save(produto, FormType).ToList();
+                        listaDeInconsistencias = servicoDeProduto.SaveAsync(produto, FormType).Result.ToList();
 
                         quantidade = servicoDeProduto.QueryQuantity(produto.Code);
                     }
@@ -376,8 +374,7 @@ namespace GS.GestaoEmpresa.UI.Modules.Storage.Product
                     {
                         if (FormType == FormType.Insert)
                         {
-                            ViewManager.GetIndependent<StorageView>()
-                                .AddNewProductOnGrid(produto, 0);
+                            ViewManager.GetIndependent<StorageView>().AddNewProductOnGrid(produto, 0);
                             MessageBox.Show(Mensagens.X_FOI_CADASTRADO_COM_SUCESSO("Produto"));
                         }
                         else
@@ -389,7 +386,7 @@ namespace GS.GestaoEmpresa.UI.Modules.Storage.Product
                         InicializeBotoes(FormType.Detail);
                         FormType = FormType.Update;
                         DesabiliteControles();
-                        CarregueComboDeVigencias(produto.Code);
+                        LoadRevisionsCombo();
                         SelecioneUltimaVigencia();
                         cbVigencia.Enabled = true;
                         txtLineVigencia.Enabled = true;
@@ -406,7 +403,7 @@ namespace GS.GestaoEmpresa.UI.Modules.Storage.Product
             }
         }
 
-        private void btnCancelarExcluir_Click_1(object sender, EventArgs e)
+        private async void btnCancelarExcluir_Click_1(object sender, EventArgs e)
         {
             switch (_switchBotaoCancelarExcluir)
             {
@@ -417,14 +414,15 @@ namespace GS.GestaoEmpresa.UI.Modules.Storage.Product
                     Business.Objects.Storage.Product produto;
                     using (var servicoDeProduto = new ProductService())
                     {
-                        produto = servicoDeProduto.Query(int.Parse(txtCodigo.Text.Trim()));
+                        var code = int.Parse(txtCodigo.Text.Trim());
+                        produto = await servicoDeProduto.QueryFirstAsync(code);
                     }
 
                     CarregueControlesComObjeto(produto);
                     DesabiliteControles();
                     cbVigencia.Enabled = true;
                     txtLineVigencia.Enabled = true;
-                    CarregueComboDeVigencias(produto.Code);
+                    LoadRevisionsCombo();
                     SelecioneUltimaVigencia();
                     break;
 
@@ -437,13 +435,13 @@ namespace GS.GestaoEmpresa.UI.Modules.Storage.Product
                         var listaDeInconsistenciasExclusao = new List<Error>();
                         using (var servicoDeProduto = new ProductService())
                         {
-                            listaDeInconsistenciasExclusao = servicoDeProduto.Delete(codigoDoProduto).ToList();
+                            listaDeInconsistenciasExclusao = servicoDeProduto.DeleteAsync(codigoDoProduto).Result.ToList();
                         }
 
                         if (listaDeInconsistenciasExclusao.Count == 0)
                         {
                             MessageBox.Show(Mensagens.O_X_FOI_EXCLUIDO_COM_SUCESSO("produto"));
-                            this.Close();
+                            Close();
                         }
                         else
                         {
@@ -463,7 +461,7 @@ namespace GS.GestaoEmpresa.UI.Modules.Storage.Product
 
         private void txtPorcentagemDeLucro_TextChanged(object sender, EventArgs e)
         {
-            if (txtPorcentagemDeLucro.Text.All(x => GSUtilitarios.EhDigitoOuPonto(x)))
+            if (txtPorcentagemDeLucro.Text.All(x => GSUtils.EhDigitoOuPonto(x)))
             {
                 return;
             }

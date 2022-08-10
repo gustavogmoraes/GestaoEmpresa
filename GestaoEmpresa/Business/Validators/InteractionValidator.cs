@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using GS.GestaoEmpresa.Business.Objects.Storage;
 using GS.GestaoEmpresa.Business.Services;
 using GS.GestaoEmpresa.Business.Validators.Base;
@@ -30,31 +31,31 @@ namespace GS.GestaoEmpresa.Business.Validators
 
         #region Implementação Padrão
 
-        public override IList<Error> ValidateCreate(Interaction item)
+        public override async Task<IList<Error>> ValidateCreateAsync(Interaction item)
         {
             Interaction = item;
             ErrorList = new List<Error>();
 
             ValidateMandatory();
-            ValidateSerialNumbers();
+            await ValidateSerialNumbers();
             ValidateQuantityRule();
 
             return ErrorList;
         }
 
-        // ToDo
-        public override IList<Error> ValidateUpdate(Interaction item)
+        // TODO
+        public override async Task<IList<Error>> ValidateUpdateAsync(Interaction item)
         {
             return new List<Error>();
         }
 
-        //TODO
-        public override IList<Error> ValidateDelete(int code)
+        // TODO
+        public override async Task<IList<Error>> ValidateDeleteAsync(int code)
         {
-            var interaction = _interactionRepository.Query(code);
+            var interaction = await _interactionRepository.QueryFirstAsync(code);
             var allProductCodes = interaction.SubInteractions.Select(x => x.Product.Code).ToList();
 
-            var interactionList = _interactionRepository.Query(x => 
+            var interactionList = await _interactionRepository.QueryAsync(x => 
                 x.SubInteractions.Any(y => 
                     allProductCodes.Contains(y.Product.Code)));
 
@@ -153,7 +154,7 @@ namespace GS.GestaoEmpresa.Business.Validators
             }
         }
 
-        private void ValidateSerialNumbers()
+        private async Task ValidateSerialNumbers()
         {
             foreach (var subInteraction in Interaction.SubInteractions)
             {
@@ -182,7 +183,7 @@ namespace GS.GestaoEmpresa.Business.Validators
                 {
                     if (!interactionService.CheckIfSerialNumberIsInDatabase(serialNumber)) continue;
 
-                    var isItIntoTheInventory = interactionService.CheckIfSerialNumberIsIntoTheInventory(serialNumber);
+                    var isItIntoTheInventory = await interactionService.CheckIfSerialNumberIsIntoTheInventoryAsync(serialNumber);
                     switch (isItIntoTheInventory)
                     {
                         case true 

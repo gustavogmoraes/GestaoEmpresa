@@ -13,6 +13,7 @@ using GS.GestaoEmpresa.Business.Services.Base;
 using GS.GestaoEmpresa.Business.Validators;
 using GS.GestaoEmpresa.Infrastructure.Persistence.Repositories;
 using GS.GestaoEmpresa.Persistence.Repositories;
+using System.Threading.Tasks;
 
 namespace GS.GestaoEmpresa.Business.Services
 {
@@ -41,9 +42,9 @@ namespace GS.GestaoEmpresa.Business.Services
             x => string.Join(" ", x.SubInteractions.Select(s => s.SerialNumbers))
         };
 
-        public List<Interaction> QueryAllInteractions()
+        public async Task<List<Interaction>> QueryAllInteractionsAsync()
         {
-            return Repository.Query()
+            return (await Repository.QueryAllAsync())
                 .OrderByDescending(x => x.ScheduledTime)
                 .ToList();
         }
@@ -55,33 +56,33 @@ namespace GS.GestaoEmpresa.Business.Services
             return interactionRepository.CheckIfSerialNumberIsInDatabase(serialNumber);
         }
 
-        public List<Interaction> QueryAllInteractionsByProduct(int productCode)
+        public async Task<List<Interaction>> QueryAllInteractionsByProductAsync(int productCode)
         {
             var interactionRepository = new InteractionRepository();
 
-            return interactionRepository.Query(x => 
+            return (await interactionRepository.QueryAsync(x => 
                 x.SubInteractions.Any(y =>
-                    y.Product.Code == productCode)).ToList();
+                    y.Product.Code == productCode))).ToList();
         }
 
-        public List<Interaction> QueryToLandingPage(string searchTerm = null)
+        public async Task<List<Interaction>> QueryToLandingPageAsync(string searchTerm = null)
         {
             if (searchTerm.IsNullOrEmpty())
             {
-                return Repository.Query(searchTerm, DefaultPropertiesToSearch, SeletorInteracaoAterrissagem, int.MaxValue)
+                return (await Repository.QueryAsync(searchTerm, DefaultPropertiesToSearch, SeletorInteracaoAterrissagem, int.MaxValue))
                     .OrderByDescending(x => x.ScheduledTime)
                     .ToList();
             }
 
-            return Repository.Query(searchTerm, DefaultPropertiesToSearch, SeletorInteracaoAterrissagem)
+            return (await Repository.QueryAsync(searchTerm, DefaultPropertiesToSearch, SeletorInteracaoAterrissagem))
                 .OrderByDescending(x => x.ScheduledTime)
                 .ToList();
         }
 
-        private IList<Interaction> QueryBySerialNumber(string serialNumber)
+        public async Task<IList<Interaction>> QueryBySerialNumber(string serialNumber)
         {
             var interactionRepo = new InteractionRepository();
-            var result = interactionRepo.Query(interaction =>
+            var result = await interactionRepo.QueryAsync(interaction =>
                 interaction.SubInteractions.Any(sub =>
                     sub.InformsSerialNumber &&
                     sub.SerialNumbers.Select(sn => sn.ToLowerInvariant()).Any(sn =>
@@ -90,9 +91,9 @@ namespace GS.GestaoEmpresa.Business.Services
             return result;
         }
         
-        public bool CheckIfSerialNumberIsIntoTheInventory(string serialNumber)
+        public async Task<bool> CheckIfSerialNumberIsIntoTheInventoryAsync(string serialNumber)
         {
-            var interactionList = QueryBySerialNumber(serialNumber);
+            var interactionList = await QueryBySerialNumber(serialNumber);
 
             var inputNumbers = interactionList.Count(x => x.InteractionType == InteractionType.Input);
             var outputNumbers = interactionList.Count(x => x.InteractionType == InteractionType.Output);
@@ -100,18 +101,18 @@ namespace GS.GestaoEmpresa.Business.Services
             return inputNumbers > outputNumbers;
         }
 
-        public new List<Error> Delete(int interactionNumber)
+        public async Task<List<Error>> DeleteAsync(int interactionNumber)
         {
             using var productService = new ProductService();
             using var interactionValidator = new InteractionValidator();
             var interactionRepository = new InteractionRepository();
 
-            var interaction = Query(interactionNumber);
+            var interaction = await QueryFirstAsync(interactionNumber);
 
-            var productsQuantities = productService.QueryQuantity(
-                interaction.SubInteractions.Select(x => x.Product.Code).ToList());
+            var codes = interaction.SubInteractions.Select(x => x.Product.Code).ToList();
+            var productsQuantities = Task.Run(() => productService.QueryQuantityAsync(codes)).Result;
 
-            var errorList = interactionValidator.ValidateDelete(interactionNumber).ToList();
+            var errorList = (await interactionValidator.ValidateDeleteAsync(interactionNumber)).ToList();
             if (errorList.Count > 0)
             {
                 return errorList;
@@ -148,10 +149,10 @@ namespace GS.GestaoEmpresa.Business.Services
                                   interactedQuantity +
                                   interactedAuxiliaryQuantity;
 
-                productService.UpdateProductQuantity(productsQuantities[subInteraction.Product.Code], newQuantity);
+                await productService.UpdateProductQuantityAsync(productsQuantities[subInteraction.Product.Code], newQuantity);
             }
 
-            interactionRepository.Delete(interactionNumber);
+            await interactionRepository.DeleteAsync(interactionNumber);
 
             return errorList;
         }
@@ -185,7 +186,7 @@ namespace GS.GestaoEmpresa.Business.Services
                             throw new ArgumentOutOfRangeException();
                     }
 
-                    var queriedProduct = productService.Query(subInteraction.Product.Code, false);
+                    var queriedProduct = Task.Run(() => productService.QueryFirstAsync(subInteraction.Product.Code, false)).Result;
 
                     // In this case we update the product with the new value
                     if (subInteraction.UpdateUnitaryPriceAtProductCatalog)
@@ -207,13 +208,17 @@ namespace GS.GestaoEmpresa.Business.Services
                                 queriedProduct.SalePrice = subInteraction.UnitaryPrice;
                             }
 
-                            productService.Save(queriedProduct, FormType.Update);
+                            Task.Run(() => productService.SaveAsync(queriedProduct, FormType.Update)).Wait();
                         }
                     }
 
                     var inventoryQuantity = productService.QueryQuantity(queriedProduct.Code);
 
-                    productService.UpdateProductQuantity(queriedProduct.Code, inventoryQuantity + interactedQuantity + interactedAuxiliaryQuantity);
+                    Task.Run(() => 
+                        productService.UpdateProductQuantityAsync(
+                            queriedProduct.Code, 
+                            inventoryQuantity + interactedQuantity + interactedAuxiliaryQuantity))
+                    .Wait();
                 }
             };
         }
@@ -228,11 +233,13 @@ namespace GS.GestaoEmpresa.Business.Services
                 using var productService = new ProductService();
                 foreach (var subInteraction in interaction.SubInteractions)
                 {
-                    var queriedProduct = productService.Query(subInteraction.Product.Code);
-                    var quantity = productService.QueryQuantity(queriedProduct.Code);
+                    var queriedProduct = Task.Run(() => productService.QueryFirstAsync(subInteraction.Product.Code)).Result;
+                    var quantity = Task.Run(() => productService.QueryQuantity(queriedProduct.Code)).Result;
 
-                    productService.UpdateProductQuantity(queriedProduct.Code,
-                        quantity + subInteraction.InteractedQuantity);
+                    Task.Run(() => 
+                        productService.UpdateProductQuantityAsync(queriedProduct.Code, quantity + subInteraction.InteractedQuantity))
+                    .Wait();
+
                     productService.Dispose();
                 }
             };

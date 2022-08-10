@@ -52,7 +52,7 @@ namespace GS.GestaoEmpresa.UI.Base
         private static List<MvpView> _instanceController;
         private static List<MvpView> InstanceController => _instanceController ??= new List<MvpView>
         {
-            MvpView.Of<FrmProdutoMetro, ProductPresenter>(),
+            MvpView.Of<ProductView, ProductPresenter>(),
             MvpView.Of<InteractionView, InteractionPresenter>(),
             MvpView.Of<FrmOrcamento, OrcamentoPresenter>(),
             MvpView.Of<FrmCliente, ClientePresenter>(),
@@ -106,7 +106,7 @@ namespace GS.GestaoEmpresa.UI.Base
             return _mainInstance ??= new MainView();
         }
 
-        public static TPresenter Create<TPresenter>(IEntity model)
+        public static TPresenter Create<TPresenter>(IEntity model, IList<DateTime> revisions = null)
             where TPresenter : class, IPresenter, new()
         {
             var presenterInstance = Create<TPresenter>();
@@ -173,9 +173,9 @@ namespace GS.GestaoEmpresa.UI.Base
             instances.Remove(instanceId);
         }
 
-        public static IServicoHistoricoPadrao GetDefaultHistoricServiceByModel(IEntity model)
+        public static IServiceWithRevision GetDefaultHistoricServiceByModel(IEntity model)
         {
-            var types = GSUtilitarios.GetTypesThatImplementsInteface(typeof(IServicoHistoricoPadrao));
+            var types = GSUtils.GetTypesThatImplementsInteface(typeof(IServiceWithRevision));
             var classes = types.ToList().Where(x => !x.IsInterface && !x.Name.Contains("BaseServiceWithRevision"));
 
             var serviceType = classes.FirstOrDefault(x => x.BaseType != null && x.BaseType.GenericTypeArguments.First() == model.GetType());
@@ -184,7 +184,7 @@ namespace GS.GestaoEmpresa.UI.Base
                 throw new Exception("Service type not found");
             }
 
-            var serviceInstance = (IServicoHistoricoPadrao)Activator.CreateInstance(serviceType);
+            var serviceInstance = (IServiceWithRevision)Activator.CreateInstance(serviceType);
             if (serviceInstance == null)
             {
                 throw new Exception("Could not find an implemented service for this model");
@@ -195,7 +195,7 @@ namespace GS.GestaoEmpresa.UI.Base
 
         public static IBaseService GetDefaultServiceByModel(IEntity model)
         {
-            var types = GSUtilitarios.GetTypesThatImplementsInteface(typeof(IBaseService));
+            var types = GSUtils.GetTypesThatImplementsInteface(typeof(IBaseService));
             var classes = types.ToList().Where(x => !x.IsInterface && !x.Name.Contains("BaseService"));
             var service = classes.FirstOrDefault(x => x.BaseType?.GenericTypeArguments.First() == model.GetType());
             if (service == null)

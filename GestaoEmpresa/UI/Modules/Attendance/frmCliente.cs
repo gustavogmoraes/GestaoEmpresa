@@ -25,9 +25,9 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Atendimento
             InitializeComponent();
         }
 
-        protected override void SaveCall(object sender, EventArgs e)
+        protected override async Task SaveCall(object sender, EventArgs e)
         {
-            var result = (Presenter as ClientePresenter)?.Salve();
+            var result = await (Presenter as ClientePresenter)?.Salve();
             if (result.Any())
             {
                 result.ToList().ForEach(x => MessageBox.Show(x.Message, "Inconsistência"));

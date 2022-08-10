@@ -20,17 +20,17 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Configuracoes
             InitializeComponent();
         }
 
-        private void frmConfiguracoes_Load(object sender, EventArgs e)
+        private async void frmConfiguracoes_Load(object sender, EventArgs e)
         {
             EscondaHeadersTabControl(tabControl1);
 
-            CarregueUsuarios();
+            await CarregueUsuarios();
         }
 
-        private void CarregueUsuarios()
+        private async Task CarregueUsuarios()
         {
             var userRepository = new UserRepository();
-            var userList = userRepository.Query();
+            var userList = await userRepository.QueryAllAsync();
 
             foreach(var usuario in userList)
             {
@@ -50,7 +50,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Configuracoes
 
         }
 
-        private void ChameEditarUsuario(int rowIndex)
+        private async Task ChameEditarUsuario(int rowIndex)
         {
             var servicoMapeadorUsuario = new UserRepository();
 
@@ -58,7 +58,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Configuracoes
                                       .Cells["NomeDeUsuario"]
                                       .Value
                                       .ToString().Trim();
-            var usuario = servicoMapeadorUsuario.Query(x => x.Name == nome).FirstOrDefault();
+            var usuario = await servicoMapeadorUsuario.QueryFirstAsync(x => x.Name == nome);
 
             //GerenciadorDeForms.Create<frmUsuario>().Show();
         }

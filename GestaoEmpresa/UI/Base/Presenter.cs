@@ -105,20 +105,15 @@ namespace GS.GestaoEmpresa.UI.Base
             View.IsRendering = true;
             if (Model == null || ControlsMappings == null || ControlsMappings.Count == 0) return;
 
-            var validityControls = ControlsMappings.Any(x => x.ObjectProperty.Name.ToLowerInvariant().Contains("validity"));
+            var validityControls = ControlsMappings.Any(x => x.ControlName.ToLowerInvariant().Contains("validity"));
             if (validityControls)
             {
                 var control = (MetroComboBox)View.Controls.Find("cbValidity", false).FirstOrDefault();
-                LoadValidityComboBox(control, Model.Code);
+                LoadValidityComboBox(control, Model.Id);
             }
 
             ControlsMappings.ForEach(mapping =>
             {
-                if (mapping.ObjectProperty.GetValue(Model) == null)
-                {
-                    return;
-                }
-
                 var control = View.Controls.Find(mapping.ControlName, true).FirstOrDefault();
                 var controlType = control?.GetType();
 
@@ -277,7 +272,7 @@ namespace GS.GestaoEmpresa.UI.Base
             }
         }
 
-        public virtual IList<Error> Save()
+        public virtual async Task<IList<Error>> SaveAsync()
         {
             return null;
         }
@@ -471,7 +466,7 @@ namespace GS.GestaoEmpresa.UI.Base
                             return;
                         }
 
-                        foreach(var attachment in attachments.FileStreams.Where(x => x.Key.StartsWith("Image")))
+                        foreach(var attachment in attachments.FileStreams?.Where(x => x.Key.StartsWith("Image")))
                         {
                             var tabPage = imageAttacher.AddTabPageExternal(
                                 imageAttacher.tabControl,
@@ -518,14 +513,14 @@ namespace GS.GestaoEmpresa.UI.Base
             }
         };
 
-        protected void LoadValidityComboBox(MetroComboBox cbValidity, int code)
+        protected async Task LoadValidityComboBox(MetroComboBox cbValidity, string id)
         {
             cbValidity.Items.Clear();
 
             using var service = ViewManager.GetDefaultHistoricServiceByModel(Model);
             if (service == null) return;
 
-            var validityList = service.ConsulteVigencias(code).ToList();
+            var validityList = (await service.QueryRevisionsAsync(id)).ToList();
             foreach (var validity in validityList)
             {
                 cbValidity.Items.Add(validity.ToString(CultureInfo.GetCultureInfo("pt-BR")));

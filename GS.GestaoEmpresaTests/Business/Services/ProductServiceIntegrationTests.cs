@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using GS.GestaoEmpresa.Business.Enumerators.Default;
 using GS.GestaoEmpresa.Business.Objects.Base;
 using GS.GestaoEmpresa.Business.Objects.Storage;
@@ -53,17 +54,17 @@ namespace GS.GestaoEmpresaTests.Business.Services
 
         [TestCase(FormType.Insert)]
         [TestCase(FormType.Update)]
-        public void SalveTest(FormType formTypeType)
+        public async Task SalveTest(FormType formTypeType)
         {
             var product = new Product { Name = $"Integration test session {SessionId} - Test product" };
 
             switch (formTypeType)
             {
                 case FormType.Insert:
-                    SaveInsertTest(product);
+                    await SaveInsertTest(product);
                     break;
                 case FormType.Update:
-                    SaveUpdateTest(product);
+                    await SaveUpdateTest(product);
                     break;
                 case FormType.Detail:
                     break;
@@ -72,9 +73,9 @@ namespace GS.GestaoEmpresaTests.Business.Services
             }
         }
 
-        private void SaveInsertTest(Product newProduct)
+        private async Task SaveInsertTest(Product newProduct)
         {
-            var inconsistences = SalveCadastro(newProduct);
+            var inconsistences = await SalveCadastro(newProduct);
 
             bool InconsistencesCondition() => 
                 inconsistences == null || 
@@ -112,26 +113,26 @@ namespace GS.GestaoEmpresaTests.Business.Services
                                               "Product.Atual is not true");
         }
 
-        private IList<Error> SalveCadastro(Product product)
+        private async Task<IList<Error>> SalveCadastro(Product product)
         {
             using var productService = new ProductService();
-            var inconsistences = productService.Save(product, FormType.Insert);
+            var inconsistences = await productService.SaveAsync(product, FormType.Insert);
 
             DocumentsIdsToDelete.Add(product.Id);
 
             return inconsistences;
         }
 
-        private void SaveUpdateTest(Product product)
+        private async Task SaveUpdateTest(Product product)
         {
-            SalveCadastro(product);
+            await SalveCadastro(product);
             DocumentsIdsToDelete.Add(product.Id);
 
             using var productService = new ProductService();
             product.Id = null;
             product.Name += " Edited";
 
-            var inconsistencies = productService.Save(product, FormType.Update);
+            var inconsistencies = await productService.SaveAsync(product, FormType.Update);
             Assert.IsTrue(!inconsistencies?.Any(), "Got inconsistencies");
 
             Thread.Sleep(TimeSpan.FromSeconds(2));

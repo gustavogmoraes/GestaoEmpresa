@@ -42,7 +42,7 @@ namespace GS.GestaoEmpresa.Solucao.UI.ControlesGenericos
         {
             get => string.IsNullOrEmpty(txtValue.Text) ? (decimal?)null : decimal.Parse(txtValue.Text, _culture);
 
-            set => txtValue.Text = value.HasValue ? GSUtilitarios.FormateDecimalParaStringMoedaReal(value.GetValueOrDefault()) : string.Empty;
+            set => txtValue.Text = value.HasValue ? GSUtils.FormateDecimalParaStringMoedaReal(value.GetValueOrDefault()) : string.Empty;
         }
 
         private void txtValue_TextChanged(object sender, EventArgs e)

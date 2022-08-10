@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Drawing;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using GS.GestaoEmpresa.Business.Enumerators.Default;
 using GS.GestaoEmpresa.Properties;
 using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores.Comuns;
-using GS.GestaoEmpresa.Solucao.UI.Base;
 using GS.GestaoEmpresa.Solucao.Utilitarios;
 using GS.GestaoEmpresa.UI.GenericControls;
 using MetroFramework.Forms;
@@ -118,10 +118,10 @@ namespace GS.GestaoEmpresa.UI.Base
             IsRendering = false;
         }
 
-        protected virtual void ChamadaSalvarOnClick(object sender, EventArgs e)
+        protected virtual async Task ChamadaSalvarOnClick(object sender, EventArgs e)
         {
             Presenter.FillModelWithControls();
-            SaveCall(sender, e);
+            await SaveCall(sender, e);
         }
 
         protected virtual void ChamadaCancelarOnClick(object sender, EventArgs e)
@@ -141,9 +141,9 @@ namespace GS.GestaoEmpresa.UI.Base
             
         }
 
-        protected virtual void SaveCall(object sender, EventArgs e)
+        protected virtual async Task SaveCall(object sender, EventArgs e)
         {
-            var result = Presenter.Save();
+            var result = await Presenter.SaveAsync();
             if (result.IsNotNull() && result!.Any())
             {
                 var messages = string.Join("\n", result.Select(x => "- " + x.Message).ToList());
@@ -180,18 +180,18 @@ namespace GS.GestaoEmpresa.UI.Base
 
         #region Eventos
 
-        private void btnEditarSalvar_Click(object sender, EventArgs e)
+        private async void btnEditarSalvar_Click(object sender, EventArgs e)
         {
             switch (FormType)
             {
                 case FormType.Insert:
-                    ChamadaSalvarOnClick(sender, e);
+                    await ChamadaSalvarOnClick(sender, e);
                     break;
                 case FormType.Detail:
                     ChamadaEditarOnClick(sender, e);
                     break;
                 case FormType.Update:
-                    ChamadaSalvarOnClick(sender, e);
+                    await ChamadaSalvarOnClick(sender, e);
                     break;
             }
         }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using GS.GestaoEmpresa.Business.Enumerators.Default;
 using GS.GestaoEmpresa.Business.Objects.Base;
@@ -106,7 +107,7 @@ namespace GS.GestaoEmpresa.UI.Modules.MainWindow
             txtConfigDatabaseName.Text = SessaoSistema.InformacoesConexao.DatabaseName;
         }
 
-        private void CarregueChamador()
+        private async Task CarregueChamador()
         {
             tabControl1.SelectTab("tabChamador");
             btnTecnico.Enabled = false;
@@ -115,7 +116,7 @@ namespace GS.GestaoEmpresa.UI.Modules.MainWindow
             btnAuditoria.Enabled = false;
 
             var userRepository = new UserRepository();
-            var user = userRepository.Query(SessaoSistema.CodigoUsuario);
+            var user = await userRepository.QueryFirstAsync(SessaoSistema.CodigoUsuario);
 
             txtPermissaoUsuario.Text = user.Name;
             //txtPermissaoFuncao.Text = usuario.Funcionario.Function ?? "---";
@@ -147,7 +148,7 @@ namespace GS.GestaoEmpresa.UI.Modules.MainWindow
                 SessaoSistema.BusqueConfiguracoesConexaoDoArquivo(DiretorioLocal, NomeArquivoConfiguracoesBanco);
             }
 
-            lblIpApp.Text = GSUtilitarios.ObtenhaIPLocal();
+            lblIpApp.Text = GSUtils.ObtenhaIPLocal();
 
             if (SessaoSistema.InformacoesConexao != null)
             {
@@ -280,11 +281,11 @@ namespace GS.GestaoEmpresa.UI.Modules.MainWindow
             this.CarregueConfiguracoesConexaoBanco();
         }
 
-        private void btnEntrar_Click_1(object sender, EventArgs e)
+        private async void btnEntrar_Click_1(object sender, EventArgs e)
         {
             using var servicoDeUsuario = new UserService();
 
-            var usuario = servicoDeUsuario.Query((txtUsuario.Text.Trim()));
+            var usuario = await servicoDeUsuario.Query(txtUsuario.Text.Trim());
             if (usuario != null)
             {
                 if (usuario.Password == txtSenha.Text.Trim().GetDeterministicHashCode())
@@ -493,7 +494,7 @@ namespace GS.GestaoEmpresa.UI.Modules.MainWindow
             //retorno.QuantidadeEmEstoque = tabela.Rows[linha]["QUANTIDADEESTOQUE"] != DBNull.Value
             //                            ? int.Parse(tabela.Rows[linha]["QUANTIDADEESTOQUE"].ToString())
             //                            : 0;
-            retorno.AvisarQuantidade = GSUtilitarios.ConvertaValorBooleano(tabela.Rows[linha]["AVISARQUANTIDADE"].ToString());
+            retorno.AvisarQuantidade = GSUtils.ConvertaValorBooleano(tabela.Rows[linha]["AVISARQUANTIDADE"].ToString());
             retorno.QuantidadeMinimaParaAviso = int.Parse(tabela.Rows[linha]["QUANTIDADEMINIMAAVISO"].ToString());
             retorno.Observacao = tabela.Rows[linha]["OBSERVACAO"] != DBNull.Value
                                ? tabela.Rows[linha]["OBSERVACAO"].ToString()

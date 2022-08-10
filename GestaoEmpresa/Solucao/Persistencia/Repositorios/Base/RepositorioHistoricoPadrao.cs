@@ -14,6 +14,7 @@ using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores.Comuns;
 using GS.GestaoEmpresa.Solucao.Negocio.Objetos.Base;
 using GS.GestaoEmpresa.Solucao.Persistencia.BancoDeDados;
 using GS.GestaoEmpresa.Solucao.Utilitarios;
+using Raven.Client.Documents;
 using Raven.Client.Documents.Linq;
 
 namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios.Base
@@ -24,23 +25,6 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios.Base
         protected static Expression<Func<T, bool>> _filtroAtualComCodigo(int codigo) => (x => x.Atual && x.Codigo == codigo);
 
         protected Expression<Func<T, bool>> _filtroAtual() => (x => x.Atual);
-
-        public virtual int Insira(T item)
-        {
-            if (item.Codigo == 0)
-            {
-                item.Codigo = ObtenhaProximoCodigoDisponivel();
-            }
-
-            item.Atual = true;
-
-            var sessao = RavenHelper.OpenSession();
-            sessao.Store(item);
-            StoreAttachments(sessao, item);
-            sessao.SaveChanges();
-
-            return item.Codigo;
-        }
 
         public virtual async Task<int> InsiraAsync(T item)
         {
@@ -110,48 +94,48 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios.Base
                 return;
             }
 
-            using (var session = RavenHelper.OpenSession())
+            using var session = RavenHelper.OpenAsyncSession();
+
+            Task.Run(async () =>
             {
-                list.ToList().ForEach(item =>
+                foreach (var item in list.ToList())
                 {
-                    session.Store(item);
-                    StoreAttachments(session, item);
-                });
-                session.SaveChanges();
-            }
+                    await session.StoreAsync(item);
+                    await StoreAttachmentsAsync(session, item);
+                }
+            }).ContinueWith(async (x) =>
+            {
+                await session.SaveChangesAsync();
+            }).Wait();
         }
 
         public T Consulte(int codigo, bool withAttachments = true)
         {
-            using (var session = RavenHelper.OpenSession())
+            using var session = RavenHelper.OpenSession();
+            var item = session.Query<T>().FirstOrDefault(x => x.Codigo == codigo && x.Atual);
+
+            if (withAttachments)
             {
-                var item = session.Query<T>().FirstOrDefault(x => x.Codigo == codigo && x.Atual);
-
-                if (withAttachments)
-                {
-                    RetrieveAttachments(session, item);
-                }
-
-                return item;
+                Task.Run(() => RetrieveAttachmentsAsync(RavenHelper.OpenAsyncSession(), item));
             }
+
+            return item;
         }
 
         public T Consulte(int codigo, DateTime data, bool withAttachments = true)
         {
-            using (var session = RavenHelper.OpenSession())
+            using var session = RavenHelper.OpenSession();
+            var item = session.Query<T>()
+            .Where(x => x.Codigo == codigo && x.Vigencia <= data)
+            .OrderByDescending(x => x.Vigencia)
+            .FirstOrDefault();
+
+            if (withAttachments)
             {
-                var item = session.Query<T>()
-                .Where(x => x.Codigo == codigo && x.Vigencia <= data)
-                .OrderByDescending(x => x.Vigencia)
-                .FirstOrDefault();
-
-                if (withAttachments)
-                {
-                    RetrieveAttachments(session, item);
-                }
-
-                return item;
+                Task.Run(() => RetrieveAttachmentsAsync(RavenHelper.OpenAsyncSession(), item));
             }
+
+            return item;
         }
 
         public int ObtenhaQuantidadeDeRegistros() => RavenHelper.OpenSession().Query<T>().Count(x => x.Atual);
@@ -231,7 +215,7 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios.Base
             {
                 foreach (var item in returnList)
                 {
-                    RetrieveAttachments(RavenHelper.OpenSession(), item);
+                    Task.Run(() => RetrieveAttachmentsAsync(RavenHelper.OpenAsyncSession(), item));
                 }
             }
 
@@ -310,7 +294,7 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios.Base
 
         public void Atualize(T item)
         {
-            var sessaoRaven = RavenHelper.OpenSession();
+            var sessaoRaven = RavenHelper.OpenAsyncSession();
 
             var itemAnterior = sessaoRaven.Query<T>().FirstOrDefault(_filtroAtualComCodigo(item.Codigo));
             if (itemAnterior == null)
@@ -324,9 +308,10 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios.Base
             item.Id = null;
             item.Vigencia = DateTime.Now;
 
-            sessaoRaven.Store(item);
-            StoreAttachments(sessaoRaven, item);
-            sessaoRaven.SaveChanges();
+            Task.Run(() => sessaoRaven.StoreAsync(item))
+                .ContinueWith(x => StoreAttachmentsAsync(sessaoRaven, item))
+                .ContinueWith(x => sessaoRaven.SaveChangesAsync())
+                .Wait();
         }
 
         public void MassUpdate(IList<T> items)
@@ -347,17 +332,20 @@ namespace GS.GestaoEmpresa.Solucao.Persistencia.Repositorios.Base
             MassInsert(items);
         }
 
-        public void Exclua(int codigo)
+        public async Task Exclua(int codigo)
         {
-            var sessaoRaven = RavenHelper.OpenSession();
+            var sessaoRaven = RavenHelper.OpenAsyncSession();
 
-            var itens = sessaoRaven.Query<T>()
+            var itens = await sessaoRaven.Query<T>()
                 .Where(x => x.Codigo == codigo)
-                .ToList();
+                .ToListAsync();
 
-            itens.ForEach(x => sessaoRaven.Delete(x));
+            foreach(var x in itens)
+            {
+                sessaoRaven.Delete(x);
+            }
             
-            sessaoRaven.SaveChanges();
+            await sessaoRaven.SaveChangesAsync();
         }
 
         public int ObtenhaProximoCodigoDisponivel()

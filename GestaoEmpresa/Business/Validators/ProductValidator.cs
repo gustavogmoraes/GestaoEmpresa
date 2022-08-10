@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using GS.GestaoEmpresa.Business.Objects.Storage;
 using GS.GestaoEmpresa.Business.Services;
 using GS.GestaoEmpresa.Business.Validators.Base;
@@ -26,10 +27,10 @@ namespace GS.GestaoEmpresa.Business.Validators
 
         private List<Error> ErrorList { get; set; }
 
-        private void ValidateRuleProductCannotBeDeleted(int productCode)
+        private async Task ValidateRuleProductCannotBeDeleted(int productCode)
         {
             using var interactionService = new InteractionService();
-            var interactionsByProduct = interactionService.QueryAllInteractionsByProduct(productCode);
+            var interactionsByProduct = await interactionService.QueryAllInteractionsByProductAsync(productCode);
 
             if (interactionsByProduct.Count > 0)
             {
@@ -89,9 +90,14 @@ namespace GS.GestaoEmpresa.Business.Validators
         public void ValidateRuleProductMustHaveDifferentMakerCode()
         {
             var productRepo = new ProductRepository();
+            var trimmedCode = Product.ManufacturerCode?.Trim();
 
-            var queriedProduct = productRepo.Query(x => 
-            x.ManufacturerCode.Trim() == Product.ManufacturerCode.Trim());
+            if (trimmedCode.IsNullOrEmpty())
+            {
+                return;
+            }
+
+            var queriedProduct = Task.Run(() => productRepo.QueryFirstAsync(x => x.ManufacturerCode == trimmedCode)).Result;
             if (queriedProduct.IsNotNull())
             {
                 ErrorList.Add(new Error
@@ -100,12 +106,12 @@ namespace GS.GestaoEmpresa.Business.Validators
                     View = "Cadastro de Produtos",
                     ValidatedConcept = "Produto",
                     Message = $"Já existe um produto cadastrado com o Código do Fabricante " +
-                        $"'{Product.ManufacturerCode.Trim()}'"
+                        $"'{trimmedCode}'"
                 });
             }
         }
 
-        public override IList<Error> ValidateCreate(Product item)
+        public override async Task<IList<Error>> ValidateCreateAsync(Product item)
         {
             Product = item;
 
@@ -115,21 +121,21 @@ namespace GS.GestaoEmpresa.Business.Validators
             return ErrorList;
         }
 
-        public override IList<Error> ValidateUpdate(Product item)
+        public override async Task<IList<Error>> ValidateUpdateAsync(Product item)
         {
             Product = item;
 
             using var productService = new ProductService();
-            PreviousProduct = productService.Query(item.Code, item.RevisionStartDateTime.AddSeconds(-1));
+            PreviousProduct = await productService.QueryFirstAsync(item.Code, item.RevisionStartDateTime.AddSeconds(-1));
 
             ValidateRuleNothingHasChanged();
 
             return ErrorList;
         }
 
-        public override IList<Error> ValidateDelete(int code)
+        public override async Task<IList<Error>> ValidateDeleteAsync(int code)
         {
-            ValidateRuleProductCannotBeDeleted(code);
+            await ValidateRuleProductCannotBeDeleted(code);
 
             return ErrorList;
         }

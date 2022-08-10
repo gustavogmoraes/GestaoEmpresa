@@ -13,14 +13,11 @@ using System.Windows.Forms;
 using GS.GestaoEmpresa.Business.Enumerators.Default;
 using GS.GestaoEmpresa.Business.Objects.Core;
 using GS.GestaoEmpresa.Business.Services;
-using GS.GestaoEmpresa.Infrastructure.Persistence.Repositories;
-using GS.GestaoEmpresa.Infrastructure.Persistence.Repositories.Migrations;
 using GS.GestaoEmpresa.Persistence.RavenDB;
 using GS.GestaoEmpresa.Properties;
 using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores.Comuns.Estoque;
 using GS.GestaoEmpresa.Solucao.Negocio.Objetos;
 using GS.GestaoEmpresa.Solucao.Persistencia.BancoDeDados;
-using GS.GestaoEmpresa.Solucao.UI.Base;
 using GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque;
 using GS.GestaoEmpresa.Solucao.Utilitarios;
 using GS.GestaoEmpresa.UI.Base;
@@ -189,7 +186,7 @@ namespace GS.GestaoEmpresa.UI.Modules.Storage.Storage
             interaction.Destination,
             interaction.Goal,
             interaction.Situation,
-            GSUtilitarios.FormateDecimalParaStringMoedaReal(interaction.SubInteractions.Sum(x => x.TotalPrice.GetValueOrDefault())),
+            GSUtils.FormateDecimalParaStringMoedaReal(interaction.SubInteractions.Sum(x => x.TotalPrice.GetValueOrDefault())),
             interaction.ScheduledTime.ToString(Culture)
         };
 
@@ -225,16 +222,16 @@ namespace GS.GestaoEmpresa.UI.Modules.Storage.Storage
             product.Name,
             product.Notes,
             product.PurchasePrice.HasValue
-                ? GSUtilitarios.FormateDecimalParaStringMoedaReal(product.PurchasePrice.GetValueOrDefault(), false)
+                ? GSUtils.FormateDecimalParaStringMoedaReal(product.PurchasePrice.GetValueOrDefault(), false)
                 : string.Empty,
             product.DistributorPrice.HasValue
-                ? GSUtilitarios.FormateDecimalParaStringMoedaReal(product.DistributorPrice.GetValueOrDefault(), false)
+                ? GSUtils.FormateDecimalParaStringMoedaReal(product.DistributorPrice.GetValueOrDefault(), false)
                 : string.Empty,
             product.FinalCostumerSuggestedPrice.HasValue
-                ? GSUtilitarios.FormateDecimalParaStringMoedaReal(product.FinalCostumerSuggestedPrice.GetValueOrDefault(), true)
+                ? GSUtils.FormateDecimalParaStringMoedaReal(product.FinalCostumerSuggestedPrice.GetValueOrDefault(), true)
                 : string.Empty,
             product.SalePrice.HasValue
-                ? GSUtilitarios.FormateDecimalParaStringMoedaReal(product.SalePrice.GetValueOrDefault(), false)
+                ? GSUtils.FormateDecimalParaStringMoedaReal(product.SalePrice.GetValueOrDefault(), false)
                 : string.Empty,
             quantities[product.Code]
         };
@@ -273,8 +270,7 @@ namespace GS.GestaoEmpresa.UI.Modules.Storage.Storage
         {
             UISettings = SessaoSistema.UISettings.GetUISettings(typeof(StorageView));
 
-            //var migration = new DbMigrations();
-            //migration.Interactions_2022_02_03();
+            //Task.Run(async () => await new DbMigrations().Interactions_2022_02_03());
         }
 
         protected override void OnLoad(EventArgs e)
@@ -362,7 +358,26 @@ namespace GS.GestaoEmpresa.UI.Modules.Storage.Storage
 
         #region dgvProdutos
 
-        private void dgvProdutos_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        private async Task ShowProductView(DataGridView senderGrid, DataGridViewCellEventArgs e)
+        {
+            var codigoProduto = (int)senderGrid["colunaCodigo", e.RowIndex].Value;
+
+            IPresenter presenter = null;
+            await GSWaitForm.ShowAsync(
+                async () =>
+                {
+                    using var servicoDeProduto = new ProductService();
+                    var produto = await servicoDeProduto.QueryFirstAsync(codigoProduto);
+
+                    presenter = ViewManager.Create<ProductPresenter>(produto);
+                },
+                () =>
+                {
+                    presenter.View.Show();
+                });
+        }
+
+        private async void dgvProdutos_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             var senderGrid = (DataGridView)sender;
 
@@ -370,40 +385,14 @@ namespace GS.GestaoEmpresa.UI.Modules.Storage.Storage
                 e.ColumnIndex == colunaDetalhar.Index &&
                 e.RowIndex >= 0)
             {
-                var codigoProduto = (int)senderGrid["colunaCodigo", e.RowIndex].Value;
-
-                IPresenter presenter = null;
-                GSWaitForm.Mostrar(
-                    () =>
-                    {
-                        using var servicoDeProduto = new ProductService();
-                        var produto = servicoDeProduto.Query(codigoProduto);
-                        presenter = ViewManager.Create<ProductPresenter>(produto);
-                    },
-                    () =>
-                    {
-                        presenter.View.Show();
-                    });
+                await ShowProductView(senderGrid, e);
             }
         }
 
-        private void dgvProdutos_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        private async void dgvProdutos_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             var senderGrid = (DataGridView)sender;
-            var codigoProduto = (int)senderGrid["colunaCodigo", e.RowIndex].Value;
-
-            IPresenter presenter = null;
-            GSWaitForm.Mostrar(
-                () =>
-                {
-                    using var servicoDeProduto = new ProductService();
-                    var produto = servicoDeProduto.Query(codigoProduto);
-                    presenter = ViewManager.Create<ProductPresenter>(produto);
-                },
-                () =>
-                {
-                    presenter.View.Show();
-                });
+            await ShowProductView(senderGrid, e);
         }
 
         private void dgvProdutos_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
@@ -426,7 +415,7 @@ namespace GS.GestaoEmpresa.UI.Modules.Storage.Storage
         {
             var uiSett = SessaoSistema.UISettings;
 
-            var gridProdutos = ((Dictionary<string, int>)uiSett.GridProdutos);
+            var gridProdutos = uiSett.GridProdutos;
             if (gridProdutos == null)
             {
                 gridProdutos = new Dictionary<string, int>();
@@ -526,7 +515,7 @@ namespace GS.GestaoEmpresa.UI.Modules.Storage.Storage
             }
         }
 
-        private void txtPesquisaHistorico_Leave(object sender, EventArgs e)
+        private async void txtPesquisaHistorico_Leave(object sender, EventArgs e)
         {
             if (txtPesquisaHistorico.Text == string.Empty)
             {
@@ -534,7 +523,7 @@ namespace GS.GestaoEmpresa.UI.Modules.Storage.Storage
                 txtPesquisaHistorico.SetTextWithoutFiringEvents("Pesquisar...");
 
                 using var servicoDeInteracao = new InteractionService();
-                LoadInteractionGrid(servicoDeInteracao.QueryToLandingPage());
+                LoadInteractionGrid(await servicoDeInteracao.QueryToLandingPageAsync());
             }
         }
 
@@ -601,11 +590,11 @@ namespace GS.GestaoEmpresa.UI.Modules.Storage.Storage
             LoadProductGrid(produtosAterrissagem, quantidades);
         }
 
-        public void btnRefreshHist_Click(object sender, EventArgs e)
+        public async void btnRefreshHist_Click(object sender, EventArgs e)
         {
             using (var servicoDeInteracao = new InteractionService())
             {
-                LoadInteractionGrid(servicoDeInteracao.QueryToLandingPage());
+                LoadInteractionGrid(await servicoDeInteracao.QueryToLandingPageAsync());
             }
 
             txtPesquisaHistorico.ForeColor = Color.Silver;
@@ -636,9 +625,9 @@ namespace GS.GestaoEmpresa.UI.Modules.Storage.Storage
             ImportSpreadsheet(fileDialog.FileName);
         }
 
-        private void DoInteractionSearch()
+        private async Task DoInteractionSearch()
         {
-            Invoke(new MethodInvoker(() =>
+            Invoke(new MethodInvoker(async () =>
             {
                 var searchTerm = txtPesquisaHistorico.Text.ToLowerInvariant().Trim();
                 var listaFiltrada = new List<Business.Objects.Storage.Interaction>();
@@ -657,18 +646,18 @@ namespace GS.GestaoEmpresa.UI.Modules.Storage.Storage
                 if (searchTerm.IsNullOrEmpty())
                 {
                     using (var interactionService = new InteractionService())
-                    LoadInteractionGrid(interactionService.QueryToLandingPage());
+                    LoadInteractionGrid(await interactionService.QueryToLandingPageAsync());
 
                     processou = false;
                     return;
                 }
 
                 GSWaitForm.Mostrar(
-                    () =>
+                    async () =>
                     {
                         _cbSearchByProductPreviousSearch = searchTerm;
                         using var interactionService = new InteractionService();
-                        listaFiltrada = interactionService.QueryToLandingPage(searchTerm);
+                        listaFiltrada = await interactionService.QueryToLandingPageAsync(searchTerm);
                         processou = true;
                     },
                     () =>
@@ -713,7 +702,7 @@ namespace GS.GestaoEmpresa.UI.Modules.Storage.Storage
             GC.Collect();
         }
 
-        private void dgvHistorico_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        private async void dgvHistorico_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             var senderGrid = (DataGridView)sender;
 
@@ -724,7 +713,7 @@ namespace GS.GestaoEmpresa.UI.Modules.Storage.Storage
                     var codigoInteracao = (int)senderGrid["colunaCodigoInteracao", e.RowIndex].Value;
 
                     using var interactionService = new InteractionService();
-                    var interaction = interactionService.Query(codigoInteracao);
+                    var interaction = await interactionService.QueryFirstAsync(codigoInteracao);
 
                     if (interaction != null)
                     {
@@ -735,7 +724,7 @@ namespace GS.GestaoEmpresa.UI.Modules.Storage.Storage
             }
         }
 
-        private void dgvHistorico_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        private async void dgvHistorico_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0)
                 return;
@@ -744,7 +733,7 @@ namespace GS.GestaoEmpresa.UI.Modules.Storage.Storage
 
             var codigoInteracao = (int)senderGrid["colunaCodigoInteracao", e.RowIndex].Value;
             using var servicoDeInteracao = new InteractionService();
-            var interaction = servicoDeInteracao.Query(codigoInteracao);
+            var interaction = await servicoDeInteracao.QueryFirstAsync(codigoInteracao);
 
             if (interaction != null)
             {
@@ -1045,7 +1034,7 @@ namespace GS.GestaoEmpresa.UI.Modules.Storage.Storage
             ToggleButtonDescriptor(btnExportarProdutos);
         }
 
-        private void FrmEstoque_Shown(object sender, EventArgs e)
+        private async void FrmEstoque_Shown(object sender, EventArgs e)
         {
             //using var session = RavenHelper.OpenSession();
             //var prodsQtd = session.Query<ProdutoQuantidade>().ToList();
@@ -1077,7 +1066,7 @@ namespace GS.GestaoEmpresa.UI.Modules.Storage.Storage
 
             //Histórico de Produtos
             using var servicoDeInteracao = new InteractionService();
-            LoadInteractionGrid(servicoDeInteracao.QueryToLandingPage());
+            LoadInteractionGrid(await servicoDeInteracao.QueryToLandingPageAsync());
         }
 
         private void txtPesquisa_KeyPress(object sender, KeyPressEventArgs e)

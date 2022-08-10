@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using GS.GestaoEmpresa.Business.Services;
 using GS.GestaoEmpresa.Solucao.Negocio.Objetos;
@@ -10,7 +11,7 @@ using GS.GestaoEmpresa.UI.GenericControls;
 
 namespace GS.GestaoEmpresa.UI.Modules.Storage.Product
 {
-    public sealed class ProductPresenter : Presenter<Business.Objects.Storage.Product, FrmProdutoMetro>
+    public sealed class ProductPresenter : Presenter<Business.Objects.Storage.Product, ProductView>
     {
         public ProductPresenter()
         {
@@ -37,50 +38,45 @@ namespace GS.GestaoEmpresa.UI.Modules.Storage.Product
             MapControl(model => model.LocationInStorage, view => view.txtLocalizacao);
         }
 
-        public IList<Error> Salve()
-        {
-            using (var servicoDeProduto = new ProductService())
-            {
-                return servicoDeProduto.Save(Model, View.FormType);
-            }
-        }
-
-        public IList<Error> Exclua(int codigo)
-        {
-            using (var servicoDeProduto = new ProductService())
-            {
-                return servicoDeProduto.Delete(codigo);
-            }
-        }
-
-        public void RecarregueVigencia(DateTime dataVigencia)
-        {
-            GSWaitForm.Mostrar(
-                () =>
-                {
-                    using var servicoDeProduto = new ProductService();
-                    var vigenciaConsultada = servicoDeProduto.Query(Model.Code, dataVigencia);
-                    Model = vigenciaConsultada;
-
-                    View.Invoke((MethodInvoker)delegate
-                    {
-                        View.IsRendering = true;
-
-                        View.Presenter?.FillControlsWithModel();
-                        View.IsRendering = true;
-
-                        View.cbValidity.SelectedItem = dataVigencia.ToString("dd/MM/yyyy HH:mm:ss");
-                        View.txtQuantidadeEmEstoque.Text = servicoDeProduto.QueryQuantity(vigenciaConsultada.Code).ToString();
-
-                        View.IsRendering = false;
-                    });
-                });
-        }
-
-        public Business.Objects.Storage.Product Consulte(int codigo)
+        public override async Task<IList<Error>> SaveAsync()
         {
             using var servicoDeProduto = new ProductService();
-            return servicoDeProduto.Query(codigo);
+            return await servicoDeProduto.SaveAsync(Model, View.FormType);
+        }
+
+        public async Task<IList<Error>> Exclua(int codigo)
+        {
+            using var servicoDeProduto = new ProductService();
+            return await servicoDeProduto.DeleteAsync(codigo);
+        }
+
+        public void ReloadRevision(DateTime revisionDateTime)
+        {
+            GSWaitForm.Mostrar(() =>
+            {
+                using var servicoDeProduto = new ProductService();
+                var queryedRevision = Task.Run(() => servicoDeProduto.QueryFirstAsync(Model.Code, revisionDateTime)).Result;
+                Model = queryedRevision;
+
+                View.Invoke((MethodInvoker)delegate
+                {
+                    View.IsRendering = true;
+
+                    View.Presenter?.FillControlsWithModel();
+                    View.IsRendering = true;
+
+                    View.cbValidity.SelectedItem = revisionDateTime.ToString("dd/MM/yyyy HH:mm:ss");
+                    View.txtQuantidadeEmEstoque.Text = servicoDeProduto.QueryQuantity(queryedRevision.Code).ToString();
+
+                    View.IsRendering = false;
+                });
+            });
+        }
+
+        public async Task<Business.Objects.Storage.Product> Consulte(int codigo)
+        {
+            using var servicoDeProduto = new ProductService();
+            return await servicoDeProduto.QueryFirstAsync(codigo);
         }
 
         public override void FillControlsWithModel(bool reloading = false)

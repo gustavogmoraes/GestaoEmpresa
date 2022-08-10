@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using GS.GestaoEmpresa.Business.Enumerators.Default;
 using GS.GestaoEmpresa.Business.Objects.Attendance;
@@ -35,9 +36,9 @@ namespace GS.GestaoEmpresa.UI.Modules.Attendance
             MapControl(x => x.Unidades, x => x.tabUnidades, ConversaoPropriedadeControleUnidades, ConversaoControlePropriedadeUnidades);
         }
 
-        public List<Error> Salve()
+        public async Task<List<Error>> Salve()
         {
-            return new List<Error>();
+            return null;
         }
 
         private Action<object, Control, PropertyInfo, object> ConversaoPropriedadeControleUnidades => (model, control, prop, presenter) =>

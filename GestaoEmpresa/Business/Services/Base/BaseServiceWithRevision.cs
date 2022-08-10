@@ -1,18 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using GS.GestaoEmpresa.Business.Enumerators.Default;
 using GS.GestaoEmpresa.Business.Interfaces;
 using GS.GestaoEmpresa.Business.Validators.Base;
 using GS.GestaoEmpresa.Infrastructure.Persistence.Repositories.Base;
 using GS.GestaoEmpresa.Persistence.RavenDbSupport.Objects;
-using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores.Comuns;
 using GS.GestaoEmpresa.Solucao.Negocio.Objetos;
-using GS.GestaoEmpresa.Solucao.Negocio.Objetos.Base;
 
 namespace GS.GestaoEmpresa.Business.Services.Base
 {
-    public abstract class BaseServiceWithRevision<TEntity, TValidator, TRepository> : IBaseService, IDisposable
+    public abstract class BaseServiceWithRevision<TEntity, TValidator, TRepository> : IServiceWithRevision, IBaseService, IDisposable
         where TEntity : RavenDbDocumentWithRevision, IEntityWithRevision, new()
         where TValidator : BaseValidator<TEntity>, IDisposable, new()
         where TRepository : RepositoryBase<TEntity>, new()
@@ -31,30 +30,19 @@ namespace GS.GestaoEmpresa.Business.Services.Base
             set => _repository = value;
         }
 
-        public TEntity Query(int code, DateTime dataVigencia, bool withAttachments = true)
-        {
-            return Repository.Query(code);
-        }
+        public async Task<TEntity> QueryFirstAsync(int code, DateTime revisionDate, bool withAttachments = true) => 
+            await Repository.QueryFirstAsync(code, revisionDate, withAttachments);
 
-        public TEntity Query(int code, bool withAttachments = true)
-        {
-            return Repository.Query(code);
-        }
+        public async Task<TEntity> QueryFirstAsync(int code, bool withAttachments = true) => 
+            await Repository.QueryFirstAsync(code, withAttachments);
 
-        public IList<TEntity> ConsulteTodos()
-        {
-            return Repository.Query();
-        }
+        public async Task<IList<TEntity>> ConsulteTodos() => await Repository.QueryAllAsync();
 
-        public virtual int GetNextAvailableCode()
-        {
-            return Repository.GetNextAvailableCode();
-        }
+        public virtual async Task<int> GetNextAvailableCodeAsync() => 
+            await Repository.GetNextAvailableCodeAsync();
 
-        public virtual IList<int> GetNextAvailableCodes(int quantity)
-        {
-            return Repository.GetNextAvailableCodes(quantity);
-        }
+        public virtual async Task<IList<int>> GetNextAvailableCodes(int quantity) => 
+            await Repository.GetNextAvailableCodesAsync(quantity);
 
         protected abstract Action CreateValidationSucceeded(TEntity item);
 
@@ -62,32 +50,32 @@ namespace GS.GestaoEmpresa.Business.Services.Base
 
         protected abstract Action DeleteValidationSucceeded(int code);
 
-        public virtual IList<Error> Save(TEntity item, FormType formType)
+        public virtual async Task<IList<Error>> SaveAsync(TEntity item, FormType formType)
         {
             var inconsistencias = new List<Error>();
 
             switch (formType)
             {
                 case FormType.Insert:
-                    inconsistencias = Validator.ValidateCreate(item).ToList();
+                    inconsistencias = (await Validator.ValidateCreateAsync(item)).ToList();
                     if (inconsistencias.Count == 0)
                     {
                         var acao = CreateValidationSucceeded(item);
                         if (acao != null) acao.Invoke();
 
-                        Repository.Insert(item);
+                        await Repository.InsertAsync(item);
                     }
 
                     break;
 
                 case FormType.Update:
-                    inconsistencias = Validator.ValidateUpdate(item).ToList();
+                    inconsistencias = (await Validator.ValidateUpdateAsync(item)).ToList();
                     if (inconsistencias.Count == 0)
                     {
                         var acao = UpdateValidationSucceeded(item);
                         if (acao != null) acao.Invoke();
 
-                        Repository.Update(item);
+                        await Repository.UpdateAsync(item);
                     }
 
                     break;
@@ -96,25 +84,28 @@ namespace GS.GestaoEmpresa.Business.Services.Base
             return inconsistencias;
         }
 
-        public virtual IList<Error> Delete(int code)
+        public virtual async Task<IList<Error>> DeleteAsync(int code)
         {
-            var inconsistencias = Validator.ValidateDelete(code);
-
-            if (inconsistencias.Count == 0)
+            var errors = await Validator.ValidateDeleteAsync(code);
+            if (!errors.Any())
             {
                 var acao = DeleteValidationSucceeded(code);
                 if (acao != null) acao.Invoke();
 
-                Repository.Delete(code);
+                await Repository.DeleteAsync(code);
             }
 
 
-            return inconsistencias;
+            return errors;
         }
 
-        public IList<DateTime> QueryRevisions(int codigo)
+        public async Task<IList<DateTime>> QueryRevisionsAsync(string id) => 
+            (await Repository.QueryRevisionsAsync(id)).Select(x => x.DateTime).ToList();
+
+        public async Task<IList<DateTime>> QueryRevisions(int code)
         {
-            throw new NotImplementedException();
+            var documentId = await Repository.RetrieveIdAsync(code);
+            return await QueryRevisionsAsync(documentId);
         }
 
         public void Dispose()

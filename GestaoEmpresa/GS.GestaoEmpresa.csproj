@@ -231,6 +231,7 @@
     <Compile Include="Business\Converters\ProductConverter.cs" />
     <Compile Include="Business\Objects\Storage\Product.cs" />
     <Compile Include="Business\Objects\Storage\ProductQuantity.cs" />
+    <Compile Include="Infrastructure\Persistence\RavenDB\Support\Objects\RevisionMetadata.cs" />
     <Compile Include="Infrastructure\Persistence\Repositories\Migrations\DbMigrations.cs" />
     <Compile Include="Infrastructure\Persistence\Repositories\ProductQuantityRepository.cs" />
     <Compile Include="Infrastructure\Persistence\Repositories\ProductRepository.cs" />
@@ -245,7 +246,7 @@
     <Compile Include="Infrastructure\Persistence\RavenDB\Support\Interfaces\IEntity.cs" />
     <Compile Include="Infrastructure\Persistence\RavenDB\Support\Interfaces\IEntityWithRevision.cs" />
     <Compile Include="Infrastructure\Persistence\RavenDB\Support\Interfaces\IObjectWithRavenAttachments.cs" />
-    <Compile Include="Business\Interfaces\IServicoHistoricoPadrao.cs" />
+    <Compile Include="Business\Interfaces\IServiceWithRevision.cs" />
     <Compile Include="Business\Interfaces\IBaseService.cs" />
     <Compile Include="Business\Objects\Base\BaseObject.cs" />
     <Compile Include="Infrastructure\Persistence\RavenDB\Support\Objects\RavenDbDocument.cs" />
@@ -477,7 +478,7 @@
     <Compile Include="Infrastructure\BasicCryptographyToggle.cs" />
     <Compile Include="Infrastructure\Utils\GSExtensions.cs" />
     <Compile Include="Infrastructure\Utils\GSTarefasAssincronas.cs" />
-    <Compile Include="Infrastructure\Utils\GSUtilitarios.cs" />
+    <Compile Include="Infrastructure\Utils\GSUtils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Infrastructure\Utils\TypingAssistant.cs" />
     <Compile Include="Infrastructure\Utils\LambdaExtensions.cs" />

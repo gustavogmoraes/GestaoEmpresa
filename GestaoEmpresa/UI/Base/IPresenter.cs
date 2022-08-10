@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using GS.GestaoEmpresa.Infrastructure.Persistence.RavenDB.Support.Interfaces;
 using GS.GestaoEmpresa.Solucao.Negocio.Objetos;
@@ -30,6 +31,6 @@ namespace GS.GestaoEmpresa.UI.Base
 
         void ViewDidLoad();
 
-        IList<Error> Save();
+        Task<IList<Error>> SaveAsync();
     }
 }

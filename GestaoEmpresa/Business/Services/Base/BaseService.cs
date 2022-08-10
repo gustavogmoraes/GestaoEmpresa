@@ -9,6 +9,7 @@ using GS.GestaoEmpresa.Business.Validators.Base;
 using GS.GestaoEmpresa.Infrastructure.Persistence.RavenDB.Support.Interfaces;
 using GS.GestaoEmpresa.Infrastructure.Persistence.Repositories.Base;
 using GS.GestaoEmpresa.Persistence.RavenDbSupport.Interfaces;
+using System.Threading.Tasks;
 
 namespace GS.GestaoEmpresa.Business.Services.Base
 {
@@ -31,15 +32,9 @@ namespace GS.GestaoEmpresa.Business.Services.Base
             set => _repository = value;
         }
 
-        public TEntity Query(int code)
-        {
-            return Repository.Query(code);
-        }
+        public async Task<TEntity> QueryFirstAsync(int code) => await Repository.QueryFirstAsync(code);
 
-        public IList<TEntity> ConsulteTodos()
-        {
-            return Repository.Query();
-        }
+        public async Task<IList<TEntity>> QueryAllAsync() => await Repository.QueryAllAsync();
 
         protected abstract Action CreateValidationSucceeded(TEntity item);
 
@@ -47,32 +42,32 @@ namespace GS.GestaoEmpresa.Business.Services.Base
 
         protected abstract Action DeleteValidationSucceeded(int code);
 
-        public IList<Error> Save(TEntity item, FormType formType)
+        public async Task<IList<Error>> SaveAsync(TEntity item, FormType formType)
         {
             List<Error> errors;
 
             switch (formType)
             {
                 case FormType.Insert:
-                    errors = Validator.ValidateCreate(item).ToList();
+                    errors = (await Validator.ValidateCreateAsync(item)).ToList();
                     if (errors.Count == 0)
                     {
                         var action = CreateValidationSucceeded(item);
                         action?.Invoke();
 
-                        Repository.Insert(item);
+                        await Repository.InsertAsync(item);
                     }
 
                     break;
 
                 case FormType.Update:
-                    errors = Validator.ValidateUpdate(item).ToList();
+                    errors = (await Validator.ValidateUpdateAsync(item)).ToList();
                     if (errors.Count == 0)
                     {
                         var action = UpdateValidationSucceeded(item);
                         action?.Invoke();
 
-                        Repository.Update(item);
+                        await Repository.UpdateAsync(item);
                     }
                         
                     break;
@@ -85,16 +80,16 @@ namespace GS.GestaoEmpresa.Business.Services.Base
             return errors;
         }
 
-        public IList<Error> Delete(int code)
+        public async Task<IList<Error>> Delete(int code)
         {
-            var inconsistencias = Validator.ValidateDelete(code);
+            var inconsistencias = await Validator.ValidateDeleteAsync(code);
 
             if (inconsistencias.Count == 0)
             {
                 var acao = DeleteValidationSucceeded(code);
                 if (acao != null) acao.Invoke();
 
-                Repository.Delete(code);
+                await Repository.DeleteAsync(code);
             }
                 
 

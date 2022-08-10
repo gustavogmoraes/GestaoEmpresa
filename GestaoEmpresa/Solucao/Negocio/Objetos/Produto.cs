@@ -7,6 +7,7 @@ using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores.Seguros.UnidadeIntelbras;
 using GS.GestaoEmpresa.Solucao.Negocio.Objetos.Base;
 using GS.GestaoEmpresa.Persistence.Repositories;
 using GS.GestaoEmpresa.Persistence.RavenDbSupport.Objects;
+using System.Threading.Tasks;
 
 namespace GS.GestaoEmpresa.Solucao.Negocio.Objetos
 {
@@ -109,7 +110,7 @@ namespace GS.GestaoEmpresa.Solucao.Negocio.Objetos
 
         public decimal CalculePrecoDeVenda(bool setOwnProperty = true)
         {
-            var porcentagemDeLucroPadrao = new ConfigurationRepository().ObtenhaUnica()?.DefaultSaleProfitPercentage ?? 40M;
+            var porcentagemDeLucroPadrao = Task.Run(() => new ConfigurationRepository().GetOnlyAsync()).Result?.DefaultSaleProfitPercentage ?? 40M;
             var porcentagemAplicada = PorcentagemDeLucro.GetValueOrDefault() == 0
                                     ? porcentagemDeLucroPadrao / 100
                                     : PorcentagemDeLucro / 100;

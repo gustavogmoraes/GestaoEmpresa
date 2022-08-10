@@ -30,6 +30,7 @@ namespace GS.GestaoEmpresa.Business.Services
     {
         private readonly ProductRepository _productRepository;
         private readonly ProductQuantityRepository _productQuantityRepository;
+        private readonly ConfigurationRepository _configurationRepository;
 
         #region Default Implementation
 
@@ -63,6 +64,7 @@ namespace GS.GestaoEmpresa.Business.Services
         {
             _productQuantityRepository = new ProductQuantityRepository();
             _productRepository = new ProductRepository();
+            _configurationRepository = new ConfigurationRepository();
         }
 
         public int QueryQuantity(int code)
@@ -70,16 +72,16 @@ namespace GS.GestaoEmpresa.Business.Services
             return _productRepository.QueryQuantity(code);
         }
 
-        public Dictionary<int, int> QueryQuantity(IList<int> codes)
+        public async Task<Dictionary<int, int>> QueryQuantityAsync(IList<int> codes)
         {
-            return _productQuantityRepository.QueryQuantities(codes);
+            return await _productQuantityRepository.QueryQuantitiesAsync(codes);
         }
 
-        public void UpdateProductQuantity(int productCode, int newQuantity)
+        public async Task UpdateProductQuantityAsync(int productCode, int newQuantity)
         {
-            var productQuantity = _productQuantityRepository.QueryFirst(x => x.ProductCode == productCode);
+            var productQuantity = await _productQuantityRepository.QueryFirstAsync(x => x.ProductCode == productCode);
             productQuantity.Quantity = newQuantity;
-            _productQuantityRepository.Update(productQuantity);
+            await _productQuantityRepository.UpdateAsync(productQuantity);
 
         }
 
@@ -118,27 +120,26 @@ namespace GS.GestaoEmpresa.Business.Services
             var selector = resultSelector ?? LandingPageProductSelector;
 
             var propsToSearch = propertiesToSearch ?? DefaultPropertiesToSearch;
-            var products = Repository
-                .Query(searchTerm, propsToSearch, selector, takeQuantity)
+            var products = Task.Run(() => Repository
+                .QueryAsync(searchTerm, propsToSearch, selector, takeQuantity)).Result
                 .ToList();
 
             var productsCodes = products.Select(x => x.Code).ToList();
-            quantities = _productQuantityRepository.QueryQuantities(productsCodes);
+            quantities = Task.Run(() => _productQuantityRepository.QueryQuantitiesAsync(productsCodes)).Result;
 
             return products;
         }
 
-        public override IList<Error> Save(Product item, FormType formType)
+        public override async Task<IList<Error>> SaveAsync(Product item, FormType formType)
         {
-            var inconsistencies = base.Save(item, formType);
+            var inconsistencies = await base.SaveAsync(item, formType);
 
             return inconsistencies;
         }
 
-        public Product QueryFirst(Expression<Func<Product, bool>> whereFilter)
+        public async Task<Product> QueryFirst(Expression<Func<Product, bool>> whereFilter)
         {
-            var productRepo = new ProductRepository();
-            return productRepo.Query(whereFilter).FirstOrDefault();
+            return await _productRepository.QueryFirstAsync(whereFilter);
         }
 
         public static void KeepTimeRunning(Stopwatch stopwatch, Form form, Label label)
@@ -240,13 +241,12 @@ namespace GS.GestaoEmpresa.Business.Services
             }
         }
 
-        public Tuple<int, int> ImportIntelbrasSpreadsheet(string filePath, StorageView caller)
+        public async Task<Tuple<int, int>> ImportIntelbrasSpreadsheet(string filePath, StorageView caller)
         {
             var productRepository = new RepositorioDeProduto();
-
             SetupProgressBar(caller);
 
-            var configuration = new ConfigurationRepository().ObtenhaUnica();
+            var configuration = await _configurationRepository.GetOnlyAsync();
 
             var importedItems = ReadXlsItems(filePath);
             var progressRange = GSExtensions.GetProgressRange(importedItems.Count);

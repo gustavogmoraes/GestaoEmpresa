@@ -31,6 +31,7 @@ using System.Drawing.Imaging;
 using OfficeOpenXml;
 using System.Data;
 using GS.GestaoEmpresa.UI.Base;
+using GS.GestaoEmpresa.Business.Objects.Storage;
 
 namespace GS.GestaoEmpresa.Solucao.Utilitarios
 {
@@ -364,11 +365,11 @@ namespace GS.GestaoEmpresa.Solucao.Utilitarios
 
         public static bool IsNullOrEmpty(this string str) => string.IsNullOrEmpty(str);
 
-        public static string ToMonetaryString(this decimal value) => GSUtilitarios.FormateDecimalParaStringMoedaReal(value);
+        public static string ToMonetaryString(this decimal value) => GSUtils.FormateDecimalParaStringMoedaReal(value);
 
         public static int ToInt32(this object value) => Convert.ToInt32(value);
 
-        public static DateTime MergeValue(this DateTimePicker dtpDate, DateTimePicker dtpTime) => GSUtilitarios.ObtenhaDateTimeCompletoDePickers(dtpDate, dtpTime);
+        public static DateTime MergeValue(this DateTimePicker dtpDate, DateTimePicker dtpTime) => GSUtils.ObtenhaDateTimeCompletoDePickers(dtpDate, dtpTime);
 
         public static void RemovePropertyFromDatabaseDocument(this IDocumentSession session, string documentId, string propertyToDelete)
         {
@@ -403,7 +404,7 @@ namespace GS.GestaoEmpresa.Solucao.Utilitarios
 
         public static void TriggerMonetaryFormat(this TextBox textBox)
         {
-            if (!textBox.Text.All(GSUtilitarios.EhDigitoOuPonto))
+            if (!textBox.Text.All(GSUtils.EhDigitoOuPonto))
             {
                 textBox.Text = string.Empty;
                 return;
@@ -439,7 +440,7 @@ namespace GS.GestaoEmpresa.Solucao.Utilitarios
 
         public static void TriggerMonetaryFormat(this MetroTextBox textBox)
         {
-            if (!textBox.Text.All(GSUtilitarios.EhDigitoOuPonto))
+            if (!textBox.Text.All(GSUtils.EhDigitoOuPonto))
             {
                 textBox.Text = string.Empty;
                 return;
@@ -726,7 +727,7 @@ namespace GS.GestaoEmpresa.Solucao.Utilitarios
 
         public static void TreatMonetaryCellValue(this DataGridViewCell cell)
         {
-            if (!((string)cell.Value).All(GSUtilitarios.EhDigitoOuPonto))
+            if (!((string)cell.Value).All(GSUtils.EhDigitoOuPonto))
             {
                 cell.Value = string.Empty;
                 return;
@@ -834,9 +835,43 @@ namespace GS.GestaoEmpresa.Solucao.Utilitarios
             operation.WaitForCompletion();
         }
 
+        public static async Task PatchByQueryAsync(this IAsyncDocumentSession session, string patch)
+        {
+            var operation = session.Advanced.DocumentStore
+                .Operations
+                .Send(new PatchByQueryOperation(patch));
+
+            await operation.WaitForCompletionAsync();
+        }
+
         public static decimal Round(this decimal value, int cases = 2)
         {
             return Math.Round(value, cases);
+        }
+
+        public static int FinalSum(this IList<Interaction> interactions)
+        {
+            var finalSum = 0;
+
+            foreach (var interacao in interactions)
+            {
+                switch (interacao.InteractionType)
+                {
+                    case Negocio.Enumeradores.Comuns.Estoque.InteractionType.Input:
+                        finalSum += interacao.SubInteractions[0].InteractedQuantity;
+                        break;
+                    case Negocio.Enumeradores.Comuns.Estoque.InteractionType.Output:
+                        finalSum -= interacao.SubInteractions[0].InteractedQuantity;
+                        break;
+                    case Negocio.Enumeradores.Comuns.Estoque.InteractionType.ExchangeBase:
+                        finalSum += interacao.SubInteractions[0].InteractedQuantity;
+                        finalSum -= interacao.SubInteractions[0].AuxiliaryQuantity.GetValueOrDefault();
+                        break;
+                }
+
+            }
+
+            return finalSum;
         }
     }
 }

@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace GS.GestaoEmpresa.Business.Interfaces
 {
-    public interface IServicoHistoricoPadrao : IDisposable
+    public interface IServiceWithRevision : IDisposable
     {
-        IList<DateTime> ConsulteVigencias(int codigo);
+        Task<IList<DateTime>> QueryRevisionsAsync(string id);
     }
 }

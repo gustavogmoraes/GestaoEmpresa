@@ -37,10 +37,10 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
             CarregueGrid();
         }
 
-        private void CarregueGrid()
+        private async Task CarregueGrid()
         {
             using var servicoDeProduto = new ProductService();
-            var propriedades = GSUtilitarios.EncontrePropriedadeMarcadaComAtributo(typeof(Produto), typeof(ExporterMetadata));
+            var propriedades = GSUtils.EncontrePropriedadeMarcadaComAtributo(typeof(Produto), typeof(ExporterMetadata));
             var propCodigo = propriedades.FirstOrDefault(x => x.Name == "Codigo");
             propriedades.RemoveAll(x => x.Name == "Codigo");
 
@@ -75,12 +75,12 @@ namespace GS.GestaoEmpresa.Solucao.UI.Modulos.Estoque
                 int numeroAleatorio = rng.Next(1, allCodes.Count);
                 var productCode = allCodes[numeroAleatorio];
 
-                listaProdutos.Add(servicoDeProduto.Query(productCode));
+                listaProdutos.Add(await servicoDeProduto.QueryFirstAsync(productCode));
             }
 
             listaProdutos.Sort((x, y) => x.Code.CompareTo(y.Code));
 
-            var quantidades = servicoDeProduto.QueryQuantity(listaProdutos.Select(x => x.Code).ToList());
+            var quantidades = await servicoDeProduto.QueryQuantityAsync(listaProdutos.Select(x => x.Code).ToList());
 
             listaProdutos.ForEach(x => gridExportacao.Rows.Add(GetValues(propsAndLabels, x, quantidades)));
             _properties = propsAndLabels

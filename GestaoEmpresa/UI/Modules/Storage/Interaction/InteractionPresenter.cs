@@ -15,6 +15,7 @@ using GS.GestaoEmpresa.UI.Base;
 using GS.GestaoEmpresa.UI.Modules.Storage.Storage;
 using MetroFramework.Controls;
 using Control = System.Windows.Forms.Control;
+using System.Threading.Tasks;
 
 namespace GS.GestaoEmpresa.UI.Modules.Storage.Interaction
 {
@@ -44,10 +45,10 @@ namespace GS.GestaoEmpresa.UI.Modules.Storage.Interaction
             ProductService = new ProductService();
         }
 
-        public override IList<Error> Save()
+        public override async Task<IList<Error>> SaveAsync()
         {
             using var interactionService = new InteractionService();
-            return interactionService.Save(Model, View.FormType);
+            return await interactionService.SaveAsync(Model, View.FormType);
         }
 
         public Action<object, Control, PropertyInfo, object> InteractionTypePropertyControlConversion => (model, control, prop, _) =>
@@ -108,7 +109,8 @@ namespace GS.GestaoEmpresa.UI.Modules.Storage.Interaction
 
         private SubInteraction RowObjectToSubInteraction(DataGridViewRow row)
         {
-            var product = ProductService.QueryFirst(x => x.Code == (int) row.Cells["colunaCodigo"].Value);  
+            var codeOnRow = (int)row.Cells["colunaCodigo"].Value;
+            var product = Task.Run(() => ProductService.QueryFirst(x => x.Code == codeOnRow)).Result;  
             if (product == null)
             {
                 throw new Exception("Product could not be found by interaction");

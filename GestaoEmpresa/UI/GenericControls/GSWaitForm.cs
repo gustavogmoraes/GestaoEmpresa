@@ -47,5 +47,28 @@ namespace GS.GestaoEmpresa.UI.GenericControls
             },
             TaskScheduler.Default);
         }
+
+        public static async Task ShowAsync([Optional] Action processing, [Optional] Action postProcessing)
+        {
+            ViewManager.GetMain().Invoke((MethodInvoker)delegate
+            {
+                _form.Show();
+            });
+
+            processing ??= () => { };
+            postProcessing ??= () => { };
+
+            await Task.Run(processing).ContinueWith(x =>
+            {
+                Thread.Sleep(TimeSpan.FromMilliseconds(700));
+
+                ViewManager.GetMain().Invoke((MethodInvoker)delegate
+                {
+                    postProcessing();
+                    _form.Hide();
+                });
+            },
+            TaskScheduler.Default);
+        }
     }
 }

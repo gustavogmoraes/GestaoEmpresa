@@ -12,23 +12,37 @@ using GS.GestaoEmpresa.Infrastructure.Persistence.Repositories;
 using GS.GestaoEmpresa.Persistence.Repositories;
 using GS.GestaoEmpresa.Solucao.Negocio.Enumeradores.Comuns;
 using Raven.Client.Documents.Session;
+using GS.GestaoEmpresa.Persistence.RavenDB;
 
 namespace GS.GestaoEmpresa.Business.Converters
 {
     public class ProductConverter
     {
-        public void ConvertAll()
+        public async Task ConvertAll()
         {
             var repoProduto = new RepositorioDeProduto();
-            var todos = repoProduto.ConsulteTodos(takeQuantity: int.MaxValue, withAttachments: true)
+            var todos = repoProduto.ConsulteTodos(takeQuantity: int.MaxValue, withAttachments: false, resultSelector: x => x.Codigo)
                 .OrderBy(x => x.Codigo)
+                .Select(x => x.Codigo)
                 .ToList();
 
             var repoProd = new ProductRepository();
-            foreach (var produto in todos)
+            foreach (var code in todos)
             {
-                repoProd.Insert(Convert(produto));
-                repoProduto.Exclua(produto.Codigo);
+                var produto = repoProduto.Consulte(code, true);
+                await repoProd.InsertAsync(Convert(produto));
+                await repoProduto.Exclua(code);
+            }
+
+            // Getting products that have no current
+            using var session = RavenHelper.OpenSession();
+
+            var groups = session.Query<Produto>().ToList().GroupBy(x => x.Codigo).ToList();
+            foreach(var group in groups)
+            {
+                var current = group.OrderByDescending(x => x.Vigencia).FirstOrDefault();
+                await repoProd.InsertAsync(Convert(current));
+                await repoProduto.Exclua(current.Codigo);
             }
         }
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using GS.GestaoEmpresa.Persistence.RavenDbSupport.Interfaces;
 using GS.GestaoEmpresa.Persistence.RavenDbSupport.Objects;
 using GS.GestaoEmpresa.Persistence.Repositories;
@@ -92,7 +93,7 @@ namespace GS.GestaoEmpresa.Business.Objects.Storage
 
         public decimal CalculateSalePrice(bool setOwnProperty = true)
         {
-            var defaultSaleProfitPercentage = new ConfigurationRepository().ObtenhaUnica()?.DefaultSaleProfitPercentage ?? 40M;
+            var defaultSaleProfitPercentage = Task.Run(() => new ConfigurationRepository().GetOnlyAsync()).Result?.DefaultSaleProfitPercentage ?? 40M;
             var appliedPercentage = ProfitPercentage.GetValueOrDefault() == 0
                                   ? defaultSaleProfitPercentage / 100
                                   : ProfitPercentage / 100;
